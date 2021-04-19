@@ -1,0 +1,99 @@
+﻿
+@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="" />
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/Design/CSS/all.min.css" />
+	<link rel="stylesheet" href="~/Design/CSS/style.css" />
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo.png" />
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+					aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon">
+					<i class="fas fa-bars" style="color: #b6a1a1;
+		  font-size: 30px;"></i>
+				</span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="~/Home/Index">Main</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " aria-current="page" href="~/Home/Index">Request</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="~/Coordinator/index">Coordinator</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">help and support</a>
+					</li>
+				</ul>
+				<div class="vision">
+					<div>
+						<button>contact</button>
+						<button>Ar</button>
+					</div>
+					<img src="~/Design/img/VisionLogo2.png">
+				</div>
+			</div>
+		</div>
+	</nav>
+	<ul class="nav nav-pills nav-fill" style="display: none;">
+		<li class="nav-item">
+			<a class="nav-link">Service Type</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link">Request Type</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link">Personel Data</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link">Request Data</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link">Confirmation</a>
+		</li>
+	</ul>
+	<div class="col-md-12 Login">
+		<div class="container">
+			<div class="master-login">
+				@using (Html.BeginForm("Index", "Coordinator"))
+				{
+					<div class="logo">
+						<img src="~/Design/img/MousLogo.png" />
+						<p>Please Insert <br />Email And Password</p>
+					</div>
+					<div class="body">
+						<label>Email</label>
+						<input name="email" placeholder="Enter Your Email" />
+						<label>password</label>
+						<input name="pass" type="password" placeholder="Enter Your Password" />
+					</div>
+					<div class="action">
+						<button id="loginbtn" type="submit" value="Login" class="btn">Login</button>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+
+	<script src="~/Design/JS/popper.js"></script>
+	<script src="~/Design/JS/bootstrap.min.js"></script>
+	<script src="~/Design/JS/jquery.js"></script>
+</body>
+
+</html>

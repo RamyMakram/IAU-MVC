@@ -1,0 +1,679 @@
+﻿@model IAU.DTO.Entity.ApplicantRequest_Data_DTO
+@{
+    Layout = null;
+}
+@using System.Configuration;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <title>IAU - BSC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
+    <link rel="stylesheet" href="~/Design/CSS/style.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-xl">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon">
+                    <i class="fas fa-bars" style="color: #b6a1a1;font-size: 30px;"></i>
+                </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/Index">Main</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Coordinator/index">Coordinator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">help and support</a>
+                    </li>
+
+                </ul>
+                <div class="vision">
+                    <div>
+                        <button>contact</button>
+                        <button>Ar</button>
+                    </div>
+                    <img src="~/Design/img/VisionLogo2.png">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <ul class="nav nav-pills nav-fill" style="display: none;">
+        <li class="nav-item">
+            <a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">Service Type</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">Request Type</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-slide-to="personel-data-m" data-counter="4">Personel Data</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Request Data</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">Confirmation</a>
+        </li>
+    </ul>
+    <div class="row MContaint">
+        <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+            <i class="fas fa-chevron-left"></i>
+            <p>PREVIOUS</p>
+        </div>
+
+        <div class="col-md-8 containt" id="MainBody">
+            <div class="row" id="start-request">
+                <div class="col-md-12 main-title">
+                    <p>iau - bsc</p>
+                    <p>submit or follow submitted requests</p>
+                </div>
+                <div class=" col-sm-12 col-lg-2"></div>
+                <div class="col-sm-12  col-md-6 col-lg-4">
+                    <div class="stick submit" id="NewRequest">
+                        <img src="~/Design/img/newrequest.png">
+                        <p class="first">Submit</p>
+                        <p class="second">new request</p>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6  col-lg-4">
+                    <div class="stick follow">
+                        <img src="~/Design/img/follow.png">
+                        <p class="first1">follow-up</p>
+                        <p class="second1">request</p>
+                    </div>
+                </div>
+            </div>
+            @{var serverpath = ConfigurationManager.AppSettings["DomainName"].ToString();}
+            <div class="row" id="Service_Type_Id" style="display: none;">
+                <div class="col-md-4 col-lg-3 icon-text-logo">
+                    <p>@@ IAU - BSC</p>
+                    <p>Services</p>
+                    <p>Types</p>
+                </div>
+                @{ var counter = 0;}
+                @foreach (var service in Model.serviceTypeList)
+                {
+                    var mainservice_class = counter == 0 ? "stick active mainservice" : "stick mainservice";
+                    <div class="col-md-4 col-lg-3">
+                        <div class="@mainservice_class" data-mainserviceid="@service.Id" data-mainservicename="@service.Name">
+                            <img src="@serverpath@service.ImagePath" data-bs-toggle="tooltip" data-bs-placement="top"
+                                 data-bs-custom-class="beautifier"
+                                 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+                            <p>@service.Name.Split(' ')[0]</p>
+                            <p>services</p>
+                        </div>
+                    </div>
+                    counter++;
+                }
+            </div>
+            <div class="row" id="Request_Type_Id" style="display: none;">
+                <div class="col-md-4 col-lg-3 icon-text-logo">
+                    <p>@@ IAU - BSC</p>
+                    <p>Request</p>
+                    <p>Types</p>
+                </div>
+                @{ counter = 0;}
+                @foreach (var request in Model.requestTypeList)
+                {
+                    var requesttype_class = counter == 0 ? "stick active requesttype" : "stick requesttype";
+                    <div class="col-md-4 col-lg-3">
+                        <div class="@requesttype_class" data-requesttypeid="@request.Id" data-requesttypename="@request.Name">
+                            <img src="@serverpath@request.ImagePath" data-bs-toggle="tooltip" data-bs-placement="top"
+                                 data-bs-custom-class="beautifier"
+                                 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+                            <p>@request.Name.Split(' ')[0]</p>
+                        </div>
+                    </div>
+                    counter++;
+                }
+            </div>
+            <div class="row" id="personel-data-m" style="display: none;">
+                <p> Please fill the required fields</p>
+                <div id="personel-data">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3">general information</div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>IAU Affiliated</label>
+                                </div>
+                                <div class="col-md-7">
+                                    @using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
+                                    {
+                                        <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                             data-bs-custom-class="beautifier"
+                                             title="If you are an IAU registered student or employee (faculty and staff), whether Saudi or contracted, click Yes. If you are not in any of the previous cases, press No" />
+                                        <select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
+                                            <option disabled selected>Select</option>
+                                            <option value="0">Yes</option>
+                                            <option value="1">No</option>
+                                        </select>
+                                        <button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>IAU ID Number</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password." />
+                                    <input type="text" id="IAUID" name="IAUID">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Applicant type</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="To help us proceed easily with your request, please select the field that best describe you as an applicant of this request.  If you don’t conform with any of the following categories please select Other. " />
+                                    <select id="Applicant_Type_ID" name="Applicant_Type_ID">
+                                        <option disabled selected value="null">Select-----------------</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3">Name of the applicant</div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Title</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img />
+                                    <select id="title" name="title">
+                                        <option disabled selected value="null">Select-----------------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>First name</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="If you are a Saudi or GCC Citizen please insert your First Name as shown in the National ID Card. If not, kindly write your First Name as shown in the Passport." />
+                                    <input type="text" id="FirstName">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Middle name</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="If you are a Saudi or GCC Citizen please insert your Middle Name or Names as shown in the National ID Card. If not, kindly write your Middle Name or Names as shown in the Passport." />
+                                    <input type="text" id="MiddelName" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Family name</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="If you are a Saudi or GCC Citizen please insert your Family Name as shown in the National ID Card. If not, kindly write your Family Name as shown in the Passport." />
+                                    <input type="text" id="FamilyName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3">Nationality</div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Nationality</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img />
+                                    <select id="Nationality_ID" name="Nationality_ID">
+                                        <option disabled selected value="null">Select-----------------</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Country of residence</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="Please insert the country you are currently living in. The address information in the tabs below will relate to the country of residence." />
+                                    <select id="Country_ID" name="Country_ID">
+                                        <option disabled selected value="null">Select-----------------</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>ID Document</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="If you are a Saudi or GCC Citizen please select National ID Card. If not but live in Saudi Arabia, kindly select resident identity card number (Iqama). Otherwise, please select Passport" />
+                                    <select id="ID_Document" name="ID_Document">
+                                        <option disabled selected value="null">Select-----------------</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>ID Number</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="Please insert the number of the selected ID Document." />
+                                    <input type="text" id="idNumber">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3">
+                            Address information
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Please Insert the address we will eventually use to contact us" />
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Country</label>
+                                </div>
+								<div class="col-md-7">
+									<img />
+                                    @*Countery*@
+									<select id="City_Country_2" name="City_Country_2" onchange="CountryState()">
+										<option disabled selected value="null">Select-----------------</option>
+									</select>
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Region</label>
+                                </div>
+								<div class="col-md-7" id="Region">
+									<img />
+									@*<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">
+										<option disabled selected value="null">Select-----------------</option>
+									</select>*@
+									<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
+								</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>City</label>
+                                </div>
+								<div class="col-md-7" id="City">
+									<img />
+									@*<select id="City_Country_1" name="City_Country_1">
+										<option disabled selected value="null">Select-----------------</option>
+									</select>*@
+									<input type="text" id="City_Country_1" name="City_Country_1">
+								</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Postal Code</label>
+                                </div>
+								<div class="col-md-7">
+									<img />
+									<input type="text" id="Region_Postal_Code_2" name="Region_Postal_Code_2" />
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3">Contact information</div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Email Address</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="Please insert the Email Address we will eventually use to contact you." />
+                                    <input type="email" id="Email" name="Email" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label>Mobile Number</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="Please insert the Mobile Number we will eventually use to contact you." />
+                                    <input type="text" id="Mobile" name="Mobile">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="Documents-Inquery" style="display:none;">
+                <p>please fill the fields for the requested service</p>
+                <div id="Documents">
+                    <div class="row">
+                        <div class="col-md-3">select provider services</div>
+                        <div class="col-md-9" style="padding:0px">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Kindly select the Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
+                            <select id="provider" name="provider" onchange="selectMainService()">
+                                <option disabled selected value="null">Select-----------------</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">Select main services</div>
+                        <div class="col-md-9" style="padding:0px">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Now that the provider is selected, please select the desired Main Service. If none of the listed is required, please select another Provider or IAU University from the previous tab. If you realize the required service is not enlisted, kindly click Previous to go back to the Service Type and select another service." />
+                            <select id="Main_Services_ID" name="Main_Services_ID" onchange="selectSub()">
+                                <option disabled selected value="null">Select ----------------</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">select sub-services</div>
+                        <div class="col-md-9" style="padding:0px">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Now that the Main Service is selected, please select the required Sub-Service. If none of the listed is required, please select another Provider or IAU University. In case the required sub-service is not enlisted, kindly click Previous to go back to the Service Type and select another service" />
+                            <select id="Sub_Services_ID" name="Sub_Services_ID" disabled>
+                                <option disabled selected value="null">Select ----------------</option>
+                            </select>
+                        </div>
+                        <div class="row" style="margin-top:0px;padding:0px;">
+                            <div class="col-md-3">E-forms</div>
+                            <input type="file" id="filelist" style="display: none;" onchange="handleFiles(this.files)" />
+                            <div class="col-md-1" style="padding:0px">
+                                <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                     data-bs-custom-class="beautifier"
+                                     title="Kindly fill out the enlisted electronic application form(s). Please ensure to complete all required fields to avoid any delay or rejection of the request. " />
+                            </div>
+                            <div class="col-md-8 e-form" id="E-forms">
+                                <p>please click E-form Application (s) and fill the required fields</p>
+                                <div class="row" style="margin-top: 0px;overflow: auto">
+                                    <div class="col-md-4">
+                                        <div class="row icon-container" style="padding:0px;margin:0px">
+                                            <div class="col-md-3" style="padding:0px">
+                                                <img src="~/Design/img/reader.png" style="width:25px" />
+                                            </div>
+                                            <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row icon-container" style="padding:0px;margin:0px">
+                                            <div class="col-md-3" style="padding:0px">
+                                                <img src="~/Design/img/reader.png" style="width:25px" />
+                                            </div>
+                                            <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row icon-container" style="padding:0px;margin:0px">
+                                            <div class="col-md-3" style="padding:0px">
+                                                <img src="~/Design/img/reader.png" style="width:25px" />
+                                            </div>
+                                            <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:0px">
+                        <div class="col-md-3">upload Required documnets</div>
+                        @*<input type="file" id="filelist" style="display: none;" onchange="handleFiles(this.files)" />*@<input type="file" id="filelist" style="display: none;" onchange="handleFiles(this.files)" />
+                        <div class="col-md-1" style="padding:0px">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
+                        </div>
+                        <div class="col-md-8 e-form" id="upload-area">
+                            <p>please review the required documents to upload related file</p>
+                            <div class="row" id="filesName" name="filesName" style="margin-top:0px">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:0px">
+                        <div class="col-md-3">upload supportive documnets</div>
+                        <input type="file" id="filelistSupportive" style="display: none;" onchange="handleFiles(this.files)" />
+                        <div class="col-md-1" style="padding:0px">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
+                        </div>
+                        <div class="col-md-8 e-form" id="drop-area">
+                            <p>Drop file Here Or Click to upload(Maximum load size 20MB) <i class="fas fa-upload"></i></p>
+                            <div id="filesName" name="filesName">
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row" style="margin-top:0px">
+                        <div class="col-md-3">Request Description</div>
+                        <div class="col-md-1">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
+                        </div>
+                        <div class="col-md-8" style="padding:0px;">
+                            <div id="textarea-container">
+                                <div class="insideTextArea">
+                                    <p>Request Description (300 character max.)</p>
+                                </div>
+                                <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
+                                <div class="insideTextAreaCounter">
+                                    <span id="text-area-counter_Other">/300</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="Documents-Other" style="display:none">
+                <p>please fill the fields for the requested service</p>
+                <div id="Documents">
+                    <div class="row">
+                        <div class="col-md-3">select provider of services</div>
+                        <div class="col-md-1">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Kindly select the Academic Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
+                        </div>
+                        <div class="col-md-8">
+                            <select id="providerOther" name="provider" onchange="selectMainService()">
+                                <option disabled selected value="null">Select-----------------</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">upload required documnets</div>
+                        <input type="file" id="filelistOther" multiple onchange="handleFiles(this.files)" style="display: none;" />
+                        <div class="col-md-1">
+                            <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                 data-bs-custom-class="beautifier"
+                                 title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
+                        </div>
+                        <div class="col-md-8" id="drop-area-other">
+                            <p>Drop file Here Or Click to upload(Maximum load size 20 MB) <i class="fas fa-upload"></i></p>
+                            <div class="row" id="filesNameOther" name="filesNameOther">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-8" style="padding:0px;">
+                            <div id="textarea-container">
+                                <div class="insideTextArea">
+                                    <img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
+                                         data-bs-custom-class="beautifier"
+                                         title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
+                                    <span>Request Description (300 character max.)</span>
+                                </div>
+                                <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
+                                <div class="insideTextAreaCounter">
+                                    <span id="text-area-counter_Other">/300</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="Confirmation-m" style="display: none;">
+                <p> !Your Request Has Not Submited Yet</p>
+                <div id="Confirmation">
+                    <div class="row" id="pdfpreview">
+                        <div class="col-md-12">
+                            <ol style="margin:10px 0px">
+                                <li>
+                                    Please <span>review request</span>  If your request id incomplete and/or you need to correct any errors, please click
+                                    <span>previous</span> and complete what is necessary. If you are satisfied with the information you entered, please click <span>SUBMIT</span>
+
+                                    <div id="padf" class="pdfnotloaded">
+
+                                    </div>
+                                </li>
+                                <li>
+                                    click the <span>submit</span> button wher you're ready to submit
+                                    <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+                                        <button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
+                                    </div>
+                                </li>
+
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
+            <i class="fas fa-chevron-right"></i>
+            <p>NEXT</p>
+        </div>
+    </div>
+
+    <div class="modal fade" id="formModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Form1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">name:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Phone:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Email:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">other Info:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="FourMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm to Complete request</h5>
+                    @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" id="verficationFeedback" style="display:none">
+                        PLZ, Enter Correct Verification Code.
+                    </div>
+                    <div class="alert alert-danger" id="GenralError" style="display:none">
+                        There Is General Error
+                    </div>
+                    <form>
+                        <div class="mb-3 text-center verification-input">
+                            <label for="verficationCode" class="col-form-label">Enter 4 Digits You Received to Complete Request</label>
+                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
+                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
+                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
+                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
+                        </div>
+                    </form>
+                    <button id="ResendVerificationCode">Resend Verification Code</button>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span style="display:none !important" id="SignaturePDF"></span>
+    <script src="~/Design/JS/popper.js"></script>
+    <script src="~/Design/JS/bootstrap.min.js"></script>
+    <script src="~/Design/JS/jquery.js"></script>
+    <script src="~/Design/JS/pdf.js"></script>
+    <script src="~/Design/JS/pdf.worker.js"></script>
+    <script src="~/Design/JS/scripts.js?ver=1.0"></script>
+</body>
+
+</html>
