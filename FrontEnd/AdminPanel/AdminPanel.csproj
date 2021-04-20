@@ -129,9 +129,11 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2740,6 +2742,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Locations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css.map" />
@@ -2977,6 +2980,7 @@
     <Content Include="Views\Email\Preview.cshtml" />
     <Content Include="Views\Statistics\Home.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Units\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
