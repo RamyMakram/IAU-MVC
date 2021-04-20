@@ -15,12 +15,12 @@
 
 @font-face {
 	font-family: 'Droid-Arabic-Kufi';
-	src: url('font/Droid-Arabic-Kufi.eot');
+	src: url('../fonts/Droid-Arabic-Kufi.eot');
 	/* IE9 Compat Modes */
-	src: url('../font/Droid-Arabic-Kufi.ttf') format('embedded-opentype'), /* IE6-IE8 */
-	url('../font/Droid-Arabic-Kufi.ttf') format('woff'), /* Modern Browsers */
-	url('../font/Droid-Arabic-Kufi') format('truetype'), /* Safari, Android, iOS */
-	url('../font/Droid-Arabic-Kufi.svg#angelina') format('svg');
+	src: url('../fonts/Droid-Arabic-Kufi.ttf') format('embedded-opentype'), /* IE6-IE8 */
+	url('../fonts/Droid-Arabic-Kufi.ttf') format('woff'), /* Modern Browsers */
+	url('../fonts/Droid-Arabic-Kufi') format('truetype'), /* Safari, Android, iOS */
+	url('../fonts/Droid-Arabic-Kufi.svg#angelina') format('svg');
 	/* Legacy iOS */
 	font-weight: normal;
 	font-style: normal;

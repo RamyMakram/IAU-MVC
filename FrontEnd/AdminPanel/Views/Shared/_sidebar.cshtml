@@ -4,6 +4,7 @@
 	.vertical-menu {
 		background: #0a1332 !important;
 	}
+
 	.waves-effect span {
 		font-size: 14px;
 	}
@@ -79,12 +80,12 @@
 							<span key="t-control-panel">لوحة التحكم </span>
 						</a>
 						<ul class="sub-menu" aria-expanded="false" style="z-index:9999">
-							<li><a href="#" key="t-hirerical">اعدادات الهيكل التنظيمي</a></li>
-							<li><a href="#" key="t-subservices">اعدادات فئات الخدمات</a></li>
-							<li><a href="#" key="t-services-type">اعدادات أنواع الخدمات</a></li>
-							<li><a href="#" key="t-unit-type">اعدادات نوع الوحدة</a></li>
 							<li><a href="#" key="t-uints-settings">اعدادات الوحدات</a></li>
-							<li><a href="#" key="t-levels">اعدادات فئات المستويات</a></li>
+							<li><a href="#" key="t-mainservices">اعدادات الخدمات الاساسية</a></li>
+							<li><a href="#" key="t-subservices">اعدادات الخدمات الفرعية</a></li>
+							<li><a href="#" key="t-eforms">اعدادات النماذج الالكترونية</a></li>
+							<li><a href="#" key="t-services-type">اعدادات أنواع الخدمات</a></li>
+							<li><a href="#" key="t-request-type">اعدادات أنواع الطلبات</a></li>
 							@{
 								if (data.Contains("Users"))
 								{
@@ -95,9 +96,7 @@
 									<li><a href=@Url.Action("Home", "Jobs") key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
 								}
 							}
-							<li><a href=@Url.Action("Home", "User" ) key="t-rating">اعدادات معايير التقييم</a></li>
-							<li><a href=@Url.Action("Home", "User" ) key="t-train">اعدادات التسجيل ودورات العمل</a></li>
-
+							<li><a href=@Url.Action("Home", "User" ) key="t-unit-type">اعدادات انواع الوحدات</a></li>
 							<li><a href=@Url.Action("Home", "User" ) key="t-mainsettings">الإعدادات العامة</a></li>
 						</ul>
 					</li>
