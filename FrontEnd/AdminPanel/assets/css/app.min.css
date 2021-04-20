@@ -1,5 +1,31 @@
 @import url(https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap);
 
+@font-face {
+	font-family: 'Muli-Light';
+	src: url('font/Muli-Light.eot');
+	/* IE9 Compat Modes */
+	src: url('font/Muli-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('font/Muli-Light.woff') format('woff'), /* Modern Browsers */
+	url('font/Muli-Light.ttf') format('truetype'), /* Safari, Android, iOS */
+	url('font/Muli-Light.svg#Muli-Light') format('svg');
+	/* Legacy iOS */
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Droid-Arabic-Kufi';
+	src: url('font/Droid-Arabic-Kufi.eot');
+	/* IE9 Compat Modes */
+	src: url('../font/Droid-Arabic-Kufi.ttf') format('embedded-opentype'), /* IE6-IE8 */
+	url('../font/Droid-Arabic-Kufi.ttf') format('woff'), /* Modern Browsers */
+	url('../font/Droid-Arabic-Kufi') format('truetype'), /* Safari, Android, iOS */
+	url('../font/Droid-Arabic-Kufi.svg#angelina') format('svg');
+	/* Legacy iOS */
+	font-weight: normal;
+	font-style: normal;
+}
+
 #page-topbar {
 	position: fixed;
 	top: 0;
@@ -3415,7 +3441,7 @@ input[switch=dark]:checked + label {
 }
 
 	.apex-charts text {
-		font-family: Poppins,sans-serif !important;
+		font-family: 'Droid-Arabic-Kufi' !important;
 		fill: #adb5bd
 	}
 
@@ -3424,7 +3450,7 @@ input[switch=dark]:checked + label {
 	}
 
 .apexcharts-tooltip-text, .apexcharts-tooltip-title {
-	font-family: Poppins,sans-serif !important
+	font-family: 'Droid-Arabic-Kufi' !important
 }
 
 .apexcharts-legend-series {
@@ -3438,7 +3464,7 @@ input[switch=dark]:checked + label {
 
 .apexcharts-legend-text {
 	color: #74788d !important;
-	font-family: Poppins,sans-serif !important;
+	font-family: 'Droid-Arabic-Kufi' !important;
 	font-size: 13px !important
 }
 
@@ -3447,7 +3473,7 @@ input[switch=dark]:checked + label {
 }
 
 .apexcharts-xaxis text, .apexcharts-yaxis text {
-	font-family: Poppins,sans-serif !important;
+	font-family: 'Droid-Arabic-Kufi' !important;
 	fill: #adb5bd
 }
 
@@ -3490,7 +3516,7 @@ input[switch=dark]:checked + label {
 	color: #eff2f7 !important;
 	font-size: 12px !important;
 	line-height: 18px !important;
-	font-family: Poppins,sans-serif !important;
+	font-family: 'Droid-Arabic-Kufi' !important;
 	font-weight: 500 !important
 }
 
@@ -3537,7 +3563,7 @@ input[switch=dark]:checked + label {
 	border: none;
 	background: #343a40;
 	color: #f8f9fa;
-	font-family: Poppins,sans-serif;
+	font-family: 'Droid-Arabic-Kufi';
 	font-size: .8125rem;
 	padding: 5px 8px
 }

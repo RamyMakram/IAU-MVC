@@ -2740,8 +2740,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\LoginForward\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css.map" />
@@ -2968,6 +2966,8 @@
     <Content Include="dashboard\assets\plugins\global\fonts\summernote\summernote.woff" />
     <Content Include="dashboard\assets\plugins\global\fonts\summernote\summernote.woff2" />
     <Content Include="assets\fonts\FrutigerLTArabic-65Bold.ttf" />
+    <Content Include="assets\fonts\Droid.Arabic.Kufi_.Bold_.ttf" />
+    <Content Include="assets\fonts\Droid-Arabic-Kufi.ttf" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
