@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using IAUAdmin.DTO.Entity;
+﻿using IAUAdmin.DTO.Entity;
 using IAUBackEnd.Admin.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,6 @@ namespace IAUBackEnd.Admin
 {
 	public static class WebApiConfig
 	{
-		public static MapperConfiguration mapperConfig;
 		public static void Register(HttpConfiguration config)
 		{
 			config.Formatters.Remove(config.Formatters.XmlFormatter);

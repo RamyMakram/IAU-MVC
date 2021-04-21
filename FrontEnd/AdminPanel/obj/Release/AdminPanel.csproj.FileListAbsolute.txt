@@ -122,11 +122,9 @@ C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\VBCSCompiler.exe
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\IAUAdmin.DTO.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\IAUBackEnd.Admin.dll
-C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\AutoMapper.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Http.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\EntityFramework.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Http.WebHost.dll
-C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.ValueTuple.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\IAUAdmin.DTO.pdb
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\IAUBackEnd.Admin.pdb
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\IAUBackEnd.Admin.dll.config
