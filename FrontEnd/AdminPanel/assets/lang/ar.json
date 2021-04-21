@@ -44,6 +44,8 @@
 	"t-eforms": "النماذج الالكترونية",
 	"t-request-type": "انواع الطلبات",
 	"t-unit-type": "اعدادات أنوع الوحدات",
+	"t-active-location": "هل انت متاكد من تنشيط هذا الموقع؟",
+	"t-deactive-location": "هل انت متاكد من الغاء تنشيط هذا الموقع؟",
 	"t-": "",
 
 	"t-file-manager": "Dateimanager",

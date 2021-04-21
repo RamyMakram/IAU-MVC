@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Entity\Job_PermissionsDTO.cs" />
     <Compile Include="Entity\JobDTO.cs" />
+    <Compile Include="Entity\LocationsDTO.cs" />
     <Compile Include="Entity\PrivilgesDTO.cs" />
     <Compile Include="Entity\UserDTO.cs" />
     <Compile Include="Enums\GlobalEnum.cs" />
