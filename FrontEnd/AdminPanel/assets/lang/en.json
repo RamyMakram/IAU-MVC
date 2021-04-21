@@ -3,7 +3,7 @@
 	"t-menu": "Main",
 	"t-InBox": "Incoming Requests",
 	"t-forwarded": "Sended Requests",
-	"SevicesSettings": "Manage Mostafid Services",
+	"t-SevicesSettings": "Manage Mostafid Services",
 	"t-statistics": "Statistics",
 	"t-lateTransaction": "Late Transaction Reports",
 	"t-employees-changes": "Employees Finished Tasks",
@@ -49,6 +49,9 @@
 	"t-location": "Location",
 	"t-deactive-unitlocation": "Do u want to deactive this location?",
 	"t-active-unitlocation": "Do u want to active this location?",
+	"t-unitype": "Manage Unit Types",
+	"t-active-unitype": "Do u want to active this Unit Type?",
+	"t-deactive-unitype": "Do u want to deactive this Unit Type?",
 	"t-": ""
 
 }

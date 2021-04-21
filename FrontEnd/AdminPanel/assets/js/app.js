@@ -67,9 +67,11 @@ File: Main Js File
 
 	function initActiveMenu() {
 		// === following js will activate the menu in left side bar based on url ====
-		$("#sidebar-menu a").each(function () {
-			var pageUrl = window.location.href.split(/[?#]/)[0];
-			if (this.href == pageUrl) {
+		$("#sidebar-menu a").each(function (e) {
+			//console.log(window.location.href.split(/[?#]/)[0])
+			var pageUrl = window.location.pathname.split('/')[1];
+			//console.log(this.id, pageUrl)
+			if (this.id == pageUrl) {
 				$(this).addClass("active");
 				$(this).parent().addClass("mm-active"); // add active to li of the current link
 				$(this).parent().parent().addClass("mm-show");

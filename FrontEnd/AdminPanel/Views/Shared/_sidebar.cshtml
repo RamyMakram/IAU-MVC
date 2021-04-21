@@ -22,7 +22,7 @@
 					//var data = data1 as string[];
 					var data = TempData["Permissions"] as string[];
 					<li>
-						<a href=@Url.Action("Home", "Email") class="waves-effect">
+						<a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
 							<i class="fas fa-layer-group"></i>
 							<span key="t-menu">الرئيسية</span>
 						</a>
@@ -30,7 +30,7 @@
 					if (data.Contains("Home"))
 					{
 						<li>
-							<a href=@Url.Action("Home", "Email") class="waves-effect">
+							<a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
 								<i class="fas fa-layer-group"></i>
 								<span key="t-menu">الرئيسية</span>
 							</a>
@@ -40,7 +40,7 @@
 					if (data.Contains("Inbox"))
 					{
 						<li>
-							<a href=@Url.Action("Home", "Email") class="waves-effect">
+							<a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
 								<i class="fas fa-inbox"></i>
 								<span key="t-InBox">الطلبات الوارده</span>
 							</a>
@@ -49,7 +49,7 @@
 					if (data.Contains("Outbox"))
 					{
 						<li>
-							<a href=@Url.Action("Home", "Email") class="waves-effect">
+							<a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
 								<i class="fas fa-paper-plane"></i>
 								<span key="t-forwarded">الطلبات المرسلة</span>
 							</a>
@@ -58,7 +58,7 @@
 					if (data.Contains("Mostafid Manager"))
 					{
 						<li>
-							<a href="#" class="waves-effect">
+							<a href="#" class="waves-effect" id="">
 								<i class="fas fa-server"></i>
 								<span key="t-SevicesSettings">ادارة خدمات المستفيدين</span>
 							</a>
@@ -67,7 +67,7 @@
 					if (data.Contains("Statistics"))
 					{
 						<li>
-							<a href="#" class="waves-effect">
+							<a href="#" class="waves-effect" id="">
 								<i class="fas fa-chart-pie"></i>
 								<span key="t-statistics">التقارير والاحصائيات</span>
 							</a>
@@ -80,24 +80,24 @@
 							<span key="t-control-panel">لوحة التحكم </span>
 						</a>
 						<ul class="sub-menu" aria-expanded="false" style="z-index:9999">
-							<li><a href="#" key="t-uints-settings">اعدادات الوحدات</a></li>
-							<li><a href="#" key="t-mainservices">اعدادات الخدمات الاساسية</a></li>
-							<li><a href="#" key="t-subservices">اعدادات الخدمات الفرعية</a></li>
-							<li><a href="#" key="t-eforms">اعدادات النماذج الالكترونية</a></li>
-							<li><a href="#" key="t-services-type">اعدادات أنواع الخدمات</a></li>
-							<li><a href="#" key="t-request-type">اعدادات أنواع الطلبات</a></li>
+							<li><a href="#" id="" key="t-uints-settings">اعدادات الوحدات</a></li>
+							<li><a href="#" id="" key="t-mainservices">اعدادات الخدمات الاساسية</a></li>
+							<li><a href="#" id="" key="t-subservices">اعدادات الخدمات الفرعية</a></li>
+							<li><a href="#" id="" key="t-eforms">اعدادات النماذج الالكترونية</a></li>
+							<li><a href="#" id="" key="t-services-type">اعدادات أنواع الخدمات</a></li>
+							<li><a href="#" id="" key="t-request-type">اعدادات أنواع الطلبات</a></li>
 							@{
 								if (data.Contains("Users"))
 								{
-									<li><a href=@Url.Action("Home", "User") key="t-users">اعدادات المستخدمين</a></li>
+									<li><a href=@Url.Action("Home", "User") id="User" key="t-users">اعدادات المستخدمين</a></li>
 								}
 								if (data.Contains("Permissions"))
 								{
-									<li><a href=@Url.Action("Home", "Jobs") key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
+									<li><a href=@Url.Action("Home", "Jobs") id="Jobs" key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
 								}
 							}
-							<li><a href=@Url.Action("Home", "User" ) key="t-unit-type">اعدادات انواع الوحدات</a></li>
-							<li><a href=@Url.Action("Home", "User" ) key="t-mainsettings">الإعدادات العامة</a></li>
+							<li><a href=@Url.Action("Home", "UnitTypes" ) id="UnitTypes" key="t-unit-type">اعدادات انواع الوحدات</a></li>
+							<li><a href=@Url.Action("Home", "User" ) id="User" key="t-mainsettings">الإعدادات العامة</a></li>
 						</ul>
 					</li>
 				}

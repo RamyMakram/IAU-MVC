@@ -50,6 +50,8 @@
 	"t-location": "الموقع",
 	"t-deactive-unitlocation": "هل انت متاكد من تعطيل هذا الموقع؟",
 	"t-active-unitlocation": "هل انت متاكد من تنشيط هذا الموقع؟",
+	"t-active-unitype": "هل انت متاكد من تنشيط هذا النوع؟",
+	"t-deactive-unitype": "هل انت متاكد من تعطيل هذا النوع؟",
 	"t-": ""
 
 

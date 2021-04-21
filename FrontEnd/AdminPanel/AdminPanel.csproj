@@ -134,6 +134,7 @@
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\UnitLocationController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
+    <Compile Include="Controllers\UnitTypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2991,6 +2992,12 @@
     <Content Include="Views\UnitLocation\Detials.cshtml" />
     <Content Include="Views\UnitLocation\Home.cshtml" />
     <Content Include="Views\UnitLocation\Edit.cshtml" />
+    <Content Include="Views\UnitTypes\Active.cshtml" />
+    <Content Include="Views\UnitTypes\Create.cshtml" />
+    <Content Include="Views\UnitTypes\Deactive.cshtml" />
+    <Content Include="Views\UnitTypes\Detials.cshtml" />
+    <Content Include="Views\UnitTypes\Edit.cshtml" />
+    <Content Include="Views\UnitTypes\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
