@@ -1,11 +1,11 @@
-﻿@model ICollection<IAUAdmin.DTO.Entity.LocationsDTO>
+﻿@model ICollection<IAUAdmin.DTO.Entity.UnitsLocDTO>
 @{
 	ViewBag.Title = "Home Page";
 	ViewBag.pageTitle = "Home Page";
-	ViewBag.pTitle = "Locations";
-	ViewBag.arTitle     = "الرئيسية";
+	ViewBag.pageTitle = "Unit Locations";
+	ViewBag.arTitle = "الرئيسية";
 	ViewBag.arpageTitle = "الرئيسية";
-	ViewBag.arpTitle = "المواقع";
+	ViewBag.arpTitle = "مواقع الوحدات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -20,28 +20,29 @@
 		<div class="card">
 			<div class="card-body">
 
-				<h4 class="card-title" key="t-user">All Users</h4>
-				<p class="card-title-desc" key="t-users">
+				@*<h4 class="card-title" key="t-user">All Users</h4>*@
+				<p class="card-title-desc" key="t-unitLocationmanage">
 					Manage Users
 				</p>
 
 				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
 						<tr>
-							<th key="t-name">Location Name</th>
-							<th key="t-enname">Location En Name</th>
-							<th key="t-status">Status</th>
+							<th key="t-name">Unit Location Name</th>
+							<th key="t-enname">Unit Location  En Name</th>
+							<th key="t-activeTitle">Status</th>
+							<th></th>
 						</tr>
 					</thead>
 
 					<tbody>
 						@foreach (var i in Model)
 						{
-							<tr onclick="Go('@Url.Action("Detials", "Locations", new { Id = i.Location_ID })')">
-								<td>@i.Location_Name_AR</td>
-								<td>@i.Location_Name_EN</td>
+							<tr onclick="Go('@Url.Action("Detials", "UnitLocation", new { Id = i.Units_Location_ID })')">
+								<td>@i.Units_Location_Name_AR</td>
+								<td>@i.Units_Location_Name_EN</td>
 								<td>@i.IS_Action</td>
-								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Location_ID }, new { @class = "btn btn-primary",@key = "t-edit" })</td>
+								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_Location_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
 					</tbody>

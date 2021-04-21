@@ -37,14 +37,13 @@ File: Main Js File
 
 	// Multi language setting
 	function getLanguage() {
-		(language == null) ? setLanguage(default_lang) : false;
+		//(language == null) ? setLanguage(default_lang) : false;
 		$.getJSON('/assets/lang/' + language + '.json', function (lang) {
 			$('html').attr('lang', language);
 			$.each(lang, function (index, val) {
 
 				(index === 'head') ? $(document).attr("title", val['title']) : false;
 				$("[key='" + index + "']").text(val);
-				//console.log("[key='" + index + "']")
 			});
 		});
 	}
@@ -236,6 +235,7 @@ File: Main Js File
 	}
 
 	function init() {
+
 		initLanguage();
 		initMetisMenu();
 		initLeftMenuCollapse();

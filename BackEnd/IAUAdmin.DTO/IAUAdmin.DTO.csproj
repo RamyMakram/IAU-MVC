@@ -46,6 +46,7 @@
     <Compile Include="Entity\JobDTO.cs" />
     <Compile Include="Entity\LocationsDTO.cs" />
     <Compile Include="Entity\PrivilgesDTO.cs" />
+    <Compile Include="Entity\UnitsLocDTO.cs" />
     <Compile Include="Entity\UserDTO.cs" />
     <Compile Include="Enums\GlobalEnum.cs" />
     <Compile Include="Helper\API_HelperFunctions.cs" />

@@ -132,6 +132,7 @@
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\UnitLocationController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2984,6 +2985,12 @@
     <Content Include="Views\Locations\Edit.cshtml" />
     <Content Include="Views\Locations\Home.cshtml" />
     <Content Include="Views\Locations\Active.cshtml" />
+    <Content Include="Views\UnitLocation\Active.cshtml" />
+    <Content Include="Views\UnitLocation\Create.cshtml" />
+    <Content Include="Views\UnitLocation\Deactive.cshtml" />
+    <Content Include="Views\UnitLocation\Detials.cshtml" />
+    <Content Include="Views\UnitLocation\Home.cshtml" />
+    <Content Include="Views\UnitLocation\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

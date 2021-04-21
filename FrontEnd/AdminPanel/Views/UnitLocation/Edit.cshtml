@@ -1,0 +1,73 @@
+﻿@model IAUAdmin.DTO.Entity.UnitsLocDTO
+@{
+	ViewBag.Title = "Edit Location";
+	ViewBag.pTitle = "Edit Location";
+	ViewBag.pageTitle = "Unit Locations";
+	ViewBag.arTitle = "تعديل موقع";
+	ViewBag.arpageTitle = "تعديل موقع";
+	ViewBag.arpTitle = "مواقع الوحدات";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
+
+				@using (Html.BeginForm("Edit", "UnitLocation", new { Id = Model.Location_ID }, FormMethod.Post))
+				{
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-name" for="name">User Name</label>
+								@Html.TextBoxFor(q => q.Units_Location_Name_AR, new { @id = "name", @class = "form-control" })
+							</div>
+							<div class="form-group">
+								<label key="t-location" class="control-label">Location</label>
+								@Html.DropDownListFor(q => q.Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2" })
+							</div>
+						</div><div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-enname" for="enname">EnName</label>
+								@Html.TextBoxFor(q => q.Units_Location_Name_EN, new { @id = "enna,e", @class = "form-control" })
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>
+					@Html.ActionLink("Cancel", "Home", "UnitLocation", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+				}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>

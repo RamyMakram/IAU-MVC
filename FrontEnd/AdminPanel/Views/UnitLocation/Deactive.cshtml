@@ -1,11 +1,11 @@
-﻿@model IAUAdmin.DTO.Entity.LocationsDTO
+﻿@model IAUAdmin.DTO.Entity.UnitsLocDTO
 @{
 	ViewBag.Title = "Deactive Location";
 	ViewBag.pTitle = "Deactive Location";
-	ViewBag.pageTitle = "Locations";
+	ViewBag.pageTitle = "Unit Locations";
 	ViewBag.arTitle     = "تعطيل موقع";
 	ViewBag.arpageTitle = "تعطيل موقع";
-	ViewBag.arpTitle = "المواقع";
+	ViewBag.arpTitle = "مواقع الوحدات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- select2 css -->
@@ -16,14 +16,14 @@
 <h2 key="t-deactive" >Deactive</h2>
 
 <div class="row">
-	@using (Html.BeginForm("Deactive", "Locations", new { Id = Model.Location_ID, x = "" }, FormMethod.Post))
+	@using (Html.BeginForm("Deactive", "UnitLocation", new { Id = Model.Units_Location_ID, x = "" }, FormMethod.Post))
 	{
-		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-location" >
+		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-unitlocation" >
 			Do u want to deactive this User?
 		</div>
 
 		<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-		@Html.ActionLink("Cancel", "Home", "Locations", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+		@Html.ActionLink("Cancel", "Home", "UnitLocation", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 	}
 </div>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>

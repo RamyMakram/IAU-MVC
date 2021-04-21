@@ -22,7 +22,10 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Location });
 		}
-
+		public async Task<IHttpActionResult> GetActive()
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Location.Where(q => q.IS_Action.Value) });
+		}
 		public async Task<IHttpActionResult> GetLocation(int id)
 		{
 			Location location = await p.Location.FindAsync(id);

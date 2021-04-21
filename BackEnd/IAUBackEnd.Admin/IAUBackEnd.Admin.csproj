@@ -143,6 +143,7 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PriviligesController.cs" />
+    <Compile Include="Controllers\UnitsLocationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
