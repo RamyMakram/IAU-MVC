@@ -1,0 +1,595 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbPrivilage_IAUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Applicant_Type">
+    <Key>
+      <PropertyRef Name="Applicant_Type_ID" />
+    </Key>
+    <Property Name="Applicant_Type_ID" Type="int" Nullable="false" />
+    <Property Name="Applicant_Type_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="Applicant_Type_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Country_ID" />
+    </Key>
+    <Property Name="Country_ID" Type="int" Nullable="false" />
+    <Property Name="Country_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="Country_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Employee_Name" Type="nvarchar" MaxLength="150" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ID_Document">
+    <Key>
+      <PropertyRef Name="ID_Document" />
+    </Key>
+    <Property Name="ID_Document" Type="int" Nullable="false" />
+    <Property Name="Document_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="Document_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="Main_Services">
+    <Key>
+      <PropertyRef Name="Main_Services_ID" />
+    </Key>
+    <Property Name="Main_Services_ID" Type="int" Nullable="false" />
+    <Property Name="Main_Services_Name_EN" Type="nvarchar(max)" />
+    <Property Name="Main_Services_Name_AR" Type="nvarchar(max)" />
+    <Property Name="Provider_Academic_Services_ID" Type="int" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="Nationality">
+    <Key>
+      <PropertyRef Name="Nationality_ID" />
+    </Key>
+    <Property Name="Nationality_ID" Type="int" Nullable="false" />
+    <Property Name="Nationality_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="Nationality_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="Personel_Data">
+    <Key>
+      <PropertyRef Name="Personel_Data_ID" />
+      <PropertyRef Name="ID_Document" />
+      <PropertyRef Name="ID_Number" />
+    </Key>
+    <Property Name="Personel_Data_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Document" Type="int" Nullable="false" />
+    <Property Name="ID_Number" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="IAU_Affiliate_ID" Type="int" />
+    <Property Name="IAU_ID_Number" Type="nvarchar" MaxLength="100" />
+    <Property Name="Applicant_Type_ID" Type="int" />
+    <Property Name="Title_Middle_Names_ID" Type="int" />
+    <Property Name="First_Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Middle_Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Last_Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Nationality_ID" Type="int" />
+    <Property Name="Country_ID" Type="int" />
+    <Property Name="City_Country_1" Type="nvarchar" MaxLength="200" />
+    <Property Name="City_Country_2" Type="nvarchar" MaxLength="200" />
+    <Property Name="Region_Postal_Code_1" Type="nvarchar" MaxLength="100" />
+    <Property Name="Region_Postal_Code_2" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="nvarchar" MaxLength="200" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="IS_Action" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Provider_Academic_Services">
+    <Key>
+      <PropertyRef Name="Provider_Academic_Services_ID" />
+    </Key>
+    <Property Name="Provider_Academic_Services_ID" Type="int" Nullable="false" />
+    <Property Name="Provider_Academic_Services_Name_EN" Type="nvarchar(max)" />
+    <Property Name="Provider_Academic_Services_Name_AR" Type="nvarchar(max)" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="Request_Data">
+    <Key>
+      <PropertyRef Name="Request_Data_ID" />
+    </Key>
+    <Property Name="Request_Data_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Personel_Data_ID" Type="int" />
+    <Property Name="Provider_Academic_Services_ID" Type="int" />
+    <Property Name="Sub_Services_ID" Type="int" />
+    <Property Name="Supporting_Documents_ID" Type="int" />
+    <Property Name="Required_Fields_Notes" Type="nvarchar(max)" />
+    <Property Name="Service_Type_ID" Type="int" />
+    <Property Name="Request_Type_ID" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="Code_Generate" Type="nvarchar" MaxLength="100" />
+    <Property Name="Request_State_ID" Type="tinyint" Nullable="false" />
+    <Property Name="signpdfpath" Type="varchar(max)" />
+    <Property Name="IsTwasul_OC" Type="bit" />
+  </EntityType>
+  <EntityType Name="Request_File">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="File_Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="File_Path" Type="varchar(max)" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Request_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Request_Log">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="Request_State_ID" Type="tinyint" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Request_ID" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="Employee_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Request_State">
+    <Key>
+      <PropertyRef Name="State_ID" />
+    </Key>
+    <Property Name="State_ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Request_Type">
+    <Key>
+      <PropertyRef Name="Request_Type_ID" />
+    </Key>
+    <Property Name="Request_Type_ID" Type="int" Nullable="false" />
+    <Property Name="Request_Type_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="Request_Type_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_Action" Type="bit" />
+    <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Service_Type">
+    <Key>
+      <PropertyRef Name="Service_Type_ID" />
+    </Key>
+    <Property Name="Service_Type_ID" Type="int" Nullable="false" />
+    <Property Name="Service_Type_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="Service_Type_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_Action" Type="bit" />
+    <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Sub_Services">
+    <Key>
+      <PropertyRef Name="Sub_Services_ID" />
+    </Key>
+    <Property Name="Sub_Services_ID" Type="int" Nullable="false" />
+    <Property Name="Sub_Services_Name_EN" Type="nvarchar(max)" />
+    <Property Name="Sub_Services_Name_AR" Type="nvarchar(max)" />
+    <Property Name="Main_Services_ID" Type="int" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="Supporting_Documents">
+    <Key>
+      <PropertyRef Name="Supporting_Documents_ID" />
+    </Key>
+    <Property Name="Supporting_Documents_ID" Type="int" Nullable="false" />
+    <Property Name="Supporting_Documents_Name_EN" Type="nvarchar(max)" />
+    <Property Name="Supporting_Documents_Name_AR" Type="nvarchar(max)" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Title_Middle_Names">
+    <Key>
+      <PropertyRef Name="Title_Middle_Names_ID" />
+    </Key>
+    <Property Name="Title_Middle_Names_ID" Type="int" Nullable="false" />
+    <Property Name="Title_Middle_Names_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="Title_Middle_Names_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_Action" Type="bit" />
+  </EntityType>
+  <EntityType Name="User_Active">
+    <Key>
+      <PropertyRef Name="User_Active_ID" />
+    </Key>
+    <Property Name="User_Active_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Active_Name_AR" Type="nvarchar" MaxLength="50" />
+    <Property Name="User_Active_Name_EN" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="User_Permissions">
+    <Key>
+      <PropertyRef Name="User_Permissions_ID" />
+    </Key>
+    <Property Name="User_Permissions_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Permissions_Name_AR" Type="nvarchar" MaxLength="250" />
+    <Property Name="User_Permissions_Name_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="User_Permissions_Type_ID" Type="int" />
+    <Property Name="SubPageOF" Type="int" />
+  </EntityType>
+  <EntityType Name="User_Permissions_Type">
+    <Key>
+      <PropertyRef Name="User_Permissions_Type_ID" />
+    </Key>
+    <Property Name="User_Permissions_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Permissions_Type_Name_AR" Type="nvarchar" MaxLength="100" />
+    <Property Name="User_Permissions_Type_Name_EN" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="User_ID" />
+    </Key>
+    <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="User_Mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="User_Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="User_Password" Type="nvarchar" MaxLength="20" />
+    <Property Name="User_Permissions_Type_ID" Type="int" />
+    <Property Name="User_Active_ID" Type="int" />
+  </EntityType>
+  <Association Name="FK_Documents_Provider_Academic_Services">
+    <End Role="Provider_Academic_Services" Type="Self.Provider_Academic_Services" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider_Academic_Services">
+        <PropertyRef Name="Provider_Academic_Services_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Provider_Academic_Services_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Documents_Supporting_Documents">
+    <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supporting_Documents">
+        <PropertyRef Name="Supporting_Documents_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Supporting_Documents_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Main_Services_Provider_Academic_Services">
+    <End Role="Provider_Academic_Services" Type="Self.Provider_Academic_Services" Multiplicity="0..1" />
+    <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider_Academic_Services">
+        <PropertyRef Name="Provider_Academic_Services_ID" />
+      </Principal>
+      <Dependent Role="Main_Services">
+        <PropertyRef Name="Provider_Academic_Services_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Applicant_Type">
+    <End Role="Applicant_Type" Type="Self.Applicant_Type" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applicant_Type">
+        <PropertyRef Name="Applicant_Type_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Applicant_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Country_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Country_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_ID_Document">
+    <End Role="ID_Document" Type="Self.ID_Document" Multiplicity="1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ID_Document">
+        <PropertyRef Name="ID_Document" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="ID_Document" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Nationality">
+    <End Role="Nationality" Type="Self.Nationality" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nationality">
+        <PropertyRef Name="Nationality_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Nationality_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Title_Middle_Names">
+    <End Role="Title_Middle_Names" Type="Self.Title_Middle_Names" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Title_Middle_Names">
+        <PropertyRef Name="Title_Middle_Names_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Title_Middle_Names_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Data_Request_State">
+    <End Role="Request_State" Type="Self.Request_State" Multiplicity="1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request_State">
+        <PropertyRef Name="State_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Request_State_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Data_Request_Type">
+    <End Role="Request_Type" Type="Self.Request_Type" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request_Type">
+        <PropertyRef Name="Request_Type_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Request_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Data_Service_Type">
+    <End Role="Service_Type" Type="Self.Service_Type" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Service_Type">
+        <PropertyRef Name="Service_Type_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Service_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Data_Sub_Services">
+    <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sub_Services">
+        <PropertyRef Name="Sub_Services_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Sub_Services_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_File_Request_Data">
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
+    <End Role="Request_File" Type="Self.Request_File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request_Data">
+        <PropertyRef Name="Request_Data_ID" />
+      </Principal>
+      <Dependent Role="Request_File">
+        <PropertyRef Name="Request_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Log_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Request_Log" Type="Self.Request_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Request_Log">
+        <PropertyRef Name="Employee_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Log_Request_State">
+    <End Role="Request_State" Type="Self.Request_State" Multiplicity="1" />
+    <End Role="Request_Log" Type="Self.Request_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request_State">
+        <PropertyRef Name="State_ID" />
+      </Principal>
+      <Dependent Role="Request_Log">
+        <PropertyRef Name="Request_State_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_State_Request_Data">
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
+    <End Role="Request_Log" Type="Self.Request_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request_Data">
+        <PropertyRef Name="Request_Data_ID" />
+      </Principal>
+      <Dependent Role="Request_Log">
+        <PropertyRef Name="Request_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sub_Services_Main_Services">
+    <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="0..1" />
+    <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Main_Services">
+        <PropertyRef Name="Main_Services_ID" />
+      </Principal>
+      <Dependent Role="Sub_Services">
+        <PropertyRef Name="Main_Services_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Permissions_User_Permissions">
+    <End Role="User_Permissions" Type="Self.User_Permissions" Multiplicity="0..1" />
+    <End Role="User_Permissions1" Type="Self.User_Permissions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Permissions">
+        <PropertyRef Name="User_Permissions_ID" />
+      </Principal>
+      <Dependent Role="User_Permissions1">
+        <PropertyRef Name="SubPageOF" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Permissions_User_Permissions_Type">
+    <End Role="User_Permissions_Type" Type="Self.User_Permissions_Type" Multiplicity="0..1" />
+    <End Role="User_Permissions" Type="Self.User_Permissions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Permissions_Type">
+        <PropertyRef Name="User_Permissions_Type_ID" />
+      </Principal>
+      <Dependent Role="User_Permissions">
+        <PropertyRef Name="User_Permissions_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_User_Active">
+    <End Role="User_Active" Type="Self.User_Active" Multiplicity="0..1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Active">
+        <PropertyRef Name="User_Active_ID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="User_Active_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_User_Permissions_Type">
+    <End Role="User_Permissions_Type" Type="Self.User_Permissions_Type" Multiplicity="0..1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User_Permissions_Type">
+        <PropertyRef Name="User_Permissions_Type_ID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="User_Permissions_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbPrivilage_IAUModelStoreContainer">
+    <EntitySet Name="Applicant_Type" EntityType="Self.Applicant_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ID_Document" EntityType="Self.ID_Document" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Provider_Academic_Services" EntityType="Self.Provider_Academic_Services" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request_Data" EntityType="Self.Request_Data" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request_File" EntityType="Self.Request_File" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request_Log" EntityType="Self.Request_Log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request_State" EntityType="Self.Request_State" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request_Type" EntityType="Self.Request_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supporting_Documents" EntityType="Self.Supporting_Documents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Active" EntityType="Self.User_Active" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Permissions" EntityType="Self.User_Permissions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Permissions_Type" EntityType="Self.User_Permissions_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Documents_Provider_Academic_Services" Association="Self.FK_Documents_Provider_Academic_Services">
+      <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Documents_Supporting_Documents" Association="Self.FK_Documents_Supporting_Documents">
+      <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Main_Services_Provider_Academic_Services" Association="Self.FK_Main_Services_Provider_Academic_Services">
+      <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
+      <End Role="Main_Services" EntitySet="Main_Services" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="Self.FK_Personel_Data_Applicant_Type">
+      <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Country" Association="Self.FK_Personel_Data_Country">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_ID_Document" Association="Self.FK_Personel_Data_ID_Document">
+      <End Role="ID_Document" EntitySet="ID_Document" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Nationality" Association="Self.FK_Personel_Data_Nationality">
+      <End Role="Nationality" EntitySet="Nationality" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="Self.FK_Personel_Data_Title_Middle_Names">
+      <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Request_State" Association="Self.FK_Request_Data_Request_State">
+      <End Role="Request_State" EntitySet="Request_State" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Request_Type" Association="Self.FK_Request_Data_Request_Type">
+      <End Role="Request_Type" EntitySet="Request_Type" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Service_Type" Association="Self.FK_Request_Data_Service_Type">
+      <End Role="Service_Type" EntitySet="Service_Type" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Sub_Services" Association="Self.FK_Request_Data_Sub_Services">
+      <End Role="Sub_Services" EntitySet="Sub_Services" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_File_Request_Data" Association="Self.FK_Request_File_Request_Data">
+      <End Role="Request_Data" EntitySet="Request_Data" />
+      <End Role="Request_File" EntitySet="Request_File" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Log_Employee" Association="Self.FK_Request_Log_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Request_Log" EntitySet="Request_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Log_Request_State" Association="Self.FK_Request_Log_Request_State">
+      <End Role="Request_State" EntitySet="Request_State" />
+      <End Role="Request_Log" EntitySet="Request_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_State_Request_Data" Association="Self.FK_Request_State_Request_Data">
+      <End Role="Request_Data" EntitySet="Request_Data" />
+      <End Role="Request_Log" EntitySet="Request_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
+      <End Role="Main_Services" EntitySet="Main_Services" />
+      <End Role="Sub_Services" EntitySet="Sub_Services" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Permissions_User_Permissions" Association="Self.FK_User_Permissions_User_Permissions">
+      <End Role="User_Permissions" EntitySet="User_Permissions" />
+      <End Role="User_Permissions1" EntitySet="User_Permissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Permissions_User_Permissions_Type" Association="Self.FK_User_Permissions_User_Permissions_Type">
+      <End Role="User_Permissions_Type" EntitySet="User_Permissions_Type" />
+      <End Role="User_Permissions" EntitySet="User_Permissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_User_Active" Association="Self.FK_Users_User_Active">
+      <End Role="User_Active" EntitySet="User_Active" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_User_Permissions_Type" Association="Self.FK_Users_User_Permissions_Type">
+      <End Role="User_Permissions_Type" EntitySet="User_Permissions_Type" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

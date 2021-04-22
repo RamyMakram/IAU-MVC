@@ -1,0 +1,85 @@
+﻿@model IAUAdmin.DTO.Entity.RequestTypeDTO
+@{
+	ViewBag.Title = "Create Type";
+	ViewBag.pTitle = "Create Type";
+	ViewBag.pageTitle = "Request Types";
+	ViewBag.arTitle = "اضافة نوع";
+	ViewBag.arpTitle = "اضافة نوع";
+	ViewBag.arpageTitle = "أنواع الطلبات";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
+	span.select2 {
+		width: 100% !important
+	}
+</style>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+
+				@using (Html.BeginForm("Create", "RequestType", FormMethod.Post, new { encType = "multipart/form-data" }))
+				{
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-name" for="name">Name</label>
+								@Html.TextBoxFor(q => q.Request_Type_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
+							</div>
+							<div class="form-group">
+								<label key="t-image" for="name">Image</label>
+								<div class="custom-file">
+									@Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input", @type = "file", @name = "name", @id = "customFile" })
+									<label class="custom-file-label" for="customFile">Choose file</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-enname" for="enname">Mobile</label>
+								@Html.TextBoxFor(q => q.Request_Type_Name_EN, new { @class = "form-control", @name = "enname", @id = "enname" })
+							</div>
+						</div>
+					</div>
+					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+					@Html.ActionLink("Cancel", "Home", "RequestType", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+				}
+
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>

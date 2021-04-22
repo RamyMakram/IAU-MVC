@@ -134,8 +134,8 @@
           <Property Name="Main_Services_ID" Type="int" Nullable="false" />
           <Property Name="Main_Services_Name_EN" Type="nvarchar(max)" />
           <Property Name="Main_Services_Name_AR" Type="nvarchar(max)" />
-          <Property Name="Provider_Academic_Services_ID" Type="int" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="UnitID" Type="int" />
         </EntityType>
         <EntityType Name="Nationality">
           <Key>
@@ -184,15 +184,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Personel_Data' does n
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="SubOF" Type="int" />
           <Property Name="DetailedFrom" Type="int" />
-        </EntityType>
-        <EntityType Name="Provider_Academic_Services">
-          <Key>
-            <PropertyRef Name="Provider_Academic_Services_ID" />
-          </Key>
-          <Property Name="Provider_Academic_Services_ID" Type="int" Nullable="false" />
-          <Property Name="Provider_Academic_Services_Name_EN" Type="nvarchar(max)" />
-          <Property Name="Provider_Academic_Services_Name_AR" Type="nvarchar(max)" />
-          <Property Name="IS_Action" Type="bit" />
         </EntityType>
         <EntityType Name="Purchase_Order_Form">
           <Key>
@@ -402,7 +393,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Property Name="Units_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Units_Location_ID" Type="int" />
           <Property Name="Units_Type_ID" Type="int" />
-          <Property Name="Main_Services_ID" Type="int" />
+          <Property Name="ServiceType_ID" Type="int" />
           <Property Name="Ref_Number" Type="nvarchar" MaxLength="100" />
           <Property Name="Building_Number" Type="nvarchar" MaxLength="3" />
           <Property Name="IS_Action" Type="bit" />
@@ -471,18 +462,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Documents_Provider_Academic_Services">
-          <End Role="Provider_Academic_Services" Type="Self.Provider_Academic_Services" Multiplicity="0..1" />
-          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Provider_Academic_Services">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
-            </Principal>
-            <Dependent Role="Request_Data">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Documents_Supporting_Documents">
           <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="0..1" />
           <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
@@ -495,15 +474,15 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Main_Services_Provider_Academic_Services">
-          <End Role="Provider_Academic_Services" Type="Self.Provider_Academic_Services" Multiplicity="0..1" />
+        <Association Name="FK_MainServices_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
           <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Provider_Academic_Services">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
             </Principal>
             <Dependent Role="Main_Services">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
+              <PropertyRef Name="UnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -807,18 +786,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Units_Main_Services">
-          <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="0..1" />
-          <End Role="Units" Type="Self.Units" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Main_Services">
-              <PropertyRef Name="Main_Services_ID" />
-            </Principal>
-            <Dependent Role="Units">
-              <PropertyRef Name="Main_Services_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Units_Request_Type_Request_Type">
           <End Role="Request_Type" Type="Self.Request_Type" Multiplicity="0..1" />
           <End Role="Units_Request_Type" Type="Self.Units_Request_Type" Multiplicity="*" />
@@ -840,6 +807,18 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Units_Request_Type">
               <PropertyRef Name="Units_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Service_Type">
+          <End Role="Service_Type" Type="Self.Service_Type" Multiplicity="0..1" />
+          <End Role="Units" Type="Self.Units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service_Type">
+              <PropertyRef Name="Service_Type_ID" />
+            </Principal>
+            <Dependent Role="Units">
+              <PropertyRef Name="ServiceType_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -921,7 +900,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Provider_Academic_Services" EntityType="Self.Provider_Academic_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Purchase_Order_Form" EntityType="Self.Purchase_Order_Form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Purchase_Order_Form_Required" EntityType="Self.Purchase_Order_Form_Required" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
@@ -980,16 +958,12 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             <End Role="College_Administration" EntitySet="College_Administration" />
             <End Role="Department" EntitySet="Department" />
           </AssociationSet>
-          <AssociationSet Name="FK_Documents_Provider_Academic_Services" Association="Self.FK_Documents_Provider_Academic_Services">
-            <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
-            <End Role="Request_Data" EntitySet="Request_Data" />
-          </AssociationSet>
           <AssociationSet Name="FK_Documents_Supporting_Documents" Association="Self.FK_Documents_Supporting_Documents">
             <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
             <End Role="Request_Data" EntitySet="Request_Data" />
           </AssociationSet>
-          <AssociationSet Name="FK_Main_Services_Provider_Academic_Services" Association="Self.FK_Main_Services_Provider_Academic_Services">
-            <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
+          <AssociationSet Name="FK_MainServices_Units" Association="Self.FK_MainServices_Units">
+            <End Role="Units" EntitySet="Units" />
             <End Role="Main_Services" EntitySet="Main_Services" />
           </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Country" Association="Self.FK_Personel_Data_Country">
@@ -1092,10 +1066,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             <End Role="Location" EntitySet="Location" />
             <End Role="Units_Location" EntitySet="Units_Location" />
           </AssociationSet>
-          <AssociationSet Name="FK_Units_Main_Services" Association="Self.FK_Units_Main_Services">
-            <End Role="Main_Services" EntitySet="Main_Services" />
-            <End Role="Units" EntitySet="Units" />
-          </AssociationSet>
           <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="Self.FK_Units_Request_Type_Request_Type">
             <End Role="Request_Type" EntitySet="Request_Type" />
             <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
@@ -1103,6 +1073,10 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <AssociationSet Name="FK_Units_Request_Type_Units" Association="Self.FK_Units_Request_Type_Units">
             <End Role="Units" EntitySet="Units" />
             <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Service_Type" Association="Self.FK_Units_Service_Type">
+            <End Role="Service_Type" EntitySet="Service_Type" />
+            <End Role="Units" EntitySet="Units" />
           </AssociationSet>
           <AssociationSet Name="FK_Units_Units_Location" Association="Self.FK_Units_Units_Location">
             <End Role="Units_Location" EntitySet="Units_Location" />
@@ -1147,7 +1121,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <EntitySet Name="Main_Services" EntityType="MostafidDBModel.Main_Services" />
           <EntitySet Name="Nationality" EntityType="MostafidDBModel.Nationality" />
           <EntitySet Name="Privilage" EntityType="MostafidDBModel.Privilage" />
-          <EntitySet Name="Provider_Academic_Services" EntityType="MostafidDBModel.Provider_Academic_Services" />
           <EntitySet Name="Purchase_Order_Form" EntityType="MostafidDBModel.Purchase_Order_Form" />
           <EntitySet Name="Purchase_Order_Form_Required" EntityType="MostafidDBModel.Purchase_Order_Form_Required" />
           <EntitySet Name="Region" EntityType="MostafidDBModel.Region" />
@@ -1230,17 +1203,13 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             <End Role="Location" EntitySet="Location" />
             <End Role="Units_Location" EntitySet="Units_Location" />
           </AssociationSet>
-          <AssociationSet Name="FK_Main_Services_Provider_Academic_Services" Association="MostafidDBModel.FK_Main_Services_Provider_Academic_Services">
-            <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
+          <AssociationSet Name="FK_MainServices_Units" Association="MostafidDBModel.FK_MainServices_Units">
+            <End Role="Units" EntitySet="Units" />
             <End Role="Main_Services" EntitySet="Main_Services" />
           </AssociationSet>
           <AssociationSet Name="FK_Sub_Services_Main_Services" Association="MostafidDBModel.FK_Sub_Services_Main_Services">
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Units_Main_Services" Association="MostafidDBModel.FK_Units_Main_Services">
-            <End Role="Main_Services" EntitySet="Main_Services" />
-            <End Role="Units" EntitySet="Units" />
           </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Nationality" Association="MostafidDBModel.FK_Personel_Data_Nationality">
             <End Role="Nationality" EntitySet="Nationality" />
@@ -1253,10 +1222,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <AssociationSet Name="FK_Privilage_Privilage1" Association="MostafidDBModel.FK_Privilage_Privilage1">
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Privilage1" EntitySet="Privilage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Documents_Provider_Academic_Services" Association="MostafidDBModel.FK_Documents_Provider_Academic_Services">
-            <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
-            <End Role="Request_Data" EntitySet="Request_Data" />
           </AssociationSet>
           <AssociationSet Name="FK_Purchase_Order_Form_Required_Purchase_Order_Form" Association="MostafidDBModel.FK_Purchase_Order_Form_Required_Purchase_Order_Form">
             <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
@@ -1305,6 +1270,10 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDBModel.FK_Units_Request_Type_Request_Type">
             <End Role="Request_Type" EntitySet="Request_Type" />
             <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Service_Type" Association="MostafidDBModel.FK_Units_Service_Type">
+            <End Role="Service_Type" EntitySet="Service_Type" />
+            <End Role="Units" EntitySet="Units" />
           </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names">
             <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
@@ -1469,11 +1438,10 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Property Name="Main_Services_ID" Type="Int32" Nullable="false" />
           <Property Name="Main_Services_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Main_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Provider_Academic_Services_ID" Type="Int32" />
           <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="Provider_Academic_Services" Relationship="MostafidDBModel.FK_Main_Services_Provider_Academic_Services" FromRole="Main_Services" ToRole="Provider_Academic_Services" />
+          <Property Name="UnitID" Type="Int32" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_MainServices_Units" FromRole="Main_Services" ToRole="Units" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Main_Services" ToRole="Sub_Services" />
-          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Units_Main_Services" FromRole="Main_Services" ToRole="Units" />
         </EntityType>
         <EntityType Name="Nationality">
           <Key>
@@ -1500,17 +1468,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <NavigationProperty Name="Privilage2" Relationship="MostafidDBModel.FK_Privilage_Privilage" FromRole="Privilage1" ToRole="Privilage" />
           <NavigationProperty Name="Privilage11" Relationship="MostafidDBModel.FK_Privilage_Privilage1" FromRole="Privilage" ToRole="Privilage1" />
           <NavigationProperty Name="Privilage3" Relationship="MostafidDBModel.FK_Privilage_Privilage1" FromRole="Privilage1" ToRole="Privilage" />
-        </EntityType>
-        <EntityType Name="Provider_Academic_Services">
-          <Key>
-            <PropertyRef Name="Provider_Academic_Services_ID" />
-          </Key>
-          <Property Name="Provider_Academic_Services_ID" Type="Int32" Nullable="false" />
-          <Property Name="Provider_Academic_Services_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Provider_Academic_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_Main_Services_Provider_Academic_Services" FromRole="Provider_Academic_Services" ToRole="Main_Services" />
-          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Documents_Provider_Academic_Services" FromRole="Provider_Academic_Services" ToRole="Request_Data" />
         </EntityType>
         <EntityType Name="Purchase_Order_Form">
           <Key>
@@ -1608,7 +1565,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Property Name="Request_State_ID" Type="Byte" Nullable="false" />
           <Property Name="signpdfpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsTwasul_OC" Type="Boolean" />
-          <NavigationProperty Name="Provider_Academic_Services" Relationship="MostafidDBModel.FK_Documents_Provider_Academic_Services" FromRole="Request_Data" ToRole="Provider_Academic_Services" />
           <NavigationProperty Name="Supporting_Documents" Relationship="MostafidDBModel.FK_Documents_Supporting_Documents" FromRole="Request_Data" ToRole="Supporting_Documents" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
           <NavigationProperty Name="Request_Type" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
@@ -1673,6 +1629,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Service_Type" FromRole="Service_Type" ToRole="Request_Data" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Service_Type" ToRole="Units" />
         </EntityType>
         <EntityType Name="Sub_Services">
           <Key>
@@ -1744,11 +1701,12 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Property Name="Units_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Units_Location_ID" Type="Int32" />
           <Property Name="Units_Type_ID" Type="Int32" />
-          <Property Name="Main_Services_ID" Type="Int32" />
+          <Property Name="ServiceType_ID" Type="Int32" />
           <Property Name="Ref_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Building_Number" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_Units_Main_Services" FromRole="Units" ToRole="Main_Services" />
+          <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_MainServices_Units" FromRole="Units" ToRole="Main_Services" />
+          <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
           <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />
           <NavigationProperty Name="Units_Location" Relationship="MostafidDBModel.FK_Units_Units_Location" FromRole="Units" ToRole="Units_Location" />
           <NavigationProperty Name="Units_Type" Relationship="MostafidDBModel.FK_Units_Units_Type" FromRole="Units" ToRole="Units_Type" />
@@ -2017,15 +1975,15 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Main_Services_Provider_Academic_Services">
-          <End Type="MostafidDBModel.Provider_Academic_Services" Role="Provider_Academic_Services" Multiplicity="0..1" />
+        <Association Name="FK_MainServices_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Main_Services" Role="Main_Services" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Provider_Academic_Services">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
             </Principal>
             <Dependent Role="Main_Services">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
+              <PropertyRef Name="UnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2037,18 +1995,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
               <PropertyRef Name="Main_Services_ID" />
             </Principal>
             <Dependent Role="Sub_Services">
-              <PropertyRef Name="Main_Services_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Units_Main_Services">
-          <End Type="MostafidDBModel.Main_Services" Role="Main_Services" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Main_Services">
-              <PropertyRef Name="Main_Services_ID" />
-            </Principal>
-            <Dependent Role="Units">
               <PropertyRef Name="Main_Services_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2086,18 +2032,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Privilage1">
               <PropertyRef Name="DetailedFrom" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Documents_Provider_Academic_Services">
-          <End Type="MostafidDBModel.Provider_Academic_Services" Role="Provider_Academic_Services" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Provider_Academic_Services">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
-            </Principal>
-            <Dependent Role="Request_Data">
-              <PropertyRef Name="Provider_Academic_Services_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2242,6 +2176,18 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Units_Request_Type">
               <PropertyRef Name="Request_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Service_Type">
+          <End Type="MostafidDBModel.Service_Type" Role="Service_Type" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service_Type">
+              <PropertyRef Name="Service_Type_ID" />
+            </Principal>
+            <Dependent Role="Units">
+              <PropertyRef Name="ServiceType_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2438,8 +2384,8 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <EntitySetMapping Name="Main_Services">
             <EntityTypeMapping TypeName="MostafidDBModel.Main_Services">
               <MappingFragment StoreEntitySet="Main_Services">
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-                <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
                 <ScalarProperty Name="Main_Services_Name_AR" ColumnName="Main_Services_Name_AR" />
                 <ScalarProperty Name="Main_Services_Name_EN" ColumnName="Main_Services_Name_EN" />
                 <ScalarProperty Name="Main_Services_ID" ColumnName="Main_Services_ID" />
@@ -2465,16 +2411,6 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
                 <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Provider_Academic_Services">
-            <EntityTypeMapping TypeName="MostafidDBModel.Provider_Academic_Services">
-              <MappingFragment StoreEntitySet="Provider_Academic_Services">
-                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-                <ScalarProperty Name="Provider_Academic_Services_Name_AR" ColumnName="Provider_Academic_Services_Name_AR" />
-                <ScalarProperty Name="Provider_Academic_Services_Name_EN" ColumnName="Provider_Academic_Services_Name_EN" />
-                <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2688,7 +2624,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Building_Number" ColumnName="Building_Number" />
                 <ScalarProperty Name="Ref_Number" ColumnName="Ref_Number" />
-                <ScalarProperty Name="Main_Services_ID" ColumnName="Main_Services_ID" />
+                <ScalarProperty Name="ServiceType_ID" ColumnName="ServiceType_ID" />
                 <ScalarProperty Name="Units_Type_ID" ColumnName="Units_Type_ID" />
                 <ScalarProperty Name="Units_Location_ID" ColumnName="Units_Location_ID" />
                 <ScalarProperty Name="Units_Name_EN" ColumnName="Units_Name_EN" />

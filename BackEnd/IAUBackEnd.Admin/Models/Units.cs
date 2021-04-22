@@ -17,6 +17,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Units()
         {
+            this.Main_Services = new HashSet<Main_Services>();
             this.Units_Request_Type = new HashSet<Units_Request_Type>();
         }
     
@@ -25,12 +26,14 @@ namespace IAUBackEnd.Admin.Models
         public string Units_Name_EN { get; set; }
         public Nullable<int> Units_Location_ID { get; set; }
         public Nullable<int> Units_Type_ID { get; set; }
-        public Nullable<int> Main_Services_ID { get; set; }
+        public Nullable<int> ServiceType_ID { get; set; }
         public string Ref_Number { get; set; }
         public string Building_Number { get; set; }
         public Nullable<bool> IS_Action { get; set; }
     
-        public virtual Main_Services Main_Services { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Main_Services> Main_Services { get; set; }
+        public virtual Service_Type Service_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Units_Request_Type> Units_Request_Type { get; set; }
         public virtual Units_Location Units_Location { get; set; }

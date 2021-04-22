@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MostafidDatabaseModelStoreContainer" CdmEntityContainer="MostafidDatabaseEntities">
+    <EntitySetMapping Name="Applicant_Type">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Applicant_Type">
+        <MappingFragment StoreEntitySet="Applicant_Type">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Applicant_Type_Name_AR" ColumnName="Applicant_Type_Name_AR" />
+          <ScalarProperty Name="Applicant_Type_Name_EN" ColumnName="Applicant_Type_Name_EN" />
+          <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Authority_Holder">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Authority_Holder">
+        <MappingFragment StoreEntitySet="Authority_Holder">
+          <ScalarProperty Name="Authority_Holder_Name_EN" ColumnName="Authority_Holder_Name_EN" />
+          <ScalarProperty Name="Authority_Holder_Name_AR" ColumnName="Authority_Holder_Name_AR" />
+          <ScalarProperty Name="Authority_Holder_ID" ColumnName="Authority_Holder_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="City">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.City">
+        <MappingFragment StoreEntitySet="City">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Region_ID" ColumnName="Region_ID" />
+          <ScalarProperty Name="City_Name_EN" ColumnName="City_Name_EN" />
+          <ScalarProperty Name="City_Name_AR" ColumnName="City_Name_AR" />
+          <ScalarProperty Name="City_ID" ColumnName="City_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="College_Administration">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.College_Administration">
+        <MappingFragment StoreEntitySet="College_Administration">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="College_Administration_Name_EN" ColumnName="College_Administration_Name_EN" />
+          <ScalarProperty Name="College_Administration_Name_AR" ColumnName="College_Administration_Name_AR" />
+          <ScalarProperty Name="College_Administration_ID" ColumnName="College_Administration_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Country">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Country">
+        <MappingFragment StoreEntitySet="Country">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Country_Name_AR" ColumnName="Country_Name_AR" />
+          <ScalarProperty Name="Country_Name_EN" ColumnName="Country_Name_EN" />
+          <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Department">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="College_Administration_ID" ColumnName="College_Administration_ID" />
+          <ScalarProperty Name="Department_Name_EN" ColumnName="Department_Name_EN" />
+          <ScalarProperty Name="Department_Name_AR" ColumnName="Department_Name_AR" />
+          <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employee">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Employee_Name" ColumnName="Employee_Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Engagements_Department">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Engagements_Department">
+        <MappingFragment StoreEntitySet="Engagements_Department">
+          <ScalarProperty Name="Engagements_Department_Name_EN" ColumnName="Engagements_Department_Name_EN" />
+          <ScalarProperty Name="Engagements_Department_Name_AR" ColumnName="Engagements_Department_Name_AR" />
+          <ScalarProperty Name="Engagements_Department_ID" ColumnName="Engagements_Department_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Event_Publication_Violation">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Event_Publication_Violation">
+        <MappingFragment StoreEntitySet="Event_Publication_Violation">
+          <ScalarProperty Name="Event_Publication_Violation_Name_EN" ColumnName="Event_Publication_Violation_Name_EN" />
+          <ScalarProperty Name="Event_Publication_Violation_Name_AR" ColumnName="Event_Publication_Violation_Name_AR" />
+          <ScalarProperty Name="Event_Publication_Violation_ID" ColumnName="Event_Publication_Violation_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FollowUp_Publication_Violations">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.FollowUp_Publication_Violations">
+        <MappingFragment StoreEntitySet="FollowUp_Publication_Violations">
+          <ScalarProperty Name="FollowUp_Publication_Violations_EN" ColumnName="FollowUp_Publication_Violations_EN" />
+          <ScalarProperty Name="FollowUp_Publication_Violations_AR" ColumnName="FollowUp_Publication_Violations_AR" />
+          <ScalarProperty Name="FollowUp_Publication_Violations_ID" ColumnName="FollowUp_Publication_Violations_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ID_Document">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.ID_Document">
+        <MappingFragment StoreEntitySet="ID_Document">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Document_Name_AR" ColumnName="Document_Name_AR" />
+          <ScalarProperty Name="Document_Name_EN" ColumnName="Document_Name_EN" />
+          <ScalarProperty Name="ID_Document1" ColumnName="ID_Document" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Main_Services">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Main_Services">
+        <MappingFragment StoreEntitySet="Main_Services">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
+          <ScalarProperty Name="Main_Services_Name_AR" ColumnName="Main_Services_Name_AR" />
+          <ScalarProperty Name="Main_Services_Name_EN" ColumnName="Main_Services_Name_EN" />
+          <ScalarProperty Name="Main_Services_ID" ColumnName="Main_Services_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Nationality">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Nationality">
+        <MappingFragment StoreEntitySet="Nationality">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Nationality_Name_AR" ColumnName="Nationality_Name_AR" />
+          <ScalarProperty Name="Nationality_Name_EN" ColumnName="Nationality_Name_EN" />
+          <ScalarProperty Name="Nationality_ID" ColumnName="Nationality_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provider_Academic_Services">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Provider_Academic_Services">
+        <MappingFragment StoreEntitySet="Provider_Academic_Services">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Provider_Academic_Services_Name_AR" ColumnName="Provider_Academic_Services_Name_AR" />
+          <ScalarProperty Name="Provider_Academic_Services_Name_EN" ColumnName="Provider_Academic_Services_Name_EN" />
+          <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Purchase_Order_Form">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Purchase_Order_Form">
+        <MappingFragment StoreEntitySet="Purchase_Order_Form">
+          <ScalarProperty Name="Engagements_Department_Competent_Date" ColumnName="Engagements_Department_Competent_Date" />
+          <ScalarProperty Name="Engagements_Department_Competent_Signature" ColumnName="Engagements_Department_Competent_Signature" />
+          <ScalarProperty Name="Engagements_Department_Competent_Employee" ColumnName="Engagements_Department_Competent_Employee" />
+          <ScalarProperty Name="Engagements_Department_Link_Number" ColumnName="Engagements_Department_Link_Number" />
+          <ScalarProperty Name="Engagements_Department_Item_No1" ColumnName="Engagements_Department_Item_No1" />
+          <ScalarProperty Name="Engagements_Department_Price" ColumnName="Engagements_Department_Price" />
+          <ScalarProperty Name="Engagements_Department_ID" ColumnName="Engagements_Department_ID" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_Date" ColumnName="Statement_Department_File_Sent_Them_Date" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_Signature" ColumnName="Statement_Department_File_Sent_Them_Signature" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_Responsible_Name" ColumnName="Statement_Department_File_Sent_Them_Responsible_Name" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
+          <ScalarProperty Name="Authority_Holder_Date" ColumnName="Authority_Holder_Date" />
+          <ScalarProperty Name="Authority_Holder_Signature" ColumnName="Authority_Holder_Signature" />
+          <ScalarProperty Name="Authority_Holder_Name" ColumnName="Authority_Holder_Name" />
+          <ScalarProperty Name="Authority_Holder_ID" ColumnName="Authority_Holder_ID" />
+          <ScalarProperty Name="Name_Warehouse_Keeper_Date" ColumnName="Name_Warehouse_Keeper_Date" />
+          <ScalarProperty Name="Name_Warehouse_Keeper_Signature" ColumnName="Name_Warehouse_Keeper_Signature" />
+          <ScalarProperty Name="Name_Warehouse_Keeper_Name" ColumnName="Name_Warehouse_Keeper_Name" />
+          <ScalarProperty Name="Event_Publication_Violation_Date" ColumnName="Event_Publication_Violation_Date" />
+          <ScalarProperty Name="Event_Publication_Violation_Signature" ColumnName="Event_Publication_Violation_Signature" />
+          <ScalarProperty Name="Event_Publication_Violation_Name" ColumnName="Event_Publication_Violation_Name" />
+          <ScalarProperty Name="Event_Publication_Violation_ID" ColumnName="Event_Publication_Violation_ID" />
+          <ScalarProperty Name="FollowUp_Publication_Violations_Date" ColumnName="FollowUp_Publication_Violations_Date" />
+          <ScalarProperty Name="FollowUp_Publication_Violations_Signature" ColumnName="FollowUp_Publication_Violations_Signature" />
+          <ScalarProperty Name="FollowUp_Publication_Violations_Name" ColumnName="FollowUp_Publication_Violations_Name" />
+          <ScalarProperty Name="FollowUp_Publication_Violations_ID" ColumnName="FollowUp_Publication_Violations_ID" />
+          <ScalarProperty Name="Supervisor_Signature" ColumnName="Supervisor_Signature" />
+          <ScalarProperty Name="Supervisor_Name" ColumnName="Supervisor_Name" />
+          <ScalarProperty Name="Mobile_Finder" ColumnName="Mobile_Finder" />
+          <ScalarProperty Name="Justifications_Signature" ColumnName="Justifications_Signature" />
+          <ScalarProperty Name="College" ColumnName="College" />
+          <ScalarProperty Name="Job_Title" ColumnName="Job_Title" />
+          <ScalarProperty Name="Name_Principal_Researcher" ColumnName="Name_Principal_Researcher" />
+          <ScalarProperty Name="Distracted_From_Item" ColumnName="Distracted_From_Item" />
+          <ScalarProperty Name="Research_Project_Need_No" ColumnName="Research_Project_Need_No" />
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Supplier_Names_ID_3" ColumnName="Supplier_Names_ID_3" />
+          <ScalarProperty Name="Supplier_Names_ID_2" ColumnName="Supplier_Names_ID_2" />
+          <ScalarProperty Name="Supplier_Names_ID_1" ColumnName="Supplier_Names_ID_1" />
+          <ScalarProperty Name="Purchase_Order_Form_Date" ColumnName="Purchase_Order_Form_Date" />
+          <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
+          <ScalarProperty Name="Type_Support_Project_ID" ColumnName="Type_Support_Project_ID" />
+          <ScalarProperty Name="Purchase_Order_Form_ID" ColumnName="Purchase_Order_Form_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Purchase_Order_Form_Required">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Purchase_Order_Form_Required">
+        <MappingFragment StoreEntitySet="Purchase_Order_Form_Required">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Purchase_Order_Form_ID" ColumnName="Purchase_Order_Form_ID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Required_Specifications_Name" ColumnName="Required_Specifications_Name" />
+          <ScalarProperty Name="Purchase_Order_Form_Required_ID" ColumnName="Purchase_Order_Form_Required_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Region">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Region">
+        <MappingFragment StoreEntitySet="Region">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+          <ScalarProperty Name="Region_Name_EN" ColumnName="Region_Name_EN" />
+          <ScalarProperty Name="Region_Name_AR" ColumnName="Region_Name_AR" />
+          <ScalarProperty Name="Region_ID" ColumnName="Region_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_Data">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_Data">
+        <MappingFragment StoreEntitySet="Request_Data">
+          <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
+          <ScalarProperty Name="signpdfpath" ColumnName="signpdfpath" />
+          <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
+          <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
+          <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
+          <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
+          <ScalarProperty Name="Supporting_Documents_ID" ColumnName="Supporting_Documents_ID" />
+          <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
+          <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
+          <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
+          <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_File">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_File">
+        <MappingFragment StoreEntitySet="Request_File">
+          <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="File_Path" ColumnName="File_Path" />
+          <ScalarProperty Name="File_Name" ColumnName="File_Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_Log">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_Log">
+        <MappingFragment StoreEntitySet="Request_Log">
+          <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_State">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_State">
+        <MappingFragment StoreEntitySet="Request_State">
+          <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
+          <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
+          <ScalarProperty Name="State_ID" ColumnName="State_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_Type">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_Type">
+        <MappingFragment StoreEntitySet="Request_Type">
+          <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Request_Type_Name_AR" ColumnName="Request_Type_Name_AR" />
+          <ScalarProperty Name="Request_Type_Name_EN" ColumnName="Request_Type_Name_EN" />
+          <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Service_Type">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Service_Type">
+        <MappingFragment StoreEntitySet="Service_Type">
+          <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Service_Type_Name_AR" ColumnName="Service_Type_Name_AR" />
+          <ScalarProperty Name="Service_Type_Name_EN" ColumnName="Service_Type_Name_EN" />
+          <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sub_Services">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Sub_Services">
+        <MappingFragment StoreEntitySet="Sub_Services">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Main_Services_ID" ColumnName="Main_Services_ID" />
+          <ScalarProperty Name="Sub_Services_Name_AR" ColumnName="Sub_Services_Name_AR" />
+          <ScalarProperty Name="Sub_Services_Name_EN" ColumnName="Sub_Services_Name_EN" />
+          <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Supplier_Names">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Supplier_Names">
+        <MappingFragment StoreEntitySet="Supplier_Names">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Supplier_Names_Name_EN" ColumnName="Supplier_Names_Name_EN" />
+          <ScalarProperty Name="Supplier_Names_Name_AR" ColumnName="Supplier_Names_Name_AR" />
+          <ScalarProperty Name="Supplier_Names_ID" ColumnName="Supplier_Names_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Supporting_Documents">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Supporting_Documents">
+        <MappingFragment StoreEntitySet="Supporting_Documents">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Supporting_Documents_Name_AR" ColumnName="Supporting_Documents_Name_AR" />
+          <ScalarProperty Name="Supporting_Documents_Name_EN" ColumnName="Supporting_Documents_Name_EN" />
+          <ScalarProperty Name="Supporting_Documents_ID" ColumnName="Supporting_Documents_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Title_Middle_Names">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Title_Middle_Names">
+        <MappingFragment StoreEntitySet="Title_Middle_Names">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Title_Middle_Names_Name_AR" ColumnName="Title_Middle_Names_Name_AR" />
+          <ScalarProperty Name="Title_Middle_Names_Name_EN" ColumnName="Title_Middle_Names_Name_EN" />
+          <ScalarProperty Name="Title_Middle_Names_ID" ColumnName="Title_Middle_Names_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Type_Support_Project">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Type_Support_Project">
+        <MappingFragment StoreEntitySet="Type_Support_Project">
+          <ScalarProperty Name="Type_Support_Project_Name_EN" ColumnName="Type_Support_Project_Name_EN" />
+          <ScalarProperty Name="Type_Support_Project_Name_AR" ColumnName="Type_Support_Project_Name_AR" />
+          <ScalarProperty Name="Type_Support_Project_ID" ColumnName="Type_Support_Project_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Active">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.User_Active">
+        <MappingFragment StoreEntitySet="User_Active">
+          <ScalarProperty Name="User_Active_Name_EN" ColumnName="User_Active_Name_EN" />
+          <ScalarProperty Name="User_Active_Name_AR" ColumnName="User_Active_Name_AR" />
+          <ScalarProperty Name="User_Active_ID" ColumnName="User_Active_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Permissions">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.User_Permissions">
+        <MappingFragment StoreEntitySet="User_Permissions">
+          <ScalarProperty Name="SubPageOF" ColumnName="SubPageOF" />
+          <ScalarProperty Name="User_Permissions_Type_ID" ColumnName="User_Permissions_Type_ID" />
+          <ScalarProperty Name="User_Permissions_Name_EN" ColumnName="User_Permissions_Name_EN" />
+          <ScalarProperty Name="User_Permissions_Name_AR" ColumnName="User_Permissions_Name_AR" />
+          <ScalarProperty Name="User_Permissions_ID" ColumnName="User_Permissions_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User_Permissions_Type">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.User_Permissions_Type">
+        <MappingFragment StoreEntitySet="User_Permissions_Type">
+          <ScalarProperty Name="User_Permissions_Type_Name_EN" ColumnName="User_Permissions_Type_Name_EN" />
+          <ScalarProperty Name="User_Permissions_Type_Name_AR" ColumnName="User_Permissions_Type_Name_AR" />
+          <ScalarProperty Name="User_Permissions_Type_ID" ColumnName="User_Permissions_Type_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Users">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="User_Active_ID" ColumnName="User_Active_ID" />
+          <ScalarProperty Name="User_Permissions_Type_ID" ColumnName="User_Permissions_Type_ID" />
+          <ScalarProperty Name="User_Password" ColumnName="User_Password" />
+          <ScalarProperty Name="User_Email" ColumnName="User_Email" />
+          <ScalarProperty Name="User_Mobile" ColumnName="User_Mobile" />
+          <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+          <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Personel_Data">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Personel_Data">
+        <MappingFragment StoreEntitySet="Personel_Data">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Region_Postal_Code_2" ColumnName="Region_Postal_Code_2" />
+          <ScalarProperty Name="Region_Postal_Code_1" ColumnName="Region_Postal_Code_1" />
+          <ScalarProperty Name="City_Country_2" ColumnName="City_Country_2" />
+          <ScalarProperty Name="City_Country_1" ColumnName="City_Country_1" />
+          <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+          <ScalarProperty Name="Nationality_ID" ColumnName="Nationality_ID" />
+          <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+          <ScalarProperty Name="Middle_Name" ColumnName="Middle_Name" />
+          <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+          <ScalarProperty Name="Title_Middle_Names_ID" ColumnName="Title_Middle_Names_ID" />
+          <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
+          <ScalarProperty Name="IAU_ID_Number" ColumnName="IAU_ID_Number" />
+          <ScalarProperty Name="IAU_Affiliate_ID" ColumnName="IAU_Affiliate_ID" />
+          <ScalarProperty Name="ID_Number" ColumnName="ID_Number" />
+          <ScalarProperty Name="ID_Document" ColumnName="ID_Document" />
+          <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Statement_Department_File_Sent_Them">
+      <EntityTypeMapping TypeName="MostafidDatabaseModel.Statement_Department_File_Sent_Them">
+        <MappingFragment StoreEntitySet="Statement_Department_File_Sent_Them">
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

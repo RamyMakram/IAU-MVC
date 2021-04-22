@@ -18,6 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public MostafidDBEntities()
             : base("name=MostafidDBEntities")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -42,7 +43,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Main_Services> Main_Services { get; set; }
         public virtual DbSet<Nationality> Nationality { get; set; }
         public virtual DbSet<Privilage> Privilage { get; set; }
-        public virtual DbSet<Provider_Academic_Services> Provider_Academic_Services { get; set; }
         public virtual DbSet<Purchase_Order_Form> Purchase_Order_Form { get; set; }
         public virtual DbSet<Purchase_Order_Form_Required> Purchase_Order_Form_Required { get; set; }
         public virtual DbSet<Region> Region { get; set; }

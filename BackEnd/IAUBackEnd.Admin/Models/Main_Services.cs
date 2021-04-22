@@ -18,19 +18,16 @@ namespace IAUBackEnd.Admin.Models
         public Main_Services()
         {
             this.Sub_Services = new HashSet<Sub_Services>();
-            this.Units = new HashSet<Units>();
         }
     
         public int Main_Services_ID { get; set; }
         public string Main_Services_Name_EN { get; set; }
         public string Main_Services_Name_AR { get; set; }
-        public Nullable<int> Provider_Academic_Services_ID { get; set; }
         public Nullable<bool> IS_Action { get; set; }
+        public Nullable<int> UnitID { get; set; }
     
-        public virtual Provider_Academic_Services Provider_Academic_Services { get; set; }
+        public virtual Units Units { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sub_Services> Sub_Services { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Units> Units { get; set; }
     }
 }

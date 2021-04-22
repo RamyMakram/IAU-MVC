@@ -131,6 +131,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
+    <Compile Include="Controllers\RequestTypeController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\UnitLocationController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
@@ -2998,6 +2999,12 @@
     <Content Include="Views\UnitTypes\Detials.cshtml" />
     <Content Include="Views\UnitTypes\Edit.cshtml" />
     <Content Include="Views\UnitTypes\Home.cshtml" />
+    <Content Include="Views\RequestType\Active.cshtml" />
+    <Content Include="Views\RequestType\Create.cshtml" />
+    <Content Include="Views\RequestType\Deactive.cshtml" />
+    <Content Include="Views\RequestType\Detials.cshtml" />
+    <Content Include="Views\RequestType\Home.cshtml" />
+    <Content Include="Views\RequestType\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
