@@ -2981,7 +2981,6 @@
     <Content Include="Views\Email\Preview.cshtml" />
     <Content Include="Views\Statistics\Home.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
-    <Content Include="Views\Units\Home.cshtml" />
     <Content Include="Views\Locations\Create.cshtml" />
     <Content Include="Views\Locations\Deactive.cshtml" />
     <Content Include="Views\Locations\Detials.cshtml" />
@@ -3012,6 +3011,12 @@
     <Content Include="Views\ServiceTypes\Detials.cshtml" />
     <Content Include="Views\ServiceTypes\Edit.cshtml" />
     <Content Include="Views\ServiceTypes\Home.cshtml" />
+    <Content Include="Views\Units\Active.cshtml" />
+    <Content Include="Views\Units\Create.cshtml" />
+    <Content Include="Views\Units\Deactive.cshtml" />
+    <Content Include="Views\Units\Detials.cshtml" />
+    <Content Include="Views\Units\Edit.cshtml" />
+    <Content Include="Views\Units\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

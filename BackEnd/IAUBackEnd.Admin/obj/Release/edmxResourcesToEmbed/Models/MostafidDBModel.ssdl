@@ -298,7 +298,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Personel_Data' does n
     <Key>
       <PropertyRef Name="Request_Type_ID" />
     </Key>
-    <Property Name="Request_Type_ID" Type="int" Nullable="false" />
+    <Property Name="Request_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Request_Type_Name_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="Request_Type_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
@@ -308,7 +308,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Personel_Data' does n
     <Key>
       <PropertyRef Name="Service_Type_ID" />
     </Key>
-    <Property Name="Service_Type_ID" Type="int" Nullable="false" />
+    <Property Name="Service_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Service_Type_Name_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="Service_Type_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
@@ -392,6 +392,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
     <Property Name="Ref_Number" Type="nvarchar" MaxLength="100" />
     <Property Name="Building_Number" Type="nvarchar" MaxLength="3" />
     <Property Name="IS_Action" Type="bit" />
+    <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Units_Location">
     <Key>

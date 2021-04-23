@@ -48,7 +48,9 @@
     <Compile Include="Entity\PrivilgesDTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
+    <Compile Include="Entity\UnitsDTO.cs" />
     <Compile Include="Entity\UnitsLocDTO.cs" />
+    <Compile Include="Entity\Units_Request_TypeDTO.cs" />
     <Compile Include="Entity\UnitTypeDTO.cs" />
     <Compile Include="Entity\UserDTO.cs" />
     <Compile Include="Enums\GlobalEnum.cs" />

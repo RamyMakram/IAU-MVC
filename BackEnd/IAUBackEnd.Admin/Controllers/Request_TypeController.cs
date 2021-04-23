@@ -25,6 +25,10 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Request_Type });
 		}
+		public async Task<IHttpActionResult> GetActive()
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Request_Type.Where(q => q.IS_Action.Value) });
+		}
 
 		public async Task<IHttpActionResult> GetRequest_Type(int id)
 		{

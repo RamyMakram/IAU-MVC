@@ -377,6 +377,7 @@
     <EntitySetMapping Name="Units">
       <EntityTypeMapping TypeName="MostafidDBModel.Units">
         <MappingFragment StoreEntitySet="Units">
+          <ScalarProperty Name="IS_Mostafid" ColumnName="IS_Mostafid" />
           <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Building_Number" ColumnName="Building_Number" />
           <ScalarProperty Name="Ref_Number" ColumnName="Ref_Number" />

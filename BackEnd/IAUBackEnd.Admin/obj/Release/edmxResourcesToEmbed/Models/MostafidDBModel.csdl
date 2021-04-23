@@ -508,7 +508,7 @@
     <Key>
       <PropertyRef Name="Request_Type_ID" />
     </Key>
-    <Property Name="Request_Type_ID" Type="Int32" Nullable="false" />
+    <Property Name="Request_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Request_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
@@ -520,7 +520,7 @@
     <Key>
       <PropertyRef Name="Service_Type_ID" />
     </Key>
-    <Property Name="Service_Type_ID" Type="Int32" Nullable="false" />
+    <Property Name="Service_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Service_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Service_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
@@ -602,6 +602,7 @@
     <Property Name="Ref_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Building_Number" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
+    <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_MainServices_Units" FromRole="Units" ToRole="Main_Services" />
     <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
     <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />

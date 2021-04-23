@@ -1,593 +1,96 @@
-﻿
-
+﻿@model ICollection<IAUAdmin.DTO.Entity.UnitsDTO>
+@using System.Configuration;
 @{
-	ViewBag.Title = "Create Job";
-	ViewBag.pTitle = "Create Job";
-	ViewBag.pageTitle = "Jobs";
-	ViewBag.arTitle = "اضافة وظيفة";
-	ViewBag.arpTitle = "الوظائف";
-	ViewBag.arpageTitle = "اضافة وظيفة";
+	ViewBag.Title = "Home Page";
+	ViewBag.pageTitle = "Home Page";
+	ViewBag.pTitle = "Service Types";
+	ViewBag.arTitle = "الرئيسية";
+	ViewBag.arpageTitle = "الرئيسية";
+	ViewBag.arpTitle = "أنواع الخدمات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-	<!--begin::Fonts-->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
-	<!--end::Fonts-->
-	<link rel="shortcut icon" href="dashboard/assets/media/logos/fav.png" />
+<!-- DataTables -->
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
 
-	<link href="~/dashboard/assets/plugins/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet"
-		  type="text/css" />
+				@*<h4 class="card-title" key="t-user">All Users</h4>*@
+				<p class="card-title-desc" key="t-request-type">
+					Manage Users
+				</p>
 
-	<link href="~/dashboard/assets/plugins/global/plugins.bundle.rtl.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/plugins/custom/prismjs/prismjs.bundle.rtl.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/css/style.bundle.rtl.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/css/themes/layout/header/base/light.rtl.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/css/themes/layout/header/menu/light.rtl.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/css/themes/layout/brand/dark.rtl.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/css/themes/layout/aside/dark.rtl.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
-	<link href="~/dashboard/assets/plugins/custom/jstree/jstree.bundle.css" rel="stylesheet" type="text/css" />
+				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+					<thead>
+						<tr>
+							<th key="t-name">Unit Name</th>
+							@*<th key="t-enname">Type En Name</th>*@
+							@*<th key="t-image">Image</th>*@
+							<th key="t-activeTitle">Status</th>
+							<th ></th>
+						</tr>
+					</thead>
 
-
-<!-- end::Head -->
-<!-- begin::Body -->
-
-
-	<div class="d-flex flex-column flex-root" style="direction: rtl">
-		<!--begin::Page-->
-		<div class="d-flex flex-row flex-column-fluid page">
-			<!--begin::Wrapper-->
-			<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-				<!--begin::Content-->
-				<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-
-					<!--begin::Entry-->
-					<!--begin::Entry-->
-					<div class="d-flex flex-column-fluid">
-						<!--begin::Container-->
-						<div class="container">
-							<!--begin::Card-->
-
-							<div class="row">
-
-								<div class="col-lg-12">
-
-									<div class="card card-custom gutter-b" id="edary" >
-										<div class="card-header">
-											<div class="card-title">
-												<h3 class="card-label">
-													الهيكل الاداري
-												</h3>
-											</div>
-										</div>
-										<div class="card-body">
-											<div id="kt_tree_1" class="tree-demo">
-												<ul>
-													<li>
-														مجلس امناء الجامعة
-														<ul>
-															<li data-jstree='{ "opened" : false }'>
-																مجلس الجامعة
-
-															</li>
-															<li data-jstree='{ "opened" : false }'>
-																مدير الجامعة
-																<ul>
-																	<li data-jstree='{ "opened" : false }'>
-																		مركز القيادة
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		امانة مجلس الجامعة
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		ادارة المراجعة الداخلية
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		ادارة العلاقات العامة والاستعلام
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		ادارة المتابعة
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		ادارة المدينة الجامعية
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		ادارة الشؤون القانونية
-																	</li>
-																</ul>
-															</li>
-															<li data-jstree='{ "opened" : false }'>
-																وكالات الجامعة
-																<ul>
-																	<li data-jstree='{ "opened" : false }'>
-																		وكيل الجامعة
-																		<ul>
-																			<li data-jstree='{ "opened" : false }'>
-																				عمادة الدراسات الجامعية للطالبات
-																				<ul>
-																					<li data-jstree='{ "type" : "file" }'>
-																						وحدة التواصل الاجتماعي
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						مكتب العميد
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						وحدة الخدمات الطلابية
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						وكيل العمادة لشئون
-																					</li>
-																				</ul>
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				عمادة شئون اعضاء هيئة التدريس والموظفين
-																				<ul>
-																					<li data-jstree='{ "type" : "file" }'>
-																						مكتب العميد
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						السكرتارية
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						وحدة رصد الاجازات
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						وحدة الاداء الوظيفي
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						شعبة شئون الموظفين
-																					</li>
-																					<li data-jstree='{ "type" : "file" }'>
-																						وحدة التوظيف
-																					</li>
-																				</ul>
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				الادارة العامة للشئون الادارية والمالية
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				الادارة العامة للتخطيط والميزانية
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				الادارة العامة للمشتريات والنفقات
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				الادارة العامة للتجهيزات
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				الادارة العامة للامن والسلامة والصحة
-																				المهنية
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				الادارة العامة للمشاريع والخدمات العامة
-																			</li>
-
-																		</ul>
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		وكيل الجامعة للشئون الاكاديمية
-																		<ul>
-																			<li data-jstree='{ "type" : "file" }'>
-																				عمادة شئون الطلاب
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				عمادة القبول والتسجيل
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				عمادة تطوير التعليم الجامعي
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				عمادة التحضيرات الدراسية و الدراسات
-																				المساعدة
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية العمارة والتخطيط
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية العمارة العامة
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية ادارة الاعمال
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية طب الاسنان
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية علوم الحاسب وتقنية المعلومات
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية الهندسة
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية الشريعة والقانون
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية التربية بالدمام
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية الطب
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية التمريض
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية العلوم بنات
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية الصيدلة
-																			</li>
-																			<li data-jstree='{ "type" : "file" }'>
-																				كلية العلوم الاساسية الطبية
-																			</li>
-																		</ul>
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		وكيل الجامعة للدراسات والبحث العملي
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		وكيل الجامعة لشئون الفروع
-																	</li>
-																	<li data-jstree='{ "opened" : false }'>
-																		وكيل الجامعة للدراسات والتطوير وخدمة المجتمع
-																	</li>
-
-																</ul>
-															</li>
-															<li data-jstree='{ "opened" : false }'>
-																المستشفيات الجامعية
-																<ul>
-																	<li data-jstree='{ "type" : "file" }'>
-																		المستشفى الجامعي بالدمام
-																	</li>
-																	<li data-jstree='{ "type" : "file" }'>
-																		المستشفى الجامعي بالرقة
-																	</li>
-																	<li data-jstree='{ "type" : "file" }'>
-																		مستشفى طب الاسنان بالرقة
-																	</li>
-																	<li data-jstree='{ "type" : "file" }'>
-																		مركز طب الاسرة والمجتمع
-																	</li>
-																</ul>
-															</li>
-														</ul>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-
-								</div>
-
-
-
-							</div>
-						</div>
-						<!--end::Container-->
-					</div>
-
-
-
-
-
-					<div class="modal fade" id="kt_modal_4" tabindex="-1" role="dialog"
-						 aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-lg" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">
-										اضف جديد
-									</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									</button>
-								</div>
-								<div class="modal-body">
-									<form method="post" action="#">
-										<div class="col-xl-12">
-											<div class="kt-section__body">
-
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">اسم الوحدة</label>
-													<div class="col-lg-9 col-xl-9">
-														<input class="form-control form-control-solid" type="text"
-															   name="name" value="">
-														<input class="form-control" type="hidden" name="sub_id"
-															   value="0">
-													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">موقع الوحدة</label>
-													<div class="col-lg-9 col-xl-9">
-														<select class="form-control form-control-lg" id="kt_select2_1"
-																name="sub_id" required>
-															<option value="0">Rakkah </option>
-															<option value="0">Rayan </option>
-															<option value="0">Qatif </option>
-															<option value="0">Dammam </option>
-															<option value="0">Hospital </option>
-														</select>
-													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">نوع الوحدة</label>
-													<div class="col-lg-9 col-xl-9">
-														<select class="form-control form-control-lg" id="kt_select2_1"
-																name="sub_id" required>
-															<option value="0">شعبة </option>
-															<option value="0">وحدة </option>
-															<option value="0">وكالة </option>
-															<option value="0">الادارة </option>
-															<option value="0">مكتب </option>
-														</select>
-													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">المستوى</label>
-													<div class="col-lg-9 col-xl-9">
-														<select class="form-control form-control-lg" id="kt_select2_1"
-																name="type" required>
-															<option value="0">Level 1 </option>
-															<option value="0">Level 2 </option>
-															<option value="0">Level 3 </option>
-															<option value="0">Level 4 </option>
-														</select>
-													</div>
-												</div>
-
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">فئة المستوى</label>
-													<div class="col-lg-9 col-xl-9">
-														<select class="form-control form-control-lg" id="kt_select2_1"
-																name="type" required>
-															<option value="0">University Council</option>
-															<option value="0">Deanship</option>
-															<option value="0">Vice presidencies</option>
-															<option value="0">Hospital</option>
-														</select>
-													</div>
-												</div>
-
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">كود المستوى</label>
-													<div class="col-lg-9 col-xl-9">
-														<input class="form-control form-control-solid" type="text"
-															   name="name" value="">
-														<input class="form-control" type="hidden" name="sub_id"
-															   value="0">
-													</div>
-												</div>
-
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">
-														الخدمة
-														الرئيسية
-													</label>
-													<div class="col-lg-9 col-xl-9">
-														<div class="row">
-															<div class="col-lg-3">
-																<label class="option">
-																	<span class="option-control">
-																		<span class="radio radio-outline radio-success">
-																			<input type="radio" name="m_option_1"
-																				   value="1" />
-																			<span></span>
-																		</span>
-																	</span>
-																	<span class="option-label">
-																		<span class="option-head">
-																			<span class="option-focus">
-																				<img src="dashboard/assets/media/misc/a.png" />
-																			</span>
-																		</span>
-																	</span>
-																</label>
-															</div>
-															<div class="col-lg-3">
-																<label class="option">
-																	<span class="option-control">
-																		<span class="radio radio-outline radio-success">
-																			<input type="radio" name="m_option_1"
-																				   value="1" />
-																			<span></span>
-																		</span>
-																	</span>
-																	<span class="option-label">
-																		<span class="option-head">
-																			<span class="option-title">
-																				<img src="dashboard/assets/media/misc/d.png" />
-																			</span>
-																		</span>
-																	</span>
-																</label>
-															</div>
-															<div class="col-lg-3">
-																<label class="option">
-																	<span class="option-control">
-																		<span class="radio radio-outline radio-success">
-																			<input type="radio" name="m_option_1"
-																				   value="1" />
-																			<span></span>
-																		</span>
-																	</span>
-																	<span class="option-label">
-																		<span class="option-head">
-																			<span class="option-title">
-																				<img src="dashboard/assets/media/misc/f.png" />
-																			</span>
-																		</span>
-																	</span>
-																</label>
-															</div>
-															<div class="col-lg-3">
-																<label class="option">
-																	<span class="option-control">
-																		<span class="radio radio-outline radio-success">
-																			<input type="radio" name="m_option_1"
-																				   value="1" />
-																			<span></span>
-																		</span>
-																	</span>
-																	<span class="option-label">
-																		<span class="option-head">
-																			<span class="option-title">
-																				<img src="dashboard/assets/media/misc/h.png" />
-																			</span>
-																		</span>
-																	</span>
-																</label>
-															</div>
-															<div class="col-lg-3">
-																<label class="option">
-																	<span class="option-control">
-																		<span class="radio radio-outline radio-success">
-																			<input type="radio" name="m_option_1"
-																				   value="1" />
-																			<span></span>
-																		</span>
-																	</span>
-																	<span class="option-label">
-																		<span class="option-head">
-																			<span class="option-title">
-																				<img src="dashboard/assets/media/misc/m.png" />
-																			</span>
-																		</span>
-																	</span>
-																</label>
-															</div>
-															<div class="col-lg-3">
-																<label class="option">
-																	<span class="option-control">
-																		<span class="radio radio-outline radio-success">
-																			<input type="radio" name="m_option_1"
-																				   value="1" />
-																			<span></span>
-																		</span>
-																	</span>
-																	<span class="option-label">
-																		<span class="option-head">
-																			<span class="option-title">
-																				<img src="dashboard/assets/media/misc/r.png" />
-																			</span>
-																		</span>
-																	</span>
-																</label>
-															</div>
-															<div class="col-lg-3">
-																<label class="option">
-																	<span class="option-control">
-																		<span class="radio radio-outline radio-success">
-																			<input type="radio" name="m_option_1"
-																				   value="1" />
-																			<span></span>
-																		</span>
-																	</span>
-																	<span class="option-label">
-																		<span class="option-head">
-																			<span class="option-title">
-																				<img src="dashboard/assets/media/misc/s.png" />
-																			</span>
-																		</span>
-																	</span>
-																</label>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="form-group row">
-													<label class="col-form-label col-lg-3 col-sm-12">
-														الخدمات
-														الفرعية
-													</label>
-													<div class="col-lg-9 col-md-9 col-sm-12">
-														<select class="form-control selectpicker" multiple="multiple">
-															<option value="" selected>--- </option>
-															<option value="0">Consultation </option>
-															<option value="0">Notification </option>
-															<option value="0">Meeting </option>
-															<option value="0">Suggestion </option>
-															<option value="0">Complaint </option>
-															<option value="0">Inquiry </option>
-														</select>
-													</div>
-												</div>
-
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">
-														Request
-														number
-													</label>
-													<div class="col-lg-9 col-xl-9">
-														<input class="form-control form-control-solid"
-															   style="text-align: center;font-size: 22px;" type="text"
-															   name="name" value="1C1D031620000" disabled>
-													</div>
-												</div>
-
-												<div class="form-group row">
-													<label class="col-xl-3 col-lg-3 col-form-label">
-														رقم المبنى /الخدمة
-														الرئيسية
-													</label>
-													<div class="col-lg-9 col-md-9 col-sm-12">
-														<div class="row">
-															<div class="col-lg-4">
-																<input type="number"
-																	   class="form-control form-control-lg"
-																	   placeholder="213" />
-															</div>
-															<div class="col-lg-8">
-																<select class="form-control form-control-lg"
-																		id="kt_select2_1" name="attach_type_id" required>
-																	<option value="0">A.Academic </option>
-																	<option value="0">D.Administrathion </option>
-																	<option value="0">S.Specialized Services </option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-
-											</div>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary"
-													data-dismiss="modal">
-												اغلاق
-											</button>
-											<button type="submit" class="btn btn-primary">حفـظ</button>
-										</div>
-									</form>
-								</div>
-
-							</div>
-						</div>
-					</div>
-
-					<!--end::Entry-->
-				</div>
-				<!--end::Content-->
+					<tbody>
+						@{
+							var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+							var lang = Request.Cookies["lang"].Value;
+						}
+						@foreach (var i in Model)
+						{
+							<tr onclick="Go('@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
+								<td>@(lang=="ar"? i.Units_Name_AR:i.Units_Name_EN)</td>
+								<td><i class="fas fa-circle" style=@("color:"+(i.IS_Action.Value?"green":"red"))></i></td>
+								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
+							</tr>
+						}
+					</tbody>
+				</table>
 			</div>
-			<!--end::Wrapper-->
 		</div>
-		<!--end::Page-->
-	</div>
+	</div> <!-- end col -->
+</div> <!-- end row -->
+<!-- JAVASCRIPT -->
+<script>
+	function Go(url) {
+		window.location.href = url
+	}
+</script>
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
 
-	<!--begin::Global Theme Bundle(used by all pages)-->
-	<script src="~/dashboard/assets/plugins/global/plugins.bundle.js"></script>
-	<script src="~/dashboard/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
-	<script src="~/dashboard/assets/js/scripts.bundle.js"></script>
-	<!--end::Glob~/al Theme Bundle-->
-	<!--begin::Pa~/ge Vendors(used by this page)-->
-	<script src="~/dashboard/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
-	<!--end::Page~/ Vendors-->
-	<!--begin::Pa~/ge Scripts(used by this page)-->
-	<script src="~/dashboard/assets/js/pages/widgets.js"></script>
-	<script src="~/dashboard/assets/plugins/custom/datatables/datatables.bundle.js"></script>
-	<script src="~/dashboard/assets/js/pages/crud/datatables/basic/basic.js"></script>
-	<script src="~/dashboard/assets/js/pages/features/miscellaneous/sweetalert2.js"></script>
-	<script src="~/dashboard/assets/js/pages/features/miscellaneous/dropify.min.js"></script>
-	<script src="~/dashboard/assets/plugins/custom/jstree/jstree.bundle.js"></script>
-	<script src="~/dashboard/assets/js/pages/features/miscellaneous/treeview.js"></script>
-	<script src="~/assets/js/app.js"></script>
+<!-- Required datatable js -->
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/libs/jszip/jszip.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="~/assets/js/pages/datatables.init.js"></script>
+
+<script src="~/assets/js/app.js"></script>
+
+
+
+

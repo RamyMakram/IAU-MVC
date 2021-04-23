@@ -30,6 +30,7 @@ namespace IAUBackEnd.Admin.Models
         public string Ref_Number { get; set; }
         public string Building_Number { get; set; }
         public Nullable<bool> IS_Action { get; set; }
+        public bool IS_Mostafid { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Main_Services> Main_Services { get; set; }

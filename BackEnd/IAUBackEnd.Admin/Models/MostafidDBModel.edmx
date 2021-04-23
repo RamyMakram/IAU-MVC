@@ -303,7 +303,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Personel_Data' does n
           <Key>
             <PropertyRef Name="Request_Type_ID" />
           </Key>
-          <Property Name="Request_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Request_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Request_Type_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Request_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
@@ -313,7 +313,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Personel_Data' does n
           <Key>
             <PropertyRef Name="Service_Type_ID" />
           </Key>
-          <Property Name="Service_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Service_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Service_Type_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Service_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
@@ -397,6 +397,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Property Name="Ref_Number" Type="nvarchar" MaxLength="100" />
           <Property Name="Building_Number" Type="nvarchar" MaxLength="3" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Units_Location">
           <Key>
@@ -1611,7 +1612,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Key>
             <PropertyRef Name="Request_Type_ID" />
           </Key>
-          <Property Name="Request_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Request_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Request_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
@@ -1623,7 +1624,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Key>
             <PropertyRef Name="Service_Type_ID" />
           </Key>
-          <Property Name="Service_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Service_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Service_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Service_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
@@ -1705,6 +1706,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <Property Name="Ref_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Building_Number" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_MainServices_Units" FromRole="Units" ToRole="Main_Services" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
           <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />
@@ -2621,6 +2623,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_
           <EntitySetMapping Name="Units">
             <EntityTypeMapping TypeName="MostafidDBModel.Units">
               <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="IS_Mostafid" ColumnName="IS_Mostafid" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Building_Number" ColumnName="Building_Number" />
                 <ScalarProperty Name="Ref_Number" ColumnName="Ref_Number" />

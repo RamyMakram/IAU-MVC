@@ -20,7 +20,7 @@
 		<!-- ============================================================== -->
 
 		<div class="main-content">
-			<div class="page-content" style=" height: 99vh; overflow: auto;">
+			<div class="page-content" style=" height: 99vh !important; overflow: auto;">
 				<div class="container-fluid">
 					@Html.Partial("~/Views/Shared/_page_title.cshtml")
 
@@ -52,12 +52,20 @@
 			font-family: 'DroidArabicKufiRegular';
 			font-weight: bolder;
 		}
-
+		td {
+			vertical-align: baseline;
+		}
 		.page-content {
 			/*height: calc(100vh - 130px) !important;*/
-			/*margin-top: 70px;*/
+			margin-top: 0px !important;
 			overflow: hidden auto;
 			padding: calc(70px + 24px) calc(24px / 2) 60px calc(24px / 2)
+		}
+		td,th{
+			text-align:center
+		}
+		tr{
+			cursor:pointer
 		}
 	</style>
 </body>

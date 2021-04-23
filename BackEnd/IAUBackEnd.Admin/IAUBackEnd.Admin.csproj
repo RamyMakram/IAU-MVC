@@ -142,6 +142,7 @@
     <Compile Include="Controllers\PriviligesController.cs" />
     <Compile Include="Controllers\Request_TypeController.cs" />
     <Compile Include="Controllers\Service_TypeController.cs" />
+    <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitsLocationController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
