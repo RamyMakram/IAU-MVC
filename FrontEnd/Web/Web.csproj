@@ -339,7 +339,6 @@
     <None Include="bin\Web.dll.config" />
     <Content Include="Design\webfonts\FrutigerLTArabic-65Bold.ttf" />
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Views\Coordinator\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
   </ItemGroup>

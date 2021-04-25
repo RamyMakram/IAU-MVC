@@ -1,0 +1,119 @@
+﻿
+@{
+	ViewBag.Title = "Preview";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Summernote css -->
+<link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="mb-3">
+
+			<div class="card">
+				<div class="btn-toolbar p-3" role="toolbar">
+					<div class="btn-group mr-2 mb-2 mb-sm-0">
+						<button type="button" class="btn btn-primary waves-light waves-effect"><i class="fa fa-inbox"></i></button>
+						<button type="button" class="btn btn-primary waves-light waves-effect"><i class="fa fa-exclamation-circle"></i></button>
+						@*<button type="button" class="btn btn-primary waves-light waves-effect"><i class="far fa-trash-alt"></i></button>*@
+					</div>
+					@*<div class="btn-group mr-2 mb-2 mb-sm-0">
+						<button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<i class="fa fa-folder"></i> <i class="mdi mdi-chevron-down ml-1"></i>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">Updates</a>
+							<a class="dropdown-item" href="#">Social</a>
+							<a class="dropdown-item" href="#">Team Manage</a>
+						</div>
+					</div>*@
+					@*<div class="btn-group mr-2 mb-2 mb-sm-0">
+						<button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<i class="fa fa-tag"></i> <i class="mdi mdi-chevron-down ml-1"></i>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">Updates</a>
+							<a class="dropdown-item" href="#">Social</a>
+							<a class="dropdown-item" href="#">Team Manage</a>
+						</div>
+					</div>*@
+
+					<div class="btn-group mr-2 mb-2 mb-sm-0">
+						<button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							More <i class="mdi mdi-dots-vertical ml-2"></i>
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">Mark as Unread</a>
+							<a class="dropdown-item" href="#">Mark as Important</a>
+							<a class="dropdown-item" href="#">Add to Tasks</a>
+							<a class="dropdown-item" href="#">Add Star</a>
+							<a class="dropdown-item" href="#">Redirect To Service</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-body">
+					<div class="media mb-4">
+						<img class="d-flex mr-3 rounded-circle avatar-sm" src="~/assets/images/users/avatar-2.jpg" alt="Generic placeholder image">
+						<div class="media-body">
+							<h5 class="font-size-14 mt-1">Humberto D. Champion</h5>
+							<small class="text-muted">support@domain.com</small>
+						</div>
+					</div>
+
+					<h4 class="mt-0 font-size-16">This Week's Top Stories</h4>
+
+					<p>Dear Lorem Ipsum,</p>
+					<p>
+						Praesent dui ex, dapibus eget mauris ut, finibus vestibulum enim. Quisque arcu leo, facilisis in fringilla id, luctus in tortor. Nunc vestibulum est quis orci varius viverra. Curabitur dictum volutpat massa vulputate molestie. In at felis ac velit maximus convallis.
+					</p>
+					<p>Sed elementum turpis eu lorem interdum, sed porttitor eros commodo. Nam eu venenatis tortor, id lacinia diam. Sed aliquam in dui et porta. Sed bibendum orci non tincidunt ultrices. Vivamus fringilla, mi lacinia dapibus condimentum, ipsum urna lacinia lacus, vel tincidunt mi nibh sit amet lorem.</p>
+					<p>Sincerly,</p>
+					<hr />
+
+					<div class="row">
+						<div class="col-xl-2 col-6">
+							<div class="card">
+								<img class="card-img-top img-fluid" src="~/assets/images/small/img-3.jpg" alt="Card image cap">
+								<div class="py-2 text-center">
+									<a href="" class="font-weight-medium">Download</a>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-2 col-6">
+							<div class="card">
+								<img class="card-img-top img-fluid" src="~/assets/images/small/img-4.jpg" alt="Card image cap">
+								<div class="py-2 text-center">
+									<a href="" class="font-weight-medium">Download</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					@*<a href="@Url.Action("EmailRead", "Email")" class="btn btn-secondary waves-effect mt-4"><i class="mdi mdi-reply"></i> Redirect To Service</a>*@
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Summernote js -->
+<script src="~/assets/libs/summernote/summernote-bs4.min.js"></script>
+
+<!-- email summernote init -->
+<script src="~/assets/js/pages/email-summernote.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>

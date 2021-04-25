@@ -409,8 +409,6 @@
     <Content Include="bin\AdminPanel.dll" />
     <Content Include="bin\AdminPanel.pdb" />
     <Content Include="bin\Antlr3.Runtime.dll" />
-    <Content Include="bin\IAU.DTO.dll" />
-    <Content Include="bin\IAU.DTO.pdb" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
     <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
     <Content Include="bin\Newtonsoft.Json.dll" />
@@ -2977,7 +2975,6 @@
     <None Include="packages.config" />
     <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <None Include="Properties\PublishProfiles\Ramy Profile.pubxml" />
     <Content Include="Views\Email\Home.cshtml" />
     <Content Include="Views\Email\Preview.cshtml" />
     <Content Include="Views\Statistics\Home.cshtml" />
@@ -3018,6 +3015,7 @@
     <Content Include="Views\Units\Detials.cshtml" />
     <Content Include="Views\Units\Edit.cshtml" />
     <Content Include="Views\Units\Home.cshtml" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

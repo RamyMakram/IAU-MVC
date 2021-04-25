@@ -1,0 +1,187 @@
+﻿@model IAUAdmin.DTO.Entity.JobDTO
+@{
+	ViewBag.Title = "Edit Job";
+	ViewBag.pTitle = "Edit Job";
+	ViewBag.pageTitle = "Jobs";
+	ViewBag.arTitle     = "تعديل وظيفة";
+	ViewBag.arpageTitle = "تعديل وظيفة";
+	ViewBag.arpTitle = "الوظائف";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
+
+				@using (Html.BeginForm("Edit", "Jobs", new { Id = Model.User_Permissions_Type_ID }, FormMethod.Post))
+				{
+					<div class="row">
+						<div class="col-sm-6">
+							<span style="display:none" id="hit">@Model.User_Permissions_Type_ID</span>
+							<div class="form-group">
+								<label for="Name_AR" key="t-name">Job Name</label>
+								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_AR, new { @class = "form-control", @id = "Name_AR" })
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label for="Name_EN" key="t-enname">Job English Name</label>
+								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_EN, new { @class = "form-control", @id = "Name_EN" })
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>
+					<button type="submit" class="btn btn-secondary waves-effect" key="t-cancel">Cancel</button>
+				}
+
+			</div>
+		</div>
+
+
+		<div class="card">
+			<div class="card-body">
+
+				<h4 class="card-title" key="t-jobPrivilges">Privileges</h4>
+
+				<div class="row">
+					@foreach (var i in Model.Permissions)
+					{
+
+						if (i.Sub.Count != 0 || i.Details.Count != 0)
+						{
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label style="font-weight:bolder">@Html.DisplayName(i.Name.ToString())</label>
+									<div style="margin:0 10px">
+										@{
+											if (i.Sub.Count != 0)
+											{
+												foreach (var c in i.Sub)
+												{
+													<div class="custom-control custom-switch mb-3" dir="ltr">
+														<input type="checkbox" class="custom-control-input" onchange="cc('@(c.ID)','@c.Active.ToString()',this)" id=@("customSwitch" + c.ID) checked=@c.Active>
+														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
+													</div>
+												}
+											}
+											else
+											{
+												foreach (var c in i.Details)
+												{
+													<div class="custom-control custom-switch mb-3" dir="ltr">
+														<input type="checkbox" class="custom-control-input" onchange="cc('@(c.ID)','@c.Active.ToString()',this)" id=@("customSwitch" + c.ID) checked=@c.Active>
+														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
+													</div>
+												}
+											}
+										}
+									</div>
+								</div>
+							</div>
+						}
+
+					}
+				</div>
+
+				<button class="btn btn-primary mr-1 waves-effect waves-light" onclick="SavePrivilages()" key="t-save">Save Changes</button>
+				<button type="submit" class="btn btn-secondary waves-effect" key="t-cancel">Cancel</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	let Added = []
+	let Deleted = []
+	let JobID = null
+	function cc(val, DefaultVal, html) {
+		//debugger
+		if (JobID == null)
+			JobID = document.getElementById('hit').innerText
+		if (html.checked) {
+			let deletedindex = Deleted.findIndex(q => q.PrivilageID == val)
+			Deleted.splice(deletedindex, 1);
+			if (DefaultVal == "False")
+				Added.push({ PrivilageID: val, Job_ID: JobID })
+		}
+		else {
+			let deletedindex = Added.findIndex(q => q.PrivilageID == val)
+			Added.splice(deletedindex, 1);
+			if (DefaultVal == "True")
+				Deleted.push({ PrivilageID: val, Job_ID: JobID })
+		}
+	}
+	function SavePrivilages() {
+		if (Added.length != 0) {
+			let fileData = new FormData();
+			fileData.append('data', JSON.stringify(Added));
+			console.log(JSON.stringify(Added))
+			$.ajax({
+				url: `/Jobs/AddedPrivilges`,
+				type: "POST",
+				processData: false,
+				contentType: false,
+				enctype: 'multipart/form-data',
+				data: fileData,
+				success: function (res) {
+
+				},
+				error: function () {
+
+				},
+			})
+
+		}
+		if (Deleted.length != 0) {
+			let fileData = new FormData();
+			fileData.append('data', JSON.stringify(Deleted));
+			console.log(JSON.stringify(Deleted))
+			$.ajax({
+				url: `/Jobs/RemovePrivilges`,
+				type: "POST",
+				processData: false,
+				contentType: false,
+				enctype: 'multipart/form-data',
+				data: fileData,
+				success: function (res) {
+
+				},
+				error: function () {
+
+				},
+			})
+
+		}
+	}
+</script>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>

@@ -1,0 +1,83 @@
+﻿@model IAUAdmin.DTO.Entity.UserDTO
+@{
+	ViewBag.Title = "Edit User";
+	ViewBag.pTitle = "Edit User";
+	ViewBag.pageTitle = "Users";
+	ViewBag.arTitle     = "تعديل مستخدم";
+	ViewBag.arpageTitle = "تعديل مستخدم";
+	ViewBag.arpTitle = "المستخدمين";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
+
+				@using (Html.BeginForm("Edit", "User", new { Id = Model.User_ID }, FormMethod.Post))
+				{
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-name" for="name">User Name</label>
+								@Html.TextBoxFor(q => q.User_Name, new { @id = "name", @class = "form-control" })
+							</div>
+							<div class="form-group">
+								<label key="t-mobile" for="mobile">Mobile</label>
+								@Html.TextBoxFor(q => q.User_Mobile, new { @id = "mobile", @class = "form-control" })
+							</div>
+							<div class="form-group">
+								<label key="t-email" for="email">Email</label>
+								@Html.TextBoxFor(q => q.User_Email, new { @id = "email", @class = "form-control" })
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-password" for="pass">Password</label>
+								@Html.TextBoxFor(q => q.User_Password, new { @id = "pass", @class = "form-control" })
+							</div>
+
+							<div class="form-group">
+								<label key="t-job" for="department">Department</label>
+								@Html.DropDownListFor(x => x.Job_ID, new SelectList(ViewBag.Permissions, "User_Permissions_Type_ID", "User_Permissions_Type_Name_EN"), new { @class = "form-control" })
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>
+					@Html.ActionLink("Cancel", "Home", "User", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+				}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>

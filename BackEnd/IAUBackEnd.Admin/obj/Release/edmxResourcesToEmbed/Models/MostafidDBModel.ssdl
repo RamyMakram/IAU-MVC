@@ -142,7 +142,7 @@
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'MostafidDatabase18042021.dbo.Personel_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Personel_Data">
     <Key>
       <PropertyRef Name="Personel_Data_ID" />
@@ -315,7 +315,7 @@ warning 6002: The table/view 'MostafidDatabase18042021.dbo.Personel_Data' does n
     <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'MostafidDatabase18042021.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Statement_Department_File_Sent_Them">
     <Key>
       <PropertyRef Name="Statement_Department_File_Sent_Them_ID" />

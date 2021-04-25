@@ -1,0 +1,55 @@
+﻿@model IAUAdmin.DTO.Entity.RequestTypeDTO
+@using System.Configuration;
+@{
+	ViewBag.Title = "Type Detail";
+	ViewBag.pTitle = "Type Detail";
+	ViewBag.pageTitle = "Request Types";
+	ViewBag.arTitle = "معلومات النوع";
+	ViewBag.arpageTitle = "معلومات النوع";
+	ViewBag.arpTitle = "أنواع الطلبات";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 key="t-detials">Detials</h2>
+
+<div class="mt-5">
+
+	<div class="table-responsive">
+		<table class="table mb-0 table-bordered">
+			<tbody>
+				<tr>
+					<th key="t-name" scope="row" style="width: 400px;">User Name</th>
+					<td>@Model.Request_Type_Name_AR</td>
+				</tr>
+				<tr>
+					<th key="t-enname" scope="row">Mobile</th>
+					<td>@Model.Request_Type_Name_EN</td>
+				</tr>
+				<tr>
+					<th key="t-image" scope="row">Mobile</th>
+					@{ var url = ConfigurationManager.AppSettings["DomainName"].ToString();}
+					<td><img src=@(url+"/"+Model.Image_Path) height="36px" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="mt-5">
+	@Html.ActionLink("Edit", "Edit", new { Id = Model.Request_Type_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+
+	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "RequestType", new { Id = Model.Request_Type_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+
+</div>
+
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
