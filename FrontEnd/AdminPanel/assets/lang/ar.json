@@ -59,7 +59,8 @@
 	"t-servicetype": "نوع الخدمة",
 	"t-unittypes": "نوع الوحدة",
 	"t-ismostafid": "تستقبل طلبات المستفدين؟",
-	"t-": ""
+	"t-active-Home": "مفعل",
+	"t-deactive-Home": "معطل"
 
 
 }

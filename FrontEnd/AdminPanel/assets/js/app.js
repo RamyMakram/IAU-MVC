@@ -11,6 +11,7 @@ File: Main Js File
 (function ($) {
 
 	'use strict';
+	var Loading = ``
 
 	var language = "";
 	// Default Language
@@ -185,6 +186,7 @@ File: Main Js File
 			$('#status').fadeOut();
 			$('#preloader').delay(350).fadeOut('slow');
 		});
+
 	}
 
 	function initSettings() {
@@ -254,7 +256,13 @@ File: Main Js File
 	}
 	$(document).ready(function () {
 		try {
-			language = document.cookie.split(';')[1].split('=')[1]
+			let cook = document.cookie.split(';');
+			cook.forEach(i => {
+				let keyandval = i.split('=');
+				if (keyandval[0].trim().replace(' ', '') == "lang") {
+					language = keyandval[1].replace(' ', '')
+				}
+			})
 		} catch (e) {
 			location.href = "/Home/ChangeLanguage?lang=ar"
 		}
@@ -268,6 +276,9 @@ File: Main Js File
 
 			return false;
 		});
+		setTimeout(function () {
+			document.getElementById('LoadingDiv').style.display = 'none';
+		}, 1000)
 	})
 
 })(jQuery)

@@ -59,6 +59,8 @@
 	"t-servicetype": "Service Type",
 	"t-unittypes": "Unit Type",
 	"t-ismostafid": "Recieve Mostafid Requests?",
+	"t-active-Home": "Active",
+	"t-deactive-Home": "Not Active",
 	"t-": ""
 
 }

@@ -7,6 +7,7 @@ let inquiry = false;
 let Redirect = false;
 var isSaudi = 0
 var CityComponentSelect = ""
+var Cities = []
 var RegionComponentSelect = ""
 let subservice = []
 let mainservice = []
@@ -16,11 +17,19 @@ let type = []
 let titles = []
 let doctype = []
 $(document).ready(function () {
-	let data = document.cookie.split("us=")[1];
+	let data = null;
+	let cook = document.cookie.split(';');
+	cook.forEach(i => {
+		let keyandval = i.split('=');
+		if (keyandval[0].trim().replace(' ', '') == "us") {
+			data = keyandval[1].replace(' ', '')
+		}
+	})
+	if (data == '')
+		data = null;
 	let mst = localStorage.getItem("mst");
 	let ret = localStorage.getItem("ret");
 	if (data != null && data != "" && mst != null && mst != "" && ret != null && ret != "") {
-		console.log(encodeURIComponent(data))
 		$.ajax({
 			url: `https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName=${encodeURIComponent(data)}&lang=en`,
 			type: "GET",
@@ -404,16 +413,18 @@ function LoadApiPeronsalData() {
 		success: function (result) {
 			if (result != null) {
 				//  result = result.result;
+				let id = result.Regions[0].ID;
 				CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
 				RegionComponentSelect = `<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
 				result.Regions.forEach(function (element) {
 					RegionComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
 				});
-				result.Cities.forEach(function (element) {
-					CityComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
-				});
-				CityComponentSelect += "</select>"
 				RegionComponentSelect += "</select>"
+				Cities = result.Cities;
+				console.log(Cities)
+				console.log(Object.create(Cities).filter(q => q.SubID == id))
+				//console.log(Cities.filter(q => q.SubID == id))
+				AssignCity(Cities.filter(q => q.SubID == id));
 				nationalty = result.nationalty
 				result.nationalty.forEach(function (element) {
 					$("#Nationality_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
@@ -438,6 +449,13 @@ function LoadApiPeronsalData() {
 			}
 		}
 	});
+}
+function AssignCity(data) {
+	CityComponentSelect = "<select>"
+	data.forEach(function (element) {
+		CityComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
+	});
+	CityComponentSelect += "</select>"
 }
 
 $("#Required_Fields_Notes_Other").keyup(function () {
@@ -609,7 +627,7 @@ function serialiazeForm() {
 		Address: "",
 		file_names: FileNames
 	}
-	console.log(isSaudi ? "True": "False", PersonalData);
+	console.log(isSaudi ? "True" : "False", PersonalData);
 	return PersonalData;
 }
 
@@ -697,16 +715,19 @@ function AffiliatedState() {
 		$("#IAUID").attr("disabled", "disabled");
 	}
 }
+function CityChange() {
 
+}
 function CountryState() {
 	isSaudi = $("#City_Country_2 option:selected").val() == 24 ? 1 : 0;
 	if (isSaudi == 1) {
 		var CityAttr = document.getElementById('City');
-		if (CityComponentSelect != "")
+		if (CityComponentSelect != "") {
 			CityAttr.innerHTML = `
 									<img />
 									${CityComponentSelect}
 									`
+		}
 		else {
 			let timeIntervalCity = setInterval(function () {
 				if (CityComponentSelect != "") {
@@ -720,11 +741,22 @@ function CountryState() {
 		}
 
 		var RegionAttr = document.getElementById('Region');
-		if (RegionComponentSelect != "")
+		if (RegionComponentSelect != "") {
 			RegionAttr.innerHTML = `
 									<img />
 									${RegionComponentSelect}
 									`
+			document.getElementById('Region_Postal_Code_1').addEventListener('change', function (e) {
+				let cities = Object.create(Cities).filter(q => q.SubID == this.value)
+				//console.log(cities);
+				console.log()
+				console.log(Cities)
+				console.log(cities)
+				AssignCity(cities)
+				document.getElementById('City').innerHTML = CityComponentSelect;
+			})
+		}
+
 		else {
 			let timeIntervalRegion = setInterval(function () {
 				if (RegionComponentSelect != "") {
@@ -732,6 +764,9 @@ function CountryState() {
 									<img />
 									${RegionComponentSelect}
 									`
+					document.getElementById('Region_Postal_Code_1').addEventLitener('change', function (e) {
+
+					})
 					clearInterval(timeIntervalRegion);
 				}
 			}, 1000)
@@ -747,6 +782,7 @@ function CountryState() {
 								<img />
 								<input type="text" id="City_Country_1" name="City_Country_1">
 								`
+		//document.getElementById('Region_Postal_Code_1').removeEventListener('change')
 
 	}
 }

@@ -3,7 +3,7 @@
 	ViewBag.Title = "Home Page";
 	ViewBag.pageTitle = "Home Page";
 	ViewBag.pTitle = "Users";
-	ViewBag.arTitle     = "الرئيسية";
+	ViewBag.arTitle = "الرئيسية";
 	ViewBag.arpageTitle = "الرئيسية";
 	ViewBag.arpTitle = "المستخدمين";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,11 +20,13 @@
 		<div class="card">
 			<div class="card-body">
 
-				<h4 class="card-title" key="t-user">All Users</h4>
-				<p class="card-title-desc" key="t-users">
-					Manage Users
-				</p>
+				<div class="HeaderOfPage">
+					<p class="card-title-desc" key="t-users">
+						Manage Users
+					</p>
 
+					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+				</div>
 				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
 						<tr>
@@ -46,8 +48,10 @@
 								<td>@i.User_Email</td>
 								<td>@i.User_Permissions_Type_Name_AR</td>
 								@*<td>@i.User_Permissions_Type_Name_EN</td>*@
-								<td>@i.IS_Active</td>
-								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.User_ID }, new { @class = "btn btn-primary",@key = "t-edit" })</td>
+								<td>
+									@Html.ActionLink("Active", i.IS_Active == "1" ? "Deactive" : "Active", new { Id = i.User_ID }, new { @class = i.IS_Active=="1" ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Active == "1" ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Active == "1" ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+								</td>
+								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.User_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
 					</tbody>

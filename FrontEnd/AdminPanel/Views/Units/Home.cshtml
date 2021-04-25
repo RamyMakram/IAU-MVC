@@ -21,10 +21,13 @@
 		<div class="card">
 			<div class="card-body">
 
-				@*<h4 class="card-title" key="t-user">All Users</h4>*@
-				<p class="card-title-desc" key="t-request-type">
-					Manage Users
-				</p>
+				<div class="HeaderOfPage">
+					<p class="card-title-desc" key="t-request-type">
+						Manage Users
+					</p>
+
+					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+				</div>
 
 				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
@@ -33,7 +36,7 @@
 							@*<th key="t-enname">Type En Name</th>*@
 							@*<th key="t-image">Image</th>*@
 							<th key="t-activeTitle">Status</th>
-							<th ></th>
+							<th></th>
 						</tr>
 					</thead>
 
@@ -46,10 +49,13 @@
 						{
 							<tr onclick="Go('@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
 								<td>@(lang=="ar"? i.Units_Name_AR:i.Units_Name_EN)</td>
-								<td><i class="fas fa-circle" style=@("color:"+(i.IS_Action.Value?"green":"red"))></i></td>
+								<td>
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
+
 					</tbody>
 				</table>
 			</div>
@@ -62,6 +68,7 @@
 		window.location.href = url
 	}
 </script>
+
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
@@ -90,7 +97,3 @@
 <script src="~/assets/js/pages/datatables.init.js"></script>
 
 <script src="~/assets/js/app.js"></script>
-
-
-
-

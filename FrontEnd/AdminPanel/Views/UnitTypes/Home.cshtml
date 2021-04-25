@@ -3,7 +3,7 @@
 	ViewBag.Title = "Home Page";
 	ViewBag.pageTitle = "Home Page";
 	ViewBag.pTitle = "Unit Types";
-	ViewBag.arTitle     = "الرئيسية";
+	ViewBag.arTitle = "الرئيسية";
 	ViewBag.arpageTitle = "الرئيسية";
 	ViewBag.arpTitle = "أنواع الوحدات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,10 +20,13 @@
 		<div class="card">
 			<div class="card-body">
 
-				@*<h4 class="card-title" key="t-user">All Users</h4>*@
-				<p class="card-title-desc" key="t-unit-type">
-					Manage Users
-				</p>
+				<div class="HeaderOfPage">
+					<p class="card-title-desc" key="t-unit-type">
+						Manage Users
+					</p>
+
+					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+				</div>
 
 				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
@@ -31,6 +34,7 @@
 							<th key="t-name">Type Name</th>
 							<th key="t-enname">Type En Name</th>
 							<th key="t-activeTitle">Status</th>
+							<th></th>
 						</tr>
 					</thead>
 
@@ -40,8 +44,10 @@
 							<tr onclick="Go('@Url.Action("Detials", "UnitTypes", new { Id = i.Units_Type_ID })')">
 								<td>@i.Units_Type_Name_AR</td>
 								<td>@i.Units_Type_Name_EN</td>
-								<td>@i.IS_Action</td>
-								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_Type_ID }, new { @class = "btn btn-primary",@key = "t-edit" })</td>
+								<td>
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "RequestType", new { Id = i.Units_Type_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+								</td>
+								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_Type_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
 					</tbody>

@@ -90,6 +90,7 @@ namespace IAU_BackEnd.Controllers.BasicData
 				{
 					ID = a.City_ID,
 					Name = (lang == "1" ? a.City_Name_AR : a.City_Name_EN),
+					SubID = a.Region_ID
 
 				});
 				return entity;
