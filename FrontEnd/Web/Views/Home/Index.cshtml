@@ -53,8 +53,8 @@
 				</ul>
 				<div class="vision">
 					<div>
-						<button>contact</button>
-						<button>Ar</button>
+						<button>Contact</button>
+						@Html.Partial("~/Views/Shared/_Language.cshtml")
 					</div>
 					<img src="~/Design/img/VisionLogo2.png">
 				</div>
@@ -107,17 +107,17 @@
 					</div>
 				</div>
 			</div>
-			@{var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString();}
+			@{var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString(); var counter = 0;}
 			<div class="row" id="Service_Type_Id" style="display: none;">
 				<div class="col-md-4 col-lg-3 icon-text-logo">
 					<p>@@ IAU - BSC</p>
 					<p>Services</p>
 					<p>Types</p>
 				</div>
-				@{ var counter = 0;}
 				@foreach (var service in Model.serviceTypeList)
 				{
 					var mainservice_class = counter == 0 ? "stick active mainservice" : "stick mainservice";
+
 					<div class="col-md-4 col-lg-3">
 						<div class="@mainservice_class" data-mainserviceid="@service.Id" data-mainservicename="@service.Name">
 							<img src="@(serverpath+"/"+service.ImagePath)" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -129,14 +129,15 @@
 					</div>
 					counter++;
 				}
+
 			</div>
+			@{ counter = 0;}
 			<div class="row" id="Request_Type_Id" style="display: none;">
 				<div class="col-md-4 col-lg-3 icon-text-logo">
 					<p>@@ IAU - BSC</p>
 					<p>Request</p>
 					<p>Types</p>
 				</div>
-				@{ counter = 0;}
 				@foreach (var request in Model.requestTypeList)
 				{
 					var requesttype_class = counter == 0 ? "stick active requesttype" : "stick requesttype";

@@ -62,13 +62,15 @@ nav {
 			}
 
 	nav button,
-	.serial-input button {
+	.serial-input button,
+	.langBTN {
 		border: none;
 		background: #4f693a;
-		color: #fff;
+		color: #fff !important;
 		border-radius: 5px;
 		text-transform: capitalize;
 		margin-bottom: 3px;
+		padding: 7px;
 	}
 
 	nav .navbar-collapse img {

@@ -25,7 +25,7 @@ namespace Web.App_Start
 			h.DefaultRequestHeaders.Add("lang", lang);
 			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
 
-			var res = h.GetAsync("/api/" + apiName).Result;
+			var res = h.GetAsync("/api/" + apiName + "?lang=" + lang).Result;
 			return res;
 		}
 		/// <summary>

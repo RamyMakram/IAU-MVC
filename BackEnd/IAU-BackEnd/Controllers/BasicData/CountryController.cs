@@ -49,7 +49,7 @@ namespace IAU_BackEnd.Controllers.BasicData
 				new SelectList_DTO
 				{
 					ID = a.Country_ID,
-					Name = (lang == "1" ? a.Country_Name_AR : a.Country_Name_EN),
+					Name = (lang == "ar" ? a.Country_Name_AR : a.Country_Name_EN),
 
 				});
 				return entity;
@@ -69,7 +69,7 @@ namespace IAU_BackEnd.Controllers.BasicData
 				new SelectList_DTO
 				{
 					ID = a.Region_ID,
-					Name = (lang == "1" ? a.Region_Name_AR : a.Region_Name_EN),
+					Name = (lang == "ar" ? a.Region_Name_AR : a.Region_Name_EN),
 
 				});
 				return entity;
@@ -89,7 +89,7 @@ namespace IAU_BackEnd.Controllers.BasicData
 				new SelectList_DTO
 				{
 					ID = a.City_ID,
-					Name = (lang == "1" ? a.City_Name_AR : a.City_Name_EN),
+					Name = (lang == "ar" ? a.City_Name_AR : a.City_Name_EN),
 					SubID = a.Region_ID
 
 				});

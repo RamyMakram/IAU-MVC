@@ -16,12 +16,11 @@ namespace IAU_BackEnd.Controllers.BasicData
 		private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
 
 		[Route("GetAll")]
-		public async Task<IHttpActionResult> GetAllProviderAcademicServices()
+		public async Task<IHttpActionResult> GetAllProviderAcademicServices(string lang)
 		{
 			try
 			{
-				List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
-				var entity = GetProviderAcademicServicesList(Device_Info);
+				var entity = GetProviderAcademicServicesList(lang);
 				return Ok(new ResponseClass
 				{
 					success = true,
@@ -37,17 +36,16 @@ namespace IAU_BackEnd.Controllers.BasicData
 			}
 		}
 
-		public  IEnumerable<SelectList_DTO> GetProviderAcademicServicesList(List<string> Device_Info)
+		public  IEnumerable<SelectList_DTO> GetProviderAcademicServicesList(string lang)
 		{
 			try
 			{
-				string lang = Device_Info[2];
 				var entity = p.Provider_Academic_Services.Where(a => a.IS_Action == true).ToList()
 				  .Select(a =>
 				new SelectList_DTO
 				{
 					ID = a.Provider_Academic_Services_ID,
-					Name = (lang == "1" ? a.Provider_Academic_Services_Name_AR : a.Provider_Academic_Services_Name_EN),
+					Name = (lang == "ar" ? a.Provider_Academic_Services_Name_AR : a.Provider_Academic_Services_Name_EN),
 
 				});
 				return entity;

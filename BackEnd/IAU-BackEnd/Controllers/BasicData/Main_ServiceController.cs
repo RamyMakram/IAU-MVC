@@ -51,7 +51,7 @@ namespace IAU_BackEnd.Controllers.BasicData
 			new SelectList_DTO
 			{
 				ID = a.Main_Services_ID,
-				Name = (lang == "1" ? a.Main_Services_Name_AR : a.Main_Services_Name_EN),
+				Name = (lang == "ar" ? a.Main_Services_Name_AR : a.Main_Services_Name_EN),
 			}).ToList();
 			return entity;
 

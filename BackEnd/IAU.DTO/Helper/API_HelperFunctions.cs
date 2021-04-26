@@ -32,8 +32,7 @@ namespace IAU.DTO.Helper
 			var request = HttpContext.Current.Request;
 			string UserIp = ipAddress;
 			string IsTwasul_OC = (request.UserAgent != null) ? (!(request.UserAgent.IndexOf("IsTwasul_OC", StringComparison.OrdinalIgnoreCase) >= 0)).ToString() : "true";
-			var ss = request.Headers.GetValues("lang");
-			string lang = request.Headers.GetValues("lang").FirstOrDefault() ?? "1";
+			string lang = request.Cookies["lang"].Value ?? "en";
 			#endregion
 			return new List<string> { UserIp, IsTwasul_OC, lang };
 		}

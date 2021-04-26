@@ -28,7 +28,7 @@ namespace IAU_BackEnd.Controllers.BasicData
                 new SelectListItemDto
                 {
                     Id = a.Service_Type_ID,
-                    Name = (lang == "1" ? a.Service_Type_Name_AR : a.Service_Type_Name_EN),
+                    Name = (lang == "ar" ? a.Service_Type_Name_AR : a.Service_Type_Name_EN),
 
                     ImagePath = a.Image_Path,
                 });

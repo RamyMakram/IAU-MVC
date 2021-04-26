@@ -27,7 +27,7 @@ namespace IAU_BackEnd.Controllers.BasicData
                 new SelectListItemDto
                 {
                     Id = a.Request_Type_ID,
-                    Name = (lang == "1" ? a.Request_Type_Name_AR : a.Request_Type_Name_EN),
+                    Name = (lang == "ar" ? a.Request_Type_Name_AR : a.Request_Type_Name_EN),
                     ImagePath = a.Image_Path,
                 });
                 return Request.CreateResponse(new ResponseClass

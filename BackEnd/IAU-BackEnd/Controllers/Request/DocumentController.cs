@@ -39,12 +39,11 @@ namespace IAU_BackEnd.Controllers.Request
 
 		[HttpGet]
 		//[Route("GetSupportedDocument")]
-		public async Task<IHttpActionResult> GetSupportedDocument()
+		public async Task<IHttpActionResult> GetSupportedDocument(string lang)
 		{
 			try
 			{
-				List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
-				var data = GetSupportedDocumentList(Device_Info);
+				var data = GetSupportedDocumentList(lang);
 				return Ok(new ResponseClass
 				{
 					success = true,
@@ -62,14 +61,13 @@ namespace IAU_BackEnd.Controllers.Request
 
 		[HttpGet]
 		[Route("api/Document/loadpage")]
-		public HttpResponseMessage LoadDocumentPageRequire()
+		public HttpResponseMessage LoadDocumentPageRequire(string lang)
 		{
 			try
 			{
-				List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
-				var provider = (new ProviderAcademicServicesController().GetProviderAcademicServicesList(Device_Info));
+				var provider = (new ProviderAcademicServicesController().GetProviderAcademicServicesList(lang));
 
-				var supporteddocs = GetSupportedDocumentList(Device_Info);
+				var supporteddocs = GetSupportedDocumentList(lang);
 
 				return Request.CreateResponse(new ResponseClass
 				{
@@ -89,17 +87,16 @@ namespace IAU_BackEnd.Controllers.Request
 			}
 		}
 
-		public static IEnumerable<SelectList_DTO> GetSupportedDocumentList(List<string> Device_Info)
+		public static IEnumerable<SelectList_DTO> GetSupportedDocumentList(string lang)
 		{
 			try
 			{
-				string lang = Device_Info[2];
 				var entity = p.Supporting_Documents.Where(a => a.IS_Action == true).ToList()
 				  .Select(a =>
 				new SelectList_DTO
 				{
 					ID = a.Supporting_Documents_ID,
-					Name = (lang == "1" ? a.Supporting_Documents_Name_AR : a.Supporting_Documents_Name_EN),
+					Name = (lang == "ar" ? a.Supporting_Documents_Name_AR : a.Supporting_Documents_Name_EN),
 
 				});
 				return entity;
@@ -121,7 +118,7 @@ namespace IAU_BackEnd.Controllers.Request
 				new SelectList_DTO
 				{
 					ID = a.ID_Document1,
-					Name = (lang == "1" ? a.Document_Name_AR : a.Document_Name_EN),
+					Name = (lang == "ar" ? a.Document_Name_AR : a.Document_Name_EN),
 
 				});
 				return entity;

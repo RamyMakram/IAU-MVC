@@ -33,7 +33,7 @@ namespace IAU_BackEnd.Controllers.BasicData
                 new SelectList_DTO
                 {
                     ID = a.Sub_Services_ID,
-                    Name = (lang == "1" ? a.Sub_Services_Name_AR : a.Sub_Services_Name_EN),
+                    Name = (lang == "ar" ? a.Sub_Services_Name_AR : a.Sub_Services_Name_EN),
 
                 }).ToList();
                 return Request.CreateResponse(System.Net.HttpStatusCode.OK,

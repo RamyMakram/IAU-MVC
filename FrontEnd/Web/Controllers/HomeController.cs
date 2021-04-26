@@ -13,23 +13,24 @@ using Web.pdf;
 
 namespace Web.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
 		public ActionResult Index(string u)
 		{
+			var lang = Request.Cookies["lang"].Value;
 			if (u == null || u == "")
 				Response.Cookies.Add(new HttpCookie("us", null));
 			else
 				Response.Cookies.Add(new HttpCookie("us", u));
 			ApplicantRequest_Data_DTO request_Data = new ApplicantRequest_Data_DTO();
-			var res = APIHandeling.getData("/ServiceType/GetAllServiceType", Request.Headers.Get("lang") ?? "1");
+			var res = APIHandeling.getData("/ServiceType/GetAllServiceType", lang);
 			var resJson = res.Content.ReadAsStringAsync();
 			var lst = JsonConvert.DeserializeObject<Root>(resJson.Result);
 			request_Data.serviceTypeList = lst.success ? lst.result.ServiceType : null;
 
 			// //requestTypeList
 			//requestTypeList
-			res = APIHandeling.getData("/RequestType/GetAllRequestType", Request.Headers.Get("lang") ?? "1");
+			res = APIHandeling.getData("/RequestType/GetAllRequestType", lang);
 			resJson = res.Content.ReadAsStringAsync();
 			lst = JsonConvert.DeserializeObject<Root>(resJson.Result);
 			request_Data.requestTypeList = lst.success ? lst.result.RequestType : null;
@@ -43,7 +44,7 @@ namespace Web.Controllers
 		{
 			try
 			{
-				var res = APIHandeling.getData("/Document/loadpage", Request.Headers.Get("lang") ?? "1");
+				var res = APIHandeling.getData("/Document/loadpage", Request.Cookies["lang"].Value);
 				var resJson = res.Content.ReadAsStringAsync();
 				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
 				return Json(lst, JsonRequestBehavior.AllowGet);
@@ -76,7 +77,7 @@ namespace Web.Controllers
 				int code = new Random().Next(1000, 9999);
 				//int code = 1111;
 				string message = $@"Use this code {code} to complete your request.";
-				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message, Request.Headers.Get("lang") ?? "1");
+				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message, Request.Cookies["lang"].Value);
 				var resJson = res.Content.ReadAsStringAsync().Result;
 				Response.Cookies.Add(new HttpCookie("n", Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())))));
 				return Json(resJson, JsonRequestBehavior.AllowGet);
@@ -92,7 +93,7 @@ namespace Web.Controllers
 		{
 			try
 			{
-				var res = APIHandeling.getData("/ApplicantData/loadApplicantData", Request.Headers.Get("lang") ?? "1");
+				var res = APIHandeling.getData("/ApplicantData/loadApplicantData", Request.Cookies["lang"].Value);
 				var resJson = res.Content.ReadAsStringAsync();
 				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
 				return Json(lst, JsonRequestBehavior.AllowGet);
@@ -110,7 +111,7 @@ namespace Web.Controllers
 		{
 			try
 			{
-				var res = APIHandeling.getData("/Main_Service/GetMainServices?provideId=" + provideId, Request.Headers.Get("lang") ?? "1");
+				var res = APIHandeling.getData("/Main_Service/GetMainServices?provideId=" + provideId, Request.Cookies["lang"].Value);
 				var resJson = res.Content.ReadAsStringAsync();
 				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
 				return Json(lst, JsonRequestBehavior.AllowGet);
@@ -127,7 +128,7 @@ namespace Web.Controllers
 		{
 			try
 			{
-				var res = APIHandeling.getData("/Sub_Services/GetSubServices?main_ID=" + main_ID, Request.Headers.Get("lang") ?? "1");
+				var res = APIHandeling.getData("/Sub_Services/GetSubServices?main_ID=" + main_ID, Request.Cookies["lang"].Value);
 				var resJson = res.Content.ReadAsStringAsync();
 				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
 				return Json(lst, JsonRequestBehavior.AllowGet);
@@ -187,6 +188,12 @@ namespace Web.Controllers
 			GeneratePDF pdf = new GeneratePDF();
 			string base64File = pdf.GenratePDF(request_Data);
 			return base64File;
+		}
+		[HttpGet]
+		public ActionResult ChangeLang(string lang)
+		{
+			Response.Cookies.Set(new HttpCookie("lang", lang == "ar" ? lang : "en"));
+			return RedirectToAction("Index","Home");
 		}
 	}
 }

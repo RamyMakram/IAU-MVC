@@ -48,7 +48,7 @@ namespace IAU_BackEnd.Controllers.BasicData
                 new SelectList_DTO
                 {
                     ID = a.Nationality_ID,
-                    Name = (lang == "1" ? a.Nationality_Name_AR : a.Nationality_Name_EN),
+                    Name = (lang == "ar" ? a.Nationality_Name_AR : a.Nationality_Name_EN),
 
                  });
                 return entity;

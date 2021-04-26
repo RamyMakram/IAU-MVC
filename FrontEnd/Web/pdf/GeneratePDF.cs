@@ -79,8 +79,8 @@ namespace Web.pdf
 				var HeadColor = new iTextSharp.text.BaseColor(204, 204, 204);
 				font = new Font(customfont, 12);
 				var titleFont = new Font(customfont, 12, 0);
-				var minheigth_title = 40;
-				var minheigth_val = 30;
+				var minheigth_title = 30;
+				var minheigth_val = 20;
 
 				////////////////////////////////////////////////////////
 				////////////////////////////Header/////////////////////
@@ -143,7 +143,7 @@ namespace Web.pdf
 				temptable.AddCell(pdfCell);
 
 				temptable.CompleteRow();
-				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 25, PaddingBottom = 15, PaddingRight = 10, PaddingLeft = 10 });
+				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 0, PaddingBottom = 0, PaddingRight = 10, PaddingLeft = 10 });
 				pdfTable.CompleteRow();
 				#endregion
 				/////////////////////////////////////////////////////////////////////////////////
@@ -272,7 +272,7 @@ namespace Web.pdf
 
 				temptable.CompleteRow();
 
-				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 25, PaddingBottom = 15, PaddingRight = 10, PaddingLeft = 10 });
+				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 0, PaddingBottom = 0, PaddingRight = 10, PaddingLeft = 10 });
 				pdfTable.CompleteRow();
 				#endregion
 				/////////////////////////////////////////////////////////////////////////////////
@@ -358,7 +358,7 @@ namespace Web.pdf
 
 				temptable.CompleteRow();
 
-				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 25, PaddingBottom = 15, PaddingRight = 10, PaddingLeft = 10 });
+				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 0, PaddingBottom = 0, PaddingRight = 10, PaddingLeft = 10 });
 				pdfTable.CompleteRow();
 
 
@@ -438,7 +438,7 @@ namespace Web.pdf
 				temptable.AddCell(pdfCell);
 
 				temptable.CompleteRow();
-				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 25, PaddingBottom = 15, PaddingRight = 10, PaddingLeft = 10 });
+				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 0, PaddingBottom = 0, PaddingRight = 10, PaddingLeft = 10 });
 				pdfTable.CompleteRow();
 
 
@@ -489,7 +489,7 @@ namespace Web.pdf
 				temptable.AddCell(pdfCell);
 
 				temptable.CompleteRow();
-				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 25, PaddingBottom = 15, PaddingRight = 10, PaddingLeft = 10 });
+				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 0, PaddingBottom = 0, PaddingRight = 10, PaddingLeft = 10 });
 				pdfTable.CompleteRow();
 				/////////////////////////////////////////////////////////////////////////
 
@@ -597,7 +597,7 @@ namespace Web.pdf
 					temptable.CompleteRow();
 				}
 
-				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 25, PaddingBottom = 15, PaddingRight = 10, PaddingLeft = 10 });
+				pdfTable.AddCell(new PdfPCell(temptable) { Border = 0, PaddingTop = 0, PaddingBottom = 0, PaddingRight = 10, PaddingLeft = 10 });
 				pdfTable.CompleteRow();
 				#endregion
 

@@ -47,7 +47,7 @@ namespace IAU_BackEnd.Controllers.Applicant
 				new SelectList_DTO
 				{
 					ID = a.Applicant_Type_ID,
-					Name = (lang == "1" ? a.Applicant_Type_Name_AR : a.Applicant_Type_Name_EN),
+					Name = (lang == "ar" ? a.Applicant_Type_Name_AR : a.Applicant_Type_Name_EN),
 				 
 				});
 				return entity;

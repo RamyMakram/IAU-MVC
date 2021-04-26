@@ -182,6 +182,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\User_Session.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CoordinatorController.cs" />
     <Compile Include="Controllers\FollowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -308,6 +309,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
     <Folder Include="PdfFiles\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\files\2021_application as a sample of IAU forms.pdf" />
@@ -338,9 +340,11 @@
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <None Include="bin\Web.dll.config" />
     <Content Include="Design\webfonts\FrutigerLTArabic-65Bold.ttf" />
+    <Content Include="Design\webfonts\Droid-Arabic-Kufi.ttf" />
     <None Include="packages.config" />
     <Content Include="Views\Coordinator\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <Content Include="Views\Shared\_Language.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAU.DTO\IAU.DTO.csproj">

@@ -245,7 +245,7 @@ namespace IAU_BackEnd.Controllers.Request
 					res.requestCode = requestCode;
 					res.location = "location";
 					res.statusId = req.Request_State_ID;
-					res.status = (lang == "1" ? req.Request_State.StateName_AR : req.Request_State.StateName_EN);
+					res.status = (lang == "ar" ? req.Request_State.StateName_AR : req.Request_State.StateName_EN);
 					res.deliverydate = req.CreatedDate;
 				}
 				return Request.CreateResponse(System.Net.HttpStatusCode.OK, res);
