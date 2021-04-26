@@ -140,6 +140,7 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\PriviligesController.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\Request_TypeController.cs" />
     <Compile Include="Controllers\Service_TypeController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
@@ -239,6 +240,9 @@
     <Compile Include="Models\Request_State.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Request_SupportingDocs.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Request_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -313,6 +317,7 @@
     <Folder Include="Images\Main_Services\" />
     <Folder Include="Images\Request_Type\" />
     <Folder Include="Images\Service_Types\" />
+    <Folder Include="RequestFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css.map" />

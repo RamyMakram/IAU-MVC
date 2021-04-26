@@ -34,6 +34,7 @@ namespace IAU_BackEnd.Models
         public string Mobile { get; set; }
         public string IS_Action { get; set; }
     
+        public virtual Applicant_Type Applicant_Type { get; set; }
         public virtual Country Country { get; set; }
         public virtual ID_Document ID_Document1 { get; set; }
         public virtual Nationality Nationality { get; set; }

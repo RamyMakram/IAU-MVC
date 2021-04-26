@@ -17,7 +17,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supporting_Documents()
         {
-            this.Request_Data = new HashSet<Request_Data>();
+            this.Request_SupportingDocs = new HashSet<Request_SupportingDocs>();
         }
     
         public int Supporting_Documents_ID { get; set; }
@@ -26,6 +26,6 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<bool> IS_Action { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Request_Data> Request_Data { get; set; }
+        public virtual ICollection<Request_SupportingDocs> Request_SupportingDocs { get; set; }
     }
 }

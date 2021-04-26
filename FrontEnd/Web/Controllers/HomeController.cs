@@ -3,6 +3,7 @@ using IAU.DTO.Helper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,7 +76,9 @@ namespace Web.Controllers
 			try
 			{
 				int code = new Random().Next(1000, 9999);
-				//int code = 1111;
+				Debug.WriteLine(code);
+				//Console.WriteLine(code);
+				code = 1111;
 				string message = $@"Use this code {code} to complete your request.";
 				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message, Request.Cookies["lang"].Value);
 				var resJson = res.Content.ReadAsStringAsync().Result;
@@ -162,8 +165,7 @@ namespace Web.Controllers
 						file.InputStream.Read(Bytes, 0, Bytes.Length);
 						Files.Add(new CustomeFile() { bytes = Bytes, filename = file.FileName });
 					}
-
-					var res = APIHandeling.Post("/Request/saveApplicantData", new RequestData_DTO() { PDFSignature = base64File, Request = data, Files = Files });
+					var res = APIHandeling.PostRequest("/Request/saveApplicantData", new RequestData_DTO() { PDFSignature = base64File, Request = data, Files = Files });
 					var resJson = res.Content.ReadAsStringAsync();
 					var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 					if (lst.success)

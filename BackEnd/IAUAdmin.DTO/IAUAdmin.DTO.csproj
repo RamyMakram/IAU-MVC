@@ -42,10 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\ApplicantRequest_Data_DTO.cs" />
     <Compile Include="Entity\Job_PermissionsDTO.cs" />
     <Compile Include="Entity\JobDTO.cs" />
     <Compile Include="Entity\LocationsDTO.cs" />
     <Compile Include="Entity\PrivilgesDTO.cs" />
+    <Compile Include="Entity\RequestData_DTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
     <Compile Include="Entity\UnitsDTO.cs" />

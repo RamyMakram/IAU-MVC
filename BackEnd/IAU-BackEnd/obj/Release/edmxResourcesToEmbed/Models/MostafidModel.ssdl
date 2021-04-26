@@ -9,14 +9,6 @@
     <Property Name="Applicant_Type_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
-  <EntityType Name="Authority_Holder">
-    <Key>
-      <PropertyRef Name="Authority_Holder_ID" />
-    </Key>
-    <Property Name="Authority_Holder_ID" Type="int" Nullable="false" />
-    <Property Name="Authority_Holder_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="Authority_Holder_Name_EN" Type="nvarchar" MaxLength="250" />
-  </EntityType>
   <EntityType Name="City">
     <Key>
       <PropertyRef Name="City_ID" />
@@ -25,15 +17,6 @@
     <Property Name="City_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="City_Name_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="Region_ID" Type="int" />
-    <Property Name="IS_Action" Type="bit" />
-  </EntityType>
-  <EntityType Name="College_Administration">
-    <Key>
-      <PropertyRef Name="College_Administration_ID" />
-    </Key>
-    <Property Name="College_Administration_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="College_Administration_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="College_Administration_Name_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
   <EntityType Name="Country">
@@ -45,16 +28,6 @@
     <Property Name="Country_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
-  <EntityType Name="Department">
-    <Key>
-      <PropertyRef Name="Department_ID" />
-    </Key>
-    <Property Name="Department_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Department_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="Department_Name_EN" Type="nvarchar" MaxLength="250" />
-    <Property Name="College_Administration_ID" Type="int" />
-    <Property Name="IS_Action" Type="bit" />
-  </EntityType>
   <EntityType Name="Employee">
     <Key>
       <PropertyRef Name="ID" />
@@ -63,30 +36,6 @@
     <Property Name="Employee_Name" Type="nvarchar" MaxLength="150" />
     <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Engagements_Department">
-    <Key>
-      <PropertyRef Name="Engagements_Department_ID" />
-    </Key>
-    <Property Name="Engagements_Department_ID" Type="int" Nullable="false" />
-    <Property Name="Engagements_Department_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="Engagements_Department_Name_EN" Type="nvarchar" MaxLength="250" />
-  </EntityType>
-  <EntityType Name="Event_Publication_Violation">
-    <Key>
-      <PropertyRef Name="Event_Publication_Violation_ID" />
-    </Key>
-    <Property Name="Event_Publication_Violation_ID" Type="int" Nullable="false" />
-    <Property Name="Event_Publication_Violation_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="Event_Publication_Violation_Name_EN" Type="nvarchar" MaxLength="250" />
-  </EntityType>
-  <EntityType Name="FollowUp_Publication_Violations">
-    <Key>
-      <PropertyRef Name="FollowUp_Publication_Violations_ID" />
-    </Key>
-    <Property Name="FollowUp_Publication_Violations_ID" Type="int" Nullable="false" />
-    <Property Name="FollowUp_Publication_Violations_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="FollowUp_Publication_Violations_EN" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="ID_Document">
     <Key>
@@ -116,8 +65,6 @@
     <Property Name="Nationality_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'MostafidDatabase22032020.dbo.Personel_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Personel_Data">
     <Key>
       <PropertyRef Name="Personel_Data_ID" />
@@ -151,64 +98,6 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Personel_Data' does n
     <Property Name="Provider_Academic_Services_ID" Type="int" Nullable="false" />
     <Property Name="Provider_Academic_Services_Name_EN" Type="nvarchar(max)" />
     <Property Name="Provider_Academic_Services_Name_AR" Type="nvarchar(max)" />
-    <Property Name="IS_Action" Type="bit" />
-  </EntityType>
-  <EntityType Name="Purchase_Order_Form">
-    <Key>
-      <PropertyRef Name="Purchase_Order_Form_ID" />
-    </Key>
-    <Property Name="Purchase_Order_Form_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type_Support_Project_ID" Type="int" />
-    <Property Name="Department_ID" Type="int" />
-    <Property Name="Purchase_Order_Form_Date" Type="date" />
-    <Property Name="Supplier_Names_ID_1" Type="int" />
-    <Property Name="Supplier_Names_ID_2" Type="int" />
-    <Property Name="Supplier_Names_ID_3" Type="int" />
-    <Property Name="IS_Action" Type="bit" />
-    <Property Name="Research_Project_Need_No" Type="nvarchar" MaxLength="250" />
-    <Property Name="Distracted_From_Item" Type="nvarchar" MaxLength="250" />
-    <Property Name="Name_Principal_Researcher" Type="nvarchar" MaxLength="250" />
-    <Property Name="Job_Title" Type="nvarchar" MaxLength="250" />
-    <Property Name="College" Type="nvarchar" MaxLength="250" />
-    <Property Name="Justifications_Signature" Type="nvarchar" MaxLength="250" />
-    <Property Name="Mobile_Finder" Type="nvarchar" MaxLength="50" />
-    <Property Name="Supervisor_Name" Type="nvarchar" MaxLength="250" />
-    <Property Name="Supervisor_Signature" Type="nchar" MaxLength="10" />
-    <Property Name="FollowUp_Publication_Violations_ID" Type="int" />
-    <Property Name="FollowUp_Publication_Violations_Name" Type="nvarchar" MaxLength="250" />
-    <Property Name="FollowUp_Publication_Violations_Signature" Type="nvarchar" MaxLength="250" />
-    <Property Name="FollowUp_Publication_Violations_Date" Type="date" />
-    <Property Name="Event_Publication_Violation_ID" Type="int" />
-    <Property Name="Event_Publication_Violation_Name" Type="nvarchar" MaxLength="250" />
-    <Property Name="Event_Publication_Violation_Signature" Type="nvarchar" MaxLength="250" />
-    <Property Name="Event_Publication_Violation_Date" Type="date" />
-    <Property Name="Name_Warehouse_Keeper_Name" Type="nvarchar" MaxLength="250" />
-    <Property Name="Name_Warehouse_Keeper_Signature" Type="nvarchar" MaxLength="250" />
-    <Property Name="Name_Warehouse_Keeper_Date" Type="date" />
-    <Property Name="Authority_Holder_ID" Type="int" />
-    <Property Name="Authority_Holder_Name" Type="nvarchar" MaxLength="250" />
-    <Property Name="Authority_Holder_Signature" Type="nvarchar" MaxLength="250" />
-    <Property Name="Authority_Holder_Date" Type="date" />
-    <Property Name="Statement_Department_File_Sent_Them_ID" Type="int" />
-    <Property Name="Statement_Department_File_Sent_Them_Responsible_Name" Type="nvarchar" MaxLength="250" />
-    <Property Name="Statement_Department_File_Sent_Them_Signature" Type="nvarchar" MaxLength="250" />
-    <Property Name="Statement_Department_File_Sent_Them_Date" Type="date" />
-    <Property Name="Engagements_Department_ID" Type="int" />
-    <Property Name="Engagements_Department_Price" Type="nvarchar" MaxLength="250" />
-    <Property Name="Engagements_Department_Item_No1" Type="nvarchar" MaxLength="250" />
-    <Property Name="Engagements_Department_Link_Number" Type="nvarchar" MaxLength="250" />
-    <Property Name="Engagements_Department_Competent_Employee" Type="nvarchar" MaxLength="250" />
-    <Property Name="Engagements_Department_Competent_Signature" Type="nvarchar" MaxLength="250" />
-    <Property Name="Engagements_Department_Competent_Date" Type="date" />
-  </EntityType>
-  <EntityType Name="Purchase_Order_Form_Required">
-    <Key>
-      <PropertyRef Name="Purchase_Order_Form_Required_ID" />
-    </Key>
-    <Property Name="Purchase_Order_Form_Required_ID" Type="int" Nullable="false" />
-    <Property Name="Required_Specifications_Name" Type="nvarchar" MaxLength="250" />
-    <Property Name="Quantity" Type="float" />
-    <Property Name="Purchase_Order_Form_ID" Type="int" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
   <EntityType Name="Region">
@@ -267,6 +156,15 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Personel_Data' does n
     <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
+  <EntityType Name="Request_SupportingDocs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestID" Type="int" Nullable="false" />
+    <Property Name="SupportingDocID" Type="int" Nullable="false" />
+    <Property Name="Path" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
   <EntityType Name="Request_Type">
     <Key>
       <PropertyRef Name="Request_Type_ID" />
@@ -287,16 +185,6 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Personel_Data' does n
     <Property Name="IS_Action" Type="bit" />
     <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="Statement_Department_File_Sent_Them">
-    <Key>
-      <PropertyRef Name="Statement_Department_File_Sent_Them_ID" />
-    </Key>
-    <Property Name="Statement_Department_File_Sent_Them_ID" Type="int" Nullable="false" />
-    <Property Name="Statement_Department_File_Sent_Them_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="Statement_Department_File_Sent_Them_Name_EN" Type="nvarchar" MaxLength="250" />
-  </EntityType>
   <EntityType Name="Sub_Services">
     <Key>
       <PropertyRef Name="Sub_Services_ID" />
@@ -305,15 +193,6 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
     <Property Name="Sub_Services_Name_EN" Type="nvarchar(max)" />
     <Property Name="Sub_Services_Name_AR" Type="nvarchar(max)" />
     <Property Name="Main_Services_ID" Type="int" />
-    <Property Name="IS_Action" Type="bit" />
-  </EntityType>
-  <EntityType Name="Supplier_Names">
-    <Key>
-      <PropertyRef Name="Supplier_Names_ID" />
-    </Key>
-    <Property Name="Supplier_Names_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Supplier_Names_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="Supplier_Names_Name_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
   <EntityType Name="Supporting_Documents">
@@ -343,14 +222,6 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
     <Property Name="Title_Middle_Names_Name_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="Title_Middle_Names_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
-  </EntityType>
-  <EntityType Name="Type_Support_Project">
-    <Key>
-      <PropertyRef Name="Type_Support_Project_ID" />
-    </Key>
-    <Property Name="Type_Support_Project_ID" Type="int" Nullable="false" />
-    <Property Name="Type_Support_Project_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="Type_Support_Project_Name_EN" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="User_Active">
     <Key>
@@ -402,18 +273,6 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Department_College_Administration">
-    <End Role="College_Administration" Type="Self.College_Administration" Multiplicity="0..1" />
-    <End Role="Department" Type="Self.Department" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="College_Administration">
-        <PropertyRef Name="College_Administration_ID" />
-      </Principal>
-      <Dependent Role="Department">
-        <PropertyRef Name="College_Administration_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Documents_Provider_Academic_Services">
     <End Role="Provider_Academic_Services" Type="Self.Provider_Academic_Services" Multiplicity="0..1" />
     <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
@@ -447,6 +306,18 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
       </Principal>
       <Dependent Role="Main_Services">
         <PropertyRef Name="Provider_Academic_Services_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Applicant_Type">
+    <End Role="Applicant_Type" Type="Self.Applicant_Type" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applicant_Type">
+        <PropertyRef Name="Applicant_Type_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Applicant_Type_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -495,102 +366,6 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
       </Principal>
       <Dependent Role="Personel_Data">
         <PropertyRef Name="Title_Middle_Names_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_Authority_Holder">
-    <End Role="Authority_Holder" Type="Self.Authority_Holder" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Authority_Holder">
-        <PropertyRef Name="Authority_Holder_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form">
-        <PropertyRef Name="Authority_Holder_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_Department">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="Department_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form">
-        <PropertyRef Name="Department_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_Engagements_Department">
-    <End Role="Engagements_Department" Type="Self.Engagements_Department" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Engagements_Department">
-        <PropertyRef Name="Engagements_Department_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form">
-        <PropertyRef Name="Engagements_Department_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_Event_Publication_Violation">
-    <End Role="Event_Publication_Violation" Type="Self.Event_Publication_Violation" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Event_Publication_Violation">
-        <PropertyRef Name="Event_Publication_Violation_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form">
-        <PropertyRef Name="Event_Publication_Violation_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_FollowUp_Publication_Violations">
-    <End Role="FollowUp_Publication_Violations" Type="Self.FollowUp_Publication_Violations" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FollowUp_Publication_Violations">
-        <PropertyRef Name="FollowUp_Publication_Violations_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form">
-        <PropertyRef Name="FollowUp_Publication_Violations_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_Required_Purchase_Order_Form">
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form_Required" Type="Self.Purchase_Order_Form_Required" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Purchase_Order_Form">
-        <PropertyRef Name="Purchase_Order_Form_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form_Required">
-        <PropertyRef Name="Purchase_Order_Form_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_Supplier_Names">
-    <End Role="Supplier_Names" Type="Self.Supplier_Names" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Supplier_Names">
-        <PropertyRef Name="Supplier_Names_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form">
-        <PropertyRef Name="Supplier_Names_ID_1" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Order_Form_Type_Support_Project">
-    <End Role="Type_Support_Project" Type="Self.Type_Support_Project" Multiplicity="0..1" />
-    <End Role="Purchase_Order_Form" Type="Self.Purchase_Order_Form" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Type_Support_Project">
-        <PropertyRef Name="Type_Support_Project_ID" />
-      </Principal>
-      <Dependent Role="Purchase_Order_Form">
-        <PropertyRef Name="Type_Support_Project_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -702,6 +477,30 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Request_SupportingDocs_Request_Data">
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
+    <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request_Data">
+        <PropertyRef Name="Request_Data_ID" />
+      </Principal>
+      <Dependent Role="Request_SupportingDocs">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_SupportingDocs_Supporting_Documents">
+    <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="1" />
+    <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supporting_Documents">
+        <PropertyRef Name="Supporting_Documents_ID" />
+      </Principal>
+      <Dependent Role="Request_SupportingDocs">
+        <PropertyRef Name="SupportingDocID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Sub_Services_Main_Services">
     <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="0..1" />
     <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="*" />
@@ -764,75 +563,33 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
   </Association>
   <EntityContainer Name="MostafidDatabaseModelStoreContainer">
     <EntitySet Name="Applicant_Type" EntityType="Self.Applicant_Type" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Authority_Holder" EntityType="Self.Authority_Holder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="College_Administration" EntityType="Self.College_Administration" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Engagements_Department" EntityType="Self.Engagements_Department" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Event_Publication_Violation" EntityType="Self.Event_Publication_Violation" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="FollowUp_Publication_Violations" EntityType="Self.FollowUp_Publication_Violations" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ID_Document" EntityType="Self.ID_Document" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Provider_Academic_Services" EntityType="Self.Provider_Academic_Services" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Purchase_Order_Form" EntityType="Self.Purchase_Order_Form" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Purchase_Order_Form_Required" EntityType="Self.Purchase_Order_Form_Required" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Data" EntityType="Self.Request_Data" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_File" EntityType="Self.Request_File" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Log" EntityType="Self.Request_Log" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_State" EntityType="Self.Request_State" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request_SupportingDocs" EntityType="Self.Request_SupportingDocs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Type" EntityType="Self.Request_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Supplier_Names" EntityType="Self.Supplier_Names" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supporting_Documents" EntityType="Self.Supporting_Documents" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Type_Support_Project" EntityType="Self.Type_Support_Project" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Active" EntityType="Self.User_Active" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Permissions" EntityType="Self.User_Permissions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Permissions_Type" EntityType="Self.User_Permissions_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [Personel_Data].[Personel_Data_ID] AS [Personel_Data_ID], 
-    [Personel_Data].[ID_Document] AS [ID_Document], 
-    [Personel_Data].[ID_Number] AS [ID_Number], 
-    [Personel_Data].[IAU_Affiliate_ID] AS [IAU_Affiliate_ID], 
-    [Personel_Data].[IAU_ID_Number] AS [IAU_ID_Number], 
-    [Personel_Data].[Applicant_Type_ID] AS [Applicant_Type_ID], 
-    [Personel_Data].[Title_Middle_Names_ID] AS [Title_Middle_Names_ID], 
-    [Personel_Data].[First_Name] AS [First_Name], 
-    [Personel_Data].[Middle_Name] AS [Middle_Name], 
-    [Personel_Data].[Last_Name] AS [Last_Name], 
-    [Personel_Data].[Nationality_ID] AS [Nationality_ID], 
-    [Personel_Data].[Country_ID] AS [Country_ID], 
-    [Personel_Data].[City_Country_1] AS [City_Country_1], 
-    [Personel_Data].[City_Country_2] AS [City_Country_2], 
-    [Personel_Data].[Region_Postal_Code_1] AS [Region_Postal_Code_1], 
-    [Personel_Data].[Region_Postal_Code_2] AS [Region_Postal_Code_2], 
-    [Personel_Data].[Email] AS [Email], 
-    [Personel_Data].[Mobile] AS [Mobile], 
-    [Personel_Data].[IS_Action] AS [IS_Action]
-    FROM [dbo].[Personel_Data] AS [Personel_Data]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="Self.Statement_Department_File_Sent_Them" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [Statement_Department_File_Sent_Them].[Statement_Department_File_Sent_Them_ID] AS [Statement_Department_File_Sent_Them_ID], 
-    [Statement_Department_File_Sent_Them].[Statement_Department_File_Sent_Them_Name_AR] AS [Statement_Department_File_Sent_Them_Name_AR], 
-    [Statement_Department_File_Sent_Them].[Statement_Department_File_Sent_Them_Name_EN] AS [Statement_Department_File_Sent_Them_Name_EN]
-    FROM [dbo].[Statement_Department_File_Sent_Them] AS [Statement_Department_File_Sent_Them]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK_City_Region" Association="Self.FK_City_Region">
       <End Role="Region" EntitySet="Region" />
       <End Role="City" EntitySet="City" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Department_College_Administration" Association="Self.FK_Department_College_Administration">
-      <End Role="College_Administration" EntitySet="College_Administration" />
-      <End Role="Department" EntitySet="Department" />
     </AssociationSet>
     <AssociationSet Name="FK_Documents_Provider_Academic_Services" Association="Self.FK_Documents_Provider_Academic_Services">
       <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
@@ -845,6 +602,10 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
     <AssociationSet Name="FK_Main_Services_Provider_Academic_Services" Association="Self.FK_Main_Services_Provider_Academic_Services">
       <End Role="Provider_Academic_Services" EntitySet="Provider_Academic_Services" />
       <End Role="Main_Services" EntitySet="Main_Services" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="Self.FK_Personel_Data_Applicant_Type">
+      <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
     </AssociationSet>
     <AssociationSet Name="FK_Personel_Data_Country" Association="Self.FK_Personel_Data_Country">
       <End Role="Country" EntitySet="Country" />
@@ -861,38 +622,6 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
     <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="Self.FK_Personel_Data_Title_Middle_Names">
       <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
       <End Role="Personel_Data" EntitySet="Personel_Data" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_Authority_Holder" Association="Self.FK_Purchase_Order_Form_Authority_Holder">
-      <End Role="Authority_Holder" EntitySet="Authority_Holder" />
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_Department" Association="Self.FK_Purchase_Order_Form_Department">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_Engagements_Department" Association="Self.FK_Purchase_Order_Form_Engagements_Department">
-      <End Role="Engagements_Department" EntitySet="Engagements_Department" />
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_Event_Publication_Violation" Association="Self.FK_Purchase_Order_Form_Event_Publication_Violation">
-      <End Role="Event_Publication_Violation" EntitySet="Event_Publication_Violation" />
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_FollowUp_Publication_Violations" Association="Self.FK_Purchase_Order_Form_FollowUp_Publication_Violations">
-      <End Role="FollowUp_Publication_Violations" EntitySet="FollowUp_Publication_Violations" />
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_Required_Purchase_Order_Form" Association="Self.FK_Purchase_Order_Form_Required_Purchase_Order_Form">
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-      <End Role="Purchase_Order_Form_Required" EntitySet="Purchase_Order_Form_Required" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_Supplier_Names" Association="Self.FK_Purchase_Order_Form_Supplier_Names">
-      <End Role="Supplier_Names" EntitySet="Supplier_Names" />
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Order_Form_Type_Support_Project" Association="Self.FK_Purchase_Order_Form_Type_Support_Project">
-      <End Role="Type_Support_Project" EntitySet="Type_Support_Project" />
-      <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
     </AssociationSet>
     <AssociationSet Name="FK_Region_Country" Association="Self.FK_Region_Country">
       <End Role="Country" EntitySet="Country" />
@@ -929,6 +658,14 @@ warning 6002: The table/view 'MostafidDatabase22032020.dbo.Statement_Department_
     <AssociationSet Name="FK_Request_State_Request_Data" Association="Self.FK_Request_State_Request_Data">
       <End Role="Request_Data" EntitySet="Request_Data" />
       <End Role="Request_Log" EntitySet="Request_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_SupportingDocs_Request_Data" Association="Self.FK_Request_SupportingDocs_Request_Data">
+      <End Role="Request_Data" EntitySet="Request_Data" />
+      <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_SupportingDocs_Supporting_Documents" Association="Self.FK_Request_SupportingDocs_Supporting_Documents">
+      <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
+      <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
     </AssociationSet>
     <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
       <End Role="Main_Services" EntitySet="Main_Services" />

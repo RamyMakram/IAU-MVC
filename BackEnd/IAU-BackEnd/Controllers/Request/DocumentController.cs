@@ -108,11 +108,10 @@ namespace IAU_BackEnd.Controllers.Request
 		}
 
 
-		public static IEnumerable<SelectList_DTO> GetDocumentTypeList(List<string> Device_Info)
+		public static IEnumerable<SelectList_DTO> GetDocumentTypeList(string lang)
 		{
 			try
 			{
-				string lang = Device_Info[2];
 				var entity = p.ID_Document.ToList()
 				  .Select(a =>
 				new SelectList_DTO

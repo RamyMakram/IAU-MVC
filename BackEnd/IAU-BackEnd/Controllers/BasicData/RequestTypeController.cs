@@ -16,12 +16,10 @@ namespace IAU_BackEnd.Controllers.BasicData
 
         [HttpGet]
         [Route("api/RequestType/GetAllRequestType")]
-        public HttpResponseMessage GetAllRequestType()
+        public HttpResponseMessage GetAllRequestType(string lang)
         {
             try
             {
-                List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
-                string lang = Device_Info[2];
                 var RequestType = p.Request_Type.Where(a => a.IS_Action == true).ToList()
                   .Select(a =>
                 new SelectListItemDto

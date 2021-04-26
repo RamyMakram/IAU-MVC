@@ -16,13 +16,13 @@ namespace IAU_BackEnd.Controllers.Applicant
 		private  static MostafidDatabaseEntities p = new MostafidDatabaseEntities();
 
 		[Route("GetApplicantNames")]
-		public async Task<IHttpActionResult> GetTypes()
+		public async Task<IHttpActionResult> GetTypes(string lang)
 		{
 			try
 			{
 				List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
 
-				var entity = GetTypesList(Device_Info);
+				var entity = GetTypesList(lang);
 				return Ok(new ResponseClass
 				{
 					success = true,
@@ -37,11 +37,10 @@ namespace IAU_BackEnd.Controllers.Applicant
 				});
 			}
 		}
-		public  static IEnumerable<SelectList_DTO> GetTypesList(List<string> Device_Info)
+		public  static IEnumerable<SelectList_DTO> GetTypesList(string lang)
 		{
 			try
 			{
-				string lang = Device_Info[2];
 				var entity = p.Applicant_Type.Where(a=>a.IS_Action==true).ToList()
 				  .Select(a =>
 				new SelectList_DTO

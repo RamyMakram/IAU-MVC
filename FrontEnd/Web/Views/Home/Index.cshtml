@@ -435,7 +435,6 @@
 						</div>
 						<div class="row" style="margin-top:0px;padding:0px;">
 							<div class="col-md-3">E-forms</div>
-							<input type="file" id="filelist" style="display: none;" onchange="handleFiles(this.files)" />
 							<div class="col-md-1" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
@@ -475,7 +474,7 @@
 					</div>
 					<div class="row" style="margin-top:0px">
 						<div class="col-md-3">upload Required documnets</div>
-						@*<input type="file" id="filelist" style="display: none;" onchange="handleFiles(this.files)" />*@<input type="file" id="filelist" style="display: none;" onchange="handleFiles(this.files)" />
+						<input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
 						<div class="col-md-1" style="padding:0px">
 							<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 								 data-bs-custom-class="beautifier"
@@ -489,7 +488,7 @@
 					</div>
 					<div class="row" style="margin-top:0px">
 						<div class="col-md-3">upload supportive documnets</div>
-						<input type="file" id="filelistSupportive" style="display: none;" onchange="handleFiles(this.files)" />
+						<input type="file" id="filelistSupportive" style="display: none;" multiple onchange="HandelDragAndDrop(this.files)" />
 						<div class="col-md-1" style="padding:0px">
 							<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 								 data-bs-custom-class="beautifier"
@@ -497,7 +496,7 @@
 						</div>
 						<div class="col-md-8 e-form" id="drop-area">
 							<p>Drop file Here Or Click to upload(Maximum load size 20MB) <i class="fas fa-upload"></i></p>
-							<div id="filesName" name="filesName">
+							<div id="filesNameDrop" name="filesNameDrop">
 
 
 							</div>
@@ -543,7 +542,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-3">upload required documnets</div>
-						<input type="file" id="filelistOther" multiple onchange="handleFiles(this.files)" style="display: none;" />
+						<input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
 						<div class="col-md-1">
 							<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 								 data-bs-custom-class="beautifier"
@@ -551,7 +550,7 @@
 						</div>
 						<div class="col-md-8" id="drop-area-other">
 							<p>Drop file Here Or Click to upload(Maximum load size 20 MB) <i class="fas fa-upload"></i></p>
-							<div class="row" id="filesNameOther" name="filesNameOther">
+							<div class="row" id="filesNameDropOther" name="filesNameDropOther">
 							</div>
 						</div>
 					</div>

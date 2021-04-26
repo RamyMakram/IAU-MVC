@@ -18,98 +18,6 @@ namespace IAU_BackEnd.Controllers.Request
 	public class RequestController : ApiController
 	{
 
-		[HttpPost]
-		[Route("api/Request/saveApplicantData")]
-		public IHttpActionResult SaveApplicantData(RequestData_DTO requestData)
-		{
-			try
-			{
-				List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
-				MostafidDatabaseEntities p = new MostafidDatabaseEntities();
-				ApplicantRequest_Data_DTO model = requestData.Request;
-
-				//save personal data
-				Personel_Data personel_Data = new Personel_Data();
-				personel_Data.ID_Document = model.ID_Document.Value;
-				personel_Data.ID_Number = model.Document_Number;
-				personel_Data.IAU_Affiliate_ID = model.Affiliated;
-				personel_Data.IAU_ID_Number = model.IAUID;
-				personel_Data.Applicant_Type_ID = model.Applicant_Type_ID;
-				personel_Data.Title_Middle_Names_ID = model.title;
-				personel_Data.First_Name = model.First_Name;
-				personel_Data.Middle_Name = model.Middle_Name;
-				personel_Data.Last_Name = model.Last_Name;
-				personel_Data.Nationality_ID = model.Nationality_ID;
-				personel_Data.Country_ID = model.Country_ID;
-				personel_Data.City_Country_1 = model.City_Country_1;
-				personel_Data.City_Country_2 = model.City_Country_2;
-				personel_Data.Region_Postal_Code_1 = model.Region_Postal_Code_1;
-				personel_Data.Region_Postal_Code_2 = model.Region_Postal_Code_2;
-				personel_Data.Email = model.Email;
-				personel_Data.Mobile = model.Mobile;
-				p.Personel_Data.Add(personel_Data);
-				p.SaveChanges();
-
-				//save request data
-				byte request_State_ID = (byte)RequestState.Created;
-
-				Request_Data request_Data = new Request_Data();
-				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
-				request_Data.Provider_Academic_Services_ID = model.provider;
-				request_Data.Sub_Services_ID = model.Sub_Services_ID;
-				request_Data.Required_Fields_Notes = model.Required_Fields_Notes;
-				request_Data.Request_Type_ID = model.Request_Type_ID;
-				request_Data.Service_Type_ID = model.Service_Type_ID;
-				request_Data.Code_Generate = generateCode();
-				request_Data.CreatedDate = DateTime.Now;
-				request_Data.Request_State_ID = request_State_ID;
-				//IsTwasul=true, OC ON-CAMPUS بالمركز=false
-				request_Data.IsTwasul_OC = bool.Parse(Device_Info[1]);
-
-				if (model.Supporting_Documents_ID != 0)
-				{
-					request_Data.Supporting_Documents_ID = model.Supporting_Documents_ID;
-				}
-				var ss = p.Request_Data.Add(request_Data);
-				p.SaveChanges();
-				//files
-				var path = HttpContext.Current.Server.MapPath("~");
-				var requestpath = Path.Combine("RequestFiles", request_Data.Request_Data_ID.ToString());
-				Directory.CreateDirectory(Path.Combine(path, requestpath));
-
-				foreach (var file in requestData.Files)
-				{
-					var filename = Path.GetFileName(file.filename);
-					var filepath = Path.Combine(requestpath, filename);
-					File.WriteAllBytes(Path.Combine(path, filepath), file.bytes);
-					p.Request_File.Add(new Request_File()
-					{
-						Request_ID = request_Data.Request_Data_ID,
-						CreatedDate = DateTime.Now,
-						File_Name = filename,
-						File_Path = filepath.Replace("\\", "/")
-					});
-				}
-				InsertRequestLog(request_State_ID, request_Data.Request_Data_ID, null);
-				p.SaveChanges();
-
-				string message = @"عزيزي المستفيد ، 
-									تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعه";
-				_ = SendSMS(model.Mobile, message);
-				return Ok(new
-				{
-					success = true
-				});
-			}
-			catch (Exception e)
-			{
-				return Ok(new
-				{
-					success = false
-				});
-			}
-		}
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -125,7 +33,7 @@ namespace IAU_BackEnd.Controllers.Request
 				Request_State_ID = request_State_ID,
 				CreatedDate = DateTime.Now,
 				Employee_ID = Employee_ID,
-			}); ;
+			}); 
 			p.SaveChanges();
 		}
 

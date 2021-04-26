@@ -22,23 +22,22 @@ namespace IAU_BackEnd.Controllers.Applicant
 
 		[HttpGet]
 		[Route("api/ApplicantData/loadApplicantData")]
-		public HttpResponseMessage LoadPersonalDataPageRequire()
+		public HttpResponseMessage LoadPersonalDataPageRequire(string lang)
 		{
 			try
 			{
-				List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
-				var Countries = CountryController.GetCountriesList(Device_Info);
+				var Countries = CountryController.GetCountriesList(lang);
 
-				var type = ApplicantController.GetTypesList(Device_Info);
+				var type = ApplicantController.GetTypesList(lang);
 
-				var titles =  ApplicantTitleController.GetApplicantMiddleTitlesList(Device_Info);
+				var titles =  ApplicantTitleController.GetApplicantMiddleTitlesList(lang);
 
-				var Cities = CountryController.GetCitiesList(Device_Info[2]);
+				var Cities = CountryController.GetCitiesList(lang);
 
-				var Regions = CountryController.GetRegionsList(Device_Info[2]);
+				var Regions = CountryController.GetRegionsList(lang);
 
-				var nationalty = NationaltyController.GetNationaltyList(Device_Info);
-                var doctype = DocumentController.GetDocumentTypeList(Device_Info);
+				var nationalty = NationaltyController.GetNationaltyList(lang);
+                var doctype = DocumentController.GetDocumentTypeList(lang);
 
                 return Request.CreateResponse(new ResponseClass
 				{

@@ -16,13 +16,12 @@ namespace IAU_BackEnd.Controllers.Applicant
         private static MostafidDatabaseEntities p = new MostafidDatabaseEntities();
 
         [Route("GetTitles")]
-        public async Task<IHttpActionResult> GetApplicantMiddleTitles()
+        public async Task<IHttpActionResult> GetApplicantMiddleTitles(string lang)
         {
             try
             {
-                List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
 
-                var data = GetApplicantMiddleTitlesList(Device_Info);
+                var data = GetApplicantMiddleTitlesList(lang);
                 return Ok(new ResponseClass
                 {
                     success = true,
@@ -37,11 +36,10 @@ namespace IAU_BackEnd.Controllers.Applicant
                 });
             }
         }
-        public static IEnumerable<SelectList_DTO> GetApplicantMiddleTitlesList(List<string> Device_Info)
+        public static IEnumerable<SelectList_DTO> GetApplicantMiddleTitlesList(string lang)
         {
             try
             {
-                string lang = Device_Info[2];
                 var entity = p.Title_Middle_Names.Where(a => a.IS_Action == true).ToList()
                   .Select(a =>
                 new SelectList_DTO

@@ -18,6 +18,7 @@ namespace IAU_BackEnd.Models
         public Supporting_Documents()
         {
             this.Request_Data = new HashSet<Request_Data>();
+            this.Request_SupportingDocs = new HashSet<Request_SupportingDocs>();
         }
     
         public int Supporting_Documents_ID { get; set; }
@@ -27,5 +28,7 @@ namespace IAU_BackEnd.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Request_SupportingDocs> Request_SupportingDocs { get; set; }
     }
 }

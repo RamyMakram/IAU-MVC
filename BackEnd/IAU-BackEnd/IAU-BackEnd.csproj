@@ -71,31 +71,13 @@
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Authority_Holder.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\City.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\College_Administration.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Country.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Department.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Employee.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Engagements_Department.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Event_Publication_Violation.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\FollowUp_Publication_Violations.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ID_Document.cs">
@@ -128,12 +110,6 @@
     <Compile Include="Models\Provider_Academic_Services.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Purchase_Order_Form.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Purchase_Order_Form_Required.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Region.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -149,19 +125,16 @@
     <Compile Include="Models\Request_State.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Request_SupportingDocs.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Request_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Service_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Statement_Department_File_Sent_Them.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Sub_Services.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Supplier_Names.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supporting_Documents.cs">
@@ -171,9 +144,6 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Title_Middle_Names.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Type_Support_Project.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Users.cs">

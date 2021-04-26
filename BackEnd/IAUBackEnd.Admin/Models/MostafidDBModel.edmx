@@ -146,13 +146,9 @@
           <Property Name="Nationality_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Personel_Data">
           <Key>
             <PropertyRef Name="Personel_Data_ID" />
-            <PropertyRef Name="ID_Document" />
-            <PropertyRef Name="ID_Number" />
           </Key>
           <Property Name="Personel_Data_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ID_Document" Type="int" Nullable="false" />
@@ -261,7 +257,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does 
           <Property Name="Personel_Data_ID" Type="int" />
           <Property Name="Provider_Academic_Services_ID" Type="int" />
           <Property Name="Sub_Services_ID" Type="int" />
-          <Property Name="Supporting_Documents_ID" Type="int" />
           <Property Name="Required_Fields_Notes" Type="nvarchar(max)" />
           <Property Name="Service_Type_ID" Type="int" />
           <Property Name="Request_Type_ID" Type="int" />
@@ -299,6 +294,15 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does 
           <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Request_SupportingDocs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="SupportingDocID" Type="int" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="Request_Type">
           <Key>
             <PropertyRef Name="Request_Type_ID" />
@@ -320,7 +324,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does 
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Statement_Department_File_Sent_Them">
           <Key>
             <PropertyRef Name="Statement_Department_File_Sent_Them_ID" />
@@ -460,18 +464,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Principal>
             <Dependent Role="Department">
               <PropertyRef Name="College_Administration_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Documents_Supporting_Documents">
-          <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="0..1" />
-          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supporting_Documents">
-              <PropertyRef Name="Supporting_Documents_ID" />
-            </Principal>
-            <Dependent Role="Request_Data">
-              <PropertyRef Name="Supporting_Documents_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -763,6 +755,30 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Request_SupportingDocs_Request_Data">
+          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
+          <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="Request_SupportingDocs">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_SupportingDocs_Supporting_Documents">
+          <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="1" />
+          <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supporting_Documents">
+              <PropertyRef Name="Supporting_Documents_ID" />
+            </Principal>
+            <Dependent Role="Request_SupportingDocs">
+              <PropertyRef Name="SupportingDocID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Sub_Services_Main_Services">
           <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="0..1" />
           <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="*" />
@@ -900,6 +916,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Purchase_Order_Form" EntityType="Self.Purchase_Order_Form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Purchase_Order_Form_Required" EntityType="Self.Purchase_Order_Form_Required" Schema="dbo" store:Type="Tables" />
@@ -908,6 +925,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <EntitySet Name="Request_File" EntityType="Self.Request_File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request_Log" EntityType="Self.Request_Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request_State" EntityType="Self.Request_State" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Request_SupportingDocs" EntityType="Self.Request_SupportingDocs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request_Type" EntityType="Self.Request_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
@@ -921,29 +939,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <EntitySet Name="Units_Request_Type" EntityType="Self.Units_Request_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units_Type" EntityType="Self.Units_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Personel_Data].[Personel_Data_ID] AS [Personel_Data_ID], 
-    [Personel_Data].[ID_Document] AS [ID_Document], 
-    [Personel_Data].[ID_Number] AS [ID_Number], 
-    [Personel_Data].[IAU_Affiliate_ID] AS [IAU_Affiliate_ID], 
-    [Personel_Data].[IAU_ID_Number] AS [IAU_ID_Number], 
-    [Personel_Data].[Applicant_Type_ID] AS [Applicant_Type_ID], 
-    [Personel_Data].[Title_Middle_Names_ID] AS [Title_Middle_Names_ID], 
-    [Personel_Data].[First_Name] AS [First_Name], 
-    [Personel_Data].[Middle_Name] AS [Middle_Name], 
-    [Personel_Data].[Last_Name] AS [Last_Name], 
-    [Personel_Data].[Nationality_ID] AS [Nationality_ID], 
-    [Personel_Data].[Country_ID] AS [Country_ID], 
-    [Personel_Data].[City_Country_1] AS [City_Country_1], 
-    [Personel_Data].[City_Country_2] AS [City_Country_2], 
-    [Personel_Data].[Region_Postal_Code_1] AS [Region_Postal_Code_1], 
-    [Personel_Data].[Region_Postal_Code_2] AS [Region_Postal_Code_2], 
-    [Personel_Data].[Email] AS [Email], 
-    [Personel_Data].[Mobile] AS [Mobile], 
-    [Personel_Data].[IS_Action] AS [IS_Action]
-    FROM [dbo].[Personel_Data] AS [Personel_Data]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="Self.Statement_Department_File_Sent_Them" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Statement_Department_File_Sent_Them].[Statement_Department_File_Sent_Them_ID] AS [Statement_Department_File_Sent_Them_ID], 
@@ -958,10 +953,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <AssociationSet Name="FK_Department_College_Administration" Association="Self.FK_Department_College_Administration">
             <End Role="College_Administration" EntitySet="College_Administration" />
             <End Role="Department" EntitySet="Department" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Documents_Supporting_Documents" Association="Self.FK_Documents_Supporting_Documents">
-            <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
-            <End Role="Request_Data" EntitySet="Request_Data" />
           </AssociationSet>
           <AssociationSet Name="FK_MainServices_Units" Association="Self.FK_MainServices_Units">
             <End Role="Units" EntitySet="Units" />
@@ -1059,6 +1050,14 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             <End Role="Request_Data" EntitySet="Request_Data" />
             <End Role="Request_Log" EntitySet="Request_Log" />
           </AssociationSet>
+          <AssociationSet Name="FK_Request_SupportingDocs_Request_Data" Association="Self.FK_Request_SupportingDocs_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_SupportingDocs_Supporting_Documents" Association="Self.FK_Request_SupportingDocs_Supporting_Documents">
+            <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
+            <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+          </AssociationSet>
           <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
@@ -1129,6 +1128,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <EntitySet Name="Request_File" EntityType="MostafidDBModel.Request_File" />
           <EntitySet Name="Request_Log" EntityType="MostafidDBModel.Request_Log" />
           <EntitySet Name="Request_State" EntityType="MostafidDBModel.Request_State" />
+          <EntitySet Name="Request_SupportingDocs" EntityType="MostafidDBModel.Request_SupportingDocs" />
           <EntitySet Name="Request_Type" EntityType="MostafidDBModel.Request_Type" />
           <EntitySet Name="Service_Type" EntityType="MostafidDBModel.Service_Type" />
           <EntitySet Name="Sub_Services" EntityType="MostafidDBModel.Sub_Services" />
@@ -1142,7 +1142,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <EntitySet Name="Units_Request_Type" EntityType="MostafidDBModel.Units_Request_Type" />
           <EntitySet Name="Units_Type" EntityType="MostafidDBModel.Units_Type" />
           <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
-          <EntitySet Name="Personel_Data" EntityType="MostafidDBModel.Personel_Data" />
           <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="MostafidDBModel.Statement_Department_File_Sent_Them" />
           <AssociationSet Name="FK_Purchase_Order_Form_Authority_Holder" Association="MostafidDBModel.FK_Purchase_Order_Form_Authority_Holder">
             <End Role="Authority_Holder" EntitySet="Authority_Holder" />
@@ -1155,10 +1154,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <AssociationSet Name="FK_Department_College_Administration" Association="MostafidDBModel.FK_Department_College_Administration">
             <End Role="College_Administration" EntitySet="College_Administration" />
             <End Role="Department" EntitySet="Department" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Personel_Data_Country" Association="MostafidDBModel.FK_Personel_Data_Country">
-            <End Role="Country" EntitySet="Country" />
-            <End Role="Personel_Data" EntitySet="Personel_Data" />
           </AssociationSet>
           <AssociationSet Name="FK_Region_Country" Association="MostafidDBModel.FK_Region_Country">
             <End Role="Country" EntitySet="Country" />
@@ -1184,10 +1179,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             <End Role="FollowUp_Publication_Violations" EntitySet="FollowUp_Publication_Violations" />
             <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
           </AssociationSet>
-          <AssociationSet Name="FK_Personel_Data_ID_Document" Association="MostafidDBModel.FK_Personel_Data_ID_Document">
-            <End Role="ID_Document" EntitySet="ID_Document" />
-            <End Role="Personel_Data" EntitySet="Personel_Data" />
-          </AssociationSet>
           <AssociationSet Name="FK_User_Permissions_Job" Association="MostafidDBModel.FK_User_Permissions_Job">
             <End Role="Job" EntitySet="Job" />
             <End Role="Job_Permissions" EntitySet="Job_Permissions" />
@@ -1212,10 +1203,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
           </AssociationSet>
-          <AssociationSet Name="FK_Personel_Data_Nationality" Association="MostafidDBModel.FK_Personel_Data_Nationality">
-            <End Role="Nationality" EntitySet="Nationality" />
-            <End Role="Personel_Data" EntitySet="Personel_Data" />
-          </AssociationSet>
           <AssociationSet Name="FK_Privilage_Privilage" Association="MostafidDBModel.FK_Privilage_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Privilage1" EntitySet="Privilage" />
@@ -1235,10 +1222,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <AssociationSet Name="FK_Purchase_Order_Form_Type_Support_Project" Association="MostafidDBModel.FK_Purchase_Order_Form_Type_Support_Project">
             <End Role="Type_Support_Project" EntitySet="Type_Support_Project" />
             <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Documents_Supporting_Documents" Association="MostafidDBModel.FK_Documents_Supporting_Documents">
-            <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
-            <End Role="Request_Data" EntitySet="Request_Data" />
           </AssociationSet>
           <AssociationSet Name="FK_Request_Data_Request_State" Association="MostafidDBModel.FK_Request_Data_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
@@ -1264,9 +1247,17 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             <End Role="Request_Data" EntitySet="Request_Data" />
             <End Role="Request_Log" EntitySet="Request_Log" />
           </AssociationSet>
+          <AssociationSet Name="FK_Request_SupportingDocs_Request_Data" Association="MostafidDBModel.FK_Request_SupportingDocs_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+          </AssociationSet>
           <AssociationSet Name="FK_Request_Log_Request_State" Association="MostafidDBModel.FK_Request_Log_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="Request_Log" EntitySet="Request_Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_SupportingDocs_Supporting_Documents" Association="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents">
+            <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
+            <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
           </AssociationSet>
           <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDBModel.FK_Units_Request_Type_Request_Type">
             <End Role="Request_Type" EntitySet="Request_Type" />
@@ -1275,10 +1266,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <AssociationSet Name="FK_Units_Service_Type" Association="MostafidDBModel.FK_Units_Service_Type">
             <End Role="Service_Type" EntitySet="Service_Type" />
             <End Role="Units" EntitySet="Units" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names">
-            <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
-            <End Role="Personel_Data" EntitySet="Personel_Data" />
           </AssociationSet>
           <AssociationSet Name="FK_Units_Request_Type_Units" Association="MostafidDBModel.FK_Units_Request_Type_Units">
             <End Role="Units" EntitySet="Units" />
@@ -1291,6 +1278,23 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <AssociationSet Name="FK_Units_Units_Type" Association="MostafidDBModel.FK_Units_Units_Type">
             <End Role="Units_Type" EntitySet="Units_Type" />
             <End Role="Units" EntitySet="Units" />
+          </AssociationSet>
+          <EntitySet Name="Personel_Data" EntityType="MostafidDBModel.Personel_Data" />
+          <AssociationSet Name="FK_Personel_Data_Country" Association="MostafidDBModel.FK_Personel_Data_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personel_Data_ID_Document" Association="MostafidDBModel.FK_Personel_Data_ID_Document">
+            <End Role="ID_Document" EntitySet="ID_Document" />
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personel_Data_Nationality" Association="MostafidDBModel.FK_Personel_Data_Nationality">
+            <End Role="Nationality" EntitySet="Nationality" />
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names">
+            <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
@@ -1340,8 +1344,8 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <Property Name="Country_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Country_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Personel_Data_Country" FromRole="Country" ToRole="Personel_Data" />
           <NavigationProperty Name="Region" Relationship="MostafidDBModel.FK_Region_Country" FromRole="Country" ToRole="Region" />
+          <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Personel_Data_Country" FromRole="Country" ToRole="Personel_Data" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -1557,7 +1561,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <Property Name="Personel_Data_ID" Type="Int32" />
           <Property Name="Provider_Academic_Services_ID" Type="Int32" />
           <Property Name="Sub_Services_ID" Type="Int32" />
-          <Property Name="Supporting_Documents_ID" Type="Int32" />
           <Property Name="Required_Fields_Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Service_Type_ID" Type="Int32" />
           <Property Name="Request_Type_ID" Type="Int32" />
@@ -1566,13 +1569,13 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <Property Name="Request_State_ID" Type="Byte" Nullable="false" />
           <Property Name="signpdfpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsTwasul_OC" Type="Boolean" />
-          <NavigationProperty Name="Supporting_Documents" Relationship="MostafidDBModel.FK_Documents_Supporting_Documents" FromRole="Request_Data" ToRole="Supporting_Documents" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
           <NavigationProperty Name="Request_Type" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Request_Data" ToRole="Sub_Services" />
           <NavigationProperty Name="Request_File" Relationship="MostafidDBModel.FK_Request_File_Request_Data" FromRole="Request_Data" ToRole="Request_File" />
           <NavigationProperty Name="Request_Log" Relationship="MostafidDBModel.FK_Request_State_Request_Data" FromRole="Request_Data" ToRole="Request_Log" />
+          <NavigationProperty Name="Request_SupportingDocs" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Request_Data" FromRole="Request_Data" ToRole="Request_SupportingDocs" />
         </EntityType>
         <EntityType Name="Request_File">
           <Key>
@@ -1607,6 +1610,17 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <Property Name="StateName_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_State" ToRole="Request_Data" />
           <NavigationProperty Name="Request_Log" Relationship="MostafidDBModel.FK_Request_Log_Request_State" FromRole="Request_State" ToRole="Request_Log" />
+        </EntityType>
+        <EntityType Name="Request_SupportingDocs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="SupportingDocID" Type="Int32" Nullable="false" />
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Request_Data" FromRole="Request_SupportingDocs" ToRole="Request_Data" />
+          <NavigationProperty Name="Supporting_Documents" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents" FromRole="Request_SupportingDocs" ToRole="Supporting_Documents" />
         </EntityType>
         <EntityType Name="Request_Type">
           <Key>
@@ -1662,7 +1676,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <Property Name="Supporting_Documents_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Supporting_Documents_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Documents_Supporting_Documents" FromRole="Supporting_Documents" ToRole="Request_Data" />
+          <NavigationProperty Name="Request_SupportingDocs" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents" FromRole="Supporting_Documents" ToRole="Request_SupportingDocs" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -1759,36 +1773,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
           <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
         </EntityType>
-        <EntityType Name="Personel_Data">
-          <Key>
-            <PropertyRef Name="Personel_Data_ID" />
-            <PropertyRef Name="ID_Document" />
-            <PropertyRef Name="ID_Number" />
-          </Key>
-          <Property Name="Personel_Data_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_Document" Type="Int32" Nullable="false" />
-          <Property Name="ID_Number" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IAU_Affiliate_ID" Type="Int32" />
-          <Property Name="IAU_ID_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Applicant_Type_ID" Type="Int32" />
-          <Property Name="Title_Middle_Names_ID" Type="Int32" />
-          <Property Name="First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Middle_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Nationality_ID" Type="Int32" />
-          <Property Name="Country_ID" Type="Int32" />
-          <Property Name="City_Country_1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="City_Country_2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Region_Postal_Code_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Region_Postal_Code_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="IS_Action" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Country" Relationship="MostafidDBModel.FK_Personel_Data_Country" FromRole="Personel_Data" ToRole="Country" />
-          <NavigationProperty Name="ID_Document1" Relationship="MostafidDBModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
-          <NavigationProperty Name="Nationality" Relationship="MostafidDBModel.FK_Personel_Data_Nationality" FromRole="Personel_Data" ToRole="Nationality" />
-          <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
-        </EntityType>
         <EntityType Name="Statement_Department_File_Sent_Them">
           <Key>
             <PropertyRef Name="Statement_Department_File_Sent_Them_ID" />
@@ -1830,18 +1814,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Principal>
             <Dependent Role="Department">
               <PropertyRef Name="College_Administration_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Personel_Data_Country">
-          <End Type="MostafidDBModel.Country" Role="Country" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Country">
-              <PropertyRef Name="Country_ID" />
-            </Principal>
-            <Dependent Role="Personel_Data">
-              <PropertyRef Name="Country_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1917,18 +1889,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Personel_Data_ID_Document">
-          <End Type="MostafidDBModel.ID_Document" Role="ID_Document" Multiplicity="1" />
-          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ID_Document">
-              <PropertyRef Name="ID_Document1" />
-            </Principal>
-            <Dependent Role="Personel_Data">
-              <PropertyRef Name="ID_Document" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_Permissions_Job">
           <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Job_Permissions" Role="Job_Permissions" Multiplicity="*" />
@@ -2001,18 +1961,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Personel_Data_Nationality">
-          <End Type="MostafidDBModel.Nationality" Role="Nationality" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Nationality">
-              <PropertyRef Name="Nationality_ID" />
-            </Principal>
-            <Dependent Role="Personel_Data">
-              <PropertyRef Name="Nationality_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Privilage_Privilage">
           <End Type="MostafidDBModel.Privilage" Role="Privilage" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Privilage" Role="Privilage1" Multiplicity="*" />
@@ -2070,18 +2018,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Principal>
             <Dependent Role="Purchase_Order_Form">
               <PropertyRef Name="Type_Support_Project_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Documents_Supporting_Documents">
-          <End Type="MostafidDBModel.Supporting_Documents" Role="Supporting_Documents" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supporting_Documents">
-              <PropertyRef Name="Supporting_Documents_ID" />
-            </Principal>
-            <Dependent Role="Request_Data">
-              <PropertyRef Name="Supporting_Documents_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2157,6 +2093,18 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Request_SupportingDocs_Request_Data">
+          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="1" />
+          <End Type="MostafidDBModel.Request_SupportingDocs" Role="Request_SupportingDocs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="Request_SupportingDocs">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Request_Log_Request_State">
           <End Type="MostafidDBModel.Request_State" Role="Request_State" Multiplicity="1" />
           <End Type="MostafidDBModel.Request_Log" Role="Request_Log" Multiplicity="*" />
@@ -2166,6 +2114,18 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Principal>
             <Dependent Role="Request_Log">
               <PropertyRef Name="Request_State_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_SupportingDocs_Supporting_Documents">
+          <End Type="MostafidDBModel.Supporting_Documents" Role="Supporting_Documents" Multiplicity="1" />
+          <End Type="MostafidDBModel.Request_SupportingDocs" Role="Request_SupportingDocs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supporting_Documents">
+              <PropertyRef Name="Supporting_Documents_ID" />
+            </Principal>
+            <Dependent Role="Request_SupportingDocs">
+              <PropertyRef Name="SupportingDocID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2190,18 +2150,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Principal>
             <Dependent Role="Units">
               <PropertyRef Name="ServiceType_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Personel_Data_Title_Middle_Names">
-          <End Type="MostafidDBModel.Title_Middle_Names" Role="Title_Middle_Names" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Title_Middle_Names">
-              <PropertyRef Name="Title_Middle_Names_ID" />
-            </Principal>
-            <Dependent Role="Personel_Data">
-              <PropertyRef Name="Title_Middle_Names_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2238,6 +2186,82 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
             </Principal>
             <Dependent Role="Units">
               <PropertyRef Name="Units_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Personel_Data">
+          <Key>
+            <PropertyRef Name="Personel_Data_ID" />
+          </Key>
+          <Property Name="Personel_Data_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Document" Type="Int32" Nullable="false" />
+          <Property Name="ID_Number" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IAU_Affiliate_ID" Type="Int32" />
+          <Property Name="IAU_ID_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Applicant_Type_ID" Type="Int32" />
+          <Property Name="Title_Middle_Names_ID" Type="Int32" />
+          <Property Name="First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Middle_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Nationality_ID" Type="Int32" />
+          <Property Name="Country_ID" Type="Int32" />
+          <Property Name="City_Country_1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City_Country_2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Region_Postal_Code_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Region_Postal_Code_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IS_Action" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Country" Relationship="MostafidDBModel.FK_Personel_Data_Country" FromRole="Personel_Data" ToRole="Country" />
+          <NavigationProperty Name="ID_Document1" Relationship="MostafidDBModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
+          <NavigationProperty Name="Nationality" Relationship="MostafidDBModel.FK_Personel_Data_Nationality" FromRole="Personel_Data" ToRole="Nationality" />
+          <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
+        </EntityType>
+        <Association Name="FK_Personel_Data_Country">
+          <End Type="MostafidDBModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Country_ID" />
+            </Principal>
+            <Dependent Role="Personel_Data">
+              <PropertyRef Name="Country_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personel_Data_ID_Document">
+          <End Type="MostafidDBModel.ID_Document" Role="ID_Document" Multiplicity="1" />
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ID_Document">
+              <PropertyRef Name="ID_Document1" />
+            </Principal>
+            <Dependent Role="Personel_Data">
+              <PropertyRef Name="ID_Document" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personel_Data_Nationality">
+          <End Type="MostafidDBModel.Nationality" Role="Nationality" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationality">
+              <PropertyRef Name="Nationality_ID" />
+            </Principal>
+            <Dependent Role="Personel_Data">
+              <PropertyRef Name="Nationality_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personel_Data_Title_Middle_Names">
+          <End Type="MostafidDBModel.Title_Middle_Names" Role="Title_Middle_Names" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Title_Middle_Names">
+              <PropertyRef Name="Title_Middle_Names_ID" />
+            </Principal>
+            <Dependent Role="Personel_Data">
+              <PropertyRef Name="Title_Middle_Names_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2498,7 +2522,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
                 <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
                 <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
                 <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
-                <ScalarProperty Name="Supporting_Documents_ID" ColumnName="Supporting_Documents_ID" />
                 <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
                 <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
                 <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
@@ -2534,6 +2557,16 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
                 <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
                 <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
                 <ScalarProperty Name="State_ID" ColumnName="State_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Request_SupportingDocs">
+            <EntityTypeMapping TypeName="MostafidDBModel.Request_SupportingDocs">
+              <MappingFragment StoreEntitySet="Request_SupportingDocs">
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="SupportingDocID" ColumnName="SupportingDocID" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2680,6 +2713,15 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Statement_Department_File_Sent_Them">
+            <EntityTypeMapping TypeName="MostafidDBModel.Statement_Department_File_Sent_Them">
+              <MappingFragment StoreEntitySet="Statement_Department_File_Sent_Them">
+                <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
+                <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
+                <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Personel_Data">
             <EntityTypeMapping TypeName="MostafidDBModel.Personel_Data">
               <MappingFragment StoreEntitySet="Personel_Data">
@@ -2702,15 +2744,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
                 <ScalarProperty Name="ID_Number" ColumnName="ID_Number" />
                 <ScalarProperty Name="ID_Document" ColumnName="ID_Document" />
                 <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Statement_Department_File_Sent_Them">
-            <EntityTypeMapping TypeName="MostafidDBModel.Statement_Department_File_Sent_Them">
-              <MappingFragment StoreEntitySet="Statement_Department_File_Sent_Them">
-                <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
-                <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
-                <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -22,7 +22,7 @@ $(document).ready(function () {
 	cook.forEach(i => {
 		let keyandval = i.split('=');
 		if (keyandval[0].trim().replace(' ', '') == "us") {
-			data = keyandval[1].replace(' ', '')
+			data = i.replace(' ', '').split("us=")[1]
 		}
 	})
 	if (data == '')
@@ -155,7 +155,6 @@ $("#right-arrow").click(function () {
 		GeneratePdfData();
 		// enterpdfpreview = true;
 	}
-	console.log(incrementValue);
 });
 
 $("#left-arrow").click(function () {
@@ -219,7 +218,6 @@ $(".nav-fill .nav-link").click(function () {
 });
 
 let dropArea = document.getElementById('drop-area');
-let dropAreaOther = document.getElementById('drop-area-other');
 let Supportedfilename = "";
 $("#drop-area-other").click(function () {
 	$("#filelistOther").click();
@@ -229,11 +227,9 @@ $("#drop-area").click(function () {
 });
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
 	dropArea.addEventListener(eventName, preventDefaults, false)
-	dropAreaOther.addEventListener(eventName, preventDefaults, false)
 });
 
 dropArea.addEventListener('drop', handleDrop, false);
-dropAreaOther.addEventListener('drop', handleDropOther, false);
 
 function preventDefaults(e) {
 	e.preventDefault()
@@ -243,13 +239,7 @@ function preventDefaults(e) {
 function handleDrop(e) {
 	let dt = e.dataTransfer
 	let files = dt.files
-	handleFiles(files)
-}
-
-function handleDropOther(e) {
-	let dt = e.dataTransfer
-	let files = dt.files
-	handleFileOther(files)
+	HandelDragAndDrop(files)
 }
 
 let uploadfiles = [];
@@ -268,25 +258,35 @@ function handleFiles(files) {
 		}
 
 		$('#fileUpload' + Current_Supportedfilename).css("color", "green");
-		document.getElementById('FileDefault' + Current_Supportedfilename).style.display = "none";
-		document.getElementById('FileName' + Current_Supportedfilename).style.display = "inline";
-		document.getElementById('FileName' + Current_Supportedfilename).innerText = files[0].name.length > 15 ? files[0].name.substring(0, 15) + "..." : files[0].name;
 		document.getElementById('fileRemove' + Current_Supportedfilename).style.display = "inline";
 	}
-	else {
+}
+let DropedFile = []
+function HandelDragAndDrop(files) {
+	if (inquiry) {
 		let sum = 0;
-		$('#filesNameOther').html("");
-		([...files]).forEach(function (file) {
-			sum = sum + file.size;
-			fileData.append(file.name, file)
-			FileNames.push(file.name)
-			uploadfiles.push(file);
-		});
+		$('#filesNameDrop').html("");
+		DropedFile = files;
 		if (Math.floor((sum / 1024) / 1024 > 20)) {
 			alert("max files size 20MB")
 		} else {
-			([...uploadfiles]).forEach(function (file) {
-				$('#filesNameOther').append("<div class='col-md-5 fileshow'>" + file.name.substring(0, 9) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter></div>")
+			([...DropedFile]).forEach(function (file) {
+				FileNames.push(file.name)
+				$('#filesNameDrop').append("<div class='col-md-5 fileshow'>" + file.name + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter></div>")
+			});
+		}
+	}
+	else {
+		FileNames = [];
+		let sum = 0;
+		$('#filesNameDropOther').html("");
+		DropedFile = files;
+		if (Math.floor((sum / 1024) / 1024 > 20)) {
+			alert("max files size 20MB")
+		} else {
+			([...DropedFile]).forEach(function (file) {
+				FileNames.push(file.name)
+				$('#filesNameDropOther').append("<div class='col-md-5 fileshow'>" + file.name + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter></div>")
 			});
 		}
 	}
@@ -326,6 +326,7 @@ function PrepareFiles() {
 		for (var j = 0; j < lengthupload; j++) {
 			if (supporteddocs[i].ID == uploadfiles[j].ID) {
 				fileData.append(uploadfiles[j].File.name, uploadfiles[j].File)
+				console.log(uploadfiles[j].File.name)
 				break;
 			}
 		}
@@ -342,16 +343,11 @@ function saveRequest() {
 		if (!saverequest_Clicked) {
 			saverequest_Clicked = true;
 			fileData = new FormData();
-			fileData = new FormData();
-			if (inquiry) {
-				//Get Sorted Files As Supported Docs
+			if (inquiry) 
 				PrepareFiles();
-			}
-			else {
-				([...uploadfiles]).forEach(function (file) {
-					fileData.append(file.name, file)
-				});
-			}
+			[... DropedFile].forEach(e => {
+				fileData.append(e.name, e)
+			})
 			let data = serialiazeForm();
 			fileData.append('request_Data', JSON.stringify(data));
 			fileData.append('base64File', document.getElementById('SignaturePDF').innerHTML);

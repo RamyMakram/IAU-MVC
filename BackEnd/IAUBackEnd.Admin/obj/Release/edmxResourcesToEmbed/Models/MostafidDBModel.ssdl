@@ -141,13 +141,9 @@
     <Property Name="Nationality_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Personel_Data">
     <Key>
       <PropertyRef Name="Personel_Data_ID" />
-      <PropertyRef Name="ID_Document" />
-      <PropertyRef Name="ID_Number" />
     </Key>
     <Property Name="Personel_Data_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ID_Document" Type="int" Nullable="false" />
@@ -256,7 +252,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does 
     <Property Name="Personel_Data_ID" Type="int" />
     <Property Name="Provider_Academic_Services_ID" Type="int" />
     <Property Name="Sub_Services_ID" Type="int" />
-    <Property Name="Supporting_Documents_ID" Type="int" />
     <Property Name="Required_Fields_Notes" Type="nvarchar(max)" />
     <Property Name="Service_Type_ID" Type="int" />
     <Property Name="Request_Type_ID" Type="int" />
@@ -294,6 +289,15 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does 
     <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
+  <EntityType Name="Request_SupportingDocs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestID" Type="int" Nullable="false" />
+    <Property Name="SupportingDocID" Type="int" Nullable="false" />
+    <Property Name="Path" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
   <EntityType Name="Request_Type">
     <Key>
       <PropertyRef Name="Request_Type_ID" />
@@ -315,7 +319,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Personel_Data' does 
     <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="Statement_Department_File_Sent_Them">
     <Key>
       <PropertyRef Name="Statement_Department_File_Sent_Them_ID" />
@@ -455,18 +459,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
       </Principal>
       <Dependent Role="Department">
         <PropertyRef Name="College_Administration_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Documents_Supporting_Documents">
-    <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="0..1" />
-    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Supporting_Documents">
-        <PropertyRef Name="Supporting_Documents_ID" />
-      </Principal>
-      <Dependent Role="Request_Data">
-        <PropertyRef Name="Supporting_Documents_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -758,6 +750,30 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Request_SupportingDocs_Request_Data">
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
+    <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request_Data">
+        <PropertyRef Name="Request_Data_ID" />
+      </Principal>
+      <Dependent Role="Request_SupportingDocs">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_SupportingDocs_Supporting_Documents">
+    <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="1" />
+    <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supporting_Documents">
+        <PropertyRef Name="Supporting_Documents_ID" />
+      </Principal>
+      <Dependent Role="Request_SupportingDocs">
+        <PropertyRef Name="SupportingDocID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Sub_Services_Main_Services">
     <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="0..1" />
     <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="*" />
@@ -895,6 +911,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
     <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Purchase_Order_Form" EntityType="Self.Purchase_Order_Form" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Purchase_Order_Form_Required" EntityType="Self.Purchase_Order_Form_Required" Schema="dbo" store:Type="Tables" />
@@ -903,6 +920,7 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
     <EntitySet Name="Request_File" EntityType="Self.Request_File" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Log" EntityType="Self.Request_Log" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_State" EntityType="Self.Request_State" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request_SupportingDocs" EntityType="Self.Request_SupportingDocs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Type" EntityType="Self.Request_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
@@ -916,29 +934,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
     <EntitySet Name="Units_Request_Type" EntityType="Self.Units_Request_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Units_Type" EntityType="Self.Units_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [Personel_Data].[Personel_Data_ID] AS [Personel_Data_ID], 
-    [Personel_Data].[ID_Document] AS [ID_Document], 
-    [Personel_Data].[ID_Number] AS [ID_Number], 
-    [Personel_Data].[IAU_Affiliate_ID] AS [IAU_Affiliate_ID], 
-    [Personel_Data].[IAU_ID_Number] AS [IAU_ID_Number], 
-    [Personel_Data].[Applicant_Type_ID] AS [Applicant_Type_ID], 
-    [Personel_Data].[Title_Middle_Names_ID] AS [Title_Middle_Names_ID], 
-    [Personel_Data].[First_Name] AS [First_Name], 
-    [Personel_Data].[Middle_Name] AS [Middle_Name], 
-    [Personel_Data].[Last_Name] AS [Last_Name], 
-    [Personel_Data].[Nationality_ID] AS [Nationality_ID], 
-    [Personel_Data].[Country_ID] AS [Country_ID], 
-    [Personel_Data].[City_Country_1] AS [City_Country_1], 
-    [Personel_Data].[City_Country_2] AS [City_Country_2], 
-    [Personel_Data].[Region_Postal_Code_1] AS [Region_Postal_Code_1], 
-    [Personel_Data].[Region_Postal_Code_2] AS [Region_Postal_Code_2], 
-    [Personel_Data].[Email] AS [Email], 
-    [Personel_Data].[Mobile] AS [Mobile], 
-    [Personel_Data].[IS_Action] AS [IS_Action]
-    FROM [dbo].[Personel_Data] AS [Personel_Data]</DefiningQuery>
-    </EntitySet>
     <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="Self.Statement_Department_File_Sent_Them" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [Statement_Department_File_Sent_Them].[Statement_Department_File_Sent_Them_ID] AS [Statement_Department_File_Sent_Them_ID], 
@@ -953,10 +948,6 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
     <AssociationSet Name="FK_Department_College_Administration" Association="Self.FK_Department_College_Administration">
       <End Role="College_Administration" EntitySet="College_Administration" />
       <End Role="Department" EntitySet="Department" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Documents_Supporting_Documents" Association="Self.FK_Documents_Supporting_Documents">
-      <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
-      <End Role="Request_Data" EntitySet="Request_Data" />
     </AssociationSet>
     <AssociationSet Name="FK_MainServices_Units" Association="Self.FK_MainServices_Units">
       <End Role="Units" EntitySet="Units" />
@@ -1053,6 +1044,14 @@ warning 6002: The table/view 'db_a6fef1_mostafidadmindb.dbo.Statement_Department
     <AssociationSet Name="FK_Request_State_Request_Data" Association="Self.FK_Request_State_Request_Data">
       <End Role="Request_Data" EntitySet="Request_Data" />
       <End Role="Request_Log" EntitySet="Request_Log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_SupportingDocs_Request_Data" Association="Self.FK_Request_SupportingDocs_Request_Data">
+      <End Role="Request_Data" EntitySet="Request_Data" />
+      <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_SupportingDocs_Supporting_Documents" Association="Self.FK_Request_SupportingDocs_Supporting_Documents">
+      <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
+      <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
     </AssociationSet>
     <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
       <End Role="Main_Services" EntitySet="Main_Services" />

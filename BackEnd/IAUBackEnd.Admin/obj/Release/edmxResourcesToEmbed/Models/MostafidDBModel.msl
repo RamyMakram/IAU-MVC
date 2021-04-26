@@ -252,7 +252,6 @@
           <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
           <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
           <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
-          <ScalarProperty Name="Supporting_Documents_ID" ColumnName="Supporting_Documents_ID" />
           <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
           <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
           <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
@@ -288,6 +287,16 @@
           <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
           <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
           <ScalarProperty Name="State_ID" ColumnName="State_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_SupportingDocs">
+      <EntityTypeMapping TypeName="MostafidDBModel.Request_SupportingDocs">
+        <MappingFragment StoreEntitySet="Request_SupportingDocs">
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="SupportingDocID" ColumnName="SupportingDocID" />
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -434,6 +443,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Statement_Department_File_Sent_Them">
+      <EntityTypeMapping TypeName="MostafidDBModel.Statement_Department_File_Sent_Them">
+        <MappingFragment StoreEntitySet="Statement_Department_File_Sent_Them">
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
+          <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Personel_Data">
       <EntityTypeMapping TypeName="MostafidDBModel.Personel_Data">
         <MappingFragment StoreEntitySet="Personel_Data">
@@ -456,15 +474,6 @@
           <ScalarProperty Name="ID_Number" ColumnName="ID_Number" />
           <ScalarProperty Name="ID_Document" ColumnName="ID_Document" />
           <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Statement_Department_File_Sent_Them">
-      <EntityTypeMapping TypeName="MostafidDBModel.Statement_Department_File_Sent_Them">
-        <MappingFragment StoreEntitySet="Statement_Department_File_Sent_Them">
-          <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
-          <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
-          <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

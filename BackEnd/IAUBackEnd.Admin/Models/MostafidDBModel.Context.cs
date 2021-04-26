@@ -18,7 +18,6 @@ namespace IAUBackEnd.Admin.Models
         public MostafidDBEntities()
             : base("name=MostafidDBEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -50,6 +49,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Request_File> Request_File { get; set; }
         public virtual DbSet<Request_Log> Request_Log { get; set; }
         public virtual DbSet<Request_State> Request_State { get; set; }
+        public virtual DbSet<Request_SupportingDocs> Request_SupportingDocs { get; set; }
         public virtual DbSet<Request_Type> Request_Type { get; set; }
         public virtual DbSet<Service_Type> Service_Type { get; set; }
         public virtual DbSet<Sub_Services> Sub_Services { get; set; }
@@ -63,7 +63,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
         public virtual DbSet<Units_Type> Units_Type { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<Personel_Data> Personel_Data { get; set; }
         public virtual DbSet<Statement_Department_File_Sent_Them> Statement_Department_File_Sent_Them { get; set; }
+        public virtual DbSet<Personel_Data> Personel_Data { get; set; }
     }
 }

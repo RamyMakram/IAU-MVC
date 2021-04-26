@@ -137,6 +137,17 @@ namespace Web.App_Start
 			var res = h.PostAsJsonAsync("/api/" + apiName, obj).Result;
 			return res;
 		}
+		public static HttpResponseMessage PostRequest<dt>(string apiName, dt obj)
+		{
+			//Insert
+			HttpClient h = new HttpClient();
+			h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
+			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+			h.BaseAddress = new Uri(AdminURL);
+
+			var res = h.PostAsJsonAsync("/api/" + apiName, obj).Result;
+			return res;
+		}
 
 		public static HttpResponseMessage LoginAdmin(string apiName)
 		{

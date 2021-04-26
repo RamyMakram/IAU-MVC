@@ -16,13 +16,11 @@ namespace IAU_BackEnd.Controllers.BasicData
 		private static MostafidDatabaseEntities p = new MostafidDatabaseEntities();
 
 		[Route("GetAll")]
-		public async Task<IHttpActionResult> GetAllCountries()
+		public async Task<IHttpActionResult> GetAllCountries(string lang)
 		{
 			try
 			{
-				List<string> Device_Info = API_HelperFunctions.Get_DeviceInfo();
-
-				var entity = GetCountriesList(Device_Info);
+				var entity = GetCountriesList(lang);
 				return Ok(new ResponseClass
 				{
 					success = true,
@@ -38,11 +36,10 @@ namespace IAU_BackEnd.Controllers.BasicData
 			}
 		}
 
-		public static IEnumerable<SelectList_DTO> GetCountriesList(List<string> Device_Info)
+		public static IEnumerable<SelectList_DTO> GetCountriesList(string lang)
 		{
 			try
 			{
-				string lang = Device_Info[2];
 
 				var entity = p.Country.Where(a => a.IS_Action == true).ToList()
 				  .Select(a =>
