@@ -406,6 +406,7 @@
     <Content Include="assets\libs\twitter-bootstrap-wizard\jquery.bootstrap.wizard.min.js" />
     <Content Include="assets\libs\twitter-bootstrap-wizard\prettify.css" />
     <Content Include="assets\libs\twitter-bootstrap-wizard\prettify.js" />
+    <Content Include="assets\notification.mp3" />
     <Content Include="bin\AdminPanel.dll" />
     <Content Include="bin\AdminPanel.pdb" />
     <Content Include="bin\Antlr3.Runtime.dll" />
