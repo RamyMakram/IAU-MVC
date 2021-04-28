@@ -126,23 +126,6 @@
 	@*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
 
 	@RenderSection("scripts", required: false)
-	<script>
-		init();
-		function init() {
-			let table = document.getElementById('datatable-buttons')
-			if (table != null) {
-				DataTable();
-			}
-		}
-		function DataTable() {
-			let Interval = setInterval(function () {
-				if (document.getElementById('datatable-buttons_filter') != null) {
-					document.getElementById('datatable-buttons_filter').children[0].innerHTML = `<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="datatable-buttons">`
-					clearInterval(Interval);
-				}
-			}, 1000)
-		}
-	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js">
 	</script>
 </body>

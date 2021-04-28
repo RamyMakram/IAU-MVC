@@ -55,6 +55,16 @@
     <Property Name="College_Administration_ID" Type="int" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
+  <EntityType Name="E-Forms">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Path" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="SubServiceID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Employee">
     <Key>
       <PropertyRef Name="ID" />
@@ -308,6 +318,16 @@
     <Property Name="IS_Action" Type="bit" />
     <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
   </EntityType>
+  <EntityType Name="Required_Documents">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Name_EN" Type="nvarchar(max)" />
+    <Property Name="Name_AR" Type="nvarchar(max)" />
+    <Property Name="SubServiceID" Type="int" />
+    <Property Name="IS_Action" Type="bit" Nullable="false" />
+  </EntityType>
   <EntityType Name="Service_Type">
     <Key>
       <PropertyRef Name="Service_Type_ID" />
@@ -345,15 +365,6 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Property Name="Supplier_Names_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Supplier_Names_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="Supplier_Names_Name_EN" Type="nvarchar" MaxLength="250" />
-    <Property Name="IS_Action" Type="bit" />
-  </EntityType>
-  <EntityType Name="Supporting_Documents">
-    <Key>
-      <PropertyRef Name="Supporting_Documents_ID" />
-    </Key>
-    <Property Name="Supporting_Documents_ID" Type="int" Nullable="false" />
-    <Property Name="Supporting_Documents_Name_EN" Type="nvarchar(max)" />
-    <Property Name="Supporting_Documents_Name_AR" Type="nvarchar(max)" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
   <EntityType Name="sysdiagrams">
@@ -438,6 +449,14 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Property Name="IS_Active" Type="nchar" MaxLength="1" />
     <Property Name="TEMP_Login" Type="nvarchar" MaxLength="300" />
   </EntityType>
+  <EntityType Name="ValidTo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MainServiceID" Type="int" Nullable="false" />
+    <Property Name="ApplicantTypeID" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="FK_City_Region">
     <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
     <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -459,6 +478,18 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
       </Principal>
       <Dependent Role="Department">
         <PropertyRef Name="College_Administration_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_E-Forms_Sub_Services">
+    <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="1" />
+    <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sub_Services">
+        <PropertyRef Name="Sub_Services_ID" />
+      </Principal>
+      <Dependent Role="E-Forms">
+        <PropertyRef Name="SubServiceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -763,14 +794,26 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Request_SupportingDocs_Supporting_Documents">
-    <End Role="Supporting_Documents" Type="Self.Supporting_Documents" Multiplicity="1" />
+    <End Role="Required_Documents" Type="Self.Required_Documents" Multiplicity="1" />
     <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Supporting_Documents">
-        <PropertyRef Name="Supporting_Documents_ID" />
+      <Principal Role="Required_Documents">
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Request_SupportingDocs">
         <PropertyRef Name="SupportingDocID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Required_Documents_Sub_Services">
+    <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="0..1" />
+    <End Role="Required_Documents" Type="Self.Required_Documents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sub_Services">
+        <PropertyRef Name="Sub_Services_ID" />
+      </Principal>
+      <Dependent Role="Required_Documents">
+        <PropertyRef Name="SubServiceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -894,6 +937,30 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_ValidTo_Applicant_Type">
+    <End Role="Applicant_Type" Type="Self.Applicant_Type" Multiplicity="1" />
+    <End Role="ValidTo" Type="Self.ValidTo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applicant_Type">
+        <PropertyRef Name="Applicant_Type_ID" />
+      </Principal>
+      <Dependent Role="ValidTo">
+        <PropertyRef Name="ApplicantTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ValidTo_Main_Services">
+    <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="1" />
+    <End Role="ValidTo" Type="Self.ValidTo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Main_Services">
+        <PropertyRef Name="Main_Services_ID" />
+      </Principal>
+      <Dependent Role="ValidTo">
+        <PropertyRef Name="MainServiceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="MostafidDBModelStoreContainer">
     <EntitySet Name="Applicant_Type" EntityType="Self.Applicant_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Authority_Holder" EntityType="Self.Authority_Holder" Schema="dbo" store:Type="Tables" />
@@ -901,6 +968,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <EntitySet Name="College_Administration" EntityType="Self.College_Administration" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="E-Forms" EntityType="Self.E-Forms" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Engagements_Department" EntityType="Self.Engagements_Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Event_Publication_Violation" EntityType="Self.Event_Publication_Violation" Schema="dbo" store:Type="Tables" />
@@ -922,10 +990,10 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <EntitySet Name="Request_State" EntityType="Self.Request_State" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_SupportingDocs" EntityType="Self.Request_SupportingDocs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Type" EntityType="Self.Request_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Required_Documents" EntityType="Self.Required_Documents" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supplier_Names" EntityType="Self.Supplier_Names" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Supporting_Documents" EntityType="Self.Supporting_Documents" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Type_Support_Project" EntityType="Self.Type_Support_Project" Schema="dbo" store:Type="Tables" />
@@ -934,6 +1002,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <EntitySet Name="Units_Request_Type" EntityType="Self.Units_Request_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Units_Type" EntityType="Self.Units_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ValidTo" EntityType="Self.ValidTo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="Self.Statement_Department_File_Sent_Them" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [Statement_Department_File_Sent_Them].[Statement_Department_File_Sent_Them_ID] AS [Statement_Department_File_Sent_Them_ID], 
@@ -948,6 +1017,10 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <AssociationSet Name="FK_Department_College_Administration" Association="Self.FK_Department_College_Administration">
       <End Role="College_Administration" EntitySet="College_Administration" />
       <End Role="Department" EntitySet="Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_E-Forms_Sub_Services" Association="Self.FK_E-Forms_Sub_Services">
+      <End Role="Sub_Services" EntitySet="Sub_Services" />
+      <End Role="E-Forms" EntitySet="E-Forms" />
     </AssociationSet>
     <AssociationSet Name="FK_MainServices_Units" Association="Self.FK_MainServices_Units">
       <End Role="Units" EntitySet="Units" />
@@ -1050,8 +1123,12 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
       <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
     </AssociationSet>
     <AssociationSet Name="FK_Request_SupportingDocs_Supporting_Documents" Association="Self.FK_Request_SupportingDocs_Supporting_Documents">
-      <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
+      <End Role="Required_Documents" EntitySet="Required_Documents" />
       <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Required_Documents_Sub_Services" Association="Self.FK_Required_Documents_Sub_Services">
+      <End Role="Sub_Services" EntitySet="Sub_Services" />
+      <End Role="Required_Documents" EntitySet="Required_Documents" />
     </AssociationSet>
     <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
       <End Role="Main_Services" EntitySet="Main_Services" />
@@ -1092,6 +1169,14 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <AssociationSet Name="FK_Users_User_Permissions_Type" Association="Self.FK_Users_User_Permissions_Type">
       <End Role="Job" EntitySet="Job" />
       <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="Self.FK_ValidTo_Applicant_Type">
+      <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+      <End Role="ValidTo" EntitySet="ValidTo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ValidTo_Main_Services" Association="Self.FK_ValidTo_Main_Services">
+      <End Role="Main_Services" EntitySet="Main_Services" />
+      <End Role="ValidTo" EntitySet="ValidTo" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

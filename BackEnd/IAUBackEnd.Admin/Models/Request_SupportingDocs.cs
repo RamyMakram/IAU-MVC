@@ -20,6 +20,6 @@ namespace IAUBackEnd.Admin.Models
         public string Path { get; set; }
     
         public virtual Request_Data Request_Data { get; set; }
-        public virtual Supporting_Documents Supporting_Documents { get; set; }
+        public virtual Required_Documents Required_Documents { get; set; }
     }
 }

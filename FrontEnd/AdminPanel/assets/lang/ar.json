@@ -60,7 +60,12 @@
 	"t-unittypes": "نوع الوحدة",
 	"t-ismostafid": "تستقبل طلبات المستفدين؟",
 	"t-active-Home": "مفعل",
-	"t-deactive-Home": "معطل"
+	"t-deactive-Home": "معطل",
+	"t-search": "بحث",
+	"t-deactive-mainservice": "هل انت متاكد من تعطيل هذة الخدمة؟",
+	"t-active-mainservice": "هل انت متاكد من تنشيط هذه الخدمة؟",
+	"t-units-short": "الوحدة",
+	"t-Applicanttype": "أنواع المتقدمين"
 
 
 }

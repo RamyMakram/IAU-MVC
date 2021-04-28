@@ -18,6 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public Main_Services()
         {
             this.Sub_Services = new HashSet<Sub_Services>();
+            this.ValidTo = new HashSet<ValidTo>();
         }
     
         public int Main_Services_ID { get; set; }
@@ -29,5 +30,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual Units Units { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sub_Services> Sub_Services { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ValidTo> ValidTo { get; set; }
     }
 }

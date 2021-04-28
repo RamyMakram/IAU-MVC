@@ -7,6 +7,7 @@
     <EntitySet Name="College_Administration" EntityType="MostafidDBModel.College_Administration" />
     <EntitySet Name="Country" EntityType="MostafidDBModel.Country" />
     <EntitySet Name="Department" EntityType="MostafidDBModel.Department" />
+    <EntitySet Name="E_Forms" EntityType="MostafidDBModel.E_Forms" />
     <EntitySet Name="Employee" EntityType="MostafidDBModel.Employee" />
     <EntitySet Name="Engagements_Department" EntityType="MostafidDBModel.Engagements_Department" />
     <EntitySet Name="Event_Publication_Violation" EntityType="MostafidDBModel.Event_Publication_Violation" />
@@ -17,6 +18,7 @@
     <EntitySet Name="Location" EntityType="MostafidDBModel.Location" />
     <EntitySet Name="Main_Services" EntityType="MostafidDBModel.Main_Services" />
     <EntitySet Name="Nationality" EntityType="MostafidDBModel.Nationality" />
+    <EntitySet Name="Personel_Data" EntityType="MostafidDBModel.Personel_Data" />
     <EntitySet Name="Privilage" EntityType="MostafidDBModel.Privilage" />
     <EntitySet Name="Purchase_Order_Form" EntityType="MostafidDBModel.Purchase_Order_Form" />
     <EntitySet Name="Purchase_Order_Form_Required" EntityType="MostafidDBModel.Purchase_Order_Form_Required" />
@@ -27,10 +29,10 @@
     <EntitySet Name="Request_State" EntityType="MostafidDBModel.Request_State" />
     <EntitySet Name="Request_SupportingDocs" EntityType="MostafidDBModel.Request_SupportingDocs" />
     <EntitySet Name="Request_Type" EntityType="MostafidDBModel.Request_Type" />
+    <EntitySet Name="Required_Documents" EntityType="MostafidDBModel.Required_Documents" />
     <EntitySet Name="Service_Type" EntityType="MostafidDBModel.Service_Type" />
     <EntitySet Name="Sub_Services" EntityType="MostafidDBModel.Sub_Services" />
     <EntitySet Name="Supplier_Names" EntityType="MostafidDBModel.Supplier_Names" />
-    <EntitySet Name="Supporting_Documents" EntityType="MostafidDBModel.Supporting_Documents" />
     <EntitySet Name="sysdiagrams" EntityType="MostafidDBModel.sysdiagrams" />
     <EntitySet Name="Title_Middle_Names" EntityType="MostafidDBModel.Title_Middle_Names" />
     <EntitySet Name="Type_Support_Project" EntityType="MostafidDBModel.Type_Support_Project" />
@@ -39,7 +41,12 @@
     <EntitySet Name="Units_Request_Type" EntityType="MostafidDBModel.Units_Request_Type" />
     <EntitySet Name="Units_Type" EntityType="MostafidDBModel.Units_Type" />
     <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
+    <EntitySet Name="ValidTo" EntityType="MostafidDBModel.ValidTo" />
     <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="MostafidDBModel.Statement_Department_File_Sent_Them" />
+    <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="MostafidDBModel.FK_ValidTo_Applicant_Type">
+      <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+      <End Role="ValidTo" EntitySet="ValidTo" />
+    </AssociationSet>
     <AssociationSet Name="FK_Purchase_Order_Form_Authority_Holder" Association="MostafidDBModel.FK_Purchase_Order_Form_Authority_Holder">
       <End Role="Authority_Holder" EntitySet="Authority_Holder" />
       <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
@@ -52,6 +59,10 @@
       <End Role="College_Administration" EntitySet="College_Administration" />
       <End Role="Department" EntitySet="Department" />
     </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Country" Association="MostafidDBModel.FK_Personel_Data_Country">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
     <AssociationSet Name="FK_Region_Country" Association="MostafidDBModel.FK_Region_Country">
       <End Role="Country" EntitySet="Country" />
       <End Role="Region" EntitySet="Region" />
@@ -59,6 +70,10 @@
     <AssociationSet Name="FK_Purchase_Order_Form_Department" Association="MostafidDBModel.FK_Purchase_Order_Form_Department">
       <End Role="Department" EntitySet="Department" />
       <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
+    </AssociationSet>
+    <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
+      <End Role="Sub_Services" EntitySet="Sub_Services" />
+      <End Role="E_Forms" EntitySet="E_Forms" />
     </AssociationSet>
     <AssociationSet Name="FK_Request_Log_Employee" Association="MostafidDBModel.FK_Request_Log_Employee">
       <End Role="Employee" EntitySet="Employee" />
@@ -75,6 +90,10 @@
     <AssociationSet Name="FK_Purchase_Order_Form_FollowUp_Publication_Violations" Association="MostafidDBModel.FK_Purchase_Order_Form_FollowUp_Publication_Violations">
       <End Role="FollowUp_Publication_Violations" EntitySet="FollowUp_Publication_Violations" />
       <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_ID_Document" Association="MostafidDBModel.FK_Personel_Data_ID_Document">
+      <End Role="ID_Document" EntitySet="ID_Document" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
     </AssociationSet>
     <AssociationSet Name="FK_User_Permissions_Job" Association="MostafidDBModel.FK_User_Permissions_Job">
       <End Role="Job" EntitySet="Job" />
@@ -99,6 +118,18 @@
     <AssociationSet Name="FK_Sub_Services_Main_Services" Association="MostafidDBModel.FK_Sub_Services_Main_Services">
       <End Role="Main_Services" EntitySet="Main_Services" />
       <End Role="Sub_Services" EntitySet="Sub_Services" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ValidTo_Main_Services" Association="MostafidDBModel.FK_ValidTo_Main_Services">
+      <End Role="Main_Services" EntitySet="Main_Services" />
+      <End Role="ValidTo" EntitySet="ValidTo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Nationality" Association="MostafidDBModel.FK_Personel_Data_Nationality">
+      <End Role="Nationality" EntitySet="Nationality" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names">
+      <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
     </AssociationSet>
     <AssociationSet Name="FK_Privilage_Privilage" Association="MostafidDBModel.FK_Privilage_Privilage">
       <End Role="Privilage" EntitySet="Privilage" />
@@ -153,12 +184,16 @@
       <End Role="Request_Log" EntitySet="Request_Log" />
     </AssociationSet>
     <AssociationSet Name="FK_Request_SupportingDocs_Supporting_Documents" Association="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents">
-      <End Role="Supporting_Documents" EntitySet="Supporting_Documents" />
+      <End Role="Required_Documents" EntitySet="Required_Documents" />
       <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
     </AssociationSet>
     <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDBModel.FK_Units_Request_Type_Request_Type">
       <End Role="Request_Type" EntitySet="Request_Type" />
       <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Required_Documents_Sub_Services" Association="MostafidDBModel.FK_Required_Documents_Sub_Services">
+      <End Role="Sub_Services" EntitySet="Sub_Services" />
+      <End Role="Required_Documents" EntitySet="Required_Documents" />
     </AssociationSet>
     <AssociationSet Name="FK_Units_Service_Type" Association="MostafidDBModel.FK_Units_Service_Type">
       <End Role="Service_Type" EntitySet="Service_Type" />
@@ -176,23 +211,6 @@
       <End Role="Units_Type" EntitySet="Units_Type" />
       <End Role="Units" EntitySet="Units" />
     </AssociationSet>
-    <EntitySet Name="Personel_Data" EntityType="MostafidDBModel.Personel_Data" />
-    <AssociationSet Name="FK_Personel_Data_Country" Association="MostafidDBModel.FK_Personel_Data_Country">
-      <End Role="Country" EntitySet="Country" />
-      <End Role="Personel_Data" EntitySet="Personel_Data" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Personel_Data_ID_Document" Association="MostafidDBModel.FK_Personel_Data_ID_Document">
-      <End Role="ID_Document" EntitySet="ID_Document" />
-      <End Role="Personel_Data" EntitySet="Personel_Data" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Personel_Data_Nationality" Association="MostafidDBModel.FK_Personel_Data_Nationality">
-      <End Role="Nationality" EntitySet="Nationality" />
-      <End Role="Personel_Data" EntitySet="Personel_Data" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names">
-      <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
-      <End Role="Personel_Data" EntitySet="Personel_Data" />
-    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Applicant_Type">
     <Key>
@@ -202,6 +220,7 @@
     <Property Name="Applicant_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Applicant_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
+    <NavigationProperty Name="ValidTo" Relationship="MostafidDBModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
   </EntityType>
   <EntityType Name="Authority_Holder">
     <Key>
@@ -241,8 +260,8 @@
     <Property Name="Country_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Country_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
-    <NavigationProperty Name="Region" Relationship="MostafidDBModel.FK_Region_Country" FromRole="Country" ToRole="Region" />
     <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Personel_Data_Country" FromRole="Country" ToRole="Personel_Data" />
+    <NavigationProperty Name="Region" Relationship="MostafidDBModel.FK_Region_Country" FromRole="Country" ToRole="Region" />
   </EntityType>
   <EntityType Name="Department">
     <Key>
@@ -255,6 +274,17 @@
     <Property Name="IS_Action" Type="Boolean" />
     <NavigationProperty Name="College_Administration" Relationship="MostafidDBModel.FK_Department_College_Administration" FromRole="Department" ToRole="College_Administration" />
     <NavigationProperty Name="Purchase_Order_Form" Relationship="MostafidDBModel.FK_Purchase_Order_Form_Department" FromRole="Department" ToRole="Purchase_Order_Form" />
+  </EntityType>
+  <EntityType Name="E_Forms">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Path" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="SubServiceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
@@ -344,6 +374,7 @@
     <Property Name="UnitID" Type="Int32" />
     <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_MainServices_Units" FromRole="Main_Services" ToRole="Units" />
     <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Main_Services" ToRole="Sub_Services" />
+    <NavigationProperty Name="ValidTo" Relationship="MostafidDBModel.FK_ValidTo_Main_Services" FromRole="Main_Services" ToRole="ValidTo" />
   </EntityType>
   <EntityType Name="Nationality">
     <Key>
@@ -354,6 +385,34 @@
     <Property Name="Nationality_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
     <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Personel_Data_Nationality" FromRole="Nationality" ToRole="Personel_Data" />
+  </EntityType>
+  <EntityType Name="Personel_Data">
+    <Key>
+      <PropertyRef Name="Personel_Data_ID" />
+    </Key>
+    <Property Name="Personel_Data_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_Document" Type="Int32" Nullable="false" />
+    <Property Name="ID_Number" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IAU_Affiliate_ID" Type="Int32" />
+    <Property Name="IAU_ID_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Applicant_Type_ID" Type="Int32" />
+    <Property Name="Title_Middle_Names_ID" Type="Int32" />
+    <Property Name="First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Middle_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Nationality_ID" Type="Int32" />
+    <Property Name="Country_ID" Type="Int32" />
+    <Property Name="City_Country_1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="City_Country_2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Region_Postal_Code_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Region_Postal_Code_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IS_Action" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Country" Relationship="MostafidDBModel.FK_Personel_Data_Country" FromRole="Personel_Data" ToRole="Country" />
+    <NavigationProperty Name="ID_Document1" Relationship="MostafidDBModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
+    <NavigationProperty Name="Nationality" Relationship="MostafidDBModel.FK_Personel_Data_Nationality" FromRole="Personel_Data" ToRole="Nationality" />
+    <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
   </EntityType>
   <EntityType Name="Privilage">
     <Key>
@@ -517,7 +576,7 @@
     <Property Name="SupportingDocID" Type="Int32" Nullable="false" />
     <Property Name="Path" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Request_Data" FromRole="Request_SupportingDocs" ToRole="Request_Data" />
-    <NavigationProperty Name="Supporting_Documents" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents" FromRole="Request_SupportingDocs" ToRole="Supporting_Documents" />
+    <NavigationProperty Name="Required_Documents" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents" FromRole="Request_SupportingDocs" ToRole="Required_Documents" />
   </EntityType>
   <EntityType Name="Request_Type">
     <Key>
@@ -530,6 +589,18 @@
     <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Type" ToRole="Request_Data" />
     <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Request_Type" FromRole="Request_Type" ToRole="Units_Request_Type" />
+  </EntityType>
+  <EntityType Name="Required_Documents">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SubServiceID" Type="Int32" />
+    <Property Name="IS_Action" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Request_SupportingDocs" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents" FromRole="Required_Documents" ToRole="Request_SupportingDocs" />
+    <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Required_Documents_Sub_Services" FromRole="Required_Documents" ToRole="Sub_Services" />
   </EntityType>
   <EntityType Name="Service_Type">
     <Key>
@@ -552,8 +623,10 @@
     <Property Name="Sub_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Main_Services_ID" Type="Int32" />
     <Property Name="IS_Action" Type="Boolean" />
+    <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="Sub_Services" ToRole="E_Forms" />
     <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Sub_Services" ToRole="Main_Services" />
     <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
+    <NavigationProperty Name="Required_Documents" Relationship="MostafidDBModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
   </EntityType>
   <EntityType Name="Supplier_Names">
     <Key>
@@ -564,16 +637,6 @@
     <Property Name="Supplier_Names_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
     <NavigationProperty Name="Purchase_Order_Form" Relationship="MostafidDBModel.FK_Purchase_Order_Form_Supplier_Names" FromRole="Supplier_Names" ToRole="Purchase_Order_Form" />
-  </EntityType>
-  <EntityType Name="Supporting_Documents">
-    <Key>
-      <PropertyRef Name="Supporting_Documents_ID" />
-    </Key>
-    <Property Name="Supporting_Documents_ID" Type="Int32" Nullable="false" />
-    <Property Name="Supporting_Documents_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Supporting_Documents_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="IS_Action" Type="Boolean" />
-    <NavigationProperty Name="Request_SupportingDocs" Relationship="MostafidDBModel.FK_Request_SupportingDocs_Supporting_Documents" FromRole="Supporting_Documents" ToRole="Request_SupportingDocs" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -670,6 +733,16 @@
     <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
   </EntityType>
+  <EntityType Name="ValidTo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MainServiceID" Type="Int32" Nullable="false" />
+    <Property Name="ApplicantTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Applicant_Type" Relationship="MostafidDBModel.FK_ValidTo_Applicant_Type" FromRole="ValidTo" ToRole="Applicant_Type" />
+    <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_ValidTo_Main_Services" FromRole="ValidTo" ToRole="Main_Services" />
+  </EntityType>
   <EntityType Name="Statement_Department_File_Sent_Them">
     <Key>
       <PropertyRef Name="Statement_Department_File_Sent_Them_ID" />
@@ -678,6 +751,18 @@
     <Property Name="Statement_Department_File_Sent_Them_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Statement_Department_File_Sent_Them_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
+  <Association Name="FK_ValidTo_Applicant_Type">
+    <End Type="MostafidDBModel.Applicant_Type" Role="Applicant_Type" Multiplicity="1" />
+    <End Type="MostafidDBModel.ValidTo" Role="ValidTo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applicant_Type">
+        <PropertyRef Name="Applicant_Type_ID" />
+      </Principal>
+      <Dependent Role="ValidTo">
+        <PropertyRef Name="ApplicantTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Purchase_Order_Form_Authority_Holder">
     <End Type="MostafidDBModel.Authority_Holder" Role="Authority_Holder" Multiplicity="0..1" />
     <End Type="MostafidDBModel.Purchase_Order_Form" Role="Purchase_Order_Form" Multiplicity="*" />
@@ -714,6 +799,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Personel_Data_Country">
+    <End Type="MostafidDBModel.Country" Role="Country" Multiplicity="0..1" />
+    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Country_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Country_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Region_Country">
     <End Type="MostafidDBModel.Country" Role="Country" Multiplicity="1" />
     <End Type="MostafidDBModel.Region" Role="Region" Multiplicity="*" />
@@ -735,6 +832,18 @@
       </Principal>
       <Dependent Role="Purchase_Order_Form">
         <PropertyRef Name="Department_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_E_Forms_Sub_Services">
+    <End Type="MostafidDBModel.Sub_Services" Role="Sub_Services" Multiplicity="1" />
+    <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sub_Services">
+        <PropertyRef Name="Sub_Services_ID" />
+      </Principal>
+      <Dependent Role="E_Forms">
+        <PropertyRef Name="SubServiceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -783,6 +892,18 @@
       </Principal>
       <Dependent Role="Purchase_Order_Form">
         <PropertyRef Name="FollowUp_Publication_Violations_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_ID_Document">
+    <End Type="MostafidDBModel.ID_Document" Role="ID_Document" Multiplicity="1" />
+    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ID_Document">
+        <PropertyRef Name="ID_Document1" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="ID_Document" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -855,6 +976,42 @@
       </Principal>
       <Dependent Role="Sub_Services">
         <PropertyRef Name="Main_Services_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ValidTo_Main_Services">
+    <End Type="MostafidDBModel.Main_Services" Role="Main_Services" Multiplicity="1" />
+    <End Type="MostafidDBModel.ValidTo" Role="ValidTo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Main_Services">
+        <PropertyRef Name="Main_Services_ID" />
+      </Principal>
+      <Dependent Role="ValidTo">
+        <PropertyRef Name="MainServiceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Nationality">
+    <End Type="MostafidDBModel.Nationality" Role="Nationality" Multiplicity="0..1" />
+    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nationality">
+        <PropertyRef Name="Nationality_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Nationality_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Title_Middle_Names">
+    <End Type="MostafidDBModel.Title_Middle_Names" Role="Title_Middle_Names" Multiplicity="0..1" />
+    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Title_Middle_Names">
+        <PropertyRef Name="Title_Middle_Names_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Title_Middle_Names_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1015,11 +1172,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Request_SupportingDocs_Supporting_Documents">
-    <End Type="MostafidDBModel.Supporting_Documents" Role="Supporting_Documents" Multiplicity="1" />
+    <End Type="MostafidDBModel.Required_Documents" Role="Required_Documents" Multiplicity="1" />
     <End Type="MostafidDBModel.Request_SupportingDocs" Role="Request_SupportingDocs" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Supporting_Documents">
-        <PropertyRef Name="Supporting_Documents_ID" />
+      <Principal Role="Required_Documents">
+        <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Request_SupportingDocs">
         <PropertyRef Name="SupportingDocID" />
@@ -1035,6 +1192,18 @@
       </Principal>
       <Dependent Role="Units_Request_Type">
         <PropertyRef Name="Request_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Required_Documents_Sub_Services">
+    <End Type="MostafidDBModel.Sub_Services" Role="Sub_Services" Multiplicity="0..1" />
+    <End Type="MostafidDBModel.Required_Documents" Role="Required_Documents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sub_Services">
+        <PropertyRef Name="Sub_Services_ID" />
+      </Principal>
+      <Dependent Role="Required_Documents">
+        <PropertyRef Name="SubServiceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1083,82 +1252,6 @@
       </Principal>
       <Dependent Role="Units">
         <PropertyRef Name="Units_Type_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="Personel_Data">
-    <Key>
-      <PropertyRef Name="Personel_Data_ID" />
-    </Key>
-    <Property Name="Personel_Data_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ID_Document" Type="Int32" Nullable="false" />
-    <Property Name="ID_Number" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="IAU_Affiliate_ID" Type="Int32" />
-    <Property Name="IAU_ID_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Applicant_Type_ID" Type="Int32" />
-    <Property Name="Title_Middle_Names_ID" Type="Int32" />
-    <Property Name="First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Middle_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Last_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Nationality_ID" Type="Int32" />
-    <Property Name="Country_ID" Type="Int32" />
-    <Property Name="City_Country_1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="City_Country_2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Region_Postal_Code_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Region_Postal_Code_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="IS_Action" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Country" Relationship="MostafidDBModel.FK_Personel_Data_Country" FromRole="Personel_Data" ToRole="Country" />
-    <NavigationProperty Name="ID_Document1" Relationship="MostafidDBModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
-    <NavigationProperty Name="Nationality" Relationship="MostafidDBModel.FK_Personel_Data_Nationality" FromRole="Personel_Data" ToRole="Nationality" />
-    <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
-  </EntityType>
-  <Association Name="FK_Personel_Data_Country">
-    <End Type="MostafidDBModel.Country" Role="Country" Multiplicity="0..1" />
-    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Country">
-        <PropertyRef Name="Country_ID" />
-      </Principal>
-      <Dependent Role="Personel_Data">
-        <PropertyRef Name="Country_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Personel_Data_ID_Document">
-    <End Type="MostafidDBModel.ID_Document" Role="ID_Document" Multiplicity="1" />
-    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ID_Document">
-        <PropertyRef Name="ID_Document1" />
-      </Principal>
-      <Dependent Role="Personel_Data">
-        <PropertyRef Name="ID_Document" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Personel_Data_Nationality">
-    <End Type="MostafidDBModel.Nationality" Role="Nationality" Multiplicity="0..1" />
-    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Nationality">
-        <PropertyRef Name="Nationality_ID" />
-      </Principal>
-      <Dependent Role="Personel_Data">
-        <PropertyRef Name="Nationality_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Personel_Data_Title_Middle_Names">
-    <End Type="MostafidDBModel.Title_Middle_Names" Role="Title_Middle_Names" Multiplicity="0..1" />
-    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Title_Middle_Names">
-        <PropertyRef Name="Title_Middle_Names_ID" />
-      </Principal>
-      <Dependent Role="Personel_Data">
-        <PropertyRef Name="Title_Middle_Names_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
