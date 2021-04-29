@@ -66,6 +66,11 @@
 	"t-active-mainservice": "Do u want to active this Service?",
 	"t-units-short": "Unit",
 	"t-Applicanttype": "Applicant Types",
-	"t-": ""
+	"t-mainservice": "Main Service",
+	"t-required-docs": "Required Documnets",
+	"t-path": "File",
+	"t-subservice": "Sub Service",
+	"t-deactive-eforms": "Do u want to deactive this EForm?",
+	"t-active-eforms": "Do u want to active this EForm?"
 
 }

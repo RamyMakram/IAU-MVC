@@ -133,6 +133,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\User_Session.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EFormsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Controllers\RequestTypeController.cs" />
     <Compile Include="Controllers\ServiceTypesController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\SubServicesController.cs" />
     <Compile Include="Controllers\UnitLocationController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
@@ -2981,7 +2983,6 @@
     <Content Include="assets\fonts\Droid.Arabic.Kufi_.Bold_.ttf" />
     <Content Include="assets\fonts\Droid-Arabic-Kufi.ttf" />
     <None Include="packages.config" />
-    <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Email\Home.cshtml" />
     <Content Include="Views\Email\Preview.cshtml" />
@@ -3030,6 +3031,19 @@
     <Content Include="Views\MainService\Detials.cshtml" />
     <Content Include="Views\MainService\Edit.cshtml" />
     <Content Include="Views\MainService\Home.cshtml" />
+    <Content Include="Views\SubServices\Create.cshtml" />
+    <Content Include="Views\SubServices\Deactive.cshtml" />
+    <Content Include="Views\SubServices\Detials.cshtml" />
+    <Content Include="Views\SubServices\Edit.cshtml" />
+    <Content Include="Views\SubServices\Home.cshtml" />
+    <Content Include="Views\SubServices\Active.cshtml" />
+    <Content Include="Views\EForms\Create.cshtml" />
+    <Content Include="Views\EForms\Deactive.cshtml" />
+    <Content Include="Views\EForms\Detials.cshtml" />
+    <Content Include="Views\EForms\Edit.cshtml" />
+    <Content Include="Views\EForms\Home.cshtml" />
+    <Content Include="Views\EForms\Active.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

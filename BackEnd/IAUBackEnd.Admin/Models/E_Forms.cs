@@ -19,6 +19,7 @@ namespace IAUBackEnd.Admin.Models
         public string Name_EN { get; set; }
         public string Path { get; set; }
         public int SubServiceID { get; set; }
+        public bool IS_Action { get; set; }
     
         public virtual Sub_Services Sub_Services { get; set; }
     }

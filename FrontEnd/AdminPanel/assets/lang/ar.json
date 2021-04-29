@@ -35,7 +35,7 @@
 	"t-active": "تنشيط",
 	"t-user": "المستخدمين",
 	"t-activeTitle": "الحالة",
-	"t-enname": "الأسم بالانجليزي",
+	"t-enname": "الأسم بالانجليزية",
 	"t-jobPrivilges": "إعدادات الصلاحيات",
 	"t-Jobs": "الوظائف",
 	"t-logout": "تسجيل الخروج",
@@ -65,7 +65,12 @@
 	"t-deactive-mainservice": "هل انت متاكد من تعطيل هذة الخدمة؟",
 	"t-active-mainservice": "هل انت متاكد من تنشيط هذه الخدمة؟",
 	"t-units-short": "الوحدة",
-	"t-Applicanttype": "أنواع المتقدمين"
-
+	"t-Applicanttype": "أنواع المتقدمين",
+	"t-mainservice": "الخدمة الأساسية",
+	"t-required-docs": "الملفات المطلوبة",
+	"t-path": "الملف",
+	"t-subservice": "الخدمة الفرعية",
+	"t-deactive-eforms": "هل انت متاكد من تعطيل هذا النموذج؟",
+	"t-active-eforms": "هل انت متاكد من تنشيط هذا النوذج؟"
 
 }

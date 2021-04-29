@@ -69,6 +69,7 @@
           <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Path" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="SubServiceID" Type="int" Nullable="false" />
+          <Property Name="IS_Action" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -141,7 +142,7 @@
           <Key>
             <PropertyRef Name="Main_Services_ID" />
           </Key>
-          <Property Name="Main_Services_ID" Type="int" Nullable="false" />
+          <Property Name="Main_Services_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Main_Services_Name_EN" Type="nvarchar(max)" />
           <Property Name="Main_Services_Name_AR" Type="nvarchar(max)" />
           <Property Name="IS_Action" Type="bit" />
@@ -327,7 +328,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar(max)" />
           <Property Name="Name_AR" Type="nvarchar(max)" />
           <Property Name="SubServiceID" Type="int" />
@@ -357,7 +358,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Key>
             <PropertyRef Name="Sub_Services_ID" />
           </Key>
-          <Property Name="Sub_Services_ID" Type="int" Nullable="false" />
+          <Property Name="Sub_Services_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Sub_Services_Name_EN" Type="nvarchar(max)" />
           <Property Name="Sub_Services_Name_AR" Type="nvarchar(max)" />
           <Property Name="Main_Services_ID" Type="int" />
@@ -1473,6 +1474,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Path" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="SubServiceID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
+          <Property Name="IS_Action" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -1555,7 +1557,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Key>
             <PropertyRef Name="Main_Services_ID" />
           </Key>
-          <Property Name="Main_Services_ID" Type="Int32" Nullable="false" />
+          <Property Name="Main_Services_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Main_Services_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Main_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
@@ -1782,7 +1784,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SubServiceID" Type="Int32" />
@@ -1806,7 +1808,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Key>
             <PropertyRef Name="Sub_Services_ID" />
           </Key>
-          <Property Name="Sub_Services_ID" Type="Int32" Nullable="false" />
+          <Property Name="Sub_Services_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Sub_Services_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Sub_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Main_Services_ID" Type="Int32" />
@@ -2513,6 +2515,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <EntitySetMapping Name="E_Forms">
             <EntityTypeMapping TypeName="MostafidDBModel.E_Forms">
               <MappingFragment StoreEntitySet="E-Forms">
+                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
                 <ScalarProperty Name="Path" ColumnName="Path" />
                 <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />

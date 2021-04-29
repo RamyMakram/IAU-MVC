@@ -13,5 +13,9 @@ namespace IAUAdmin.DTO.Entity
 		public string Sub_Services_Name_AR { get; set; }
 		public Nullable<int> Main_Services_ID { get; set; }
 		public Nullable<bool> IS_Action { get; set; }
+		public string Required { get; set; }
+		public ICollection<RequiredDocsDTO> Required_Documents { get; set; }
+		public virtual MainServiceDTO Main_Services { get; set; }
+
 	}
 }

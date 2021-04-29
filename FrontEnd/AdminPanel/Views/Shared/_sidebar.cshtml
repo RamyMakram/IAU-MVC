@@ -40,13 +40,13 @@
 					if (data.Contains("Outbox"))
 					{
 						<li>
-							<a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
+							<a href=@Url.Action("Home", "Email") id="x" class="waves-effect">
 								<i class="fas fa-paper-plane"></i>
 								<span key="t-forwarded">الطلبات المرسلة</span>
 							</a>
 						</li>
 					}
-					if (data.Contains("Mostafid Manager"))
+					@*if (data.Contains("Mostafid Manager"))
 					{
 						<li>
 							<a href="#" class="waves-effect" id="">
@@ -54,11 +54,11 @@
 								<span key="t-SevicesSettings">ادارة خدمات المستفيدين</span>
 							</a>
 						</li>
-					}
+					}*@
 					if (data.Contains("Statistics"))
 					{
 						<li>
-							<a href="#" class="waves-effect" id="">
+							<a href="#" class="waves-effect" id="x">
 								<i class="fas fa-chart-pie"></i>
 								<span key="t-statistics">التقارير والاحصائيات</span>
 							</a>
@@ -73,8 +73,8 @@
 						<ul class="sub-menu" aria-expanded="false" style="z-index:9999">
 							<li><a href=@Url.Action("Home", "Units") id="Units" key="t-uints-settings">اعدادات الوحدات</a></li>
 							<li><a href=@Url.Action("Home", "MainService") id="MainService" key="t-mainservices">اعدادات الخدمات الاساسية</a></li>
-							<li><a href="#" id="" key="t-subservices">اعدادات الخدمات الفرعية</a></li>
-							<li><a href="#" id="" key="t-eforms">اعدادات النماذج الالكترونية</a></li>
+							<li><a href=@Url.Action("Home", "SubServices") id="SubServices" key="t-subservices">اعدادات الخدمات الفرعية</a></li>
+							<li><a href=@Url.Action("Home", "EForms")  id="EForms" key="t-eforms">اعدادات النماذج الالكترونية</a></li>
 							<li><a href=@Url.Action("Home", "ServiceTypes") id="ServiceTypes" key="t-services-type">اعدادات أنواع الخدمات</a></li>
 							<li><a href=@Url.Action("Home", "RequestType") id="RequestType" key="t-request-type">اعدادات أنواع الطلبات</a></li>
 							@{

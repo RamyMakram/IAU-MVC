@@ -65,6 +65,7 @@
     <EntitySetMapping Name="E_Forms">
       <EntityTypeMapping TypeName="MostafidDBModel.E_Forms">
         <MappingFragment StoreEntitySet="E-Forms">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
           <ScalarProperty Name="Path" ColumnName="Path" />
           <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />

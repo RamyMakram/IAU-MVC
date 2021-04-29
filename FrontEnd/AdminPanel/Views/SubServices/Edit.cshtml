@@ -1,0 +1,159 @@
+﻿@model IAUAdmin.DTO.Entity.SubServicesDTO
+@{
+	ViewBag.Title = "Edit Service";
+	ViewBag.pTitle = "Edit Service";
+	ViewBag.pageTitle = "Sub Service";
+	ViewBag.arTitle = "تعديل خدمة";
+	ViewBag.arpageTitle = "تعديل خدمة";
+	ViewBag.arpTitle = "الخدمات الفرعية";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
+	span.select2 {
+		width: 100% !important
+	}
+</style>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+
+				@using (Html.BeginForm("Edit", "SubServices", FormMethod.Post, new { @class = "repeater" }))
+				{
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-name" for="name">Name</label>
+								@Html.TextBoxFor(q => q.Sub_Services_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-enname" for="enname">enname</label>
+								@Html.TextBoxFor(q => q.Sub_Services_Name_EN, new { @class = "form-control", @name = "enname", @id = "enname" })
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label key="t-mainservice" for="email">Main Service</label>
+								@Html.DropDownListFor(q => q.Main_Services_ID, ViewBag.MainServices as SelectList, new { @class = "form-control select2", })
+							</div>
+						</div>
+						<div style="display:inline-flex;justify-content:space-between;width: 100%;padding: 0 11px;">
+							<h4 key="t-required-docs" class="card-title">Basic Information</h4>
+							<button id="AddRecord" data-repeater-create type="button" class="btn btn-circle mt-3 mt-lg-0"><i class="fas fa-plus-circle" style="font-size:18px;color:green"></i></button>
+						</div>
+
+						<div class="col-12">
+							<div data-repeater-list="group-a" id="RequiredDocumnets">
+								@foreach (var i in Model.Required_Documents)
+								{
+									<div class="row RequiredDIV">
+										<span style="display:none" class="FORM-ID">@i.ID</span>
+										<div class="form-group col-5">
+											<label key="t-name" for="name">Name</label>
+											<input type="text" id="name" name="untyped-input" class="form-control FORM-name" value="@i.Name_AR" />
+										</div>
+
+										<div class="form-group col-5">
+											<label key="t-enname" for="enname">Email</label>
+											<input type="text" id="enname" class="form-control FORM-enname" value="@i.Name_EN" />
+										</div>
+										<div class="form-group col-2">
+											<label key="t-activeTitle" for="isaction">Email</label>
+											<input type="checkbox" id="isaction" class="form-control FORM-Active" style="height: 20px;" @(i.IS_Action.Value ? "checked" : "") />
+										</div>
+									</div>
+								}
+								<div data-repeater-item class="row RequiredDIV">
+									<div class="form-group col-5">
+										<label key="t-name" for="name">Name</label>
+										<input type="text" id="name" name="untyped-input" class="form-control FORM-name" />
+									</div>
+
+									<div class="form-group col-5">
+										<label key="t-enname" for="enname">Email</label>
+										<input type="text" id="enname" class="form-control FORM-enname" />
+									</div>
+									<div class="col-lg-2 align-self-center">
+										<button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+						@Html.EditorFor(q => q.Required, new { htmlAttributes = new { @class = "form-control", @disable = "true", @style = "display:none !important" } })
+
+					</div>
+					<button id="submir" type="submit" class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>
+				}
+				<button onclick="Save()" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+				<button type="reset" key="t-cancel" class="btn btn-secondary waves-effect">Cancel</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- form repeater js -->
+<script src="~/assets/libs/jquery.repeater/jquery.repeater.min.js"></script>
+
+<script src="~/assets/js/pages/form-repeater.int.js"></script>
+
+<script src="~/assets/js/app.js"></script>
+<script>
+	$(document).ready(function (eee) {
+		document.getElementById('AddRecord').addEventListener('click', function (f) {
+			getLanguage();
+		})
+	})
+	function Save() {
+		var data = [];
+		var requiredAR = document.getElementsByClassName('FORM-name');
+		var requiredEN = document.getElementsByClassName('FORM-enname');
+		var requiredCheck = document.getElementsByClassName('FORM-Active');
+		var requiredID = document.getElementsByClassName('FORM-ID');
+		let i = 0;
+		var lengthExist = requiredCheck.length;
+		var lengthAll = requiredAR.length;
+		for (; i < lengthExist; i++) {
+			let name = requiredAR[i].value
+			let enname = requiredEN[i].value
+			let ID = requiredID[i].innerHTML
+			let Check = requiredCheck[i].checked
+			if (name != "" && enname != "")
+				data.push({ ID: ID, Name_EN: enname, Name_AR: name, IS_Action: Check });
+		}
+		for (; i < lengthAll; i++) {
+			let name = requiredAR[i].value
+			let enname = requiredEN[i].value
+			if (name != "" && enname != "")
+				data.push({ Name_EN: enname, Name_AR: name, IS_Action: true });
+		}
+		document.getElementById("Required").value = JSON.stringify(data);
+		$('#submir').click();
+	}
+</script>

@@ -64,6 +64,7 @@
     <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="Path" Type="nvarchar" MaxLength="300" Nullable="false" />
     <Property Name="SubServiceID" Type="int" Nullable="false" />
+    <Property Name="IS_Action" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
@@ -136,7 +137,7 @@
     <Key>
       <PropertyRef Name="Main_Services_ID" />
     </Key>
-    <Property Name="Main_Services_ID" Type="int" Nullable="false" />
+    <Property Name="Main_Services_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Main_Services_Name_EN" Type="nvarchar(max)" />
     <Property Name="Main_Services_Name_AR" Type="nvarchar(max)" />
     <Property Name="IS_Action" Type="bit" />
@@ -322,7 +323,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name_EN" Type="nvarchar(max)" />
     <Property Name="Name_AR" Type="nvarchar(max)" />
     <Property Name="SubServiceID" Type="int" />
@@ -352,7 +353,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Key>
       <PropertyRef Name="Sub_Services_ID" />
     </Key>
-    <Property Name="Sub_Services_ID" Type="int" Nullable="false" />
+    <Property Name="Sub_Services_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Sub_Services_Name_EN" Type="nvarchar(max)" />
     <Property Name="Sub_Services_Name_AR" Type="nvarchar(max)" />
     <Property Name="Main_Services_ID" Type="int" />

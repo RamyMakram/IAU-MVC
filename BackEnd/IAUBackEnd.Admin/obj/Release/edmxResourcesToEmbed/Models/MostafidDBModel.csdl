@@ -285,6 +285,7 @@
     <Property Name="Path" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
     <Property Name="SubServiceID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
+    <Property Name="IS_Action" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
@@ -367,7 +368,7 @@
     <Key>
       <PropertyRef Name="Main_Services_ID" />
     </Key>
-    <Property Name="Main_Services_ID" Type="Int32" Nullable="false" />
+    <Property Name="Main_Services_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Main_Services_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Main_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
@@ -594,7 +595,7 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="SubServiceID" Type="Int32" />
@@ -618,7 +619,7 @@
     <Key>
       <PropertyRef Name="Sub_Services_ID" />
     </Key>
-    <Property Name="Sub_Services_ID" Type="Int32" Nullable="false" />
+    <Property Name="Sub_Services_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Sub_Services_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Sub_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Main_Services_ID" Type="Int32" />

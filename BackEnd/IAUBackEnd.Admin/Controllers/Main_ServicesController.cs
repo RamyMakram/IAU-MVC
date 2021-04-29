@@ -22,6 +22,10 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = db.Main_Services });
 		}
+		public async Task<IHttpActionResult> GetActive()
+		{
+			return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.IS_Action.Value) });
+		}
 
 		public async Task<IHttpActionResult> GetMain_Services(int id)
 		{

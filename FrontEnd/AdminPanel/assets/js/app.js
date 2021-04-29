@@ -6,218 +6,31 @@ Website: https://themesbrand.com/
 Contact: themesbrand@gmail.com
 File: Main Js File
 */
+'use strict';
 
+var language = "";
 
-(function ($) {
-
-	'use strict';
-
-	var language = "";
-
-	function setLanguage(lang) {
-		if (document.getElementById("header-lang-img")) {
-			if (lang == 'en') {
-				document.getElementById("header-lang-img").src = "/assets/images/flags/us.jpg";
-				$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-				$("#app-style").attr('href', '/assets/css/app.min.css');
-				sessionStorage.setItem("is_visited", "light-mode-switch");
-			} else if (lang == 'ar') {
-				document.getElementById("header-lang-img").src = "/assets/images/flags/sw.jpg";
-				$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-				$("#app-style").attr('href', '/assets/css/app-rtl.min.css');
-				sessionStorage.setItem("is_visited", "rtl-mode-switch");
-			}
-			localStorage.setItem('lang', lang);
-			language = localStorage.getItem('lang');
-			getLanguage();
+function setLanguage(lang) {
+	if (document.getElementById("header-lang-img")) {
+		if (lang == 'en') {
+			document.getElementById("header-lang-img").src = "/assets/images/flags/us.jpg";
+			$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+			$("#app-style").attr('href', '/assets/css/app.min.css');
+			sessionStorage.setItem("is_visited", "light-mode-switch");
+		} else if (lang == 'ar') {
+			document.getElementById("header-lang-img").src = "/assets/images/flags/sw.jpg";
+			$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+			$("#app-style").attr('href', '/assets/css/app-rtl.min.css');
+			sessionStorage.setItem("is_visited", "rtl-mode-switch");
 		}
+		localStorage.setItem('lang', lang);
+		language = localStorage.getItem('lang');
+		getLanguage();
 	}
+}
 
-	function getLanguage() {
-		//(language == null) ? setLanguage(default_lang) : false;
-		$.getJSON('/assets/lang/' + language + '.json', function (lang) {
-			$('html').attr('lang', language);
-			$.each(lang, function (index, val) {
-
-				(index === 'head') ? $(document).attr("title", val['title']) : false;
-				$("[key='" + index + "']").text(val);
-			});
-		});
-	}
-
-	function initMetisMenu() {
-		//metis menu
-		$("#side-menu").metisMenu();
-	}
-
-	function initLeftMenuCollapse() {
-		$('#vertical-menu-btn').on('click', function (event) {
-			event.preventDefault();
-			$('body').toggleClass('sidebar-enable');
-			if ($(window).width() >= 992) {
-				$('body').toggleClass('vertical-collpsed');
-			} else {
-				$('body').removeClass('vertical-collpsed');
-			}
-		});
-	}
-
-	function initActiveMenu() {
-		// === following js will activate the menu in left side bar based on url ====
-		$("#sidebar-menu a").each(function (e) {
-			//console.log(window.location.href.split(/[?#]/)[0])
-			var pageUrl = window.location.pathname.split('/')[1];
-			//console.log(this.id, pageUrl)
-			if (this.id == pageUrl) {
-				$(this).addClass("active");
-				$(this).parent().addClass("mm-active"); // add active to li of the current link
-				$(this).parent().parent().addClass("mm-show");
-				$(this).parent().parent().prev().addClass("mm-active"); // add active class to an anchor
-				$(this).parent().parent().parent().addClass("mm-active");
-				$(this).parent().parent().parent().parent().addClass("mm-show"); // add active to li of the current link
-				$(this).parent().parent().parent().parent().parent().addClass("mm-active");
-			}
-		});
-	}
-
-	function initMenuItemScroll() {
-		// focus active menu in left sidebar
-		$(document).ready(function () {
-			if ($("#sidebar-menu").length > 0 && $("#sidebar-menu .mm-active .active").length > 0) {
-				var activeMenu = $("#sidebar-menu .mm-active .active").offset().top;
-				if (activeMenu > 300) {
-					activeMenu = activeMenu - 300;
-					$(".simplebar-content-wrapper").animate({ scrollTop: activeMenu }, "slow");
-				}
-			}
-		});
-	}
-
-	function initHoriMenuActive() {
-		$(".navbar-nav a").each(function () {
-			var pageUrl = window.location.href.split(/[?#]/)[0];
-			if (this.href == pageUrl) {
-				$(this).addClass("active");
-				$(this).parent().addClass("active");
-				$(this).parent().parent().addClass("active");
-				$(this).parent().parent().parent().addClass("active");
-				$(this).parent().parent().parent().parent().addClass("active");
-				$(this).parent().parent().parent().parent().parent().addClass("active");
-			}
-		});
-	}
-
-	function initFullScreen() {
-		$('[data-toggle="fullscreen"]').on("click", function (e) {
-			e.preventDefault();
-			$('body').toggleClass('fullscreen-enable');
-			if (!document.fullscreenElement && /* alternative standard method */ !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
-				if (document.documentElement.requestFullscreen) {
-					document.documentElement.requestFullscreen();
-				} else if (document.documentElement.mozRequestFullScreen) {
-					document.documentElement.mozRequestFullScreen();
-				} else if (document.documentElement.webkitRequestFullscreen) {
-					document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-				}
-			} else {
-				if (document.cancelFullScreen) {
-					document.cancelFullScreen();
-				} else if (document.mozCancelFullScreen) {
-					document.mozCancelFullScreen();
-				} else if (document.webkitCancelFullScreen) {
-					document.webkitCancelFullScreen();
-				}
-			}
-		});
-		document.addEventListener('fullscreenchange', exitHandler);
-		document.addEventListener("webkitfullscreenchange", exitHandler);
-		document.addEventListener("mozfullscreenchange", exitHandler);
-		function exitHandler() {
-			if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-				$('body').removeClass('fullscreen-enable');
-			}
-		}
-	}
-
-	function initRightSidebar() {
-		// right side-bar toggle
-		$('.right-bar-toggle').on('click', function (e) {
-			$('body').toggleClass('right-bar-enabled');
-		});
-
-		$(document).on('click', 'body', function (e) {
-			if ($(e.target).closest('.right-bar-toggle, .right-bar').length > 0) {
-				return;
-			}
-
-			$('body').removeClass('right-bar-enabled');
-			return;
-		});
-	}
-
-	function initComponents() {
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip()
-		})
-
-		$(function () {
-			$('[data-toggle="popover"]').popover()
-		})
-	}
-
-	function initPreloader() {
-		$(window).on('load', function () {
-			$('#status').fadeOut();
-			$('#preloader').delay(350).fadeOut('slow');
-		});
-
-	}
-
-	function initSettings() {
-		if (window.sessionStorage) {
-			var alreadyVisited = sessionStorage.getItem("is_visited");
-			if (!alreadyVisited) {
-				sessionStorage.setItem("is_visited", "light-mode-switch");
-			} else {
-				$(".right-bar input:checkbox").prop('checked', false);
-				$("#" + alreadyVisited).prop('checked', true);
-				//updateThemeSetting(alreadyVisited);
-			}
-		}
-
-		$("#light-mode-switch, #dark-mode-switch, #rtl-mode-switch").on("change", function (e) {
-			//updateThemeSetting(e.target.id);
-		});
-
-	}
-
-	function initLanguage() {
-		// Auto Loader
-
-		setLanguage(language ?? "ar");
-		//$('.language').on('click', function (e) {
-		//	setLanguage($(this).attr('data-lang'));
-		//});
-	}
-
-	function init() {
-
-		initLanguage();
-		initMetisMenu();
-		initLeftMenuCollapse();
-		initActiveMenu();
-		initMenuItemScroll();
-		initHoriMenuActive();
-		initFullScreen();
-		initRightSidebar();
-		//initDropdownMenu();
-		initComponents();
-		initSettings();
-		initPreloader();
-		Waves.init();
-	}
-
-	$(document).ready(function () {
+function getLanguage() {
+	if (language == null || language == "")
 		try {
 			let cook = document.cookie.split(';');
 			cook.forEach(i => {
@@ -229,7 +42,200 @@ File: Main Js File
 		} catch (e) {
 			location.href = "/Home/ChangeLanguage?lang=ar"
 		}
-		init();
+	if (language != "" && language != null) {
+		$.getJSON('/assets/lang/' + language + '.json', function (lang) {
+			$('html').attr('lang', language);
+			$.each(lang, function (index, val) {
+
+				(index === 'head') ? $(document).attr("title", val['title']) : false;
+				$("[key='" + index + "']").text(val);
+			});
+		})
+	}
+	else
+		location.href = "/Home/ChangeLanguage?lang=ar"
+
+};
+
+function initLeftMenuCollapse() {
+	$('#vertical-menu-btn').on('click', function (event) {
+		event.preventDefault();
+		$('body').toggleClass('sidebar-enable');
+		if ($(window).width() >= 992) {
+			$('body').toggleClass('vertical-collpsed');
+		} else {
+			$('body').removeClass('vertical-collpsed');
+		}
+	});
+}
+
+function initActiveMenu() {
+	// === following js will activate the menu in left side bar based on url ====
+	$("#sidebar-menu a").each(function (e) {
+		//console.log(window.location.href.split(/[?#]/)[0])
+		var pageUrl = window.location.pathname.split('/')[1];
+		//console.log(this.id, pageUrl)
+		if (this.id == pageUrl) {
+			$(this).addClass("active");
+			$(this).parent().addClass("mm-active"); // add active to li of the current link
+			$(this).parent().parent().addClass("mm-show");
+			$(this).parent().parent().prev().addClass("mm-active"); // add active class to an anchor
+			$(this).parent().parent().parent().addClass("mm-active");
+			$(this).parent().parent().parent().parent().addClass("mm-show"); // add active to li of the current link
+			$(this).parent().parent().parent().parent().parent().addClass("mm-active");
+		}
+	});
+}
+
+function initMenuItemScroll() {
+	// focus active menu in left sidebar
+	$(document).ready(function () {
+		if ($("#sidebar-menu").length > 0 && $("#sidebar-menu .mm-active .active").length > 0) {
+			var activeMenu = $("#sidebar-menu .mm-active .active").offset().top;
+			if (activeMenu > 300) {
+				activeMenu = activeMenu - 300;
+				$(".simplebar-content-wrapper").animate({ scrollTop: activeMenu }, "slow");
+			}
+		}
+	});
+}
+
+function initHoriMenuActive() {
+	$(".navbar-nav a").each(function () {
+		var pageUrl = window.location.href.split(/[?#]/)[0];
+		if (this.href == pageUrl) {
+			$(this).addClass("active");
+			$(this).parent().addClass("active");
+			$(this).parent().parent().addClass("active");
+			$(this).parent().parent().parent().addClass("active");
+			$(this).parent().parent().parent().parent().addClass("active");
+			$(this).parent().parent().parent().parent().parent().addClass("active");
+		}
+	});
+}
+
+function initFullScreen() {
+	$('[data-toggle="fullscreen"]').on("click", function (e) {
+		e.preventDefault();
+		$('body').toggleClass('fullscreen-enable');
+		if (!document.fullscreenElement && /* alternative standard method */ !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+			if (document.documentElement.requestFullscreen) {
+				document.documentElement.requestFullscreen();
+			} else if (document.documentElement.mozRequestFullScreen) {
+				document.documentElement.mozRequestFullScreen();
+			} else if (document.documentElement.webkitRequestFullscreen) {
+				document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+			}
+		} else {
+			if (document.cancelFullScreen) {
+				document.cancelFullScreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.webkitCancelFullScreen) {
+				document.webkitCancelFullScreen();
+			}
+		}
+	});
+	document.addEventListener('fullscreenchange', exitHandler);
+	document.addEventListener("webkitfullscreenchange", exitHandler);
+	document.addEventListener("mozfullscreenchange", exitHandler);
+	function exitHandler() {
+		if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+			$('body').removeClass('fullscreen-enable');
+		}
+	}
+}
+
+function initRightSidebar() {
+	// right side-bar toggle
+	$('.right-bar-toggle').on('click', function (e) {
+		$('body').toggleClass('right-bar-enabled');
+	});
+
+	$(document).on('click', 'body', function (e) {
+		if ($(e.target).closest('.right-bar-toggle, .right-bar').length > 0) {
+			return;
+		}
+
+		$('body').removeClass('right-bar-enabled');
+		return;
+	});
+}
+
+function initComponents() {
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
+
+	$(function () {
+		$('[data-toggle="popover"]').popover()
+	})
+}
+
+function initPreloader() {
+	$(window).on('load', function () {
+		$('#status').fadeOut();
+		$('#preloader').delay(350).fadeOut('slow');
+	});
+
+}
+
+function initSettings() {
+	if (window.sessionStorage) {
+		var alreadyVisited = sessionStorage.getItem("is_visited");
+		if (!alreadyVisited) {
+			sessionStorage.setItem("is_visited", "light-mode-switch");
+		} else {
+			$(".right-bar input:checkbox").prop('checked', false);
+			$("#" + alreadyVisited).prop('checked', true);
+			//updateThemeSetting(alreadyVisited);
+		}
+	}
+
+	$("#light-mode-switch, #dark-mode-switch, #rtl-mode-switch").on("change", function (e) {
+		//updateThemeSetting(e.target.id);
+	});
+
+}
+
+function initLanguage() {
+	// Auto Loader
+
+	setLanguage(language ?? "ar");
+	//$('.language').on('click', function (e) {
+	//	setLanguage($(this).attr('data-lang'));
+	//});
+}
+
+(function ($) {
+
+	init();
+
+	function init() {
+		try {
+			let cook = document.cookie.split(';');
+			cook.forEach(i => {
+				let keyandval = i.split('=');
+				if (keyandval[0].trim().replace(' ', '') == "lang") {
+					language = i.split("lang=")[1].replace(' ', '')
+				}
+			})
+		} catch (e) {
+			location.href = "/Home/ChangeLanguage?lang=ar"
+		}
+		initLanguage();
+		initLeftMenuCollapse();
+		initActiveMenu();
+		initMenuItemScroll();
+		initHoriMenuActive();
+		initFullScreen();
+		initRightSidebar();
+		$("#side-menu").metisMenu();
+		//initDropdownMenu();
+		initComponents();
+		initSettings();
+		initPreloader();
+		Waves.init();
 		$('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
 			if (!$(this).next().hasClass('show')) {
 				$(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
@@ -303,6 +309,6 @@ File: Main Js File
 				alert("WebSocket NOT supported by your Browser!");
 			}
 		}
-	})
+	}
 
 })(jQuery)

@@ -1,0 +1,70 @@
+﻿@model IAUAdmin.DTO.Entity.SubServicesDTO
+@{
+	ViewBag.Title = "Service Detail";
+	ViewBag.pTitle = "Service Detail";
+	ViewBag.pageTitle = "Sub Service";
+	ViewBag.arTitle = "معلومات خدمة";
+	ViewBag.arpageTitle = "معلومات خدمة";
+	ViewBag.arpTitle = "الخدمات الفرعية";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 key="t-detials">Detials</h2>
+
+<div class="mt-5">
+	@{
+		var lang = Request.Cookies["lang"].Value;
+	}
+	<div class="table-responsive">
+		<table class="table mb-0 table-bordered">
+			<tbody>
+				<tr>
+					<th key="t-name" scope="row" style="width: 400px;">User Name</th>
+					<td>@Model.Sub_Services_Name_AR</td>
+				</tr>
+				<tr>
+					<th key="t-enname" scope="row">Mobile</th>
+					<td>@Model.Sub_Services_Name_EN</td>
+				</tr>
+				<tr>
+					<th key="t-units-short" scope="row">Units</th>
+					<td>@(lang=="ar"?Model.Main_Services.Units.Units_Name_AR: Model.Main_Services.Units.Units_Name_EN)</td>
+				</tr>
+				<tr>
+					<th key="t-mainservice" scope="row">Main Service</th>
+					<td>
+						@(lang=="ar"?Model.Main_Services.Main_Services_Name_AR: Model.Main_Services.Main_Services_Name_EN)
+					</td>
+				</tr>
+				<tr>
+					<th key="t-required-docs" scope="row">Required Docs</th>
+					<td class="row" style="margin:0 !important">
+						@foreach (var i in Model.Required_Documents)
+						{
+							<span style="padding:0 15px;display:inline-flex;justify-content:center;align-items:center" class="col-12">@(lang=="ar"? i.Name_AR: i.Name_EN)</span>
+						}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="mt-5">
+	@Html.ActionLink("Edit", "Edit", new { Id = Model.Sub_Services_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+
+	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "User", new { Id = Model.Sub_Services_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+
+</div>
+
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
