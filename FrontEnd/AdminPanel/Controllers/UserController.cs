@@ -43,6 +43,15 @@ namespace AdminPanel.Controllers
 				ViewBag.Jobs = new SelectList(Jobs, "User_Permissions_Type_ID", "User_Permissions_Type_Name_AR");
 			else
 				ViewBag.Jobs = new SelectList(Jobs, "User_Permissions_Type_ID", "User_Permissions_Type_Name_EN");
+
+			Data = APIHandeling.getData("Units/GetActive");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
+			if (Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar")
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_AR");
+			else
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 			return View();
 		}
 		public ActionResult Edit(int id)
@@ -51,6 +60,15 @@ namespace AdminPanel.Controllers
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			ViewBag.Permissions = JsonConvert.DeserializeObject<ICollection<JobDTO>>(res.result.ToString());
+
+			Data = APIHandeling.getData("Units/GetActive");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
+			if (Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar")
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_AR");
+			else
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 
 			Data = APIHandeling.getData("User/GetDetails?uid=" + id);
 			resJson = Data.Content.ReadAsStringAsync();

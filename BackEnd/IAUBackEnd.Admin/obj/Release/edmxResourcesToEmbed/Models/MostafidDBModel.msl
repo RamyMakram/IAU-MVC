@@ -470,6 +470,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="MostafidDBModel.Users">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UnitID" ColumnName="UnitID" />
           <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
           <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />
           <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />

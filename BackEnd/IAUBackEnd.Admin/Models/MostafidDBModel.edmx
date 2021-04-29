@@ -454,6 +454,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Job_ID" Type="int" />
           <Property Name="IS_Active" Type="nchar" MaxLength="1" />
           <Property Name="TEMP_Login" Type="nvarchar" MaxLength="300" />
+          <Property Name="UnitID" Type="int" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -931,6 +932,18 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_User_Permissions_Type">
           <End Role="Job" Type="Self.Job" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -1172,6 +1185,10 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Job_Permissions" EntitySet="Job_Permissions" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Units" Association="Self.FK_Users_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_User_Permissions_Type" Association="Self.FK_Users_User_Permissions_Type">
             <End Role="Job" EntitySet="Job" />
             <End Role="Users" EntitySet="Users" />
@@ -1400,6 +1417,10 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             <End Role="Units_Type" EntitySet="Units_Type" />
             <End Role="Units" EntitySet="Units" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -1473,8 +1494,8 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Path" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="SubServiceID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
           <Property Name="IS_Action" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -1876,6 +1897,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />
           <NavigationProperty Name="Units_Location" Relationship="MostafidDBModel.FK_Units_Units_Location" FromRole="Units" ToRole="Units_Location" />
           <NavigationProperty Name="Units_Type" Relationship="MostafidDBModel.FK_Units_Units_Type" FromRole="Units" ToRole="Units_Type" />
+          <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Units" ToRole="Users" />
         </EntityType>
         <EntityType Name="Units_Location">
           <Key>
@@ -1921,7 +1943,9 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Job_ID" Type="Int32" />
           <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UnitID" Type="Int32" />
           <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -2445,6 +2469,18 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2920,6 +2956,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MostafidDBModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
                 <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
                 <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />
                 <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />

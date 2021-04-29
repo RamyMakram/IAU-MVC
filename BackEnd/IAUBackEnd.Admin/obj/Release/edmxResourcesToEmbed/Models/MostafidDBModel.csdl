@@ -211,6 +211,10 @@
       <End Role="Units_Type" EntitySet="Units_Type" />
       <End Role="Units" EntitySet="Units" />
     </AssociationSet>
+    <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Applicant_Type">
     <Key>
@@ -284,8 +288,8 @@
     <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Path" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
     <Property Name="SubServiceID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
     <Property Name="IS_Action" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
@@ -687,6 +691,7 @@
     <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />
     <NavigationProperty Name="Units_Location" Relationship="MostafidDBModel.FK_Units_Units_Location" FromRole="Units" ToRole="Units_Location" />
     <NavigationProperty Name="Units_Type" Relationship="MostafidDBModel.FK_Units_Units_Type" FromRole="Units" ToRole="Units_Type" />
+    <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Units" ToRole="Users" />
   </EntityType>
   <EntityType Name="Units_Location">
     <Key>
@@ -732,7 +737,9 @@
     <Property Name="Job_ID" Type="Int32" />
     <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
     <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="UnitID" Type="Int32" />
     <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+    <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
   </EntityType>
   <EntityType Name="ValidTo">
     <Key>
@@ -1253,6 +1260,18 @@
       </Principal>
       <Dependent Role="Units">
         <PropertyRef Name="Units_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Units">
+    <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+    <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="UnitID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

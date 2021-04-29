@@ -14,6 +14,7 @@ namespace IAUAdmin.DTO.Entity
 		public string User_Email { get; set; }
 		public string User_Password { get; set; }
 		public Nullable<int> Job_ID { get; set; }
+		public Nullable<int> UnitID { get; set; }
 		public string IS_Active { get; set; }
 		public string User_Permissions_Type_Name_AR { get; set; }
 		public string User_Permissions_Type_Name_EN { get; set; }
