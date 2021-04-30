@@ -3044,6 +3044,7 @@
     <Content Include="Views\EForms\Home.cshtml" />
     <Content Include="Views\EForms\Active.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
+    <Content Include="Views\User\Active.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

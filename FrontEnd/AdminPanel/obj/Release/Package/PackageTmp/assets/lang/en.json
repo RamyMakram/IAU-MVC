@@ -61,6 +61,16 @@
 	"t-ismostafid": "Recieve Mostafid Requests?",
 	"t-active-Home": "Active",
 	"t-deactive-Home": "Not Active",
-	"t-": ""
+	"t-search": "Search",
+	"t-deactive-mainservice": "Do u want to deactive this Service?",
+	"t-active-mainservice": "Do u want to active this Service?",
+	"t-units-short": "Unit",
+	"t-Applicanttype": "Applicant Types",
+	"t-mainservice": "Main Service",
+	"t-required-docs": "Required Documnets",
+	"t-path": "File",
+	"t-subservice": "Sub Service",
+	"t-deactive-eforms": "Do u want to deactive this EForm?",
+	"t-active-eforms": "Do u want to active this EForm?"
 
 }

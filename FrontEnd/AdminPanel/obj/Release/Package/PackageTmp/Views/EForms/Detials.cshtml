@@ -1,0 +1,75 @@
+﻿@model IAUAdmin.DTO.Entity.E_FormsDTO
+@using System.Configuration;
+@{
+	ViewBag.Title = "E-From Detail";
+	ViewBag.pTitle = "E-From Detail";
+	ViewBag.pageTitle = "E-From";
+	ViewBag.arTitle = "معلومات نموذج";
+	ViewBag.arpageTitle = "معلومات نموذج";
+	ViewBag.arpTitle = "النماذج الالكترونية";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<h2 key="t-detials">Detials</h2>
+
+<div class="mt-5">
+
+	@{
+		var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+		var lang = Request.Cookies["lang"].Value;
+	}
+	<div class="table-responsive">
+		<table class="table mb-0 table-bordered">
+			<tbody>
+				<tr>
+					<th key="t-name" scope="row" style="width: 400px;">Name</th>
+					<td>@Model.Name</td>
+				</tr>
+				<tr>
+					<th key="t-enname" scope="row">enname</th>
+					<td>@Model.Name_EN</td>
+				</tr>
+				<tr>
+					<th key="t-subservice" scope="row">subservice</th>
+					<td>@(lang=="ar"?Model.Sub_Services.Sub_Services_Name_AR: Model.Sub_Services.Sub_Services_Name_EN)</td>
+				</tr>
+				<tr>
+					<th key="t-path" scope="row">Mobile</th>
+					<td><a href=@(url+"/"+Model.Path)>@(url+"/"+Model.Path) </a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="mt-5">
+	@Html.ActionLink("Edit", "Edit", new { Id = Model.ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+
+	@Html.ActionLink(Model.IS_Action ? "Deactive" : "Active", Model.IS_Action ? "Deactive" : "Active", "EForms", new { Id = Model.ID }, new { @class = Model.IS_Action ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action ? "t-deactive" : "t-active" })
+
+</div>
+
+<!-- end row -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
