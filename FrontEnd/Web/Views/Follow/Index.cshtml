@@ -4,15 +4,53 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-10">
-                    <p>Track Request</p>
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <p>تتبع الطلب</p>
+                    }
+                    else
+                    {
+                        <p>Track Request</p>
+                    }
                 </div>
                 <div class="col-md-2">
-                    <span> Help and <br />support</span> <img src="~/Design/img/HELP ICON.png" />
+                    <div class="row">
+
+                        @if (ViewBag.CookieLang == "ar")
+                        {
+                            <div class="col-lg-2"></div>
+                            <div class="col-md-6 col-lg-5 help-support-text" style="padding:0px">
+                                <span> المساعدة و <br />الدعم</span>
+                            </div>
+                            <div class="col-md-6 col-lg-5 help-support-img" style="padding:0px">
+                                <img src="~/Design/img/HELP ICON.png" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-2"></div>
+                            <div class="col-md-6 col-lg-5 help-support-text" style="padding:0px">
+                                <span> Help and <br />support</span>
+                            </div>
+                            <div class="col-md-6 col-lg-5 help-support-img" style="padding:0px">
+                                <img src="~/Design/img/HELP ICON.png" />
+                            </div>
+                        }
+                    </div>
+
                 </div>
             </div>
         </div>
         <div class="col-md-12 serial-input">
-            <label>Insert request number</label>
+            @if (ViewBag.CookieLang == "ar")
+            {
+                <label>أدخل رقم الطلب</label>
+            }
+            else
+            {
+                <label>Insert request number</label>
+            }
+
             <input id="search_digit1" type="text" class="search" maxlength="1">
             <input id="search_digit2" type="text" class="search" maxlength="1">
             <input id="search_digit3" type="text" class="search" maxlength="1">
@@ -26,14 +64,32 @@
             <input id="search_digit11" type="text" class="search" maxlength="1">
             <input id="search_digit12" type="text" class="search" maxlength="1">
             <input id="search_digit13" type="text" class="search" maxlength="1">
-            <button onclick="showState()">Show</button>
-            <button onclick="searchByPhone()">Search For Previous Request</button>
+            @if (ViewBag.CookieLang == "ar")
+            {
+                <button onclick="showState()">عرض</button>
+                <button onclick="searchByPhone()">ابحث عن الطلب السابق</button>
+            }
+            else
+            {
+                <button onclick="showState()">Show</button>
+                <button onclick="searchByPhone()">Search For Previous Request</button>
+            }
+
+
         </div>
         <div class="col-md-12" id="div_Follow" style="display:none">
             <div class="row">
-                <div class="col-md-3">
-                    <label>Shipped via : Twasul </label>
-                    <span>
+                <div class="col-md-3 col-sm-6">
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <label>شحنها عن طريق </label>
+                    }
+                    else
+                    {
+                        <label>Shipped via </label>
+                    }
+                <span id="spn_shipped">Twasul</span>
+                    @*<span>
                         <span class="active">
                             <span></span>
                         </span>
@@ -41,38 +97,78 @@
                         <span>
                             <span></span>
                         </span>
-                    </span>
+                    </span>*@
                 </div>
-                <div class="col-md-3">
-                    <label>Processing<br /> location:</label>
-                    <span id="spn_location"></span>
+                <div class="col-md-3 col-sm-6">
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <label>موقع  المعالجة</label>
+                    }
+                    else
+                    {
+                        <label>Processing<br /> location</label>
+                    }
+
+                    <span id="spn_location">مكان</span>
                 </div>
-                <div class="col-md-3">
-                    <label>status</label>
-                    <span id="spn_status"></span>
+                <div class="col-md-3 col-sm-6">
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <label>الحالة</label>
+                    }
+                    else
+                    {
+                        <label>status</label>
+                    }
+                    <span id="spn_status">التوصيل</span>
                 </div>
-                <div class="col-md-3">
-                    <label>Expected <br /> delivery date</label>
-                    <span id="spn_deliverydate"></span>
+                <div class="col-md-3 col-sm-6">
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <label>تاريخ التوصيل  المتوقع</label>
+                    }
+                    else
+                    {
+                        <label>Expected <br /> delivery date</label>
+                    }
+                    <span id="spn_deliverydate">11-05-2021</span>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-2 progress-sucess-state">
                             <div class="border-state">
-                                <img src="~/Design/img/follow/confirmed.png" />
+                                <img src="~/Design/img/follow/distriputing.png" />
                             </div>
-                            <span>Dispatching</span>
-                            <span>Request</span>
+                            @if (ViewBag.CookieLang == "ar")
+                            {
+                                <span>طلب</span>
+                                <span>ايفاد</span>
+                            }
+                            else
+                            {
+                                <span>Dispatching</span>
+                                <span>Request</span>
+                            }
+
                         </div>
                         <div class="col-md-1 progress-sucess-state">
                             <span></span>
                         </div>
                         <div class="col-md-2 progress-sucess-state">
                             <div class="border-state">
-                                <img src="~/Design/img/follow/distriputing.png" />
+                                <img src="~/Design/img/follow/confirmed.png" />
                             </div>
-                            <span>Sorting</span>
-                            <span>Request</span>
+                            @if (ViewBag.CookieLang == "ar")
+                            {
+                                <span>طلب</span>
+                                <span>الفرز</span>
+                            }
+                            else
+                            {
+                                <span>Sorting</span>
+                                <span>Request</span>
+                            }
+
                         </div>
                         <div class="col-md-1">
                             <span></span>
@@ -81,8 +177,17 @@
                             <div class="border-state">
                                 <img src="~/Design/img/follow/png.png" />
                             </div>
-                            <span>Processing</span>
-                            <span>Request</span>
+                            @if (ViewBag.CookieLang == "ar")
+                            {
+                                <span>طلب</span>
+                                <span>المعالجة</span>
+                            }
+                            else
+                            {
+                                <span>Processing</span>
+                                <span>Request</span>
+                            }
+
                         </div>
                         <div class="col-md-1">
                             <span></span>
@@ -91,20 +196,40 @@
                             <div class="border-state">
                                 <img src="~/Design/img/follow/PRequest.png" />
                             </div>
-                            <span>Dispatching</span>
-                            <span>Progressed</span>
-                            <span>request</span>
+                            @if (ViewBag.CookieLang == "ar")
+                            {
+                                <span>تقديم</span>
+                                <span>طلب</span>
+                                <span>الإرسال</span>
+                            }
+                            else
+                            {
+                                <span>Dispatching</span>
+                                <span>Progressed</span>
+                                <span>request</span>
+                            }
+                           
                         </div>
                         <div class="col-md-1">
                             <span></span>
                         </div>
                         <div class="col-md-2">
                             <div class="border-state">
-                                <img src="~/Design/img/follow/Drived.png" />
+                                <img src="~/Design/img/follow/Drived.png" style="padding:13px"/>
                             </div>
-                            <span>Processed</span>
-                            <span>request</span>
-                            <span>delivered</span>
+                            @if (ViewBag.CookieLang == "ar")
+                            {
+                                <span>تم تسليم</span>
+                                <span>الطلب</span>
+                                <span>المعالج</span>
+                            }
+                            else
+                            {
+                                <span>Processed</span>
+                                <span>request</span>
+                                <span>delivered</span>
+                            }
+
                         </div>
                     </div>
                 </div>
