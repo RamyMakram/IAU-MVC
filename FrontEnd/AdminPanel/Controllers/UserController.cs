@@ -43,14 +43,37 @@ namespace AdminPanel.Controllers
 				ViewBag.Jobs = new SelectList(Jobs, "User_Permissions_Type_ID", "User_Permissions_Type_Name_AR");
 			else
 				ViewBag.Jobs = new SelectList(Jobs, "User_Permissions_Type_ID", "User_Permissions_Type_Name_EN");
+
+			Data = APIHandeling.getData("Units/GetActive");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
+			if (Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar")
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_AR");
+			else
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 			return View();
 		}
 		public ActionResult Edit(int id)
 		{
+			var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
 			var Data = APIHandeling.getData("Job/GetAllJobs");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-			ViewBag.Permissions = JsonConvert.DeserializeObject<ICollection<JobDTO>>(res.result.ToString());
+			var Jobs = JsonConvert.DeserializeObject<ICollection<JobDTO>>(res.result.ToString());
+			if(isar)
+				ViewBag.Jobs = new SelectList(Jobs, "User_Permissions_Type_ID", "User_Permissions_Type_Name_AR");
+			else
+				ViewBag.Jobs = new SelectList(Jobs, "User_Permissions_Type_ID", "User_Permissions_Type_Name_EN");
+
+			Data = APIHandeling.getData("Units/GetActive");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
+			if (isar)
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_AR");
+			else
+				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 
 			Data = APIHandeling.getData("User/GetDetails?uid=" + id);
 			resJson = Data.Content.ReadAsStringAsync();
@@ -76,7 +99,10 @@ namespace AdminPanel.Controllers
 		}
 		public ActionResult Deactive(int id)
 		{
-
+			return View(new UserDTO() { User_ID = id });
+		}
+		public ActionResult Active(int id)
+		{
 			return View(new UserDTO() { User_ID = id });
 		}
 
@@ -84,6 +110,19 @@ namespace AdminPanel.Controllers
 		public ActionResult Deactive(int id, string x)
 		{
 			var Req = APIHandeling.getData("User/Deactive?uid=" + id);
+			var resJson = Req.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+			if (res.success)
+				return RedirectToAction("Home");
+			else
+				return RedirectToAction("NotFound", "Error");
+		}
+
+		[HttpPost]
+		public ActionResult Active(int id, string x)
+		{
+			var Req = APIHandeling.getData("User/Active?uid=" + id);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 

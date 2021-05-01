@@ -136,3 +136,6 @@ C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csproj.
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csproj.CopyComplete
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.pdb
+C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\Microsoft.WebSockets.dll
+C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\EntityFramework.SqlServer.dll
+C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\EntityFramework.SqlServer.xml

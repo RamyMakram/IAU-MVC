@@ -2,16 +2,34 @@
 <html lang="en">
 
 <head>
+	@{
+		if (Request.Cookies["lang"].Value == "ar")
+		{
+			<style>
+				body {
+					font-family: 'DroidArabicKufiRegular' !important;
+					font-weight: bolder !important;
+				}
+			</style>
+		}
+		else
+		{
+			<style>
+				body {
+					font-family: Poppins,Helvetica,sans-serif !important;
+					font-weight: bolder !important;
+				}
+			</style>
+		}
+	}
+
 
 	<style>
 		body[data-sidebar=dark].vertical-collpsed {
 			min-height: auto !important;
 		}
 
-		body {
-			font-family: 'DroidArabicKufiRegular' !important;
-			font-weight: bolder !important;
-		}
+
 
 		td {
 			vertical-align: baseline;
@@ -126,22 +144,7 @@
 	@*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
 
 	@RenderSection("scripts", required: false)
-	<script>
-		init();
-		function init() {
-			let table = document.getElementById('datatable-buttons')
-			if (table != null) {
-				DataTable();
-			}
-		}
-		function DataTable() {
-			let Interval=setInterval(function () {
-				if (document.getElementById('datatable-buttons_filter') != null) {
-					document.getElementById('datatable-buttons_filter').children[0].innerHTML = `<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="datatable-buttons">`
-					clearInterval(Interval);
-				}
-			}, 1000)
-		}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js">
 	</script>
 </body>
 </html>

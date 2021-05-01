@@ -13,8 +13,8 @@
 	<div class="col-12">
 		<div class="mb-3">
 			<div class="card">
-				<ul class="message-list">
-					@foreach (var i in (new string[10]))
+				<ul class="message-list" id="MailList">
+					@foreach (var i in (new string[1]))
 					{
 						<li onclick="Preview('@Url.Action("Preview",new {Id=1 })')">
 							<div class="col-mail col-mail-1">

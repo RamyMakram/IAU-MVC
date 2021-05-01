@@ -62,6 +62,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="E_Forms">
+      <EntityTypeMapping TypeName="MostafidDBModel.E_Forms">
+        <MappingFragment StoreEntitySet="E-Forms">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Employee">
       <EntityTypeMapping TypeName="MostafidDBModel.Employee">
         <MappingFragment StoreEntitySet="Employee">
@@ -155,6 +167,31 @@
           <ScalarProperty Name="Nationality_Name_AR" ColumnName="Nationality_Name_AR" />
           <ScalarProperty Name="Nationality_Name_EN" ColumnName="Nationality_Name_EN" />
           <ScalarProperty Name="Nationality_ID" ColumnName="Nationality_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Personel_Data">
+      <EntityTypeMapping TypeName="MostafidDBModel.Personel_Data">
+        <MappingFragment StoreEntitySet="Personel_Data">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Region_Postal_Code_2" ColumnName="Region_Postal_Code_2" />
+          <ScalarProperty Name="Region_Postal_Code_1" ColumnName="Region_Postal_Code_1" />
+          <ScalarProperty Name="City_Country_2" ColumnName="City_Country_2" />
+          <ScalarProperty Name="City_Country_1" ColumnName="City_Country_1" />
+          <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+          <ScalarProperty Name="Nationality_ID" ColumnName="Nationality_ID" />
+          <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+          <ScalarProperty Name="Middle_Name" ColumnName="Middle_Name" />
+          <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+          <ScalarProperty Name="Title_Middle_Names_ID" ColumnName="Title_Middle_Names_ID" />
+          <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
+          <ScalarProperty Name="IAU_ID_Number" ColumnName="IAU_ID_Number" />
+          <ScalarProperty Name="IAU_Affiliate_ID" ColumnName="IAU_Affiliate_ID" />
+          <ScalarProperty Name="ID_Number" ColumnName="ID_Number" />
+          <ScalarProperty Name="ID_Document" ColumnName="ID_Document" />
+          <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -311,6 +348,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Required_Documents">
+      <EntityTypeMapping TypeName="MostafidDBModel.Required_Documents">
+        <MappingFragment StoreEntitySet="Required_Documents">
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+          <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
+          <ScalarProperty Name="Name_AR" ColumnName="Name_AR" />
+          <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Service_Type">
       <EntityTypeMapping TypeName="MostafidDBModel.Service_Type">
         <MappingFragment StoreEntitySet="Service_Type">
@@ -340,16 +388,6 @@
           <ScalarProperty Name="Supplier_Names_Name_EN" ColumnName="Supplier_Names_Name_EN" />
           <ScalarProperty Name="Supplier_Names_Name_AR" ColumnName="Supplier_Names_Name_AR" />
           <ScalarProperty Name="Supplier_Names_ID" ColumnName="Supplier_Names_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Supporting_Documents">
-      <EntityTypeMapping TypeName="MostafidDBModel.Supporting_Documents">
-        <MappingFragment StoreEntitySet="Supporting_Documents">
-          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-          <ScalarProperty Name="Supporting_Documents_Name_AR" ColumnName="Supporting_Documents_Name_AR" />
-          <ScalarProperty Name="Supporting_Documents_Name_EN" ColumnName="Supporting_Documents_Name_EN" />
-          <ScalarProperty Name="Supporting_Documents_ID" ColumnName="Supporting_Documents_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -432,6 +470,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="MostafidDBModel.Users">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UnitID" ColumnName="UnitID" />
           <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
           <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />
           <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />
@@ -443,37 +482,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ValidTo">
+      <EntityTypeMapping TypeName="MostafidDBModel.ValidTo">
+        <MappingFragment StoreEntitySet="ValidTo">
+          <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
+          <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Statement_Department_File_Sent_Them">
       <EntityTypeMapping TypeName="MostafidDBModel.Statement_Department_File_Sent_Them">
         <MappingFragment StoreEntitySet="Statement_Department_File_Sent_Them">
           <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
           <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
           <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Personel_Data">
-      <EntityTypeMapping TypeName="MostafidDBModel.Personel_Data">
-        <MappingFragment StoreEntitySet="Personel_Data">
-          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Region_Postal_Code_2" ColumnName="Region_Postal_Code_2" />
-          <ScalarProperty Name="Region_Postal_Code_1" ColumnName="Region_Postal_Code_1" />
-          <ScalarProperty Name="City_Country_2" ColumnName="City_Country_2" />
-          <ScalarProperty Name="City_Country_1" ColumnName="City_Country_1" />
-          <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
-          <ScalarProperty Name="Nationality_ID" ColumnName="Nationality_ID" />
-          <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
-          <ScalarProperty Name="Middle_Name" ColumnName="Middle_Name" />
-          <ScalarProperty Name="First_Name" ColumnName="First_Name" />
-          <ScalarProperty Name="Title_Middle_Names_ID" ColumnName="Title_Middle_Names_ID" />
-          <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
-          <ScalarProperty Name="IAU_ID_Number" ColumnName="IAU_ID_Number" />
-          <ScalarProperty Name="IAU_Affiliate_ID" ColumnName="IAU_Affiliate_ID" />
-          <ScalarProperty Name="ID_Number" ColumnName="ID_Number" />
-          <ScalarProperty Name="ID_Document" ColumnName="ID_Document" />
-          <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -37,20 +37,15 @@
 							<div class="form-group">
 								<label key="t-name" for="name">Name</label>
 								@Html.TextBoxFor(q => q.User_Name, new { @class = "form-control", @name = "name", @id = "name" })
-								@*<input id="productname" name="productname" type="text" class="">*@
 							</div>
 
 							<div class="form-group">
 								<label key="t-email" for="email">Email</label>
 								@Html.TextBoxFor(q => q.User_Email, new { @class = "form-control", @name = "email", @id = "email", @type = "email" })
-
-								@*<input id="manufacturerbrand" name="manufacturerbrand" type="email" class="form-control">*@
 							</div>
 							<div class="form-group">
-								<label key="t-password" for="pass">Password</label>
-								@Html.TextBoxFor(q => q.User_Password, new { @class = "form-control", @name = "pass", @id = "pass" })
-
-								@*<input id="price" name="price" type="text" class="form-control">*@
+								<label key="t-job" class="control-label">Job</label>
+								@Html.DropDownListFor(q => q.Job_ID, ViewBag.Jobs as SelectList, new { @class = "form-control select2" })
 							</div>
 						</div>
 
@@ -58,17 +53,19 @@
 							<div class="form-group">
 								<label key="t-mobile" for="mobile">Mobile</label>
 								@Html.TextBoxFor(q => q.User_Mobile, new { @class = "form-control", @name = "mobile", @id = "mobile" })
-
-								@*<input id="manufacturername" name="manufacturername" type="text" class="form-control">*@
 							</div>
 							<div class="form-group">
-								<label key="t-job" class="control-label">Job</label>
-								@Html.DropDownListFor(q => q.Job_ID, ViewBag.Jobs as SelectList, new { @class = "form-control select2" })
+								<label key="t-password" for="pass">Password</label>
+								@Html.TextBoxFor(q => q.User_Password, new { @class = "form-control", @name = "pass", @id = "pass" })
+							</div>
+							<div class="form-group">
+								<label key="t-units-short" class="control-label">Job</label>
+								@Html.DropDownListFor(q => q.UnitID, ViewBag.Units as SelectList, new { @class = "form-control select2" })
 							</div>
 						</div>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					<button type="submit" key="t-cancel" class="btn btn-secondary waves-effect">Cancel</button>
+					@Html.ActionLink("Cancel", "Home", null, new { @type = "reset", @key = "t-cancel", @class="btn btn-secondary waves-effect" })
 				}
 
 			</div>

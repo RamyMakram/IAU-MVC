@@ -43,18 +43,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\ApplicantRequest_Data_DTO.cs" />
+    <Compile Include="Entity\ApplicantTypeDTO.cs" />
+    <Compile Include="Entity\E_FormsDTO.cs" />
     <Compile Include="Entity\Job_PermissionsDTO.cs" />
     <Compile Include="Entity\JobDTO.cs" />
     <Compile Include="Entity\LocationsDTO.cs" />
+    <Compile Include="Entity\MainServiceDTO.cs" />
     <Compile Include="Entity\PrivilgesDTO.cs" />
     <Compile Include="Entity\RequestData_DTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
+    <Compile Include="Entity\RequiredDocsDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
+    <Compile Include="Entity\SubServicesDTO.cs" />
     <Compile Include="Entity\UnitsDTO.cs" />
     <Compile Include="Entity\UnitsLocDTO.cs" />
     <Compile Include="Entity\Units_Request_TypeDTO.cs" />
     <Compile Include="Entity\UnitTypeDTO.cs" />
     <Compile Include="Entity\UserDTO.cs" />
+    <Compile Include="Entity\ValidToDTO.cs" />
     <Compile Include="Enums\GlobalEnum.cs" />
     <Compile Include="Helper\API_HelperFunctions.cs" />
     <Compile Include="Helper\CustomUserLogin.cs" />

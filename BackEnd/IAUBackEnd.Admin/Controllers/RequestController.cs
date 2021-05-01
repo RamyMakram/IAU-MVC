@@ -129,16 +129,16 @@ namespace IAUBackEnd.Admin.Controllers
 				var requestpath = Path.Combine("RequestFiles", request_Data.Request_Data_ID.ToString());
 				Directory.CreateDirectory(Path.Combine(path, requestpath));
 				var count = 0;
-				var RequiredFiles = p.Supporting_Documents.ToList();
+				var RequiredFiles = p.Required_Documents.ToList();
 				if (p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID).Request_Type_Name_EN.ToLower().Contains("inquiry"))
 					foreach (var i in RequiredFiles)
 					{
 						var filename = Path.GetFileName(requestData.Files[count].filename);
-						var filepath = Path.Combine(requestpath, i.Supporting_Documents_Name_EN + "_" + filename);
+						var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
 						File.WriteAllBytes(Path.Combine(path, filepath), requestData.Files[count].bytes);
 						request_Data.Request_SupportingDocs.Add(new Request_SupportingDocs()
 						{
-							SupportingDocID = i.Supporting_Documents_ID,
+							SupportingDocID = i.ID,
 
 							Path = filepath.Replace("\\", "/")
 						});

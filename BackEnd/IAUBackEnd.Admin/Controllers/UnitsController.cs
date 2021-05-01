@@ -24,6 +24,11 @@ namespace IAUBackEnd.Admin.Controllers
 			return Ok(new ResponseClass() { success = true, result = p.Units });
 		}
 
+		public async Task<IHttpActionResult> GetActive()
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true) });
+		}
+
 		public async Task<IHttpActionResult> GetUnits(int id)
 		{
 			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.ServiceType_ID, q.Ref_Number, q.Building_Number, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), q.Service_Type, Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }) }).FirstOrDefaultAsync();

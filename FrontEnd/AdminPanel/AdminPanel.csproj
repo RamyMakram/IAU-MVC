@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,13 +133,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\User_Session.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EFormsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
+    <Compile Include="Controllers\MainServiceController.cs" />
     <Compile Include="Controllers\RequestTypeController.cs" />
     <Compile Include="Controllers\ServiceTypesController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controllers\SubServicesController.cs" />
     <Compile Include="Controllers\UnitLocationController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
@@ -406,6 +415,7 @@
     <Content Include="assets\libs\twitter-bootstrap-wizard\jquery.bootstrap.wizard.min.js" />
     <Content Include="assets\libs\twitter-bootstrap-wizard\prettify.css" />
     <Content Include="assets\libs\twitter-bootstrap-wizard\prettify.js" />
+    <Content Include="assets\notification.mp3" />
     <Content Include="bin\AdminPanel.dll" />
     <Content Include="bin\AdminPanel.pdb" />
     <Content Include="bin\Antlr3.Runtime.dll" />
@@ -2973,7 +2983,6 @@
     <Content Include="assets\fonts\Droid.Arabic.Kufi_.Bold_.ttf" />
     <Content Include="assets\fonts\Droid-Arabic-Kufi.ttf" />
     <None Include="packages.config" />
-    <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Email\Home.cshtml" />
     <Content Include="Views\Email\Preview.cshtml" />
@@ -3016,6 +3025,26 @@
     <Content Include="Views\Units\Edit.cshtml" />
     <Content Include="Views\Units\Home.cshtml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <Content Include="Views\MainService\Active.cshtml" />
+    <Content Include="Views\MainService\Create.cshtml" />
+    <Content Include="Views\MainService\Deactive.cshtml" />
+    <Content Include="Views\MainService\Detials.cshtml" />
+    <Content Include="Views\MainService\Edit.cshtml" />
+    <Content Include="Views\MainService\Home.cshtml" />
+    <Content Include="Views\SubServices\Create.cshtml" />
+    <Content Include="Views\SubServices\Deactive.cshtml" />
+    <Content Include="Views\SubServices\Detials.cshtml" />
+    <Content Include="Views\SubServices\Edit.cshtml" />
+    <Content Include="Views\SubServices\Home.cshtml" />
+    <Content Include="Views\SubServices\Active.cshtml" />
+    <Content Include="Views\EForms\Create.cshtml" />
+    <Content Include="Views\EForms\Deactive.cshtml" />
+    <Content Include="Views\EForms\Detials.cshtml" />
+    <Content Include="Views\EForms\Edit.cshtml" />
+    <Content Include="Views\EForms\Home.cshtml" />
+    <Content Include="Views\EForms\Active.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
+    <Content Include="Views\User\Active.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

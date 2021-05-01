@@ -3,7 +3,7 @@
 	ViewBag.Title = "Edit User";
 	ViewBag.pTitle = "Edit User";
 	ViewBag.pageTitle = "Users";
-	ViewBag.arTitle     = "تعديل مستخدم";
+	ViewBag.arTitle = "تعديل مستخدم";
 	ViewBag.arpageTitle = "تعديل مستخدم";
 	ViewBag.arpTitle = "المستخدمين";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,12 +34,12 @@
 								@Html.TextBoxFor(q => q.User_Name, new { @id = "name", @class = "form-control" })
 							</div>
 							<div class="form-group">
-								<label key="t-mobile" for="mobile">Mobile</label>
-								@Html.TextBoxFor(q => q.User_Mobile, new { @id = "mobile", @class = "form-control" })
-							</div>
-							<div class="form-group">
 								<label key="t-email" for="email">Email</label>
 								@Html.TextBoxFor(q => q.User_Email, new { @id = "email", @class = "form-control" })
+							</div>
+							<div class="form-group">
+								<label key="t-job" for="department">Department</label>
+								@Html.DropDownListFor(x => x.Job_ID, ViewBag.Jobs as SelectList, new { @class = "form-control" })
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -49,8 +49,13 @@
 							</div>
 
 							<div class="form-group">
-								<label key="t-job" for="department">Department</label>
-								@Html.DropDownListFor(x => x.Job_ID, new SelectList(ViewBag.Permissions, "User_Permissions_Type_ID", "User_Permissions_Type_Name_EN"), new { @class = "form-control" })
+								<label key="t-mobile" for="mobile">Mobile</label>
+								@Html.TextBoxFor(q => q.User_Mobile, new { @id = "mobile", @class = "form-control" })
+							</div>
+
+							<div class="form-group">
+								<label key="t-units-short" class="control-label">Job</label>
+								@Html.DropDownListFor(q => q.UnitID, ViewBag.Units as SelectList, new { @class = "form-control select2" })
 							</div>
 						</div>
 					</div>

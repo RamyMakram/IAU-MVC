@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IAUAdmin.DTO.Entity
+{
+	public class MainServiceDTO
+	{
+		public int Main_Services_ID { get; set; }
+		public string Main_Services_Name_EN { get; set; }
+		public string Main_Services_Name_AR { get; set; }
+		public Nullable<bool> IS_Action { get; set; }
+		public Nullable<int> UnitID { get; set; }
+		public int[] Applicant_Types { get; set; }
+		public ICollection<ApplicantTypeDTO> MainService_ApplicantType { get; set; }
+
+		public virtual UnitsDTO Units { get; set; }
+		public virtual ICollection<SubServicesDTO> Sub_Services { get; set; }
+		public virtual ICollection<ValidToDTO> ValidTo { get; set; }
+	}
+}
