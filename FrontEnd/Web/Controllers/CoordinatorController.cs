@@ -15,8 +15,10 @@ namespace Web.Controllers
 		// GET: Coordinator
 		public ActionResult Index()
 		{
+			ViewBag.CookieLang = Request.Cookies["lang"].Value;
 			return View();
 		}
+
 		[HttpPost]
 		public ActionResult Index(string email, string pass)
 		{

@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="~/Design/CSS/style.css" />
 </head>
 
-<body>
+<body class="@ViewBag.CookieLang">
 	<nav class="navbar navbar-expand-xl">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
@@ -24,26 +24,51 @@
 				</span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarText">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" href="~/Home/Index">Main</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="~/Coordinator/index">Coordinator</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">help and support</a>
-					</li>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Index">الرئيسية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="~/Home/Index">طلب</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Coordinator/index">المنسقين</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">المساعدة والدعم الفنى</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Index">Main</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Coordinator/index">Coordinator</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">help and support</a>
+                        </li>
+                    }
 
-				</ul>
+                </ul>
 				<div class="vision">
-					<div>
-						<button>contact</button>
-						@Html.Partial("~/Views/Shared/_Language.cshtml")
-					</div>
+                    <div>
+                        @if (ViewBag.CookieLang == "ar")
+                        {
+                            <button>اتصل بنا</button>
+                        }
+                        else
+                        {
+                            <button>Contact</button>
+                        }
+                        @Html.Partial("~/Views/Shared/_Language.cshtml")
+                    </div>
 					<img src="~/Design/img/VisionLogo2.png">
 				</div>
 			</div>

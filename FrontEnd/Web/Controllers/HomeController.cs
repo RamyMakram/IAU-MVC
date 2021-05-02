@@ -36,6 +36,7 @@ namespace Web.Controllers
 			lst = JsonConvert.DeserializeObject<Root>(resJson.Result);
 			request_Data.requestTypeList = lst.success ? lst.result.RequestType : null;
 
+			ViewBag.CookieLang = lang;
 
 			return View(request_Data);
 		}
