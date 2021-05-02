@@ -65,7 +65,7 @@
 						</div>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					<button type="submit" key="t-cancel" class="btn btn-secondary waves-effect">Cancel</button>
+					@Html.ActionLink("Cancel", "Home", null, new { @type = "reset", @key = "t-cancel", @class="btn btn-secondary waves-effect" })
 				}
 
 			</div>
