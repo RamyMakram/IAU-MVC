@@ -293,17 +293,19 @@ function handleFiles(files) {
     }
 }
 let DropedFile = []
+counter = 0;
 function HandelDragAndDrop(files) {
     if (inquiry) {
         let sum = 0;
-        $('#filesNameDrop').html("");
+        //$('#filesNameDrop').html("");
         DropedFile = files;
         if (Math.floor((sum / 1024) / 1024 > 20)) {
             alert("max files size 20MB")
         } else {
             ([...DropedFile]).forEach(function (file) {
-                FileNames.push(file.name)
-                $('#filesNameDrop').append("<div class='col-md-5 fileshow'>" + file.name + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter></div>")
+                counter++;
+                FileNames.push(file.name);
+                $('#filesNameDrop').append("<div class='col-md-6 fileshow' id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' onclick='deleteFileSupport(\"support-doc" + counter + "\")'></i></div>")
             });
         }
     }
@@ -317,12 +319,14 @@ function HandelDragAndDrop(files) {
         } else {
             ([...DropedFile]).forEach(function (file) {
                 FileNames.push(file.name)
-                $('#filesNameDropOther').append("<div class='col-md-5 fileshow'>" + file.name + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter></div>")
+                $('#filesNameDropOther').append("<div class='col-md-6 fileshow'>" + file.name.length > 8 ? file.name.slice(0, 8) + "... " : file.name + " \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter></div>")
             });
         }
     }
 }
-
+function deleteFileSupport(id) {
+    $('#filesNameDropOther ' + id).remove();
+}
 var saverequest_Clicked = false;
 var data = null;
 var code = null;
@@ -537,7 +541,7 @@ function LoadApiDocumentsData(value) {
                 if (inquiry) {
                     result.supporteddocs.forEach(function (element) {
                         $("#filesName").append(`
-                                        <div class="col-md-4" style="margin-bottom:10px;padding:0px;4px;">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:10px;padding:0px;4px;">
                                             <div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
 											    <span  style="font-size:14px;display:inline-block;width:70%" title="${element.Name}" id="FileDefault${element.ID}">${element.Name.length > 17 ? element.Name.substring(0, 13) + "..." : element.Name }</span >
 											    <span  style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
@@ -792,7 +796,10 @@ function CountryState() {
                 console.log(Cities)
                 console.log(cities)
                 AssignCity(cities)
-                document.getElementById('City').innerHTML = CityComponentSelect;
+                document.getElementById('City').innerHTML = `
+									<img />
+									${CityComponentSelect}
+									`;
             })
         }
 

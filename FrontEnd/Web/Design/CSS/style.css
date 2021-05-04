@@ -1106,7 +1106,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 	direction:rtl;
 }
 
-.ar ..MContaint{
+.ar .MContaint{
 	direction:rtl;
 }
 
@@ -1388,8 +1388,21 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 		left: -128px !important;
 	}
 
+	#padf {
+		width: 307px !important;
+	}
+
 	.ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
 		left: 128px !important;
 	}
 }
 
+@media (max-width: 576px){
+	#E-forms .col-sm-4{
+		width:15%
+	}
+
+	#E-forms .col-sm-8 {
+		width: 85%
+	}
+}

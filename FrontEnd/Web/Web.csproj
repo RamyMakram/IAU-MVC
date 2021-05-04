@@ -260,6 +260,10 @@
     <Content Include="Design\CSS\all.min.css" />
     <Content Include="Design\CSS\bootstrap.min.css" />
     <Content Include="Design\CSS\style.css" />
+    <Content Include="Design\img\ArRequestType.PNG" />
+    <Content Include="Design\img\ArServiceType.PNG" />
+    <Content Include="Design\img\EnRequestType.PNG" />
+    <Content Include="Design\img\EnServiceType.PNG" />
     <Content Include="Design\img\follow.png" />
     <Content Include="Design\img\follow\confirmed.png" />
     <Content Include="Design\img\follow\distriputing.png" />

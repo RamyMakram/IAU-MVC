@@ -130,10 +130,11 @@
 
         @if (ViewBag.CookieLang == "ar")
         {
-            <div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-left"></i>
-                <p>التالى</p>
+            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+                <i class="fas fa-chevron-right"></i>
+                <p>السابق</p>
             </div>
+
         }
         else
         {
@@ -188,18 +189,20 @@
             </div>
             @{var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString(); var counter = 0;}
             <div class="row" id="Service_Type_Id" style="display: none;">
-                <div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; padding-top: 50px;">
+                <div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px;margin-top:45px">
                     @if (ViewBag.CookieLang == "ar")
                     {
-                        <p style="direction: ltr; text-align: right;">@@ IAU - BSC</p>
-                        <p>أنـــــــــــــــــــــــــــــــــــواع</p>
-                        <p>الخـــــــــــدمــــــــــــــات</p>
+                        @*<p style="direction: ltr; text-align: right;">@@ IAU - BSC</p>
+                            <p>أنـــــــــــــــــــــــــــــــــــواع</p>
+                            <p>الخـــــــــــدمــــــــــــــات</p>*@
+                        <img src="~/Design/img/ArRequestType.png" style="width:100%" />
                     }
                     else
                     {
-                        <p style="direction:ltr">@@ IAU - BSC</p>
-                        <p>Services</p>
-                        <p>Types</p>
+                        @*<p style="direction:ltr">@@ IAU - BSC</p>
+                            <p>Services</p>
+                            <p>Types</p>*@
+                        <img src="~/Design/img/EnServiceType.png" style="width:100%" />
                     }
                 </div>
                 @foreach (var service in Model.serviceTypeList)
@@ -221,20 +224,21 @@
             </div>
             @{ counter = 0;}
             <div class="row" id="Request_Type_Id" style="display: none; ">
-                <div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; padding-top: 50px;">
+                <div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; margin-top:45px">
                     @if (ViewBag.CookieLang == "ar")
                     {
-                        <p style="direction:ltr">@@ IAU - BSC</p>
-                        <p>أنـــــــــــــــــــــــــــــــــــواع</p>
-                        <p>الطـــــــــــــلــــــــــــبــات</p>
+                        @*<p style="direction:ltr">@@ IAU - BSC</p>
+                            <p>أنـــــــــــــــــــــــــــــــــــواع</p>
+                            <p>الطـــــــــــــلــــــــــــبــات</p>*@
+                        <img src="~/Design/img/ArServiceType.png" style="width:100%" />
                     }
                     else
                     {
-                        <p>@@ IAU - BSC</p>
-                        <p>Request</p>
-                        <p>Types</p>
+                        @*<p>@@ IAU - BSC</p>
+                            <p>Request</p>
+                            <p>Types</p>*@
+                        <img src="~/Design/img/EnRequestType.png" style="width:100%" />
                     }
-
                 </div>
                 @foreach (var request in Model.requestTypeList)
                 {
@@ -802,31 +806,36 @@
                                 <div class="col-md-8 e-form" id="E-forms">
                                     <p>يُرجى النقر فوق نموذج (تطبيقات) النموذج الإلكتروني وملء الحقول المطلوبة</p>
                                     <div class="row" style="margin-top: 0px;overflow: auto">
-                                        <div class="col-md-4">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
                                             <div class="row icon-container" style="padding:0px;margin:0px">
-                                                <div class="col-md-3" style="padding:0px">
+                                                <div class="col-sm-4" style="padding:0px">
                                                     <img src="~/Design/img/reader.png" style="width:25px" />
                                                 </div>
-                                                <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                                <div class="col-sm-8">
+                                                    <span style="padding:0px">form a-1234</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
                                             <div class="row icon-container" style="padding:0px;margin:0px">
-                                                <div class="col-md-3" style="padding:0px">
+                                                <div class="col-sm-4" style="padding:0px">
                                                     <img src="~/Design/img/reader.png" style="width:25px" />
                                                 </div>
-                                                <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                                <div class="col-sm-8">
+                                                    <span style="padding:0px">form a-1234</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
                                             <div class="row icon-container" style="padding:0px;margin:0px">
-                                                <div class="col-md-3" style="padding:0px">
+                                                <div class="col-sm-4" style="padding:0px">
                                                     <img src="~/Design/img/reader.png" style="width:25px" />
                                                 </div>
-                                                <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                                <div class="col-sm-8">
+                                                    <span style="padding:0px">form a-1234</span>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -855,7 +864,7 @@
                             </div>
                             <div class="col-md-8 e-form" id="drop-area">
                                 <p>قم بإسقاط الملف هنا أو انقر للتحميل (أقصى حجم للتحميل 20 ميجابايت)<i class="fas fa-upload"></i></p>
-                                <div id="filesNameDrop" name="filesNameDrop">
+                                <div id="filesNameDrop" name="filesNameDrop" class="row">
 
 
                                 </div>
@@ -925,31 +934,36 @@
                                 <div class="col-md-8 e-form" id="E-forms">
                                     <p>please click E-form Application (s) and fill the required fields</p>
                                     <div class="row" style="margin-top: 0px;overflow: auto">
-                                        <div class="col-md-4">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
                                             <div class="row icon-container" style="padding:0px;margin:0px">
-                                                <div class="col-md-3" style="padding:0px">
+                                                <div class="col-sm-4" style="padding:0px">
                                                     <img src="~/Design/img/reader.png" style="width:25px" />
                                                 </div>
-                                                <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                                <div class="col-sm-8">
+                                                    <span style="padding:0px">form a-1234</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
                                             <div class="row icon-container" style="padding:0px;margin:0px">
-                                                <div class="col-md-3" style="padding:0px">
+                                                <div class="col-sm-4" style="padding:0px">
                                                     <img src="~/Design/img/reader.png" style="width:25px" />
                                                 </div>
-                                                <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                                <div class="col-sm-8">
+                                                    <span style="padding:0px">form a-1234</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
                                             <div class="row icon-container" style="padding:0px;margin:0px">
-                                                <div class="col-md-3" style="padding:0px">
+                                                <div class="col-sm-4" style="padding:0px">
                                                     <img src="~/Design/img/reader.png" style="width:25px" />
                                                 </div>
-                                                <span class="col-md-8" style="padding:0px">form a-1234</span>
+                                                <div class="col-sm-8">
+                                                    <span style="padding:0px">form a-1234</span>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -978,7 +992,7 @@
                             </div>
                             <div class="col-md-8 e-form" id="drop-area">
                                 <p>Drop file Here Or Click to upload(Maximum load size 20MB) <i class="fas fa-upload"></i></p>
-                                <div id="filesNameDrop" name="filesNameDrop">
+                                <div id="filesNameDrop" name="filesNameDrop" class="row">
 
 
                                 </div>
@@ -1036,7 +1050,7 @@
                             </div>
                             <div class="col-md-8" id="drop-area-other">
                                 <p>قم بإسقاط الملف هنا أو انقر للتحميل (أقصى حجم للتحميل 20 ميجابايت)<i class="fas fa-upload"></i></p>
-                                <div class="row" id="filesNameDropOther" name="filesNameDropOther">
+                                <div class="row" id="filesNameDropOther" name="filesNameDropOther" class="row">
                                 </div>
                             </div>
                         </div>
@@ -1088,7 +1102,7 @@
                             </div>
                             <div class="col-md-8" id="drop-area-other">
                                 <p>Drop file Here Or Click to upload(Maximum load size 20 MB) <i class="fas fa-upload"></i></p>
-                                <div class="row" id="filesNameDropOther" name="filesNameDropOther">
+                                <div class="row" id="filesNameDropOther" name="filesNameDropOther" class="row">
                                 </div>
                             </div>
                         </div>
@@ -1173,9 +1187,9 @@
         </div>
         @if (ViewBag.CookieLang == "ar")
         {
-            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-right"></i>
-                <p>السابق</p>
+            <div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
+                <i class="fas fa-chevron-left"></i>
+                <p>التالى</p>
             </div>
         }
         else
@@ -1195,20 +1209,20 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
+                    <form class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
                             <label for="recipient-name" class="col-form-label">name:</label>
                             <input type="text" class="form-control" id="recipient-name">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
                             <label for="recipient-name" class="col-form-label">Phone:</label>
                             <input type="text" class="form-control" id="recipient-name">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
                             <label for="recipient-name" class="col-form-label">Email:</label>
                             <input type="text" class="form-control" id="recipient-name">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-lg-3 col-md-4 col-sm-6">
                             <label for="recipient-name" class="col-form-label">other Info:</label>
                             <input type="text" class="form-control" id="recipient-name">
                         </div>
