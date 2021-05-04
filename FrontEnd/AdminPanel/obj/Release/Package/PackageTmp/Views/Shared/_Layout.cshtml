@@ -2,16 +2,34 @@
 <html lang="en">
 
 <head>
+	@{
+		if (Request.Cookies["lang"].Value == "ar")
+		{
+			<style>
+				body {
+					font-family: 'DroidArabicKufiRegular' !important;
+					font-weight: bolder !important;
+				}
+			</style>
+		}
+		else
+		{
+			<style>
+				body {
+					font-family: Poppins,Helvetica,sans-serif !important;
+					font-weight: bolder !important;
+				}
+			</style>
+		}
+	}
+
 
 	<style>
 		body[data-sidebar=dark].vertical-collpsed {
 			min-height: auto !important;
 		}
 
-		body {
-			font-family: 'DroidArabicKufiRegular' !important;
-			font-weight: bolder !important;
-		}
+
 
 		td {
 			vertical-align: baseline;
