@@ -15,7 +15,6 @@
                 </div>
                 <div class="col-md-2">
                     <div class="row">
-
                         @if (ViewBag.CookieLang == "ar")
                         {
                             <div class="col-lg-2"></div>
@@ -88,16 +87,16 @@
                     {
                         <label>Shipped via </label>
                     }
-                <span id="spn_shipped">Twasul</span>
+                    <span id="spn_shipped">Twasul</span>
                     @*<span>
-                        <span class="active">
-                            <span></span>
-                        </span>
-                        <br />
-                        <span>
-                            <span></span>
-                        </span>
-                    </span>*@
+                            <span class="active">
+                                <span></span>
+                            </span>
+                            <br />
+                            <span>
+                                <span></span>
+                            </span>
+                        </span>*@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     @if (ViewBag.CookieLang == "ar")
@@ -106,10 +105,16 @@
                     }
                     else
                     {
-                        <label>Processing<br /> location</label>
+                        <label>Processing location</label>
                     }
-
-                    <span id="spn_location">مكان</span>
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <span id="spn_location">مكان</span>
+                    }
+                    else
+                    {
+                        <span id="spn_location">location</span>
+                    }
                 </div>
                 <div class="col-md-3 col-sm-6">
                     @if (ViewBag.CookieLang == "ar")
@@ -120,7 +125,14 @@
                     {
                         <label>status</label>
                     }
-                    <span id="spn_status">التوصيل</span>
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <span id="spn_status">التوصيل</span>
+                    }
+                    else
+                    {
+                        <span id="spn_status">delivery</span>
+                    }
                 </div>
                 <div class="col-md-3 col-sm-6">
                     @if (ViewBag.CookieLang == "ar")
@@ -129,7 +141,7 @@
                     }
                     else
                     {
-                        <label>Expected <br /> delivery date</label>
+                        <label>Expected delivery date</label>
                     }
                     <span id="spn_deliverydate">11-05-2021</span>
                 </div>
@@ -208,14 +220,14 @@
                                 <span>Progressed</span>
                                 <span>request</span>
                             }
-                           
+
                         </div>
                         <div class="col-md-1">
                             <span></span>
                         </div>
                         <div class="col-md-2">
                             <div class="border-state">
-                                <img src="~/Design/img/follow/Drived.png" style="padding:13px"/>
+                                <img src="~/Design/img/follow/Drived.png" style="padding:13px" />
                             </div>
                             @if (ViewBag.CookieLang == "ar")
                             {
