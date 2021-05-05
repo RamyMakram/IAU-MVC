@@ -319,7 +319,7 @@ function HandelDragAndDrop(files) {
         } else {
             ([...DropedFile]).forEach(function (file) {
                 FileNames.push(file.name)
-                $('#filesNameDropOther').append("<div class='col-md-6 fileshow'>" + file.name.length > 8 ? file.name.slice(0, 8) + "... " : file.name + " \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter></div>")
+                $('#filesNameDropOther').append("<div class='col-md-6 fileshow' id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' onclick='deleteFileSupport(\"support-doc" + counter + "\")'></i></div>")
             });
         }
     }
