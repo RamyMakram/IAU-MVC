@@ -250,3 +250,6 @@ C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\Microsoft.AspNet.Iden
 C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\Microsoft.Owin.Host.HttpListener.dll
 C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\Microsoft.Owin.Host.HttpListener.xml
+C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\System.Web.Cors.dll
+C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\System.Web.Http.Cors.dll
+C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\System.Web.Http.Cors.xml

@@ -58,118 +58,169 @@ function getLanguage() {
 };
 
 function initLeftMenuCollapse() {
-	$('#vertical-menu-btn').on('click', function (event) {
-		event.preventDefault();
-		$('body').toggleClass('sidebar-enable');
-		if ($(window).width() >= 992) {
-			$('body').toggleClass('vertical-collpsed');
-		} else {
-			$('body').removeClass('vertical-collpsed');
-		}
-	});
-}
-
-function initActiveMenu() {
-	// === following js will activate the menu in left side bar based on url ====
-	$("#sidebar-menu a").each(function (e) {
-		//console.log(window.location.href.split(/[?#]/)[0])
-		var pageUrl = window.location.pathname.split('/')[1];
-		//console.log(this.id, pageUrl)
-		if (this.id == pageUrl) {
-			$(this).addClass("active");
-			$(this).parent().addClass("mm-active"); // add active to li of the current link
-			$(this).parent().parent().addClass("mm-show");
-			$(this).parent().parent().prev().addClass("mm-active"); // add active class to an anchor
-			$(this).parent().parent().parent().addClass("mm-active");
-			$(this).parent().parent().parent().parent().addClass("mm-show"); // add active to li of the current link
-			$(this).parent().parent().parent().parent().parent().addClass("mm-active");
-		}
-	});
-}
-
-function initMenuItemScroll() {
-	// focus active menu in left sidebar
-	$(document).ready(function () {
-		if ($("#sidebar-menu").length > 0 && $("#sidebar-menu .mm-active .active").length > 0) {
-			var activeMenu = $("#sidebar-menu .mm-active .active").offset().top;
-			if (activeMenu > 300) {
-				activeMenu = activeMenu - 300;
-				$(".simplebar-content-wrapper").animate({ scrollTop: activeMenu }, "slow");
+	try {
+		$('#vertical-menu-btn').on('click', function (event) {
+			event.preventDefault();
+			$('body').toggleClass('sidebar-enable');
+			if ($(window).width() >= 992) {
+				$('body').toggleClass('vertical-collpsed');
+			} else {
+				$('body').removeClass('vertical-collpsed');
 			}
-		}
-	});
-}
-
-function initHoriMenuActive() {
-	$(".navbar-nav a").each(function () {
-		var pageUrl = window.location.href.split(/[?#]/)[0];
-		if (this.href == pageUrl) {
-			$(this).addClass("active");
-			$(this).parent().addClass("active");
-			$(this).parent().parent().addClass("active");
-			$(this).parent().parent().parent().addClass("active");
-			$(this).parent().parent().parent().parent().addClass("active");
-			$(this).parent().parent().parent().parent().parent().addClass("active");
-		}
-	});
-}
-
-function initFullScreen() {
-	$('[data-toggle="fullscreen"]').on("click", function (e) {
-		e.preventDefault();
-		$('body').toggleClass('fullscreen-enable');
-		if (!document.fullscreenElement && /* alternative standard method */ !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
-			if (document.documentElement.requestFullscreen) {
-				document.documentElement.requestFullscreen();
-			} else if (document.documentElement.mozRequestFullScreen) {
-				document.documentElement.mozRequestFullScreen();
-			} else if (document.documentElement.webkitRequestFullscreen) {
-				document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-			}
-		} else {
-			if (document.cancelFullScreen) {
-				document.cancelFullScreen();
-			} else if (document.mozCancelFullScreen) {
-				document.mozCancelFullScreen();
-			} else if (document.webkitCancelFullScreen) {
-				document.webkitCancelFullScreen();
-			}
-		}
-	});
-	document.addEventListener('fullscreenchange', exitHandler);
-	document.addEventListener("webkitfullscreenchange", exitHandler);
-	document.addEventListener("mozfullscreenchange", exitHandler);
-	function exitHandler() {
-		if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-			$('body').removeClass('fullscreen-enable');
-		}
+		});
+	} catch (e) {
+		console.log(e)
 	}
 }
 
-function initRightSidebar() {
-	// right side-bar toggle
-	$('.right-bar-toggle').on('click', function (e) {
-		$('body').toggleClass('right-bar-enabled');
-	});
+function initActiveMenu() {
+	try {
+		// === following js will activate the menu in left side bar based on url ====
+		$("#sidebar-menu a").each(function (e) {
+			//console.log(window.location.href.split(/[?#]/)[0])
+			var pageUrl = window.location.pathname.split('/')[1];
+			//console.log(this.id, pageUrl)
+			if (this.id == pageUrl) {
+				$(this).addClass("active");
+				$(this).parent().addClass("mm-active"); // add active to li of the current link
+				$(this).parent().parent().addClass("mm-show");
+				$(this).parent().parent().prev().addClass("mm-active"); // add active class to an anchor
+				$(this).parent().parent().parent().addClass("mm-active");
+				$(this).parent().parent().parent().parent().addClass("mm-show"); // add active to li of the current link
+				$(this).parent().parent().parent().parent().parent().addClass("mm-active");
+			}
+		});
+	} catch (e) {
+		console.log(e)
 
-	$(document).on('click', 'body', function (e) {
-		if ($(e.target).closest('.right-bar-toggle, .right-bar').length > 0) {
-			return;
+	}
+
+}
+
+function initMenuItemScroll() {
+	try {
+		$(document).ready(function () {
+			if ($("#sidebar-menu").length > 0 && $("#sidebar-menu .mm-active .active").length > 0) {
+				var activeMenu = $("#sidebar-menu .mm-active .active").offset().top;
+				if (activeMenu > 300) {
+					activeMenu = activeMenu - 300;
+					$(".simplebar-content-wrapper").animate({ scrollTop: activeMenu }, "slow");
+				}
+			}
+		});
+	} catch (e) {
+		console.log(e)
+
+	}
+	// focus active menu in left sidebar
+
+}
+
+function initHoriMenuActive() {
+	try {
+		$(".navbar-nav a").each(function () {
+			var pageUrl = window.location.href.split(/[?#]/)[0];
+			if (this.href == pageUrl) {
+				$(this).addClass("active");
+				$(this).parent().addClass("active");
+				$(this).parent().parent().addClass("active");
+				$(this).parent().parent().parent().addClass("active");
+				$(this).parent().parent().parent().parent().addClass("active");
+				$(this).parent().parent().parent().parent().parent().addClass("active");
+			}
+		});
+	} catch (e) {
+		console.log(e)
+
+	}
+
+}
+
+function initFullScreen() {
+	try {
+		$('[data-toggle="fullscreen"]').on("click", function (e) {
+			e.preventDefault();
+			$('body').toggleClass('fullscreen-enable');
+			if (!document.fullscreenElement && /* alternative standard method */ !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+				if (document.documentElement.requestFullscreen) {
+					document.documentElement.requestFullscreen();
+				} else if (document.documentElement.mozRequestFullScreen) {
+					document.documentElement.mozRequestFullScreen();
+				} else if (document.documentElement.webkitRequestFullscreen) {
+					document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+				}
+			} else {
+				if (document.cancelFullScreen) {
+					document.cancelFullScreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if (document.webkitCancelFullScreen) {
+					document.webkitCancelFullScreen();
+				}
+			}
+		});
+		document.addEventListener('fullscreenchange', exitHandler);
+		document.addEventListener("webkitfullscreenchange", exitHandler);
+		document.addEventListener("mozfullscreenchange", exitHandler);
+		function exitHandler() {
+			if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+				$('body').removeClass('fullscreen-enable');
+			}
 		}
 
-		$('body').removeClass('right-bar-enabled');
-		return;
-	});
+	} catch (e) {
+		console.log(e)
+
+	}
+
+}
+
+function initRightSidebar() {
+	try {
+		$('.right-bar-toggle').on('click', function (e) {
+			$('body').toggleClass('right-bar-enabled');
+		});
+
+		$(document).on('click', 'body', function (e) {
+			if ($(e.target).closest('.right-bar-toggle, .right-bar').length > 0) {
+				return;
+			}
+
+			$('body').removeClass('right-bar-enabled');
+			return;
+		});
+	} catch (e) {
+		console.log(e)
+
+	}
+	// right side-bar toggle
+
 }
 
 function initComponents() {
-	$(function () {
-		$('[data-toggle="tooltip"]').tooltip()
-	})
+	try {
+		$(function () {
+			try {
+				$('[data-toggle="tooltip"]').tooltip()
+			} catch (e) {
+				console.log(e)
 
-	$(function () {
-		$('[data-toggle="popover"]').popover()
-	})
+			}
+		})
+
+		$(function () {
+			try {
+				$('[data-toggle="popover"]').popover()
+			} catch (e) {
+				console.log(e)
+
+			}
+		})
+	} catch (e) {
+		console.log(e)
+
+	}
+
 }
 
 function initPreloader() {
@@ -230,12 +281,24 @@ function initLanguage() {
 		initHoriMenuActive();
 		initFullScreen();
 		initRightSidebar();
-		$("#side-menu").metisMenu();
+		try {
+
+			$("#side-menu").metisMenu();
+		} catch (e) {
+			console.log(e)
+
+		}
 		//initDropdownMenu();
 		initComponents();
 		initSettings();
 		initPreloader();
-		Waves.init();
+		try {
+
+			Waves.init();
+		} catch (e) {
+			console.log(e)
+
+		}
 		$('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
 			if (!$(this).next().hasClass('show')) {
 				$(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
@@ -270,7 +333,7 @@ function initLanguage() {
 				};
 
 				ws.onmessage = function (evt) {
-					var received_msg = evt.data;
+					var received_msg = JSON.parse(evt.data);
 					console.log(received_msg)
 					var sound;
 					sound = new Howl({
@@ -281,23 +344,25 @@ function initLanguage() {
 					count.innerText = parseInt(count.innerText) + 1
 					if (window.location.pathname.split('/')[1] == "Email") {
 						var mailList = document.getElementById('MailList')
-						mailList.innerHTML += `
-						<li onclick="Preview('Email/Preview/${count.innerText}')">
+						var html = mailList.innerHTML;
+						var dateOptions = { month: '2-digit', day: '2-digit'};
+						var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
+						mailList.innerHTML = `
+						<li onclick="Preview('Email/Preview/${received_msg["Request_Data_ID"]}')">
 							<div class="col-mail col-mail-1">
-								<div class="checkbox-wrapper-mail">
-									<input type="checkbox" id="chk19">
-									<label for="chk19" class="toggle"></label>
-								</div>
-								<a href="#" class="title">Mr. Peter</a><span class="star-toggle far fa-star"></span>
+								<a href="#" class="title">${(received_msg["Personel_Data"]["First_Name"] + " " + received_msg["Personel_Data"]["Middle_Name"])}</a>
 							</div>
 							<div class="col-mail col-mail-2">
 								<a href="#" class="subject">
-									<span class="badge-info badge mr-2">Healthy</span>	Hello – <span class="teaser">Trip home from Colombo has been arranged, then Jenna will come get me from Stockholm. :)</span>
+									<span class="badge-success badge mr-2">${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : i.Service_Type.Service_Type_Name_EN)}</span>
+									<span class="badge-pink badge mr-2">${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</span>
+									<span class="badge-dark badge mr-2">${(received_msg["Personel_Data"]["IAU_ID_Number"] != "")}</span>
+									<span class="teaser">${(received_msg["Required_Fields_Notes"] == null ? "" : received_msg["Required_Fields_Notes"].substr(0, 400))}</span>
 								</a>
-								<div class="date">Mar 6</div>
+								<div class="date">${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</div>
 							</div>
 						</li>
-								`
+`+ html
 					}
 				};
 

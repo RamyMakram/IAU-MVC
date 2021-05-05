@@ -15,7 +15,6 @@ namespace AdminPanel.Controllers
 		// GET: Jobs
 		public ActionResult Home()
 		{
-			var per = TempData["Permissions"];
 			var Data = APIHandeling.getData("Job/GetAllJobs");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);

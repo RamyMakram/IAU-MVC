@@ -139,3 +139,6 @@ C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.pdb
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\Microsoft.WebSockets.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\EntityFramework.SqlServer.dll
 C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\EntityFramework.SqlServer.xml
+C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Http.Cors.dll
+C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Cors.dll
+C:\Users\Ramy\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Http.Cors.xml

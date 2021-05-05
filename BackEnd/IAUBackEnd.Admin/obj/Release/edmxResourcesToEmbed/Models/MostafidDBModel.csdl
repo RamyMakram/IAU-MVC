@@ -131,6 +131,10 @@
       <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
       <End Role="Personel_Data" EntitySet="Personel_Data" />
     </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Personel_Data" Association="MostafidDBModel.FK_Request_Data_Personel_Data">
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
     <AssociationSet Name="FK_Privilage_Privilage" Association="MostafidDBModel.FK_Privilage_Privilage">
       <End Role="Privilage" EntitySet="Privilage" />
       <End Role="Privilage1" EntitySet="Privilage" />
@@ -418,6 +422,7 @@
     <NavigationProperty Name="ID_Document1" Relationship="MostafidDBModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
     <NavigationProperty Name="Nationality" Relationship="MostafidDBModel.FK_Personel_Data_Nationality" FromRole="Personel_Data" ToRole="Nationality" />
     <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
+    <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Personel_Data" ToRole="Request_Data" />
   </EntityType>
   <EntityType Name="Privilage">
     <Key>
@@ -530,6 +535,7 @@
     <Property Name="Request_State_ID" Type="Byte" Nullable="false" />
     <Property Name="signpdfpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="IsTwasul_OC" Type="Boolean" />
+    <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
     <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
     <NavigationProperty Name="Request_Type" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
     <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
@@ -1020,6 +1026,18 @@
       </Principal>
       <Dependent Role="Personel_Data">
         <PropertyRef Name="Title_Middle_Names_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Data_Personel_Data">
+    <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="0..1" />
+    <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personel_Data">
+        <PropertyRef Name="Personel_Data_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Personel_Data_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

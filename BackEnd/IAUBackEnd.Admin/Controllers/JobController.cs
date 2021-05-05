@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Data.Entity;
 using IAUAdmin.DTO.Helper;
+using System.Web.Http.Cors;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -41,6 +42,7 @@ namespace IAUBackEnd.Admin.Controllers
 				});
 			}
 		}
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		[HttpGet]
 		public async Task<IHttpActionResult> GetJob(int jid)
 		{

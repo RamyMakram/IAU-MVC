@@ -35,6 +35,7 @@ namespace IAUBackEnd.Admin.Models
         public string signpdfpath { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
     
+        public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
         public virtual Request_Type Request_Type { get; set; }
         public virtual Service_Type Service_Type { get; set; }

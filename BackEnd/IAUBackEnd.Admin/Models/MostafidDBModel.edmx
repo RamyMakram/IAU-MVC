@@ -692,6 +692,18 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Request_Data_Personel_Data">
+          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="0..1" />
+          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel_Data">
+              <PropertyRef Name="Personel_Data_ID" />
+            </Principal>
+            <Dependent Role="Request_Data">
+              <PropertyRef Name="Personel_Data_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Request_Data_Request_State">
           <End Role="Request_State" Type="Self.Request_State" Multiplicity="1" />
           <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
@@ -1105,6 +1117,10 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             <End Role="Country" EntitySet="Country" />
             <End Role="Region" EntitySet="Region" />
           </AssociationSet>
+          <AssociationSet Name="FK_Request_Data_Personel_Data" Association="Self.FK_Request_Data_Personel_Data">
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+            <End Role="Request_Data" EntitySet="Request_Data" />
+          </AssociationSet>
           <AssociationSet Name="FK_Request_Data_Request_State" Association="Self.FK_Request_Data_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="Request_Data" EntitySet="Request_Data" />
@@ -1336,6 +1352,10 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names">
             <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_Data_Personel_Data" Association="MostafidDBModel.FK_Request_Data_Personel_Data">
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+            <End Role="Request_Data" EntitySet="Request_Data" />
           </AssociationSet>
           <AssociationSet Name="FK_Privilage_Privilage" Association="MostafidDBModel.FK_Privilage_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
@@ -1624,6 +1644,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <NavigationProperty Name="ID_Document1" Relationship="MostafidDBModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
           <NavigationProperty Name="Nationality" Relationship="MostafidDBModel.FK_Personel_Data_Nationality" FromRole="Personel_Data" ToRole="Nationality" />
           <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Personel_Data" ToRole="Request_Data" />
         </EntityType>
         <EntityType Name="Privilage">
           <Key>
@@ -1736,6 +1757,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Request_State_ID" Type="Byte" Nullable="false" />
           <Property Name="signpdfpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsTwasul_OC" Type="Boolean" />
+          <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
           <NavigationProperty Name="Request_Type" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
@@ -2226,6 +2248,18 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Personel_Data">
               <PropertyRef Name="Title_Middle_Names_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_Data_Personel_Data">
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel_Data">
+              <PropertyRef Name="Personel_Data_ID" />
+            </Principal>
+            <Dependent Role="Request_Data">
+              <PropertyRef Name="Personel_Data_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

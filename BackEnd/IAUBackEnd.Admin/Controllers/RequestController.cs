@@ -10,70 +10,76 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
+using Newtonsoft.Json;
 
 namespace IAUBackEnd.Admin.Controllers
 {
-    public class RequestController : ApiController
-    {
-        private MostafidDBEntities p = new MostafidDBEntities();
+	public class RequestController : ApiController
+	{
+		private MostafidDBEntities p = new MostafidDBEntities();
 
-        // GET: api/Request
-        public IQueryable<Request_Data> GetRequest_Data()
-        {
-            return p.Request_Data;
-        }
+		// GET: api/Request
+		public async Task<IHttpActionResult> GetRequest_Data()
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Request_Data.Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate }) });
+		}
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 
-        // GET: api/Request/5
-        [ResponseType(typeof(Request_Data))]
-        public async Task<IHttpActionResult> GetRequest_Data(int id)
-        {
-            Request_Data request_Data = await p.Request_Data.FindAsync(id);
-            if (request_Data == null)
-            {
-                return NotFound();
-            }
+		public async Task<IHttpActionResult> GetRequest_PDF(string ID)
+		{
+			return Ok(new ResponseClass() { success = true, result = File.ReadAllText(HttpContext.Current.Server.MapPath("~/RequestFiles/" + ID + "/PDF.txt")) });
+		}
 
-            return Ok(request_Data);
-        }
+		public async Task<IHttpActionResult> GetRequest_Data(int id)
+		{
+			Request_Data request_Data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == id);
+			if (request_Data == null)
+			{
+				return NotFound();
+			}
 
-        // PUT: api/Request/5
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutRequest_Data(int id, Request_Data request_Data)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+			return Ok(request_Data);
+		}
 
-            if (id != request_Data.Request_Data_ID)
-            {
-                return BadRequest();
-            }
+		// PUT: api/Request/5
+		[ResponseType(typeof(void))]
+		public async Task<IHttpActionResult> PutRequest_Data(int id, Request_Data request_Data)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 
-            p.Entry(request_Data).State = EntityState.Modified;
+			if (id != request_Data.Request_Data_ID)
+			{
+				return BadRequest();
+			}
 
-            try
-            {
-                await p.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!Request_DataExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			p.Entry(request_Data).State = EntityState.Modified;
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+			try
+			{
+				await p.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!Request_DataExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return StatusCode(HttpStatusCode.NoContent);
+		}
 		[HttpPost]
 		[Route("api/Request/saveApplicantData")]
 		public async Task<IHttpActionResult> SaveApplicantData(RequestData_DTO requestData)
@@ -160,8 +166,14 @@ namespace IAUBackEnd.Admin.Controllers
 				}
 
 				p.SaveChanges();
+				var PDFPath = Path.Combine(requestpath, "PDF.txt");
+				File.WriteAllText(Path.Combine(path, PDFPath), requestData.PDFSignature);
+				Request_Data data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == request_Data.Request_Data_ID);
 
-				string message = @"عزيزي المستفيد ، 
+				var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
+				string message = JsonConvert.SerializeObject(data, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+				WebSocketManager.SendToMulti(MostafidUsers, message);
+				message = @"عزيزي المستفيد ، 
 									تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعه";
 				_ = SendSMS(model.Mobile, message);
 				return Ok(new
@@ -207,47 +219,47 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		// POST: api/Request
 		[ResponseType(typeof(Request_Data))]
-        public async Task<IHttpActionResult> PostRequest_Data(Request_Data request_Data)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		public async Task<IHttpActionResult> PostRequest_Data(Request_Data request_Data)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
 
-            p.Request_Data.Add(request_Data);
-            await p.SaveChangesAsync();
+			p.Request_Data.Add(request_Data);
+			await p.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = request_Data.Request_Data_ID }, request_Data);
-        }
+			return CreatedAtRoute("DefaultApi", new { id = request_Data.Request_Data_ID }, request_Data);
+		}
 
-        // DELETE: api/Request/5
-        [ResponseType(typeof(Request_Data))]
-        public async Task<IHttpActionResult> DeleteRequest_Data(int id)
-        {
-            Request_Data request_Data = await p.Request_Data.FindAsync(id);
-            if (request_Data == null)
-            {
-                return NotFound();
-            }
+		// DELETE: api/Request/5
+		[ResponseType(typeof(Request_Data))]
+		public async Task<IHttpActionResult> DeleteRequest_Data(int id)
+		{
+			Request_Data request_Data = await p.Request_Data.FindAsync(id);
+			if (request_Data == null)
+			{
+				return NotFound();
+			}
 
-            p.Request_Data.Remove(request_Data);
-            await p.SaveChangesAsync();
+			p.Request_Data.Remove(request_Data);
+			await p.SaveChangesAsync();
 
-            return Ok(request_Data);
-        }
+			return Ok(request_Data);
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                p.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				p.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        private bool Request_DataExists(int id)
-        {
-            return p.Request_Data.Count(e => e.Request_Data_ID == id) > 0;
-        }
-    }
+		private bool Request_DataExists(int id)
+		{
+			return p.Request_Data.Count(e => e.Request_Data_ID == id) > 0;
+		}
+	}
 }

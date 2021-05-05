@@ -16,7 +16,7 @@ namespace IAUBackEnd.Admin
 			json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
 
 			json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-
+			config.EnableCors();
 			config.MapHttpAttributeRoutes();
 
 			config.Routes.MapHttpRoute(

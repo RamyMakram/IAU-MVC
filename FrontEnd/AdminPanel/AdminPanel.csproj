@@ -416,6 +416,8 @@
     <Content Include="assets\libs\twitter-bootstrap-wizard\prettify.css" />
     <Content Include="assets\libs\twitter-bootstrap-wizard\prettify.js" />
     <Content Include="assets\notification.mp3" />
+    <Content Include="assets\js\pdf.js" />
+    <Content Include="assets\js\pdf.worker.js" />
     <Content Include="bin\AdminPanel.dll" />
     <Content Include="bin\AdminPanel.pdb" />
     <Content Include="bin\Antlr3.Runtime.dll" />
@@ -3045,6 +3047,7 @@
     <Content Include="Views\EForms\Active.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
     <Content Include="Views\User\Active.cshtml" />
+    <Content Include="Views\Email\PDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

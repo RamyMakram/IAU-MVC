@@ -35,7 +35,7 @@ namespace IAU_BackEnd.Controllers.BasicData
 				});
 			}
 		}
-
+		[HttpGet]
 		public static IEnumerable<SelectList_DTO> GetCountriesList(string lang)
 		{
 			try

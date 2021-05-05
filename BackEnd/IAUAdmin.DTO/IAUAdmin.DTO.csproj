@@ -49,7 +49,9 @@
     <Compile Include="Entity\JobDTO.cs" />
     <Compile Include="Entity\LocationsDTO.cs" />
     <Compile Include="Entity\MainServiceDTO.cs" />
+    <Compile Include="Entity\PersonalDataDTO.cs" />
     <Compile Include="Entity\PrivilgesDTO.cs" />
+    <Compile Include="Entity\ReqestDTO.cs" />
     <Compile Include="Entity\RequestData_DTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
     <Compile Include="Entity\RequiredDocsDTO.cs" />

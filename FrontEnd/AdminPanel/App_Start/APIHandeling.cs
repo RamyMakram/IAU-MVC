@@ -27,6 +27,17 @@ namespace AdminPanel
             var res = h.GetAsync("/api/" + apiName).Result;
             return res;
         }
+        public static HttpResponseMessage getDataRequestFile(string apiName)
+        {
+            HttpClient h = new HttpClient();
+
+            h.BaseAddress = new Uri(domainName);
+            h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
+            h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+
+            var res = h.GetAsync(apiName).Result;
+            return res;
+        }
         /// <summary>
         /// Get Data From API with paramter
         /// </summary>

@@ -25,8 +25,8 @@ namespace Web.App_Start
 			h.DefaultRequestHeaders.Add("lang", lang);
 			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
 
-			var res = h.GetAsync("/api/" + apiName + "?lang=" + lang).Result;
-			return res;
+			var res = h.GetAsync("/api/" + apiName + "?lang=" + lang);
+			return res.Result;
 		}
 		/// <summary>
 		/// Get Data From API with paramter

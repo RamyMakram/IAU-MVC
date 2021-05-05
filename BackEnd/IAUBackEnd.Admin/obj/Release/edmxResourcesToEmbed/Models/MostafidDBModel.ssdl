@@ -687,6 +687,18 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Request_Data_Personel_Data">
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personel_Data">
+        <PropertyRef Name="Personel_Data_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Personel_Data_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Request_Data_Request_State">
     <End Role="Request_State" Type="Self.Request_State" Multiplicity="1" />
     <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
@@ -1099,6 +1111,10 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <AssociationSet Name="FK_Region_Country" Association="Self.FK_Region_Country">
       <End Role="Country" EntitySet="Country" />
       <End Role="Region" EntitySet="Region" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Personel_Data" Association="Self.FK_Request_Data_Personel_Data">
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
     </AssociationSet>
     <AssociationSet Name="FK_Request_Data_Request_State" Association="Self.FK_Request_Data_Request_State">
       <End Role="Request_State" EntitySet="Request_State" />

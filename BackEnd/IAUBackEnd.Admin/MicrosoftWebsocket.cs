@@ -23,6 +23,11 @@ namespace IAUBackEnd.Admin
 		{
 			Mapped[Name].Broadcast(Message);
 		}
+		public static void SendToMulti(int[] Names, string Message)
+		{
+			foreach (var i in Names)
+				Mapped[i.ToString()].Broadcast(Message);
+		}
 
 		public override void OnMessage(byte[] message)
 		{
