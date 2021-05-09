@@ -385,7 +385,13 @@
     <Compile Include="Models\Type_Support_Project.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UnitMainServices.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Units.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnitServiceTypes.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Units_Location.cs">

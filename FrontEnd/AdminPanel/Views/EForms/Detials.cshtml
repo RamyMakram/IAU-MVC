@@ -48,9 +48,9 @@
 	</div>
 </div>
 <div class="mt-5">
-	@Html.ActionLink("Edit", "Edit", new { Id = Model.ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+	@Html.ActionLink("Edit", "Edit", new { Id = Model.ID, SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Action ? "Deactive" : "Active", Model.IS_Action ? "Deactive" : "Active", "EForms", new { Id = Model.ID }, new { @class = Model.IS_Action ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action ? "t-deactive" : "t-active" })
+	@Html.ActionLink(Model.IS_Action ? "Deactive" : "Active", Model.IS_Action ? "Deactive" : "Active", "EForms", new { Id = Model.ID, SubService = Request.QueryString["SubService"] }, new { @class = Model.IS_Action ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action ? "t-deactive" : "t-active" })
 
 </div>
 

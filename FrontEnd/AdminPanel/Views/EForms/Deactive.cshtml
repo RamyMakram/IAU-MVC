@@ -16,14 +16,14 @@
 <h2 key="t-deactive" >Deactive</h2>
 
 <div class="row">
-	@using (Html.BeginForm("Deactive", "EForms", new { Id = Model.ID, x = "" }, FormMethod.Post))
+	@using (Html.BeginForm("Deactive", "EForms", new { Id = Model.ID, x = "" , SubService = Request.QueryString["SubService"] }, FormMethod.Post))
 	{
 		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-eforms" >
 			Do u want to deactive this User?
 		</div>
 
 		<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-		@Html.ActionLink("Cancel", "Home", "EForms", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+		@Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 	}
 </div>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>

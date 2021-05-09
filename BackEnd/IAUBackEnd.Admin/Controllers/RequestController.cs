@@ -144,7 +144,7 @@ namespace IAUBackEnd.Admin.Controllers
 						File.WriteAllBytes(Path.Combine(path, filepath), requestData.Files[count].bytes);
 						request_Data.Request_SupportingDocs.Add(new Request_SupportingDocs()
 						{
-							SupportingDocID = i.ID,
+							SupportingDocID = i.ID.Value,
 
 							Path = filepath.Replace("\\", "/")
 						});

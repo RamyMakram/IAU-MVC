@@ -30,7 +30,7 @@
 				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
 				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
 
-				@using (Html.BeginForm("Edit", "SubServices", FormMethod.Post, new { @class = "repeater" }))
+				@using (Html.BeginForm("Edit", "SubServices", new { MainService = Request.QueryString["MainService"] }, FormMethod.Post, new { @class = "repeater" }))
 				{
 					<div class="row">
 						<div class="col-sm-6">

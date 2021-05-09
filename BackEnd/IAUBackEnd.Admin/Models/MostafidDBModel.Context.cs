@@ -61,10 +61,12 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
         public virtual DbSet<Type_Support_Project> Type_Support_Project { get; set; }
+        public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
         public virtual DbSet<Units> Units { get; set; }
         public virtual DbSet<Units_Location> Units_Location { get; set; }
         public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
         public virtual DbSet<Units_Type> Units_Type { get; set; }
+        public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<Statement_Department_File_Sent_Them> Statement_Department_File_Sent_Them { get; set; }

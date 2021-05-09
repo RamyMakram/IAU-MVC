@@ -20,7 +20,7 @@ namespace IAUBackEnd.Admin.Models
             this.Request_SupportingDocs = new HashSet<Request_SupportingDocs>();
         }
     
-        public int ID { get; set; }
+        public int? ID { get; set; }
         public string Name_EN { get; set; }
         public string Name_AR { get; set; }
         public Nullable<int> SubServiceID { get; set; }

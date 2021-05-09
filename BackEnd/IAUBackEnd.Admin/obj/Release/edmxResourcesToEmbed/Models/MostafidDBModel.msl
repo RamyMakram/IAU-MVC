@@ -152,7 +152,7 @@
     <EntitySetMapping Name="Main_Services">
       <EntityTypeMapping TypeName="MostafidDBModel.Main_Services">
         <MappingFragment StoreEntitySet="Main_Services">
-          <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+          <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
           <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Main_Services_Name_AR" ColumnName="Main_Services_Name_AR" />
           <ScalarProperty Name="Main_Services_Name_EN" ColumnName="Main_Services_Name_EN" />
@@ -421,6 +421,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="UnitMainServices">
+      <EntityTypeMapping TypeName="MostafidDBModel.UnitMainServices">
+        <MappingFragment StoreEntitySet="UnitMainServices">
+          <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
+          <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Units">
       <EntityTypeMapping TypeName="MostafidDBModel.Units">
         <MappingFragment StoreEntitySet="Units">
@@ -428,7 +437,6 @@
           <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Building_Number" ColumnName="Building_Number" />
           <ScalarProperty Name="Ref_Number" ColumnName="Ref_Number" />
-          <ScalarProperty Name="ServiceType_ID" ColumnName="ServiceType_ID" />
           <ScalarProperty Name="Units_Type_ID" ColumnName="Units_Type_ID" />
           <ScalarProperty Name="Units_Location_ID" ColumnName="Units_Location_ID" />
           <ScalarProperty Name="Units_Name_EN" ColumnName="Units_Name_EN" />
@@ -464,6 +472,15 @@
           <ScalarProperty Name="Units_Type_Name_EN" ColumnName="Units_Type_Name_EN" />
           <ScalarProperty Name="Units_Type_Name_AR" ColumnName="Units_Type_Name_AR" />
           <ScalarProperty Name="Units_Type_ID" ColumnName="Units_Type_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UnitServiceTypes">
+      <EntityTypeMapping TypeName="MostafidDBModel.UnitServiceTypes">
+        <MappingFragment StoreEntitySet="UnitServiceTypes">
+          <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+          <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -36,10 +36,12 @@
     <EntitySet Name="sysdiagrams" EntityType="MostafidDBModel.sysdiagrams" />
     <EntitySet Name="Title_Middle_Names" EntityType="MostafidDBModel.Title_Middle_Names" />
     <EntitySet Name="Type_Support_Project" EntityType="MostafidDBModel.Type_Support_Project" />
+    <EntitySet Name="UnitMainServices" EntityType="MostafidDBModel.UnitMainServices" />
     <EntitySet Name="Units" EntityType="MostafidDBModel.Units" />
     <EntitySet Name="Units_Location" EntityType="MostafidDBModel.Units_Location" />
     <EntitySet Name="Units_Request_Type" EntityType="MostafidDBModel.Units_Request_Type" />
     <EntitySet Name="Units_Type" EntityType="MostafidDBModel.Units_Type" />
+    <EntitySet Name="UnitServiceTypes" EntityType="MostafidDBModel.UnitServiceTypes" />
     <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
     <EntitySet Name="ValidTo" EntityType="MostafidDBModel.ValidTo" />
     <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="MostafidDBModel.Statement_Department_File_Sent_Them" />
@@ -111,13 +113,17 @@
       <End Role="Location" EntitySet="Location" />
       <End Role="Units_Location" EntitySet="Units_Location" />
     </AssociationSet>
-    <AssociationSet Name="FK_MainServices_Units" Association="MostafidDBModel.FK_MainServices_Units">
-      <End Role="Units" EntitySet="Units" />
+    <AssociationSet Name="FK_Main_Services_Service_Type" Association="MostafidDBModel.FK_Main_Services_Service_Type">
+      <End Role="Service_Type" EntitySet="Service_Type" />
       <End Role="Main_Services" EntitySet="Main_Services" />
     </AssociationSet>
     <AssociationSet Name="FK_Sub_Services_Main_Services" Association="MostafidDBModel.FK_Sub_Services_Main_Services">
       <End Role="Main_Services" EntitySet="Main_Services" />
       <End Role="Sub_Services" EntitySet="Sub_Services" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UnitMainServices_Main_Services" Association="MostafidDBModel.FK_UnitMainServices_Main_Services">
+      <End Role="Main_Services" EntitySet="Main_Services" />
+      <End Role="UnitMainServices" EntitySet="UnitMainServices" />
     </AssociationSet>
     <AssociationSet Name="FK_ValidTo_Main_Services" Association="MostafidDBModel.FK_ValidTo_Main_Services">
       <End Role="Main_Services" EntitySet="Main_Services" />
@@ -199,9 +205,13 @@
       <End Role="Sub_Services" EntitySet="Sub_Services" />
       <End Role="Required_Documents" EntitySet="Required_Documents" />
     </AssociationSet>
-    <AssociationSet Name="FK_Units_Service_Type" Association="MostafidDBModel.FK_Units_Service_Type">
+    <AssociationSet Name="FK_UnitServiceTypes_Service_Type" Association="MostafidDBModel.FK_UnitServiceTypes_Service_Type">
       <End Role="Service_Type" EntitySet="Service_Type" />
+      <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UnitMainServices_Units" Association="MostafidDBModel.FK_UnitMainServices_Units">
       <End Role="Units" EntitySet="Units" />
+      <End Role="UnitMainServices" EntitySet="UnitMainServices" />
     </AssociationSet>
     <AssociationSet Name="FK_Units_Request_Type_Units" Association="MostafidDBModel.FK_Units_Request_Type_Units">
       <End Role="Units" EntitySet="Units" />
@@ -214,6 +224,10 @@
     <AssociationSet Name="FK_Units_Units_Type" Association="MostafidDBModel.FK_Units_Units_Type">
       <End Role="Units_Type" EntitySet="Units_Type" />
       <End Role="Units" EntitySet="Units" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UnitServiceTypes_Units" Association="MostafidDBModel.FK_UnitServiceTypes_Units">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
     </AssociationSet>
     <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
       <End Role="Units" EntitySet="Units" />
@@ -380,9 +394,10 @@
     <Property Name="Main_Services_Name_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Main_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
-    <Property Name="UnitID" Type="Int32" />
-    <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_MainServices_Units" FromRole="Main_Services" ToRole="Units" />
+    <Property Name="ServiceTypeID" Type="Int32" />
+    <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Main_Services_Service_Type" FromRole="Main_Services" ToRole="Service_Type" />
     <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Main_Services" ToRole="Sub_Services" />
+    <NavigationProperty Name="UnitMainServices" Relationship="MostafidDBModel.FK_UnitMainServices_Main_Services" FromRole="Main_Services" ToRole="UnitMainServices" />
     <NavigationProperty Name="ValidTo" Relationship="MostafidDBModel.FK_ValidTo_Main_Services" FromRole="Main_Services" ToRole="ValidTo" />
   </EntityType>
   <EntityType Name="Nationality">
@@ -622,8 +637,9 @@
     <Property Name="Service_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
     <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_Main_Services_Service_Type" FromRole="Service_Type" ToRole="Main_Services" />
     <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Service_Type" FromRole="Service_Type" ToRole="Request_Data" />
-    <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Service_Type" ToRole="Units" />
+    <NavigationProperty Name="UnitServiceTypes" Relationship="MostafidDBModel.FK_UnitServiceTypes_Service_Type" FromRole="Service_Type" ToRole="UnitServiceTypes" />
   </EntityType>
   <EntityType Name="Sub_Services">
     <Key>
@@ -678,6 +694,16 @@
     <Property Name="Type_Support_Project_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Purchase_Order_Form" Relationship="MostafidDBModel.FK_Purchase_Order_Form_Type_Support_Project" FromRole="Type_Support_Project" ToRole="Purchase_Order_Form" />
   </EntityType>
+  <EntityType Name="UnitMainServices">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UnitID" Type="Int32" Nullable="false" />
+    <Property Name="MainServiceID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_UnitMainServices_Main_Services" FromRole="UnitMainServices" ToRole="Main_Services" />
+    <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_UnitMainServices_Units" FromRole="UnitMainServices" ToRole="Units" />
+  </EntityType>
   <EntityType Name="Units">
     <Key>
       <PropertyRef Name="Units_ID" />
@@ -687,16 +713,15 @@
     <Property Name="Units_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Units_Location_ID" Type="Int32" />
     <Property Name="Units_Type_ID" Type="Int32" />
-    <Property Name="ServiceType_ID" Type="Int32" />
     <Property Name="Ref_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Building_Number" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
     <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_MainServices_Units" FromRole="Units" ToRole="Main_Services" />
-    <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
+    <NavigationProperty Name="UnitMainServices" Relationship="MostafidDBModel.FK_UnitMainServices_Units" FromRole="Units" ToRole="UnitMainServices" />
     <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />
     <NavigationProperty Name="Units_Location" Relationship="MostafidDBModel.FK_Units_Units_Location" FromRole="Units" ToRole="Units_Location" />
     <NavigationProperty Name="Units_Type" Relationship="MostafidDBModel.FK_Units_Units_Type" FromRole="Units" ToRole="Units_Type" />
+    <NavigationProperty Name="UnitServiceTypes" Relationship="MostafidDBModel.FK_UnitServiceTypes_Units" FromRole="Units" ToRole="UnitServiceTypes" />
     <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Units" ToRole="Users" />
   </EntityType>
   <EntityType Name="Units_Location">
@@ -730,6 +755,16 @@
     <Property Name="Units_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="IS_Action" Type="Boolean" />
     <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Units_Units_Type" FromRole="Units_Type" ToRole="Units" />
+  </EntityType>
+  <EntityType Name="UnitServiceTypes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ServiceTypeID" Type="Int32" Nullable="false" />
+    <Property Name="UnitID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_UnitServiceTypes_Service_Type" FromRole="UnitServiceTypes" ToRole="Service_Type" />
+    <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_UnitServiceTypes_Units" FromRole="UnitServiceTypes" ToRole="Units" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -969,15 +1004,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_MainServices_Units">
-    <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+  <Association Name="FK_Main_Services_Service_Type">
+    <End Type="MostafidDBModel.Service_Type" Role="Service_Type" Multiplicity="0..1" />
     <End Type="MostafidDBModel.Main_Services" Role="Main_Services" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Units">
-        <PropertyRef Name="Units_ID" />
+      <Principal Role="Service_Type">
+        <PropertyRef Name="Service_Type_ID" />
       </Principal>
       <Dependent Role="Main_Services">
-        <PropertyRef Name="UnitID" />
+        <PropertyRef Name="ServiceTypeID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -990,6 +1025,18 @@
       </Principal>
       <Dependent Role="Sub_Services">
         <PropertyRef Name="Main_Services_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UnitMainServices_Main_Services">
+    <End Type="MostafidDBModel.Main_Services" Role="Main_Services" Multiplicity="1" />
+    <End Type="MostafidDBModel.UnitMainServices" Role="UnitMainServices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Main_Services">
+        <PropertyRef Name="Main_Services_ID" />
+      </Principal>
+      <Dependent Role="UnitMainServices">
+        <PropertyRef Name="MainServiceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1233,15 +1280,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Units_Service_Type">
-    <End Type="MostafidDBModel.Service_Type" Role="Service_Type" Multiplicity="0..1" />
-    <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="*" />
+  <Association Name="FK_UnitServiceTypes_Service_Type">
+    <End Type="MostafidDBModel.Service_Type" Role="Service_Type" Multiplicity="1" />
+    <End Type="MostafidDBModel.UnitServiceTypes" Role="UnitServiceTypes" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Service_Type">
         <PropertyRef Name="Service_Type_ID" />
       </Principal>
-      <Dependent Role="Units">
-        <PropertyRef Name="ServiceType_ID" />
+      <Dependent Role="UnitServiceTypes">
+        <PropertyRef Name="ServiceTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UnitMainServices_Units">
+    <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1" />
+    <End Type="MostafidDBModel.UnitMainServices" Role="UnitMainServices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
+      </Principal>
+      <Dependent Role="UnitMainServices">
+        <PropertyRef Name="UnitID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1278,6 +1337,18 @@
       </Principal>
       <Dependent Role="Units">
         <PropertyRef Name="Units_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UnitServiceTypes_Units">
+    <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1" />
+    <End Type="MostafidDBModel.UnitServiceTypes" Role="UnitServiceTypes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
+      </Principal>
+      <Dependent Role="UnitServiceTypes">
+        <PropertyRef Name="UnitID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

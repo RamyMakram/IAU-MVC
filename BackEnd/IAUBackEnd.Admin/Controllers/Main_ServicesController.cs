@@ -20,7 +20,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetMain_Services()
 		{
-			return Ok(new ResponseClass() { success = true, result = db.Main_Services });
+			return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q=>q.Service_Type) });
 		}
 		public async Task<IHttpActionResult> GetActive()
 		{
@@ -29,7 +29,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetMain_Services(int id)
 		{
-			var main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Units).Where(q => q.Main_Services_ID == id).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, q.IS_Action, q.Units, q.ValidTo, MainService_ApplicantType = q.ValidTo.Select(w => new { w.Applicant_Type.Applicant_Type_Name_AR, w.Applicant_Type.Applicant_Type_Name_EN }) }).FirstOrDefault();
+			var main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Service_Type).Where(q => q.Main_Services_ID == id).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, q.IS_Action, q.Service_Type, q.ValidTo, MainService_ApplicantType = q.ValidTo.Select(w => new { w.Applicant_Type.Applicant_Type_Name_AR, w.Applicant_Type.Applicant_Type_Name_EN }) }).FirstOrDefault();
 			if (main_Services == null)
 				return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
 
@@ -45,7 +45,7 @@ namespace IAUBackEnd.Admin.Controllers
 			{
 				data.Main_Services_Name_AR = main_Services.Main_Services_Name_AR;
 				data.Main_Services_Name_EN = main_Services.Main_Services_Name_EN;
-				data.UnitID = main_Services.UnitID;
+				data.ServiceTypeID = main_Services.ServiceTypeID;
 				db.ValidTo.RemoveRange(data.ValidTo);
 				data.ValidTo = main_Services.ValidTo;
 				data.IS_Action = true;
@@ -64,6 +64,7 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass() { success = false, result = ModelState });
 			try
 			{
+				main_Services.IS_Action = true;
 				db.Main_Services.Add(main_Services);
 				await db.SaveChangesAsync();
 				return Ok(new ResponseClass() { success = true });

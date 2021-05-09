@@ -138,7 +138,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
-    <Compile Include="Controllers\MainServiceController.cs" />
+    <Compile Include="Controllers\ServicesBankController.cs" />
     <Compile Include="Controllers\RequestTypeController.cs" />
     <Compile Include="Controllers\ServiceTypesController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
@@ -3027,12 +3027,12 @@
     <Content Include="Views\Units\Edit.cshtml" />
     <Content Include="Views\Units\Home.cshtml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
-    <Content Include="Views\MainService\Active.cshtml" />
-    <Content Include="Views\MainService\Create.cshtml" />
-    <Content Include="Views\MainService\Deactive.cshtml" />
-    <Content Include="Views\MainService\Detials.cshtml" />
-    <Content Include="Views\MainService\Edit.cshtml" />
-    <Content Include="Views\MainService\Home.cshtml" />
+    <Content Include="Views\ServicesBank\Active.cshtml" />
+    <Content Include="Views\ServicesBank\Create.cshtml" />
+    <Content Include="Views\ServicesBank\Deactive.cshtml" />
+    <Content Include="Views\ServicesBank\Detials.cshtml" />
+    <Content Include="Views\ServicesBank\Edit.cshtml" />
+    <Content Include="Views\ServicesBank\Home.cshtml" />
     <Content Include="Views\SubServices\Create.cshtml" />
     <Content Include="Views\SubServices\Deactive.cshtml" />
     <Content Include="Views\SubServices\Detials.cshtml" />

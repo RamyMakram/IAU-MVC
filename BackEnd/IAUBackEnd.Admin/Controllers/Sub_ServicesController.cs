@@ -22,6 +22,10 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Sub_Services });
 		}
+		public async Task<IHttpActionResult> GetSub_ServicesByMain(int id)
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => q.Main_Services_ID == id) });
+		}
 		public async Task<IHttpActionResult> GetActive()
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => q.IS_Action.Value) });
@@ -29,7 +33,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetSub_Services(int id)
 		{
-			Sub_Services sub_Services = p.Sub_Services.Include(q => q.Required_Documents).Include(q => q.Main_Services).Include(q => q.Main_Services.Units).FirstOrDefault(q => q.Sub_Services_ID == id);
+			Sub_Services sub_Services = p.Sub_Services.Include(q => q.Required_Documents).Include(q => q.Main_Services).Include(q => q.Main_Services.Service_Type).FirstOrDefault(q => q.Sub_Services_ID == id);
 			if (sub_Services == null)
 				return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
 

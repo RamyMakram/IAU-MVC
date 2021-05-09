@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,7 +14,11 @@ namespace AdminPanel.Controllers
 	{
 		public ActionResult Home()
 		{
-			var Data = APIHandeling.getData("Sub_Services/GetSub_Services");
+			HttpResponseMessage Data = null;
+			if (Request.QueryString["MainService"] == null)
+				Data = APIHandeling.getData("Sub_Services/GetSub_Services");
+			else
+				Data = APIHandeling.getData("Sub_Services/GetSub_ServicesByMain?id=" + Request.QueryString["MainService"]);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
@@ -38,31 +43,34 @@ namespace AdminPanel.Controllers
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
 			{
-				LoadEditOrCreate();
+				LoadEditOrCreate('e');
 				var data = JsonConvert.DeserializeObject<SubServicesDTO>(res.result.ToString());
 				return View(data);
 			}
 			else
 				return RedirectToAction("NotFound", "Error");
 		}
-		public void LoadEditOrCreate()
+		public void LoadEditOrCreate(char c)
 		{
-			var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
-			var Data = APIHandeling.getData("Main_Services/GetActive");
-			var resJson = Data.Content.ReadAsStringAsync();
-			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-			if (res.success)
+			if (Request.QueryString["MainService"] == null || c == 'e')
 			{
-				var data = JsonConvert.DeserializeObject<ICollection<MainServiceDTO>>(res.result.ToString());
-				if (isar)
-					ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_AR");
-				else
-					ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_EN");
+				var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+				var Data = APIHandeling.getData("Main_Services/GetActive");
+				var resJson = Data.Content.ReadAsStringAsync();
+				var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+				if (res.success)
+				{
+					var data = JsonConvert.DeserializeObject<ICollection<MainServiceDTO>>(res.result.ToString());
+					if (isar)
+						ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_AR");
+					else
+						ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_EN");
+				}
 			}
 		}
 		public ActionResult Create()
 		{
-			LoadEditOrCreate();
+			LoadEditOrCreate('c');
 			return View();
 		}
 		public ActionResult Deactive(int id)
@@ -91,16 +99,18 @@ namespace AdminPanel.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Create(SubServicesDTO subServicesDTO)
+		public ActionResult Create(SubServicesDTO subServicesDTO, int? MainService)
 		{
 			var data = JsonConvert.DeserializeObject<ICollection<RequiredDocsDTO>>(subServicesDTO.Required);
 			subServicesDTO.Required_Documents = data;
+			if (MainService != null)
+				subServicesDTO.Main_Services_ID = MainService;
 			var Req = APIHandeling.Post("Sub_Services/Create", subServicesDTO);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
 			if (res.success)
-				return RedirectToAction("Home");
+				return MainService == null ? RedirectToAction("Home") : RedirectToAction("Home", new { MainService = MainService });
 			else
 				return RedirectToAction("NotFound", "Error");
 		}

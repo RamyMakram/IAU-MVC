@@ -18,7 +18,6 @@ namespace IAUBackEnd.Admin.Controllers
 	{
 		private MostafidDBEntities p = new MostafidDBEntities();
 
-		// GET: api/Units
 		public async Task<IHttpActionResult> GetUnits()
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units });
@@ -31,7 +30,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetUnits(int id)
 		{
-			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.ServiceType_ID, q.Ref_Number, q.Building_Number, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), q.Service_Type, Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }) }).FirstOrDefaultAsync();
+			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
 			if (units == null)
 				return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
 
@@ -44,22 +43,22 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		public async Task<IHttpActionResult> Update(Units units)
 		{
-			var data = p.Units.Include(q => q.Units_Request_Type).FirstOrDefault(q => q.Units_ID == units.Units_ID);
+			var data = p.Units.Include(q => q.Units_Request_Type).Include(q => q.UnitServiceTypes).FirstOrDefault(q => q.Units_ID == units.Units_ID);
 			if (!ModelState.IsValid || data == null)
 				return Ok(new ResponseClass() { success = false, result = ModelState });
 			try
 			{
 				data.Units_Name_AR = units.Units_Name_AR;
 				data.Units_Name_EN = units.Units_Name_EN;
-				data.ServiceType_ID = units.ServiceType_ID;
 				data.Units_Location_ID = units.Units_Location_ID;
 				data.Units_Type_ID = units.Units_Type_ID;
-				data.ServiceType_ID = units.ServiceType_ID;
 				data.Building_Number = units.Building_Number;
 				data.Ref_Number = units.Ref_Number;
 				data.IS_Mostafid = units.IS_Mostafid;
 				p.Units_Request_Type.RemoveRange(data.Units_Request_Type);
 				data.Units_Request_Type = units.Units_Request_Type;
+				p.UnitServiceTypes.RemoveRange(data.UnitServiceTypes);
+				data.UnitServiceTypes = units.UnitServiceTypes;
 				await p.SaveChangesAsync();
 				return Ok(new ResponseClass() { success = true });
 			}

@@ -27,7 +27,7 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		public async Task<IHttpActionResult> GetActive()
 		{
-			return Ok(new ResponseClass() { success = true, result = p.Service_Type.Where(q=>q.IS_Action.Value) });
+			return Ok(new ResponseClass() { success = true, result = p.Service_Type.Where(q => q.IS_Action.Value) });
 		}
 
 		public async Task<IHttpActionResult> GetService_Type(int id)
