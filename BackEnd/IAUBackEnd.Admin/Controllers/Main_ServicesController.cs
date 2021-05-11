@@ -20,7 +20,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetMain_Services()
 		{
-			return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q=>q.Service_Type) });
+			return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q => q.Service_Type) });
 		}
 		public async Task<IHttpActionResult> GetActive()
 		{
@@ -29,7 +29,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetMain_Services(int id)
 		{
-			var main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Service_Type).Where(q => q.Main_Services_ID == id).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, q.IS_Action, q.Service_Type, q.ValidTo, MainService_ApplicantType = q.ValidTo.Select(w => new { w.Applicant_Type.Applicant_Type_Name_AR, w.Applicant_Type.Applicant_Type_Name_EN }) }).FirstOrDefault();
+			var main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Service_Type).Where(q => q.Main_Services_ID == id).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, q.IS_Action, q.Service_Type, q.ServiceTypeID, q.ValidTo, MainService_ApplicantType = q.ValidTo.Select(w => new { w.Applicant_Type.Applicant_Type_Name_AR, w.Applicant_Type.Applicant_Type_Name_EN }) }).FirstOrDefault();
 			if (main_Services == null)
 				return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
 

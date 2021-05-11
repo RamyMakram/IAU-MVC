@@ -136,6 +136,7 @@
     <Compile Include="Controllers\EFormsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LevelsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
     <Compile Include="Controllers\ServicesBankController.cs" />
@@ -3048,6 +3049,9 @@
     <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
     <Content Include="Views\User\Active.cshtml" />
     <Content Include="Views\Email\PDF.cshtml" />
+    <Content Include="Views\Levels\Create.cshtml" />
+    <Content Include="Views\Levels\Edit.cshtml" />
+    <Content Include="Views\Levels\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

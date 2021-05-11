@@ -1,4 +1,4 @@
-{
+﻿{
 	"title": "IAU-BSC",
 	"t-menu": "Main",
 	"t-InBox": "Incoming Requests",
@@ -12,12 +12,13 @@
 	"t-control-panel": "Control Panel",
 	"t-SevicesBank": "Services Bank",
 	"t-hirerical": "Hirerical System",
-	"t-services-type": "Services Type",
+	"t-services-type": "Main Services Settings",
 	"t-uints-settings": "Administrative Categories",
-	"t-levels": "Levels Settings",
+	"t-levels": "Administrative Levels Settings",
 	"t-priviliges": "Jobs & Priviliges",
 	"t-users": "Users",
 	"t-rating": "Ratting And Tranning",
+	"t-Unit-LocationSide": "Site encoding settings",
 	"t-mainsettings": "General Settings",
 	"t-train": "Trainng Settings & Registeration",
 	"t-basicInfo": "Basic Information",
@@ -73,6 +74,7 @@
 	"t-path": "File",
 	"t-subservice": "Sub Service",
 	"t-deactive-eforms": "Do u want to deactive this EForm?",
-	"t-active-eforms": "Do u want to active this EForm?"
-
+	"t-active-eforms": "Do u want to active this EForm?",
+	"t-levels-title": "Levels",
+	"t-code": "Level Code"
 }

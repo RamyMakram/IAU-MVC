@@ -57,6 +57,7 @@
     <Compile Include="Entity\RequiredDocsDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
     <Compile Include="Entity\SubServicesDTO.cs" />
+    <Compile Include="Entity\UnitLevelDTO.cs" />
     <Compile Include="Entity\UnitMainServicesDTO.cs" />
     <Compile Include="Entity\UnitsDTO.cs" />
     <Compile Include="Entity\UnitServiceTypes.cs" />

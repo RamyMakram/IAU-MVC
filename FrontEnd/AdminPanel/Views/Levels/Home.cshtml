@@ -1,11 +1,11 @@
-﻿@model ICollection<IAUAdmin.DTO.Entity.LocationsDTO>
+﻿@model ICollection<IAUAdmin.DTO.Entity.UnitLevelDTO>
 @{
 	ViewBag.Title = "Home Page";
 	ViewBag.pageTitle = "Home Page";
-	ViewBag.pTitle = "Locations";
+	ViewBag.pTitle = "Levels";
 	ViewBag.arTitle     = "الرئيسية";
 	ViewBag.arpageTitle = "الرئيسية";
-	ViewBag.arpTitle = "المواقع";
+	ViewBag.arpTitle = "المستويات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,7 +21,7 @@
 			<div class="card-body">
 
 				<div class="HeaderOfPage">
-					<p class="card-title-desc" key="t-location">
+					<p class="card-title-desc" key="t-levels-title">
 						Manage Users
 					</p>
 
@@ -32,18 +32,16 @@
 						<tr>
 							<th key="t-name">Location Name</th>
 							<th key="t-enname">Location En Name</th>
-							<th key="t-status">Status</th>
 						</tr>
 					</thead>
 
 					<tbody>
 						@foreach (var i in Model)
 						{
-							<tr onclick="Go('@Url.Action("Detials", "Locations", new { Id = i.Location_ID })')">
-								<td>@i.Location_Name_AR</td>
-								<td>@i.Location_Name_EN</td>
-								<td>@i.IS_Action</td>
-								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Location_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
+							<tr>
+								<td>@i.Name_AR</td>
+								<td>@i.Name_EN</td>
+								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
 					</tbody>
@@ -53,11 +51,6 @@
 	</div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
-<script>
-	function Go(url) {
-		window.location.href = url
-	}
-</script>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>

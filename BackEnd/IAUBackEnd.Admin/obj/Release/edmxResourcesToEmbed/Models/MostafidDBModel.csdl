@@ -233,6 +233,7 @@
       <End Role="Units" EntitySet="Units" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="UnitLevel" EntityType="MostafidDBModel.UnitLevel" />
   </EntityContainer>
   <EntityType Name="Applicant_Type">
     <Key>
@@ -1364,4 +1365,13 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="UnitLevel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name_AR" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

@@ -395,6 +395,15 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Property Name="Type_Support_Project_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="Type_Support_Project_Name_EN" Type="nvarchar" MaxLength="250" />
   </EntityType>
+  <EntityType Name="UnitLevel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
   <EntityType Name="UnitMainServices">
     <Key>
       <PropertyRef Name="ID" />
@@ -1074,6 +1083,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Type_Support_Project" EntityType="Self.Type_Support_Project" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UnitLevel" EntityType="Self.UnitLevel" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UnitMainServices" EntityType="Self.UnitMainServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Units_Location" EntityType="Self.Units_Location" Schema="dbo" store:Type="Tables" />

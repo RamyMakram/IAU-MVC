@@ -400,6 +400,15 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Type_Support_Project_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="Type_Support_Project_Name_EN" Type="nvarchar" MaxLength="250" />
         </EntityType>
+        <EntityType Name="UnitLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="UnitMainServices">
           <Key>
             <PropertyRef Name="ID" />
@@ -1079,6 +1088,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Type_Support_Project" EntityType="Self.Type_Support_Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitLevel" EntityType="Self.UnitLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitMainServices" EntityType="Self.UnitMainServices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units_Location" EntityType="Self.Units_Location" Schema="dbo" store:Type="Tables" />
@@ -1520,6 +1530,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="UnitLevel" EntityType="MostafidDBModel.UnitLevel" />
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -2651,6 +2662,15 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UnitLevel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_AR" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3170,6 +3190,16 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitLevel">
+            <EntityTypeMapping TypeName="MostafidDBModel.UnitLevel">
+              <MappingFragment StoreEntitySet="UnitLevel">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="Name_AR" ColumnName="Name_AR" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

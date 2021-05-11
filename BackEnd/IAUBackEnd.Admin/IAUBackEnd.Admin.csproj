@@ -254,6 +254,7 @@
     <Compile Include="Controllers\Service_TypeController.cs" />
     <Compile Include="Controllers\SocketController.cs" />
     <Compile Include="Controllers\Sub_ServicesController.cs" />
+    <Compile Include="Controllers\UnitLevelsController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitsLocationController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
@@ -383,6 +384,9 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Type_Support_Project.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnitLevel.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UnitMainServices.cs">

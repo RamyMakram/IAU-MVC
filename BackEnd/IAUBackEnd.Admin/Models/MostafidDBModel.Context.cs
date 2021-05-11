@@ -70,5 +70,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<Statement_Department_File_Sent_Them> Statement_Department_File_Sent_Them { get; set; }
+        public virtual DbSet<UnitLevel> UnitLevel { get; set; }
     }
 }

@@ -43,7 +43,9 @@
 							<tr onclick="Go('@Url.Action("Detials", "UnitLocation", new { Id = i.Units_Location_ID })')">
 								<td>@i.Units_Location_Name_AR</td>
 								<td>@i.Units_Location_Name_EN</td>
-								<td>@i.IS_Action</td>
+								<td>
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Units_Location_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_Location_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}

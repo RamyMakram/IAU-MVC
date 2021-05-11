@@ -517,5 +517,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="UnitLevel">
+      <EntityTypeMapping TypeName="MostafidDBModel.UnitLevel">
+        <MappingFragment StoreEntitySet="UnitLevel">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+          <ScalarProperty Name="Name_AR" ColumnName="Name_AR" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

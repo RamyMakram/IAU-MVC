@@ -1,11 +1,11 @@
-﻿@model IAUAdmin.DTO.Entity.MainServiceDTO
+﻿@model IAUAdmin.DTO.Entity.UnitLevelDTO
 @{
-	ViewBag.Title = "Edit Service";
-	ViewBag.pTitle = "Edit Service";
-	ViewBag.pageTitle = "Main Service";
-	ViewBag.arTitle = "تعديل خدمة";
-	ViewBag.arpageTitle = "تعديل خدمة";
-	ViewBag.arpTitle = "الخدمات الرئيسية";
+	ViewBag.Title = "Edit Level";
+	ViewBag.pTitle = "Edit Level";
+	ViewBag.pageTitle = "Levels";
+	ViewBag.arTitle = "تعديل مستوي";
+	ViewBag.arpageTitle = "تعديل مستوي";
+	ViewBag.arpTitle = "المستويات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,30 +25,27 @@
 
 				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
 
-				@using (Html.BeginForm("Edit", "ServicesBank", FormMethod.Post, new { encType = "multipart/form-data" }))
+				@using (Html.BeginForm("Edit", "Levels"))
 				{
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Main_Services_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
-							</div>
-							<div class="form-group">
-								<label key="t-servicetype" class="control-label">units</label>
-								@Html.DropDownListFor(q => q.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "form-control select2" })
+								@Html.TextBoxFor(q => q.Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
 							</div>
 						</div>
 
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-enname" for="Ename">ENNAME</label>
-								@Html.TextBoxFor(q => q.Main_Services_Name_EN, new { @class = "form-control", @name = "Ename", @id = "Ename" })
+								<label key="t-enname" for="enname">Mobile</label>
+								@Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control", @name = "enname", @id = "enname" })
 							</div>
+						</div>
+
+						<div class="col-sm-6">
 							<div class="form-group">
-								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-Applicanttype" for="customCheck1">Applicanttype</label>
-									@Html.ListBoxFor(model => model.Applicant_Types, ViewBag.ApplicantType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
+								<label key="t-code" for="code">Mobile</label>
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "code", @id = "code" })
 							</div>
 						</div>
 					</div>
