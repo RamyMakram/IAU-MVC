@@ -33,7 +33,7 @@
 					<thead>
 						<tr>
 							<th key="t-name">Unit Name</th>
-							@*<th key="t-enname">Type En Name</th>*@
+							<th key="t-enname">Type En Name</th>
 							@*<th key="t-image">Image</th>*@
 							<th key="t-activeTitle">Status</th>
 							<th></th>
@@ -48,9 +48,10 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
-								<td>@(lang=="ar"? i.Units_Name_AR:i.Units_Name_EN)</td>
+								<td class="TH-ar">@(i.Units_Name_AR)</td>
+								<td class="TH-en">@(i.Units_Name_EN)</td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home"})
 								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>

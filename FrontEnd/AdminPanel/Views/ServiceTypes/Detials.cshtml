@@ -38,7 +38,7 @@
 <div class="mt-5">
 	@Html.ActionLink("Edit", "Edit", new { Id = Model.Service_Type_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "ServiceTypes", new { Id = Model.Service_Type_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "ServiceTypes", new { Id = Model.Service_Type_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
 
 </div>
 

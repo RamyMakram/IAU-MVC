@@ -44,11 +44,11 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", "EForms", new { Id = i.ID })')">
-								<td>@i.Name</td>
-								<td>@i.Name_EN</td>
+								<td class="TH-ar">@i.Name</td>
+								<td class="TH-en">@i.Name_EN</td>
 								<td><a href="@(url+"/"+i.Path)">@(url+"/"+i.Path) </a></td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action ? "Deactive" : "Active", "EForms", new { Id = i.ID, SubService = Request.QueryString["SubService"] }, new { @class = i.IS_Action ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+									@Html.ActionLink("Active", i.IS_Action ? "Deactive" : "Active", "EForms", new { Id = i.ID, SubService = Request.QueryString["SubService"] }, new { @class = i.IS_Action ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action ? "t-active-Home" : "t-deactive-Home" })
 								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.ID, SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>

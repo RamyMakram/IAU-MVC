@@ -8,3 +8,121 @@
 <link href="~/assets/css/app.min.css" id="app-style" rel="stylesheet" />
 <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css" />
 
+<style>
+	.btn.active {
+		background: #00504D !important;
+		border-radius: 25px;
+	}
+	.noraduis{
+		border-radius:5px !important;
+	}
+		.btn.active:focus {
+			-webkit-box-shadow: 0 0 0 0.15rem #00504d6e !important;
+			box-shadow: 0 0 0 0.15rem #00504d6e !important;
+		}
+
+
+	.btn.btn-primary {
+		background: #2F405E;
+		border-color: #2f405e6e;
+	}
+
+		.btn.btn-primary:focus {
+			-webkit-box-shadow: 0 0 0 0.15rem #2f405eba !important;
+			box-shadow: 0 0 0 0.15rem #2f405eba !important;
+		}
+
+	.btn-primary:not(:disabled):not(.disabled):active {
+		background: #2F405E;
+		border-color: #2f405e6e;
+	}
+
+	.TH-ar {
+		text-align: right !important;
+	}
+
+	.TH-en {
+		text-align: left !important;
+	}
+
+	.btn.deactive {
+		background: red !important;
+		border-radius: 25px;
+	}
+
+	.btn.deactive:focus {
+		-webkit-box-shadow: 0 0 0 0.15rem #ff000061 !important;
+		box-shadow: 0 0 0 0.15rem #ff000061 !important;
+	}
+	body[data-sidebar=dark].vertical-collpsed {
+		min-height: auto !important;
+	}
+
+	td {
+		vertical-align: baseline;
+	}
+
+	.page-content {
+		/*height: calc(100vh - 130px) !important;*/
+		margin-top: 0px !important;
+		overflow: hidden auto;
+		padding: calc(70px + 24px) calc(24px / 2) 60px calc(24px / 2)
+	}
+
+	td, th {
+		text-align: center
+	}
+
+	tr {
+		cursor: pointer
+	}
+
+	.loadinger {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		background: white;
+		z-index: 999999;
+	}
+
+		.loadinger img {
+			width: 31%;
+		}
+
+		.loadinger .col-12 {
+			text-align: center;
+		}
+
+			.loadinger .col-12 p {
+				color: #00ad5f;
+				font-weight: bolder;
+				font-size: 28px;
+			}
+
+	.HeaderOfPage {
+		display: inline-flex;
+		justify-content: space-between;
+		height: fit-content;
+		width: 100%;
+		align-items: center;
+		margin-bottom: 30px;
+	}
+
+		.HeaderOfPage p {
+			height: 100%;
+			margin: 0;
+		}
+
+		.HeaderOfPage a {
+			border-radius: 70px
+		}
+
+			.HeaderOfPage a i {
+				color: green;
+				font-size: 25px;
+			}
+</style>

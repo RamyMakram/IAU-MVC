@@ -48,8 +48,8 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action(actionName:"Detials",routeValues: new { Id = i.Sub_Services_ID })')">
-								<td>@i.Sub_Services_Name_AR</td>
-								<td>@i.Sub_Services_Name_EN</td>
+								<td class="TH-ar">@i.Sub_Services_Name_AR</td>
+								<td class="TH-en">@i.Sub_Services_Name_EN</td>
 								<td>
 									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Sub_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
 								</td>

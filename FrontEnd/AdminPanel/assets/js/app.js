@@ -80,15 +80,21 @@ function initActiveMenu() {
 			//console.log(window.location.href.split(/[?#]/)[0])
 			var pageUrl = window.location.pathname.split('/')[1];
 			//console.log(this.id, pageUrl)
-			if (this.id == pageUrl) {
-				$(this).addClass("active");
-				$(this).parent().addClass("mm-active"); // add active to li of the current link
-				$(this).parent().parent().addClass("mm-show");
-				$(this).parent().parent().prev().addClass("mm-active"); // add active class to an anchor
-				$(this).parent().parent().parent().addClass("mm-active");
-				$(this).parent().parent().parent().parent().addClass("mm-show"); // add active to li of the current link
-				$(this).parent().parent().parent().parent().parent().addClass("mm-active");
-			}
+			var ElementRefs = this.id.split(',');
+			if (ElementRefs.length > 0)
+				(ElementRefs).forEach(i => {
+					console.log(i)
+					if (i == pageUrl) {
+						$(this).addClass("active");
+						$(this).parent().addClass("mm-active"); // add active to li of the current link
+						$(this).parent().parent().addClass("mm-show");
+						$(this).parent().parent().prev().addClass("mm-active"); // add active class to an anchor
+						$(this).parent().parent().parent().addClass("mm-active");
+						$(this).parent().parent().parent().parent().addClass("mm-show"); // add active to li of the current link
+						$(this).parent().parent().parent().parent().parent().addClass("mm-active");
+					}
+				})
+
 		});
 	} catch (e) {
 		console.log(e)
@@ -345,7 +351,7 @@ function initLanguage() {
 					if (window.location.pathname.split('/')[1] == "Email") {
 						var mailList = document.getElementById('MailList')
 						var html = mailList.innerHTML;
-						var dateOptions = { month: '2-digit', day: '2-digit'};
+						var dateOptions = { month: '2-digit', day: '2-digit' };
 						var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
 						mailList.innerHTML = `
 						<li onclick="Preview('Email/Preview/${received_msg["Request_Data_ID"]}')">
