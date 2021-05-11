@@ -97,6 +97,8 @@
         <AssociationConnector Association="MostafidDBModel.FK_UnitServiceTypes_Units" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_Units" />
         <EntityTypeShape EntityType="MostafidDBModel.UnitLevel" Width="1.5" PointX="8.375" PointY="3.75" />
+        <AssociationConnector Association="MostafidDBModel.FK_Units_UnitLevel" />
+        <AssociationConnector Association="MostafidDBModel.FK_Units_Units" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

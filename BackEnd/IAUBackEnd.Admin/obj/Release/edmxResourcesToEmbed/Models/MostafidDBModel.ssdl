@@ -423,6 +423,8 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Property Name="Units_Type_ID" Type="int" />
     <Property Name="Ref_Number" Type="nvarchar" MaxLength="100" />
     <Property Name="Building_Number" Type="nvarchar" MaxLength="3" />
+    <Property Name="LevelID" Type="int" />
+    <Property Name="SubID" Type="int" />
     <Property Name="IS_Action" Type="bit" />
     <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
   </EntityType>
@@ -927,6 +929,30 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Units_UnitLevel">
+    <End Role="UnitLevel" Type="Self.UnitLevel" Multiplicity="0..1" />
+    <End Role="Units" Type="Self.Units" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UnitLevel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Units">
+        <PropertyRef Name="LevelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Units_Units">
+    <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+    <End Role="Units1" Type="Self.Units" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
+      </Principal>
+      <Dependent Role="Units1">
+        <PropertyRef Name="SubID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Units_Units_Location">
     <End Role="Units_Location" Type="Self.Units_Location" Multiplicity="0..1" />
     <End Role="Units" Type="Self.Units" Multiplicity="*" />
@@ -1246,6 +1272,14 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <AssociationSet Name="FK_Units_Request_Type_Units" Association="Self.FK_Units_Request_Type_Units">
       <End Role="Units" EntitySet="Units" />
       <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Units_UnitLevel" Association="Self.FK_Units_UnitLevel">
+      <End Role="UnitLevel" EntitySet="UnitLevel" />
+      <End Role="Units" EntitySet="Units" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Units_Units" Association="Self.FK_Units_Units">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="Units1" EntitySet="Units" />
     </AssociationSet>
     <AssociationSet Name="FK_Units_Units_Location" Association="Self.FK_Units_Units_Location">
       <End Role="Units_Location" EntitySet="Units_Location" />

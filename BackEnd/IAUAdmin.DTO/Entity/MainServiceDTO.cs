@@ -15,6 +15,7 @@ namespace IAUAdmin.DTO.Entity
 		public Nullable<int> ServiceTypeID { get; set; }
 		public int[] Applicant_Types { get; set; }
 		public ICollection<ApplicantTypeDTO> MainService_ApplicantType { get; set; }
+		public bool Active { get; set; }
 
 		public virtual ServiceTypeDTO Service_Type { get; set; }
 		public virtual ICollection<SubServicesDTO> Sub_Services { get; set; }

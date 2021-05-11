@@ -428,6 +428,8 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Units_Type_ID" Type="int" />
           <Property Name="Ref_Number" Type="nvarchar" MaxLength="100" />
           <Property Name="Building_Number" Type="nvarchar" MaxLength="3" />
+          <Property Name="LevelID" Type="int" />
+          <Property Name="SubID" Type="int" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
         </EntityType>
@@ -932,6 +934,30 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Units_UnitLevel">
+          <End Role="UnitLevel" Type="Self.UnitLevel" Multiplicity="0..1" />
+          <End Role="Units" Type="Self.Units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitLevel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Units">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="Units1" Type="Self.Units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Units1">
+              <PropertyRef Name="SubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Units_Units_Location">
           <End Role="Units_Location" Type="Self.Units_Location" Multiplicity="0..1" />
           <End Role="Units" Type="Self.Units" Multiplicity="*" />
@@ -1252,6 +1278,14 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             <End Role="Units" EntitySet="Units" />
             <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
           </AssociationSet>
+          <AssociationSet Name="FK_Units_UnitLevel" Association="Self.FK_Units_UnitLevel">
+            <End Role="UnitLevel" EntitySet="UnitLevel" />
+            <End Role="Units" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Units" Association="Self.FK_Units_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Units1" EntitySet="Units" />
+          </AssociationSet>
           <AssociationSet Name="FK_Units_Units_Location" Association="Self.FK_Units_Units_Location">
             <End Role="Units_Location" EntitySet="Units_Location" />
             <End Role="Units" EntitySet="Units" />
@@ -1531,6 +1565,14 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <EntitySet Name="UnitLevel" EntityType="MostafidDBModel.UnitLevel" />
+          <AssociationSet Name="FK_Units_UnitLevel" Association="MostafidDBModel.FK_Units_UnitLevel">
+            <End Role="UnitLevel" EntitySet="UnitLevel" />
+            <End Role="Units" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Units" Association="MostafidDBModel.FK_Units_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Units1" EntitySet="Units" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -2021,6 +2063,11 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <NavigationProperty Name="Units_Type" Relationship="MostafidDBModel.FK_Units_Units_Type" FromRole="Units" ToRole="Units_Type" />
           <NavigationProperty Name="UnitServiceTypes" Relationship="MostafidDBModel.FK_UnitServiceTypes_Units" FromRole="Units" ToRole="UnitServiceTypes" />
           <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Units" ToRole="Users" />
+          <Property Name="LevelID" Type="Int32" />
+          <Property Name="SubID" Type="Int32" />
+          <NavigationProperty Name="UnitLevel" Relationship="MostafidDBModel.FK_Units_UnitLevel" FromRole="Units" ToRole="UnitLevel" />
+          <NavigationProperty Name="Units1" Relationship="MostafidDBModel.FK_Units_Units" FromRole="Units" ToRole="Units1" />
+          <NavigationProperty Name="Units2" Relationship="MostafidDBModel.FK_Units_Units" FromRole="Units1" ToRole="Units" />
         </EntityType>
         <EntityType Name="Units_Location">
           <Key>
@@ -2670,7 +2717,32 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="Name_AR" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Units_UnitLevel" FromRole="UnitLevel" ToRole="Units" />
         </EntityType>
+        <Association Name="FK_Units_UnitLevel">
+          <End Type="MostafidDBModel.UnitLevel" Role="UnitLevel" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitLevel">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Units">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Units" Role="Units1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Units1">
+              <PropertyRef Name="SubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3109,6 +3181,8 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <EntitySetMapping Name="Units">
             <EntityTypeMapping TypeName="MostafidDBModel.Units">
               <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="SubID" ColumnName="SubID" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
                 <ScalarProperty Name="IS_Mostafid" ColumnName="IS_Mostafid" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Building_Number" ColumnName="Building_Number" />

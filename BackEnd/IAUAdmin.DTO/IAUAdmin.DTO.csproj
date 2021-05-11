@@ -64,6 +64,7 @@
     <Compile Include="Entity\UnitsLocDTO.cs" />
     <Compile Include="Entity\Units_Request_TypeDTO.cs" />
     <Compile Include="Entity\UnitTypeDTO.cs" />
+    <Compile Include="Entity\Unit_MainServiceEditDTO.cs" />
     <Compile Include="Entity\UserDTO.cs" />
     <Compile Include="Entity\ValidToDTO.cs" />
     <Compile Include="Enums\GlobalEnum.cs" />

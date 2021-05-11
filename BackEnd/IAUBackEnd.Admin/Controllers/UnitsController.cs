@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
 
@@ -27,10 +28,14 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true) });
 		}
+		public async Task<IHttpActionResult> GetActiveUnits_byLevel(int id)
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.LevelID < id).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID }) });
+		}
 
 		public async Task<IHttpActionResult> GetUnits(int id)
 		{
-			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
+			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
 			if (units == null)
 				return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
 
@@ -54,11 +59,32 @@ namespace IAUBackEnd.Admin.Controllers
 				data.Units_Type_ID = units.Units_Type_ID;
 				data.Building_Number = units.Building_Number;
 				data.Ref_Number = units.Ref_Number;
+				data.LevelID = units.LevelID;
+				data.SubID = units.SubID;
 				data.IS_Mostafid = units.IS_Mostafid;
 				p.Units_Request_Type.RemoveRange(data.Units_Request_Type);
 				data.Units_Request_Type = units.Units_Request_Type;
 				p.UnitServiceTypes.RemoveRange(data.UnitServiceTypes);
 				data.UnitServiceTypes = units.UnitServiceTypes;
+				await p.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass() { success = false });
+			}
+		}
+		public async Task<IHttpActionResult> UpdateMainService(int id, [FromBody] Unit_MainServiceEditDTO main)
+		{
+			try
+			{
+				var data = p.Units.Include(q => q.UnitMainServices).FirstOrDefault(q => q.Units_ID == id);
+				if (data == null)
+					return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
+				foreach (var i in main.Added)
+					data.UnitMainServices.Add(new UnitMainServices() { MainServiceID = i.MainServiceID });
+				foreach (var i in main.Deleted)
+					data.UnitMainServices.Remove(data.UnitMainServices.First(q => q.MainServiceID == i.MainServiceID));
 				await p.SaveChangesAsync();
 				return Ok(new ResponseClass() { success = true });
 			}

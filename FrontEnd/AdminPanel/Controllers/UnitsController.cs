@@ -41,10 +41,21 @@ namespace AdminPanel.Controllers
 			if (res.success)
 			{
 				var data = JsonConvert.DeserializeObject<UnitsDTO>(res.result.ToString());
-				int length = data.Units_Request_Type.Count;
-				data.Units_ReqType = new int[length];
-				for (int i = 0; i < length; i++)
-					data.Units_ReqType[i] = data.Units_Request_Type.ElementAt(i).Request_Type_ID.Value;
+				int length = 0;
+				if (data.Units_Request_Type != null)
+				{
+					length = data.Units_Request_Type.Count;
+					data.Units_ReqType = new int[length];
+					for (int i = 0; i < length; i++)
+						data.Units_ReqType[i] = data.Units_Request_Type.ElementAt(i).Request_Type_ID.Value;
+				}
+				if (data.ServiceTypes != null)
+				{
+					length = data.ServiceTypes.Count;
+					data.Units_ServiceType = new int[length];
+					for (int i = 0; i < length; i++)
+						data.Units_ServiceType[i] = data.ServiceTypes.ElementAt(i).Service_Type_ID;
+				}
 				return View(data);
 			}
 			else
@@ -71,9 +82,9 @@ namespace AdminPanel.Controllers
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
 			if (isar)
-				ViewBag.Services = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_AR");
+				ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_AR");
 			else
-				ViewBag.Services = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_EN");
+				ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_EN");
 			Data = APIHandeling.getData("UnitTypes/GetActive");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -90,7 +101,14 @@ namespace AdminPanel.Controllers
 				ViewBag.ReqTypes = new SelectList(ReqTypes, "Request_Type_ID", "Request_Type_Name_AR");
 			else
 				ViewBag.ReqTypes = new SelectList(ReqTypes, "Request_Type_ID", "Request_Type_Name_EN");
-
+			Data = APIHandeling.getData("UnitLevels/GetUnitLevel");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Levels = JsonConvert.DeserializeObject<ICollection<UnitLevelDTO>>(res.result.ToString());
+			if (isar)
+				ViewBag.Levels = new SelectList(Levels, "ID", "Name_AR");
+			else
+				ViewBag.Levels = new SelectList(Levels, "ID", "Name_EN");
 			Data = APIHandeling.getData("Units/ThereIsNoMostafid");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -111,6 +129,10 @@ namespace AdminPanel.Controllers
 			unitsDTO.Units_Request_Type = new List<Units_Request_TypeDTO>();
 			for (int i = 0; i < length; i++)
 				unitsDTO.Units_Request_Type.Add(new Units_Request_TypeDTO() { Request_Type_ID = unitsDTO.Units_ReqType[i] });
+			length = unitsDTO.Units_ServiceType.Length;
+			unitsDTO.UnitServiceTypes = new List<UnitServiceTypesDTO>();
+			for (int i = 0; i < length; i++)
+				unitsDTO.UnitServiceTypes.Add(new UnitServiceTypesDTO() { ServiceTypeID = unitsDTO.Units_ServiceType[i] });
 
 			var Req = APIHandeling.Post("Units/Create", unitsDTO);
 			var resJson = Req.Content.ReadAsStringAsync();
@@ -126,10 +148,21 @@ namespace AdminPanel.Controllers
 		{
 			var data = unitsDTO.Units_ReqType;
 			unitsDTO.Units_ID = Id;
-			int length = unitsDTO.Units_ReqType.Length;
-			unitsDTO.Units_Request_Type = new List<Units_Request_TypeDTO>();
-			for (int i = 0; i < length; i++)
-				unitsDTO.Units_Request_Type.Add(new Units_Request_TypeDTO() { Request_Type_ID = unitsDTO.Units_ReqType[i] });
+			int length = 0;
+			if (unitsDTO.Units_ReqType != null)
+			{
+				length = unitsDTO.Units_ReqType.Length;
+				unitsDTO.Units_Request_Type = new List<Units_Request_TypeDTO>();
+				for (int i = 0; i < length; i++)
+					unitsDTO.Units_Request_Type.Add(new Units_Request_TypeDTO() { Request_Type_ID = unitsDTO.Units_ReqType[i] });
+			}
+			if (unitsDTO.Units_ServiceType != null)
+			{
+				length = unitsDTO.Units_ServiceType.Length;
+				unitsDTO.UnitServiceTypes = new List<UnitServiceTypesDTO>();
+				for (int i = 0; i < length; i++)
+					unitsDTO.UnitServiceTypes.Add(new UnitServiceTypesDTO() { ServiceTypeID = unitsDTO.Units_ServiceType[i] });
+			}
 			var Req = APIHandeling.Post("Units/Update", unitsDTO);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -164,6 +197,17 @@ namespace AdminPanel.Controllers
 				return RedirectToAction("Home");
 			else
 				return RedirectToAction("NotFound", "Error");
+		}
+		[HttpGet]
+		public JsonResult getUnits(int id)
+		{
+			var Data = APIHandeling.getData("Units/GetActiveUnits_byLevel?id=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString()),JsonRequestBehavior.AllowGet);
+			else
+				return Json(new List<Object>(),JsonRequestBehavior.AllowGet);
 		}
 	}
 }

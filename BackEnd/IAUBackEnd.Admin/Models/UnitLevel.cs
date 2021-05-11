@@ -14,9 +14,18 @@ namespace IAUBackEnd.Admin.Models
     
     public partial class UnitLevel
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UnitLevel()
+        {
+            this.Units = new HashSet<Units>();
+        }
+    
         public int ID { get; set; }
         public string Name_AR { get; set; }
         public string Name_EN { get; set; }
         public string Code { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Units> Units { get; set; }
     }
 }

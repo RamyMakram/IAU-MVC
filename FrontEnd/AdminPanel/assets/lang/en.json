@@ -76,5 +76,8 @@
 	"t-deactive-eforms": "Do u want to deactive this EForm?",
 	"t-active-eforms": "Do u want to active this EForm?",
 	"t-levels-title": "Levels",
-	"t-code": "Level Code"
+	"t-code": "Level Code",
+	"t-level": "Level",
+	"t-subunits": "Parent Unit"
+
 }

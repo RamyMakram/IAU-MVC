@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
+using LinqKit;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -25,6 +26,15 @@ namespace IAUBackEnd.Admin.Controllers
 		public async Task<IHttpActionResult> GetActive()
 		{
 			return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.IS_Action.Value) });
+		}
+		[HttpPost]
+		public async Task<IHttpActionResult> GetActiveWithServiceTypeAndUnit(int id, [FromBody] List<int> mainService)
+		{
+			var pred = PredicateBuilder.New<Main_Services>();
+			foreach (var i in mainService)
+				pred.Or(q => q.Main_Services_ID == i);
+			var data = db.Main_Services.Where(q => q.IS_Action.Value).Where(pred).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, Active = q.UnitMainServices.Count(w => w.UnitID == id) > 0 });
+			return Ok(new ResponseClass() { success = true, result = data });
 		}
 
 		public async Task<IHttpActionResult> GetMain_Services(int id)

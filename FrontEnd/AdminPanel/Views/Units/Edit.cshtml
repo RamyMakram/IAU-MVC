@@ -22,7 +22,10 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-
+				@{
+					var lang = Request.Cookies["lang"].Value;
+					@Html.Hidden("ss", lang, new { @id = "lang" })
+				}
 				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
 
 				@using (Html.BeginForm("Edit", "Units", new { Id = Model.Units_ID }, FormMethod.Post))
@@ -40,9 +43,17 @@
 							</div>
 
 							<div class="form-group">
-								<label key="t-servicetype" class="control-label">Services</label>
-								@Html.DropDownListFor(q => q.ServiceType_ID, ViewBag.Services as SelectList, new { @class = "form-control select2" })
+								<div class="custom-control custom-checkbox mb-3 p-0">
+									<label class="control-label" key="t-servicetype" for="servicetype">servicetype</label>
+									@Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
 							</div>
+							<div class="form-group">
+								<label key="t-level" class="control-label">Types</label>
+								@Html.DropDownListFor(q => q.LevelID, ViewBag.Levels as SelectList, new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEL" })
+							</div>
+							@Html.HiddenFor(q => q.SubID, new { @id = "SubID" })
+
 							@if (Model.IS_Mostafid || (bool)ViewBag.ViewMostafid)
 							{
 								<div class="form-group">
@@ -61,14 +72,20 @@
 							</div>
 
 							<div class="form-group">
+								<label key="t-unittypes" class="control-label">Types</label>
+								@Html.DropDownListFor(q => q.Units_Type_ID, ViewBag.Types as SelectList, new { @class = "form-control select2", })
+							</div>
+
+							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
 									<label class="control-label" key="t-requesttype" for="customCheck1">ReqTypes</label>
 									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
 							<div class="form-group">
-								<label key="t-unittypes" class="control-label">Types</label>
-								@Html.DropDownListFor(q => q.Units_Type_ID, ViewBag.Types as SelectList, new { @class = "form-control select2", })
+								<label key="t-subunits" class="control-label">Types</label>
+								<select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
+								</select>
 							</div>
 						</div>
 					</div>
@@ -79,10 +96,42 @@
 		</div>
 	</div>
 </div>
-<!-- end row -->
-<!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script>
+	$(document).ready(function () {
+		LevelChange(document.getElementById('LEVEL').value)
+	})
+	function LevelChange(eve) {
+		//console.log(eve.target.value)
+		$.ajax({
+			url: "/Units/getUnits?id=" + eve, success: function (e) {
+				var select = document.getElementById('SubUnits');
+				select.innerHTML = ``;
+				if (e.length == 0)
+					$('#SubID').val(null)
+				else {
+					var lang = document.getElementById("lang").value
+					e.forEach(d => {
+						select.innerHTML += `<option value="${d["Units_ID"]}">${lang == "ar" ? d["Units_Name_AR"] : d["Units_Name_EN"]}</option>`
+					})
+					if ($('#SubID').val() == "")
+						$('#SubID').val(e[0]["Units_ID"]);
+					else
+						select.value = $('#SubID').val();
+				}
+			}, error: function (ee) {
+				console.log("error", ee)
+			}
+		})
+	}
+	function SubUnitChange(val) {
+		$('#SubID').val(val);
+	}
+</script>
+<!-- end row -->
+<!-- JAVASCRIPT -->
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
 <script src="~/assets/libs/node-waves/waves.min.js"></script>

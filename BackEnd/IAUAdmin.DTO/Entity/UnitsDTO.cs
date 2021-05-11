@@ -17,7 +17,10 @@ namespace IAUAdmin.DTO.Entity
 		public string Building_Number { get; set; }
 		public Nullable<bool> IS_Action { get; set; }
 		public bool IS_Mostafid { get; set; }
+		public Nullable<int> LevelID { get; set; }
+		public Nullable<int> SubID { get; set; }
 		public int[] Units_ReqType { get; set; }
+		public int[] Units_ServiceType { get; set; }
 
 		public virtual ICollection<UnitServiceTypesDTO> UnitServiceTypes { get; set; }
 		public virtual ICollection<UnitMainServicesDTO> UnitMainServices { get; set; }
@@ -27,7 +30,9 @@ namespace IAUAdmin.DTO.Entity
 		public virtual UnitsLocDTO Units_Location { get; set; }
 		public virtual UnitTypeDTO Units_Type { get; set; }
 		public virtual ServiceTypeDTO Service_Type { get; set; }
-
+		public virtual UnitLevelDTO UnitLevel { get; set; }
+		public virtual ICollection<UnitsDTO> Units1 { get; set; }
+		public virtual UnitsDTO Units2 { get; set; }
 
 		public virtual ICollection<ServiceTypeDTO> ServiceTypes { get; set; }
 		public virtual ICollection<MainServiceDTO> MainServices { get; set; }
