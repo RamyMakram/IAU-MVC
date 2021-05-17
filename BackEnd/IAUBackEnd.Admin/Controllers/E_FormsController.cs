@@ -28,7 +28,15 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetE_Forms(int id)
 		{
-			var e_Forms = p.E_Forms.Include(q=>q.Sub_Services).FirstOrDefault(q => q.ID == id);
+			var e_Forms = p.E_Forms.Include(q => q.Sub_Services).FirstOrDefault(q => q.ID == id);
+			if (e_Forms == null)
+				return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+
+			return Ok(new ResponseClass() { success = true, result = e_Forms });
+		}
+		public async Task<IHttpActionResult> GetE_FormsWithSubService(int id)
+		{
+			var e_Forms = p.E_Forms.Where(q => q.SubServiceID == id);
 			if (e_Forms == null)
 				return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
 

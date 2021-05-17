@@ -198,6 +198,30 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("NotFound", "Error");
 		}
+
+		[HttpPost]
+		public JsonResult GetMainServices(int id, string MainService)
+		{
+			var Main = JsonConvert.DeserializeObject<List<int>>(MainService);
+			var Data = APIHandeling.Post("Main_Services/GetActiveWithServiceTypeAndUnit?id=" + id, Main);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(JsonConvert.DeserializeObject<ICollection<MainServiceDTO>>(res.result.ToString()), JsonRequestBehavior.AllowGet);
+			else
+				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpPost]
+		public JsonResult AddMainService(int id, string mainServicesDTO)
+		{
+			var Main = JsonConvert.DeserializeObject<Unit_MainServiceEditDTO>(mainServicesDTO);
+			var Data = APIHandeling.Post("Units/UpdateMainService?id=" + id, Main);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(res, JsonRequestBehavior.AllowGet);
+		}
+
 		[HttpGet]
 		public JsonResult getUnits(int id)
 		{
@@ -205,9 +229,31 @@ namespace AdminPanel.Controllers
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
-				return Json(JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString()),JsonRequestBehavior.AllowGet);
+				return Json(JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString()), JsonRequestBehavior.AllowGet);
 			else
-				return Json(new List<Object>(),JsonRequestBehavior.AllowGet);
+				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
+		}
+		[HttpGet]
+		public JsonResult getEforms(int id)
+		{
+			var Data = APIHandeling.getData("E_Forms/GetE_FormsWithSubService?id=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(JsonConvert.DeserializeObject<ICollection<E_FormsDTO>>(res.result.ToString()), JsonRequestBehavior.AllowGet);
+			else
+				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
+		}
+		[HttpGet]
+		public JsonResult getSub(int id)
+		{
+			var Data = APIHandeling.getData("Sub_Services/GetSub_ServicesByMain?id=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(JsonConvert.DeserializeObject<ICollection<SubServicesDTO>>(res.result.ToString()), JsonRequestBehavior.AllowGet);
+			else
+				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
 		}
 	}
 }

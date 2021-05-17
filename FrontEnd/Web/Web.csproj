@@ -258,6 +258,7 @@
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\Site.css" />
     <Content Include="Design\CSS\all.min.css" />
+    <Content Include="Design\CSS\arStyle.css" />
     <Content Include="Design\CSS\bootstrap.min.css" />
     <Content Include="Design\CSS\style.css" />
     <Content Include="Design\img\ArRequestType.PNG" />
@@ -272,9 +273,6 @@
     <Content Include="Design\img\follow\PRequest.png" />
     <Content Include="Design\img\HELP ICON.png" />
     <Content Include="Design\img\IAULOGO.png" />
-    <Content Include="Design\img\imageText.jpeg" />
-    <Content Include="Design\img\imageText.PNG" />
-    <Content Include="Design\img\imageText2.jpeg" />
     <Content Include="Design\img\MousLogo.png" />
     <Content Include="Design\img\MousLogo2.png" />
     <Content Include="Design\img\newrequest.png" />
@@ -346,6 +344,10 @@
     <None Include="bin\Web.dll.config" />
     <Content Include="Design\webfonts\FrutigerLTArabic-65Bold.ttf" />
     <Content Include="Design\webfonts\Droid-Arabic-Kufi.ttf" />
+    <Content Include="Design\webfonts\FrutigerLTArabic45Light.woff" />
+    <Content Include="Design\webfonts\FrutigerLTArabic55Roman.woff" />
+    <Content Include="Design\webfonts\FrutigerLTArabic65Bold.woff" />
+    <Content Include="Design\webfonts\frutigerltarabic75black.woff" />
     <None Include="packages.config" />
     <Content Include="Views\Coordinator\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />

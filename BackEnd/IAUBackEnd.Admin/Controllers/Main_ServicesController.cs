@@ -27,13 +27,14 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.IS_Action.Value) });
 		}
+
 		[HttpPost]
-		public async Task<IHttpActionResult> GetActiveWithServiceTypeAndUnit(int id, [FromBody] List<int> mainService)
+		public async Task<IHttpActionResult> GetActiveWithServiceTypeAndUnit(int id, [FromBody] List<int> servicetype)
 		{
 			var pred = PredicateBuilder.New<Main_Services>();
-			foreach (var i in mainService)
-				pred.Or(q => q.Main_Services_ID == i);
-			var data = db.Main_Services.Where(q => q.IS_Action.Value).Where(pred).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, Active = q.UnitMainServices.Count(w => w.UnitID == id) > 0 });
+			foreach (var i in servicetype)
+				pred.Or(q => q.ServiceTypeID == i);
+			var data = db.Main_Services.Where(q => q.IS_Action.Value).Where(pred).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR,q.ServiceTypeID, q.Main_Services_Name_EN, Active = q.UnitMainServices.Count(w => w.UnitID == id) > 0 });
 			return Ok(new ResponseClass() { success = true, result = data });
 		}
 

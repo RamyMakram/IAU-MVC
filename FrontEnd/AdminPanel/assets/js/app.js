@@ -83,7 +83,7 @@ function initActiveMenu() {
 			var ElementRefs = this.id.split(',');
 			if (ElementRefs.length > 0)
 				(ElementRefs).forEach(i => {
-					console.log(i)
+					//console.log(i)
 					if (i == pageUrl) {
 						$(this).addClass("active");
 						$(this).parent().addClass("mm-active"); // add active to li of the current link
