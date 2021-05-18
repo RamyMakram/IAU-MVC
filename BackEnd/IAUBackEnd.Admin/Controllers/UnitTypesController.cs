@@ -22,12 +22,23 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units_Type });
 		}
+		public async Task<IHttpActionResult> GetUnits_TypeOFLevel(int id)
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Units_Type.Where(q => q.LevelID == id) });
+		}
 
 		public async Task<IHttpActionResult> GetActive()
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units_Type.Where(q => q.IS_Action.Value) });
 		}
+		public async Task<IHttpActionResult> GetUnits_TypeOFUnit(int id)
+		{
+			var units_Type = await p.Units.Include(q => q.Units_Type).FirstOrDefaultAsync(q => q.Units_ID == id);
+			if (units_Type.Units_Type == null)
+				return Ok(new ResponseClass() { success = false, result = "Type Is NULL" });
 
+			return Ok(new ResponseClass() { success = true, result = units_Type.Units_Type });
+		}
 		public async Task<IHttpActionResult> GetUnits_Type(int id)
 		{
 			Units_Type units_Type = await p.Units_Type.FindAsync(id);

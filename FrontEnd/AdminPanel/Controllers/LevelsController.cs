@@ -40,6 +40,7 @@ namespace AdminPanel.Controllers
 		public ActionResult Edit(int Id, UnitLevelDTO loc)
 		{
 			loc.ID = Id;
+			loc.Units_Type = JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(loc.Units_Type_STR);
 			var Req = APIHandeling.Post("UnitLevels/Update", loc);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -53,6 +54,8 @@ namespace AdminPanel.Controllers
 		[HttpPost]
 		public ActionResult Create(UnitLevelDTO user)
 		{
+			user.Units_Type = JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(user.Units_Type_STR);
+
 			var Req = APIHandeling.Post("UnitLevels/Create", user);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);

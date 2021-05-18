@@ -35,6 +35,7 @@ namespace IAUBackEnd.Admin.Models
         public bool IS_Mostafid { get; set; }
         public Nullable<int> LevelID { get; set; }
         public Nullable<int> SubID { get; set; }
+        public Nullable<int> ServiceTypeID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UnitMainServices> UnitMainServices { get; set; }
@@ -50,5 +51,6 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Units> Units1 { get; set; }
         public virtual Units Units2 { get; set; }
+        public virtual Service_Type Service_Type { get; set; }
     }
 }

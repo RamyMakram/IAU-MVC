@@ -425,6 +425,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Property Name="Building_Number" Type="nvarchar" MaxLength="3" />
     <Property Name="LevelID" Type="int" />
     <Property Name="SubID" Type="int" />
+    <Property Name="ServiceTypeID" Type="int" />
     <Property Name="IS_Action" Type="bit" />
     <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
   </EntityType>
@@ -454,6 +455,8 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Property Name="Units_Type_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="Units_Type_Name_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
+    <Property Name="LevelID" Type="int" />
+    <Property Name="Code" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="UnitServiceTypes">
     <Key>
@@ -929,6 +932,30 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Units_Service_Type">
+    <End Role="Service_Type" Type="Self.Service_Type" Multiplicity="0..1" />
+    <End Role="Units" Type="Self.Units" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Service_Type">
+        <PropertyRef Name="Service_Type_ID" />
+      </Principal>
+      <Dependent Role="Units">
+        <PropertyRef Name="ServiceTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Units_Type_UnitLevel">
+    <End Role="UnitLevel" Type="Self.UnitLevel" Multiplicity="0..1" />
+    <End Role="Units_Type" Type="Self.Units_Type" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UnitLevel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Units_Type">
+        <PropertyRef Name="LevelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Units_UnitLevel">
     <End Role="UnitLevel" Type="Self.UnitLevel" Multiplicity="0..1" />
     <End Role="Units" Type="Self.Units" Multiplicity="*" />
@@ -1272,6 +1299,14 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <AssociationSet Name="FK_Units_Request_Type_Units" Association="Self.FK_Units_Request_Type_Units">
       <End Role="Units" EntitySet="Units" />
       <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Units_Service_Type" Association="Self.FK_Units_Service_Type">
+      <End Role="Service_Type" EntitySet="Service_Type" />
+      <End Role="Units" EntitySet="Units" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Units_Type_UnitLevel" Association="Self.FK_Units_Type_UnitLevel">
+      <End Role="UnitLevel" EntitySet="UnitLevel" />
+      <End Role="Units_Type" EntitySet="Units_Type" />
     </AssociationSet>
     <AssociationSet Name="FK_Units_UnitLevel" Association="Self.FK_Units_UnitLevel">
       <End Role="UnitLevel" EntitySet="UnitLevel" />

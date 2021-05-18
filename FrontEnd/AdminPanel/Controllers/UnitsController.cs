@@ -69,14 +69,14 @@ namespace AdminPanel.Controllers
 		public void LoadEditOrCreate()
 		{
 			var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
-			var Data = APIHandeling.getData("Locations/GetActive");
+			var Data = APIHandeling.getData("UnitsLocation/GetActive");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-			var Locations = JsonConvert.DeserializeObject<ICollection<LocationsDTO>>(res.result.ToString());
+			var Locations = JsonConvert.DeserializeObject<ICollection<UnitsLocDTO>>(res.result.ToString());
 			if (isar)
-				ViewBag.Locations = new SelectList(Locations, "Location_ID", "Location_Name_AR");
+				ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_AR");
 			else
-				ViewBag.Locations = new SelectList(Locations, "Location_ID", "Location_Name_EN");
+				ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_EN");
 			Data = APIHandeling.getData("Service_Type/GetActive");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -101,7 +101,7 @@ namespace AdminPanel.Controllers
 				ViewBag.ReqTypes = new SelectList(ReqTypes, "Request_Type_ID", "Request_Type_Name_AR");
 			else
 				ViewBag.ReqTypes = new SelectList(ReqTypes, "Request_Type_ID", "Request_Type_Name_EN");
-			Data = APIHandeling.getData("UnitLevels/GetUnitLevel");
+			Data = APIHandeling.getData("UnitLevels/GetUnitLevelForUnit");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			var Levels = JsonConvert.DeserializeObject<ICollection<UnitLevelDTO>>(res.result.ToString());
@@ -109,6 +109,11 @@ namespace AdminPanel.Controllers
 				ViewBag.Levels = new SelectList(Levels, "ID", "Name_AR");
 			else
 				ViewBag.Levels = new SelectList(Levels, "ID", "Name_EN");
+			Data = APIHandeling.getData("Service_Type/GetActiveService_TypeCharList");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Service_TypeCharList = JsonConvert.DeserializeObject<List<string>>(res.result.ToString());
+			ViewBag.Service_TypeCharList = Service_TypeCharList.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; });
 			Data = APIHandeling.getData("Units/ThereIsNoMostafid");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -252,6 +257,29 @@ namespace AdminPanel.Controllers
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
 				return Json(JsonConvert.DeserializeObject<ICollection<SubServicesDTO>>(res.result.ToString()), JsonRequestBehavior.AllowGet);
+			else
+				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
+		}
+		[HttpGet]
+		public JsonResult getUnitTypes(int id)
+		{
+			var Data = APIHandeling.getData("UnitTypes/GetUnits_TypeOFLevel?id=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(res.result.ToString()), JsonRequestBehavior.AllowGet);
+			else
+				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult getTypeOFUnit(int id)
+		{
+			var Data = APIHandeling.getData("UnitTypes/GetUnits_TypeOFUnit?id=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(JsonConvert.DeserializeObject<UnitTypeDTO>(res.result.ToString()), JsonRequestBehavior.AllowGet);
 			else
 				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
 		}

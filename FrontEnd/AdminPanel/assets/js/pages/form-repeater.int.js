@@ -9,7 +9,6 @@ File: Form repeater Js File
 
 $(document).ready(function () {
     'use strict';
-
     $('.repeater').repeater({
         defaultValues: {
             'textarea-input': 'foo',

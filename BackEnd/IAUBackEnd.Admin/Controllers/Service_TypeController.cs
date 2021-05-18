@@ -25,6 +25,18 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Service_Type });
 		}
+		public async Task<IHttpActionResult> GetActiveService_TypeCharList()
+		{
+			try
+			{
+				var data = p.Service_Type.Where(q => q.IS_Action.Value).Select(q => q.Service_Type_Name_EN).ToList().Select(q=>q.ElementAt(0));
+				return Ok(new ResponseClass() { success = true, result = data });
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass() { success = false, result = ee });
+			}
+		}
 		public async Task<IHttpActionResult> GetActive()
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Service_Type.Where(q => q.IS_Action.Value) });

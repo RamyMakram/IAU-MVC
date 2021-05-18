@@ -433,6 +433,7 @@
     <EntitySetMapping Name="Units">
       <EntityTypeMapping TypeName="MostafidDBModel.Units">
         <MappingFragment StoreEntitySet="Units">
+          <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
           <ScalarProperty Name="SubID" ColumnName="SubID" />
           <ScalarProperty Name="LevelID" ColumnName="LevelID" />
           <ScalarProperty Name="IS_Mostafid" ColumnName="IS_Mostafid" />
@@ -470,6 +471,8 @@
     <EntitySetMapping Name="Units_Type">
       <EntityTypeMapping TypeName="MostafidDBModel.Units_Type">
         <MappingFragment StoreEntitySet="Units_Type">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="LevelID" ColumnName="LevelID" />
           <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Units_Type_Name_EN" ColumnName="Units_Type_Name_EN" />
           <ScalarProperty Name="Units_Type_Name_AR" ColumnName="Units_Type_Name_AR" />

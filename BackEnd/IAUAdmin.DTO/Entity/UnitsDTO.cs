@@ -19,6 +19,7 @@ namespace IAUAdmin.DTO.Entity
 		public bool IS_Mostafid { get; set; }
 		public Nullable<int> LevelID { get; set; }
 		public Nullable<int> SubID { get; set; }
+		public Nullable<int> ServiceTypeID { get; set; }
 		public int[] Units_ReqType { get; set; }
 		public int[] Units_ServiceType { get; set; }
 

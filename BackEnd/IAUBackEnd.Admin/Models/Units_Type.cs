@@ -20,12 +20,15 @@ namespace IAUBackEnd.Admin.Models
             this.Units = new HashSet<Units>();
         }
     
-        public int Units_Type_ID { get; set; }
+        public int? Units_Type_ID { get; set; }
         public string Units_Type_Name_AR { get; set; }
         public string Units_Type_Name_EN { get; set; }
         public Nullable<bool> IS_Action { get; set; }
+        public Nullable<int> LevelID { get; set; }
+        public string Code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Units> Units { get; set; }
+        public virtual UnitLevel UnitLevel { get; set; }
     }
 }

@@ -22,10 +22,14 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.UnitLevel });
 		}
+		public async Task<IHttpActionResult> GetUnitLevelForUnit()
+		{
+			return Ok(new ResponseClass() { success = true, result = p.UnitLevel.Where(q => q.Units_Type.Count() > 0) });
+		}
 
 		public async Task<IHttpActionResult> GetUnitLevel(int id)
 		{
-			UnitLevel unitLevel = await p.UnitLevel.FindAsync(id);
+			UnitLevel unitLevel = await p.UnitLevel.Include(q => q.Units_Type).FirstOrDefaultAsync(q => q.ID == id);
 			if (unitLevel == null)
 				return Ok(new ResponseClass() { success = false, result = "Level Is Null" });
 
@@ -34,7 +38,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> Update(UnitLevel unitLevel)
 		{
-			var data = p.UnitLevel.FirstOrDefault(q => q.ID == unitLevel.ID);
+			var data = p.UnitLevel.Include(q => q.Units_Type).FirstOrDefault(q => q.ID == unitLevel.ID);
 			if (!ModelState.IsValid)
 				return Ok(new ResponseClass() { success = false, result = ModelState });
 			try
@@ -42,6 +46,20 @@ namespace IAUBackEnd.Admin.Controllers
 				data.Name_AR = unitLevel.Name_AR;
 				data.Name_EN = unitLevel.Name_EN;
 				data.Code = unitLevel.Code;
+				foreach (var i in unitLevel.Units_Type)
+				{
+					if (i.Units_Type_ID == null || i.Units_Type_ID == 0)
+						data.Units_Type.Add(i);
+					else
+					{
+						var ss = data.Units_Type.FirstOrDefault(q => q.Units_Type_ID == i.Units_Type_ID);
+						ss.Units_Type_Name_AR = i.Units_Type_Name_AR;
+						ss.Units_Type_Name_EN = i.Units_Type_Name_EN;
+						ss.IS_Action = i.IS_Action;
+						ss.Code = i.Code;
+					}
+				}
+
 				await p.SaveChangesAsync();
 				return Ok(new ResponseClass() { success = true });
 			}
