@@ -58,7 +58,7 @@
 							</div>
 							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-" for="servicetype">Main servicetype</label>
+									<label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
 									@Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
@@ -80,17 +80,17 @@
 									</select>
 								</div>
 								<div class="form-group" style="width: 35%; padding: 0 3px;">
-									<label key="t-" class="control-label">Code</label>
+									<label key="t-title-code" class="control-label">Code</label>
 									<label id="TypeCode" style="width: 100%; padding: 5px;">Unit Code</label>
 								</div>
 							</div>
 							<div class="form-group" style="display:inline-flex;width: 100%;height: fit-content;margin:0">
 								<div style="width: 65%; padding: 0 3px;height: fit-content;">
-									<label key="t-unittypes" class="control-label"></label>
+									<label key="t-title-subunittypes" class="control-label"></label>
 									<label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0"></label>
 								</div>
 								<div class="form-group" style="width: 35%; padding: 0 3px;height: fit-content;">
-									<label key="t-" class="control-label">SubTypeCode</label>
+									<label key="t-title-sub-code" class="control-label">SubTypeCode</label>
 									<label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0"></label>
 								</div>
 							</div>
@@ -100,7 +100,7 @@
 							</div>
 
 							<div class="form-group" style="margin:7px;">
-								<label key="t-" for="Ename" class="control-label">Building</label>
+								<label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
 								<div style="display:inline-flex;width:100%;">
 									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
 									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
@@ -110,7 +110,7 @@
 
 							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-" for="servicetype">Sub servicetype</label>
+									<label class="control-label" key="t-title-subservice" for="servicetype">Sub servicetype</label>
 									@Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>

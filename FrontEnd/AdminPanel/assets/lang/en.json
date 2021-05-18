@@ -65,7 +65,6 @@
 	"t-ismostafid": "Recieve Mostafid Requests?",
 	"t-active-Home": "Active",
 	"t-deactive-Home": "Not Active",
-	"t-search": "Search",
 	"t-deactive-mainservice": "Do u want to deactive this Service?",
 	"t-active-mainservice": "Do u want to active this Service?",
 	"t-units-short": "Unit",
@@ -79,6 +78,13 @@
 	"t-levels-title": "Levels",
 	"t-code": "Level Code",
 	"t-level": "Level",
-	"t-subunits": "Parent Unit"
+	"t-subunits": "Parent Unit",
+	"title-unitlevel": "Category Level",
+	"t-title-mainservice": "Main Service",
+	"t-title-code": "Code",
+	"t-title-subunittypes": "Sub Category Type",
+	"t-title-sub-code": "Sub Category",
+	"t-title-buildnum": "Building Number",
+	"t-title-subservice": "Sub Services"
 
 }
