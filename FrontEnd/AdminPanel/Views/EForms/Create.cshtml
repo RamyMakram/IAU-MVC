@@ -2,10 +2,10 @@
 @{
 	ViewBag.Title = "E-From Type";
 	ViewBag.pTitle = "E-From Type";
-	ViewBag.pageTitle = "E-Froms";
+	ViewBag.pageTitle = "E-Froms" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "اضافة نموذج";
 	ViewBag.arpTitle = "اضافة نموذج";
-	ViewBag.arpageTitle = "النماذج الالكترونية";
+	ViewBag.arpageTitle = "النماذج الالكترونية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 

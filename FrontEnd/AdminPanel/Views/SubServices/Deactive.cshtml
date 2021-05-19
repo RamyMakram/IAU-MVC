@@ -2,10 +2,10 @@
 @{
 	ViewBag.Title = "Deactive Service";
 	ViewBag.pTitle = "Deactive Service";
-	ViewBag.pageTitle = "Sub Service";
+	ViewBag.pageTitle = "Sub Service" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "تعطيل خدمة";
-	ViewBag.arpageTitle = "تعطيل خدمة";
-	ViewBag.arpTitle = "الخدمات الفرعية";
+	ViewBag.arpageTitle = "الخدمات الفرعية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
+	ViewBag.arpTitle = "تعطيل خدمة";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- select2 css -->
@@ -16,7 +16,7 @@
 <h2 key="t-deactive">Deactive</h2>
 
 <div class="row">
-	@using (Html.BeginForm("Deactive", "SubServices", new { Id = Model.Sub_Services_ID, x = "" }, FormMethod.Post))
+	@using (Html.BeginForm("Deactive", "SubServices", new { Id = Model.Sub_Services_ID, SharedVal = Request.QueryString["SharedVal"], x = "" }, FormMethod.Post))
 	{
 		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-mainservice">
 			Do u want to deactive this User?

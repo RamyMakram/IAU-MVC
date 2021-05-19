@@ -3,10 +3,10 @@
 @{
 	ViewBag.Title = "Service Detail";
 	ViewBag.pTitle = "Service Detail";
-	ViewBag.pageTitle = "Main Service";
+	ViewBag.pageTitle = "Main Service" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "معلومات خدمة";
-	ViewBag.arpageTitle = "معلومات خدمة";
-	ViewBag.arpTitle = "الخدمات الرئيسية";
+	ViewBag.arpageTitle = "الخدمات الرئيسية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
+	ViewBag.arpTitle = "معلومات خدمة";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 

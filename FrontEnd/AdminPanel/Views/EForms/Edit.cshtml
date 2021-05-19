@@ -2,9 +2,9 @@
 @{
 	ViewBag.Title = "Edit Type";
 	ViewBag.pTitle = "Edit Type";
-	ViewBag.pageTitle = "Request Types";
+	ViewBag.pageTitle = "Request Types" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "تعديل نوع";
-	ViewBag.arpageTitle = "تعديل نوع";
+	ViewBag.arpageTitle = "تعديل نوع" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "أنواع الطلبات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }

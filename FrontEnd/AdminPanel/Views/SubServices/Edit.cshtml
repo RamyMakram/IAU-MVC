@@ -2,10 +2,10 @@
 @{
 	ViewBag.Title = "Edit Service";
 	ViewBag.pTitle = "Edit Service";
-	ViewBag.pageTitle = "Sub Service";
+	ViewBag.pageTitle = "Sub Service" + "," + Request.QueryString["SharedVal"];
 	ViewBag.arTitle = "تعديل خدمة";
-	ViewBag.arpageTitle = "تعديل خدمة";
-	ViewBag.arpTitle = "الخدمات الفرعية";
+	ViewBag.arpageTitle = "الخدمات الفرعية" + "," + Request.QueryString["SharedVal"];
+	ViewBag.arpTitle = "تعديل خدمة";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 

@@ -2,9 +2,9 @@
 @{
 	ViewBag.Title = "Service Detail";
 	ViewBag.pTitle = "Service Detail";
-	ViewBag.pageTitle = "Sub Service";
+	ViewBag.pageTitle = "Sub Service" + "," + Request.QueryString["SharedVal"];
 	ViewBag.arTitle = "معلومات خدمة";
-	ViewBag.arpageTitle = "معلومات خدمة";
+	ViewBag.arpageTitle = "معلومات خدمة" + "," + Request.QueryString["SharedVal"];
 	ViewBag.arpTitle = "الخدمات الفرعية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -27,10 +27,10 @@
 					<th key="t-enname" scope="row">Mobile</th>
 					<td>@Model.Sub_Services_Name_EN</td>
 				</tr>
-				<tr>
+				@*<tr>
 					<th key="t-units-short" scope="row">Units</th>
 					<td>@(lang=="ar"?Model.Main_Services.Units.Units_Name_AR: Model.Main_Services.Units.Units_Name_EN)</td>
-				</tr>
+				</tr>*@
 				<tr>
 					<th key="t-mainservice" scope="row">Main Service</th>
 					<td>
@@ -53,7 +53,7 @@
 <div class="mt-5">
 	@Html.ActionLink("Edit", "Edit", new { Id = Model.Sub_Services_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "User", new { Id = Model.Sub_Services_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "User", new { Id = Model.Sub_Services_ID, SharedVal = Request.QueryString["SharedVal"] }, new { @class = Model.IS_Action.Value ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
 
 </div>
 

@@ -2,9 +2,9 @@
 @{
 	ViewBag.Title = "Deactive E-From";
 	ViewBag.pTitle = "Deactive E-From";
-	ViewBag.pageTitle = "E-Froms";
+	ViewBag.pageTitle = "E-Froms" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle     = "تعطيل نموذج";
-	ViewBag.arpageTitle = "تعطيل نموذج";
+	ViewBag.arpageTitle = "تعطيل نموذج" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "النماذج الالكترونية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }

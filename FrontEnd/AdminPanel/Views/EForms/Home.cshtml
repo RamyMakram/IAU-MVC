@@ -2,10 +2,10 @@
 @using System.Configuration;
 @{
 	ViewBag.Title = "Home Page";
-	ViewBag.pageTitle = "Home Page";
+	ViewBag.pageTitle = "Home Page" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.pTitle = "E-Froms";
 	ViewBag.arTitle = "الرئيسية";
-	ViewBag.arpageTitle = "الرئيسية";
+	ViewBag.arpageTitle = "الرئيسية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "النماذج الالكترونية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }

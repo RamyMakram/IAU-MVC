@@ -3,9 +3,9 @@
 @{
 	ViewBag.Title = "E-From Detail";
 	ViewBag.pTitle = "E-From Detail";
-	ViewBag.pageTitle = "E-From";
+	ViewBag.pageTitle = "E-From" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "معلومات نموذج";
-	ViewBag.arpageTitle = "معلومات نموذج";
+	ViewBag.arpageTitle = "معلومات نموذج" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "النماذج الالكترونية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }

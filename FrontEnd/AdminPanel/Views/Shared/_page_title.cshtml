@@ -9,7 +9,7 @@
 
 					<div class="page-title-right">
 						<ol class="breadcrumb m-0">
-							<li class="breadcrumb-item"><a href="javascript: void(0);">@ViewBag.pageTitle</a></li>
+							<li class="breadcrumb-item"><a href="javascript: void(0);">@{var data = (ViewBag.pageTitle as string).Replace(",null", "").Replace(", ", "").Replace(",", " / ");} @data</a></li>
 							<li class="breadcrumb-item active">@ViewBag.pTitle</li>
 						</ol>
 					</div>
@@ -20,11 +20,18 @@
 
 					<div class="page-title-right">
 						<ol class="breadcrumb m-0">
-							<li class="breadcrumb-item"><a href="javascript: void(0);">@ViewBag.arpageTitle</a></li>
-							<li class="breadcrumb-item active">@ViewBag.arpTitle</li>
-						</ol>
-					</div>
-				}
+							<li class="breadcrumb-item">
+								<a href="javascript: void(0);">
+									@{
+										var data = (ViewBag.arpageTitle as string).Replace(",null", "").Replace(", ", "").Replace(",", " / ");
+									}
+								@data
+							</a>
+						</li>
+						<li class="breadcrumb-item active">@ViewBag.arpTitle</li>
+					</ol>
+				</div>
+			}
 			}
 		</div>
 	</div>

@@ -1,10 +1,10 @@
 ﻿@model ICollection<IAUAdmin.DTO.Entity.SubServicesDTO>
 @{
 	ViewBag.Title = "Home Page";
-	ViewBag.pageTitle = "Home Page";
-	ViewBag.pTitle = "Sub Service";
+	ViewBag.pageTitle = "Home Page" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
+	ViewBag.pTitle = "Sub Services";
 	ViewBag.arTitle = "الرئيسية";
-	ViewBag.arpageTitle = "الرئيسية";
+	ViewBag.arpageTitle = "الرئيسية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "الخدمات الفرعية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -26,7 +26,7 @@
 					</p>
 					@if (Request.QueryString["MainService"] == null)
 					{
-						<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+						<a class="btn btn-circle" href=@Url.Action("Create",new{ SharedVal = Request.QueryString["SharedVal"]})><i class="fas fa-plus-circle"></i></a>
 					}
 					else
 					{
@@ -53,8 +53,8 @@
 								<td>
 									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Sub_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
 								</td>
-								<td>@Html.ActionLink("Eforms", "Home", "EForms", new { SubService = i.Sub_Services_ID }, new { @class = "btn btn-primary", @key = "t-eforms" })</td>
-								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Sub_Services_ID, MainService = Request.QueryString["MainService"] }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
+								<td>@Html.ActionLink("Eforms", "Home", "EForms", new { SubService = i.Sub_Services_ID, SharedVal = (Request.Cookies["lang"].Value == "ar" ? i.Sub_Services_Name_AR : i.Sub_Services_Name_EN) }, new { @class = "btn btn-primary", @key = "t-eforms" })</td>
+								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Sub_Services_ID, MainService = Request.QueryString["MainService"], SharedVal = Request.QueryString["SharedVal"] }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
 					</tbody>

@@ -22,8 +22,8 @@
 			<div class="card-body">
 
 				<div class="HeaderOfPage">
-					<p class="card-title-desc" key="t-mainservices">
-						Manage Users
+					<p class="card-title-desc">
+						@*Manage Users*@
 					</p>
 
 					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
@@ -54,9 +54,9 @@
 									<img src=@(url+"/"+i.Service_Type.Image_Path) height="36px" />
 								</td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Main_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home"})
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Main_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
 								</td>
-								<td>@Html.ActionLink("Home", "Home", "SubServices", new { MainService = i.Main_Services_ID }, new { @class = "btn btn-primary", @key = "t-subservices" })</td>
+								<td>@Html.ActionLink("Home", "Home", "SubServices", new { MainService = i.Main_Services_ID, SharedVal = (Request.Cookies["lang"].Value == "ar" ? i.Main_Services_Name_AR : i.Main_Services_Name_EN) }, new { @class = "btn btn-primary", @key = "t-subservices" })</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Main_Services_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
