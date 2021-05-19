@@ -99,10 +99,43 @@ namespace IAUBackEnd.Admin.Controllers
 			if (!ModelState.IsValid)
 				return Ok(new ResponseClass() { success = false, result = ModelState });
 			units.IS_Action = true;
+
+			char[] GenrateCode = units.Ref_Number.ToCharArray();
+			if (units.SubID != 0 && units.SubID != null)
+				GetCode(ref GenrateCode, units.SubID.Value);
+			units.Ref_Number = string.Join("", GenrateCode);
+
 			p.Units.Add(units);
 			await p.SaveChangesAsync();
 
 			return Ok(new ResponseClass() { success = true });
+		}
+
+		public void GetCode(ref char[] _code, int UnitID)
+		{
+			try
+			{
+				var Unit = p.Units.Include(q => q.UnitLevel).Include(q => q.Units_Type).FirstOrDefault(q => q.Units_ID == UnitID);
+				int levelCode = Convert.ToInt32(Unit.UnitLevel.Code)-1;
+				var index = 3 + (levelCode == 0 ? 1 : levelCode * 3);
+				if (levelCode == 0)
+				{
+					_code[index] = Unit.Units_Type.Code[0];
+					_code[index + 1] = Unit.Code[0];
+					return;
+				}
+				else
+				{
+					_code[index] = Unit.Units_Type.Code[0];
+					_code[index + 1] = Unit.Code[0];
+					_code[index + 2] = Unit.Code[1];
+					GetCode(ref _code, Unit.SubID.Value);
+				}
+			}
+			catch (Exception ee)
+			{
+
+			}
 		}
 
 		[HttpGet]

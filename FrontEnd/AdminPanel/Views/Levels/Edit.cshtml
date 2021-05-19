@@ -45,7 +45,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-code" for="code">Mobile</label>
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "code", @id = "code" })
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "code", @id = "code", @maxlength = "2" })
 							</div>
 						</div>
 						<div style="display:inline-flex;justify-content:space-between;width: 100%;padding: 0 11px;">
@@ -70,7 +70,7 @@
 										</div>
 										<div class="form-group col-3">
 											<label key="t-Typecode" for="code">Code</label>
-											<input type="text" id="code" class="form-control FORM-code" value="@i.Code" />
+											<input type="text" id="code" class="form-control FORM-code" value="@i.Code" maxlength="1" />
 										</div>
 										<div class="form-group col-2">
 											<label key="t-activeTitle" for="isaction">Email</label>
@@ -90,7 +90,7 @@
 									</div>
 									<div class="form-group col-3">
 										<label key="t-Typecode" for="code">Code</label>
-										<input type="text" id="code" class="form-control FORM-code" />
+										<input type="text" id="code" class="form-control FORM-code" maxlength="1" />
 									</div>
 									<div class="col-lg-2 align-self-center">
 										<button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>

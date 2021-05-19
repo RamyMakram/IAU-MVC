@@ -426,6 +426,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
     <Property Name="LevelID" Type="int" />
     <Property Name="SubID" Type="int" />
     <Property Name="ServiceTypeID" Type="int" />
+    <Property Name="Code" Type="nvarchar" MaxLength="2" />
     <Property Name="IS_Action" Type="bit" />
     <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
   </EntityType>

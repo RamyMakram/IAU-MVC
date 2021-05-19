@@ -431,6 +431,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <Property Name="LevelID" Type="int" />
           <Property Name="SubID" Type="int" />
           <Property Name="ServiceTypeID" Type="int" />
+          <Property Name="Code" Type="nvarchar" MaxLength="2" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
         </EntityType>
@@ -2114,6 +2115,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <NavigationProperty Name="Units2" Relationship="MostafidDBModel.FK_Units_Units" FromRole="Units1" ToRole="Units" />
           <Property Name="ServiceTypeID" Type="Int32" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
+          <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Units_Location">
           <Key>
@@ -3255,6 +3257,7 @@ warning 6002: The table/view 'MostafidDatabase25042021.dbo.Statement_Department_
           <EntitySetMapping Name="Units">
             <EntityTypeMapping TypeName="MostafidDBModel.Units">
               <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
                 <ScalarProperty Name="SubID" ColumnName="SubID" />
                 <ScalarProperty Name="LevelID" ColumnName="LevelID" />

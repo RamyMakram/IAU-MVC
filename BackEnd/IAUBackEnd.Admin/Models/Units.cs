@@ -36,6 +36,7 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<int> LevelID { get; set; }
         public Nullable<int> SubID { get; set; }
         public Nullable<int> ServiceTypeID { get; set; }
+        public string Code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UnitMainServices> UnitMainServices { get; set; }

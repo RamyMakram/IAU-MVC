@@ -105,10 +105,7 @@ namespace AdminPanel.Controllers
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			var Levels = JsonConvert.DeserializeObject<ICollection<UnitLevelDTO>>(res.result.ToString());
-			if (isar)
-				ViewBag.Levels = new SelectList(Levels, "ID", "Name_AR");
-			else
-				ViewBag.Levels = new SelectList(Levels, "ID", "Name_EN");
+			ViewBag.Levels = Levels.ToList().ConvertAll(q => { return new SelectListItem() { Value = q.ID.ToString(), Text = (isar ? q.Name_AR : q.Name_EN) + " - " + q.Code, Selected = false }; });
 			Data = APIHandeling.getData("Service_Type/GetActiveService_TypeCharList");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);

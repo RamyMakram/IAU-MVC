@@ -21,10 +21,10 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("NotFound", "Error");
 		}
-		public ActionResult Create()
-		{
-			return View();
-		}
+		//public ActionResult Create()
+		//{
+		//	return View();
+		//}
 		public ActionResult Edit(int id)
 		{
 			var Data = APIHandeling.getData("UnitLevels/GetUnitLevel?id=" + id);
@@ -51,19 +51,19 @@ namespace AdminPanel.Controllers
 				return RedirectToAction("NotFound", "Error");
 		}
 
-		[HttpPost]
-		public ActionResult Create(UnitLevelDTO user)
-		{
-			user.Units_Type = JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(user.Units_Type_STR);
+		//[HttpPost]
+		//public ActionResult Create(UnitLevelDTO user)
+		//{
+		//	user.Units_Type = JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(user.Units_Type_STR);
 
-			var Req = APIHandeling.Post("UnitLevels/Create", user);
-			var resJson = Req.Content.ReadAsStringAsync();
-			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+		//	var Req = APIHandeling.Post("UnitLevels/Create", user);
+		//	var resJson = Req.Content.ReadAsStringAsync();
+		//	var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
-			if (res.success)
-				return RedirectToAction("Home");
-			else
-				return RedirectToAction("NotFound", "Error");
-		}
+		//	if (res.success)
+		//		return RedirectToAction("Home");
+		//	else
+		//		return RedirectToAction("NotFound", "Error");
+		//}
 	}
 }

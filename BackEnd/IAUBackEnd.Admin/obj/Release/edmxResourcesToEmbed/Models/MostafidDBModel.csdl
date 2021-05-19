@@ -748,6 +748,7 @@
     <NavigationProperty Name="Units2" Relationship="MostafidDBModel.FK_Units_Units" FromRole="Units1" ToRole="Units" />
     <Property Name="ServiceTypeID" Type="Int32" />
     <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
+    <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Units_Location">
     <Key>
