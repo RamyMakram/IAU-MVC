@@ -22,8 +22,8 @@
 			<div class="card-body">
 
 				<div class="HeaderOfPage">
-					<p class="card-title-desc" key="t-request-type">
-						Manage Users
+					<p class="card-title-desc">
+						@*Manage Users*@
 					</p>
 
 					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
@@ -34,19 +34,29 @@
 						<tr>
 							<th key="t-name">Unit Name</th>
 							<th key="t-enname">Type En Name</th>
+							<th key="t-servicetype">Service Type Aliase</th>
 							<th key="t-activeTitle">Status</th>
+							<th key="t-subservices">sub-services</th>
 							<th></th>
 						</tr>
 					</thead>
+					@{
+						var lang = Request.Cookies["lang"].Value;
+						var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+					}
 					<tbody>
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", new { Id = i.Main_Services_ID })')">
-								<td>@(i.Main_Services_Name_AR)</td>
-								<td>@(i.Main_Services_Name_EN)</td>
+								<td class="TH-ar">@(i.Main_Services_Name_AR)</td>
+								<td class="TH-en">@(i.Main_Services_Name_EN)</td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Main_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+									<img src=@(url+"/"+i.Service_Type.Image_Path) height="36px" />
 								</td>
+								<td>
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Main_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
+								</td>
+								<td>@Html.ActionLink("Home", "Home", "SubServices", new { MainService = i.Main_Services_ID, SharedVal = (Request.Cookies["lang"].Value == "ar" ? i.Main_Services_Name_AR : i.Main_Services_Name_EN) }, new { @class = "btn btn-primary", @key = "t-subservices" })</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Main_Services_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}

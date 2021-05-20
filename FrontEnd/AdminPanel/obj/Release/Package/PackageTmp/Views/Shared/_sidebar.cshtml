@@ -55,6 +55,7 @@
 							</a>
 						</li>
 					}*@
+
 					if (data.Contains("Statistics"))
 					{
 						<li>
@@ -72,10 +73,11 @@
 						</a>
 						<ul class="sub-menu" aria-expanded="false" style="z-index:9999">
 							<li><a href=@Url.Action("Home", "Units") id="Units" key="t-uints-settings">اعدادات الوحدات</a></li>
-							<li><a href=@Url.Action("Home", "MainService") id="MainService" key="t-mainservices">اعدادات الخدمات الاساسية</a></li>
-							<li><a href=@Url.Action("Home", "SubServices") id="SubServices" key="t-subservices">اعدادات الخدمات الفرعية</a></li>
-							<li><a href=@Url.Action("Home", "EForms")  id="EForms" key="t-eforms">اعدادات النماذج الالكترونية</a></li>
-							<li><a href=@Url.Action("Home", "ServiceTypes") id="ServiceTypes" key="t-services-type">اعدادات أنواع الخدمات</a></li>
+							<li><a href=@Url.Action("Home", "ServicesBank") id="ServicesBank,SubServices,EForms" key="t-SevicesBank">اعدادات الخدمات الاساسية</a></li>
+							<li><a href=@Url.Action("Home", "Levels") id="Levels" key="t-levels">المستويات الادراية</a></li>
+							<li><a href=@Url.Action("Home", "UnitLocation") id="UnitLocation" key="t-Unit-LocationSide"> اعدادات ترميز الموقع</a></li>
+							@*<li><a href=@Url.Action("Home", "EForms")  id="EForms" key="t-eforms">اعدادات النماذج الالكترونية</a></li>*@
+							<li><a href=@Url.Action("Home", "ServiceTypes") id="ServiceTypes" key="t-services-type">اعدادات أنواع الخدمات الاساسية</a></li>
 							<li><a href=@Url.Action("Home", "RequestType") id="RequestType" key="t-request-type">اعدادات أنواع الطلبات</a></li>
 							@{
 								if (data.Contains("Users"))
@@ -87,7 +89,7 @@
 									<li><a href=@Url.Action("Home", "Jobs") id="Jobs" key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
 								}
 							}
-							<li><a href=@Url.Action("Home", "UnitTypes" ) id="UnitTypes" key="t-unit-type">اعدادات انواع الوحدات</a></li>
+							@*<li><a href=@Url.Action("Home", "UnitTypes" ) id="UnitTypes" key="t-unit-type">اعدادات انواع الوحدات</a></li>*@
 							<li><a href=@Url.Action("Home", "User" ) id="User" key="t-mainsettings">الإعدادات العامة</a></li>
 						</ul>
 					</li>

@@ -1,10 +1,10 @@
 ﻿@model IAUAdmin.DTO.Entity.MainServiceDTO
 @{
-	ViewBag.Title = "Deactive Service";
-	ViewBag.pTitle = "Deactive Service";
+	ViewBag.Title = "Active Service";
+	ViewBag.pTitle = "Active Service";
 	ViewBag.pageTitle = "Main Service";
-	ViewBag.arTitle     = "تعطيل خدمة";
-	ViewBag.arpageTitle = "تعطيل خدمة";
+	ViewBag.arTitle = "تفعيل خدمة";
+	ViewBag.arpageTitle = "تفعيل خدمة";
 	ViewBag.arpTitle = "الخدمات الرئيسية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -13,13 +13,13 @@
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-<h2 key="t-deactive" >Deactive</h2>
+<h2 key="t-deactive">Deactive</h2>
 
 <div class="row">
-	@using (Html.BeginForm("Deactive", "MainService", new { Id = Model.Main_Services_ID, x = "" }, FormMethod.Post))
+	@using (Html.BeginForm("Active", "ServicesBank",  new { Id = Model.Main_Services_ID, x = "" }, FormMethod.Post))
 	{
-		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-mainservice" >
-			Do u want to deactive this User?
+		<div class="alert alert-success dt-center p-14" style="text-align:center;width:100%" key="t-active-mainservice">
+			Do u want to Active this User?
 		</div>
 
 		<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>

@@ -2,9 +2,9 @@
 @{
 	ViewBag.Title = "Edit Type";
 	ViewBag.pTitle = "Edit Type";
-	ViewBag.pageTitle = "Request Types";
+	ViewBag.pageTitle = "Request Types" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "تعديل نوع";
-	ViewBag.arpageTitle = "تعديل نوع";
+	ViewBag.arpageTitle = "تعديل نوع" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "أنواع الطلبات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -25,7 +25,7 @@
 
 				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
 
-				@using (Html.BeginForm("Edit", "EForms", new { Id = Model.ID }, FormMethod.Post))
+				@using (Html.BeginForm("Edit", "EForms", new { Id = Model.ID, SubService = Request.QueryString["SubService"] }, FormMethod.Post))
 				{
 					<div class="row">
 						<div class="col-sm-6">
@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>
-					@Html.ActionLink("Cancel", "Home", "EForms", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+					@Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 				}
 			</div>
 		</div>

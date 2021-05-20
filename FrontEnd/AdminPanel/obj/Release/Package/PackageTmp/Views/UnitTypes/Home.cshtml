@@ -42,10 +42,10 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", "UnitTypes", new { Id = i.Units_Type_ID })')">
-								<td>@i.Units_Type_Name_AR</td>
-								<td>@i.Units_Type_Name_EN</td>
+								<td class="TH-ar">@i.Units_Type_Name_AR</td>
+								<td class="TH-en">@i.Units_Type_Name_EN</td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "RequestType", new { Id = i.Units_Type_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "RequestType", new { Id = i.Units_Type_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home"})
 								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_Type_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>

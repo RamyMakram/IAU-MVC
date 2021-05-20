@@ -2,10 +2,10 @@
 @using System.Configuration;
 @{
 	ViewBag.Title = "Home Page";
-	ViewBag.pageTitle = "Home Page";
+	ViewBag.pageTitle = "Home Page" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.pTitle = "E-Froms";
 	ViewBag.arTitle = "الرئيسية";
-	ViewBag.arpageTitle = "الرئيسية";
+	ViewBag.arpageTitle = "الرئيسية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "النماذج الالكترونية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -25,7 +25,7 @@
 						Manage Users
 					</p>
 
-					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+					<a class="btn btn-circle" href=@Url.Action("Create", new { SubService=Request.QueryString["SubService"]})><i class="fas fa-plus-circle"></i></a>
 				</div>
 
 				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -44,13 +44,13 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", "EForms", new { Id = i.ID })')">
-								<td>@i.Name</td>
-								<td>@i.Name_EN</td>
+								<td class="TH-ar">@i.Name</td>
+								<td class="TH-en">@i.Name_EN</td>
 								<td><a href="@(url+"/"+i.Path)">@(url+"/"+i.Path) </a></td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action ? "Deactive" : "Active", "EForms", new { Id = i.ID }, new { @class = i.IS_Action ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+									@Html.ActionLink("Active", i.IS_Action ? "Deactive" : "Active", "EForms", new { Id = i.ID, SubService = Request.QueryString["SubService"] }, new { @class = i.IS_Action ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action ? "t-active-Home" : "t-deactive-Home" })
 								</td>
-								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
+								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.ID, SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}
 					</tbody>

@@ -22,7 +22,12 @@
 	span.select2 {
 		width: 100% !important
 	}
-
+	label#TypeCode, #SubTypeCode, #SubTypeLevel {
+		width: 100% !important;
+		padding: 7px !important;
+		border: 1px solid #aaa !important;
+		border-radius: 6px !important;
+	}
 	span.select2-selection.select2-selection {
 		height: 36px !important;
 	}
@@ -112,25 +117,25 @@
 						</div>
 
 						<div class="col-sm-6">
-							<div class="form-group" style="display:inline-flex;width: 100%;">
+							<div class="form-group" style="display:inline-flex;width: 100%;margin:0">
 								<div style="width: 65%; padding: 0 3px;">
 									<label key="t-unittypes" class="control-label">Unit Type</label>
 									<select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
 									</select>
 								</div>
-								<div class="form-group" style="width: 35%; padding: 0 3px;">
+								<div class="form-group" style="width: 35%; padding: 0 3px;margin:0">
 									<label key="t-title-type-code" class="control-label">Code</label>
-									<label id="TypeCode" style="width: 100%; padding: 5px;">Unit Code</label>
+									<label id="TypeCode" style="width: 100%;  padding:0 5px; margin:0;height: 36px;"></label>
 								</div>
 							</div>
-							<div class="form-group" style="display:inline-flex;width: 100%;height: fit-content;margin:0">
-								<div style="width: 65%; padding: 0 3px;height: fit-content;">
+							<div class="form-group" style="display:inline-flex;width: 100%;height:70px;margin: 9px 0 11px 0;">
+								<div style="width: 65%; padding: 0 3px;">
 									<label key="t-title-subunittypes" class="control-label"></label>
-									<label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0"></label>
+									<label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
 								</div>
-								<div class="form-group" style="width: 35%; padding: 0 3px;height: fit-content;">
+								<div style="width: 35%; padding: 0 3px">
 									<label key="t-title-sub-code" class="control-label">SubTypeCode</label>
-									<label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0"></label>
+									<label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
 								</div>
 							</div>
 							<div class="form-group">
@@ -189,7 +194,8 @@
 	let UnitTypes = [];
 	$(document).ready(w => {
 		getUnitTypes(document.getElementById('LEVEID').value)
-		let Code = "043xxxxxxxxxxxxxxx".split('');
+		UnitTypeChange($('#TypeID').val())
+		let Code = "043000000000000".split('');
 		([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
 			le.value = Code[i]
 		})
@@ -204,8 +210,6 @@
 				var select = document.getElementById('UnitType');
 				select.innerHTML = ``;
 				if (e.length != 0) {
-					$('#TypeID').val(e[0]["Units_Type_ID"]);
-					$('#TypeCode').text(e[0]["Code"]);
 					UnitCodeChange(true)
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
@@ -256,8 +260,10 @@
 	}
 	function UnitTypeChange(ID) {
 		let CodeView = UnitTypes.find(q => q.Units_Type_ID == ID)
-		if (CodeView != null)
+		if (CodeView != null) {
+			$('#TypeID').val(ID)
 			$('#TypeCode').text(CodeView.Code);
+		}
 		UnitCodeChange(false);
 	}
 	function SubUnitChange(val) {
@@ -294,14 +300,15 @@
 		//console.log(startIn, index, $('#TypeCode').text(), $('#unitCode').val() == "" ? "0" : $('#unitCode').val())
 		if (index == 0) {
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
-			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn++})`).value = $('#unitCode').val() == "" ? "0" : $('#unitCode').val()
+			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = $('#unitCode').val() == "" ? "0" : $('#unitCode').val()
+			startIn + 2;
 		}
 		else {
 			let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
 			if (UnitCode.length == 1)
 				UnitCode = "0" + UnitCode
 			if (ISLevelChange)
-				for (var i = 4; i < startIn; i++)
+				for (var i = 5; i < startIn; i++)
 					document.querySelector(`#CodeGenrateDiv input:nth-of-type(${i})`).value = "0"
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = UnitCode.charAt(0)
@@ -310,7 +317,7 @@
 		}
 		if (ISLevelChange)
 			for (startIn; startIn <= 15; startIn++)
-				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = "x"
+				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = "0"
 
 		let BuildngsControls = document.querySelectorAll('#CodeGenrateDiv input')
 

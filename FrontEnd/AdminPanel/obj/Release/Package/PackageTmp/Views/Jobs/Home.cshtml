@@ -42,8 +42,8 @@
 						@foreach (var i in Model)
 						{
 							<tr>
-								<td>@i.User_Permissions_Type_Name_AR</td>
-								<td>@i.User_Permissions_Type_Name_EN</td>
+								<td class="TH-ar">@i.User_Permissions_Type_Name_AR</td>
+								<td class="TH-en">@i.User_Permissions_Type_Name_EN</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.User_Permissions_Type_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}

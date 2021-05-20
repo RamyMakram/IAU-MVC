@@ -3,10 +3,10 @@
 @{
 	ViewBag.Title = "Service Detail";
 	ViewBag.pTitle = "Service Detail";
-	ViewBag.pageTitle = "Main Service";
+	ViewBag.pageTitle = "Main Service" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "معلومات خدمة";
-	ViewBag.arpageTitle = "معلومات خدمة";
-	ViewBag.arpTitle = "الخدمات الرئيسية";
+	ViewBag.arpageTitle = "الخدمات الرئيسية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
+	ViewBag.arpTitle = "معلومات خدمة";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -31,8 +31,10 @@
 					<td>@Model.Main_Services_Name_EN</td>
 				</tr>
 				<tr>
-					<th key="t-units-short" scope="row">location</th>
-					<td>@(lang=="ar"? Model.Units.Units_Name_AR: Model.Units.Units_Name_EN)</td>
+					<th key="t-servicetype">Service Type Aliase</th>
+					<td>
+						<img src=@(url+"/"+Model.Service_Type.Image_Path) height="36px" />
+					</td>
 				</tr>
 				<tr>
 					<th key="t-Applicanttype" scope="row">requesttype</th>
@@ -52,7 +54,7 @@
 	</div>
 </div>
 <script>
-	function change (event) {
+	function change(event) {
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -62,7 +64,7 @@
 <div class="mt-5">
 	@Html.ActionLink("Edit", "Edit", new { Id = Model.Main_Services_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", new { Id = Model.Main_Services_ID}, new { @class = Model.IS_Action.Value ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", new { Id = Model.Main_Services_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
 
 </div>
 

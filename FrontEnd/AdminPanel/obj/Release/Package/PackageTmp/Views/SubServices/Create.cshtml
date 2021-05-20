@@ -2,10 +2,10 @@
 @{
 	ViewBag.Title = "Service Unit";
 	ViewBag.pTitle = "Service Unit";
-	ViewBag.pageTitle = "Sub Service";
+	ViewBag.pageTitle = "Sub Service" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "اضافة خدمة";
-	ViewBag.arpTitle = "اضافة خدمة";
-	ViewBag.arpageTitle = "الخدمات الفرعية";
+	ViewBag.arpTitle = "الخدمات الفرعية";
+	ViewBag.arpageTitle = "اضافة خدمة" +( Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -29,7 +29,7 @@
 				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
 				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
 
-				@using (Html.BeginForm("Create", "SubServices", FormMethod.Post, new { @class = "repeater" }))
+				@using (Html.BeginForm("Create", "SubServices", new { MainService = Request.QueryString["MainService"] }, FormMethod.Post, new { @class = "repeater" }))
 				{
 					<div class="row">
 						<div class="col-sm-6">
@@ -45,14 +45,17 @@
 								@Html.TextBoxFor(q => q.Sub_Services_Name_EN, new { @class = "form-control", @name = "email", @id = "email" })
 							</div>
 						</div>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label key="t-mainservice" for="email">Email</label>
-								@Html.DropDownListFor(q => q.Main_Services_ID, ViewBag.MainServices as SelectList, new { @class = "form-control select2", })
+						@if (Request.QueryString["MainService"] == null)
+						{
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label key="t-mainservice" for="email">Email</label>
+									@Html.DropDownListFor(q => q.Main_Services_ID, ViewBag.MainServices as SelectList, new { @class = "form-control select2", })
+								</div>
 							</div>
-						</div>
+						}
 						<div style="display:inline-flex;justify-content:space-between;width: 100%;padding: 0 11px;">
-							<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+							<h4 key="t-required-docs" class="card-title">Basic Information</h4>
 							<button id="AddRecord" data-repeater-create type="button" class="btn btn-circle mt-3 mt-lg-0"><i class="fas fa-plus-circle" style="font-size:18px;color:green"></i></button>
 						</div>
 

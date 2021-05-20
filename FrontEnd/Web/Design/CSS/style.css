@@ -1019,10 +1019,11 @@ canvas {
 
 
 .pdfnotloaded {
-    display: flex !important;
+/*    display: flex !important;
     align-items: center;
-    justify-content: center;
+    justify-content: center;*/
     background-color: white;
+    color: black;
 }
 
 #loadingimg {

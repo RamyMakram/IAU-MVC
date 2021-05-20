@@ -1,4 +1,4 @@
-﻿
+﻿@model IAUAdmin.DTO.Entity.ReqestDTO
 @{
 	ViewBag.Title = "Preview";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,49 +11,22 @@
 <div class="row">
 	<div class="col-12">
 		<div class="mb-3">
-
+			@*<span style="display:none" id="NONE">@Model.Request_Data_ID</span>*@
 			<div class="card">
-				<div class="btn-toolbar p-3" role="toolbar">
-					<div class="btn-group mr-2 mb-2 mb-sm-0">
-						<button type="button" class="btn btn-primary waves-light waves-effect"><i class="fa fa-inbox"></i></button>
-						<button type="button" class="btn btn-primary waves-light waves-effect"><i class="fa fa-exclamation-circle"></i></button>
-						@*<button type="button" class="btn btn-primary waves-light waves-effect"><i class="far fa-trash-alt"></i></button>*@
+				<div class="card-body">
+					<div class="media mb-4">
+						<img class="d-flex mr-3 rounded-circle avatar-sm" src="~/assets/images/users/avatar-2.jpg" alt="Generic placeholder image">
+						<div class="media-body">
+							<h5 class="font-size-14 mt-1">Humberto D. Champion</h5>
+							<small class="text-muted">support@domain.com</small>
+						</div>
 					</div>
-					@*<div class="btn-group mr-2 mb-2 mb-sm-0">
-						<button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							<i class="fa fa-folder"></i> <i class="mdi mdi-chevron-down ml-1"></i>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Updates</a>
-							<a class="dropdown-item" href="#">Social</a>
-							<a class="dropdown-item" href="#">Team Manage</a>
-						</div>
-					</div>*@
-					@*<div class="btn-group mr-2 mb-2 mb-sm-0">
-						<button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							<i class="fa fa-tag"></i> <i class="mdi mdi-chevron-down ml-1"></i>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Updates</a>
-							<a class="dropdown-item" href="#">Social</a>
-							<a class="dropdown-item" href="#">Team Manage</a>
-						</div>
-					</div>*@
+					<div style="display:flex;align-items:center;justify-content:center;direction:ltr">
+						<div id="PDFView" style="direction:ltr;height:600px;overflow-y:auto">
 
-					<div class="btn-group mr-2 mb-2 mb-sm-0">
-						<button type="button" class="btn btn-primary waves-light waves-effect dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-							More <i class="mdi mdi-dots-vertical ml-2"></i>
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Mark as Unread</a>
-							<a class="dropdown-item" href="#">Mark as Important</a>
-							<a class="dropdown-item" href="#">Add to Tasks</a>
-							<a class="dropdown-item" href="#">Add Star</a>
-							<a class="dropdown-item" href="#">Redirect To Service</a>
 						</div>
 					</div>
 				</div>
-
 				<div class="card-body">
 					<div class="media mb-4">
 						<img class="d-flex mr-3 rounded-circle avatar-sm" src="~/assets/images/users/avatar-2.jpg" alt="Generic placeholder image">
@@ -100,7 +73,6 @@
 
 	</div>
 </div>
-
 <!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -117,3 +89,50 @@
 
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
+<script src="~/assets/js/pdf.js"></script>
+<script src="~/assets/js/pdf.worker.js"></script>
+<script>
+	$(document).ready(function () {
+		//var ID = document.getElementById('NONE').innerText??"33"
+		var ID = 33;
+		$.ajax('/Email/RequestFiles?ID=33')
+			//.then(resp => resp.blob())
+			.then(blob => {
+				var pdfData_ = window.atob(blob);
+				var pdfjsLib = window['pdfjs-dist/build/pdf'];
+				pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/build/pdf/pdf.worker.js';
+				var loadingTask = pdfjsLib.getDocument({ data: pdfData_ });
+				var body = document.getElementById('PDFView')
+				loadingTask.promise.then(function (pdf) {
+					let pagenum = pdf.numPages;
+					console.log(pagenum)
+					for (let i = 1; i <= pagenum; i++) {
+						pdf.getPage(i).then(function (page) {
+							var viewport = page.getViewport({ scale: 1 });
+							var canvas = document.createElement('canvas', { id: 'canvas' + i, style: "direction: ltr !important;" })
+							body.appendChild(canvas)
+							var context = canvas.getContext('2d');
+							canvas.height = viewport.height;
+							canvas.width = viewport.width;
+							var renderContext = {
+								canvasContext: context,
+								viewport: viewport
+							};
+							var renderTask = page.render(renderContext);
+							renderTask.promise.then(function () {
+								//$('#padf').removeClass('pdfnotloaded')
+								//document.getElementById('loadingimg').style.display = "none";
+
+							});
+						});
+
+					}
+				}, function (reason) {
+					console.error(reason);
+				});
+
+			})
+			.catch(() => alert('oh no!'));
+	})
+
+</script>

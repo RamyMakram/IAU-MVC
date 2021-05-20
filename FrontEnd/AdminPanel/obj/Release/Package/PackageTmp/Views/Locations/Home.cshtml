@@ -21,7 +21,7 @@
 			<div class="card-body">
 
 				<div class="HeaderOfPage">
-					<p class="card-title-desc" key="t-users">
+					<p class="card-title-desc" key="t-location">
 						Manage Users
 					</p>
 
@@ -32,7 +32,8 @@
 						<tr>
 							<th key="t-name">Location Name</th>
 							<th key="t-enname">Location En Name</th>
-							<th key="t-status">Status</th>
+							<th key="t-activeTitle">Status</th>
+							<th></th>
 						</tr>
 					</thead>
 
@@ -40,9 +41,11 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", "Locations", new { Id = i.Location_ID })')">
-								<td>@i.Location_Name_AR</td>
-								<td>@i.Location_Name_EN</td>
-								<td>@i.IS_Action</td>
+								<td class="TH-ar">@i.Location_Name_AR</td>
+								<td class="TH-en">@i.Location_Name_EN</td>
+								<td>
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Locations", new { Id = i.Location_ID}, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
+								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Location_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
 						}

@@ -21,6 +21,43 @@
 			margin: 0;
 			padding: 0;
 		}
+
+		table#PDFTable {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			margin-bottom: 29px;
+		}
+
+		#padf div img {
+			width: 120px !important;
+		}
+
+		.boldtitle {
+			font-weight: 900;
+			padding: 5px 0;
+			font-size: 21px;
+		}
+
+
+		table#PDFTable tbody tr th {
+			text-align: start !important;
+			font-family: 'DroidArabicKufiRegular' !important;
+			font-size: 19px;
+			padding: 6px 19px;
+		}
+
+			table#PDFTable tbody tr th:not(.boldtitle) {
+				border: 1px solid #eee;
+			}
+
+				table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
+					font-weight:normal
+				}
+			table#PDFTable tbody tr th.boldtitle {
+				font-size: 28px;
+				color: #283858;
+			}
 	</style>
 	@if (ViewBag.CookieLang == "ar")
 	{
@@ -28,11 +65,13 @@
 			.containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
 				letter-spacing: normal !important;
 			}
+
 			a.nav-link {
 				font-weight: bold;
 				font-size: 19px;
 			}
-			.mainservice p, .requesttype p{
+
+			.mainservice p, .requesttype p {
 				font-size: 18px !important;
 				font-weight: bold !important;
 			}

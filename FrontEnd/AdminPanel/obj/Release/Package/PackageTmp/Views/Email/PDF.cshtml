@@ -1,0 +1,70 @@
+﻿
+@{
+	ViewBag.Title = "PDF";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PDF</h2>
+<div id="PDFView" style="display:flex;align-items:center;justify-content:center;direction:ltr !important"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"
+		integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g=="
+		crossorigin="anonymous"></script>
+<script src="~/assets/js/pdf.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/assets/js/pdf.worker.js"></script>
+<script src="~/assets/js/app.js"></script>
+
+<script>
+	$(document).ready(function () {
+		//var ID = document.getElementById('NONE').innerText??"33"
+		var ID = 33;
+		$.ajax({
+			url: `http://localhost:63727/api/Request/GetRequest_PDF?ID=33`,
+			type: "GET",
+			crossDomain: false,
+			dataType: 'json',
+			success: function (blob) {
+				console.log(blob['result'])
+				var pdfData_ = window.atob(blob['result']);
+				var pdfjsLib = window['pdfjs-dist/build/pdf'];
+				pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/build/pdf/pdf.worker.js';
+				var loadingTask = pdfjsLib.getDocument({ data: pdfData_ });
+				var body = document.getElementById('PDFView')
+				console.log(body)
+				loadingTask.promise.then(function (pdf) {
+					let pagenum = pdf.numPages;
+					console.log(pagenum)
+					for (let i = 1; i <= pagenum; i++) {
+						pdf.getPage(i).then(function (page) {
+							var viewport = page.getViewport({ scale: 1 });
+							var canvas = document.createElement('canvas', { id: 'canvas' + i, style: "direction: ltr !important;" })
+							body.appendChild(canvas)
+							var context = canvas.getContext('2d');
+							canvas.height = viewport.height;
+							canvas.width = viewport.width;
+							var renderContext = {
+								canvasContext: context,
+								viewport: viewport
+							};
+							var renderTask = page.render(renderContext);
+							renderTask.promise.then(function () {
+								//$('#padf').removeClass('pdfnotloaded')
+								//document.getElementById('loadingimg').style.display = "none";
+
+							});
+						});
+
+					}
+				}, function (reason) {
+					console.error(reason);
+				});
+			}
+		})
+	})
+
+</script>
+

@@ -2,10 +2,10 @@
 @{
 	ViewBag.Title = "E-From Type";
 	ViewBag.pTitle = "E-From Type";
-	ViewBag.pageTitle = "E-Froms";
+	ViewBag.pageTitle = "E-Froms" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arTitle = "اضافة نموذج";
 	ViewBag.arpTitle = "اضافة نموذج";
-	ViewBag.arpageTitle = "النماذج الالكترونية";
+	ViewBag.arpageTitle = "النماذج الالكترونية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -30,7 +30,7 @@
 				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
 				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
 
-				@using (Html.BeginForm("Create", "EForms", FormMethod.Post, new { encType = "multipart/form-data" }))
+				@using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data" }))
 				{
 					<div class="row">
 						<div class="col-sm-6">
@@ -52,14 +52,17 @@
 								<label key="t-enname" for="enname">Mobile</label>
 								@Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control", @name = "enname", @id = "enname" })
 							</div>
-							<div class="form-group">
-								<label key="t-subservice" class="control-label">units</label>
-								@Html.DropDownListFor(q => q.SubServiceID, ViewBag.SubSrevice as SelectList, new { @class = "form-control select2" })
-							</div>
+							@if (Request.QueryString["SubService"] == null)
+							{
+								<div class="form-group">
+									<label key="t-subservice" class="control-label">units</label>
+									@Html.DropDownListFor(q => q.SubServiceID, ViewBag.SubSrevice as SelectList, new { @class = "form-control select2" })
+								</div>
+							}
 						</div>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					@Html.ActionLink("Cancel", "Home", "EForms", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+					@Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 				}
 
 			</div>

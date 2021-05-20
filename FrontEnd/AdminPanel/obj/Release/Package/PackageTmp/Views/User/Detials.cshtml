@@ -40,7 +40,7 @@
 <div class="mt-5">
 	@Html.ActionLink("Edit", "Edit", new { Id = Model.User_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Active == "1" ? "Deactive" : "Active", Model.IS_Active == "1" ? "Deactive" : "Active", "User", new { Id = Model.User_ID }, new { @class = Model.IS_Active == "1" ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Active == "1" ? "t-deactive" : "t-active" })
+	@Html.ActionLink(Model.IS_Active == "1" ? "Deactive" : "Active", Model.IS_Active == "1" ? "Deactive" : "Active", "User", new { Id = Model.User_ID }, new { @class = Model.IS_Active == "1" ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Active == "1" ? "t-deactive" : "t-active" })
 
 </div>
 

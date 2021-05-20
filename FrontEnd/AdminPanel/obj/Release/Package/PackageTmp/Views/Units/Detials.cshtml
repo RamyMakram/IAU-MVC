@@ -1,12 +1,12 @@
 ﻿@model IAUAdmin.DTO.Entity.UnitsDTO
 @using System.Configuration;
 @{
-	ViewBag.Title = "Unit Detail";
-	ViewBag.pTitle = "Unit Detail";
-	ViewBag.pageTitle = "Units";
-	ViewBag.arTitle = "معلومات وحدة";
-	ViewBag.arpageTitle = "معلومات وحدة";
-	ViewBag.arpTitle = "الوحدات";
+	ViewBag.Title = "Unit Category";
+	ViewBag.pTitle = "Unit Category";
+	ViewBag.pageTitle = "Categories";
+	ViewBag.arTitle = "معلومات فئة";
+	ViewBag.arpageTitle = "معلومات فئة";
+	ViewBag.arpTitle = "الفئات الادارية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -34,10 +34,10 @@
 					<th key="t-location" scope="row">location</th>
 					<td>@(lang=="ar"? Model.Units_Location.Units_Location_Name_AR: Model.Units_Location.Units_Location_Name_EN)</td>
 				</tr>
-				<tr>
+				@*<tr>
 					<th key="t-servicetype" scope="row">servicetype</th>
 					<td>@(lang=="ar"? Model.Service_Type.Service_Type_Name_AR: Model.Service_Type.Service_Type_Name_EN)<img src=@(url+"/"+Model.Service_Type.Image_Path) height="36px" /></td>
-				</tr>
+				</tr>*@
 				<tr>
 					<th key="t-requesttype" scope="row">requesttype</th>
 					<td class="row" style="margin:0 !important">
@@ -83,7 +83,7 @@
 <div class="mt-5">
 	@Html.ActionLink("Edit", "Edit", new { Id = Model.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = Model.Units_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger" : "btn btn-primary", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = Model.Units_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
 
 </div>
 

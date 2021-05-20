@@ -44,11 +44,11 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", "RequestType", new { Id = i.Request_Type_ID })')">
-								<td>@i.Request_Type_Name_AR</td>
-								<td>@i.Request_Type_Name_EN</td>
+								<td class="TH-ar">@i.Request_Type_Name_AR</td>
+								<td class="TH-en">@i.Request_Type_Name_EN</td>
 								<td><img src=@(url+"/"+i.Image_Path) height="36px" /></td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "RequestType", new { Id = i.Request_Type_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary" : "btn btn-danger", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "RequestType", new { Id = i.Request_Type_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home"})
 								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Request_Type_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>

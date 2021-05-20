@@ -1,11 +1,11 @@
 ﻿@model IAUAdmin.DTO.Entity.UnitsDTO
 @{
-	ViewBag.Title = "Edit Unit";
-	ViewBag.pTitle = "Edit Unit";
-	ViewBag.pageTitle = "Units";
-	ViewBag.arTitle = "تعديل وحدة";
-	ViewBag.arpageTitle = "تعديل وحدة";
-	ViewBag.arpTitle = "الوحدات";
+	ViewBag.Title = "Edit Category";
+	ViewBag.pTitle = "Edit Category";
+	ViewBag.pageTitle = "Categories";
+	ViewBag.arTitle = "تعديل فئة";
+	ViewBag.arpageTitle = "تعديل فئة";
+	ViewBag.arpTitle = "الفئات الادارية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -17,12 +17,54 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 
+<style>
+	span.select2 {
+		width: 100% !important
+	}
+	label#TypeCode, #SubTypeCode, #SubTypeLevel {
+		width: 100% !important;
+		padding: 7px !important;
+		border: 1px solid #aaa !important;
+		border-radius: 6px !important;
+	}
+	span.select2-selection.select2-selection {
+		height: 36px !important;
+	}
+
+	#CodeGenrateDiv {
+		display: inline-flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		direction: ltr !important;
+	}
+
+		#CodeGenrateDiv input {
+			margin: 0 5px;
+			width: 33px;
+		}
+
+	label.control-label {
+		font-weight: bold;
+	}
+
+	.select2-selection__rendered {
+		font-weight: normal;
+	}
+
+	.select2-selection__rendered, .select2-selection__arrow {
+		margin-top: 3px;
+	}
+</style>
 
 <div class="row">
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-
+				@{
+					var lang = Request.Cookies["lang"].Value;
+					@Html.Hidden("ss", lang, new { @id = "lang" })
+				}
 				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
 
 				@using (Html.BeginForm("Edit", "Units", new { Id = Model.Units_ID }, FormMethod.Post))
@@ -30,19 +72,36 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
+								<label key="t-title-unitlevel" class="control-label">Types</label>
+								@Html.DropDownListFor(q => q.LevelID, ViewBag.Levels as IEnumerable<SelectListItem>, new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEID" })
+							</div>
+							<div class="form-group">
+								<label key="t-subunits" class="control-label">Types</label>
+								<select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
+								</select>
+							</div>
+							<div class="form-group">
 								<label key="t-name" for="name">Name</label>
 								@Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
 							</div>
-
 							<div class="form-group">
 								<label key="t-location" class="control-label">Loactions</label>
-								@Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2" })
+								@Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2", @id = "LocationIDSelect", @onchange = "LocationChange(event.target.value)" })
+							</div>
+							<div class="form-group">
+								<div class="custom-control custom-checkbox mb-3 p-0">
+									<label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
+									@Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
 							</div>
 
 							<div class="form-group">
-								<label key="t-servicetype" class="control-label">Services</label>
-								@Html.DropDownListFor(q => q.ServiceType_ID, ViewBag.Services as SelectList, new { @class = "form-control select2" })
+								<div class="custom-control custom-checkbox mb-3 p-0">
+									<label class="control-label" key="t-requesttype" for="Units_ReqType">ReqTypes</label>
+									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "Units_ReqType", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
 							</div>
+
 							@if (Model.IS_Mostafid || (bool)ViewBag.ViewMostafid)
 							{
 								<div class="form-group">
@@ -52,23 +111,69 @@
 									</div>
 								</div>
 							}
+							@Html.HiddenFor(q => q.SubID, new { @id = "SubID" })
 						</div>
 
 						<div class="col-sm-6">
+							<div class="form-group" style="display:inline-flex;width: 100%;margin:0">
+								<div style="width: 65%; padding: 0 3px;">
+									<label key="t-unittypes" class="control-label">Unit Type</label>
+									<select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
+									</select>
+								</div>
+								<div class="form-group" style="width: 35%; padding: 0 3px;margin: 0;">
+									<label key="t-title-code" class="control-label">Code</label>
+									<label id="TypeCode" style="width: 100%; padding: 5px;">Unit Code</label>
+								</div>
+							</div>
+							<div class="form-group" style="display:inline-flex;width: 100%;height:70px;    margin: 9px 0 11px 0;">
+								<div style="width: 65%; padding: 0 3px;">
+									<label key="t-title-subunittypes" class="control-label"></label>
+									<label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
+								</div>
+								<div style="width: 35%; padding: 0 3px">
+									<label key="t-title-sub-code" class="control-label">SubTypeCode</label>
+									<label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
+								</div>
+							</div>
 							<div class="form-group">
 								<label key="t-enname" for="Ename">ENNAME</label>
 								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control", @name = "Ename", @id = "Ename" })
 							</div>
 
 							<div class="form-group">
+								<label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
+								<div style="display:inline-flex;width:100%;">
+									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (IEnumerable<SelectListItem>)ViewBag.Service_TypeCharList, new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @style = "padding:0 5px" })
+								</div>
+							</div>
+
+							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-requesttype" for="customCheck1">ReqTypes</label>
-									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+									<label class="control-label" key="t-title-subservice" for="servicetype">Sub servicetype</label>
+									@Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
 							<div class="form-group">
-								<label key="t-unittypes" class="control-label">Types</label>
-								@Html.DropDownListFor(q => q.Units_Type_ID, ViewBag.Types as SelectList, new { @class = "form-control select2", })
+								<label key="t-title-code" for="Ename">UnitCode</label>
+								<input class="form-control" value="@Model.Code" id="unitCode" />
+							</div>
+
+							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID" })
+							@Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum" })
+							@Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum" })
+						</div>
+						<div class="col-12">
+							<div class="form-group">
+								<label class="control-label" key="t-title-code" for="servicetype">Code</label>
+								<div style="display:inline-flex" id="CodeGenrateDiv">
+									@foreach (var i in new string[15])
+									{
+										<input class="form-control Genratedcode" disabled />
+									}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -79,10 +184,190 @@
 		</div>
 	</div>
 </div>
-<!-- end row -->
-<!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script>
+	let UnitTypes = [];
+	let count = 0;
+	$(document).ready(function () {
+		LevelChange(document.getElementById('LEVEID').value)
+		let BuildN = $('#BuildNum').val().split('')
+		if (BuildN.length != 0) {
+			let BuildngsControls = document.getElementsByClassName('BuldingNumber');
+
+			([...BuildngsControls]).reverse().map(function (a, index) {
+				return a.value = BuildN[index]
+			})
+		}
+		else
+			BuildChange();
+		let Code = $('#RefNum').val().split('');
+		([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
+			le.value = Code[i]
+		})
+		LocationChange($('#LocationIDSelect').val())
+		UnitCodeChange(false, true)
+
+	})
+	function getUnitTypes(ID) {
+		$.ajax({
+			url: "/Units/getUnitTypes?id=" + ID, success: function (e) {
+				console.log(e)
+				UnitTypes = e;
+				var select = document.getElementById('UnitType');
+				select.innerHTML = ``;
+				if (e.length != 0) {
+					var lang = document.getElementById("lang").value
+					e.forEach(d => {
+						select.innerHTML += `<option value="${d["Units_Type_ID"]}">${lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]}</option>`
+					})
+					if (count == 0) {
+						let SS = $('#TypeID').val()
+						let CodeView = UnitTypes.find(q => q.Units_Type_ID == SS)
+						$('#UnitType').val(SS)
+						$('#TypeCode').text(CodeView.Code);
+						count++;
+					}
+					UnitCodeChange(true, false)
+
+				}
+			}, error: function (ee) {
+				console.log("error", ee)
+			}
+		})
+	}
+	function BuildChange() {
+		let BuildngsControls = document.getElementsByClassName('BuldingNumber')
+
+		let BuildNumber = ([...BuildngsControls]).reduce(function (a, c) {
+			if (a.value == undefined)
+				return c.value + a;
+			else
+				return c.value + a.value
+		})
+
+		$('#BuildNum').val(BuildNumber)
+	}
+	function LevelChange(eve) {
+		getUnitTypes(eve)
+		$.ajax({
+			url: "/Units/getUnits?id=" + eve, success: function (e) {
+				var select = document.getElementById('SubUnits');
+				select.innerHTML = ``;
+				if (e.length == 0) {
+					$('#unitCode').attr('maxlength', "1");
+					SubUnitChange(null)
+				}
+				else {
+					$('#unitCode').attr('maxlength', "2");
+
+					var lang = document.getElementById("lang").value
+					e.forEach(d => {
+						select.innerHTML += `<option value="${d["Units_ID"]}">${lang == "ar" ? d["Units_Name_AR"] : d["Units_Name_EN"]}</option>`
+					})
+					if ($('#SubID').val() == "")
+						SubUnitChange(e[0]["Units_ID"]);
+					else {
+						select.value = $('#SubID').val();
+						SubUnitChange($('#SubID').val())
+					}
+				}
+			}, error: function (ee) {
+				event.stopPropagation();
+				console.log("error", ee)
+			}
+		})
+	}
+	function UnitTypeChange(ID) {
+		if (count != 0) {
+			let CodeView = UnitTypes.find(q => q.Units_Type_ID == ID)
+
+			if (CodeView != null) {
+				$('#TypeID').val(ID)
+				$('#UnitType').val(ID)
+				$('#TypeCode').text(CodeView.Code);
+			}
+			UnitCodeChange(false);
+		}
+	}
+	function SubUnitChange(val) {
+		console.log("SubUnitChange", val)
+		$('#SubID').val(val);
+		if (val == null) {
+			$('#SubTypeLevel').text("");
+			$('#SubTypeCode').text("");
+			return;
+		}
+		$.ajax({
+			url: "/Units/getTypeOFUnit?id=" + val, success: function (d) {
+				var lang = document.getElementById("lang").value
+				$('#SubTypeLevel').text(lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]);
+				$('#SubTypeCode').text(d["Code"]);
+			}, error: function (ee) {
+				console.log("error", ee)
+			}
+		})
+		$.ajax({
+			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}`, success: function (dd) {
+				console.log(dd, JSON.parse(dd)["Code"], JSON.parse(dd)["Code"].split(''));
+				let Code = JSON.parse(dd)["Code"].split('');
+				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
+					le.value = Code[i]
+				})
+				$('#RefNum').val(JSON.parse(dd)["Code"])
+			}
+		})
+	}
+	function LocationChange(ID) {
+		$('#CodeGenrateDiv input:nth-of-type(4)').val(ID)
+	}
+	function UnitCodeChange(ISLevelChange, Intit = false) {
+		let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1
+		//debugger
+		let startIn = 3 + (index == 0 ? 1 : index * 3);
+		startIn += 1;
+		console.log("levelChange=" + ISLevelChange, " INIT=" + Intit)
+		console.log(startIn, index, $('#TypeCode').text(), $('#unitCode').val() == "" ? "0" : $('#unitCode').val())
+		if (index == 0) {
+			$(`#CodeGenrateDiv input:nth-of-type(${startIn})`).val($('#TypeCode').text())
+			if (Intit)
+				$(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).val($('#unitCode').val() == "" ? "0" : $('#unitCode').val())
+			startIn += 2
+		}
+		else {
+			let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
+			if (UnitCode.length == 1)
+				UnitCode = "0" + UnitCode
+			if (ISLevelChange)
+				for (var i = 5; i < startIn; i++)
+					document.querySelector(`#CodeGenrateDiv input:nth-of-type(${i})`).value = "0"
+			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
+			if (Intit) {
+				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = UnitCode.charAt(0)
+				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).value = UnitCode.charAt(1)
+			}
+			startIn += 3
+		}
+		if (ISLevelChange) {
+			console.log("Delete From:" + startIn)
+			for (startIn; startIn <= 15; startIn++)
+				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = "0"
+		}
+
+		let BuildngsControls = document.querySelectorAll('#CodeGenrateDiv input')
+
+		let BuildNumber = ([...BuildngsControls]).reverse().reduce(function (a, c) {
+			if (a.value == undefined)
+				return c.value + a;
+			else
+				return c.value + a.value
+		})
+		$('#RefNum').val(BuildNumber)
+	}
+</script>
+<!-- end row -->
+<!-- JAVASCRIPT -->
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
 <script src="~/assets/libs/node-waves/waves.min.js"></script>
