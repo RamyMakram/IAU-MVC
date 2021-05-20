@@ -16,17 +16,28 @@
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-
+<style>
+	.row, form {
+		margin: 0;
+		width: 100%;
+	}
+	#isaction {
+		height: 30px;
+		width: 21px;
+		cursor:pointer;
+	}
+</style>
 
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
+	@using (Html.BeginForm("Edit", "Levels", FormMethod.Post, new { @class = "repeater" }))
+	{
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
 
-				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
+					<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
 
-				@using (Html.BeginForm("Edit", "Levels", FormMethod.Post, new { @class = "repeater" }))
-				{
+
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
@@ -48,66 +59,75 @@
 								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "code", @id = "code", @maxlength = "2" })
 							</div>
 						</div>
-						<div style="display:inline-flex;justify-content:space-between;width: 100%;padding: 0 11px;">
-							<h4 key="t-unit-type" class="card-title">Basic Information</h4>
-							<button id="AddRecord" data-repeater-create type="button" class="btn btn-circle mt-3 mt-lg-0"><i class="fas fa-plus-circle" style="font-size:18px;color:green"></i></button>
-						</div>
+						@Html.EditorFor(q => q.Units_Type_STR, new { htmlAttributes = new { @class = "form-control", @disable = "true", @style = "display:none !important" } })
 
-						<div class="col-12">
-							<div data-repeater-list="group-a" id="RequiredDocumnets">
-								@foreach (var i in Model.Units_Type)
-								{
-									<div class="row RequiredDIV">
-										<span style="display:none" class="FORM-ID">@i.Units_Type_ID</span>
-										<div class="form-group col-4">
-											<label key="t-name" for="name">Name</label>
-											<input type="text" id="name" name="untyped-input" class="form-control FORM-name" value="@i.Units_Type_Name_AR" />
-										</div>
+					</div>
 
-										<div class="form-group col-3">
-											<label key="t-enname" for="enname">Email</label>
-											<input type="text" id="enname" class="form-control FORM-enname" value="@i.Units_Type_Name_EN" />
-										</div>
-										<div class="form-group col-3">
-											<label key="t-Typecode" for="code">Code</label>
-											<input type="text" id="code" class="form-control FORM-code" value="@i.Code" maxlength="1" />
-										</div>
-										<div class="form-group col-2">
-											<label key="t-activeTitle" for="isaction">Email</label>
-											<input type="checkbox" id="isaction" class="form-control FORM-Active" style="height: 20px;" @(i.IS_Action.Value ? "checked" : "") />
-										</div>
-									</div>
-								}
-								<div data-repeater-item class="row RequiredDIV">
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+
+					<div style="display:inline-flex;justify-content:space-between;width: 100%;padding: 0 11px;">
+						<h4 key="t-unit-type" class="card-title">Basic Information</h4>
+						<button id="AddRecord" data-repeater-create type="button" class="btn btn-circle mt-3 mt-lg-0"><i class="fas fa-plus-circle" style="font-size:18px;color:green"></i></button>
+					</div>
+
+					<div class="col-12">
+						<div data-repeater-list="group-a" id="RequiredDocumnets">
+							@foreach (var i in Model.Units_Type)
+							{
+								<div class="row RequiredDIV">
+									<span style="display:none" class="FORM-ID">@i.Units_Type_ID</span>
 									<div class="form-group col-4">
 										<label key="t-name" for="name">Name</label>
-										<input type="text" id="name" name="untyped-input" class="form-control FORM-name" />
+										<input type="text" id="name" name="untyped-input" class="form-control FORM-name" value="@i.Units_Type_Name_AR" />
 									</div>
 
 									<div class="form-group col-3">
 										<label key="t-enname" for="enname">Email</label>
-										<input type="text" id="enname" class="form-control FORM-enname" />
+										<input type="text" id="enname" class="form-control FORM-enname" value="@i.Units_Type_Name_EN" />
 									</div>
 									<div class="form-group col-3">
 										<label key="t-Typecode" for="code">Code</label>
-										<input type="text" id="code" class="form-control FORM-code" maxlength="1" />
+										<input type="text" id="code" class="form-control FORM-code" value="@i.Code" maxlength="1" />
 									</div>
-									<div class="col-lg-2 align-self-center">
-										<button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>
+									<div class="form-group col-2">
+										<label key="t-activeTitle" for="isaction">Email</label>
+										<input type="checkbox" id="isaction" class="form-control FORM-Active" style="height: 20px;" @(i.IS_Action.Value ? "checked" : "") />
 									</div>
+								</div>
+							}
+							<div data-repeater-item class="row RequiredDIV">
+								<div class="form-group col-4">
+									<label key="t-name" for="name">Name</label>
+									<input type="text" id="name" name="untyped-input" class="form-control FORM-name" />
+								</div>
+
+								<div class="form-group col-3">
+									<label key="t-enname" for="enname">Email</label>
+									<input type="text" id="enname" class="form-control FORM-enname" />
+								</div>
+								<div class="form-group col-3">
+									<label key="t-Typecode" for="code">Code</label>
+									<input type="text" id="code" class="form-control FORM-code" maxlength="1" />
+								</div>
+								<div class="col-lg-2 align-self-center">
+									<button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>
 								</div>
 							</div>
 						</div>
-						@Html.EditorFor(q => q.Units_Type_STR, new { htmlAttributes = new { @class = "form-control", @disable = "true", @style = "display:none !important" } })
-
 					</div>
-					<button id="submir" type="submit" class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>
-				}
-				<button onclick="Save()" type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-				@Html.ActionLink("Cancel", "Home", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+
+				</div>
 			</div>
+			<button id="submir" type="submit" class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>
+			<button onclick="Save()" type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+			@Html.ActionLink("Cancel", "Home", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 		</div>
-	</div>
+	}
 </div>
 <!-- end row -->
 <!-- JAVASCRIPT -->

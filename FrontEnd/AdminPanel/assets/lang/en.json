@@ -46,7 +46,7 @@
 	"t-subservices": "Sub Services",
 	"t-eforms": "E-Forms",
 	"t-request-type": "Request Types",
-	"t-unit-type": "Unit Types",
+	"t-unit-type": "Category Types",
 	"t-active-location": "Do u want to active this location?",
 	"t-deactive-location": "Do u want to deactive this location?",
 	"t-unitLocationmanage": "Manage Unit Locations",
@@ -83,8 +83,9 @@
 	"t-title-mainservice": "Main Service",
 	"t-title-code": "Code",
 	"t-title-subunittypes": "Sub Category Type",
-	"t-title-sub-code": "Sub Category",
+	"t-title-sub-code": "Sub Category Type Code",
 	"t-title-buildnum": "Building Number",
-	"t-title-subservice": "Sub Services"
-
+	"t-title-subservice": "Sub Services",
+	"t-title-type-code": "Category Type Code",
+	"t-Typecode": "Type Code"
 }

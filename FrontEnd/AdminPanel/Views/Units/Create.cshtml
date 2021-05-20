@@ -119,7 +119,7 @@
 									</select>
 								</div>
 								<div class="form-group" style="width: 35%; padding: 0 3px;">
-									<label key="t-title-code" class="control-label">Code</label>
+									<label key="t-title-type-code" class="control-label">Code</label>
 									<label id="TypeCode" style="width: 100%; padding: 5px;">Unit Code</label>
 								</div>
 							</div>
@@ -164,7 +164,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group">
-								<label class="control-label" key="t-" for="servicetype">Code</label>
+								<label class="control-label" key="t-title-code" for="servicetype">Code</label>
 								<div style="display:inline-flex" id="CodeGenrateDiv">
 									@foreach (var i in new string[15])
 									{
@@ -278,7 +278,7 @@
 				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
 					le.value = Code[i]
 				})
-				$('#RefNum').val(Code)
+				$('#RefNum').val(JSON.parse(dd)["Code"])
 			}
 		})
 	}

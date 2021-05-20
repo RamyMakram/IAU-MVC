@@ -48,7 +48,7 @@ namespace IAUBackEnd.Admin.Controllers
 				data.Code = unitLevel.Code;
 				foreach (var i in unitLevel.Units_Type)
 				{
-					if (i.Units_Type_ID == null || i.Units_Type_ID == 0)
+					if (i.Units_Type_ID == null || i.Units_Type_ID.Value == 0)
 						data.Units_Type.Add(i);
 					else
 					{

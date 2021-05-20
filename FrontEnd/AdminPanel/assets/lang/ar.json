@@ -47,7 +47,7 @@
 	"t-subservices": "الخدمات الفرعية",
 	"t-eforms": "النماذج الالكترونية",
 	"t-request-type": "انواع الطلبات",
-	"t-unit-type": "اعدادات أنوع الوحدات",
+	"t-unit-type": "اعدادات أنوع الفئات",
 	"t-active-location": "هل انت متاكد من تنشيط هذا الموقع؟",
 	"t-deactive-location": "هل انت متاكد من الغاء تنشيط هذا الموقع؟",
 	"t-unitLocationmanage": "اداره مواقع الوحدات",
@@ -83,8 +83,9 @@
 	"t-title-mainservice": "الخدمة الرئيسية",
 	"t-title-code": "كود الوحدة",
 	"t-title-subunittypes": "نوع الوحدة التابعة",
-	"t-title-sub-code": "كود الوحدة التابعة",
+	"t-title-sub-code": "كود نوع الوحدة التابعة",
 	"t-title-buildnum": "رقم المبني",
-	"t-title-subservice": "الخدمات الفرعية"
-
+	"t-title-subservice": "الخدمات الفرعية",
+	"t-title-type-code": "كود نوع الوحدة",
+	"t-Typecode": "كود النوع"
 }

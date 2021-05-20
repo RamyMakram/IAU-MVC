@@ -92,12 +92,12 @@
 
 							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-requesttype" for="customCheck1">ReqTypes</label>
-									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+									<label class="control-label" key="t-requesttype" for="Units_ReqType">ReqTypes</label>
+									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "Units_ReqType", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
 
-							@if ((bool)ViewBag.ViewMostafid)
+							@if (Model.IS_Mostafid || (bool)ViewBag.ViewMostafid)
 							{
 								<div class="form-group">
 									<div class="custom-control custom-checkbox mb-3">
@@ -152,7 +152,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label key="t-" for="Ename">UnitCode</label>
+								<label key="t-title-code" for="Ename">UnitCode</label>
 								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "unitCode", @id = "unitCode", @maxlength = "1", @onkeyup = "UnitCodeChange()" })
 							</div>
 
@@ -162,7 +162,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group">
-								<label class="control-label" key="t-" for="servicetype">Code</label>
+								<label class="control-label" key="t-title-code" for="servicetype">Code</label>
 								<div style="display:inline-flex" id="CodeGenrateDiv">
 									@foreach (var i in new string[15])
 									{
@@ -195,6 +195,8 @@
 		([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
 			le.value = Code[i]
 		})
+		LocationChange($('#LocationIDSelect').val())
+
 	})
 	function getUnitTypes(ID) {
 		$.ajax({
@@ -289,7 +291,7 @@
 				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
 					le.value = Code[i]
 				})
-				$('#RefNum').val(Code)
+				$('#RefNum').val(JSON.parse(dd)["Code"])
 			}
 		})
 	}
@@ -331,6 +333,7 @@
 			else
 				return c.value + a.value
 		})
+		BuildNumber
 		$('#RefNum').val(BuildNumber)
 	}
 </script>

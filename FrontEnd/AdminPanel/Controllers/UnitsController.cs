@@ -3,6 +3,7 @@ using IAUAdmin.DTO.Helper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -284,9 +285,11 @@ namespace AdminPanel.Controllers
 		[HttpGet]
 		public JsonResult GetCode(string code, int id)
 		{
+			Console.WriteLine(code + "  " + id);
 			var Data = APIHandeling.getData("Units/GenrateCode?Ref_Number=" + code + "&SubID=" + id);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			Console.WriteLine(res.result + "  ");
 			return Json(res.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 	}
