@@ -155,7 +155,7 @@
 							</div>
 							<div class="form-group">
 								<label key="t-" for="Ename">UnitCode</label>
-								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control", @name = "unitCode", @id = "unitCode", @maxlength = "1", @onkeyup = "UnitCodeChange()" })
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "unitCode", @id = "unitCode", @maxlength = "1", @onkeyup = "UnitCodeChange()" })
 							</div>
 
 							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID" })
@@ -206,7 +206,7 @@
 				if (e.length != 0) {
 					$('#TypeID').val(e[0]["Units_Type_ID"]);
 					$('#TypeCode').text(e[0]["Code"]);
-					UnitCodeChange()
+					UnitCodeChange(true)
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
 						select.innerHTML += `<option value="${d["Units_Type_ID"]}">${lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]}</option>`
@@ -217,12 +217,17 @@
 			}
 		})
 	}
-	function UnitTypeChange(ID) {
-		let CodeView = UnitTypes.find(q => q.Units_Type_ID == ID)
-		if (CodeView != null)
-			$('#TypeCode').text(CodeView.Code);
-		UnitCodeChange();
+	function BuildChange() {
+		let BuildngsControls = document.getElementsByClassName('BuldingNumber')
 
+		let BuildNumber = ([...BuildngsControls]).reduce(function (a, c) {
+			if (a.value == undefined)
+				return c.value + a;
+			else
+				return c.value + a.value
+		})
+
+		$('#BuildNum').val(BuildNumber)
 	}
 	function LevelChange(eve) {
 		getUnitTypes(eve.target.value)
@@ -249,6 +254,12 @@
 			}
 		})
 	}
+	function UnitTypeChange(ID) {
+		let CodeView = UnitTypes.find(q => q.Units_Type_ID == ID)
+		if (CodeView != null)
+			$('#TypeCode').text(CodeView.Code);
+		UnitCodeChange(false);
+	}
 	function SubUnitChange(val) {
 		$('#SubID').val(val);
 		$.ajax({
@@ -256,29 +267,26 @@
 				var lang = document.getElementById("lang").value
 				$('#SubTypeLevel').text(lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]);
 				$('#SubTypeCode').text(d["Code"]);
-				UnitCodeChange();
 			}, error: function (ee) {
 				console.log("error", ee)
 			}
 		})
-	}
-	function BuildChange() {
-		let BuildngsControls = document.getElementsByClassName('BuldingNumber')
-
-		let BuildNumber = ([...BuildngsControls]).reduce(function (a, c) {
-			if (a.value == undefined)
-				return c.value + a;
-			else
-				return c.value + a.value
+		$.ajax({
+			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}`, success: function (dd) {
+				//console.log(dd);
+				let Code = JSON.parse(dd)["Code"].split('');
+				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
+					le.value = Code[i]
+				})
+				$('#RefNum').val(Code)
+			}
 		})
-
-		$('#BuildNum').val(BuildNumber)
 	}
 
 	function LocationChange(ID) {
 		document.querySelector('#CodeGenrateDiv input:nth-of-type(4)').value = ID
 	}
-	function UnitCodeChange() {
+	function UnitCodeChange(ISLevelChange) {
 		let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1
 		//debugger
 		let startIn = 3 + (index == 0 ? 1 : index * 3);
@@ -292,17 +300,18 @@
 			let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
 			if (UnitCode.length == 1)
 				UnitCode = "0" + UnitCode
-			
-			for (var i = 4; i < startIn; i++)
-				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${i})`).value = "0"
-			console.log("Satrt Is " + startIn)
+			if (ISLevelChange)
+				for (var i = 4; i < startIn; i++)
+					document.querySelector(`#CodeGenrateDiv input:nth-of-type(${i})`).value = "0"
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = UnitCode.charAt(0)
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).value = UnitCode.charAt(1)
-			startIn+=3
+			startIn += 3
 		}
-		for (startIn; startIn <= 15; startIn++)
-			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = "x"
+		if (ISLevelChange)
+			for (startIn; startIn <= 15; startIn++)
+				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = "x"
+
 		let BuildngsControls = document.querySelectorAll('#CodeGenrateDiv input')
 
 		let BuildNumber = ([...BuildngsControls]).reverse().reduce(function (a, c) {
@@ -311,7 +320,6 @@
 			else
 				return c.value + a.value
 		})
-		console.log(BuildNumber)
 		$('#RefNum').val(BuildNumber)
 	}
 </script>

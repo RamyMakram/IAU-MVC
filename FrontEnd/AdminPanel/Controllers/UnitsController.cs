@@ -280,5 +280,14 @@ namespace AdminPanel.Controllers
 			else
 				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
 		}
+
+		[HttpGet]
+		public JsonResult GetCode(string code, int id)
+		{
+			var Data = APIHandeling.getData("Units/GenrateCode?Ref_Number=" + code + "&SubID=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(res.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
 	}
 }

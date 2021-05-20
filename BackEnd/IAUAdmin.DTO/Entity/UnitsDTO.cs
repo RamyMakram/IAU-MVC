@@ -22,6 +22,8 @@ namespace IAUAdmin.DTO.Entity
 		public Nullable<int> ServiceTypeID { get; set; }
 		public int[] Units_ReqType { get; set; }
 		public int[] Units_ServiceType { get; set; }
+		public string Code { get; set; }
+
 
 		public virtual ICollection<UnitServiceTypesDTO> UnitServiceTypes { get; set; }
 		public virtual ICollection<UnitMainServicesDTO> UnitMainServices { get; set; }

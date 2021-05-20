@@ -35,7 +35,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetUnits(int id)
 		{
-			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
+			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Code, q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
 			if (units == null)
 				return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
 
@@ -66,6 +66,12 @@ namespace IAUBackEnd.Admin.Controllers
 				data.Units_Request_Type = units.Units_Request_Type;
 				p.UnitServiceTypes.RemoveRange(data.UnitServiceTypes);
 				data.UnitServiceTypes = units.UnitServiceTypes;
+				char[] GenrateCode = units.Ref_Number.ToCharArray();
+				if (units.SubID != 0 && units.SubID != null)
+					GetCode(ref GenrateCode, units.SubID.Value);
+				var code = string.Join("", GenrateCode).Replace('x','0');
+				data.Ref_Number = code;
+
 				await p.SaveChangesAsync();
 				return Ok(new ResponseClass() { success = true });
 			}
@@ -103,7 +109,7 @@ namespace IAUBackEnd.Admin.Controllers
 			char[] GenrateCode = units.Ref_Number.ToCharArray();
 			if (units.SubID != 0 && units.SubID != null)
 				GetCode(ref GenrateCode, units.SubID.Value);
-			units.Ref_Number = string.Join("", GenrateCode);
+			units.Ref_Number = string.Join("", GenrateCode).Replace('x', '0');
 
 			p.Units.Add(units);
 			await p.SaveChangesAsync();
@@ -111,12 +117,21 @@ namespace IAUBackEnd.Admin.Controllers
 			return Ok(new ResponseClass() { success = true });
 		}
 
-		public void GetCode(ref char[] _code, int UnitID)
+		[HttpGet]
+		public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID)
+		{
+			char[] GenrateCode = Ref_Number.ToCharArray();
+			if (SubID != 0 && SubID != null)
+				GetCode(ref GenrateCode, SubID.Value);
+			var code = string.Join("", GenrateCode);
+			return Ok(new ResponseClass() { success = true, result = new { Code = code } });
+		}
+		private void GetCode(ref char[] _code, int UnitID)
 		{
 			try
 			{
 				var Unit = p.Units.Include(q => q.UnitLevel).Include(q => q.Units_Type).FirstOrDefault(q => q.Units_ID == UnitID);
-				int levelCode = Convert.ToInt32(Unit.UnitLevel.Code)-1;
+				int levelCode = Convert.ToInt32(Unit.UnitLevel.Code) - 1;
 				var index = 3 + (levelCode == 0 ? 1 : levelCode * 3);
 				if (levelCode == 0)
 				{
@@ -134,7 +149,7 @@ namespace IAUBackEnd.Admin.Controllers
 			}
 			catch (Exception ee)
 			{
-
+				_code = "".ToCharArray();
 			}
 		}
 
