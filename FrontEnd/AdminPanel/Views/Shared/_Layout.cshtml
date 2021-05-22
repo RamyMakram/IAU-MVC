@@ -16,12 +16,21 @@
 		{
 			<style>
 				body {
-					font-family: Poppins,Helvetica,sans-serif !important;
+					font-family: 'Frutiger LT Arabic 55 Roman' !important;
 					font-weight: bolder !important;
 				}
 			</style>
 		}
 	}
+	<style>
+		.en-font {
+			font-family: 'Frutiger LT Arabic 55 Roman' !important;
+		}
+
+		.ar-font {
+			font-family: 'DroidArabicKufiRegular' !important;
+		}
+	</style>
 	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
 	@RenderSection("styles", false)
 	@Html.Partial("~/Views/Shared/_head_css.cshtml")

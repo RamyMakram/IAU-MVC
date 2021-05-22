@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
+using LinqKit;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -21,16 +22,20 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetUnits()
 		{
-			return Ok(new ResponseClass() { success = true, result = p.Units.Include(q => q.UnitServiceTypes).Select(q => new { q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+			return Ok(new ResponseClass() { success = true, result = p.Units.Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
 		}
 
 		public async Task<IHttpActionResult> GetActive()
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true) });
 		}
-		public async Task<IHttpActionResult> GetActiveUnits_byLevel(int id)
+		public async Task<IHttpActionResult> GetActiveUnits_byLevel(int id, int? uintId)
 		{
-			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.LevelID < id).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID }) });
+			var pred = PredicateBuilder.New<Units>();
+			pred.And(q => q.IS_Action == true && q.LevelID < id);
+			if (uintId != null)
+				pred.And(q => q.Units_ID != uintId);
+			return Ok(new ResponseClass() { success = true, result = p.Units.Where(pred).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID }) });
 		}
 
 		public async Task<IHttpActionResult> GetUnits(int id)

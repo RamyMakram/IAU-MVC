@@ -161,6 +161,7 @@
     <Content Include="assets\css\app-rtl.min.css" />
     <Content Include="assets\css\app.css" />
     <Content Include="assets\css\app.min.css" />
+    <Content Include="assets\css\fonts.css" />
     <Content Include="assets\css\bootstrap-dark.css" />
     <Content Include="assets\css\bootstrap-dark.min.css" />
     <Content Include="assets\css\bootstrap.css" />
@@ -213,6 +214,7 @@
     <Content Include="assets\images\logo.svg" />
     <Content Include="assets\images\maintenance.png" />
     <Content Include="assets\images\megamenu-img.png" />
+    <Content Include="assets\images\MousLogo2.png" />
     <Content Include="assets\images\product\img-1.png" />
     <Content Include="assets\images\product\img-2.png" />
     <Content Include="assets\images\product\img-3.png" />
@@ -238,6 +240,7 @@
     <Content Include="assets\images\users\avatar-7.jpg" />
     <Content Include="assets\images\users\avatar-8.jpg" />
     <Content Include="assets\images\verification-img.png" />
+    <Content Include="assets\images\VisionLogo.png" />
     <Content Include="assets\js\app.js" />
     <Content Include="assets\js\lang\jquery.multiLanguage.js" />
     <Content Include="assets\js\pages\apexcharts.init.js" />
@@ -2985,6 +2988,7 @@
     <Content Include="assets\fonts\FrutigerLTArabic-65Bold.ttf" />
     <Content Include="assets\fonts\Droid.Arabic.Kufi_.Bold_.ttf" />
     <Content Include="assets\fonts\Droid-Arabic-Kufi.ttf" />
+    <Content Include="assets\fonts\FrutigerLTArabic55Roman.woff" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Email\Home.cshtml" />

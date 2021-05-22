@@ -149,7 +149,6 @@ namespace AdminPanel.Controllers
 		[HttpPost]
 		public ActionResult Edit(int Id, UnitsDTO unitsDTO)
 		{
-			var data = unitsDTO.Units_ReqType;
 			unitsDTO.Units_ID = Id;
 			int length = 0;
 			if (unitsDTO.Units_ReqType != null)
@@ -164,7 +163,10 @@ namespace AdminPanel.Controllers
 				length = unitsDTO.Units_ServiceType.Length;
 				unitsDTO.UnitServiceTypes = new List<UnitServiceTypesDTO>();
 				for (int i = 0; i < length; i++)
-					unitsDTO.UnitServiceTypes.Add(new UnitServiceTypesDTO() { ServiceTypeID = unitsDTO.Units_ServiceType[i] });
+				{
+					if (unitsDTO.ServiceTypeID != unitsDTO.Units_ServiceType[i])
+						unitsDTO.UnitServiceTypes.Add(new UnitServiceTypesDTO() { ServiceTypeID = unitsDTO.Units_ServiceType[i] });
+				}
 			}
 			var Req = APIHandeling.Post("Units/Update", unitsDTO);
 			var resJson = Req.Content.ReadAsStringAsync();
@@ -226,9 +228,9 @@ namespace AdminPanel.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult getUnits(int id)
+		public JsonResult getUnits(int id, int? uID)
 		{
-			var Data = APIHandeling.getData("Units/GetActiveUnits_byLevel?id=" + id);
+			var Data = APIHandeling.getData($"Units/GetActiveUnits_byLevel?id={id}&uintId={(uID != null ? uID.Value.ToString() : "null")}");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
@@ -291,6 +293,18 @@ namespace AdminPanel.Controllers
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			Console.WriteLine(res.result + "  ");
 			return Json(res.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetUsers(int id)
+		{
+			var Data = APIHandeling.getData("User/GetAllByUnit?UID=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(JsonConvert.DeserializeObject<ICollection<UserDTO>>(res.result.ToString()), JsonRequestBehavior.AllowGet);
+			else
+				return Json(new List<Object>(), JsonRequestBehavior.AllowGet);
 		}
 	}
 }

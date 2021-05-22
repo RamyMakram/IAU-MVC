@@ -127,6 +127,36 @@ namespace IAUBackEnd.Admin.Controllers
 				});
 			}
 		}
+
+		[HttpGet]
+		public async Task<IHttpActionResult> GetAllByUnit(int UID)
+		{
+			try
+			{
+				var data = p.Users.Where(q => q.UnitID == UID)
+					.Include(q => q.Job)
+					.Select(q => new
+					{
+						q.User_Name,
+						q.User_Email,
+						q.Job
+					});
+				return Ok(new ResponseClass
+				{
+					success = true,
+					result = data
+				});
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass
+				{
+					success = false,
+					result = ee
+				});
+			}
+		}
+
 		[HttpGet]
 		public async Task<IHttpActionResult> GetDetails(int uid)
 		{

@@ -24,7 +24,7 @@
 	#ImagesInModel {
 		width: 100%;
 		display: flex;
-		justify-content: flex-end;
+		justify-content: center;
 	}
 
 		#ImagesInModel img {
@@ -72,7 +72,8 @@
 							<th id="hidden" style="display:none"></th>
 							<th key="t-enname">Type En Name</th>
 							<th key="t-activeTitle">Status</th>
-							<th key="t-mainservices">MainServices</th>
+							<th key="t-unit-home-mainservices">MainServices</th>
+							<th key="t-user">MainServices</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -87,14 +88,19 @@
 									{
 										<img src="@(url+"/"+s.Service_Type.Image_Path)" id="img-@(s.ServiceTypeID)" onclick="FilterMain(this,@(s.ServiceTypeID))" />
 									}
+									<img src="@(url+"/"+i.Service_Type.Image_Path)" id="img-@(i.Service_Type.Service_Type_ID)" onclick="FilterMain(this,@(i.Service_Type.Service_Type_ID))" />
+
 								</td>
-								<td class="TH-ar">@(i.Units_Name_AR)</td>
-								<td class="TH-en">@(i.Units_Name_EN)</td>
+								<td class="TH-ar ar-font">@(i.Units_Name_AR)</td>
+								<td class="TH-en en-font">@(i.Units_Name_EN)</td>
 								<td>
 									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
 								</td>
 								<td>
-									<button class="btn btn-primary" type="button" onclick="getMainService(event,this, '@(i.Units_ID)', '[@(string.Join(",", i.UnitServiceTypes.Select(q => q.ServiceTypeID).ToArray()))]')" key="t-mainservices">MainService</button>
+									<button class="btn btn-primary" type="button" onclick="getMainService(event,this, '@(i.Units_ID)', '[@(string.Join(",", i.UnitServiceTypes.Select(q => q.ServiceTypeID).ToArray()))]')" key="t-unit-home-mainservices">MainService</button>
+								</td>
+								<td>
+									<button class="btn btn-primary" type="button" onclick="getMainService(event,this, '@(i.Units_ID)', '[@(string.Join(",", i.UnitServiceTypes.Select(q => q.ServiceTypeID).ToArray()))]')" key="t-user">MainService</button>
 								</td>
 								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
 							</tr>
@@ -256,8 +262,8 @@
 							<td>
 								<input type="checkbox" ${i["Active"] ? "checked" : ""} style="height: 17px;width: 26px;" onchange="MainServiceChange('${i["Main_Services_ID"]}', this,'${i["Active"]}')"/>
 							</td>
-							<td>${i["Main_Services_Name_AR"]}</td>
-							<td>${i["Main_Services_Name_EN"]}</td>
+							<td class=" ar-font">${i["Main_Services_Name_AR"]}</td>
+							<td class=" en-font">${i["Main_Services_Name_EN"]}</td>
 							<td><img src="${document.getElementById('img-' + i["ServiceTypeID"]).src}" style="height: 24px; "/></td>
 							<td><button class="btn btn-primary" onclick="Sub('${i["Main_Services_ID"]}','${i["Main_Services_Name_AR"]}','${i["Main_Services_Name_EN"]}')">${subserviceText}</button></td>
 						</tr>
@@ -334,7 +340,7 @@
 			})
 		}
 	}
-	function Sub(ID, ar,en) {
+	function Sub(ID, ar, en) {
 		if (EformsText == "")
 			EformsText = document.getElementById('t-eforms').innerText
 		$('#TitleSubService').text(($('#lang').text() == "ar" ? ar : en) + " > " + $('#SubServiceTXT').text())
@@ -344,8 +350,8 @@
 				data.forEach(i => {
 					ItemsRow += `
 						<tr>
-							<td>${i["Sub_Services_Name_AR"]}</td>
-							<td>${i["Sub_Services_Name_EN"]}</td>
+							<td class=" ar-font">${i["Sub_Services_Name_AR"]}</td>
+							<td class=" en-font">${i["Sub_Services_Name_EN"]}</td>
 							<td><button class="btn btn-primary" onclick="EForms('${i["Sub_Services_ID"]}','${i["Sub_Services_Name_AR"]}','${i["Sub_Services_Name_EN"]}')">${EformsText}</button></td>
 						</tr>
 					`
@@ -366,8 +372,8 @@
 				data.forEach(i => {
 					ItemsRow += `
 						<tr>
-							<td>${i["Name"]}</td>
-							<td>${i["Name_EN"]}</td>
+							<td class=" ar-font">${i["Name"]}</td>
+							<td class=" en-font">${i["Name_EN"]}</td>
 						</tr>
 					`
 				})
