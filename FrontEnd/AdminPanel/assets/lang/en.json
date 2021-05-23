@@ -108,5 +108,6 @@
 	"t-region": "Region",
 	"t-postal": "Postal Code",
 	"t-contactinfo": "Conatct Information",
-	"t-phone": "Mobile Phone"
+	"t-phone": "Mobile Phone",
+	"t-profile": "Profile"
 }

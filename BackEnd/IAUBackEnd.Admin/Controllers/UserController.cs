@@ -137,6 +137,7 @@ namespace IAUBackEnd.Admin.Controllers
 					.Include(q => q.Job)
 					.Select(q => new
 					{
+						q.User_ID,
 						q.User_Name,
 						q.User_Email,
 						q.Job

@@ -21,7 +21,9 @@
 	label.control-label::after {
 		content: ":";
 	}
-
+	#CodeGenrateDiv input {
+		border: 1px solid;
+	}
 	span.select2 {
 		width: 100% !important
 	}
@@ -76,7 +78,7 @@
 						<div style="display:inline-flex" id="CodeGenrateDiv">
 							@foreach (var i in new string[15])
 							{
-								<input class="form-control Genratedcode" disabled />
+								<input class="form-control Genratedcode en-font" disabled />
 							}
 						</div>
 					</div>

@@ -36,5 +36,12 @@ namespace AdminPanel.Controllers
 			else
 				context.Result = RedirectToAction("UNAuth", "Error");
 		}
+		public ActionResult Logout()
+		{
+			Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-9) });
+			Response.Cookies.Set(new HttpCookie("token") { Expires = DateTime.Now.AddYears(-9) });
+			Response.Cookies.Set(new HttpCookie("lang") { Expires = DateTime.Now.AddYears(-9) });
+			return Redirect("https://iau-bsc.com/Coordinator/index");
+		}
 	}
 }

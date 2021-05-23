@@ -17,6 +17,11 @@ namespace AdminPanel.Controllers
 		{
 			if (Request.Cookies["lang"] == null)
 				Response.Cookies.Add(new HttpCookie("lang", "ar"));
+			var Data = APIHandeling.getData("Service_Type/GetActive");
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+			ViewBag.ServiceType = Services;
 			return View();
 		}
 		public ActionResult ChangeLanguage(string lang)
