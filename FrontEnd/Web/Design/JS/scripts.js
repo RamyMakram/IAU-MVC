@@ -101,7 +101,7 @@ $(document).ready(function () {
 	}
 });
 $('.requesttype').click(function () {
-	if (this.getAttribute("data-requesttypename").toLowerCase().includes("inquiry")) {
+	if (this.getAttribute("data-requesttypename").toLowerCase().includes("inquiry") || this.getAttribute("data-requesttypename").toLowerCase().includes("سؤال")) {
 		inquiry = true;
 		uploadfiles = [];
 		FileNames = [];
@@ -123,7 +123,7 @@ $("#right-arrow").click(function () {
 	incrementValue++;
 	$(".containt > .row").attr("style", "display:none;");
 	if (incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry") {
+		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
 			$(".containt > .row:nth-of-type(" + incrementValue + ")").attr("style", "display:flex;");
 			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
 				"data-slide-to": "Documents-Inquery",
@@ -138,7 +138,7 @@ $("#right-arrow").click(function () {
 			});
 		}
 	} else {
-		if (incrementValue == 6 && $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry") {
+		if (incrementValue == 6 && ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال")) {
 			$(".containt > .row:nth-of-type(" + ++incrementValue + ")").attr("style", "display:flex;");
 			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
 				"data-slide-to": "Documents-Inquery",
@@ -189,13 +189,15 @@ $("#right-arrow").click(function () {
 $("#left-arrow").click(function () {
 	incrementValue--;
 	if (incrementValue == 6 || incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry") {
+		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
 			incrementValue = incrementValue - 1;
 		}
 	}
 	if (incrementValue == 5) {
 		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "inquiry") {
-			incrementValue = incrementValue - 1;
+			if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "سؤال") {
+				incrementValue = incrementValue - 1;
+			}	
 		}
 	}
 	if (incrementValue == 6 /*request data Not inquery == 6*/) {

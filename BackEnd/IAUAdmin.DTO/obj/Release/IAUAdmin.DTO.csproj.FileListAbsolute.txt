@@ -9,3 +9,9 @@ C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.cspr
 C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.dll
 C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.pdb
 C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csprojAssemblyReference.cache
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.dll
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.pdb
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csprojAssemblyReference.cache
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csproj.CoreCompileInputs.cache
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.dll
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.pdb
