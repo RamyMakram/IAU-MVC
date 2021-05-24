@@ -48,8 +48,8 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go('@Url.Action("Detials", new { Id = i.Main_Services_ID })')">
-								<td class="TH-ar">@(i.Main_Services_Name_AR)</td>
-								<td class="TH-en">@(i.Main_Services_Name_EN)</td>
+								<td class="TH-ar ar-font">@(i.Main_Services_Name_AR)</td>
+								<td class="TH-en en-font">@(i.Main_Services_Name_EN)</td>
 								<td>
 									<img src=@(url+"/"+i.Service_Type.Image_Path) height="36px" />
 								</td>
