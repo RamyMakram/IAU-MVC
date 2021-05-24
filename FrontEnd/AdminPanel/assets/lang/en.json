@@ -109,5 +109,10 @@
 	"t-postal": "Postal Code",
 	"t-contactinfo": "Conatct Information",
 	"t-phone": "Mobile Phone",
-	"t-profile": "Profile"
+	"t-profile": "Profile",
+	"t-date": "Date",
+	"t-comment": "Comment",
+	"t-yes": "Yes",
+	"t-no": "No"
+
 }
