@@ -12,17 +12,13 @@ namespace IAU_BackEnd.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class UnitMainServices
     {
-        public int User_ID { get; set; }
-        public string User_Name { get; set; }
-        public string User_Mobile { get; set; }
-        public string User_Email { get; set; }
-        public string User_Password { get; set; }
-        public Nullable<int> User_Permissions_Type_ID { get; set; }
-        public Nullable<int> User_Active_ID { get; set; }
+        public int ID { get; set; }
+        public int UnitID { get; set; }
+        public int MainServiceID { get; set; }
     
-        public virtual User_Active User_Active { get; set; }
-        public virtual User_Permissions_Type User_Permissions_Type { get; set; }
+        public virtual Main_Services Main_Services { get; set; }
+        public virtual Units Units { get; set; }
     }
 }

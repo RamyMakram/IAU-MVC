@@ -18,6 +18,7 @@ namespace IAU_BackEnd.Models
         public Sub_Services()
         {
             this.Request_Data = new HashSet<Request_Data>();
+            this.Required_Documents = new HashSet<Required_Documents>();
         }
     
         public int Sub_Services_ID { get; set; }
@@ -29,5 +30,7 @@ namespace IAU_BackEnd.Models
         public virtual Main_Services Main_Services { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Required_Documents> Required_Documents { get; set; }
     }
 }

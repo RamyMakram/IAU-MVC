@@ -3,7 +3,7 @@
 	ViewBag.Title = "Deactive Location";
 	ViewBag.pTitle = "Deactive Location";
 	ViewBag.pageTitle = "Unit Locations";
-	ViewBag.arTitle     = "تعطيل موقع";
+	ViewBag.arTitle = "تعطيل موقع";
 	ViewBag.arpageTitle = "تعطيل موقع";
 	ViewBag.arpTitle = "مواقع الوحدات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,12 +13,12 @@
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-<h2 key="t-deactive" >Deactive</h2>
+<h2 key="t-deactive">Deactive</h2>
 
 <div class="row">
 	@using (Html.BeginForm("Deactive", "UnitLocation", new { Id = Model.Units_Location_ID, x = "" }, FormMethod.Post))
 	{
-		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-unitlocation" >
+		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-unitlocation">
 			Do u want to deactive this User?
 		</div>
 

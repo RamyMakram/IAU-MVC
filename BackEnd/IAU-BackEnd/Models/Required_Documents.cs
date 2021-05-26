@@ -12,23 +12,22 @@ namespace IAU_BackEnd.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Supporting_Documents
+    public partial class Required_Documents
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Supporting_Documents()
+        public Required_Documents()
         {
-            this.Request_Data = new HashSet<Request_Data>();
             this.Request_SupportingDocs = new HashSet<Request_SupportingDocs>();
         }
     
-        public int Supporting_Documents_ID { get; set; }
-        public string Supporting_Documents_Name_EN { get; set; }
-        public string Supporting_Documents_Name_AR { get; set; }
-        public Nullable<bool> IS_Action { get; set; }
+        public int ID { get; set; }
+        public string Name_EN { get; set; }
+        public string Name_AR { get; set; }
+        public Nullable<int> SubServiceID { get; set; }
+        public bool IS_Action { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Request_Data> Request_Data { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_SupportingDocs> Request_SupportingDocs { get; set; }
+        public virtual Sub_Services Sub_Services { get; set; }
     }
 }

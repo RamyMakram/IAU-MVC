@@ -155,8 +155,8 @@ namespace Web.App_Start
 			HttpClient h = new HttpClient();
 			h.BaseAddress = new Uri(AdminURL);
 
-			var res = h.GetAsync("/api/" + apiName).Result;
-			return res;
+			var res = h.GetAsync("/api/" + apiName);
+			return res.Result;
 		}
 		/// <summary>
 		/// INSERT using API

@@ -68,16 +68,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Applicant_Type.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\City.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Country.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Employee.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ID_Document.cs">
@@ -107,9 +101,6 @@
     <Compile Include="Models\Personel_Data.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Provider_Academic_Services.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Region.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -131,31 +122,22 @@
     <Compile Include="Models\Request_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Required_Documents.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Service_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sub_Services.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Supporting_Documents.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Title_Middle_Names.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Users.cs">
+    <Compile Include="Models\UnitMainServices.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\User_Active.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User_Permissions.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User_Permissions_Type.cs">
+    <Compile Include="Models\Units.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />

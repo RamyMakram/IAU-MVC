@@ -17,7 +17,9 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Service_Type()
         {
+            this.Main_Services = new HashSet<Main_Services>();
             this.Request_Data = new HashSet<Request_Data>();
+            this.Units = new HashSet<Units>();
         }
     
         public int Service_Type_ID { get; set; }
@@ -27,6 +29,10 @@ namespace IAU_BackEnd.Models
         public string Image_Path { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Main_Services> Main_Services { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Units> Units { get; set; }
     }
 }

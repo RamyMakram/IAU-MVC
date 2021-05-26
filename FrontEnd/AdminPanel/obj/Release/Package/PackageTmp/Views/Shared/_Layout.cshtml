@@ -2,81 +2,81 @@
 <html lang="en">
 
 <head>
-	@{
-		if (Request.Cookies["lang"].Value == "ar")
-		{
-			<style>
-				body {
-					font-family: 'DroidArabicKufiRegular' !important;
-					font-weight: bolder !important;
-				}
-			</style>
-		}
-		else
-		{
-			<style>
-				body {
-					font-family: 'Frutiger LT Arabic 55 Roman' !important;
-					font-weight: bolder !important;
-				}
-			</style>
-		}
-	}
-	<style>
+    @{
+        if (Request.Cookies["lang"].Value == "ar")
+        {
+            <style>
+                body {
+                    font-family: 'DroidArabicKufiRegular' !important;
+                    font-weight: bolder !important;
+                }
+            </style>
+        }
+        else
+        {
+            <style>
+                body {
+                    font-family: 'Frutiger LT Arabic 55 Roman' !important;
+                    font-weight: bolder !important;
+                }
+            </style>
+        }
+    }
+    <style>
 
-		.en-font, button.buttons-html5, .TH-en, div#datatable-buttons_wrapper div.row:nth-of-type(3), div#datatable-buttons_wrapper div.row:nth-of-type(3) {
-			font-family: 'Frutiger LT Arabic 55 Roman' !important;
-		}
+        .en-font, td.dataTables_empty, button.buttons-html5, .TH-en, div#datatable-buttons_wrapper div.row:nth-of-type(3), div#datatable-buttons_wrapper div.row:nth-of-type(3) {
+            font-family: 'Frutiger LT Arabic 55 Roman' !important;
+        }
 
-		.ar-font, .TH-ar {
-			font-family: 'DroidArabicKufiRegular' !important;
-		}
-	</style>
-	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
-	@RenderSection("styles", false)
-	@Html.Partial("~/Views/Shared/_head_css.cshtml")
+        .ar-font, .TH-ar {
+            font-family: 'DroidArabicKufiRegular' !important;
+        }
+    </style>
+    @Html.Partial("~/Views/Shared/_title_meta.cshtml")
+    @RenderSection("styles", false)
+    @Html.Partial("~/Views/Shared/_head_css.cshtml")
 </head>
 
 <body data-sidebar="dark">
-	<!-- Begin page -->
-	<div id="layout-wrapper">
-		<div class="loadinger" id="LoadingDiv">
-			@*<div style="width:100vw;height:100vh">*@
-			<img src='~/assets/images/loading.gif' />
-			@*<p>Loading Please Be Patient</p>*@
-			@*</div>*@
-		</div>
-		@Html.Partial("~/Views/Shared/_topbar.cshtml")
-		@Html.Partial("~/Views/Shared/_sidebar.cshtml")
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <div class="loadinger" id="LoadingDiv">
+            @*<div style="width:100vw;height:100vh">*@
+            <img src='~/assets/images/loading.gif' />
+            @*<p>Loading Please Be Patient</p>*@
+            @*</div>*@
+        </div>
+        @Html.Partial("~/Views/Shared/_topbar.cshtml")
+        @Html.Partial("~/Views/Shared/_sidebar.cshtml")
 
-		<!-- ============================================================== -->
-		<!-- Start right Content here -->
-		<!-- ============================================================== -->
-		<div class="main-content">
-			<div class="page-content" style=" height: 99vh !important; overflow: auto;">
-				<div class="container-fluid">
-					@Html.Partial("~/Views/Shared/_page_title.cshtml")
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content" style=" height: 99vh !important; overflow: auto;">
+                <div class="container-fluid">
+                    @Html.Partial("~/Views/Shared/_page_title.cshtml")
 
-					@RenderBody()
-				</div> <!-- container-fluid -->
-			</div>
-			<!-- End Page-content -->
+                    @RenderBody()
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
 
-			@Html.Partial("~/Views/Shared/_footer.cshtml")
-		</div>
-		<!-- end main content-->
+            @Html.Partial("~/Views/Shared/_footer.cshtml")
+        </div>
+        <!-- end main content-->
 
-	</div>
+    </div>
 
-	@RenderSection("externalhtml", required: false)
+    @RenderSection("externalhtml", required: false)
 
-	<!-- END layout-wrapper -->
-	@Html.Partial("~/Views/Shared/_right_sidebar.cshtml")
+    <!-- END layout-wrapper -->
+    @Html.Partial("~/Views/Shared/_right_sidebar.cshtml")
 
-	@*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
+    @*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
 
-	@RenderSection("scripts", required: false)
-	<script>
+    @RenderSection("scripts", required: false)
+    <script>
 		$(document).ready(w => {
 			var data = document.querySelectorAll('#datatable-buttons_filter label input , #searchTXT')
 			if (data != null && data.length != 0)
@@ -84,8 +84,8 @@
 					e.setAttribute("placeholder",'@(Request.Cookies["lang"].Value == "ar"?"بحث" :"Search")')
 				})
 		})
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js">
-	</script>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js">
+    </script>
 </body>
 </html>
