@@ -19,6 +19,8 @@ namespace IAU_BackEnd.Models
         {
             this.UnitMainServices = new HashSet<UnitMainServices>();
             this.Units1 = new HashSet<Units>();
+            this.Units_Request_Type = new HashSet<Units_Request_Type>();
+            this.UnitServiceTypes = new HashSet<UnitServiceTypes>();
         }
     
         public int Units_ID { get; set; }
@@ -41,5 +43,9 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Units> Units1 { get; set; }
         public virtual Units Units2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Units_Request_Type> Units_Request_Type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UnitServiceTypes> UnitServiceTypes { get; set; }
     }
 }

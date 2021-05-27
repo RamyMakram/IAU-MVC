@@ -163,7 +163,6 @@ $("#right-arrow").click(function () {
 	}
 	if ($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "personel-data-m"
 		&& enterPersonnel == false) {
-		LoadApiPeronsalData();
 		enterPersonnel = true;
 	} else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Inquery"
 		&& enterDocuments == false)) {
@@ -197,7 +196,7 @@ $("#left-arrow").click(function () {
 		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "inquiry") {
 			if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "سؤال") {
 				incrementValue = incrementValue - 1;
-			}	
+			}
 		}
 	}
 	if (incrementValue == 6 /*request data Not inquery == 6*/) {
@@ -248,7 +247,24 @@ $(".nav-fill .nav-link").click(function () {
 		}
 	}
 });
+///////////////////////////////////ServiceType////////////////////////////////////////////
+$('.mainservice').click(function (e) {
+	let ID = $(this).attr('data-mainserviceid');
+	$.ajax({
+		url: "/Home/GetApplicantData?ServiceID=" + ID, method: "Get", success: function (data) {
+			$("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
+			console.log(JSON.parse(data))
+			JSON.parse(data).forEach(i => {
+				$("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
+			})
+		}
+	})
+})
 
+//////////////////////////////////RequestType/////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////////////
 let dropArea = document.getElementById('drop-area');
 let Supportedfilename = "";
 $("#drop-area-other").click(function () {
@@ -494,7 +510,7 @@ function LoadApiPeronsalData() {
 function AssignCity(data) {
 	CityComponentSelect = "<select>"
 	data.forEach(function (element) {
-		CityComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
+		CityComponentSelect += "<option value=" + element.City_ID + ">" + (language == "ar" ? element.City_Name_AR : element.City_Name_EN) + "</option>"
 	});
 	CityComponentSelect += "</select>"
 }
@@ -876,79 +892,64 @@ function AffiliatedState() {
 		$("#IAUID").attr("disabled", "disabled");
 	}
 }
-function CityChange() {
 
-}
 function CountryState() {
-	isSaudi = $("#City_Country_2 option:selected").val() == 24 ? 1 : 0;
-	if (isSaudi == 1) {
-		var CityAttr = document.getElementById('City');
-		if (CityComponentSelect != "") {
-			CityAttr.innerHTML = `
-									<img />
-									${CityComponentSelect}
-									`
-		}
-		else {
-			let timeIntervalCity = setInterval(function () {
+	let ID = $("#City_Country_2 option:selected").val()
+	$.ajax({
+		url: "/Home/GetCityRegion?CID=" + ID, method: "Get", success: function (datxa) {
+			let data = JSON.parse(datxa)
+			if (data.Regions.length != 0) {
+				isSaudi = 1;
+				Cities = data.City;
+				let id = data.Regions[0].ID;
+				CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
+				RegionComponentSelect = `<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
+				data.Regions.forEach(function (element) {
+					RegionComponentSelect += "<option value=" + element.Region_ID + ">" + (language == "ar" ? element.Region_Name_AR : element.Region_Name_EN) + "</option>"
+				});
+				RegionComponentSelect += "</select>"
+				AssignCity(Cities.filter(q => q.SubID == id));
+				var CityAttr = document.getElementById('City');
 				if (CityComponentSelect != "") {
 					CityAttr.innerHTML = `
 									<img />
 									${CityComponentSelect}
 									`
-					clearInterval(timeIntervalCity);
 				}
-			}, 1000)
-		}
-
-		var RegionAttr = document.getElementById('Region');
-		if (RegionComponentSelect != "") {
-			RegionAttr.innerHTML = `
-									<img />
-									${RegionComponentSelect}
-									`
-			document.getElementById('Region_Postal_Code_1').addEventListener('change', function (e) {
-				let cities = Object.create(Cities).filter(q => q.SubID == this.value)
-				//console.log(cities);
-				console.log()
-				console.log(Cities)
-				console.log(cities)
-				AssignCity(cities)
-				document.getElementById('City').innerHTML = `
-									<img />
-									${CityComponentSelect}
-									`;
-			})
-		}
-
-		else {
-			let timeIntervalRegion = setInterval(function () {
+				var RegionAttr = document.getElementById('Region');
 				if (RegionComponentSelect != "") {
 					RegionAttr.innerHTML = `
 									<img />
 									${RegionComponentSelect}
 									`
-					document.getElementById('Region_Postal_Code_1').addEventLitener('change', function (e) {
-
+					document.getElementById('Region_Postal_Code_1').addEventListener('change', function (e) {
+						let cities = Object.create(Cities).filter(q => q.Region_ID == this.value)
+						console.log(Cities)
+						console.log(cities)
+						AssignCity(cities)
+						document.getElementById('City').innerHTML = `
+									<img />
+									${CityComponentSelect}
+									`;
 					})
-					clearInterval(timeIntervalRegion);
 				}
-			}, 1000)
-		}
-	} else {
-		var RegionAttr = document.getElementById('Region');
-		var CityAttr = document.getElementById('City');
-		RegionAttr.innerHTML = `
+
+			}
+			else {
+				isSaudi = 0;
+				var RegionAttr = document.getElementById('Region');
+				var CityAttr = document.getElementById('City');
+				RegionAttr.innerHTML = `
 								<img />
 								<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
 								`
-		CityAttr.innerHTML = `
+				CityAttr.innerHTML = `
 								<img />
 								<input type="text" id="City_Country_1" name="City_Country_1">
 								`
-		//document.getElementById('Region_Postal_Code_1').removeEventListener('change')
-
-	}
+			}
+		}
+	})
 }
 $("#Documents-Inquery #Documents #E-forms .icon-container").click(function () {
 	var myModal = new bootstrap.Modal(document.getElementById('formModel'), {

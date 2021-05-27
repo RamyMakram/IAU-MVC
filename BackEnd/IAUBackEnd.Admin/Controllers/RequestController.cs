@@ -86,27 +86,27 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			try
 			{
-				ApplicantRequest_Data_DTO model = requestData.Request;
+				var model = requestData.Request.Personel_Data;
 				Personel_Data personel_Data = p.Personel_Data.FirstOrDefault(q => (q.ID_Document == model.ID_Document && q.ID_Number == model.ID_Number) || q.Mobile == model.Mobile);
 				//save personal data
 				if (personel_Data == null)
 				{
 					personel_Data = new Personel_Data();
 					personel_Data.ID_Document = model.ID_Document.Value;
-					personel_Data.ID_Number = model.Document_Number;
-					personel_Data.IAU_Affiliate_ID = model.Affiliated;
-					personel_Data.IAU_ID_Number = model.IAUID;
+					personel_Data.ID_Number = model.ID_Number;
+					//personel_Data.IAU_Affiliate_ID = model.Affiliated;
+					personel_Data.IAU_ID_Number = model.IAU_ID_Number;
 					personel_Data.Applicant_Type_ID = model.Applicant_Type_ID;
-					personel_Data.Title_Middle_Names_ID = model.title;
+					personel_Data.Title_Middle_Names_ID = model.Title_Middle_Names_ID;
 					personel_Data.First_Name = model.First_Name;
 					personel_Data.Middle_Name = model.Middle_Name;
 					personel_Data.Last_Name = model.Last_Name;
 					personel_Data.Nationality_ID = model.Nationality_ID;
 					personel_Data.Country_ID = model.Country_ID;
-					personel_Data.City_Country_1 = model.City_Country_1;
-					personel_Data.City_Country_2 = model.City_Country_2;
-					personel_Data.Region_Postal_Code_1 = model.Region_Postal_Code_1;
-					personel_Data.Region_Postal_Code_2 = model.Region_Postal_Code_2;
+					//personel_Data.City_Country_1 = model.City_Country_1;
+					//personel_Data.City_Country_2 = model.City_Country_2;
+					//personel_Data.Region_Postal_Code_1 = model.Region_Postal_Code_1;
+					//personel_Data.Region_Postal_Code_2 = model.Region_Postal_Code_2;
 					personel_Data.Email = model.Email;
 					personel_Data.Mobile = model.Mobile;
 					p.Personel_Data.Add(personel_Data);
@@ -118,17 +118,16 @@ namespace IAUBackEnd.Admin.Controllers
 
 				Request_Data request_Data = new Request_Data();
 				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
-				request_Data.Provider_Academic_Services_ID = model.provider;
-				request_Data.Sub_Services_ID = model.Sub_Services_ID;
-				request_Data.Required_Fields_Notes = model.Required_Fields_Notes;
-				request_Data.Request_Type_ID = model.Request_Type_ID;
-				request_Data.Service_Type_ID = model.Service_Type_ID;
-				request_Data.Code_Generate = DateTime.Now.ToString("yyyyMMddHHmm");
-				request_Data.CreatedDate = DateTime.Now;
-				request_Data.Request_State_ID = 1;
+				//request_Data.Provider_Academic_Services_ID = model.provider;
+				//request_Data.Sub_Services_ID = model.;
+				//request_Data.Required_Fields_Notes = model.Required_Fields_Notes;
+				//request_Data.Request_Type_ID = model.Request_Type_ID;
+				//request_Data.Service_Type_ID = model.Service_Type_ID;
+				//request_Data.Code_Generate = DateTime.Now.ToString("yyyyMMddHHmm");
+				//request_Data.CreatedDate = DateTime.Now;
+				//request_Data.Request_State_ID = 1;
 				//IsTwasul=true, OC ON-CAMPUS بالمركز=false
 				request_Data.IsTwasul_OC = false;
-				request_Data.Request_SupportingDocs = new List<Request_SupportingDocs>();
 				p.Request_Data.Add(request_Data);
 				await p.SaveChangesAsync();
 				var path = HttpContext.Current.Server.MapPath("~");
@@ -142,12 +141,12 @@ namespace IAUBackEnd.Admin.Controllers
 						var filename = Path.GetFileName(requestData.Files[count].filename);
 						var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
 						File.WriteAllBytes(Path.Combine(path, filepath), requestData.Files[count].bytes);
-						request_Data.Request_SupportingDocs.Add(new Request_SupportingDocs()
-						{
-							SupportingDocID = i.ID.Value,
+						//request_Data.Request_SupportingDocs.Add(new Request_SupportingDocs()
+						//{
+						//	SupportingDocID = i.ID.Value,
 
-							Path = filepath.Replace("\\", "/")
-						});
+						//	Path = filepath.Replace("\\", "/")
+						//});
 						count++;
 					}
 				int length = requestData.Files.Count;
@@ -167,7 +166,6 @@ namespace IAUBackEnd.Admin.Controllers
 
 				p.SaveChanges();
 				var PDFPath = Path.Combine(requestpath, "PDF.txt");
-				File.WriteAllText(Path.Combine(path, PDFPath), requestData.PDFSignature);
 				Request_Data data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == request_Data.Request_Data_ID);
 
 				var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();

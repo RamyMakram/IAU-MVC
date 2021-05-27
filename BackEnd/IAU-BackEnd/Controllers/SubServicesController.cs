@@ -1,0 +1,21 @@
+﻿using IAU.DTO.Helper;
+using IAU_BackEnd.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace IAU_BackEnd.Controllers
+{
+	public class SubServicesController : ApiController
+	{
+		private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
+		public IHttpActionResult GetActive(int MainService)
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Include(q => q.Required_Documents).Where(q => q.IS_Action.Value && q.Main_Services_ID == MainService) });
+		}
+	}
+}

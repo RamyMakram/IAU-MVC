@@ -47,26 +47,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="App_Start\ApplicationProfile.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\Applicant\ApplicantController.cs" />
-    <Compile Include="Controllers\Applicant\ApplicantDataController.cs" />
-    <Compile Include="Controllers\Applicant\ApplicantTitleController.cs" />
-    <Compile Include="Controllers\BasicData\ProviderAcademicServicesController.cs" />
-    <Compile Include="Controllers\BasicData\CountryController.cs" />
-    <Compile Include="Controllers\BasicData\Main_ServiceController.cs" />
-    <Compile Include="Controllers\BasicData\NationaltyController.cs" />
-    <Compile Include="Controllers\BasicData\RequestTypeController.cs" />
-    <Compile Include="Controllers\BasicData\ServiceTypeController.cs" />
-    <Compile Include="Controllers\BasicData\Sub_ServicesController.cs" />
-    <Compile Include="Controllers\Request\DocumentController.cs" />
-    <Compile Include="Controllers\Request\RequestController.cs" />
+    <Compile Include="Controllers\AppTypeController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\EformsController.cs" />
+    <Compile Include="Controllers\IDDOcController.cs" />
+    <Compile Include="Controllers\MainServiceController.cs" />
+    <Compile Include="Controllers\Region_CityController.cs" />
+    <Compile Include="Controllers\RequestTypeController.cs" />
+    <Compile Include="Controllers\ServiceTypeController.cs" />
+    <Compile Include="Controllers\SubServicesController.cs" />
+    <Compile Include="Controllers\TitlesController.cs" />
+    <Compile Include="Controllers\UnitsController.cs" />
+    <Compile Include="Controllers\_HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Applicant_Type.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\City.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
@@ -138,6 +140,15 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Units.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnitServiceTypes.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Units_Request_Type.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ValidTo.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
@@ -312,6 +323,7 @@
     <Folder Include="Images\Request_Type\" />
     <Folder Include="Images\Service_Types\" />
     <Folder Include="RequestFiles\" />
+    <Folder Include="Views\ServiceType\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

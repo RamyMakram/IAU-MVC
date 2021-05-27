@@ -16,16 +16,15 @@ namespace Web.App_Start
 		/// </summary>
 		/// <param name="apiName">contoller name </param>//
 		/// <returns></returns>
-		public static HttpResponseMessage getData(string apiName, string lang)
+		public static HttpResponseMessage getData(string apiName)
 		{
 			HttpClient h = new HttpClient();
 
 			h.BaseAddress = new Uri(domainName);
 
-			h.DefaultRequestHeaders.Add("lang", lang);
 			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
 
-			var res = h.GetAsync("/api/" + apiName + "?lang=" + lang);
+			var res = h.GetAsync("/api/" + apiName);
 			return res.Result;
 		}
 		/// <summary>

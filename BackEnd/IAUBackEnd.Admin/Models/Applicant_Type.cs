@@ -17,6 +17,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Applicant_Type()
         {
+            this.Personel_Data = new HashSet<Personel_Data>();
             this.ValidTo = new HashSet<ValidTo>();
         }
     
@@ -25,6 +26,8 @@ namespace IAUBackEnd.Admin.Models
         public string Applicant_Type_Name_AR { get; set; }
         public Nullable<bool> IS_Action { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Personel_Data> Personel_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ValidTo> ValidTo { get; set; }
     }

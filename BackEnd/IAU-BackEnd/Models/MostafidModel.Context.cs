@@ -18,6 +18,7 @@ namespace IAU_BackEnd.Models
         public MostafidDatabaseEntities()
             : base("name=MostafidDatabaseEntities")
         {
+			this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -44,5 +45,9 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
         public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
         public virtual DbSet<Units> Units { get; set; }
+        public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
+        public virtual DbSet<ValidTo> ValidTo { get; set; }
+        public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
+        public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
     }
 }

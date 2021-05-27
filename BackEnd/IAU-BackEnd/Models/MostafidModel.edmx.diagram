@@ -47,6 +47,16 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Service_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitMainServices_Units" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Units" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Applicant_Type" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.ValidTo" Width="1.5" PointX="8.25" PointY="4.75" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Main_Services" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Units_Request_Type" Width="1.5" PointX="10.5" PointY="6.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.UnitServiceTypes" Width="1.5" PointX="5.25" PointY="14.25" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Request_Type_Units" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
