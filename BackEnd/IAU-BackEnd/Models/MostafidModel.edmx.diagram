@@ -57,6 +57,8 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Request_Type_Units" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.E_Forms" Width="1.5" PointX="7.5" PointY="19.875" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_E_Forms_Sub_Services" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -19,6 +19,7 @@ namespace IAU_BackEnd.Models
         {
             this.Request_Data = new HashSet<Request_Data>();
             this.Required_Documents = new HashSet<Required_Documents>();
+            this.E_Forms = new HashSet<E_Forms>();
         }
     
         public int Sub_Services_ID { get; set; }
@@ -32,5 +33,7 @@ namespace IAU_BackEnd.Models
         public virtual ICollection<Request_Data> Request_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Required_Documents> Required_Documents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<E_Forms> E_Forms { get; set; }
     }
 }

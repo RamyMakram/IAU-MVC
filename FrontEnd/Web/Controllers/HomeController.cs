@@ -116,7 +116,14 @@ namespace Web.Controllers
 			Response.Cookies.Set(new HttpCookie("lang", lang == "ar" ? lang : "en"));
 			return RedirectToAction("Index", "Home");
 		}
-
+		[HttpGet]
+		public JsonResult GetRequest(int ServiceID)
+		{
+			var res = APIHandeling.getData("/RequestType/GetActive?SID=" + ServiceID);
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
 		[HttpGet]
 		public JsonResult GetApplicantData(int ServiceID)
 		{
@@ -125,10 +132,47 @@ namespace Web.Controllers
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
+
 		[HttpGet]
 		public JsonResult GetCityRegion(int CID)
 		{
 			var res = APIHandeling.getData("/Region_City/GetActive?CountryID=" + CID);
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetProviders(int RID,int SID,int AID)
+		{
+			var res = APIHandeling.getData($"/Units/GetActive?ReqID={RID}&SerID={SID}&AppType={AID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetMainServices(int ID, int SID, int AID)
+		{
+			var res = APIHandeling.getData($"/MainService/GetActive?UID={ID}&ServiceID={SID}&AppType={AID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetSub(int ID)
+		{
+			var res = APIHandeling.getData($"/SubServices/GetActive?MainService={ID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetEforms(int ID)
+		{
+			var res = APIHandeling.getData($"/Eforms/GetActive?SubService={ID}");
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);

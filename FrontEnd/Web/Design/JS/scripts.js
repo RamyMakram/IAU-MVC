@@ -100,19 +100,31 @@ $(document).ready(function () {
 			location.href = location.href.split("?")[0]
 	}
 });
-$('.requesttype').click(function () {
-	if (this.getAttribute("data-requesttypename").toLowerCase().includes("inquiry") || this.getAttribute("data-requesttypename").toLowerCase().includes("سؤال")) {
-		inquiry = true;
-		uploadfiles = [];
-		FileNames = [];
-	}
-	else {
-		inquiry = false;
-		uploadfiles = [];
-		FileNames = [];
-		$('#filesNameOther').html("");
-	}
-})
+function reIntializeReType() {
+	$('.requesttype').click(function () {
+		if (this.getAttribute("data-requesttypename").toLowerCase().includes("inquiry") || this.getAttribute("data-requesttypename").toLowerCase().includes("سؤال")) {
+			inquiry = true;
+			uploadfiles = [];
+			FileNames = [];
+		}
+		else {
+			inquiry = false;
+			uploadfiles = [];
+			FileNames = [];
+			$('#filesNameOther').html("");
+		}
+	})
+	$(".stick").click(function (event) {
+		let value = $(event.currentTarget.parentNode.parentNode).attr("id");
+		$("#" + value + " .stick").removeClass("active");
+		$(event.currentTarget).addClass("active");
+		if ($(event.currentTarget).hasClass("follow")) {
+			window.location.href = "/Follow/Index";
+			return;
+		}
+		$("#right-arrow").click();
+	});
+}
 $("#right-arrow").click(function () {
 	console.log(incrementValue);
 	$(".nav-fill .nav-link").removeClass("active");
@@ -259,6 +271,29 @@ $('.mainservice').click(function (e) {
 			})
 		}
 	})
+	$.ajax({
+		url: "/Home/GetRequest?ServiceID=" + ID, method: "Get", success: function (data) {
+			$("#Request_Type_Id").html(`
+				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; margin-top:45px">
+					${(language == "ar" ? '<img src="/Design/img/ArServiceType.png" style="width:100%" />'
+					: '<img src="/Design/img/EnRequestType.png" style="width:100%"/>')} 
+				</div>`);
+			let serverpath = $('#serverpath').html()
+			JSON.parse(data).forEach(request => {
+				$("#Request_Type_Id").append(`
+							<div class="col-md-4 col-lg-3">
+								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
+									<img src=${(serverpath + "/" + request.Image_Path)} data-bs-toggle="tooltip" data-bs-placement="top"
+										 data-bs-custom-class="beautifier"
+										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+									<p>${(language == "ar" ? request.Name_AR : request.Name_EN)}</p >
+								</div >
+							</div >
+					`)
+			})
+			reIntializeReType();
+		}
+	})
 })
 
 //////////////////////////////////RequestType/////////////////////////////////////////////
@@ -353,7 +388,7 @@ function sendSMS() {
 	code = Math.floor(1000 + Math.random() * 9000);
 	$("#saveRequestBTN").html("<img src='././Design/img/spinner1.gif' style='width: 53px;'/>");
 	$.ajax({
-		url: `/Home/SendVerification?to=${data.Mobile}&code=${code}`,
+		url: `/ Home / SendVerification ? to = ${data.Mobile} & code=${code}`,
 		type: "GET",
 		success: function (result) {
 			var myModal = new bootstrap.Modal(document.getElementById('FourMessage'), {
@@ -422,15 +457,15 @@ function saveRequest() {
 						$('#FourMessage').modal('hide');
 						$("#MainBody").addClass("mainbody");
 						document.getElementById('MainBody').innerHTML =
-							`<div class="row">
-										<div class="success">
-											<span>Your request has been sent successfully. You will soon receive the </span><br />
-											<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
-										</div>
-										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-											<a href="" class="btn" id="Okaybutton" onclick="saveRequest()">Ok</a>
-										</div>
-									</div>`
+							`< div class= "row" >
+			<div class="success">
+				<span>Your request has been sent successfully. You will soon receive the </span><br />
+				<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
+			</div>
+			<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+				<a href="" class="btn" id="Okaybutton" onclick="saveRequest()">Ok</a>
+			</div>
+									</div > `
 						$('#FourMessage').modal('hide');
 					}
 					else {
@@ -471,8 +506,8 @@ function LoadApiPeronsalData() {
 			if (result != null) {
 				//  result = result.result;
 				let id = result.Regions[0].ID;
-				CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
-				RegionComponentSelect = `<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
+				CityComponentSelect = `< select id = "City_Country_1" name = "City_Country_1" > `
+				RegionComponentSelect = `< select  id = "Region_Postal_Code_1" name = "Region_Postal_Code_1" > `
 				result.Regions.forEach(function (element) {
 					RegionComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
 				});
@@ -538,55 +573,18 @@ $("#Required_Fields_Notes").keyup(function () {
 });
 
 function LoadApiDocumentsData(value) {
+	let RID = document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid');
+	let SID = document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid');
+	let APPID = $('#Applicant_Type_ID  option:selected').val();
 	$.ajax({
-		url: "/Home/loadDocumentData",
-		//  url: baseUrl + "/Document/loadpage",
+		url: `/Home/GetProviders?RID=${RID}&SID=${SID}&AID=${APPID}`,
 		method: "Get",
 		success: function (result) {
 			if (result != null) {
-				console.log("enter here");
-				console.log(value);
-				//result = result.result;
-				provider = result.provider
-				result.provider.forEach(function (element) {
-					if (value == 5) {
-						$("#provider").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					} else if (value == 6) {
-						$("#providerOther").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					}
+				let data = JSON.parse(result)
+				data.forEach(function (element) {
+					$(inquiry ? "#provider" : "#providerOther").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
 				});
-				if (inquiry) {
-					result.supporteddocs.forEach(function (element) {
-						$("#filesName").append(`
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:10px;padding:0px;4px;">
-                                            <div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
-											    <span  style="font-size:14px;display:inline-block;width:70%" title="${element.Name}" id="FileDefault${element.ID}">${element.Name.length > 17 ? element.Name.substring(0, 13) + "..." : element.Name}</span >
-											    <span  style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
-											    <input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
-											    <i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
-											    <i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
-                                            </div>
-                                        </div>
-									`)
-					});
-					supporteddocs = result.supporteddocs;
-					$(".fa-upload").click(function () {
-						Current_Supportedfilename = this.getAttribute("name");
-						Supportedfilename = this.getAttribute("data-RequiredName")
-						$("#uploadFileDialog" + Current_Supportedfilename).click();
-					});
-
-					$(".fa-trash").click(function () {
-						let RemoveCurrent_Supportedfilename = this.getAttribute("name");
-						uploadfiles.splice(uploadfiles.findIndex(q => q.ID == RemoveCurrent_Supportedfilename), 1)
-						document.getElementById('FileDefault' + RemoveCurrent_Supportedfilename).style.display = "inline-block";
-						document.getElementById('FileName' + RemoveCurrent_Supportedfilename).style.display = "none";
-						this.style.display = "none";
-						FileNames.splice(FileNames.indexOf(this.getAttribute("data-RequiredName")), 1)
-						document.getElementById("uploadFileDialog" + RemoveCurrent_Supportedfilename).value = "";
-						$('#fileUpload' + RemoveCurrent_Supportedfilename).css("color", "gray");
-					});
-				}
 			} else if (result == null) {
 				$("#modelbody").append("No Data Added , try again later");
 				$("#exampleModalCenter").modal("show");
@@ -594,47 +592,22 @@ function LoadApiDocumentsData(value) {
 		}
 	});
 }
-
-//15-03-2021 fz
-function selectMainService() {
+let SubServices = []
+function GetMainServices(ID) {
+	let SID = document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid');
+	let APPID = $('#Applicant_Type_ID  option:selected').val();
 	$("#Main_Services_ID option").remove();
 	$("#Main_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
-	$("#Sub_Services_ID option").remove();
-	$("#Sub_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
-	if ($("#provider").val() == 4) {
-		$.ajax({
-			url: "/Home/loadMainServiceData?provideId=" + $("#provider").val(),
-			//  url: baseUrl + "/Main_Service/GetMainServices",
-			method: "Get",
-			success: function (result) {
-				if (result != null) {
-					$("#Main_Services_ID").removeAttr("disabled");
-					mainservice = result.mainServices
-					result.mainServices.forEach(function (element) {
-						$("#Main_Services_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					});
-				} else if (result == null) {
-					$("#modelbody").append("No Data Added , try again later");
-					$("#exampleModalCenter").modal("show");
-				}
-			}
-		});
-	}
-}
 
-function selectSub() {
-	$("#Sub_Services_ID option").remove();
-	$("#Sub_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
 	$.ajax({
-		//url: baseUrl + "/Sub_Services/GetSubServices/" + $("#Main_Services_ID").val(),
-		url: "/Home/loadSub_Services?main_ID=" + $("#Main_Services_ID").val(),
+		url: `/Home/GetMainServices?ID=${ID}&SID=${SID}&AID=${APPID}`,
 		method: "Get",
 		success: function (result) {
 			if (result != null) {
-				$("#Sub_Services_ID").removeAttr("disabled");
-				subservice = result.subServices;
-				result.subServices.forEach(function (element) {
-					$("#Sub_Services_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
+				$("#Main_Services_ID").removeAttr("disabled");
+				let data = JSON.parse(result)
+				data.forEach(function (element) {
+					$("#Main_Services_ID").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
 				});
 			} else if (result == null) {
 				$("#modelbody").append("No Data Added , try again later");
@@ -642,6 +615,124 @@ function selectSub() {
 			}
 		}
 	});
+}
+function GetSubServices(ID) {
+	$("#Sub_Services_ID option").remove();
+	$("#Sub_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
+
+	$.ajax({
+		url: `/Home/GetSub?ID=${ID}`,
+		method: "Get",
+		success: function (result) {
+			if (result != null) {
+				let data = JSON.parse(result)
+				SubServices = data;
+				$("#Sub_Services_ID").removeAttr("disabled");
+				data.forEach(function (element) {
+					$("#Sub_Services_ID").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
+				});
+				$("#filesName").html("")
+				SubServices[0].Docs.forEach(function (element) {
+					let Name = language == "ar" ? element.Name_AR : element.Name_EN
+					$("#filesName").append(`
+										<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:10px;padding:0px;4px;" >
+												<div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
+													<span style="font-size:14px;display:inline-block;width:70%" title="${Name}" id="FileDefault${element.ID}">${Name.length > 17 ? Name.substring(0, 13) + "..." : Name}</span>
+													<span style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
+													<input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
+													<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+													<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+												</div>
+                                        </div >
+				`)
+				});
+				$(".fa-upload").click(function () {
+					Current_Supportedfilename = this.getAttribute("name");
+					Supportedfilename = this.getAttribute("data-RequiredName")
+					$("#uploadFileDialog" + Current_Supportedfilename).click();
+				});
+
+				$(".fa-trash").click(function () {
+					let RemoveCurrent_Supportedfilename = this.getAttribute("name");
+					uploadfiles.splice(uploadfiles.findIndex(q => q.ID == RemoveCurrent_Supportedfilename), 1)
+					document.getElementById('FileDefault' + RemoveCurrent_Supportedfilename).style.display = "inline-block";
+					document.getElementById('FileName' + RemoveCurrent_Supportedfilename).style.display = "none";
+					this.style.display = "none";
+					FileNames.splice(FileNames.indexOf(this.getAttribute("data-RequiredName")), 1)
+					document.getElementById("uploadFileDialog" + RemoveCurrent_Supportedfilename).value = "";
+					$('#fileUpload' + RemoveCurrent_Supportedfilename).css("color", "gray");
+				});
+			} else if (result == null) {
+				$("#modelbody").append("No Data Added , try again later");
+				$("#exampleModalCenter").modal("show");
+			}
+		}
+	});
+}
+function GetEfroms(ID) {
+	console.log(ID)
+
+	let Docs = SubServices.find(q => q.ID == ID)
+	console.log(Docs)
+	$("#filesName").html("")
+	Docs.Docs.forEach(function (element) {
+		let Name = language == "ar" ? element.Name_AR : element.Name_EN
+		$("#filesName").append(`
+										<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:10px;padding:0px;4px;" >
+											<div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
+												<span style="font-size:14px;display:inline-block;width:70%" title="${Name}" id="FileDefault${element.ID}">${Name.length > 17 ? Name.substring(0, 13) + "..." : Name}</span>
+												<span style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
+												<input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
+												<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+												<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+											</div>
+                                        </div>
+					`)
+	});
+	$(".fa-upload").click(function () {
+		Current_Supportedfilename = this.getAttribute("name");
+		Supportedfilename = this.getAttribute("data-RequiredName")
+		$("#uploadFileDialog" + Current_Supportedfilename).click();
+	});
+
+	$(".fa-trash").click(function () {
+		let RemoveCurrent_Supportedfilename = this.getAttribute("name");
+		uploadfiles.splice(uploadfiles.findIndex(q => q.ID == RemoveCurrent_Supportedfilename), 1)
+		document.getElementById('FileDefault' + RemoveCurrent_Supportedfilename).style.display = "inline-block";
+		document.getElementById('FileName' + RemoveCurrent_Supportedfilename).style.display = "none";
+		this.style.display = "none";
+		FileNames.splice(FileNames.indexOf(this.getAttribute("data-RequiredName")), 1)
+		document.getElementById("uploadFileDialog" + RemoveCurrent_Supportedfilename).value = "";
+		$('#fileUpload' + RemoveCurrent_Supportedfilename).css("color", "gray");
+	});
+
+	$.ajax({
+		url: `/Home/GetEforms?ID=${ID}`,
+		method: "Get",
+		success: function (result) {
+			$("#EFormsView").html("");
+			if (result != null) {
+				let data = JSON.parse(result)
+				data.forEach(function (element) {
+					$("#EFormsView").append(`
+									<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:5px" >
+										<div class="row icon-container" style="padding:0px;margin:0px">
+											<div class="col-sm-4" style="padding:0px">
+												<img src="/Design/img/reader.png" style="width:25px" />
+											</div>
+											<div class="col-sm-8">
+												<a style="padding:0px" href="https://mm.iau-bsc.com/${element.Url}">${(language == 'ar' ? element.Name_AR : element.Name_EN)}</a>
+											</div>
+										</div>
+									</div >
+				`
+					)
+				});
+
+			}
+		}
+	});
+
 }
 
 function serialiazeForm() {
@@ -744,103 +835,103 @@ function GeneratePdfData() {
 	}
 	let Form = serialiazeForm();
 	document.getElementById('padf').innerHTML = `
-                                                <div style="padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;">
-													<img src="../Design/img/MousLogo2.png">
-													<img src="../Design/img/VisionLogo.png">
+	< div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
+	<img src="../Design/img/MousLogo2.png">
+		<img src="../Design/img/VisionLogo.png">
 												</div>
-												<table class='container'id="PDFTable" style="width: 100%;padding: 15px;">
-													<tbody>
-														<tr>
-															<th class="boldtitle" key="t-summary"></th>
-														</tr>
-														<tr>
-															<th key="t-serviceType"></th>
-															<th>${Form["Service_Type_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-reqtype"></th>
-															<th>${Form["Request_Type_Name"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-personalData"></th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-genralInfo"></th>
-														</tr>
-														<tr>
-															<th key="t-IAUAff"></th>
-															<th>${Form["Affiliated"]}</th>
-														</tr>
-														<tr>
-															<th key="t-applicanttype"></th>
-															<th>${Form["Applicant_Type_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-firstname"></th>
-															<th>${Form["first_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-middlename"></th>
-															<th>${Form["middle_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-lastname"></th>
-															<th>${Form["last_Name"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-nationalty"></th>
-														</tr>
-														<tr>
-															<th key="t-nationalty"></th>
-															<th>${Form["Nationality_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-country"></th>
-															<th>${Form["Country_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-iddoc"></th>
-															<th>${Form["ID_Document_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-idnumber"></th>
-															<th>${Form["Document_Number"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-address"></th>
-														</tr>
-														<tr>
-															<th key="t-city"></th>
-															<th>${Form["Region_Postal_Code_1"]}</th>
-														</tr>
-														<tr>
-															<th key="t-region"></th>
-															<th>${Form["Region"]}</th>
-														</tr>
-														<tr>
-															<th key="t-country"></th>
-															<th>${Form["Region_Postal_Code_2"]}</th>
-														</tr>
-														<tr>
-															<th key="t-postal"></th>
-															<th>${Form["postal"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-contactinfo"></th>
-														</tr>
-														<tr>
-															<th key="t-email"></th>
-															<th>${Form["Email"]}</th>
-														</tr>
-														<tr>
-															<th key="t-phone"></th>
-															<th>${Form["Mobile"]}</th>
-														</tr>
-														
-													</tbody>
-												</table>
+		<table class='container' id="PDFTable" style="width: 100%;padding: 15px;">
+			<tbody>
+				<tr>
+					<th class="boldtitle" key="t-summary"></th>
+				</tr>
+				<tr>
+					<th key="t-serviceType"></th>
+					<th>${Form["Service_Type_Name"]}</th>
+				</tr>
+				<tr>
+					<th key="t-reqtype"></th>
+					<th>${Form["Request_Type_Name"]}</th>
+				</tr>
+				<tr>
+					<th class="boldtitle" key="t-personalData"></th>
+				</tr>
+				<tr>
+					<th class="boldtitle" key="t-genralInfo"></th>
+				</tr>
+				<tr>
+					<th key="t-IAUAff"></th>
+					<th>${Form["Affiliated"]}</th>
+				</tr>
+				<tr>
+					<th key="t-applicanttype"></th>
+					<th>${Form["Applicant_Type_Name"]}</th>
+				</tr>
+				<tr>
+					<th key="t-firstname"></th>
+					<th>${Form["first_Name"]}</th>
+				</tr>
+				<tr>
+					<th key="t-middlename"></th>
+					<th>${Form["middle_Name"]}</th>
+				</tr>
+				<tr>
+					<th key="t-lastname"></th>
+					<th>${Form["last_Name"]}</th>
+				</tr>
+				<tr>
+					<th class="boldtitle" key="t-nationalty"></th>
+				</tr>
+				<tr>
+					<th key="t-nationalty"></th>
+					<th>${Form["Nationality_Name"]}</th>
+				</tr>
+				<tr>
+					<th key="t-country"></th>
+					<th>${Form["Country_Name"]}</th>
+				</tr>
+				<tr>
+					<th key="t-iddoc"></th>
+					<th>${Form["ID_Document_Name"]}</th>
+				</tr>
+				<tr>
+					<th key="t-idnumber"></th>
+					<th>${Form["Document_Number"]}</th>
+				</tr>
+				<tr>
+					<th class="boldtitle" key="t-address"></th>
+				</tr>
+				<tr>
+					<th key="t-city"></th>
+					<th>${Form["Region_Postal_Code_1"]}</th>
+				</tr>
+				<tr>
+					<th key="t-region"></th>
+					<th>${Form["Region"]}</th>
+				</tr>
+				<tr>
+					<th key="t-country"></th>
+					<th>${Form["Region_Postal_Code_2"]}</th>
+				</tr>
+				<tr>
+					<th key="t-postal"></th>
+					<th>${Form["postal"]}</th>
+				</tr>
+				<tr>
+					<th class="boldtitle" key="t-contactinfo"></th>
+				</tr>
+				<tr>
+					<th key="t-email"></th>
+					<th>${Form["Email"]}</th>
+				</tr>
+				<tr>
+					<th key="t-phone"></th>
+					<th>${Form["Mobile"]}</th>
+				</tr>
 
-    `
+			</tbody>
+		</table>
+
+		`
 
 
 	let data = null;
@@ -903,7 +994,7 @@ function CountryState() {
 				Cities = data.City;
 				let id = data.Regions[0].ID;
 				CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
-				RegionComponentSelect = `<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
+				RegionComponentSelect = `<select id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
 				data.Regions.forEach(function (element) {
 					RegionComponentSelect += "<option value=" + element.Region_ID + ">" + (language == "ar" ? element.Region_Name_AR : element.Region_Name_EN) + "</option>"
 				});
@@ -929,8 +1020,8 @@ function CountryState() {
 						AssignCity(cities)
 						document.getElementById('City').innerHTML = `
 									<img />
-									${CityComponentSelect}
-									`;
+			${CityComponentSelect}
+			`;
 					})
 				}
 
@@ -941,12 +1032,12 @@ function CountryState() {
 				var CityAttr = document.getElementById('City');
 				RegionAttr.innerHTML = `
 								<img />
-								<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
-								`
+			<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
+			`
 				CityAttr.innerHTML = `
 								<img />
-								<input type="text" id="City_Country_1" name="City_Country_1">
-								`
+			<input type="text" id="City_Country_1" name="City_Country_1">
+				`
 			}
 		}
 	})

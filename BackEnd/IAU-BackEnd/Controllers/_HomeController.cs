@@ -17,11 +17,10 @@ namespace IAU_BackEnd.Controllers
 			try
 			{
 				var Service_Type = await new ServiceTypeController().GetActive();
-				var Request_Type = await new RequestTypeController().GetActive();
 				var Titles = await new TitlesController().GetActive();
 				var Country = await new CountryController().GetActive();
 				var IDS = await new IDDOcController().GetActive();
-				return Ok(new ResponseClass() { success = true, result = new { Service_Type, Request_Type, Titles, Country, IDS } });
+				return Ok(new ResponseClass() { success = true, result = new { Service_Type, Titles, Country, IDS } });
 			}
 			catch (Exception ee)
 			{

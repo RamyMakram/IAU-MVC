@@ -28,6 +28,17 @@
     <Property Name="Country_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
   </EntityType>
+  <EntityType Name="E-Forms">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Path" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="SubServiceID" Type="int" Nullable="false" />
+    <Property Name="IS_Action" Type="bit" Nullable="false" />
+  </EntityType>
   <EntityType Name="ID_Document">
     <Key>
       <PropertyRef Name="ID_Document" />
@@ -252,6 +263,18 @@
       </Principal>
       <Dependent Role="City">
         <PropertyRef Name="Region_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_E-Forms_Sub_Services">
+    <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="1" />
+    <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sub_Services">
+        <PropertyRef Name="Sub_Services_ID" />
+      </Principal>
+      <Dependent Role="E-Forms">
+        <PropertyRef Name="SubServiceID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -595,6 +618,7 @@
     <EntitySet Name="Applicant_Type" EntityType="Self.Applicant_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="E-Forms" EntityType="Self.E-Forms" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ID_Document" EntityType="Self.ID_Document" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
@@ -618,6 +642,10 @@
     <AssociationSet Name="FK_City_Region" Association="Self.FK_City_Region">
       <End Role="Region" EntitySet="Region" />
       <End Role="City" EntitySet="City" />
+    </AssociationSet>
+    <AssociationSet Name="FK_E-Forms_Sub_Services" Association="Self.FK_E-Forms_Sub_Services">
+      <End Role="Sub_Services" EntitySet="Sub_Services" />
+      <End Role="E-Forms" EntitySet="E-Forms" />
     </AssociationSet>
     <AssociationSet Name="FK_Main_Services_Service_Type" Association="Self.FK_Main_Services_Service_Type">
       <End Role="Service_Type" EntitySet="Service_Type" />

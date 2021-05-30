@@ -49,5 +49,6 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
+        public virtual DbSet<E_Forms> E_Forms { get; set; }
     }
 }

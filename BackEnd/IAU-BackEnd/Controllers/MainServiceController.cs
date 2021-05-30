@@ -12,9 +12,9 @@ namespace IAU_BackEnd.Controllers
 	public class MainServiceController : ApiController
 	{
 		private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
-		public IHttpActionResult GetActive(int UID, int ServiceID)
+		public IHttpActionResult GetActive(int UID, int ServiceID, int AppType)
 		{
-			return Ok(new ResponseClass() { success = true, result = p.UnitMainServices.Where(q => q.Units.IS_Action.Value && q.Main_Services.ServiceTypeID == ServiceID && q.UnitID == UID).Select(q => q.Main_Services) });
+			return Ok(new ResponseClass() { success = true, result = p.UnitMainServices.Where(q => q.Units.IS_Action.Value && q.Main_Services.ServiceTypeID == ServiceID && q.UnitID == UID && q.Main_Services.ValidTo.Count(w => w.ApplicantTypeID == AppType) != 0).Select(q => new { ID = q.Main_Services.Main_Services_ID, Name_AR = q.Main_Services.Main_Services_Name_AR, Name_EN = q.Main_Services.Main_Services_Name_EN }) });
 		}
 	}
 }

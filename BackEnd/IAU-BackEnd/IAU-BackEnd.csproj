@@ -76,6 +76,9 @@
     <Compile Include="Models\Country.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\E_Forms.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ID_Document.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -319,9 +322,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\Main_Services\" />
-    <Folder Include="Images\Request_Type\" />
-    <Folder Include="Images\Service_Types\" />
     <Folder Include="RequestFiles\" />
     <Folder Include="Views\ServiceType\" />
   </ItemGroup>

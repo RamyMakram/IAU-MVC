@@ -249,6 +249,7 @@
 				var counter = 0;
 				var isar = ViewBag.CookieLang == "ar";
 			}
+			<span style="display:none !important" id="serverpath">@serverpath</span>
 			<div class="row" id="Service_Type_Id" style="display: none;">
 				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px;margin-top:45px">
 					@if (ViewBag.CookieLang == "ar")
@@ -285,35 +286,7 @@
 			</div>
 			@{ counter = 0;}
 			<div class="row" id="Request_Type_Id" style="display: none; ">
-				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; margin-top:45px">
-					@if (ViewBag.CookieLang == "ar")
-					{
-						@*<p style="direction:ltr">@@ IAU - BSC</p>
-							<p>أنـــــــــــــــــــــــــــــــــــواع</p>
-							<p>الطـــــــــــــلــــــــــــبــات</p>*@
-						<img src="~/Design/img/ArServiceType.png" style="width:100%" />
-					}
-					else
-					{
-						@*<p>@@ IAU - BSC</p>
-							<p>Request</p>
-							<p>Types</p>*@
-						<img src="~/Design/img/EnRequestType.png" style="width:100%" />
-					}
-				</div>
-				@foreach (var request in Model.Request_Type)
-				{
-					var requesttype_class = counter == 0 ? "stick active requesttype" : "stick requesttype";
-					<div class="col-md-4 col-lg-3">
-						<div class="@requesttype_class" data-requesttypeid="@request.Request_Type_ID" data-requesttypename="@(isar ? request.Request_Type_Name_AR : request.Request_Type_Name_EN)">
-							<img src=@(serverpath+"/"+request.Image_Path) data-bs-toggle="tooltip" data-bs-placement="top"
-								 data-bs-custom-class="beautifier"
-								 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
-							<p>@((isar ? request.Request_Type_Name_AR : request.Request_Type_Name_EN).Split(' ')[0])</p>
-						</div>
-					</div>
-					counter++;
-				}
+				
 			</div>
 			<div class="row" id="personel-data-m" style="display: none;">
 				@if (ViewBag.CookieLang == "ar")
@@ -1003,7 +976,7 @@
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="Kindly select the Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
-								<select id="provider" name="provider" onchange="selectMainService()">
+								<select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
 									<option disabled selected value="null">Select-----------------</option>
 								</select>
 							</div>
@@ -1012,7 +985,7 @@
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="Now that the provider is selected, please select the desired Main Service. If none of the listed is required, please select another Provider or IAU University from the previous tab. If you realize the required service is not enlisted, kindly click Previous to go back to the Service Type and select another service." />
-								<select id="Main_Services_ID" name="Main_Services_ID" onchange="selectSub()">
+								<select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
 									<option disabled selected value="null">Select ----------------</option>
 								</select>
 							</div>
@@ -1021,7 +994,7 @@
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="Now that the Main Service is selected, please select the required Sub-Service. If none of the listed is required, please select another Provider or IAU University. In case the required sub-service is not enlisted, kindly click Previous to go back to the Service Type and select another service" />
-								<select id="Sub_Services_ID" name="Sub_Services_ID" disabled>
+								<select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
 									<option disabled selected value="null">Select ----------------</option>
 								</select>
 							</div>
@@ -1034,37 +1007,10 @@
 								</div>
 								<div class="col-md-8 e-form" id="E-forms">
 									<p>please click E-form Application (s) and fill the required fields</p>
-									<div class="row" style="margin-top: 0px;overflow: auto">
-										<div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
-											<div class="row icon-container" style="padding:0px;margin:0px">
-												<div class="col-sm-4" style="padding:0px">
-													<img src="~/Design/img/reader.png" style="width:25px" />
-												</div>
-												<div class="col-sm-8">
-													<span style="padding:0px">form a-1234</span>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
-											<div class="row icon-container" style="padding:0px;margin:0px">
-												<div class="col-sm-4" style="padding:0px">
-													<img src="~/Design/img/reader.png" style="width:25px" />
-												</div>
-												<div class="col-sm-8">
-													<span style="padding:0px">form a-1234</span>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
-											<div class="row icon-container" style="padding:0px;margin:0px">
-												<div class="col-sm-4" style="padding:0px">
-													<img src="~/Design/img/reader.png" style="width:25px" />
-												</div>
-												<div class="col-sm-8">
-													<span style="padding:0px">form a-1234</span>
-												</div>
-											</div>
-										</div>
+									<div class="row" style="margin-top: 0px;overflow: auto" id="EFormsView">
+
+
+
 									</div>
 								</div>
 							</div>
