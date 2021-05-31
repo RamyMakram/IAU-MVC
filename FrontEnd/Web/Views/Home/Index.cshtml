@@ -37,6 +37,7 @@
 			font-weight: 900;
 			padding: 5px 0;
 			font-size: 21px;
+			width: 100% !important;
 		}
 
 
@@ -45,20 +46,26 @@
 			/*font-family: 'DroidArabicKufiRegular' !important;*/
 			font-size: 19px;
 			padding: 6px 19px;
+			overflow-wrap: break-word;
 		}
 
-			table#PDFTable tbody tr th:not(.boldtitle) {
-				border: 1px solid #eee;
+		table#PDFTable tbody tr.row {
+			width: 100%;
+			margin: 0;
+		}
+
+		table#PDFTable tbody tr th:not(.boldtitle) {
+			border: 1px solid #eee;
+		}
+
+			table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
+				font-weight: normal
 			}
 
-				table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
-					font-weight: normal
-				}
-
-			table#PDFTable tbody tr th.boldtitle {
-				font-size: 28px;
-				color: #283858;
-			}
+		table#PDFTable tbody tr th.boldtitle {
+			font-size: 28px;
+			color: #283858;
+		}
 	</style>
 	@if (ViewBag.CookieLang == "ar")
 	{
@@ -286,7 +293,7 @@
 			</div>
 			@{ counter = 0;}
 			<div class="row" id="Request_Type_Id" style="display: none; ">
-				
+
 			</div>
 			<div class="row" id="personel-data-m" style="display: none;">
 				@if (ViewBag.CookieLang == "ar")
@@ -343,7 +350,7 @@
 										<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 											 data-bs-custom-class="beautifier"
 											 title='لمساعدتنا في متابعة طلبك بسهولة ، يرجى تحديد المصطلح الذي يصفك بشكل أفضل كمقدم  لهذا الطلب. إذا كنت لا تتوافق مع أي من الفئات التالية ، فيرجى الضغط على "أخرى".' />
-										<select id="Applicant_Type_ID" name="Applicant_Type_ID">
+										<select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
 											<option disabled selected value="null">اختر-----------------</option>
 										</select>
 									</div>
@@ -612,7 +619,7 @@
 										<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 											 data-bs-custom-class="beautifier"
 											 title="To help us proceed easily with your request, please select the field that best describe you as an applicant of this request.  If you don’t conform with any of the following categories please select Other. " />
-										<select id="Applicant_Type_ID" name="Applicant_Type_ID">
+										<select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
 											<option disabled selected value="null">Select-----------------</option>
 										</select>
 									</div>
@@ -848,7 +855,7 @@
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
-								<select id="provider" name="provider" onchange="selectMainService()">
+								<select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
 									<option disabled selected value="null">اختر-----------------</option>
 								</select>
 							</div>
@@ -857,7 +864,7 @@
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title='الآن وقد تم تحديد مقدم الخدمات ، يرجى تحديد الخدمة الرئيسية المطلوبة. إذا لم يكن أيًا من العناصر المدرجة مطلوبًا ، فيرجى تحديد مقدم خدمات آخر  من الصفحة السابقة. إذا أدركت أن الخدمة المطلوبة غير مدرجة ، فيرجى النقر فوق "السابق" للعودة إلى صفحة نوع الخدمة واختيار خدمة أخرى.' />
-								<select id="Main_Services_ID" name="Main_Services_ID" onchange="selectSub()">
+								<select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
 									<option disabled selected value="null">اختر ----------------</option>
 								</select>
 							</div>
@@ -866,7 +873,7 @@
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="الآن بعد أن تم تحديد الخدمة الرئيسية ، يرجى تحديد الخدمة الفرعية المطلوبة. إذا لم يكن أي من القوائم المدرجة مطلوبًا ، فيرجى تحديد مزود آخر أو جامعة IAU. في حالة عدم إدراج الخدمة الفرعية المطلوبة ، يرجى النقر فوق السابق للعودة إلى نوع الخدمة واختيار خدمة أخرى." />
-								<select id="Sub_Services_ID" name="Sub_Services_ID" disabled>
+								<select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
 									<option disabled selected value="null">اختر ----------------</option>
 								</select>
 							</div>
@@ -879,37 +886,8 @@
 								</div>
 								<div class="col-md-8 e-form" id="E-forms">
 									<p>يُرجى النقر فوق نموذج (تطبيقات) النموذج الإلكتروني وملء الحقول المطلوبة</p>
-									<div class="row" style="margin-top: 0px;overflow: auto">
-										<div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
-											<div class="row icon-container" style="padding:0px;margin:0px">
-												<div class="col-sm-4" style="padding:0px">
-													<img src="~/Design/img/reader.png" style="width:25px" />
-												</div>
-												<div class="col-sm-8">
-													<span style="padding:0px">form a-1234</span>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
-											<div class="row icon-container" style="padding:0px;margin:0px">
-												<div class="col-sm-4" style="padding:0px">
-													<img src="~/Design/img/reader.png" style="width:25px" />
-												</div>
-												<div class="col-sm-8">
-													<span style="padding:0px">form a-1234</span>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:5px">
-											<div class="row icon-container" style="padding:0px;margin:0px">
-												<div class="col-sm-4" style="padding:0px">
-													<img src="~/Design/img/reader.png" style="width:25px" />
-												</div>
-												<div class="col-sm-8">
-													<span style="padding:0px">form a-1234</span>
-												</div>
-											</div>
-										</div>
+									<div class="row" style="margin-top: 0px;overflow: auto" id="EFormsView">
+
 									</div>
 								</div>
 							</div>
@@ -1082,7 +1060,7 @@
 									 title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
 							</div>
 							<div class="col-md-8" style="padding:0px">
-								<select id="providerOther" name="provider" onchange="selectMainService()">
+								<select id="providerOther" name="provider">
 									<option disabled selected value="null">اختر-----------------</option>
 								</select>
 							</div>

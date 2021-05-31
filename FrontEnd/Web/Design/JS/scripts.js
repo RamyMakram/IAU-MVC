@@ -24,6 +24,7 @@ let enterPersonnel = false,
 	enterDocumentOther = false;
 let inquiry = false;
 let Redirect = false;
+let RedirectReqType = null;
 var isSaudi = 0
 var CityComponentSelect = ""
 var Cities = []
@@ -60,7 +61,7 @@ $(document).ready(function () {
 				window.history.pushState({}, document.title, "/");
 				$('#NewRequest').click();
 				$(`[data-mainserviceid='${mst}']`).addClass("active").click()
-				$(`[data-requesttypeid='${ret}']`).addClass("active").click()
+				RedirectReqType = ret;
 				localStorage.removeItem('mst')
 				localStorage.removeItem('ret')
 				$("#FirstName").val(res["firstName"]).attr("disabled", "")
@@ -178,7 +179,6 @@ $("#right-arrow").click(function () {
 		enterPersonnel = true;
 	} else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Inquery"
 		&& enterDocuments == false)) {
-		LoadApiDocumentsData(incrementValue);
 		enterDocuments = true;
 		incrementValue++;
 
@@ -188,7 +188,6 @@ $("#right-arrow").click(function () {
 
 	} else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Other"
 		&& enterDocumentOther == false)) {
-		LoadApiDocumentsData(incrementValue);
 		enterDocumentOther = true;
 	}
 	else if ($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Confirmation-m") {
@@ -292,12 +291,11 @@ $('.mainservice').click(function (e) {
 					`)
 			})
 			reIntializeReType();
+			if (Redirect)
+				$(`[data-requesttypeid='${RedirectReqType}']`).addClass("active").click()
 		}
 	})
 })
-
-//////////////////////////////////RequestType/////////////////////////////////////////////
-
 
 ///////////////////////////////////////////////////////////////////////////////
 let dropArea = document.getElementById('drop-area');
@@ -494,54 +492,6 @@ function saveRequest() {
 	}
 }
 
-
-function LoadApiPeronsalData() {
-	$.ajax({
-		url: "/Home/loadApplicantData",
-		//url: baseUrl + "/Document",
-
-		method: "Get",
-		headers: { "lang": 0 }/*english 0*/,
-		success: function (result) {
-			if (result != null) {
-				//  result = result.result;
-				let id = result.Regions[0].ID;
-				CityComponentSelect = `< select id = "City_Country_1" name = "City_Country_1" > `
-				RegionComponentSelect = `< select  id = "Region_Postal_Code_1" name = "Region_Postal_Code_1" > `
-				result.Regions.forEach(function (element) {
-					RegionComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
-				});
-				RegionComponentSelect += "</select>"
-				Cities = result.Cities;
-				console.log(Cities)
-				console.log(Object.create(Cities).filter(q => q.SubID == id))
-				//console.log(Cities.filter(q => q.SubID == id))
-				AssignCity(Cities.filter(q => q.SubID == id));
-				nationalty = result.nationalty
-				result.nationalty.forEach(function (element) {
-					$("#Nationality_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				Countries = result.Countries
-				result.Countries.forEach(function (element) {
-					$("#Country_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					$("#City_Country_2").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				type = result.type
-				result.type.forEach(function (element) {
-					$("#Applicant_Type_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				titles = result.titles
-				result.titles.forEach(function (element) {
-					$("#title").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				doctype = result.doctype
-				result.doctype.forEach(function (element) {
-					$("#ID_Document").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-			}
-		}
-	});
-}
 function AssignCity(data) {
 	CityComponentSelect = "<select>"
 	data.forEach(function (element) {
@@ -572,7 +522,7 @@ $("#Required_Fields_Notes").keyup(function () {
 	}
 });
 
-function LoadApiDocumentsData(value) {
+function LoadApiDocumentsData() {
 	let RID = document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid');
 	let SID = document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid');
 	let APPID = $('#Applicant_Type_ID  option:selected').val();
@@ -582,6 +532,7 @@ function LoadApiDocumentsData(value) {
 		success: function (result) {
 			if (result != null) {
 				let data = JSON.parse(result)
+				$(inquiry ? "#provider" : "#providerOther").html(language == "ar" ? "<option disabled selected value='null'>اختر-----------------</option>" : "<option disabled selected value='null'>Select-----------------</option>")
 				data.forEach(function (element) {
 					$(inquiry ? "#provider" : "#providerOther").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
 				});
@@ -605,6 +556,7 @@ function GetMainServices(ID) {
 		success: function (result) {
 			if (result != null) {
 				$("#Main_Services_ID").removeAttr("disabled");
+				$("#Main_Services_ID").html(language == "ar" ? "<option disabled selected value='null'>اختر-----------------</option>" : "<option disabled selected value='null'>Select-----------------</option>")
 				let data = JSON.parse(result)
 				data.forEach(function (element) {
 					$("#Main_Services_ID").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
@@ -628,6 +580,8 @@ function GetSubServices(ID) {
 				let data = JSON.parse(result)
 				SubServices = data;
 				$("#Sub_Services_ID").removeAttr("disabled");
+				$("#Sub_Services_ID").html(language == "ar" ? "<option disabled selected value='null'>اختر-----------------</option>" : "<option disabled selected value='null'>Select-----------------</option>")
+
 				data.forEach(function (element) {
 					$("#Sub_Services_ID").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
 				});
@@ -736,50 +690,103 @@ function GetEfroms(ID) {
 }
 
 function serialiazeForm() {
-	let PersonalData = {
-		Affiliated: isAffilate,
-		ID_Document: $('#ID_Document  option:selected').val() == "null" ? null : $('#ID_Document  option:selected').val(),
-		ID_Document_Name: $('#ID_Document  option:selected').text(),
-		Document_Number: $('#idNumber').val(),
-		Service_Type_ID: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid'),
-		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
-		filePath: "",
-		Request_Type_ID: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'),
-		Request_Type_Name: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypename'),
-		IAUID: $('#IAUID').val(),
-		title_Middle_Names_ID: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
-		title_Middle_Names: $('#title  option:selected').text(),
-		first_Name: $("#FirstName").val(),
-		middle_Name: $("#MiddelName").val(),
-		last_Name: $("#FamilyName").val(),
-		Nationality_ID: $('#Nationality_ID  option:selected').val() == "null" ? null : $('#Nationality_ID  option:selected').val(),
-		Nationality_Name: $('#Nationality_ID  option:selected').text(),
-		Country_ID: $('#Country_ID  option:selected').val() == "null" ? null : $('#Country_ID  option:selected').val(),
-		Country_Name: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
-		City_Country_1: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
-		Region: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
-		City_Country_2: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
-		Region_Postal_Code_1: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
-		Region_Postal_Code_2: $('#Region_Postal_Code_2').val(),
-		Email: $('#Email').val(),
-		Mobile: $('#Mobile').val(),
-		Applicant_Type_ID: $('#Applicant_Type_ID  option:selected').val() == "null" ? null : $('#Applicant_Type_ID  option:selected').val(),
-		Applicant_Type_Name: $('#Applicant_Type_ID  option:selected').text(),
-		title: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
-		provider: $('#provider  option:selected').val() == "null" ? null : $('#provider  option:selected').val(),
+	let Data = {
+		Unit_ID: $('#provider  option:selected').val() == "null" ? null : $('#provider  option:selected').val(),
 		provider_Name: $('#provider  option:selected').text(),
-		Main_Services_ID: $('#Main_Services_ID  option:selected').val() == "null" ? null : $('#Main_Services_ID  option:selected').val(),
-		Main_Services_Name: $('#Main_Services_ID  option:selected').text(),
 		Sub_Services_ID: $('#Sub_Services_ID  option:selected').val() == "null" ? null : $('#Sub_Services_ID  option:selected').val(),
 		Sub_Services_Name: $('#Sub_Services_ID  option:selected').text(),
 		Required_Fields_Notes: $('#Required_Fields_Notes').val() == "null" ? null : $('#Required_Fields_Notes').val(),
+		Service_Type_ID: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid'),
+		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
+		Request_Type_ID: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'),
+		Request_Type_Name: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypename'),
+		Personel_Data: {
+			IAU_ID_Number: $('#IAUID').val(),
+			Applicant_Type_ID: $('#Applicant_Type_ID  option:selected').val() == "null" ? null : $('#Applicant_Type_ID  option:selected').val(),
+			Title_Middle_Names_ID: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+			First_Name: $("#FirstName").val(),
+			Middle_Name: $("#MiddelName").val(),
+			Last_Name: $("#FamilyName").val(),
+			Nationality_ID: $('#Nationality_ID  option:selected').val() == "null" ? null : $('#Nationality_ID  option:selected').val(),
+			ID_Document: $('#ID_Document  option:selected').val() == "null" ? null : $('#ID_Document  option:selected').val(),
+			Country_ID: $('#Country_ID  option:selected').val() == "null" ? null : $('#Country_ID  option:selected').val(),
+			ID_Number: $('#idNumber').val(),
+			Address_CountryID: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
+			City_Country_1: $('#City_Country_1').val(),
+			Adress_RegionID: $('#Region_Postal_Code_1').val(),
+			Address_City: $('#City_Country_1').val(),
+			Adress_Region: $('#Region_Postal_Code_1').val(),
+			Postal_Code: $('#Region_Postal_Code_2').val(),
+			Email: $('#Email').val(),
+			Mobile: $('#Mobile').val(),
+		},
+		Affiliated: isAffilate,
+		ID_Document_Name: $('#ID_Document  option:selected').text(),
+		title_Middle_Names: $('#title  option:selected').text(),
+		Nationality_Name: $('#Nationality_ID  option:selected').text(),
+		Country_Name: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
+		Region_Postal_Code_1: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
+		Region_Postal_Code_2: $('#Region_Postal_Code_2').val(),
+		Applicant_Type_Name: $('#Applicant_Type_ID  option:selected').text(),
+		title: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+		Main_Services_ID: $('#Main_Services_ID  option:selected').val() == "null" ? null : $('#Main_Services_ID  option:selected').val(),
+		Main_Services_Name: $('#Main_Services_ID  option:selected').text(),
 		Name: `${($("#title  option:selected").text())} ${$("#FirstName").val()} ${$("#MiddelName").val()} ${$("#FamilyName").val()}`,
-		postal: $('#Region_Postal_Code_2').val(),
 		Address: "",
 		file_names: FileNames
 	}
-	console.log(isSaudi ? "True" : "False", PersonalData);
-	return PersonalData;
+	return Data;
+}
+
+function SerializeGenratePDF() {
+	let Data = {
+		Affiliated: isAffilate,
+		provider_Name: $('#provider  option:selected').text(),
+		Sub_Services_Name: $('#Sub_Services_ID  option:selected').text(),
+		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
+		first_Name: $("#FirstName").val(),
+		middle_Name: $("#MiddelName").val(),
+		last_Name: $("#FamilyName").val(),
+		Request_Type_Name: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypename'),
+		Affiliated: isAffilate,
+		Applicant_Type_Name: $('#Applicant_Type_ID  option:selected').text(),
+		Nationality_Name: $('#Nationality_ID  option:selected').text(),
+		Country_Name: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
+		ID_Document_Name: $('#ID_Document  option:selected').text(),
+		Document_Number: $('#idNumber').val(),
+		Region_Postal_Code_1: isSaudi ? $('#City_Country_1 option:selected').text() : $('#City_Country_1').val(),
+		Region_Postal_Code_2: $('#Region_Postal_Code_2').val(),
+		Region: $('#Region_Postal_Code_1').val(),
+		postal: $('#Region_Postal_Code_2').val(),
+		Email: $('#Email').val(),
+		Mobile: $('#Mobile').val(),
+
+
+		Personel_Data: {
+			IAU_ID_Number: $('#IAUID').val(),
+			Applicant_Type_ID: $('#Applicant_Type_ID  option:selected').val() == "null" ? null : $('#Applicant_Type_ID  option:selected').val(),
+			Title_Middle_Names_ID: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+			Nationality_ID: $('#Nationality_ID  option:selected').val() == "null" ? null : $('#Nationality_ID  option:selected').val(),
+			ID_Document: $('#ID_Document  option:selected').val() == "null" ? null : $('#ID_Document  option:selected').val(),
+			Country_ID: $('#Country_ID  option:selected').val() == "null" ? null : $('#Country_ID  option:selected').val(),
+			Address_CountryID: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
+			City_Country_1: $('#City_Country_1').val(),
+			Adress_RegionID: $('#Region_Postal_Code_1').val(),
+			Address_City: $('#City_Country_1').val(),
+			Adress_Region: $('#Region_Postal_Code_1').val(),
+			Postal_Code: $('#Region_Postal_Code_2').val(),
+			Email: $('#Email').val(),
+			Mobile: $('#Mobile').val(),
+		},
+		title_Middle_Names: $('#title  option:selected').text(),
+		title: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+		Main_Services_ID: $('#Main_Services_ID  option:selected').val() == "null" ? null : $('#Main_Services_ID  option:selected').val(),
+		Main_Services_Name: $('#Main_Services_ID  option:selected').text(),
+		Name: `${($("#title  option:selected").text())} ${$("#FirstName").val()} ${$("#MiddelName").val()} ${$("#FamilyName").val()}`,
+		Address: "",
+		file_names: FileNames
+	}
+	return Data;
 }
 
 function GeneratePdfData() {
@@ -833,9 +840,9 @@ function GeneratePdfData() {
 		't-phone': 'Mobile Phone',
 		// '': '',
 	}
-	let Form = serialiazeForm();
+	let Form = SerializeGenratePDF();
 	document.getElementById('padf').innerHTML = `
-	< div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
+	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
 	<img src="../Design/img/MousLogo2.png">
 		<img src="../Design/img/VisionLogo.png">
 												</div>
@@ -844,88 +851,88 @@ function GeneratePdfData() {
 				<tr>
 					<th class="boldtitle" key="t-summary"></th>
 				</tr>
-				<tr>
-					<th key="t-serviceType"></th>
-					<th>${Form["Service_Type_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-serviceType"></th>
+					<th class="col-6">${Form["Service_Type_Name"]}</th>
 				</tr>
-				<tr>
-					<th key="t-reqtype"></th>
-					<th>${Form["Request_Type_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-reqtype"></th>
+					<th class="col-6">${Form["Request_Type_Name"]}</th>
 				</tr>
-				<tr>
+				<tr class="row">
 					<th class="boldtitle" key="t-personalData"></th>
 				</tr>
-				<tr>
+				<tr class="row">
 					<th class="boldtitle" key="t-genralInfo"></th>
 				</tr>
-				<tr>
-					<th key="t-IAUAff"></th>
-					<th>${Form["Affiliated"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-IAUAff"></th>
+					<th class="col-6">${Form["Affiliated"]}</th>
 				</tr>
-				<tr>
-					<th key="t-applicanttype"></th>
-					<th>${Form["Applicant_Type_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-applicanttype"></th>
+					<th class="col-6">${Form["Applicant_Type_Name"]}</th>
 				</tr>
-				<tr>
-					<th key="t-firstname"></th>
-					<th>${Form["first_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-firstname"></th>
+					<th class="col-6">${Form["first_Name"]}</th>
 				</tr>
-				<tr>
-					<th key="t-middlename"></th>
-					<th>${Form["middle_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-middlename"></th>
+					<th class="col-6">${Form["middle_Name"]}</th>
 				</tr>
-				<tr>
-					<th key="t-lastname"></th>
-					<th>${Form["last_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-lastname"></th>
+					<th class="col-6">${Form["last_Name"]}</th>
 				</tr>
-				<tr>
+				<tr class="row">
 					<th class="boldtitle" key="t-nationalty"></th>
 				</tr>
-				<tr>
-					<th key="t-nationalty"></th>
-					<th>${Form["Nationality_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-nationalty"></th>
+					<th class="col-6">${Form["Nationality_Name"]}</th>
 				</tr>
-				<tr>
-					<th key="t-country"></th>
-					<th>${Form["Country_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-country"></th>
+					<th class="col-6">${Form["Country_Name"]}</th>
 				</tr>
-				<tr>
-					<th key="t-iddoc"></th>
-					<th>${Form["ID_Document_Name"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-iddoc"></th>
+					<th class="col-6">${Form["ID_Document_Name"]}</th>
 				</tr>
-				<tr>
-					<th key="t-idnumber"></th>
-					<th>${Form["Document_Number"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-idnumber"></th>
+					<th class="col-6">${Form["Document_Number"]}</th>
 				</tr>
-				<tr>
+				<tr class="row">
 					<th class="boldtitle" key="t-address"></th>
 				</tr>
-				<tr>
-					<th key="t-city"></th>
-					<th>${Form["Region_Postal_Code_1"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-city"></th>
+					<th class="col-6">${Form["Region_Postal_Code_1"]}</th>
 				</tr>
-				<tr>
-					<th key="t-region"></th>
-					<th>${Form["Region"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-region"></th>
+					<th class="col-6">${Form["Region"]}</th>
 				</tr>
-				<tr>
-					<th key="t-country"></th>
-					<th>${Form["Region_Postal_Code_2"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-country"></th>
+					<th class="col-6">${Form["Region_Postal_Code_2"]}</th>
 				</tr>
-				<tr>
-					<th key="t-postal"></th>
-					<th>${Form["postal"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-postal"></th>
+					<th class="col-6">${Form["postal"]}</th>
 				</tr>
 				<tr>
 					<th class="boldtitle" key="t-contactinfo"></th>
 				</tr>
-				<tr>
-					<th key="t-email"></th>
-					<th>${Form["Email"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-email"></th>
+					<th class="col-6">${Form["Email"]}</th>
 				</tr>
-				<tr>
-					<th key="t-phone"></th>
-					<th>${Form["Mobile"]}</th>
+				<tr class="row">
+					<th class="col-6" key="t-phone"></th>
+					<th class="col-6">${Form["Mobile"]}</th>
 				</tr>
 
 			</tbody>

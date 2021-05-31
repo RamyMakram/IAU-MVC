@@ -86,46 +86,23 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			try
 			{
-				var model = requestData.Request.Personel_Data;
+				var data = JsonConvert.DeserializeObject<Request_Data>(JsonConvert.SerializeObject(requestData.Request));
+				var model = data.Personel_Data;
 				Personel_Data personel_Data = p.Personel_Data.FirstOrDefault(q => (q.ID_Document == model.ID_Document && q.ID_Number == model.ID_Number) || q.Mobile == model.Mobile);
-				//save personal data
 				if (personel_Data == null)
 				{
-					personel_Data = new Personel_Data();
-					personel_Data.ID_Document = model.ID_Document.Value;
-					personel_Data.ID_Number = model.ID_Number;
-					//personel_Data.IAU_Affiliate_ID = model.Affiliated;
-					personel_Data.IAU_ID_Number = model.IAU_ID_Number;
-					personel_Data.Applicant_Type_ID = model.Applicant_Type_ID;
-					personel_Data.Title_Middle_Names_ID = model.Title_Middle_Names_ID;
-					personel_Data.First_Name = model.First_Name;
-					personel_Data.Middle_Name = model.Middle_Name;
-					personel_Data.Last_Name = model.Last_Name;
-					personel_Data.Nationality_ID = model.Nationality_ID;
-					personel_Data.Country_ID = model.Country_ID;
-					//personel_Data.City_Country_1 = model.City_Country_1;
-					//personel_Data.City_Country_2 = model.City_Country_2;
-					//personel_Data.Region_Postal_Code_1 = model.Region_Postal_Code_1;
-					//personel_Data.Region_Postal_Code_2 = model.Region_Postal_Code_2;
-					personel_Data.Email = model.Email;
-					personel_Data.Mobile = model.Mobile;
-					p.Personel_Data.Add(personel_Data);
+					p.Personel_Data.Add(model);
 					await p.SaveChangesAsync();
 				}
 
 				//save request data
 				//byte request_State_ID = (byte)RequestState.Created;
 
-				Request_Data request_Data = new Request_Data();
+				Request_Data request_Data = data;
 				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
-				//request_Data.Provider_Academic_Services_ID = model.provider;
-				//request_Data.Sub_Services_ID = model.;
-				//request_Data.Required_Fields_Notes = model.Required_Fields_Notes;
-				//request_Data.Request_Type_ID = model.Request_Type_ID;
-				//request_Data.Service_Type_ID = model.Service_Type_ID;
-				//request_Data.Code_Generate = DateTime.Now.ToString("yyyyMMddHHmm");
-				//request_Data.CreatedDate = DateTime.Now;
-				//request_Data.Request_State_ID = 1;
+				request_Data.Code_Generate = DateTime.Now.ToString("yyyyMMddHHmm");
+				request_Data.CreatedDate = DateTime.Now;
+				request_Data.Request_State_ID = 1;
 				//IsTwasul=true, OC ON-CAMPUS بالمركز=false
 				request_Data.IsTwasul_OC = false;
 				p.Request_Data.Add(request_Data);
@@ -141,12 +118,14 @@ namespace IAUBackEnd.Admin.Controllers
 						var filename = Path.GetFileName(requestData.Files[count].filename);
 						var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
 						File.WriteAllBytes(Path.Combine(path, filepath), requestData.Files[count].bytes);
-						//request_Data.Request_SupportingDocs.Add(new Request_SupportingDocs()
-						//{
-						//	SupportingDocID = i.ID.Value,
-
-						//	Path = filepath.Replace("\\", "/")
-						//});
+						request_Data.Request_File.Add(new Request_File()
+						{
+							Request_ID = request_Data.Request_Data_ID,
+							RequiredDoc_ID = i.ID.Value,
+							File_Name = filename,
+							CreatedDate = DateTime.Now,
+							File_Path = filepath.Replace("\\", "/")
+						});
 						count++;
 					}
 				int length = requestData.Files.Count;
@@ -166,10 +145,10 @@ namespace IAUBackEnd.Admin.Controllers
 
 				p.SaveChanges();
 				var PDFPath = Path.Combine(requestpath, "PDF.txt");
-				Request_Data data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == request_Data.Request_Data_ID);
+				Request_Data sendeddata = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == request_Data.Request_Data_ID);
 
 				var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
-				string message = JsonConvert.SerializeObject(data, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+				string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 				WebSocketManager.SendToMulti(MostafidUsers, message);
 				message = @"عزيزي المستفيد ، 
 									تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعه";
