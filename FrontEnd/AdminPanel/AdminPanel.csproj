@@ -3031,7 +3031,6 @@
     <Content Include="Views\Units\Detials.cshtml" />
     <Content Include="Views\Units\Edit.cshtml" />
     <Content Include="Views\Units\Home.cshtml" />
-    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Views\ServicesBank\Active.cshtml" />
     <Content Include="Views\ServicesBank\Create.cshtml" />
     <Content Include="Views\ServicesBank\Deactive.cshtml" />
@@ -3056,6 +3055,7 @@
     <Content Include="Views\Levels\Create.cshtml" />
     <Content Include="Views\Levels\Edit.cshtml" />
     <Content Include="Views\Levels\Home.cshtml" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

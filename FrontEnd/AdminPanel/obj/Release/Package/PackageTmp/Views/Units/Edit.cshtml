@@ -18,15 +18,26 @@
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 
 <style>
+	label.control-label::after {
+		content: ":";
+	}
+	#CodeGenrateDiv input {
+		border: 1px solid;
+	}
 	span.select2 {
 		width: 100% !important
 	}
+
 	label#TypeCode, #SubTypeCode, #SubTypeLevel {
 		width: 100% !important;
-		padding: 7px !important;
+		padding: 4px 16px !important;
 		border: 1px solid #aaa !important;
 		border-radius: 6px !important;
+		/* font-size: 11px; */
+		font-weight: bold;
+		font-size: 16px;
 	}
+
 	span.select2-selection.select2-selection {
 		height: 36px !important;
 	}
@@ -61,14 +72,33 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
+				<div class="row justify-content-center">
+					<div class="form-group">
+						<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
+						<div style="display:inline-flex" id="CodeGenrateDiv">
+							@foreach (var i in new string[15])
+							{
+								<input class="form-control Genratedcode en-font" disabled />
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
 				@{
 					var lang = Request.Cookies["lang"].Value;
 					@Html.Hidden("ss", lang, new { @id = "lang" })
+					@Html.Hidden("UnitID", Model.Units_ID, new { @id = "UnitID" })
 				}
 				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
 
 				@using (Html.BeginForm("Edit", "Units", new { Id = Model.Units_ID }, FormMethod.Post))
 				{
+
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
@@ -81,7 +111,7 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<label key="t-name" for="name">Name</label>
+								<label class="control-label" key="t-name" for="name">Name</label>
 								@Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
 							</div>
 							<div class="form-group">
@@ -123,7 +153,7 @@
 								</div>
 								<div class="form-group" style="width: 35%; padding: 0 3px;margin: 0;">
 									<label key="t-title-code" class="control-label">Code</label>
-									<label id="TypeCode" style="width: 100%; padding: 5px;">Unit Code</label>
+									<label id="TypeCode" style="width: 100%; padding: 5px;"></label>
 								</div>
 							</div>
 							<div class="form-group" style="display:inline-flex;width: 100%;height:70px;    margin: 9px 0 11px 0;">
@@ -137,16 +167,16 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label key="t-enname" for="Ename">ENNAME</label>
-								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control", @name = "Ename", @id = "Ename" })
+								<label class="control-label" key="t-enname" for="Ename">ENNAME</label>
+								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control en-font", @name = "Ename", @id = "Ename" })
 							</div>
 
 							<div class="form-group">
 								<label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
 								<div style="display:inline-flex;width:100%;">
-									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (IEnumerable<SelectListItem>)ViewBag.Service_TypeCharList, new { @onchange = "BuildChange()", @class = "form-control BuldingNumber", @name = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control en-font BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control  en-font BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (IEnumerable<SelectListItem>)ViewBag.Service_TypeCharList, new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @style = "padding:0 5px" })
 								</div>
 							</div>
 
@@ -157,24 +187,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label key="t-title-code" for="Ename">UnitCode</label>
-								<input class="form-control" value="@Model.Code" id="unitCode" />
+								<label class="control-label" key="t-title-Unitcode" for="Ename">UnitCode</label>
+								<input class="form-control" value="@Model.Code" id="unitCode" disabled readonly @*onkeyup="UnitCodeChange(false, event.target.value==''?'0':event.target.value)"*@ />
 							</div>
 
 							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID" })
 							@Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum" })
 							@Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum" })
-						</div>
-						<div class="col-12">
-							<div class="form-group">
-								<label class="control-label" key="t-title-code" for="servicetype">Code</label>
-								<div style="display:inline-flex" id="CodeGenrateDiv">
-									@foreach (var i in new string[15])
-									{
-										<input class="form-control Genratedcode" disabled />
-									}
-								</div>
-							</div>
 						</div>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
@@ -207,13 +226,12 @@
 			le.value = Code[i]
 		})
 		LocationChange($('#LocationIDSelect').val())
-		UnitCodeChange(false, true)
+		UnitCodeChange(false,"", true)
 
 	})
 	function getUnitTypes(ID) {
 		$.ajax({
-			url: "/Units/getUnitTypes?id=" + ID, success: function (e) {
-				console.log(e)
+			url: `/Units/getUnitTypes?id=${ID}`, success: function (e) {
 				UnitTypes = e;
 				var select = document.getElementById('UnitType');
 				select.innerHTML = ``;
@@ -229,7 +247,7 @@
 						$('#TypeCode').text(CodeView.Code);
 						count++;
 					}
-					UnitCodeChange(true, false)
+					UnitCodeChange(true)
 
 				}
 			}, error: function (ee) {
@@ -252,7 +270,7 @@
 	function LevelChange(eve) {
 		getUnitTypes(eve)
 		$.ajax({
-			url: "/Units/getUnits?id=" + eve, success: function (e) {
+			url: `/Units/getUnits?id=${eve}&uID=${$('#UnitID').val()}`, success: function (e) {
 				var select = document.getElementById('SubUnits');
 				select.innerHTML = ``;
 				if (e.length == 0) {
@@ -322,30 +340,45 @@
 	function LocationChange(ID) {
 		$('#CodeGenrateDiv input:nth-of-type(4)').val(ID)
 	}
-	function UnitCodeChange(ISLevelChange, Intit = false) {
+	function UnitCodeChange(ISLevelChange, change = "", Intit = false) {
 		let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1
 		//debugger
 		let startIn = 3 + (index == 0 ? 1 : index * 3);
 		startIn += 1;
 		console.log("levelChange=" + ISLevelChange, " INIT=" + Intit)
-		console.log(startIn, index, $('#TypeCode').text(), $('#unitCode').val() == "" ? "0" : $('#unitCode').val())
+		console.log(startIn, index, $('#TypeCode').text(), $('#unitCode').val() == "" ? "0" : $('#unitCode').val(),change)
 		if (index == 0) {
 			$(`#CodeGenrateDiv input:nth-of-type(${startIn})`).val($('#TypeCode').text())
 			if (Intit)
 				$(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).val($('#unitCode').val() == "" ? "0" : $('#unitCode').val())
+			@{
+				//if (change != "") {
+				//	$(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).val(change)
+				//	$('#unitCode').val(change)
+				//}
+			}
 			startIn += 2
 		}
 		else {
-			let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
-			if (UnitCode.length == 1)
-				UnitCode = "0" + UnitCode
 			if (ISLevelChange)
 				for (var i = 5; i < startIn; i++)
 					document.querySelector(`#CodeGenrateDiv input:nth-of-type(${i})`).value = "0"
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
 			if (Intit) {
+				let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
+				if (UnitCode.length == 1)
+					UnitCode = "0" + UnitCode
 				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = UnitCode.charAt(0)
 				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).value = UnitCode.charAt(1)
+			}
+			@{
+				//if (change != "") {
+				//	if (change.length == 1)
+				//		change = "0" + change
+				//	document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = change.charAt(0)
+				//	document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).value = change.charAt(1)
+				//	$('#unitCode').val(change)
+				//}
 			}
 			startIn += 3
 		}
