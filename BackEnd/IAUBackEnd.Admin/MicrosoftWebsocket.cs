@@ -26,7 +26,8 @@ namespace IAUBackEnd.Admin
 		public static void SendToMulti(int[] Names, string Message)
 		{
 			foreach (var i in Names)
-				Mapped[i.ToString()].Broadcast(Message);
+				if(Mapped.ContainsKey(i.ToString()))
+					Mapped[i.ToString()].Broadcast(Message);
 		}
 
 		public override void OnMessage(byte[] message)

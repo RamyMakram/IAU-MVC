@@ -24,6 +24,7 @@ let enterPersonnel = false,
 	enterDocumentOther = false;
 let inquiry = false;
 let Redirect = false;
+let RedirectReqType = null;
 var isSaudi = 0
 var CityComponentSelect = ""
 var Cities = []
@@ -60,7 +61,7 @@ $(document).ready(function () {
 				window.history.pushState({}, document.title, "/");
 				$('#NewRequest').click();
 				$(`[data-mainserviceid='${mst}']`).addClass("active").click()
-				$(`[data-requesttypeid='${ret}']`).addClass("active").click()
+				RedirectReqType = ret;
 				localStorage.removeItem('mst')
 				localStorage.removeItem('ret')
 				$("#FirstName").val(res["firstName"]).attr("disabled", "")
@@ -100,19 +101,31 @@ $(document).ready(function () {
 			location.href = location.href.split("?")[0]
 	}
 });
-$('.requesttype').click(function () {
-	if (this.getAttribute("data-requesttypename").toLowerCase().includes("inquiry")) {
-		inquiry = true;
-		uploadfiles = [];
-		FileNames = [];
-	}
-	else {
-		inquiry = false;
-		uploadfiles = [];
-		FileNames = [];
-		$('#filesNameOther').html("");
-	}
-})
+function reIntializeReType() {
+	$('.requesttype').click(function () {
+		if (this.getAttribute("data-requesttypename").toLowerCase().includes("inquiry") || this.getAttribute("data-requesttypename").toLowerCase().includes("سؤال")) {
+			inquiry = true;
+			uploadfiles = [];
+			FileNames = [];
+		}
+		else {
+			inquiry = false;
+			uploadfiles = [];
+			FileNames = [];
+			$('#filesNameOther').html("");
+		}
+	})
+	$(".stick").click(function (event) {
+		let value = $(event.currentTarget.parentNode.parentNode).attr("id");
+		$("#" + value + " .stick").removeClass("active");
+		$(event.currentTarget).addClass("active");
+		if ($(event.currentTarget).hasClass("follow")) {
+			window.location.href = "/Follow/Index";
+			return;
+		}
+		$("#right-arrow").click();
+	});
+}
 $("#right-arrow").click(function () {
 	console.log(incrementValue);
 	$(".nav-fill .nav-link").removeClass("active");
@@ -123,7 +136,7 @@ $("#right-arrow").click(function () {
 	incrementValue++;
 	$(".containt > .row").attr("style", "display:none;");
 	if (incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry") {
+		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
 			$(".containt > .row:nth-of-type(" + incrementValue + ")").attr("style", "display:flex;");
 			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
 				"data-slide-to": "Documents-Inquery",
@@ -138,7 +151,7 @@ $("#right-arrow").click(function () {
 			});
 		}
 	} else {
-		if (incrementValue == 6 && $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry") {
+		if (incrementValue == 6 && ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال")) {
 			$(".containt > .row:nth-of-type(" + ++incrementValue + ")").attr("style", "display:flex;");
 			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
 				"data-slide-to": "Documents-Inquery",
@@ -163,11 +176,9 @@ $("#right-arrow").click(function () {
 	}
 	if ($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "personel-data-m"
 		&& enterPersonnel == false) {
-		LoadApiPeronsalData();
 		enterPersonnel = true;
 	} else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Inquery"
 		&& enterDocuments == false)) {
-		LoadApiDocumentsData(incrementValue);
 		enterDocuments = true;
 		incrementValue++;
 
@@ -177,7 +188,6 @@ $("#right-arrow").click(function () {
 
 	} else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Other"
 		&& enterDocumentOther == false)) {
-		LoadApiDocumentsData(incrementValue);
 		enterDocumentOther = true;
 	}
 	else if ($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Confirmation-m") {
@@ -189,13 +199,15 @@ $("#right-arrow").click(function () {
 $("#left-arrow").click(function () {
 	incrementValue--;
 	if (incrementValue == 6 || incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry") {
+		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
 			incrementValue = incrementValue - 1;
 		}
 	}
 	if (incrementValue == 5) {
 		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "inquiry") {
-			incrementValue = incrementValue - 1;
+			if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "سؤال") {
+				incrementValue = incrementValue - 1;
+			}
 		}
 	}
 	if (incrementValue == 6 /*request data Not inquery == 6*/) {
@@ -246,7 +258,46 @@ $(".nav-fill .nav-link").click(function () {
 		}
 	}
 });
+///////////////////////////////////ServiceType////////////////////////////////////////////
+$('.mainservice').click(function (e) {
+	let ID = $(this).attr('data-mainserviceid');
+	$.ajax({
+		url: "/Home/GetApplicantData?ServiceID=" + ID, method: "Get", success: function (data) {
+			$("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
+			console.log(JSON.parse(data))
+			JSON.parse(data).forEach(i => {
+				$("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
+			})
+		}
+	})
+	$.ajax({
+		url: "/Home/GetRequest?ServiceID=" + ID, method: "Get", success: function (data) {
+			$("#Request_Type_Id").html(`
+				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; margin-top:45px">
+					${(language == "ar" ? '<img src="/Design/img/ArServiceType.png" style="width:100%" />'
+					: '<img src="/Design/img/EnRequestType.png" style="width:100%"/>')} 
+				</div>`);
+			let serverpath = $('#serverpath').html()
+			JSON.parse(data).forEach(request => {
+				$("#Request_Type_Id").append(`
+							<div class="col-md-4 col-lg-3">
+								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
+									<img src=${(serverpath + "/" + request.Image_Path)} data-bs-toggle="tooltip" data-bs-placement="top"
+										 data-bs-custom-class="beautifier"
+										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+									<p>${(language == "ar" ? request.Name_AR : request.Name_EN)}</p >
+								</div >
+							</div >
+					`)
+			})
+			reIntializeReType();
+			if (Redirect)
+				$(`[data-requesttypeid='${RedirectReqType}']`).addClass("active").click()
+		}
+	})
+})
 
+///////////////////////////////////////////////////////////////////////////////
 let dropArea = document.getElementById('drop-area');
 let Supportedfilename = "";
 $("#drop-area-other").click(function () {
@@ -327,15 +378,14 @@ function deleteFileSupport(id) {
 	$('#filesNameDropOther ' + id).remove();
 }
 var saverequest_Clicked = false;
-var data = null;
-var code = null;
-
+let data = null;
 function sendSMS() {
-	data = serialiazeForm();
-	code = Math.floor(1000 + Math.random() * 9000);
 	$("#saveRequestBTN").html("<img src='././Design/img/spinner1.gif' style='width: 53px;'/>");
+	data = serialiazeForm();
+	console.log(data)
+
 	$.ajax({
-		url: `/Home/SendVerification?to=${data.Mobile}&code=${code}`,
+		url: `/Home/SendVerification?to=${data.Mobile}`,
 		type: "GET",
 		success: function (result) {
 			var myModal = new bootstrap.Modal(document.getElementById('FourMessage'), {
@@ -387,7 +437,6 @@ function saveRequest() {
 			[...DropedFile].forEach(e => {
 				fileData.append(e.name, e)
 			})
-			let data = serialiazeForm();
 			fileData.append('request_Data', JSON.stringify(data));
 			fileData.append('base64File', document.getElementById('SignaturePDF').innerHTML);
 			fileData.append('code', requestCode);
@@ -404,7 +453,7 @@ function saveRequest() {
 						$('#FourMessage').modal('hide');
 						$("#MainBody").addClass("mainbody");
 						document.getElementById('MainBody').innerHTML =
-							`<div class="row">
+									`<div class= "row" >
 										<div class="success">
 											<span>Your request has been sent successfully. You will soon receive the </span><br />
 											<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
@@ -412,7 +461,7 @@ function saveRequest() {
 										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
 											<a href="" class="btn" id="Okaybutton" onclick="saveRequest()">Ok</a>
 										</div>
-									</div>`
+									</div > `
 						$('#FourMessage').modal('hide');
 					}
 					else {
@@ -441,58 +490,10 @@ function saveRequest() {
 	}
 }
 
-
-function LoadApiPeronsalData() {
-	$.ajax({
-		url: "/Home/loadApplicantData",
-		//url: baseUrl + "/Document",
-
-		method: "Get",
-		headers: { "lang": 0 }/*english 0*/,
-		success: function (result) {
-			if (result != null) {
-				//  result = result.result;
-				let id = result.Regions[0].ID;
-				CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
-				RegionComponentSelect = `<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
-				result.Regions.forEach(function (element) {
-					RegionComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
-				});
-				RegionComponentSelect += "</select>"
-				Cities = result.Cities;
-				console.log(Cities)
-				console.log(Object.create(Cities).filter(q => q.SubID == id))
-				//console.log(Cities.filter(q => q.SubID == id))
-				AssignCity(Cities.filter(q => q.SubID == id));
-				nationalty = result.nationalty
-				result.nationalty.forEach(function (element) {
-					$("#Nationality_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				Countries = result.Countries
-				result.Countries.forEach(function (element) {
-					$("#Country_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					$("#City_Country_2").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				type = result.type
-				result.type.forEach(function (element) {
-					$("#Applicant_Type_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				titles = result.titles
-				result.titles.forEach(function (element) {
-					$("#title").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-				doctype = result.doctype
-				result.doctype.forEach(function (element) {
-					$("#ID_Document").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-				});
-			}
-		}
-	});
-}
 function AssignCity(data) {
 	CityComponentSelect = "<select>"
 	data.forEach(function (element) {
-		CityComponentSelect += "<option value=" + element.ID + ">" + element.Name + "</option>"
+		CityComponentSelect += "<option value=" + element.City_ID + ">" + (language == "ar" ? element.City_Name_AR : element.City_Name_EN) + "</option>"
 	});
 	CityComponentSelect += "</select>"
 }
@@ -519,56 +520,20 @@ $("#Required_Fields_Notes").keyup(function () {
 	}
 });
 
-function LoadApiDocumentsData(value) {
+function LoadApiDocumentsData() {
+	let RID = document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid');
+	let SID = document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid');
+	let APPID = $('#Applicant_Type_ID  option:selected').val();
 	$.ajax({
-		url: "/Home/loadDocumentData",
-		//  url: baseUrl + "/Document/loadpage",
+		url: `/Home/GetProviders?RID=${RID}&SID=${SID}&AID=${APPID}`,
 		method: "Get",
 		success: function (result) {
 			if (result != null) {
-				console.log("enter here");
-				console.log(value);
-				//result = result.result;
-				provider = result.provider
-				result.provider.forEach(function (element) {
-					if (value == 5) {
-						$("#provider").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					} else if (value == 6) {
-						$("#providerOther").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					}
+				let data = JSON.parse(result)
+				$(inquiry ? "#provider" : "#providerOther").html(language == "ar" ? "<option disabled selected value='null'>اختر-----------------</option>" : "<option disabled selected value='null'>Select-----------------</option>")
+				data.forEach(function (element) {
+					$(inquiry ? "#provider" : "#providerOther").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
 				});
-				if (inquiry) {
-					result.supporteddocs.forEach(function (element) {
-						$("#filesName").append(`
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="margin-bottom:10px;padding:0px;4px;">
-                                            <div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
-											    <span  style="font-size:14px;display:inline-block;width:70%" title="${element.Name}" id="FileDefault${element.ID}">${element.Name.length > 17 ? element.Name.substring(0, 13) + "..." : element.Name}</span >
-											    <span  style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
-											    <input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
-											    <i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
-											    <i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
-                                            </div>
-                                        </div>
-									`)
-					});
-					supporteddocs = result.supporteddocs;
-					$(".fa-upload").click(function () {
-						Current_Supportedfilename = this.getAttribute("name");
-						Supportedfilename = this.getAttribute("data-RequiredName")
-						$("#uploadFileDialog" + Current_Supportedfilename).click();
-					});
-
-					$(".fa-trash").click(function () {
-						let RemoveCurrent_Supportedfilename = this.getAttribute("name");
-						uploadfiles.splice(uploadfiles.findIndex(q => q.ID == RemoveCurrent_Supportedfilename), 1)
-						document.getElementById('FileDefault' + RemoveCurrent_Supportedfilename).style.display = "inline-block";
-						document.getElementById('FileName' + RemoveCurrent_Supportedfilename).style.display = "none";
-						this.style.display = "none";
-						FileNames.splice(FileNames.indexOf(this.getAttribute("data-RequiredName")), 1)
-						document.getElementById("uploadFileDialog" + RemoveCurrent_Supportedfilename).value = "";
-						$('#fileUpload' + RemoveCurrent_Supportedfilename).css("color", "gray");
-					});
-				}
 			} else if (result == null) {
 				$("#modelbody").append("No Data Added , try again later");
 				$("#exampleModalCenter").modal("show");
@@ -576,47 +541,23 @@ function LoadApiDocumentsData(value) {
 		}
 	});
 }
-
-//15-03-2021 fz
-function selectMainService() {
+let SubServices = []
+function GetMainServices(ID) {
+	let SID = document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid');
+	let APPID = $('#Applicant_Type_ID  option:selected').val();
 	$("#Main_Services_ID option").remove();
 	$("#Main_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
-	$("#Sub_Services_ID option").remove();
-	$("#Sub_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
-	if ($("#provider").val() == 4) {
-		$.ajax({
-			url: "/Home/loadMainServiceData?provideId=" + $("#provider").val(),
-			//  url: baseUrl + "/Main_Service/GetMainServices",
-			method: "Get",
-			success: function (result) {
-				if (result != null) {
-					$("#Main_Services_ID").removeAttr("disabled");
-					mainservice = result.mainServices
-					result.mainServices.forEach(function (element) {
-						$("#Main_Services_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
-					});
-				} else if (result == null) {
-					$("#modelbody").append("No Data Added , try again later");
-					$("#exampleModalCenter").modal("show");
-				}
-			}
-		});
-	}
-}
 
-function selectSub() {
-	$("#Sub_Services_ID option").remove();
-	$("#Sub_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
 	$.ajax({
-		//url: baseUrl + "/Sub_Services/GetSubServices/" + $("#Main_Services_ID").val(),
-		url: "/Home/loadSub_Services?main_ID=" + $("#Main_Services_ID").val(),
+		url: `/Home/GetMainServices?ID=${ID}&SID=${SID}&AID=${APPID}`,
 		method: "Get",
 		success: function (result) {
 			if (result != null) {
-				$("#Sub_Services_ID").removeAttr("disabled");
-				subservice = result.subServices;
-				result.subServices.forEach(function (element) {
-					$("#Sub_Services_ID").append("<option value=" + element.ID + ">" + element.Name + "</option>")
+				$("#Main_Services_ID").removeAttr("disabled");
+				$("#Main_Services_ID").html(language == "ar" ? "<option disabled selected value='null'>اختر-----------------</option>" : "<option disabled selected value='null'>Select-----------------</option>")
+				let data = JSON.parse(result)
+				data.forEach(function (element) {
+					$("#Main_Services_ID").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
 				});
 			} else if (result == null) {
 				$("#modelbody").append("No Data Added , try again later");
@@ -624,53 +565,225 @@ function selectSub() {
 			}
 		}
 	});
+}
+function GetSubServices(ID) {
+	$("#Sub_Services_ID option").remove();
+	$("#Sub_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
+
+	$.ajax({
+		url: `/Home/GetSub?ID=${ID}`,
+		method: "Get",
+		success: function (result) {
+			if (result != null) {
+				let data = JSON.parse(result)
+				SubServices = data;
+				$("#Sub_Services_ID").removeAttr("disabled");
+				$("#Sub_Services_ID").html(language == "ar" ? "<option disabled selected value='null'>اختر-----------------</option>" : "<option disabled selected value='null'>Select-----------------</option>")
+
+				data.forEach(function (element) {
+					$("#Sub_Services_ID").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
+				});
+				$("#filesName").html("")
+				supporteddocs = SubServices[0].Docs
+				SubServices[0].Docs.forEach(function (element) {
+					let Name = language == "ar" ? element.Name_AR : element.Name_EN
+					$("#filesName").append(`
+										<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:10px;padding:0px;4px;" >
+												<div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
+													<span style="font-size:14px;display:inline-block;width:70%" title="${Name}" id="FileDefault${element.ID}">${Name.length > 17 ? Name.substring(0, 13) + "..." : Name}</span>
+													<span style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
+													<input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
+													<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+													<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+												</div>
+                                        </div >
+				`)
+				});
+				$(".fa-upload").click(function () {
+					Current_Supportedfilename = this.getAttribute("name");
+					Supportedfilename = this.getAttribute("data-RequiredName")
+					$("#uploadFileDialog" + Current_Supportedfilename).click();
+				});
+
+				$(".fa-trash").click(function () {
+					let RemoveCurrent_Supportedfilename = this.getAttribute("name");
+					uploadfiles.splice(uploadfiles.findIndex(q => q.ID == RemoveCurrent_Supportedfilename), 1)
+					document.getElementById('FileDefault' + RemoveCurrent_Supportedfilename).style.display = "inline-block";
+					document.getElementById('FileName' + RemoveCurrent_Supportedfilename).style.display = "none";
+					this.style.display = "none";
+					FileNames.splice(FileNames.indexOf(this.getAttribute("data-RequiredName")), 1)
+					document.getElementById("uploadFileDialog" + RemoveCurrent_Supportedfilename).value = "";
+					$('#fileUpload' + RemoveCurrent_Supportedfilename).css("color", "gray");
+				});
+			} else if (result == null) {
+				$("#modelbody").append("No Data Added , try again later");
+				$("#exampleModalCenter").modal("show");
+			}
+		}
+	});
+}
+function GetEfroms(ID) {
+	let Docs = SubServices.find(q => q.ID == ID)
+	$("#filesName").html("")
+	supporteddocs = Docs.Docs
+	Docs.Docs.forEach(function (element) {
+		let Name = language == "ar" ? element.Name_AR : element.Name_EN
+		$("#filesName").append(`
+										<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:10px;padding:0px;4px;" >
+											<div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
+												<span style="font-size:14px;display:inline-block;width:70%" title="${Name}" id="FileDefault${element.ID}">${Name.length > 17 ? Name.substring(0, 13) + "..." : Name}</span>
+												<span style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
+												<input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
+												<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+												<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+											</div>
+                                        </div>
+					`)
+	});
+	$(".fa-upload").click(function () {
+		Current_Supportedfilename = this.getAttribute("name");
+		Supportedfilename = this.getAttribute("data-RequiredName")
+		$("#uploadFileDialog" + Current_Supportedfilename).click();
+	});
+
+	$(".fa-trash").click(function () {
+		let RemoveCurrent_Supportedfilename = this.getAttribute("name");
+		uploadfiles.splice(uploadfiles.findIndex(q => q.ID == RemoveCurrent_Supportedfilename), 1)
+		document.getElementById('FileDefault' + RemoveCurrent_Supportedfilename).style.display = "inline-block";
+		document.getElementById('FileName' + RemoveCurrent_Supportedfilename).style.display = "none";
+		this.style.display = "none";
+		FileNames.splice(FileNames.indexOf(this.getAttribute("data-RequiredName")), 1)
+		document.getElementById("uploadFileDialog" + RemoveCurrent_Supportedfilename).value = "";
+		$('#fileUpload' + RemoveCurrent_Supportedfilename).css("color", "gray");
+	});
+
+	$.ajax({
+		url: `/Home/GetEforms?ID=${ID}`,
+		method: "Get",
+		success: function (result) {
+			$("#EFormsView").html("");
+			if (result != null) {
+				let data = JSON.parse(result)
+				data.forEach(function (element) {
+					$("#EFormsView").append(`
+									<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:5px" >
+										<div class="row icon-container" style="padding:0px;margin:0px">
+											<div class="col-sm-4" style="padding:0px">
+												<img src="/Design/img/reader.png" style="width:25px" />
+											</div>
+											<div class="col-sm-8">
+												<a style="padding:0px" href="https://mm.iau-bsc.com/${element.Url}">${(language == 'ar' ? element.Name_AR : element.Name_EN)}</a>
+											</div>
+										</div>
+									</div >
+				`
+					)
+				});
+
+			}
+		}
+	});
+
 }
 
 function serialiazeForm() {
-	let PersonalData = {
-		Affiliated: isAffilate,
-		ID_Document: $('#ID_Document  option:selected').val() == "null" ? null : $('#ID_Document  option:selected').val(),
-		ID_Document_Name: $('#ID_Document  option:selected').text(),
-		Document_Number: $('#idNumber').val(),
-		Service_Type_ID: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid'),
-		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
-		filePath: "",
-		Request_Type_ID: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'),
-		Request_Type_Name: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypename'),
-		IAUID: $('#IAUID').val(),
-		title_Middle_Names_ID: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
-		title_Middle_Names: $('#title  option:selected').text(),
-		first_Name: $("#FirstName").val(),
-		middle_Name: $("#MiddelName").val(),
-		last_Name: $("#FamilyName").val(),
-		Nationality_ID: $('#Nationality_ID  option:selected').val() == "null" ? null : $('#Nationality_ID  option:selected').val(),
-		Nationality_Name: $('#Nationality_ID  option:selected').text(),
-		Country_ID: $('#Country_ID  option:selected').val() == "null" ? null : $('#Country_ID  option:selected').val(),
-		Country_Name: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
-		City_Country_1: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
-		Region: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
-		City_Country_2: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
-		Region_Postal_Code_1: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
-		Region_Postal_Code_2: $('#Region_Postal_Code_2').val(),
-		Email: $('#Email').val(),
-		Mobile: $('#Mobile').val(),
-		Applicant_Type_ID: $('#Applicant_Type_ID  option:selected').val() == "null" ? null : $('#Applicant_Type_ID  option:selected').val(),
-		Applicant_Type_Name: $('#Applicant_Type_ID  option:selected').text(),
-		title: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
-		provider: $('#provider  option:selected').val() == "null" ? null : $('#provider  option:selected').val(),
+	let Data = {
+		Unit_ID: $('#provider  option:selected').val() == "null" ? null : $('#provider  option:selected').val(),
 		provider_Name: $('#provider  option:selected').text(),
-		Main_Services_ID: $('#Main_Services_ID  option:selected').val() == "null" ? null : $('#Main_Services_ID  option:selected').val(),
-		Main_Services_Name: $('#Main_Services_ID  option:selected').text(),
 		Sub_Services_ID: $('#Sub_Services_ID  option:selected').val() == "null" ? null : $('#Sub_Services_ID  option:selected').val(),
 		Sub_Services_Name: $('#Sub_Services_ID  option:selected').text(),
 		Required_Fields_Notes: $('#Required_Fields_Notes').val() == "null" ? null : $('#Required_Fields_Notes').val(),
+		Service_Type_ID: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid'),
+		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
+		Request_Type_ID: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'),
+		Request_Type_Name: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypename'),
+		Personel_Data: {
+			IAU_ID_Number: $('#IAUID').val(),
+			Applicant_Type_ID: $('#Applicant_Type_ID  option:selected').val() == "null" ? null : $('#Applicant_Type_ID  option:selected').val(),
+			Title_Middle_Names_ID: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+			First_Name: $("#FirstName").val(),
+			Middle_Name: $("#MiddelName").val(),
+			Last_Name: $("#FamilyName").val(),
+			Nationality_ID: $('#Nationality_ID  option:selected').val() == "null" ? null : $('#Nationality_ID  option:selected').val(),
+			ID_Document: $('#ID_Document  option:selected').val() == "null" ? null : $('#ID_Document  option:selected').val(),
+			Country_ID: $('#Country_ID  option:selected').val() == "null" ? null : $('#Country_ID  option:selected').val(),
+			ID_Number: $('#idNumber').val(),
+			Address_CountryID: $('#City_Country_2').val(),
+			Address_CityID: isSaudi ? $('#City_Country_1').val() : null,
+			Adress_RegionID: isSaudi ? $('#Region_Postal_Code_1').val() : null,
+			Address_City: isSaudi ? null : $('#City_Country_1').val(),
+			Adress_Region: isSaudi ? null : $('#Region_Postal_Code_1').val(),
+			Postal_Code: $('#Region_Postal_Code_2').val(),
+			Email: $('#Email').val(),
+			Mobile: $('#Mobile').val(),
+		},
+		Affiliated: isAffilate,
+		ID_Document_Name: $('#ID_Document  option:selected').text(),
+		title_Middle_Names: $('#title  option:selected').text(),
+		Nationality_Name: $('#Nationality_ID  option:selected').text(),
+		Country_Name: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
+		Region_Postal_Code_1: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
+		Region_Postal_Code_2: $('#Region_Postal_Code_2').val(),
+		Applicant_Type_Name: $('#Applicant_Type_ID  option:selected').text(),
+		title: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+		Main_Services_ID: $('#Main_Services_ID  option:selected').val() == "null" ? null : $('#Main_Services_ID  option:selected').val(),
+		Main_Services_Name: $('#Main_Services_ID  option:selected').text(),
 		Name: `${($("#title  option:selected").text())} ${$("#FirstName").val()} ${$("#MiddelName").val()} ${$("#FamilyName").val()}`,
-		postal: $('#Region_Postal_Code_2').val(),
 		Address: "",
 		file_names: FileNames
 	}
-	console.log(isSaudi ? "True" : "False", PersonalData);
-	return PersonalData;
+	return Data;
+}
+
+function SerializeGenratePDF() {
+	let Data = {
+		Affiliated: isAffilate,
+		provider_Name: $('#provider  option:selected').text(),
+		Sub_Services_Name: $('#Sub_Services_ID  option:selected').text(),
+		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
+		first_Name: $("#FirstName").val(),
+		middle_Name: $("#MiddelName").val(),
+		last_Name: $("#FamilyName").val(),
+		Request_Type_Name: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypename'),
+		Affiliated: isAffilate,
+		Applicant_Type_Name: $('#Applicant_Type_ID  option:selected').text(),
+		Nationality_Name: $('#Nationality_ID  option:selected').text(),
+		Country_Name: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
+		ID_Document_Name: $('#ID_Document  option:selected').text(),
+		Document_Number: $('#idNumber').val(),
+		Region_Postal_Code_1: isSaudi ? $('#City_Country_1 option:selected').text() : $('#City_Country_1').val(),
+		Region_Postal_Code_2: $('#Region_Postal_Code_2').val(),
+		Region: $('#Region_Postal_Code_1').val(),
+		postal: $('#Region_Postal_Code_2').val(),
+		Email: $('#Email').val(),
+		Mobile: $('#Mobile').val(),
+
+
+		Personel_Data: {
+			IAU_ID_Number: $('#IAUID').val(),
+			Applicant_Type_ID: $('#Applicant_Type_ID  option:selected').val() == "null" ? null : $('#Applicant_Type_ID  option:selected').val(),
+			Title_Middle_Names_ID: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+			Nationality_ID: $('#Nationality_ID  option:selected').val() == "null" ? null : $('#Nationality_ID  option:selected').val(),
+			ID_Document: $('#ID_Document  option:selected').val() == "null" ? null : $('#ID_Document  option:selected').val(),
+			Country_ID: $('#Country_ID  option:selected').val() == "null" ? null : $('#Country_ID  option:selected').val(),
+			Address_CountryID: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
+			City_Country_1: $('#City_Country_1').val(),
+			Adress_RegionID: $('#Region_Postal_Code_1').val(),
+			Address_City: $('#City_Country_1').val(),
+			Adress_Region: $('#Region_Postal_Code_1').val(),
+			Postal_Code: $('#Region_Postal_Code_2').val(),
+			Email: $('#Email').val(),
+			Mobile: $('#Mobile').val(),
+		},
+		title_Middle_Names: $('#title  option:selected').text(),
+		title: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
+		Main_Services_ID: $('#Main_Services_ID  option:selected').val() == "null" ? null : $('#Main_Services_ID  option:selected').val(),
+		Main_Services_Name: $('#Main_Services_ID  option:selected').text(),
+		Name: `${($("#title  option:selected").text())} ${$("#FirstName").val()} ${$("#MiddelName").val()} ${$("#FamilyName").val()}`,
+		Address: "",
+		file_names: FileNames
+	}
+	return Data;
 }
 
 function GeneratePdfData() {
@@ -724,105 +837,105 @@ function GeneratePdfData() {
 		't-phone': 'Mobile Phone',
 		// '': '',
 	}
-	let Form = serialiazeForm();
+	let Form = SerializeGenratePDF();
 	document.getElementById('padf').innerHTML = `
-                                                <div style="padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;">
-													<img src="../Design/img/MousLogo2.png">
-													<img src="../Design/img/VisionLogo.png">
+	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
+	<img src="../Design/img/MousLogo2.png">
+		<img src="../Design/img/VisionLogo.png">
 												</div>
-												<table class='container'id="PDFTable" style="width: 100%;padding: 15px;">
-													<tbody>
-														<tr>
-															<th class="boldtitle" key="t-summary"></th>
-														</tr>
-														<tr>
-															<th key="t-serviceType"></th>
-															<th>${Form["Service_Type_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-reqtype"></th>
-															<th>${Form["Request_Type_Name"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-personalData"></th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-genralInfo"></th>
-														</tr>
-														<tr>
-															<th key="t-IAUAff"></th>
-															<th>${Form["Affiliated"]}</th>
-														</tr>
-														<tr>
-															<th key="t-applicanttype"></th>
-															<th>${Form["Applicant_Type_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-firstname"></th>
-															<th>${Form["first_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-middlename"></th>
-															<th>${Form["middle_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-lastname"></th>
-															<th>${Form["last_Name"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-nationalty"></th>
-														</tr>
-														<tr>
-															<th key="t-nationalty"></th>
-															<th>${Form["Nationality_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-country"></th>
-															<th>${Form["Country_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-iddoc"></th>
-															<th>${Form["ID_Document_Name"]}</th>
-														</tr>
-														<tr>
-															<th key="t-idnumber"></th>
-															<th>${Form["Document_Number"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-address"></th>
-														</tr>
-														<tr>
-															<th key="t-city"></th>
-															<th>${Form["Region_Postal_Code_1"]}</th>
-														</tr>
-														<tr>
-															<th key="t-region"></th>
-															<th>${Form["Region"]}</th>
-														</tr>
-														<tr>
-															<th key="t-country"></th>
-															<th>${Form["Region_Postal_Code_2"]}</th>
-														</tr>
-														<tr>
-															<th key="t-postal"></th>
-															<th>${Form["postal"]}</th>
-														</tr>
-														<tr>
-															<th class="boldtitle" key="t-contactinfo"></th>
-														</tr>
-														<tr>
-															<th key="t-email"></th>
-															<th>${Form["Email"]}</th>
-														</tr>
-														<tr>
-															<th key="t-phone"></th>
-															<th>${Form["Mobile"]}</th>
-														</tr>
-														
-													</tbody>
-												</table>
+		<table class='container' id="PDFTable" style="width: 100%;padding: 15px;">
+			<tbody>
+				<tr>
+					<th class="boldtitle" key="t-summary"></th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-serviceType"></th>
+					<th class="col-6">${Form["Service_Type_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-reqtype"></th>
+					<th class="col-6">${Form["Request_Type_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="boldtitle" key="t-personalData"></th>
+				</tr>
+				<tr class="row">
+					<th class="boldtitle" key="t-genralInfo"></th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-IAUAff"></th>
+					<th class="col-6">${Form["Affiliated"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-applicanttype"></th>
+					<th class="col-6">${Form["Applicant_Type_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-firstname"></th>
+					<th class="col-6">${Form["first_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-middlename"></th>
+					<th class="col-6">${Form["middle_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-lastname"></th>
+					<th class="col-6">${Form["last_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="boldtitle" key="t-nationalty"></th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-nationalty"></th>
+					<th class="col-6">${Form["Nationality_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-country"></th>
+					<th class="col-6">${Form["Country_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-iddoc"></th>
+					<th class="col-6">${Form["ID_Document_Name"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-idnumber"></th>
+					<th class="col-6">${Form["Document_Number"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="boldtitle" key="t-address"></th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-city"></th>
+					<th class="col-6">${Form["Region_Postal_Code_1"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-region"></th>
+					<th class="col-6">${Form["Region"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-country"></th>
+					<th class="col-6">${Form["Region_Postal_Code_2"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-postal"></th>
+					<th class="col-6">${Form["postal"]}</th>
+				</tr>
+				<tr>
+					<th class="boldtitle" key="t-contactinfo"></th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-email"></th>
+					<th class="col-6">${Form["Email"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-phone"></th>
+					<th class="col-6">${Form["Mobile"]}</th>
+				</tr>
 
-    `
+			</tbody>
+		</table>
+
+		`
 
 
 	let data = null;
@@ -874,79 +987,64 @@ function AffiliatedState() {
 		$("#IAUID").attr("disabled", "disabled");
 	}
 }
-function CityChange() {
 
-}
 function CountryState() {
-	isSaudi = $("#City_Country_2 option:selected").val() == 24 ? 1 : 0;
-	if (isSaudi == 1) {
-		var CityAttr = document.getElementById('City');
-		if (CityComponentSelect != "") {
-			CityAttr.innerHTML = `
-									<img />
-									${CityComponentSelect}
-									`
-		}
-		else {
-			let timeIntervalCity = setInterval(function () {
+	let ID = $("#City_Country_2 option:selected").val()
+	$.ajax({
+		url: "/Home/GetCityRegion?CID=" + ID, method: "Get", success: function (datxa) {
+			let data = JSON.parse(datxa)
+			if (data.Regions.length != 0) {
+				isSaudi = 1;
+				Cities = data.City;
+				let id = data.Regions[0].ID;
+				CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
+				RegionComponentSelect = `<select id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
+				data.Regions.forEach(function (element) {
+					RegionComponentSelect += "<option value=" + element.Region_ID + ">" + (language == "ar" ? element.Region_Name_AR : element.Region_Name_EN) + "</option>"
+				});
+				RegionComponentSelect += "</select>"
+				AssignCity(Cities.filter(q => q.SubID == id));
+				var CityAttr = document.getElementById('City');
 				if (CityComponentSelect != "") {
 					CityAttr.innerHTML = `
 									<img />
 									${CityComponentSelect}
 									`
-					clearInterval(timeIntervalCity);
 				}
-			}, 1000)
-		}
-
-		var RegionAttr = document.getElementById('Region');
-		if (RegionComponentSelect != "") {
-			RegionAttr.innerHTML = `
-									<img />
-									${RegionComponentSelect}
-									`
-			document.getElementById('Region_Postal_Code_1').addEventListener('change', function (e) {
-				let cities = Object.create(Cities).filter(q => q.SubID == this.value)
-				//console.log(cities);
-				console.log()
-				console.log(Cities)
-				console.log(cities)
-				AssignCity(cities)
-				document.getElementById('City').innerHTML = `
-									<img />
-									${CityComponentSelect}
-									`;
-			})
-		}
-
-		else {
-			let timeIntervalRegion = setInterval(function () {
+				var RegionAttr = document.getElementById('Region');
 				if (RegionComponentSelect != "") {
 					RegionAttr.innerHTML = `
 									<img />
 									${RegionComponentSelect}
 									`
-					document.getElementById('Region_Postal_Code_1').addEventLitener('change', function (e) {
-
+					document.getElementById('Region_Postal_Code_1').addEventListener('change', function (e) {
+						let cities = Object.create(Cities).filter(q => q.Region_ID == this.value)
+						console.log(Cities)
+						console.log(cities)
+						AssignCity(cities)
+						document.getElementById('City').innerHTML = `
+									<img />
+			${CityComponentSelect}
+			`;
 					})
-					clearInterval(timeIntervalRegion);
 				}
-			}, 1000)
-		}
-	} else {
-		var RegionAttr = document.getElementById('Region');
-		var CityAttr = document.getElementById('City');
-		RegionAttr.innerHTML = `
-								<img />
-								<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
-								`
-		CityAttr.innerHTML = `
-								<img />
-								<input type="text" id="City_Country_1" name="City_Country_1">
-								`
-		//document.getElementById('Region_Postal_Code_1').removeEventListener('change')
 
-	}
+			}
+			else {
+				isSaudi = 0;
+				var RegionAttr = document.getElementById('Region');
+				var CityAttr = document.getElementById('City');
+				RegionAttr.innerHTML = `
+								<img />
+			<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
+			`
+				CityAttr.innerHTML = `
+								<img />
+			<input type="text" id="City_Country_1" name="City_Country_1">
+				`
+			}
+		}
+	})
 }
 $("#Documents-Inquery #Documents #E-forms .icon-container").click(function () {
 	var myModal = new bootstrap.Modal(document.getElementById('formModel'), {

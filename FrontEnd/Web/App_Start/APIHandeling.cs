@@ -10,22 +10,21 @@ namespace Web.App_Start
 	public static class APIHandeling
 	{
 		static string domainName = ConfigurationManager.AppSettings["DomainName"].ToString();
-		static string AdminURL = ConfigurationManager.AppSettings["AdminUrl"].ToString();
+		public static string AdminURL = ConfigurationManager.AppSettings["AdminUrl"].ToString();
 		/// <summary>
 		/// Get Data From API
 		/// </summary>
 		/// <param name="apiName">contoller name </param>//
 		/// <returns></returns>
-		public static HttpResponseMessage getData(string apiName, string lang)
+		public static HttpResponseMessage getData(string apiName)
 		{
 			HttpClient h = new HttpClient();
 
 			h.BaseAddress = new Uri(domainName);
 
-			h.DefaultRequestHeaders.Add("lang", lang);
 			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
 
-			var res = h.GetAsync("/api/" + apiName + "?lang=" + lang);
+			var res = h.GetAsync("/api/" + apiName);
 			return res.Result;
 		}
 		/// <summary>
@@ -155,8 +154,8 @@ namespace Web.App_Start
 			HttpClient h = new HttpClient();
 			h.BaseAddress = new Uri(AdminURL);
 
-			var res = h.GetAsync("/api/" + apiName).Result;
-			return res;
+			var res = h.GetAsync("/api/" + apiName);
+			return res.Result;
 		}
 		/// <summary>
 		/// INSERT using API

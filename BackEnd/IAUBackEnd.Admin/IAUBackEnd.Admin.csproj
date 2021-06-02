@@ -329,9 +329,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MostafidDBModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Nationality.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Personel_Data.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -357,9 +354,6 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_State.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Request_SupportingDocs.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_Type.cs">

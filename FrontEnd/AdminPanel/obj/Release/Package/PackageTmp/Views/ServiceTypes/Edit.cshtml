@@ -16,7 +16,17 @@
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
 
+
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
+	}
+</style>
 
 <div class="row">
 	<div class="col-12">
@@ -30,14 +40,14 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-name" for="name">User Name</label>
-								@Html.TextBoxFor(q => q.Service_Type_Name_AR, new { @id = "name", @class = "form-control" })
+								<label class="control-label" key="t-name" for="name">User Name</label>
+								@Html.TextBoxFor(q => q.Service_Type_Name_AR, new { @id = "name", @class = "form-control ar-font" })
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-enname" for="enname">EnName</label>
-								@Html.TextBoxFor(q => q.Service_Type_Name_EN, new { @id = "enna,e", @class = "form-control" })
+								<label class="control-label" key="t-enname" for="enname">EnName</label>
+								@Html.TextBoxFor(q => q.Service_Type_Name_EN, new { @id = "enname", @class = "form-control en-font" })
 							</div>
 						</div>
 					</div>

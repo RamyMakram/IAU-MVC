@@ -4,13 +4,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Web.App_Start;
-using Web.pdf;
 
 namespace Web.Controllers
 {
@@ -23,39 +24,18 @@ namespace Web.Controllers
 				Response.Cookies.Add(new HttpCookie("us", null));
 			else
 				Response.Cookies.Add(new HttpCookie("us", u));
-			ApplicantRequest_Data_DTO request_Data = new ApplicantRequest_Data_DTO();
-			var res = APIHandeling.getData("/ServiceType/GetAllServiceType", lang);
+			var res = APIHandeling.getData("/_Home/LoadMain");
 			var resJson = res.Content.ReadAsStringAsync();
-			var lst = JsonConvert.DeserializeObject<Root>(resJson.Result);
-			request_Data.serviceTypeList = lst.success ? lst.result.ServiceType : null;
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (response.success)
+			{
+				ViewBag.CookieLang = lang;
+				return View(JsonConvert.DeserializeObject<_HomeDTO>(response.result.ToString()));
+			}
 
-			// //requestTypeList
-			//requestTypeList
-			res = APIHandeling.getData("/RequestType/GetAllRequestType", lang);
-			resJson = res.Content.ReadAsStringAsync();
-			lst = JsonConvert.DeserializeObject<Root>(resJson.Result);
-			request_Data.requestTypeList = lst.success ? lst.result.RequestType : null;
-
-			ViewBag.CookieLang = lang;
-
-			return View(request_Data);
+			return RedirectToAction("Error");
 		}
 
-		[HttpGet]
-		public JsonResult loadDocumentData()
-		{
-			try
-			{
-				var res = APIHandeling.getData("/Document/loadpage", Request.Cookies["lang"].Value);
-				var resJson = res.Content.ReadAsStringAsync();
-				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
-				return Json(lst, JsonRequestBehavior.AllowGet);
-			}
-			catch (Exception ex)
-			{
-				return Json(new { Result = "ERROR", Message = ex.Message });
-			}
-		}
 
 		[HttpGet]
 		public ActionResult RedirectTo()
@@ -81,7 +61,7 @@ namespace Web.Controllers
 				//Console.WriteLine(code);
 				code = 1111;
 				string message = $@"Use this code {code} to complete your request.";
-				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message, Request.Cookies["lang"].Value);
+				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message);
 				var resJson = res.Content.ReadAsStringAsync().Result;
 				Response.Cookies.Add(new HttpCookie("n", Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())))));
 				return Json(resJson, JsonRequestBehavior.AllowGet);
@@ -92,87 +72,64 @@ namespace Web.Controllers
 			}
 		}
 
-		[HttpGet]
-		public JsonResult loadApplicantData()
-		{
-			try
-			{
-				var res = APIHandeling.getData("/ApplicantData/loadApplicantData", Request.Cookies["lang"].Value);
-				var resJson = res.Content.ReadAsStringAsync();
-				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
-				return Json(lst, JsonRequestBehavior.AllowGet);
-			}
-			catch (Exception ex)
-			{
-
-				return Json(new { Result = "ERROR", Message = ex.Message });
-			}
-		}
-
-
-		[HttpGet]
-		public JsonResult loadMainServiceData(int provideId)
-		{
-			try
-			{
-				var res = APIHandeling.getData("/Main_Service/GetMainServices?provideId=" + provideId, Request.Cookies["lang"].Value);
-				var resJson = res.Content.ReadAsStringAsync();
-				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
-				return Json(lst, JsonRequestBehavior.AllowGet);
-			}
-			catch (Exception ex)
-			{
-
-				return Json(new { Result = "ERROR", Message = ex.Message });
-			}
-		}
-
-		[HttpGet]
-		public JsonResult loadSub_Services(int main_ID)
-		{
-			try
-			{
-				var res = APIHandeling.getData("/Sub_Services/GetSubServices?main_ID=" + main_ID, Request.Cookies["lang"].Value);
-				var resJson = res.Content.ReadAsStringAsync();
-				var lst = JsonConvert.DeserializeObject<Root>(resJson.Result).result;
-				return Json(lst, JsonRequestBehavior.AllowGet);
-			}
-			catch (Exception ex)
-			{
-				return Json(new { Result = "ERROR", Message = ex.Message });
-			}
-		}
-
-
 		[HttpPost]
-		public async Task<object> saveApplicantDataAndRequest(string request_Data, string base64File, string code)
+		public async Task<object> saveApplicantDataAndRequest(string request_Data, string code)
 		{
 			try
 			{
-				if (request_Data == null || base64File == null || base64File == "" || code == "")
+				if (request_Data == null || code == "")
 					return null;
 				var shaCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code)));
 				if (shaCode == Request.Cookies["n"].Value)
 				{
-					var data = JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data);
+					//var data = JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data);
 					var Files = new List<CustomeFile>();
-					HttpFileCollectionBase files = Request.Files;
-					int length = Request.Files.Count;
+					List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
 
-					for (int i = 0; i < length; i++)
+					using (var client = new HttpClient())
 					{
-						HttpPostedFileBase file = files[i];
-						byte[] Bytes = new byte[file.InputStream.Length + 1];
-						file.InputStream.Read(Bytes, 0, Bytes.Length);
-						Files.Add(new CustomeFile() { bytes = Bytes, filename = file.FileName });
+						using (var content = new MultipartFormDataContent())
+						{
+							int length = Request.Files.Count;
+
+							for (int i = 0; i < length; i++)
+							{
+								HttpPostedFileBase file = Request.Files[i];
+								//byte[] Bytes = new byte[file.InputStream.Length + 1];
+								//file.InputStream.Read(Bytes, 0, Bytes.Length);
+								//Files.Add(new CustomeFile() { bytes = Bytes, filename = file.FileName });
+								//files.Add(file);
+								byte[] Bytes = new byte[file.InputStream.Length + 1];
+								file.InputStream.Read(Bytes, 0, Bytes.Length);
+								var fileContent = new ByteArrayContent(Bytes);
+								fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
+								content.Add(fileContent);
+							}
+							var stringContent = new StringContent(request_Data);
+							stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
+							content.Add(stringContent, "json");
+
+							var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData";
+							var result = client.PostAsync(requestUri, content).Result;
+							if (result.StatusCode == System.Net.HttpStatusCode.OK)
+							{
+								var d = result.Content.ReadAsStringAsync();
+								var lst = JsonConvert.DeserializeObject<ResponseClass>(d.Result);
+								if (lst.success)
+									return JsonConvert.SerializeObject(new ResponseClass() { success = true });
+								else
+									return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
+							}
+							return JsonConvert.SerializeObject(new ResponseClass() { success = false });
+						}
 					}
-					var res = APIHandeling.PostRequest("/Request/saveApplicantData", new RequestData_DTO() { PDFSignature = base64File, Request = data, Files = Files });
-					var resJson = res.Content.ReadAsStringAsync();
-					var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-					if (lst.success)
-						return JsonConvert.SerializeObject(new ResponseClass() { success = true });
-					else
-						return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
+					//var res = APIHandeling.PostRequest(", new RequestData_DTO() { Request = data, Files = files });
+					//var resJson = res.Content.ReadAsStringAsync();
+					//var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+					//if (lst.success)
+					//	return JsonConvert.SerializeObject(new ResponseClass() { success = true });
+					//else
+					//	return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
 				}
 				else
 					return JsonConvert.SerializeObject(new ResponseClass() { result = "ErrorInCode", success = false });
@@ -184,19 +141,72 @@ namespace Web.Controllers
 			}
 		}
 
-
-		[HttpPost]
-		public string GenratePdfFile(ApplicantRequest_Data_DTO request_Data)
-		{
-			GeneratePDF pdf = new GeneratePDF();
-			string base64File = pdf.GenratePDF(request_Data);
-			return base64File;
-		}
 		[HttpGet]
 		public ActionResult ChangeLang(string lang)
 		{
 			Response.Cookies.Set(new HttpCookie("lang", lang == "ar" ? lang : "en"));
-			return RedirectToAction("Index","Home");
+			return RedirectToAction("Index", "Home");
+		}
+		[HttpGet]
+		public JsonResult GetRequest(int ServiceID)
+		{
+			var res = APIHandeling.getData("/RequestType/GetActive?SID=" + ServiceID);
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+		[HttpGet]
+		public JsonResult GetApplicantData(int ServiceID)
+		{
+			var res = APIHandeling.getData("/AppType/GetActive?SID=" + ServiceID);
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetCityRegion(int CID)
+		{
+			var res = APIHandeling.getData("/Region_City/GetActive?CountryID=" + CID);
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetProviders(int RID, int SID, int AID)
+		{
+			var res = APIHandeling.getData($"/Units/GetActive?ReqID={RID}&SerID={SID}&AppType={AID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetMainServices(int ID, int SID, int AID)
+		{
+			var res = APIHandeling.getData($"/MainService/GetActive?UID={ID}&ServiceID={SID}&AppType={AID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetSub(int ID)
+		{
+			var res = APIHandeling.getData($"/SubServices/GetActive?MainService={ID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+
+		[HttpGet]
+		public JsonResult GetEforms(int ID)
+		{
+			var res = APIHandeling.getData($"/Eforms/GetActive?SubService={ID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 	}
 }

@@ -111,8 +111,9 @@
 	"t-phone": "Mobile Phone",
 	"t-profile": "Profile",
 	"t-date": "Date",
-	"t-comment": "Comment",
+	"t-comment": "Notice",
 	"t-yes": "Yes",
-	"t-no": "No"
+	"t-no": "No",
+	"t-mostafidname": "Mostafid Name"
 
 }

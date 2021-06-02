@@ -18,7 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public MostafidDBEntities()
             : base("name=MostafidDBEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+			this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -42,7 +42,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Job_Permissions> Job_Permissions { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Main_Services> Main_Services { get; set; }
-        public virtual DbSet<Nationality> Nationality { get; set; }
         public virtual DbSet<Personel_Data> Personel_Data { get; set; }
         public virtual DbSet<Privilage> Privilage { get; set; }
         public virtual DbSet<Purchase_Order_Form> Purchase_Order_Form { get; set; }
@@ -52,7 +51,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Request_File> Request_File { get; set; }
         public virtual DbSet<Request_Log> Request_Log { get; set; }
         public virtual DbSet<Request_State> Request_State { get; set; }
-        public virtual DbSet<Request_SupportingDocs> Request_SupportingDocs { get; set; }
         public virtual DbSet<Request_Type> Request_Type { get; set; }
         public virtual DbSet<Required_Documents> Required_Documents { get; set; }
         public virtual DbSet<Service_Type> Service_Type { get; set; }
@@ -61,6 +59,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
         public virtual DbSet<Type_Support_Project> Type_Support_Project { get; set; }
+        public virtual DbSet<UnitLevel> UnitLevel { get; set; }
         public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
         public virtual DbSet<Units> Units { get; set; }
         public virtual DbSet<Units_Location> Units_Location { get; set; }
@@ -70,6 +69,5 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<Statement_Department_File_Sent_Them> Statement_Department_File_Sent_Them { get; set; }
-        public virtual DbSet<UnitLevel> UnitLevel { get; set; }
     }
 }

@@ -189,7 +189,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="pdf\GeneratePDF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -350,8 +349,8 @@
     <Content Include="Design\webfonts\frutigerltarabic75black.woff" />
     <None Include="packages.config" />
     <Content Include="Views\Coordinator\Index.cshtml" />
-    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Views\Shared\_Language.cshtml" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAU.DTO\IAU.DTO.csproj">
