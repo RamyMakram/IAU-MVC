@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,25 +82,54 @@ namespace Web.Controllers
 				var shaCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code)));
 				if (shaCode == Request.Cookies["n"].Value)
 				{
-					var data = JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data);
+					//var data = JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data);
 					var Files = new List<CustomeFile>();
-					HttpFileCollectionBase files = Request.Files;
-					int length = Request.Files.Count;
+					List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
 
-					for (int i = 0; i < length; i++)
+					using (var client = new HttpClient())
 					{
-						HttpPostedFileBase file = files[i];
-						byte[] Bytes = new byte[file.InputStream.Length + 1];
-						file.InputStream.Read(Bytes, 0, Bytes.Length);
-						Files.Add(new CustomeFile() { bytes = Bytes, filename = file.FileName });
+						using (var content = new MultipartFormDataContent())
+						{
+							int length = Request.Files.Count;
+
+							for (int i = 0; i < length; i++)
+							{
+								HttpPostedFileBase file = Request.Files[i];
+								//byte[] Bytes = new byte[file.InputStream.Length + 1];
+								//file.InputStream.Read(Bytes, 0, Bytes.Length);
+								//Files.Add(new CustomeFile() { bytes = Bytes, filename = file.FileName });
+								//files.Add(file);
+								byte[] Bytes = new byte[file.InputStream.Length + 1];
+								file.InputStream.Read(Bytes, 0, Bytes.Length);
+								var fileContent = new ByteArrayContent(Bytes);
+								fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
+								content.Add(fileContent);
+							}
+							var stringContent = new StringContent(request_Data);
+							stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
+							content.Add(stringContent, "json");
+
+							var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData";
+							var result = client.PostAsync(requestUri, content).Result;
+							if (result.StatusCode == System.Net.HttpStatusCode.OK)
+							{
+								var d = result.Content.ReadAsStringAsync();
+								var lst = JsonConvert.DeserializeObject<ResponseClass>(d.Result);
+								if (lst.success)
+									return JsonConvert.SerializeObject(new ResponseClass() { success = true });
+								else
+									return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
+							}
+							return JsonConvert.SerializeObject(new ResponseClass() { success = false });
+						}
 					}
-					var res = APIHandeling.PostRequest("/Request/saveApplicantData", new RequestData_DTO() { Request = data, Files = Files });
-					var resJson = res.Content.ReadAsStringAsync();
-					var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-					if (lst.success)
-						return JsonConvert.SerializeObject(new ResponseClass() { success = true });
-					else
-						return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
+					//var res = APIHandeling.PostRequest(", new RequestData_DTO() { Request = data, Files = files });
+					//var resJson = res.Content.ReadAsStringAsync();
+					//var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+					//if (lst.success)
+					//	return JsonConvert.SerializeObject(new ResponseClass() { success = true });
+					//else
+					//	return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
 				}
 				else
 					return JsonConvert.SerializeObject(new ResponseClass() { result = "ErrorInCode", success = false });
@@ -143,7 +174,7 @@ namespace Web.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetProviders(int RID,int SID,int AID)
+		public JsonResult GetProviders(int RID, int SID, int AID)
 		{
 			var res = APIHandeling.getData($"/Units/GetActive?ReqID={RID}&SerID={SID}&AppType={AID}");
 			var resJson = res.Content.ReadAsStringAsync();

@@ -10,7 +10,7 @@ namespace Web.App_Start
 	public static class APIHandeling
 	{
 		static string domainName = ConfigurationManager.AppSettings["DomainName"].ToString();
-		static string AdminURL = ConfigurationManager.AppSettings["AdminUrl"].ToString();
+		public static string AdminURL = ConfigurationManager.AppSettings["AdminUrl"].ToString();
 		/// <summary>
 		/// Get Data From API
 		/// </summary>

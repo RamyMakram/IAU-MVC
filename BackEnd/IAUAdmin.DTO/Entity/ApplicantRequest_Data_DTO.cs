@@ -6,7 +6,7 @@ namespace IAUAdmin.DTO.Entity
 {
 	public class ApplicantRequest_Data_DTO
 	{
-		public int? Request_Data_ID { get; set; }
+		public Nullable<int> Request_Data_ID { get; set; }
 		public Nullable<int> Personel_Data_ID { get; set; }
 		public Nullable<int> Provider_Academic_Services_ID { get; set; }
 		public Nullable<int> Sub_Services_ID { get; set; }

@@ -378,15 +378,14 @@ function deleteFileSupport(id) {
 	$('#filesNameDropOther ' + id).remove();
 }
 var saverequest_Clicked = false;
-var data = null;
-var code = null;
-
+let data = null;
 function sendSMS() {
-	data = serialiazeForm();
-	code = Math.floor(1000 + Math.random() * 9000);
 	$("#saveRequestBTN").html("<img src='././Design/img/spinner1.gif' style='width: 53px;'/>");
+	data = serialiazeForm();
+	console.log(data)
+
 	$.ajax({
-		url: `/ Home / SendVerification ? to = ${data.Mobile} & code=${code}`,
+		url: `/Home/SendVerification?to=${data.Mobile}`,
 		type: "GET",
 		success: function (result) {
 			var myModal = new bootstrap.Modal(document.getElementById('FourMessage'), {
@@ -438,7 +437,6 @@ function saveRequest() {
 			[...DropedFile].forEach(e => {
 				fileData.append(e.name, e)
 			})
-			let data = serialiazeForm();
 			fileData.append('request_Data', JSON.stringify(data));
 			fileData.append('base64File', document.getElementById('SignaturePDF').innerHTML);
 			fileData.append('code', requestCode);
@@ -455,14 +453,14 @@ function saveRequest() {
 						$('#FourMessage').modal('hide');
 						$("#MainBody").addClass("mainbody");
 						document.getElementById('MainBody').innerHTML =
-							`< div class= "row" >
-			<div class="success">
-				<span>Your request has been sent successfully. You will soon receive the </span><br />
-				<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
-			</div>
-			<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-				<a href="" class="btn" id="Okaybutton" onclick="saveRequest()">Ok</a>
-			</div>
+									`<div class= "row" >
+										<div class="success">
+											<span>Your request has been sent successfully. You will soon receive the </span><br />
+											<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
+										</div>
+										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+											<a href="" class="btn" id="Okaybutton" onclick="saveRequest()">Ok</a>
+										</div>
 									</div > `
 						$('#FourMessage').modal('hide');
 					}
@@ -586,6 +584,7 @@ function GetSubServices(ID) {
 					$("#Sub_Services_ID").append("<option value=" + element.ID + ">" + (language == "ar" ? element.Name_AR : element.Name_EN) + "</option>")
 				});
 				$("#filesName").html("")
+				supporteddocs = SubServices[0].Docs
 				SubServices[0].Docs.forEach(function (element) {
 					let Name = language == "ar" ? element.Name_AR : element.Name_EN
 					$("#filesName").append(`
@@ -624,11 +623,9 @@ function GetSubServices(ID) {
 	});
 }
 function GetEfroms(ID) {
-	console.log(ID)
-
 	let Docs = SubServices.find(q => q.ID == ID)
-	console.log(Docs)
 	$("#filesName").html("")
+	supporteddocs = Docs.Docs
 	Docs.Docs.forEach(function (element) {
 		let Name = language == "ar" ? element.Name_AR : element.Name_EN
 		$("#filesName").append(`
@@ -711,11 +708,11 @@ function serialiazeForm() {
 			ID_Document: $('#ID_Document  option:selected').val() == "null" ? null : $('#ID_Document  option:selected').val(),
 			Country_ID: $('#Country_ID  option:selected').val() == "null" ? null : $('#Country_ID  option:selected').val(),
 			ID_Number: $('#idNumber').val(),
-			Address_CountryID: isSaudi ? $('#City_Country_2 option:selected').text() : $('#City_Country_2').val(),
-			City_Country_1: $('#City_Country_1').val(),
-			Adress_RegionID: $('#Region_Postal_Code_1').val(),
-			Address_City: $('#City_Country_1').val(),
-			Adress_Region: $('#Region_Postal_Code_1').val(),
+			Address_CountryID: $('#City_Country_2').val(),
+			Address_CityID: isSaudi ? $('#City_Country_1').val() : null,
+			Adress_RegionID: isSaudi ? $('#Region_Postal_Code_1').val() : null,
+			Address_City: isSaudi ? null : $('#City_Country_1').val(),
+			Adress_Region: isSaudi ? null : $('#Region_Postal_Code_1').val(),
 			Postal_Code: $('#Region_Postal_Code_2').val(),
 			Email: $('#Email').val(),
 			Mobile: $('#Mobile').val(),

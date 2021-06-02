@@ -15,7 +15,7 @@ namespace IAU_BackEnd.Controllers
 		private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
 		public IHttpActionResult GetActive(int MainService)
 		{
-			return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Include(q => q.Required_Documents).Where(q => q.IS_Action.Value && q.Main_Services_ID == MainService).Select(q => new { ID = q.Main_Services_ID, Name_AR = q.Sub_Services_Name_AR, Name_EN = q.Sub_Services_Name_EN, Docs = q.Required_Documents.Select(s => new { s.Name_AR, s.Name_EN, s.ID }) }) });
+			return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Include(q => q.Required_Documents).Where(q => q.IS_Action.Value && q.Main_Services_ID == MainService).Select(q => new { ID = q.Sub_Services_ID, Name_AR = q.Sub_Services_Name_AR, Name_EN = q.Sub_Services_Name_EN, Docs = q.Required_Documents.Select(s => new { s.Name_AR, s.Name_EN, s.ID }) }) });
 		}
 	}
 }

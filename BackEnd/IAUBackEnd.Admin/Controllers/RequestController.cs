@@ -81,70 +81,88 @@ namespace IAUBackEnd.Admin.Controllers
 			return StatusCode(HttpStatusCode.NoContent);
 		}
 		[HttpPost]
-		[Route("api/Request/saveApplicantData")]
-		public async Task<IHttpActionResult> SaveApplicantData(RequestData_DTO requestData)
+		public async Task<IHttpActionResult> SaveApplicantData()
 		{
+			DbContextTransaction transaction = p.Database.BeginTransaction();
 			try
 			{
-				var data = JsonConvert.DeserializeObject<Request_Data>(JsonConvert.SerializeObject(requestData.Request));
-				var model = data.Personel_Data;
+				Request_Data request_Data = new Request_Data();
+				var provider = new MultipartMemoryStreamProvider();
+				await Request.Content.ReadAsMultipartAsync(provider);
+				var buffer = await provider.Contents.Last().ReadAsStringAsync();
+				request_Data = JsonConvert.DeserializeObject<Request_Data>(buffer);
+				//foreach (var file in provider.Contents)
+				//{
+				//	if (file.Headers.ContentDisposition.DispositionType.Contains("form-data"))
+				//	{
+				//		var buffer = await file.ReadAsStringAsync();
+				//		requestData = JsonConvert.DeserializeObject<RequestData_DTO>(buffer);
+				//	}
+				//	else
+				//	{
+				//		var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+				//		var buffer = await file.ReadAsStringAsync();
+				//	}
+				//}
+
+				var model = request_Data.Personel_Data;
 				Personel_Data personel_Data = p.Personel_Data.FirstOrDefault(q => (q.ID_Document == model.ID_Document && q.ID_Number == model.ID_Number) || q.Mobile == model.Mobile);
 				if (personel_Data == null)
 				{
 					p.Personel_Data.Add(model);
 					await p.SaveChangesAsync();
 				}
-
-				//save request data
-				//byte request_State_ID = (byte)RequestState.Created;
-
-				Request_Data request_Data = data;
 				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
 				request_Data.Code_Generate = DateTime.Now.ToString("yyyyMMddHHmm");
 				request_Data.CreatedDate = DateTime.Now;
 				request_Data.Request_State_ID = 1;
-				//IsTwasul=true, OC ON-CAMPUS بالمركز=false
 				request_Data.IsTwasul_OC = false;
 				p.Request_Data.Add(request_Data);
 				await p.SaveChangesAsync();
 				var path = HttpContext.Current.Server.MapPath("~");
 				var requestpath = Path.Combine("RequestFiles", request_Data.Request_Data_ID.ToString());
 				Directory.CreateDirectory(Path.Combine(path, requestpath));
-				var count = 0;
-				var RequiredFiles = p.Required_Documents.ToList();
-				if (p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID).Request_Type_Name_EN.ToLower().Contains("inquiry"))
-					foreach (var i in RequiredFiles)
-					{
-						var filename = Path.GetFileName(requestData.Files[count].filename);
-						var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
-						File.WriteAllBytes(Path.Combine(path, filepath), requestData.Files[count].bytes);
-						request_Data.Request_File.Add(new Request_File()
+				if (provider.Contents.Count > 1)
+				{
+					var count = 0;
+					var RequiredFiles = p.Required_Documents.Where(q => q.SubServiceID == request_Data.Sub_Services_ID).ToList();
+					if (p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID).Request_Type_Name_EN.ToLower().Contains("inquiry"))
+						foreach (var i in RequiredFiles)
 						{
-							Request_ID = request_Data.Request_Data_ID,
-							RequiredDoc_ID = i.ID.Value,
-							File_Name = filename,
+							var file = provider.Contents[count];
+							var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+							var Strambuffer = await file.ReadAsByteArrayAsync();
+							var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
+							File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
+							request_Data.Request_File.Add(new Request_File()
+							{
+								Request_ID = request_Data.Request_Data_ID.Value,
+								RequiredDoc_ID = i.ID.Value,
+								File_Name = filename,
+								CreatedDate = DateTime.Now,
+								File_Path = filepath.Replace("\\", "/")
+							});
+							count++;
+						}
+					int length = provider.Contents.Count - 1;
+					for (; count < length; count++)
+					{
+						var file = provider.Contents[count];
+						var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+						var Strambuffer = await file.ReadAsByteArrayAsync();
+						var filepath = Path.Combine(requestpath, filename);
+						File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
+						p.Request_File.Add(new Request_File()
+						{
+							Request_ID = request_Data.Request_Data_ID.Value,
 							CreatedDate = DateTime.Now,
+							File_Name = filename,
 							File_Path = filepath.Replace("\\", "/")
 						});
-						count++;
 					}
-				int length = requestData.Files.Count;
-				for (; count < length; count++)
-				{
-					var filename = Path.GetFileName(requestData.Files[count].filename);
-					var filepath = Path.Combine(requestpath, filename);
-					File.WriteAllBytes(Path.Combine(path, filepath), requestData.Files[count].bytes);
-					p.Request_File.Add(new Request_File()
-					{
-						Request_ID = request_Data.Request_Data_ID,
-						CreatedDate = DateTime.Now,
-						File_Name = filename,
-						File_Path = filepath.Replace("\\", "/")
-					});
-				}
 
+				}
 				p.SaveChanges();
-				var PDFPath = Path.Combine(requestpath, "PDF.txt");
 				Request_Data sendeddata = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == request_Data.Request_Data_ID);
 
 				var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
@@ -152,7 +170,8 @@ namespace IAUBackEnd.Admin.Controllers
 				WebSocketManager.SendToMulti(MostafidUsers, message);
 				message = @"عزيزي المستفيد ، 
 									تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعه";
-				_ = SendSMS(model.Mobile, message);
+				SendSMS(model.Mobile, message);
+				transaction.Commit();
 				return Ok(new
 				{
 					success = true
@@ -160,6 +179,7 @@ namespace IAUBackEnd.Admin.Controllers
 			}
 			catch (Exception e)
 			{
+				transaction.Rollback();
 				return Ok(new
 				{
 					success = false

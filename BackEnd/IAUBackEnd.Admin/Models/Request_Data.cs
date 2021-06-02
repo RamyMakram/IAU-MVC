@@ -21,7 +21,7 @@ namespace IAUBackEnd.Admin.Models
             this.Request_Log = new HashSet<Request_Log>();
         }
     
-        public int Request_Data_ID { get; set; }
+        public int? Request_Data_ID { get; set; }
         public Nullable<int> Personel_Data_ID { get; set; }
         public Nullable<int> Unit_ID { get; set; }
         public Nullable<int> Sub_Services_ID { get; set; }
