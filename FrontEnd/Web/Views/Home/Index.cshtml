@@ -86,9 +86,28 @@
 		</style>
 		<link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
 	}
+	<style>
+		.loading {
+			display: none;
+		}
+
+			.loading.active {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100vw;
+				height: 100vh;
+				z-index: 9999999;
+				position: fixed;
+				background: #0a1332;
+			}
+	</style>
 	<script src="~/Design/JS/AraTranslate.js"></script>
 </head>
 <body class="@ViewBag.CookieLang">
+	<div class="loading active">
+		<img src="~/Design/img/loading2.gif" />
+	</div>
 	<nav class="navbar navbar-expand-xl">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#">

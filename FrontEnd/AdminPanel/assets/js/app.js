@@ -355,21 +355,15 @@ function initLanguage() {
 						var dateOptions = { month: '2-digit', day: '2-digit' };
 						var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
 						mailList.innerHTML = `
-						<li onclick="Preview('Email/Preview/${received_msg["Request_Data_ID"]}')">
-							<div class="col-mail col-mail-1">
-								<a href="#" class="title">${(received_msg["Personel_Data"]["First_Name"] + " " + received_msg["Personel_Data"]["Middle_Name"])}</a>
-							</div>
-							<div class="col-mail col-mail-2">
-								<a href="#" class="subject">
-									<span class="badge-success badge mr-2">${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : i.Service_Type.Service_Type_Name_EN)}</span>
-									<span class="badge-pink badge mr-2">${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</span>
-									<span class="badge-dark badge mr-2">${(received_msg["Personel_Data"]["IAU_ID_Number"] != "")}</span>
-									<span class="teaser">${(received_msg["Required_Fields_Notes"] == null ? "" : received_msg["Required_Fields_Notes"].substr(0, 400))}</span>
-								</a>
-								<div class="date">${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</div>
-							</div>
-						</li>
-`+ html
+						<tr>
+								<td>${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : received_msg["Service_Type"]["Service_Type_Name_EN"])}</td>
+								<td>${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</td>
+								<td><span>${document.querySelector(`span[key='${(received_msg["Personel_Data"]["IAU_ID_Number"] == "" ? "t-no" : "t-yes")}']`).innerText}</span></td>
+								<td>${received_msg["Personel_Data"]["First_Name"]}</td>
+								<td>${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</td>
+								<td>${(received_msg["Required_Fields_Notes"] == null ? "" : received_msg["Required_Fields_Notes"].substr(0, 400))}</td>
+							</tr>
+						`+ html
 					}
 				};
 

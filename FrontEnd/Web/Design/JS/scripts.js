@@ -17,6 +17,7 @@ function GetCookie() {
 	}
 	return cookieValue;
 }
+$('img').on('dragstart', function (event) { event.preventDefault(); });
 ////////////////////////////////////////////////////get cookie of lang /////////////////////////////////
 let incrementValue = 1;
 let enterPersonnel = false,
@@ -85,6 +86,7 @@ $(document).ready(function () {
 					$(`#Nationality_ID option:contains("${res["nationality"]}")`).attr('selected', true);
 					$("#Nationality_ID").attr("disabled", "")
 				}
+				setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 			},
 			error: function () {
 				localStorage.removeItem('mst')
@@ -99,6 +101,8 @@ $(document).ready(function () {
 		document.cookie = "";
 		if (data != null && data != "")
 			location.href = location.href.split("?")[0]
+		setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 	}
 });
 function reIntializeReType() {
@@ -261,6 +265,7 @@ $(".nav-fill .nav-link").click(function () {
 ///////////////////////////////////ServiceType////////////////////////////////////////////
 $('.mainservice').click(function (e) {
 	let ID = $(this).attr('data-mainserviceid');
+	$(".loading").addClass("active");
 	$.ajax({
 		url: "/Home/GetApplicantData?ServiceID=" + ID, method: "Get", success: function (data) {
 			$("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
@@ -268,8 +273,11 @@ $('.mainservice').click(function (e) {
 			JSON.parse(data).forEach(i => {
 				$("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
 			})
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 		}
 	})
+	$(".loading").addClass("active");
+
 	$.ajax({
 		url: "/Home/GetRequest?ServiceID=" + ID, method: "Get", success: function (data) {
 			$("#Request_Type_Id").html(`
@@ -290,9 +298,11 @@ $('.mainservice').click(function (e) {
 							</div >
 					`)
 			})
+
 			reIntializeReType();
 			if (Redirect)
 				$(`[data-requesttypeid='${RedirectReqType}']`).addClass("active").click()
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 		}
 	})
 })
@@ -382,7 +392,7 @@ let data = null;
 function sendSMS() {
 	$("#saveRequestBTN").html("<img src='././Design/img/spinner1.gif' style='width: 53px;'/>");
 	data = serialiazeForm();
-	console.log(data)
+	$(".loading").addClass("active");
 
 	$.ajax({
 		url: `/Home/SendVerification?to=${data.Mobile}`,
@@ -393,7 +403,7 @@ function sendSMS() {
 				backdrop: 'static'
 			})
 			myModal.show();
-
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 		},
 		complete: function () {
 			if (language == "ar") {
@@ -423,6 +433,7 @@ function PrepareFiles() {
 }
 
 function saveRequest() {
+	$(".loading").addClass("active");
 	let requestCode = "";
 	$(".modal-body .verification-input input").each(element => {
 		requestCode = requestCode + $(".modal-body .verification-input input:eq(" + element + ")").val();
@@ -471,16 +482,22 @@ function saveRequest() {
 							document.getElementById('GenralError').style.display = 'block';
 						saverequest_Clicked = false
 					}
+					setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 				},
 				error: function (err) {
 					console.log(err)
 					saverequest_Clicked = false
+					setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 				}, complete: function () {
 					if (language == "ar") {
 						$("#Comfirm-Digits").html("تأكيد");
 					} else {
 						$("#Comfirm-Digits").html("Confirm");
 					}
+					setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 				}
 			});
 		}
@@ -521,6 +538,8 @@ $("#Required_Fields_Notes").keyup(function () {
 });
 
 function LoadApiDocumentsData() {
+	$(".loading").addClass("active");
+
 	let RID = document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid');
 	let SID = document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid');
 	let APPID = $('#Applicant_Type_ID  option:selected').val();
@@ -538,11 +557,15 @@ function LoadApiDocumentsData() {
 				$("#modelbody").append("No Data Added , try again later");
 				$("#exampleModalCenter").modal("show");
 			}
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 		}
 	});
 }
 let SubServices = []
 function GetMainServices(ID) {
+	$(".loading").addClass("active");
+
 	let SID = document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid');
 	let APPID = $('#Applicant_Type_ID  option:selected').val();
 	$("#Main_Services_ID option").remove();
@@ -563,10 +586,14 @@ function GetMainServices(ID) {
 				$("#modelbody").append("No Data Added , try again later");
 				$("#exampleModalCenter").modal("show");
 			}
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 		}
 	});
 }
 function GetSubServices(ID) {
+	$(".loading").addClass("active");
+
 	$("#Sub_Services_ID option").remove();
 	$("#Sub_Services_ID").append("<option disabled selected value='null'>Select ----------------</option>");
 
@@ -619,10 +646,14 @@ function GetSubServices(ID) {
 				$("#modelbody").append("No Data Added , try again later");
 				$("#exampleModalCenter").modal("show");
 			}
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 		}
 	});
 }
 function GetEfroms(ID) {
+	$(".loading").addClass("active");
+
 	let Docs = SubServices.find(q => q.ID == ID)
 	$("#filesName").html("")
 	supporteddocs = Docs.Docs
@@ -680,7 +711,10 @@ function GetEfroms(ID) {
 					)
 				});
 
+
 			}
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 		}
 	});
 
@@ -996,6 +1030,8 @@ function AffiliatedState() {
 }
 
 function CountryState() {
+	$(".loading").addClass("active");
+
 	let ID = $("#City_Country_2 option:selected").val()
 	$.ajax({
 		url: "/Home/GetCityRegion?CID=" + ID, method: "Get", success: function (datxa) {
@@ -1050,6 +1086,8 @@ function CountryState() {
 			<input type="text" id="City_Country_1" name="City_Country_1">
 				`
 			}
+			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
 		}
 	})
 }
