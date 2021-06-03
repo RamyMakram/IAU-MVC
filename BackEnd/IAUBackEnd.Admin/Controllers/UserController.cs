@@ -30,7 +30,7 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass
 				{
 					success = true,
-					result = JsonConvert.SerializeObject(new { Token = Datetime })
+					result = new { Token = Datetime }
 				});
 			}
 			catch (Exception ee)

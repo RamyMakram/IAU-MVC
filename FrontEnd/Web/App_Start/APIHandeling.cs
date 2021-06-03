@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Linq;
 using System.Configuration;
+using System.Net;
 
 namespace Web.App_Start
 {
@@ -148,14 +149,16 @@ namespace Web.App_Start
 			return res;
 		}
 
-		public static HttpResponseMessage LoginAdmin(string apiName)
+		public static async System.Threading.Tasks.Task<HttpResponseMessage> LoginAdminAsync(string apiName)
 		{
 			//Insert
 			HttpClient h = new HttpClient();
 			h.BaseAddress = new Uri(AdminURL);
-
-			var res = h.GetAsync("/api/" + apiName);
-			return res.Result;
+			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+			System.Net.ServicePointManager.SecurityProtocol |=
+	SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+			var res = await h.GetAsync("/api/" + apiName);
+			return res;
 		}
 		/// <summary>
 		/// INSERT using API

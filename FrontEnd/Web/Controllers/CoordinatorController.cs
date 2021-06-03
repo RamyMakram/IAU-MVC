@@ -21,9 +21,9 @@ namespace Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(string email, string pass)
+		public async System.Threading.Tasks.Task<ActionResult> Index(string email, string pass)
 		{
-			var res = APIHandeling.LoginAdmin($"User/Login?email={email}&pass={pass}");
+			var res =await APIHandeling.LoginAdminAsync($"User/Login?email={email}&pass={pass}");
 			var resJson = res.Content.ReadAsStringAsync();
 			var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (lst.success)

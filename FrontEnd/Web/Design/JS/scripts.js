@@ -103,7 +103,7 @@ $(document).ready(function () {
 });
 function reIntializeReType() {
 	$('.requesttype').click(function () {
-		if (this.getAttribute("data-requesttypename").toLowerCase().includes("inquiry") || this.getAttribute("data-requesttypename").toLowerCase().includes("سؤال")) {
+		if (this.getAttribute("data-requesttypenameEN").toLowerCase().includes("inquiry") || this.getAttribute("data-requesttypenameEN").toLowerCase().includes("سؤال")) {
 			inquiry = true;
 			uploadfiles = [];
 			FileNames = [];
@@ -136,7 +136,7 @@ $("#right-arrow").click(function () {
 	incrementValue++;
 	$(".containt > .row").attr("style", "display:none;");
 	if (incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
+		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال") {
 			$(".containt > .row:nth-of-type(" + incrementValue + ")").attr("style", "display:flex;");
 			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
 				"data-slide-to": "Documents-Inquery",
@@ -151,7 +151,7 @@ $("#right-arrow").click(function () {
 			});
 		}
 	} else {
-		if (incrementValue == 6 && ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال")) {
+		if (incrementValue == 6 && ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال")) {
 			$(".containt > .row:nth-of-type(" + ++incrementValue + ")").attr("style", "display:flex;");
 			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
 				"data-slide-to": "Documents-Inquery",
@@ -199,12 +199,12 @@ $("#right-arrow").click(function () {
 $("#left-arrow").click(function () {
 	incrementValue--;
 	if (incrementValue == 6 || incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
+		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
 			incrementValue = incrementValue - 1;
 		}
 	}
 	if (incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "inquiry") {
+		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() != "inquiry") {
 			if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "سؤال") {
 				incrementValue = incrementValue - 1;
 			}
@@ -281,7 +281,7 @@ $('.mainservice').click(function (e) {
 			JSON.parse(data).forEach(request => {
 				$("#Request_Type_Id").append(`
 							<div class="col-md-4 col-lg-3">
-								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
+								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypenameEN="${request.Name_EN}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
 									<img src=${(serverpath + "/" + request.Image_Path)} data-bs-toggle="tooltip" data-bs-placement="top"
 										 data-bs-custom-class="beautifier"
 										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
@@ -453,7 +453,7 @@ function saveRequest() {
 						$('#FourMessage').modal('hide');
 						$("#MainBody").addClass("mainbody");
 						document.getElementById('MainBody').innerHTML =
-									`<div class= "row" >
+							`<div class= "row" >
 										<div class="success">
 											<span>Your request has been sent successfully. You will soon receive the </span><br />
 											<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
@@ -810,7 +810,7 @@ function GeneratePdfData() {
 		't-contactinfo': '   معلومات الاتصال   ',
 		't-email': '   البريد الالكتروني   ',
 		't-phone': '   رقم الهاتف   ',
-		// '': '',
+		't-attachment': '    المرفقات    ',
 	}
 	var en = {
 		't-summary': 'Summary Of Request',
@@ -835,9 +835,11 @@ function GeneratePdfData() {
 		't-contactinfo': 'Conatct Information',
 		't-email': 'Email',
 		't-phone': 'Mobile Phone',
-		// '': '',
+		't-attachment': 'Attachments',
 	}
 	let Form = SerializeGenratePDF();
+	let FilesDiv = ""
+	Form["file_names"].splice(',').forEach(e => { FilesDiv += e == "," ? "" : "<span style='margin:0 6px'>" + e + "</span>" })
 	document.getElementById('padf').innerHTML = `
 	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
 	<img src="../Design/img/MousLogo2.png">
@@ -931,7 +933,12 @@ function GeneratePdfData() {
 					<th class="col-6" key="t-phone"></th>
 					<th class="col-6">${Form["Mobile"]}</th>
 				</tr>
-
+				<tr>
+					<th class="boldtitle" key="t-attachment"></th>
+				</tr>
+				<tr class="row" style="display:inline-flex">
+					<th class="col-12">${FilesDiv}</th>
+				</tr>
 			</tbody>
 		</table>
 
