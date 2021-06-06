@@ -26,9 +26,17 @@
 	span.select2 {
 		width: 100% !important
 	}
+<<<<<<< HEAD
 	#CodeGenrateDiv input {
 		border: 1px solid;
 	}
+=======
+
+	#CodeGenrateDiv input {
+		border: 1px solid;
+	}
+
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 	label#TypeCode, #SubTypeCode, #SubTypeLevel {
 		width: 100% !important;
 		padding: 4px 16px !important;
@@ -229,11 +237,14 @@
 				select.innerHTML = ``;
 				if (e.length != 0) {
 					UnitCodeChange(true)
+					$('#TypeID').val(e[0]["Units_Type_ID"])
+					$('#TypeCode').text(e[0]["Code"]);
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
 						select.innerHTML += `<option value="${d["Units_Type_ID"]}">${lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]}</option>`
 					})
-				}
+				} else
+					$('#TypeCode').text("");
 			}, error: function (ee) {
 				console.log("error", ee)
 			}
@@ -282,6 +293,7 @@
 			$('#TypeID').val(ID)
 			$('#TypeCode').text(CodeView.Code);
 		}
+		console.log(CodeView)
 		UnitCodeChange(false);
 	}
 	function SubUnitChange(val) {

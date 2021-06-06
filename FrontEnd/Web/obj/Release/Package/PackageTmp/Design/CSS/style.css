@@ -57,7 +57,7 @@ nav {
             nav ul li a:hover,
             nav ul li,
             nav ul li .active {
-                color: #4f693a;
+                color: #a5cc7d;
                 font-weight: bold;
             }
 
@@ -320,11 +320,17 @@ nav {
             padding: 5px 10px;
             color: #fff;
             text-transform: uppercase;
+            font-size:15.6
         }
 
-        #personel-data .row .col-md-6 {
-            padding: 5px 3px;
-        }
+            .ar #personel-data .row .col-md-12{
+                font-size: 17px;
+                font-weight: 600;
+            }
+
+            #personel-data .row .col-md-6 {
+                padding: 5px 3px;
+            }
 
             #personel-data .row .col-md-6 .row {
                 padding: 0px;
@@ -370,6 +376,13 @@ nav {
             font-size: 15.5px;
         }
 
+.ar #Documents-Inquery #Documents .row > .col-md-3:nth-of-type(1),
+.ar #Documents-Inquery #Documents .row > .col-md-3:nth-of-type(3),
+.ar #Documents-Inquery #Documents .row > .col-md-3:nth-of-type(5) {
+    font-size: 16.5px;
+    font-weight: 600;
+}
+
         #Documents-Inquery #Documents .row img,
         #personel-data .row img {
             width: 15px;
@@ -391,7 +404,7 @@ nav {
         }
 
         #Documents-Inquery #Documents select {
-            width: 90%;
+            width: 89%;
             border-radius: 4px;
             font-size: 14px;
             overflow: auto;
@@ -530,6 +543,12 @@ nav {
     color: #fff;
     padding: 5px 10px;
     text-transform: uppercase;
+    font-size: 15.6px;
+}
+
+.ar #Documents-Other #Documents .row .col-md-3:nth-of-type(1) {
+    font-size: 17px;
+    font-weight: 600;
 }
 
 #Documents-Other #Documents .row img,
@@ -561,7 +580,7 @@ nav {
     }
 
 #Documents-Other #Documents select {
-    width: 80%;
+    width: 100%;
     border-radius: 4px;
     font-size: 14px;
     overflow: auto;
@@ -1008,7 +1027,7 @@ img {
     width: 650px;
     height: 620px;
     overflow: auto;
-    margin: auto;
+    margin: 35px auto;
 }
 
 canvas {
@@ -1019,10 +1038,11 @@ canvas {
 
 
 .pdfnotloaded {
-    display: flex !important;
+/*    display: flex !important;
     align-items: center;
-    justify-content: center;
+    justify-content: center;*/
     background-color: white;
+    color: black;
 }
 
 #loadingimg {
@@ -1268,7 +1288,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     }
 
     #Documents-Inquery #Documents select {
-        width: 90%;
+        width: 98%;
     }
 
     #Documents-Inquery #Documents #textarea-container {

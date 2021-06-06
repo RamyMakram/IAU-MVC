@@ -18,6 +18,7 @@ namespace IAU_BackEnd.Models
         public MostafidDatabaseEntities()
             : base("name=MostafidDatabaseEntities")
         {
+			this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -25,15 +26,12 @@ namespace IAU_BackEnd.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<ID_Document> ID_Document { get; set; }
         public virtual DbSet<Main_Services> Main_Services { get; set; }
         public virtual DbSet<Nationality> Nationality { get; set; }
         public virtual DbSet<Personel_Data> Personel_Data { get; set; }
-        public virtual DbSet<Provider_Academic_Services> Provider_Academic_Services { get; set; }
         public virtual DbSet<Region> Region { get; set; }
         public virtual DbSet<Request_Data> Request_Data { get; set; }
         public virtual DbSet<Request_File> Request_File { get; set; }
@@ -41,14 +39,16 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Request_State> Request_State { get; set; }
         public virtual DbSet<Request_SupportingDocs> Request_SupportingDocs { get; set; }
         public virtual DbSet<Request_Type> Request_Type { get; set; }
+        public virtual DbSet<Required_Documents> Required_Documents { get; set; }
         public virtual DbSet<Service_Type> Service_Type { get; set; }
         public virtual DbSet<Sub_Services> Sub_Services { get; set; }
-        public virtual DbSet<Supporting_Documents> Supporting_Documents { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
-        public virtual DbSet<User_Active> User_Active { get; set; }
-        public virtual DbSet<User_Permissions> User_Permissions { get; set; }
-        public virtual DbSet<User_Permissions_Type> User_Permissions_Type { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
+        public virtual DbSet<Units> Units { get; set; }
+        public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
+        public virtual DbSet<ValidTo> ValidTo { get; set; }
+        public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
+        public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
+        public virtual DbSet<E_Forms> E_Forms { get; set; }
     }
 }

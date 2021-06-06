@@ -23,7 +23,7 @@ namespace AdminPanel.Controllers
 				if (!lst.success)
 				{
 					Response.Cookies.Remove("u");
-					context.Result = RedirectToAction("UNAuthorize", "Error");
+					context.Result = Redirect("https://iau-bsc.com/Coordinator");
 					return;
 				}
 				else
@@ -34,7 +34,7 @@ namespace AdminPanel.Controllers
 				}
 			}
 			else
-				context.Result = RedirectToAction("UNAuth", "Error");
+				context.Result = Redirect("https://iau-bsc.com/Coordinator");
 		}
 		public ActionResult Logout()
 		{

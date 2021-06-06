@@ -11,11 +11,25 @@
 <link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <!-- Responsive datatable examples -->
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<<<<<<< HEAD
 @*<style>
 		.date {
 			width: 190px !important
 		}
 	</style>*@
+=======
+<style>
+	#MailList tr:nth-of-type(1) {
+		background-color: #fff59d8f;
+		color: white;
+	}
+
+		#MailList tr:nth-of-type(1) td {
+			border: 0;
+			color: black;
+		}
+</style>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 
 @{
 	var lang = Request.Cookies["lang"].Value;
@@ -26,13 +40,21 @@
 		<div class="card">
 			<div class="card-body">
 
+<<<<<<< HEAD
 				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+=======
+				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 					<thead>
 						<tr>
 							<th key="t-mainservice">ServiceType</th>
 							<th key="t-request-type">RequestType</th>
 							<th key="t-IAUAff">IS IAU</th>
+<<<<<<< HEAD
 							<th key="t-firstname">Name</th>
+=======
+							<th key="t-mostafidname">Name</th>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 							<th key="t-date">Date</th>
 							<th key="t-comment">Comment</th>
 						</tr>
@@ -40,7 +62,11 @@
 					<tbody id="MailList">
 						@foreach (var i in Model)
 						{
+<<<<<<< HEAD
 							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')">
+=======
+							<tr @*onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')"*@>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
 								<td>@(lang == "ar" ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
 								<td>

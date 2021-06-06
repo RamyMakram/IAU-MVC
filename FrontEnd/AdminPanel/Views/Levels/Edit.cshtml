@@ -21,10 +21,23 @@
 		margin: 0;
 		width: 100%;
 	}
+
 	#isaction {
 		height: 30px;
 		width: 21px;
-		cursor:pointer;
+		cursor: pointer;
+	}
+
+	span.select2 {
+		width: 100% !important
+	}
+
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
 	}
 </style>
 
@@ -41,21 +54,21 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
+								<label class="control-label" key="t-name" for="name">Name</label>
+								@Html.TextBoxFor(q => q.Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name" })
 							</div>
 						</div>
 
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-enname" for="enname">Mobile</label>
-								@Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control", @name = "enname", @id = "enname" })
+								<label class="control-label" key="t-enname" for="enname">Mobile</label>
+								@Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control en-font", @name = "enname", @id = "enname" })
 							</div>
 						</div>
 
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-code" for="code">Mobile</label>
+								<label class="control-label" key="t-code" for="code">Mobile</label>
 								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "code", @id = "code", @maxlength = "2" })
 							</div>
 						</div>
@@ -82,37 +95,37 @@
 								<div class="row RequiredDIV">
 									<span style="display:none" class="FORM-ID">@i.Units_Type_ID</span>
 									<div class="form-group col-4">
-										<label key="t-name" for="name">Name</label>
-										<input type="text" id="name" name="untyped-input" class="form-control FORM-name" value="@i.Units_Type_Name_AR" />
+										<label class="control-label" key="t-name" for="name">Name</label>
+										<input type="text" id="name" name="untyped-input ar-font" class="form-control FORM-name" value="@i.Units_Type_Name_AR" />
 									</div>
 
 									<div class="form-group col-3">
-										<label key="t-enname" for="enname">Email</label>
-										<input type="text" id="enname" class="form-control FORM-enname" value="@i.Units_Type_Name_EN" />
+										<label class="control-label" key="t-enname" for="enname">Email</label>
+										<input type="text" id="enname" class="form-control FORM-enname en-font" value="@i.Units_Type_Name_EN" />
 									</div>
 									<div class="form-group col-3">
-										<label key="t-Typecode" for="code">Code</label>
-										<input type="text" id="code" class="form-control FORM-code" value="@i.Code" maxlength="1" />
+										<label class="control-label" key="t-Typecode" for="code">Code</label>
+										<input type="text" id="code" class="form-control FORM-code en-font" value="@i.Code" maxlength="1" />
 									</div>
 									<div class="form-group col-2">
-										<label key="t-activeTitle" for="isaction">Email</label>
+										<label class="control-label" key="t-activeTitle" for="isaction">Email</label>
 										<input type="checkbox" id="isaction" class="form-control FORM-Active" style="height: 20px;" @(i.IS_Action.Value ? "checked" : "") />
 									</div>
 								</div>
 							}
 							<div data-repeater-item class="row RequiredDIV">
 								<div class="form-group col-4">
-									<label key="t-name" for="name">Name</label>
-									<input type="text" id="name" name="untyped-input" class="form-control FORM-name" />
+									<label class="control-label" key="t-name" for="name">Name</label>
+									<input type="text" id="name" name="untyped-input" class="form-control FORM-name ar-font" />
 								</div>
 
 								<div class="form-group col-3">
-									<label key="t-enname" for="enname">Email</label>
-									<input type="text" id="enname" class="form-control FORM-enname" />
+									<label class="control-label" key="t-enname" for="enname">Email</label>
+									<input type="text" id="enname" class="form-control FORM-enname en-font" />
 								</div>
 								<div class="form-group col-3">
-									<label key="t-Typecode" for="code">Code</label>
-									<input type="text" id="code" class="form-control FORM-code" maxlength="1" />
+									<label class="control-label" key="t-Typecode" for="code">Code</label>
+									<input type="text" id="code" class="form-control FORM-code en-font" maxlength="1" />
 								</div>
 								<div class="col-lg-2 align-self-center">
 									<button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>

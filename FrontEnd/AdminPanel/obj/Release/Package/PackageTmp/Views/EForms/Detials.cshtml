@@ -29,11 +29,11 @@
 			<tbody>
 				<tr>
 					<th key="t-name" scope="row" style="width: 400px;">Name</th>
-					<td>@Model.Name</td>
+					<td class="ar-font">@Model.Name</td>
 				</tr>
 				<tr>
 					<th key="t-enname" scope="row">enname</th>
-					<td>@Model.Name_EN</td>
+					<td class="en-font">@Model.Name_EN</td>
 				</tr>
 				<tr>
 					<th key="t-subservice" scope="row">subservice</th>
@@ -41,7 +41,7 @@
 				</tr>
 				<tr>
 					<th key="t-path" scope="row">Mobile</th>
-					<td><a href=@(url+"/"+Model.Path)>@(url+"/"+Model.Path) </a></td>
+					<td class="en-font"><a href=@(url+"/"+Model.Path)>@(url+"/"+Model.Path) </a></td>
 				</tr>
 			</tbody>
 		</table>

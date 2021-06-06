@@ -27,8 +27,8 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<int> LevelID { get; set; }
         public string Code { get; set; }
     
+        public virtual UnitLevel UnitLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Units> Units { get; set; }
-        public virtual UnitLevel UnitLevel { get; set; }
     }
 }

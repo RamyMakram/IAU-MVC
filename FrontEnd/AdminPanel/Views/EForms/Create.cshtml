@@ -17,6 +17,7 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
+<<<<<<< HEAD
     span.select2 {
         width: 100% !important
     }
@@ -77,6 +78,68 @@
         </div>
 
     </div>
+=======
+	span.select2 {
+		width: 100% !important
+	}
+
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
+	}
+</style>
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+
+				@using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data" }))
+				{
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="control-label" key="t-name" for="name">Name</label>
+								@Html.TextBoxFor(q => q.Name, new { @class = "form-control ar-font", @name = "name", @id = "name" })
+							</div>
+							<div class="form-group">
+								<label class="control-label" key="t-path" for="name">Image</label>
+								<div class="custom-file">
+									@Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input en-font", @type = "file", @name = "name", @id = "customFile" })
+									<label class="custom-file-label en-font" id="fileRaplace" for="customFile"></label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label class="control-label" key="t-enname" for="enname">Mobile</label>
+								@Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control en-font", @name = "enname", @id = "enname" })
+							</div>
+							@if (Request.QueryString["SubService"] == null)
+							{
+								<div class="form-group">
+									<label key="t-subservice" class="control-label">units</label>
+									@Html.DropDownListFor(q => q.SubServiceID, ViewBag.SubSrevice as SelectList, new { @class = "form-control select2" })
+								</div>
+							}
+						</div>
+					</div>
+					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+					@Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+				}
+
+			</div>
+		</div>
+
+	</div>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 </div>
 <!-- end row -->
 <!-- JAVASCRIPT -->
@@ -98,3 +161,17 @@
 
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
+<script>
+		document.getElementById("customFile").addEventListener('change',
+			function (e) {
+				if (this.files.length != 0) {
+					$('#fileRaplace').text(this.files[0].name)
+				}
+				else {
+					$('#fileRaplace').text("")
+				}
+			},
+			false
+		);
+	
+</script>

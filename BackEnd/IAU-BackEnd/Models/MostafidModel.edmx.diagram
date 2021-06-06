@@ -5,43 +5,35 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1af6fa459f1e42ea8a567db91ffb3604" Name="Diagram1">
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Applicant_Type" Width="1.5" PointX="11.75" PointY="19.625" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.City" Width="1.5" PointX="16.25" PointY="12.875" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Country" Width="1.5" PointX="11.75" PointY="12.875" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Employee" Width="1.5" PointX="7.5" PointY="0.75" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.ID_Document" Width="1.5" PointX="11.75" PointY="25.125" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Main_Services" Width="1.5" PointX="3" PointY="5.5" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Nationality" Width="1.5" PointX="11.75" PointY="22.375" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Personel_Data" Width="1.5" PointX="14" PointY="16.125" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Provider_Academic_Services" Width="1.5" PointX="0.75" PointY="5.625" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Region" Width="1.5" PointX="14" PointY="12.75" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Data" Width="1.5" PointX="7.5" PointY="4.125" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_File" Width="1.5" PointX="9.75" PointY="12" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Log" Width="1.5" PointX="9.75" PointY="5.5" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_State" Width="1.5" PointX="5.25" PointY="18.625" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_SupportingDocs" Width="1.5" PointX="12.75" PointY="5.625" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Type" Width="1.5" PointX="5.25" PointY="12.625" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Service_Type" Width="1.5" PointX="5.25" PointY="9.75" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Sub_Services" Width="1.5" PointX="5.25" PointY="5.5" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Supporting_Documents" Width="1.5" PointX="5.25" PointY="15.625" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="2" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Title_Middle_Names" Width="1.5" PointX="11.75" PointY="16.875" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.User_Active" Width="1.5" PointX="14.75" PointY="1.5" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.User_Permissions" Width="1.5" PointX="17" PointY="7.75" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.User_Permissions_Type" Width="1.5" PointX="14.75" PointY="4.5" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Users" Width="1.5" PointX="17" PointY="4" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.City" Width="1.5" PointX="7.5" PointY="25.5" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Country" Width="1.5" PointX="3" PointY="16.5" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.ID_Document" Width="1.5" PointX="3" PointY="19.375" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Main_Services" Width="1.5" PointX="3" PointY="7.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Nationality" Width="1.5" PointX="3" PointY="22.125" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Personel_Data" Width="1.5" PointX="5.25" PointY="18.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Region" Width="1.5" PointX="5.25" PointY="25.375" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Data" Width="1.5" PointX="7.5" PointY="9.375" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_File" Width="1.5" PointX="9.75" PointY="16.75" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Log" Width="1.5" PointX="9.75" PointY="9.625" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_State" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_SupportingDocs" Width="1.5" PointX="9.75" PointY="13" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Type" Width="1.5" PointX="5.25" PointY="3.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Required_Documents" Width="1.5" PointX="7.5" PointY="16.375" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Service_Type" Width="1.5" PointX="0.75" PointY="10.5" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Sub_Services" Width="1.5" PointX="5.25" PointY="10.625" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Title_Middle_Names" Width="1.5" PointX="3" PointY="24.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.UnitMainServices" Width="1.5" PointX="5.25" PointY="7.75" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Units" Width="1.5" PointX="3" PointY="11.25" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_City_Region" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Country" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Region_Country" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Log_Employee" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_ID_Document" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Main_Services_Provider_Academic_Services" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Main_Services_Service_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Sub_Services_Main_Services" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_UnitMainServices_Main_Services" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Nationality" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Title_Middle_Names" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Documents_Provider_Academic_Services" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Documents_Supporting_Documents" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Personel_Data" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Request_State" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Request_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Service_Type" />
@@ -51,10 +43,22 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_SupportingDocs_Request_Data" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Log_Request_State" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_SupportingDocs_Supporting_Documents" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Users_User_Active" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_User_Permissions_User_Permissions" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_User_Permissions_User_Permissions_Type" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Users_User_Permissions_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Required_Documents_Sub_Services" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Service_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_UnitMainServices_Units" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Units" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Applicant_Type" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.ValidTo" Width="1.5" PointX="8.25" PointY="4.75" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Main_Services" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Units_Request_Type" Width="1.5" PointX="10.5" PointY="6.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.UnitServiceTypes" Width="1.5" PointX="5.25" PointY="14.25" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Request_Type_Units" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.E_Forms" Width="1.5" PointX="7.5" PointY="19.875" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_E_Forms_Sub_Services" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
