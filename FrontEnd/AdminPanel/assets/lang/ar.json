@@ -116,6 +116,10 @@
 	"t-comment": "ملاحظات",
 	"t-yes": "نعم",
 	"t-no": "لا",
-	"t-mostafidname": "اسم المستفيد"
-
+	"t-mostafidname": "اسم المستفيد",
+	"t-all": "الكل",
+	"t-date-from": "التاريخ من",
+	"t-date-to": "التاريخ الي",
+	"t-filter": "تطبيق الفرز",
+	"t-filters": "فرز"
 }
