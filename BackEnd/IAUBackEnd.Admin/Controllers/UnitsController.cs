@@ -34,7 +34,7 @@ namespace IAUBackEnd.Admin.Controllers
 			var pred = PredicateBuilder.New<Units>();
 			pred.And(q => q.IS_Action == true && q.LevelID < id);
 			if (uintId != null)
-				pred.And(q => q.Units_ID != uintId);
+				pred.And(q => q.Units_ID != uintId && q.SubID != uintId);
 			return Ok(new ResponseClass() { success = true, result = p.Units.Where(pred).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID }) });
 		}
 
@@ -74,7 +74,7 @@ namespace IAUBackEnd.Admin.Controllers
 				data.ServiceTypeID = units.ServiceTypeID;
 				char[] GenrateCode = units.Ref_Number.ToCharArray();
 				if (units.SubID != 0 && units.SubID != null)
-					GetCode(ref GenrateCode, units.SubID.Value);
+					GetCode(ref GenrateCode, units.SubID.Value, null);
 				var code = string.Join("", GenrateCode).Replace('x', '0');
 				data.Ref_Number = code;
 
@@ -114,7 +114,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 			char[] GenrateCode = units.Ref_Number.ToCharArray();
 			if (units.SubID != 0 && units.SubID != null)
-				GetCode(ref GenrateCode, units.SubID.Value);
+				GetCode(ref GenrateCode, units.SubID.Value, null);
 			units.Ref_Number = string.Join("", GenrateCode).Replace('x', '0');
 
 			p.Units.Add(units);
@@ -124,20 +124,20 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID)
+		public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID, int? StartLevelID)
 		{
 			char[] GenrateCode = Ref_Number.ToCharArray();
 			if (SubID != 0 && SubID != null)
-				GetCode(ref GenrateCode, SubID.Value);
+				GetCode(ref GenrateCode, SubID.Value, null);
 			var code = string.Join("", GenrateCode);
 			return Ok(new ResponseClass() { success = true, result = new { Code = code } });
 		}
-		private void GetCode(ref char[] _code, int UnitID)
+		private void GetCode(ref char[] _code, int UnitID, int? StartLevelID)
 		{
 			try
 			{
-				var Unit = p.Units.Include(q => q.UnitLevel).Include(q => q.Units_Type).FirstOrDefault(q => q.Units_ID == UnitID);
-				int levelCode = Convert.ToInt32(Unit.UnitLevel.Code) - 1;
+				Units Unit = p.Units.Include(q => q.UnitLevel).Include(q => q.Units_Type).FirstOrDefault(q => q.Units_ID == UnitID);
+				int levelCode = levelCode = Convert.ToInt32(Unit.UnitLevel.Code) - 1;
 				var index = 3 + (levelCode == 0 ? 1 : levelCode * 3);
 				if (levelCode == 0)
 				{
@@ -150,7 +150,7 @@ namespace IAUBackEnd.Admin.Controllers
 					_code[index] = Unit.Units_Type.Code[0];
 					_code[index + 1] = Unit.Code[0];
 					_code[index + 2] = Unit.Code[1];
-					GetCode(ref _code, Unit.SubID.Value);
+					GetCode(ref _code, Unit.SubID.Value, null);
 				}
 			}
 			catch (Exception ee)

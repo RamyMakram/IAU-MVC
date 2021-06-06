@@ -291,10 +291,10 @@ namespace AdminPanel.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetCode(string code, int id)
+		public JsonResult GetCode(string code, int id, int? LevelID)
 		{
 			Console.WriteLine(code + "  " + id);
-			var Data = APIHandeling.getData("Units/GenrateCode?Ref_Number=" + code + "&SubID=" + id);
+			var Data = APIHandeling.getData("Units/GenrateCode?Ref_Number=" + code + "&SubID=" + id + "&StartLevelID=" + LevelID);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			Console.WriteLine(res.result + "  ");
