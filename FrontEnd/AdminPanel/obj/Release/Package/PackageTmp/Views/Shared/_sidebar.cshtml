@@ -34,6 +34,7 @@
 							<a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
 								<i class="fas fa-inbox"></i>
 								<span key="t-InBox">الطلبات الوارده</span>
+								<span class="badge badge-danger badge-pill" style="padding: 3px 6px; margin: -2px 7px; position: absolute; " id="NotficationsCount">0</span>
 							</a>
 						</li>
 					}
@@ -47,14 +48,14 @@
 						</li>
 					}
 					@*if (data.Contains("Mostafid Manager"))
-					{
-						<li>
-							<a href="#" class="waves-effect" id="">
-								<i class="fas fa-server"></i>
-								<span key="t-SevicesSettings">ادارة خدمات المستفيدين</span>
-							</a>
-						</li>
-					}*@
+						{
+							<li>
+								<a href="#" class="waves-effect" id="">
+									<i class="fas fa-server"></i>
+									<span key="t-SevicesSettings">ادارة خدمات المستفيدين</span>
+								</a>
+							</li>
+						}*@
 
 					if (data.Contains("Statistics"))
 					{
