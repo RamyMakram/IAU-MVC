@@ -31,15 +31,20 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="col-12 justify-content-start">
-					<button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center"style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
+				<div class="col-12 justify-content-between">
+					<button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center" style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
 						<span key="t-filters"></span><i class="fas fa-caret-down"></i>
+					</button>
+					<button type="button" class="btn btn-primary ">
+						<span key="t-ArchiveSelected">Archive Selected</span>
 					</button>
 				</div>
 
 				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
 						<tr>
+							<th><input type="checkbox" id="mainCheck" /></th>
+							<th key="t-requestid">Requestid</th>
 							<th key="t-mainservice">ServiceType</th>
 							<th key="t-request-type">RequestType</th>
 							<th key="t-IAUAff">IS IAU</th>
@@ -52,6 +57,8 @@
 						@foreach (var i in Model)
 						{
 							<tr @*onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')"*@>
+								<td><input type="checkbox" class="selectbox-request" id="@i.Request_Data_ID" /></td>
+								<td>@i.Request_Data_ID</td>
 								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
 								<td>@(lang == "ar" ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
 								<td>
@@ -70,7 +77,14 @@
 									@(i.CreatedDate.ToString("MM/dd - HH:mm"))
 								</td>
 
-								<td>@(i.Required_Fields_Notes == null ? "" : i.Required_Fields_Notes.Take(400))</td>
+								<td>
+									<div class="dropdown dropbtn">
+										@(i.Required_Fields_Notes == null ? "" : string.Join("",i.Required_Fields_Notes.Take(15).ToArray())+" ...")
+										<div class="dropdown-content">
+											@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(300).ToArray())+" ...")
+										</div>
+									</div>
+								</td>
 							</tr>
 						}
 					</tbody>
@@ -80,11 +94,6 @@
 	</div> <!-- end col -->
 </div> <!-- end row -->
 
-<script>
-	function Preview(url) {
-		window.location.href = url;
-	}
-</script>
 <div class="modal fade" id="FilterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document" @*style="max-width:97vw"*@>
 		<div class="modal-content">
@@ -137,6 +146,17 @@
 	</div>
 </div>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
+
+<script>
+	function Preview(url) {
+		window.location.href = url;
+	}
+	$('#mainCheck').on('click', function () {
+		console.log(this.checked)
+		this.checked ? $('.selectbox-request').prop('checked', true) : $('.selectbox-request').prop('checked', false);
+
+	})
+</script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
