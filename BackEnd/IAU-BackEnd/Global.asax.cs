@@ -17,10 +17,10 @@ namespace IAU_BackEnd
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            Mapper.Initialize(c =>
-            {
-                c.AddProfile<ApplicationProfile>();
-            });
+            //Mapper.Initialize(c =>
+            //{
+            //    c.AddProfile<ApplicationProfile>();
+            //});
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
             //BundleConfig.RegisterBundles(BundleTable.Bundles);

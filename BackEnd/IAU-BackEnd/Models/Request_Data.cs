@@ -26,7 +26,6 @@ namespace IAU_BackEnd.Models
         public Nullable<int> Personel_Data_ID { get; set; }
         public Nullable<int> Provider_Academic_Services_ID { get; set; }
         public Nullable<int> Sub_Services_ID { get; set; }
-        public Nullable<int> Supporting_Documents_ID { get; set; }
         public string Required_Fields_Notes { get; set; }
         public Nullable<int> Service_Type_ID { get; set; }
         public Nullable<int> Request_Type_ID { get; set; }
@@ -36,8 +35,7 @@ namespace IAU_BackEnd.Models
         public string signpdfpath { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
     
-        public virtual Provider_Academic_Services Provider_Academic_Services { get; set; }
-        public virtual Supporting_Documents Supporting_Documents { get; set; }
+        public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
         public virtual Request_Type Request_Type { get; set; }
         public virtual Service_Type Service_Type { get; set; }

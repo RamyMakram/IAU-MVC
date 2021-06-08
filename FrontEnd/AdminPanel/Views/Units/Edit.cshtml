@@ -21,9 +21,11 @@
 	label.control-label::after {
 		content: ":";
 	}
+
 	#CodeGenrateDiv input {
 		border: 1px solid;
 	}
+
 	span.select2 {
 		width: 100% !important
 	}
@@ -76,9 +78,10 @@
 					<div class="form-group">
 						<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
 						<div style="display:inline-flex" id="CodeGenrateDiv">
-							@foreach (var i in new string[15])
+							<span>@Model.Ref_Number</span>
+							@foreach (var i in Model.Ref_Number.ToCharArray())
 							{
-								<input class="form-control Genratedcode en-font" disabled />
+								<input class="form-control Genratedcode en-font" value="@i" disabled />
 							}
 						</div>
 					</div>
@@ -226,10 +229,11 @@
 			le.value = Code[i]
 		})
 		LocationChange($('#LocationIDSelect').val())
-		UnitCodeChange(false,"", true)
+		//UnitCodeChange(false,"", true)
 
 	})
 	function getUnitTypes(ID) {
+		console.log("LevelID:"+ID)
 		$.ajax({
 			url: `/Units/getUnitTypes?id=${ID}`, success: function (e) {
 				UnitTypes = e;
@@ -243,12 +247,22 @@
 					if (count == 0) {
 						let SS = $('#TypeID').val()
 						let CodeView = UnitTypes.find(q => q.Units_Type_ID == SS)
-						$('#UnitType').val(SS)
-						$('#TypeCode').text(CodeView.Code);
+						if (CodeView != null && CodeView != undefined) {
+							$('#UnitType').val(SS)
+							$('#TypeCode').text(CodeView.Code);
+						}
 						count++;
 					}
-					UnitCodeChange(true)
+					else {
+						$('#TypeID').val(e[0]["Units_Type_ID"])
+						let SS = $('#TypeID').val()
+						let CodeView = UnitTypes.find(q => q.Units_Type_ID == SS)
 
+							$('#UnitType').val(SS)
+							$('#TypeCode').text(CodeView.Code);
+
+					}
+					UnitCodeChange(true)
 				}
 			}, error: function (ee) {
 				console.log("error", ee)
@@ -313,8 +327,8 @@
 		console.log("SubUnitChange", val)
 		$('#SubID').val(val);
 		if (val == null) {
-			$('#SubTypeLevel').text("");
-			$('#SubTypeCode').text("");
+			$('#SubTypeLevel').text("0");
+			$('#SubTypeCode').text("0");
 			return;
 		}
 		$.ajax({
@@ -326,8 +340,10 @@
 				console.log("error", ee)
 			}
 		})
+		UnitCodeChange(true);
+		console.log("Local:" + $('#RefNum').val())
 		$.ajax({
-			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}`, success: function (dd) {
+			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&LevelID=${$('#LEVEID').val()}`, success: function (dd) {
 				console.log(dd, JSON.parse(dd)["Code"], JSON.parse(dd)["Code"].split(''));
 				let Code = JSON.parse(dd)["Code"].split('');
 				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
@@ -360,17 +376,17 @@
 			startIn += 2
 		}
 		else {
-			if (ISLevelChange)
+			if (ISLevelChange) {
 				for (var i = 5; i < startIn; i++)
 					document.querySelector(`#CodeGenrateDiv input:nth-of-type(${i})`).value = "0"
-			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
-			if (Intit) {
+				console.log("LevelChange")
 				let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
 				if (UnitCode.length == 1)
 					UnitCode = "0" + UnitCode
 				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = UnitCode.charAt(0)
 				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).value = UnitCode.charAt(1)
 			}
+			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
 			@{
 				//if (change != "") {
 				//	if (change.length == 1)

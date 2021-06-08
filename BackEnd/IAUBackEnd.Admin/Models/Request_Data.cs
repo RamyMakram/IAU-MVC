@@ -19,12 +19,11 @@ namespace IAUBackEnd.Admin.Models
         {
             this.Request_File = new HashSet<Request_File>();
             this.Request_Log = new HashSet<Request_Log>();
-            this.Request_SupportingDocs = new HashSet<Request_SupportingDocs>();
         }
     
-        public int Request_Data_ID { get; set; }
+        public int? Request_Data_ID { get; set; }
         public Nullable<int> Personel_Data_ID { get; set; }
-        public Nullable<int> Provider_Academic_Services_ID { get; set; }
+        public Nullable<int> Unit_ID { get; set; }
         public Nullable<int> Sub_Services_ID { get; set; }
         public string Required_Fields_Notes { get; set; }
         public Nullable<int> Service_Type_ID { get; set; }
@@ -32,7 +31,6 @@ namespace IAUBackEnd.Admin.Models
         public System.DateTime CreatedDate { get; set; }
         public string Code_Generate { get; set; }
         public byte Request_State_ID { get; set; }
-        public string signpdfpath { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
     
         public virtual Personel_Data Personel_Data { get; set; }
@@ -44,7 +42,5 @@ namespace IAUBackEnd.Admin.Models
         public virtual ICollection<Request_File> Request_File { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Log> Request_Log { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Request_SupportingDocs> Request_SupportingDocs { get; set; }
     }
 }

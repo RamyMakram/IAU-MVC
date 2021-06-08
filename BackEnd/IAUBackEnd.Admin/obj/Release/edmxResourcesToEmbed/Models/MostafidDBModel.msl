@@ -160,27 +160,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Nationality">
-      <EntityTypeMapping TypeName="MostafidDBModel.Nationality">
-        <MappingFragment StoreEntitySet="Nationality">
-          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-          <ScalarProperty Name="Nationality_Name_AR" ColumnName="Nationality_Name_AR" />
-          <ScalarProperty Name="Nationality_Name_EN" ColumnName="Nationality_Name_EN" />
-          <ScalarProperty Name="Nationality_ID" ColumnName="Nationality_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Personel_Data">
       <EntityTypeMapping TypeName="MostafidDBModel.Personel_Data">
         <MappingFragment StoreEntitySet="Personel_Data">
           <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
           <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Region_Postal_Code_2" ColumnName="Region_Postal_Code_2" />
-          <ScalarProperty Name="Region_Postal_Code_1" ColumnName="Region_Postal_Code_1" />
-          <ScalarProperty Name="City_Country_2" ColumnName="City_Country_2" />
-          <ScalarProperty Name="City_Country_1" ColumnName="City_Country_1" />
+          <ScalarProperty Name="Postal_Code" ColumnName="Postal_Code" />
+          <ScalarProperty Name="Adress_Region" ColumnName="Adress_Region" />
+          <ScalarProperty Name="Address_City" ColumnName="Address_City" />
+          <ScalarProperty Name="Adress_RegionID" ColumnName="Adress_RegionID" />
+          <ScalarProperty Name="Address_CityID" ColumnName="Address_CityID" />
+          <ScalarProperty Name="Address_CountryID" ColumnName="Address_CountryID" />
+          <ScalarProperty Name="ID_Number" ColumnName="ID_Number" />
           <ScalarProperty Name="Country_ID" ColumnName="Country_ID" />
+          <ScalarProperty Name="ID_Document" ColumnName="ID_Document" />
           <ScalarProperty Name="Nationality_ID" ColumnName="Nationality_ID" />
           <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
           <ScalarProperty Name="Middle_Name" ColumnName="Middle_Name" />
@@ -188,9 +182,6 @@
           <ScalarProperty Name="Title_Middle_Names_ID" ColumnName="Title_Middle_Names_ID" />
           <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
           <ScalarProperty Name="IAU_ID_Number" ColumnName="IAU_ID_Number" />
-          <ScalarProperty Name="IAU_Affiliate_ID" ColumnName="IAU_Affiliate_ID" />
-          <ScalarProperty Name="ID_Number" ColumnName="ID_Number" />
-          <ScalarProperty Name="ID_Document" ColumnName="ID_Document" />
           <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -282,7 +273,6 @@
       <EntityTypeMapping TypeName="MostafidDBModel.Request_Data">
         <MappingFragment StoreEntitySet="Request_Data">
           <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
-          <ScalarProperty Name="signpdfpath" ColumnName="signpdfpath" />
           <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
           <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
@@ -290,7 +280,7 @@
           <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
           <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
           <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
-          <ScalarProperty Name="Provider_Academic_Services_ID" ColumnName="Provider_Academic_Services_ID" />
+          <ScalarProperty Name="Unit_ID" ColumnName="Unit_ID" />
           <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
           <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
         </MappingFragment>
@@ -299,6 +289,7 @@
     <EntitySetMapping Name="Request_File">
       <EntityTypeMapping TypeName="MostafidDBModel.Request_File">
         <MappingFragment StoreEntitySet="Request_File">
+          <ScalarProperty Name="RequiredDoc_ID" ColumnName="RequiredDoc_ID" />
           <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="File_Path" ColumnName="File_Path" />
@@ -324,16 +315,6 @@
           <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
           <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
           <ScalarProperty Name="State_ID" ColumnName="State_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Request_SupportingDocs">
-      <EntityTypeMapping TypeName="MostafidDBModel.Request_SupportingDocs">
-        <MappingFragment StoreEntitySet="Request_SupportingDocs">
-          <ScalarProperty Name="Path" ColumnName="Path" />
-          <ScalarProperty Name="SupportingDocID" ColumnName="SupportingDocID" />
-          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -421,6 +402,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="UnitLevel">
+      <EntityTypeMapping TypeName="MostafidDBModel.UnitLevel">
+        <MappingFragment StoreEntitySet="UnitLevel">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+          <ScalarProperty Name="Name_AR" ColumnName="Name_AR" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="UnitMainServices">
       <EntityTypeMapping TypeName="MostafidDBModel.UnitMainServices">
         <MappingFragment StoreEntitySet="UnitMainServices">
@@ -433,12 +424,12 @@
     <EntitySetMapping Name="Units">
       <EntityTypeMapping TypeName="MostafidDBModel.Units">
         <MappingFragment StoreEntitySet="Units">
+          <ScalarProperty Name="IS_Mostafid" ColumnName="IS_Mostafid" />
+          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
           <ScalarProperty Name="SubID" ColumnName="SubID" />
           <ScalarProperty Name="LevelID" ColumnName="LevelID" />
-          <ScalarProperty Name="IS_Mostafid" ColumnName="IS_Mostafid" />
-          <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Building_Number" ColumnName="Building_Number" />
           <ScalarProperty Name="Ref_Number" ColumnName="Ref_Number" />
           <ScalarProperty Name="Units_Type_ID" ColumnName="Units_Type_ID" />
@@ -520,16 +511,6 @@
           <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
           <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
           <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="UnitLevel">
-      <EntityTypeMapping TypeName="MostafidDBModel.UnitLevel">
-        <MappingFragment StoreEntitySet="UnitLevel">
-          <ScalarProperty Name="Code" ColumnName="Code" />
-          <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
-          <ScalarProperty Name="Name_AR" ColumnName="Name_AR" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

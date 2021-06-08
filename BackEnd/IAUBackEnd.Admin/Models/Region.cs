@@ -18,6 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public Region()
         {
             this.City = new HashSet<City>();
+            this.Personel_Data = new HashSet<Personel_Data>();
         }
     
         public int Region_ID { get; set; }
@@ -29,5 +30,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<City> City { get; set; }
         public virtual Country Country { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Personel_Data> Personel_Data { get; set; }
     }
 }

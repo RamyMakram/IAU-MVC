@@ -111,8 +111,15 @@
 	"t-phone": "Mobile Phone",
 	"t-profile": "Profile",
 	"t-date": "Date",
+<<<<<<< HEAD
 	"t-comment": "Comment",
 	"t-yes": "Yes",
 	"t-no": "No"
+=======
+	"t-comment": "Notice",
+	"t-yes": "Yes",
+	"t-no": "No",
+	"t-mostafidname": "Mostafid Name"
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 
 }

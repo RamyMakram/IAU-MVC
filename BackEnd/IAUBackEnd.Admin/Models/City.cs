@@ -14,6 +14,12 @@ namespace IAUBackEnd.Admin.Models
     
     public partial class City
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public City()
+        {
+            this.Personel_Data = new HashSet<Personel_Data>();
+        }
+    
         public int City_ID { get; set; }
         public string City_Name_AR { get; set; }
         public string City_Name_EN { get; set; }
@@ -21,5 +27,7 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<bool> IS_Action { get; set; }
     
         public virtual Region Region { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Personel_Data> Personel_Data { get; set; }
     }
 }

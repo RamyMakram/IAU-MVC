@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,7 +14,11 @@ namespace AdminPanel.Controllers
 	{
 		public ActionResult Home()
 		{
-			var Data = APIHandeling.getData("E_Forms/GetE_Forms");
+			HttpResponseMessage Data = null;
+			if (Request.QueryString["SubService"] == null)
+				Data = APIHandeling.getData("E_Forms/GetE_Forms");
+			else
+				Data = APIHandeling.getData("E_Forms/GetE_FormsWithSubService?id=" + Request.QueryString["SubService"]);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
@@ -64,6 +69,9 @@ namespace AdminPanel.Controllers
 		[HttpPost]
 		public ActionResult Create(E_FormsDTO loc)
 		{
+			int subSe = Convert.ToInt32(Request.QueryString["SubService"] ?? "-1");
+			if (subSe != -1)
+				loc.SubServiceID = subSe;
 			HttpPostedFileBase file = loc.Files[0];
 			loc.FileName = file.FileName;
 			byte[] Bytes = new byte[file.InputStream.Length + 1];
@@ -75,7 +83,7 @@ namespace AdminPanel.Controllers
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
 			if (res.success)
-				return RedirectToAction("Home");
+				return subSe == -1 ? RedirectToAction("Home") : RedirectToAction("Home", new { SubService = subSe });
 			else
 				return RedirectToAction("NotFound", "Error");
 		}

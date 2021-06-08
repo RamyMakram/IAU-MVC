@@ -14,9 +14,25 @@ namespace AdminPanel.Controllers
 		// GET: Email
 		public ActionResult Home()
 		{
-			var Data = APIHandeling.getData("Request/GetRequest_Data");
+			var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+
+			var Data = APIHandeling.getData("Service_Type/GetActive");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+			ViewBag.ServiceType = Services;
+
+			Data = APIHandeling.getData("Request_Type/GetActive");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var ReqTypes = JsonConvert.DeserializeObject<ICollection<RequestTypeDTO>>(res.result.ToString());
+			ViewBag.ReqTypes = ReqTypes;
+
+
+			Data = APIHandeling.getData("Request/GetRequest_Data");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
 			if (res.success)
 				return View(JsonConvert.DeserializeObject<IEnumerable<ReqestDTO>>(res.result.ToString()));
 			else
@@ -25,7 +41,8 @@ namespace AdminPanel.Controllers
 		public ActionResult Preview(int id)
 		{
 			return View();
-		}public ActionResult PDF()
+		}
+		public ActionResult PDF()
 		{
 			return View();
 		}
