@@ -16,12 +16,22 @@
 		{
 			<style>
 				body {
-					font-family: Poppins,Helvetica,sans-serif !important;
+					font-family: 'Frutiger LT Arabic 55 Roman' !important;
 					font-weight: bolder !important;
 				}
 			</style>
 		}
 	}
+	<style>
+
+		.en-font, button.buttons-html5, .TH-en, div#datatable-buttons_wrapper div.row:nth-of-type(3), div#datatable-buttons_wrapper div.row:nth-of-type(3) {
+			font-family: 'Frutiger LT Arabic 55 Roman' !important;
+		}
+
+		.ar-font, .TH-ar {
+			font-family: 'DroidArabicKufiRegular' !important;
+		}
+	</style>
 	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
 	@RenderSection("styles", false)
 	@Html.Partial("~/Views/Shared/_head_css.cshtml")

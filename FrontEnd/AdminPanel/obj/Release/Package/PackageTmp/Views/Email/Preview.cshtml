@@ -6,7 +6,57 @@
 
 <!-- Summernote css -->
 <link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+<style>
+	table#PDFTable {
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+		margin-bottom: 29px;
+	}
 
+	#padf div img {
+		width: 120px !important;
+	}
+	#padf {
+		overflow-y: auto;
+		overflow-x:hidden;
+		height: 90vh;
+		width:80%
+	}
+	.boldtitle {
+		font-weight: 900;
+		padding: 5px 0;
+		font-size: 21px;
+	}
+
+
+	table#PDFTable tbody tr th {
+		text-align: start !important;
+		font-family: 'DroidArabicKufiRegular' !important;
+		font-size: 19px;
+		padding: 6px 19px;
+	}
+
+		table#PDFTable tbody tr th:not(.boldtitle) {
+			border: 1px solid #eee;
+		}
+
+			table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
+				font-weight: normal
+			}
+
+		table#PDFTable tbody tr th.boldtitle {
+			font-size: 28px;
+			color: #283858;
+		}
+
+	.PDFOuterView {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+	}
+</style>
 
 <div class="row">
 	<div class="col-12">
@@ -21,30 +71,109 @@
 							<small class="text-muted">support@domain.com</small>
 						</div>
 					</div>
-					<div style="display:flex;align-items:center;justify-content:center;direction:ltr">
-						<div id="PDFView" style="direction:ltr;height:600px;overflow-y:auto">
+					<div class="PDFOuterView">
+						<div id="padf" class="pdfnotloaded">
+							<div style="padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;">
+								<img src="~/assets/images/MousLogo2.png">
+								<img src="~/assets/images/VisionLogo.png">
+							</div>
+							<table class='container' id="PDFTable" style="width: 100%;padding: 15px;">
+								<tbody>
+									<tr>
+										<th class="boldtitle" key="t-summary"></th>
+									</tr>
+									<tr>
+										<th key="t-serviceType"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-reqtype"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-personalData"></th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-genralInfo"></th>
+									</tr>
+									<tr>
+										<th key="t-IAUAff"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-applicanttype"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-firstname"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-middlename"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-lastname"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-nationalty"></th>
+									</tr>
+									<tr>
+										<th key="t-nationalty"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-country"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-iddoc"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-idnumber"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-address"></th>
+									</tr>
+									<tr>
+										<th key="t-city"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-region"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-country"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-postal"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-contactinfo"></th>
+									</tr>
+									<tr>
+										<th key="t-email"></th>
+										<th></th>
+									</tr>
+									<tr>
+										<th key="t-phone"></th>
+										<th></th>
+									</tr>
 
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
-					<div class="media mb-4">
-						<img class="d-flex mr-3 rounded-circle avatar-sm" src="~/assets/images/users/avatar-2.jpg" alt="Generic placeholder image">
-						<div class="media-body">
-							<h5 class="font-size-14 mt-1">Humberto D. Champion</h5>
-							<small class="text-muted">support@domain.com</small>
-						</div>
-					</div>
 
-					<h4 class="mt-0 font-size-16">This Week's Top Stories</h4>
-
-					<p>Dear Lorem Ipsum,</p>
-					<p>
-						Praesent dui ex, dapibus eget mauris ut, finibus vestibulum enim. Quisque arcu leo, facilisis in fringilla id, luctus in tortor. Nunc vestibulum est quis orci varius viverra. Curabitur dictum volutpat massa vulputate molestie. In at felis ac velit maximus convallis.
-					</p>
-					<p>Sed elementum turpis eu lorem interdum, sed porttitor eros commodo. Nam eu venenatis tortor, id lacinia diam. Sed aliquam in dui et porta. Sed bibendum orci non tincidunt ultrices. Vivamus fringilla, mi lacinia dapibus condimentum, ipsum urna lacinia lacus, vel tincidunt mi nibh sit amet lorem.</p>
-					<p>Sincerly,</p>
-					<hr />
+					
 
 					<div class="row">
 						<div class="col-xl-2 col-6">
