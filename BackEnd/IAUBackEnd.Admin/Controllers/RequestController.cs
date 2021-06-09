@@ -37,13 +37,11 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetRequest_Data(int id)
 		{
-			Request_Data request_Data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == id);
+			Request_Data request_Data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q=>q.Request_File.Select(w=>w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id);
 			if (request_Data == null)
-			{
-				return NotFound();
-			}
+				return Ok(new ResponseClass() { success = false });
 
-			return Ok(request_Data);
+			return Ok(new ResponseClass() { success = true, result = request_Data });
 		}
 
 		// PUT: api/Request/5

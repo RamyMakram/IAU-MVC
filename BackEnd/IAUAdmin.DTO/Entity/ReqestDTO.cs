@@ -26,6 +26,8 @@ namespace IAUAdmin.DTO.Entity
         public virtual RequestTypeDTO Request_Type { get; set; }
         public virtual ServiceTypeDTO Service_Type { get; set; }
         public virtual SubServicesDTO Sub_Services { get; set; }
+        public virtual ICollection<RequestFilesDTO> Request_File { get; set; }
+
         //public virtual ICollection<Request_File> Request_File { get; set; }
         //public virtual ICollection<Request_Log> Request_Log { get; set; }
         //public virtual ICollection<Request_SupportingDocs> Request_SupportingDocs { get; set; }

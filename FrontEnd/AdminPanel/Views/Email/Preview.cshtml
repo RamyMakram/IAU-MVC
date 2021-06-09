@@ -1,4 +1,5 @@
 ﻿@model IAUAdmin.DTO.Entity.ReqestDTO
+@using System.Configuration;
 @{
 	ViewBag.Title = "Preview";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,6 +8,24 @@
 <!-- Summernote css -->
 <link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
 <style>
+	.FileTitle {
+		position: absolute;
+		bottom: 42px;
+		display: flex;
+		background: #6b686866;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		color: #0a1332;
+		margin: 0;
+		border-radius: 6px 9px 0 0;
+	}
+
+		.FileTitle p {
+			margin: 0;
+			padding: 1px 0px;
+		}
+
 	table#PDFTable {
 		font-family: arial, sans-serif;
 		border-collapse: collapse;
@@ -17,12 +36,14 @@
 	#padf div img {
 		width: 120px !important;
 	}
+
 	#padf {
 		overflow-y: auto;
-		overflow-x:hidden;
+		overflow-x: hidden;
 		height: 90vh;
-		width:80%
+		width: 80%
 	}
+
 	.boldtitle {
 		font-weight: 900;
 		padding: 5px 0;
@@ -54,21 +75,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		
 	}
 </style>
-
+@{
+	var isAr = Request.Cookies["lang"].Value == "ar";
+	var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+}
 <div class="row">
 	<div class="col-12">
 		<div class="mb-3">
 			@*<span style="display:none" id="NONE">@Model.Request_Data_ID</span>*@
 			<div class="card">
 				<div class="card-body">
-					<div class="media mb-4">
-						<img class="d-flex mr-3 rounded-circle avatar-sm" src="~/assets/images/users/avatar-2.jpg" alt="Generic placeholder image">
-						<div class="media-body">
-							<h5 class="font-size-14 mt-1">Humberto D. Champion</h5>
-							<small class="text-muted">support@domain.com</small>
+					<div class="media mb-4 justify-content-center align-content-center">
+						<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;font-size: 43px !important;height:100%"></i>						<div class="media-body">
+							<h5 class="font-size-14 mt-1">@Model.Personel_Data.First_Name</h5>
+							<small class="text-muted">@Model.Personel_Data.Email</small>
 						</div>
 					</div>
 					<div class="PDFOuterView">
@@ -84,11 +106,11 @@
 									</tr>
 									<tr>
 										<th key="t-serviceType"></th>
-										<th></th>
+										<th>@(isAr? Model.Service_Type.Service_Type_Name_AR: Model.Service_Type.Service_Type_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-reqtype"></th>
-										<th></th>
+										<th>@(isAr? Model.Request_Type.Request_Type_Name_AR: Model.Request_Type.Request_Type_Name_EN)</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-personalData"></th>
@@ -98,72 +120,72 @@
 									</tr>
 									<tr>
 										<th key="t-IAUAff"></th>
-										<th></th>
+										<th><span key="@(Model.Personel_Data.IAU_ID_Number!=null?"t-yes":"t-no")"></span></th>
 									</tr>
 									<tr>
 										<th key="t-applicanttype"></th>
-										<th></th>
+										<th>@(isAr?Model.Personel_Data.Applicant_Type.Applicant_Type_Name_AR: Model.Personel_Data.Applicant_Type.Applicant_Type_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-firstname"></th>
-										<th></th>
+										<th>@Model.Personel_Data.First_Name</th>
 									</tr>
 									<tr>
 										<th key="t-middlename"></th>
-										<th></th>
+										<th>@Model.Personel_Data.Middle_Name</th>
 									</tr>
 									<tr>
 										<th key="t-lastname"></th>
-										<th></th>
+										<th>@Model.Personel_Data.Last_Name</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-nationalty"></th>
 									</tr>
 									<tr>
 										<th key="t-nationalty"></th>
-										<th></th>
+										<th>@Model.Personel_Data</th>
 									</tr>
 									<tr>
 										<th key="t-country"></th>
-										<th></th>
+										<th>@(isAr? Model.Personel_Data.Country.Country_Name_AR: Model.Personel_Data.Country.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-iddoc"></th>
-										<th></th>
+										<th>@(isAr?Model.Personel_Data.ID_Document1.Document_Name_AR: Model.Personel_Data.ID_Document1.Document_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-idnumber"></th>
-										<th></th>
+										<th>@(Model.Personel_Data.ID_Number)</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-address"></th>
 									</tr>
 									<tr>
 										<th key="t-city"></th>
-										<th></th>
+										<th>@Model.Personel_Data.Address_City</th>
 									</tr>
 									<tr>
 										<th key="t-region"></th>
-										<th></th>
+										<th>@Model.Personel_Data.Adress_Region</th>
 									</tr>
 									<tr>
 										<th key="t-country"></th>
-										<th></th>
+										<th>@(isAr? Model.Personel_Data.Country1.Country_Name_AR: Model.Personel_Data.Country1.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-postal"></th>
-										<th></th>
+										<th>@Model.Personel_Data.Postal_Code</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-contactinfo"></th>
 									</tr>
 									<tr>
 										<th key="t-email"></th>
-										<th></th>
+										<th>@Model.Personel_Data.Email</th>
 									</tr>
 									<tr>
 										<th key="t-phone"></th>
-										<th></th>
+										<th>@Model.Personel_Data.Mobile</th>
 									</tr>
 
 								</tbody>
@@ -171,32 +193,53 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="card">
 				<div class="card-body">
-
-					
-
+					<p class="card-title-desc" key="t-RequiredDocs">
+						RequiredDocs
+					</p>
 					<div class="row">
-						<div class="col-xl-2 col-6">
-							<div class="card">
-								<img class="card-img-top img-fluid" src="~/assets/images/small/img-3.jpg" alt="Card image cap">
-								<div class="py-2 text-center">
-									<a href="" class="font-weight-medium">Download</a>
+						@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
+						{
+							<div class="col-xl-2 col-6">
+								<div class="card">
+									<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
+									<div class="FileTitle row">
+										<p class="row" key="t-requirddoc">@(isAr? i.Required_Documents.Name_AR: @i.Required_Documents.Name_EN)</p>
+										<p class="row">@i.File_Name</p>
+									</div>
+									<div class="py-2 text-center">
+										<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-xl-2 col-6">
-							<div class="card">
-								<img class="card-img-top img-fluid" src="~/assets/images/small/img-4.jpg" alt="Card image cap">
-								<div class="py-2 text-center">
-									<a href="" class="font-weight-medium">Download</a>
-								</div>
-							</div>
-						</div>
+						}
 					</div>
-
-					@*<a href="@Url.Action("EmailRead", "Email")" class="btn btn-secondary waves-effect mt-4"><i class="mdi mdi-reply"></i> Redirect To Service</a>*@
 				</div>
-
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<p class="card-title-desc" key="t-Attachment">
+						Attachments
+					</p>
+					<div class="row">
+						@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
+						{
+							<div class="col-xl-2 col-6">
+								<div class="card">
+									<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
+									<div class="FileTitle row">
+										<p class="row">@i.File_Name</p>
+									</div>
+									<div class="py-2 text-center">
+										<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
 			</div>
 		</div>
 

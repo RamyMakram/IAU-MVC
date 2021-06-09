@@ -60,7 +60,7 @@
 					<tbody id="MailList">
 						@foreach (var i in Model)
 						{
-							<tr @*onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')"*@>
+							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')">
 								<td><input type="checkbox" class="selectbox-request" id="@i.Request_Data_ID" /></td>
 								<td>@i.Request_Data_ID</td>
 								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>

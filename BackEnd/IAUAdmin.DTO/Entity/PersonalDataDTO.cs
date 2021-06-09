@@ -28,5 +28,12 @@ namespace IAUAdmin.DTO.Entity
 		public string Email { get; set; }
 		public string Mobile { get; set; }
 		public string IS_Action { get; set; }
+		public ApplicantTypeDTO Applicant_Type { get; set; }
+		public virtual IDDocDTO ID_Document1 { get; set; }
+
+		public virtual CountryDTO Region { get; set; }
+		public virtual CountryDTO Country { get; set; }
+		public virtual CountryDTO Country1 { get; set; }
+		public virtual CountryDTO Country2 { get; set; }
 	}
 }

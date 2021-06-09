@@ -155,6 +155,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\attachment.png" />
     <Content Include="assets\css\app-dark.css" />
     <Content Include="assets\css\app-dark.min.css" />
     <Content Include="assets\css\app-rtl.css" />

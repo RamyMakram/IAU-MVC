@@ -10,3 +10,9 @@ C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.csproj
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.csproj.CoreCompileInputs.cache
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.dll
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.pdb
+C:\Users\ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Debug\IAUAdmin.DTO.dll
+C:\Users\ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Debug\IAUAdmin.DTO.pdb
+C:\Users\ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.csprojAssemblyReference.cache
+C:\Users\ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.csproj.CoreCompileInputs.cache
+C:\Users\ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.dll
+C:\Users\ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Debug\IAUAdmin.DTO.pdb

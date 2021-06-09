@@ -40,7 +40,13 @@ namespace AdminPanel.Controllers
 		}
 		public ActionResult Preview(int id)
 		{
-			return View();
+			var Data = APIHandeling.getData("Request/GetRequest_Data?id=" + id);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return View(JsonConvert.DeserializeObject<ReqestDTO>(res.result.ToString()));
+			else
+				return RedirectToAction("NotFound", "Error");
 		}
 		public ActionResult PDF()
 		{

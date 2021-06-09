@@ -33,7 +33,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,7 +46,9 @@
   <ItemGroup>
     <Compile Include="Entity\ApplicantRequest_Data_DTO.cs" />
     <Compile Include="Entity\ApplicantTypeDTO.cs" />
+    <Compile Include="Entity\CountryDTO.cs" />
     <Compile Include="Entity\E_FormsDTO.cs" />
+    <Compile Include="Entity\IDDocDTO.cs" />
     <Compile Include="Entity\Job_PermissionsDTO.cs" />
     <Compile Include="Entity\JobDTO.cs" />
     <Compile Include="Entity\LocationsDTO.cs" />
@@ -53,10 +57,12 @@
     <Compile Include="Entity\PrivilgesDTO.cs" />
     <Compile Include="Entity\ReqestDTO.cs" />
     <Compile Include="Entity\RequestData_DTO.cs" />
+    <Compile Include="Entity\RequestFilesDTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
     <Compile Include="Entity\RequiredDocsDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
     <Compile Include="Entity\SubServicesDTO.cs" />
+    <Compile Include="Entity\TitlesDTO.cs" />
     <Compile Include="Entity\UnitLevelDTO.cs" />
     <Compile Include="Entity\UnitMainServicesDTO.cs" />
     <Compile Include="Entity\UnitsDTO.cs" />
