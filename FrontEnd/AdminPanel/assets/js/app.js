@@ -11,22 +11,18 @@ File: Main Js File
 var language = "";
 
 function setLanguage(lang) {
-	if (document.getElementById("header-lang-img")) {
-		if (lang == 'en') {
-			document.getElementById("header-lang-img").src = "/assets/images/flags/us.jpg";
-			$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-			$("#app-style").attr('href', '/assets/css/app.min.css');
-			sessionStorage.setItem("is_visited", "light-mode-switch");
-		} else if (lang == 'ar') {
-			document.getElementById("header-lang-img").src = "/assets/images/flags/sw.jpg";
-			$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
-			$("#app-style").attr('href', '/assets/css/app-rtl.min.css');
-			sessionStorage.setItem("is_visited", "rtl-mode-switch");
-		}
-		localStorage.setItem('lang', lang);
-		language = localStorage.getItem('lang');
-		getLanguage();
+	if (lang == 'en') {
+		$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+		$("#app-style").attr('href', '/assets/css/app.min.css');
+		sessionStorage.setItem("is_visited", "light-mode-switch");
+	} else if (lang == 'ar') {
+		$("#bootstrap-style").attr('href', '/assets/css/bootstrap.min.css');
+		$("#app-style").attr('href', '/assets/css/app-rtl.min.css');
+		sessionStorage.setItem("is_visited", "rtl-mode-switch");
 	}
+	localStorage.setItem('lang', lang);
+	language = localStorage.getItem('lang');
+	getLanguage();
 }
 
 function getLanguage() {

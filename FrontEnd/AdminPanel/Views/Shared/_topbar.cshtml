@@ -2,10 +2,12 @@
 	.navbar-brand-box {
 		background: #0a1332 !important;
 	}
+
 	body[data-sidebar=dark] .logo-light {
 		display: flex !important;
 		justify-content: center;
 	}
+
 	a.dropdown-item.notify-item.language {
 		justify-content: space-around;
 		align-items: center;
@@ -64,20 +66,18 @@
 			</div>
 
 			<div class="dropdown d-inline-block">
-				<button type="button" class="btn header-item waves-effect"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<img id="header-lang-img" src="~/assets/images/logo-light.png" alt="Header Language" height="16">
-				</button>
-				<div class="dropdown-menu dropdown-menu-right">
-
-					<a href=@Url.Action("ChangeLanguage","Home",new { lang="en"}) class="dropdown-item notify-item text-center en-font language" data-lang="en">
+				@if (Request.Cookies["lang"].Value == "ar")
+				{
+					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "en" }) class="btn header-item waves-effect text-center en-font language" data-lang="en" style=" display: flex; align-items: center; font-weight: 600;">
 						EN
 					</a>
-
-					<a href=@Url.Action("ChangeLanguage","Home",new { lang="ar"}) class="dropdown-item notify-item text-center en-font language" data-lang="ar">
+				}
+				else
+				{
+					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "ar" }) class="btn header-item waves-effect text-center en-font language" data-lang="ar" style=" display: flex; align-items: center; font-weight: 600;">
 						AR
 					</a>
-				</div>
+				}
 			</div>
 
 			<div class="dropdown d-none d-lg-inline-block ml-1">
@@ -113,6 +113,7 @@
 		.btn .badge {
 			font-size: 11px !important;
 		}
+
 		.noti-icon .badge {
 			position: absolute !important;
 			top: 12px !important;
