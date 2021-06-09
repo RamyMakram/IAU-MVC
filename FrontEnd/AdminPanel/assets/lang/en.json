@@ -119,6 +119,7 @@
 	"t-date-from": "Date From",
 	"t-date-to": "Date To",
 	"t-filter": "Apply Filter",
-	"t-filters": "Filters"
+	"t-filters": "Filters",
+	"t-ArchiveSelected": "Archive Selected"
 
 }

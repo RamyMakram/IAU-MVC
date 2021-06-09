@@ -21,6 +21,10 @@
 			border: 0;
 			color: black;
 		}
+
+	#MailList tr td {
+		border-bottom: 1px solid #0000005c !important;
+	}
 </style>
 
 @{
@@ -44,7 +48,7 @@
 					<thead>
 						<tr>
 							<th><input type="checkbox" id="mainCheck" /></th>
-							<th key="t-requestid">Requestid</th>
+							<th>#</th>
 							<th key="t-mainservice">ServiceType</th>
 							<th key="t-request-type">RequestType</th>
 							<th key="t-IAUAff">IS IAU</th>
@@ -81,7 +85,9 @@
 									<div class="dropdown dropbtn">
 										@(i.Required_Fields_Notes == null ? "" : string.Join("",i.Required_Fields_Notes.Take(15).ToArray())+" ...")
 										<div class="dropdown-content">
-											@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(300).ToArray())+" ...")
+											<div class="p-10">
+												@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
+											</div>
 										</div>
 									</div>
 								</td>

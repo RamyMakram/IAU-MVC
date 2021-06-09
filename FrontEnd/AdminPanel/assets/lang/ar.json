@@ -121,5 +121,6 @@
 	"t-date-from": "التاريخ من",
 	"t-date-to": "التاريخ الي",
 	"t-filter": "تطبيق الفرز",
-	"t-filters": "فرز"
+	"t-filters": "فرز",
+	"t-ArchiveSelected":"حفظ الطلبات المحدده"
 }

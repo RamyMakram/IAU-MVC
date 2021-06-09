@@ -60,11 +60,15 @@ else
 		width: 63px !important;
 		font-size: 1rem;
 	}
+	.panel-home{
+		min-width:400px;
+	}
+	
 </style>
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-<div class="row">
-	<div class="col-4">
+<div class="row justify-content-around">
+	<div class="col-4 panel-home">
 		<div class="contents-custom">
 			<div class="h-100">
 				<div class="d-flex flex-column flex-center">
@@ -96,9 +100,9 @@ else
 			</div>
 		</div>
 	</div>
-	<div class="col-4">
+	<div class="col-4 panel-home">
 		<div class="contents-custom">
-			<div class="card-header align-items-center border-0 mt-4">
+			<div class="card-header align-items-center border-0 mt-4 px-0">
 				<h3 class="card-title align-items-start flex-column">
 					<span class="font-weight-bolder text-dark">رقم الطلب</span>
 				</h3>
@@ -117,14 +121,14 @@ else
 						<div class="timeline-badge">
 							<i class="fa fa-genderless text-warning icon-xl"></i>
 						</div>
-						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">تأكيد الطلب</div>
+						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">ايفاد الطلب</div>
 					</div>
 					<div class="timeline-item align-items-start">
 						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
 						<div class="timeline-badge">
 							<i class="fa fa-genderless text-info icon-xl"></i>
 						</div>
-						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">فرز الترميز</div>
+						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">فرز الطلب</div>
 					</div>
 					<div class="timeline-item align-items-start">
 						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
@@ -145,13 +149,13 @@ else
 						<div class="timeline-badge">
 							<i class="fa fa-genderless text-dark icon-xl"></i>
 						</div>
-						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">استلام الطلب</div>
+						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">تسليم الطلب</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-4">
+	<div class="col-4 panel-home">
 		<div class="contents-custom">
 			<div class="card-header border-0 pt-5">
 				<div class="card-title">
@@ -217,7 +221,7 @@ else
 			</div>
 		</div>
 	</div>
-	<div class="col-4">
+	<div class="col-4 panel-home">
 		<div class="contents-custom">
 			<div class="card-header border-0 pt-5">
 				<h3 class="card-title font-weight-bolder" key="t-location">المواقع</h3>
@@ -265,7 +269,6 @@ else
 			</div>
 		</div>
 	</div>
-
 </div>
 <style>
 	i.fas.fa-map-marker-alt {
