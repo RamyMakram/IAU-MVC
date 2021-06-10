@@ -21,10 +21,37 @@
 		border-radius: 6px 9px 0 0;
 	}
 
-		.FileTitle p {
-			margin: 0;
-			padding: 1px 0px;
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
+	}
+
+	#CodeGenrateDiv input {
+		border: 1px solid;
+	}
+
+	#CodeGenrateDiv {
+		display: inline-flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		direction: ltr !important;
+	}
+
+		#CodeGenrateDiv input {
+			margin: 0 5px;
+			width: 33px;
 		}
+
+	.FileTitle p {
+		margin: 0;
+		padding: 1px 0px;
+		white-space: nowrap;
+		font-size: 10px;
+	}
 
 	table#PDFTable {
 		font-family: arial, sans-serif;
@@ -40,8 +67,8 @@
 	#padf {
 		overflow-y: auto;
 		overflow-x: hidden;
-		height: 90vh;
-		width: 80%
+		height: 150px;
+		width: 650px;
 	}
 
 	.boldtitle {
@@ -143,11 +170,11 @@
 									</tr>
 									<tr>
 										<th key="t-nationalty"></th>
-										<th>@Model.Personel_Data</th>
+										<th>@(isAr? Model.Personel_Data.Country.Country_Name_AR: Model.Personel_Data.Country.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-country"></th>
-										<th>@(isAr? Model.Personel_Data.Country.Country_Name_AR: Model.Personel_Data.Country.Country_Name_EN)</th>
+										<th>@(isAr? Model.Personel_Data.Country1.Country_Name_AR: Model.Personel_Data.Country1.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-iddoc"></th>
@@ -170,7 +197,7 @@
 									</tr>
 									<tr>
 										<th key="t-country"></th>
-										<th>@(isAr? Model.Personel_Data.Country1.Country_Name_AR: Model.Personel_Data.Country1.Country_Name_EN)</th>
+										<th>@(isAr? Model.Personel_Data.Country2.Country_Name_AR: Model.Personel_Data.Country2.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-postal"></th>
@@ -196,48 +223,135 @@
 			</div>
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title-desc" key="t-RequiredDocs">
-						RequiredDocs
-					</p>
 					<div class="row">
-						@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
-						{
-							<div class="col-xl-2 col-6">
-								<div class="card">
-									<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
-									<div class="FileTitle row">
-										<p class="row" key="t-requirddoc">@(isAr? i.Required_Documents.Name_AR: @i.Required_Documents.Name_EN)</p>
-										<p class="row">@i.File_Name</p>
+						<div class="col-4">
+							<p class="card-title-desc" key="t-RequiredDocs">
+								RequiredDocs
+							</p>
+							<div class="row">
+								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
+								{
+									<div class="col-4">
+										<div class="card">
+											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
+											<div class="FileTitle row">
+												<p class="row" key="t-requirddoc">@(isAr? i.Required_Documents.Name_AR: @i.Required_Documents.Name_EN)</p>
+												<p class="row">@i.File_Name</p>
+											</div>
+											<div class="py-2 text-center">
+												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
+											</div>
+										</div>
 									</div>
-									<div class="py-2 text-center">
-										<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
-									</div>
-								</div>
+								}
 							</div>
-						}
+						</div>
+						<div class="col-4">
+							<p class="card-title-desc" key="t-SupportiedDocs">
+								SupportiedDocs
+							</p>
+							<div class="row">
+								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
+								{
+									<div class="col-4">
+										<div class="card">
+											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
+											<div class="FileTitle row">
+												<p class="row">@i.File_Name</p>
+											</div>
+											<div class="py-2 text-center">
+												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
+											</div>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+						<div class="col-4">
+							<p class="card-title-desc" key="t-eforms">
+								Eforms
+							</p>
+						</div>
+
 					</div>
 				</div>
 			</div>
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title-desc" key="t-Attachment">
-						Attachments
-					</p>
 					<div class="row">
-						@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
-						{
-							<div class="col-xl-2 col-6">
-								<div class="card">
-									<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
-									<div class="FileTitle row">
-										<p class="row">@i.File_Name</p>
-									</div>
-									<div class="py-2 text-center">
-										<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
-									</div>
+						<div class="col-12">
+							<div class="form-group">
+								<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
+								<div style="display:inline-flex" id="CodeGenrateDiv">
+									@foreach (var i in new string[13])
+									{
+										<input class="form-control Genratedcode en-font" value="0" readonly disabled />
+									}
 								</div>
 							</div>
-						}
+						</div>
+						<div class="col-4">
+							<div class="form-group">
+								<label key="t-e-source" class="control-label">Source</label>
+								@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+							</div>
+							<div class="form-group">
+								<label key="t-ServiceType" class="control-label">ServiceType</label>
+								@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+							</div>
+							<div class="form-group">
+								<label key="t-RequestType" class="control-label">RequestType</label>
+								@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group">
+								<label key="t-subunits" class="control-label">Processing Location</label>
+							</div>
+							<div class="form-group">
+								<label key="t-Campus" class="control-label">Campus</label>
+								@Html.DropDownList("locations", ViewBag.Locations as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+							</div>
+							<div class="form-group">
+								<label key="t-Buiding" class="control-label">Buiding</label>
+								<select id="SubUnits" class="form-control select2">
+								</select>
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group">
+								<label key="t-Provider" class="control-label">Provider</label>
+
+							</div>
+							<div class="form-group">
+								<label key="t-ExpectedTime" class="control-label">ExpectedTime</label>
+								<input name="Expectied" type="datetime" class="form-control  en-font" />
+								@Html.TextBoxFor(q => q.signpdfpath, new { @class = "form-control  en-font", @name = "name", @id = "name" })
+							</div>
+							<div class="form-group">
+								<label key="t-Status" class="control-label">Status</label>
+								<select id="SubUnits" class="form-control select2">
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<p class="card-title-desc" key="t-Actions">
+						Actions
+					</p>
+					<div class="row">
+						<div class="col-4">
+							<button class="btn btn-primary w-100">1 - تكويد</button>
+						</div>
+						<div class="col-4">
+							<button class="btn btn-primary w-100">2 - توجييه</button>
+						</div>
+						<div class="col-4 justify-content-center d-flex">
+							<button class="btn btn-danger">اغلاق الطلب</button>
+						</div>
 					</div>
 				</div>
 			</div>
