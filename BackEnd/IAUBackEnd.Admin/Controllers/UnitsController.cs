@@ -29,6 +29,20 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true) });
 		}
+		public async Task<IHttpActionResult> GetUniqueBuildingByLoca(int id)
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.Units_Location_ID == id).Select(q => q.Building_Number).Distinct() });
+		}
+		public async Task<IHttpActionResult> GetActiveUnits_by(int serviceType, int Req, int? locid, string Build)
+		{
+			var publider = PredicateBuilder.New<Units>();
+			publider.And(q => q.ServiceTypeID == serviceType && q.UnitServiceTypes.Count(w => w.ServiceTypeID == serviceType) != 0 && q.Units_Request_Type.Count(w => w.Request_Type_ID == Req) != 0);
+			if (locid != null)
+				publider.And(q => q.Units_Location_ID == locid);
+			if (Build != "" && Build != null)
+				publider.And(q => q.Building_Number == Build);
+			return Ok(new ResponseClass() { success = true, result = p.Units.Where(publider).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID }) });
+		}
 		public async Task<IHttpActionResult> GetActiveUnits_byLevel(int id, int? uintId)
 		{
 			var pred = PredicateBuilder.New<Units>();

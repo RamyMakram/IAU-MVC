@@ -7,7 +7,23 @@
 
 <!-- Summernote css -->
 <link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
+	.select2-selection__rendered {
+		font-weight: normal;
+	}
+
+	.select2-selection__rendered, .select2-selection__arrow {
+		margin-top: 3px;
+	}
+	span.select2-selection.select2-selection {
+		height: 36px !important;
+	}
 	.FileTitle {
 		position: absolute;
 		bottom: 42px;
@@ -293,40 +309,41 @@
 						<div class="col-4">
 							<div class="form-group">
 								<label key="t-e-source" class="control-label">Source</label>
-								@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @name = "type", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 							</div>
 							<div class="form-group">
 								<label key="t-ServiceType" class="control-label">ServiceType</label>
-								@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @name = "serviceType", @onchange = "ServiceChange(event.target.value)", @id = "ServiceType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 							</div>
 							<div class="form-group">
 								<label key="t-RequestType" class="control-label">RequestType</label>
-								@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control", @name = "reqType", @onchange = "RequestChange(event.target.value)", @id = "ReqestType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 							</div>
 						</div>
 						<div class="col-4">
 							<div class="form-group">
-								<label key="t-subunits" class="control-label">Processing Location</label>
+								<label key="t-subunits" class="control-label" style="height:70px">Processing Location</label>
+								
 							</div>
 							<div class="form-group">
 								<label key="t-Campus" class="control-label">Campus</label>
-								@Html.DropDownList("locations", ViewBag.Locations as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								@Html.DropDownList("locations", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 							</div>
 							<div class="form-group">
 								<label key="t-Buiding" class="control-label">Buiding</label>
-								<select id="SubUnits" class="form-control select2">
+								<select id="Building" class="form-control select2" onchange="BuildChange(event.target.value)">
+									<option value="null" selected>@(isAr?"الكل" :"ALL")</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-4">
 							<div class="form-group">
 								<label key="t-Provider" class="control-label">Provider</label>
-
+								@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @name = "unit", @id = "Units", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 							</div>
 							<div class="form-group">
 								<label key="t-ExpectedTime" class="control-label">ExpectedTime</label>
-								<input name="Expectied" type="datetime" class="form-control  en-font" />
-								@Html.TextBoxFor(q => q.signpdfpath, new { @class = "form-control  en-font", @name = "name", @id = "name" })
+								<input name="Expected" type="date" class="form-control  en-font" />
 							</div>
 							<div class="form-group">
 								<label key="t-Status" class="control-label">Status</label>
@@ -373,52 +390,18 @@
 <!-- email summernote init -->
 <script src="~/assets/js/pages/email-summernote.init.js"></script>
 
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
 <script>
-	$(document).ready(function () {
-		//var ID = document.getElementById('NONE').innerText??"33"
-		var ID = 33;
-		$.ajax('/Email/RequestFiles?ID=33')
-			//.then(resp => resp.blob())
-			.then(blob => {
-				var pdfData_ = window.atob(blob);
-				var pdfjsLib = window['pdfjs-dist/build/pdf'];
-				pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/build/pdf/pdf.worker.js';
-				var loadingTask = pdfjsLib.getDocument({ data: pdfData_ });
-				var body = document.getElementById('PDFView')
-				loadingTask.promise.then(function (pdf) {
-					let pagenum = pdf.numPages;
-					console.log(pagenum)
-					for (let i = 1; i <= pagenum; i++) {
-						pdf.getPage(i).then(function (page) {
-							var viewport = page.getViewport({ scale: 1 });
-							var canvas = document.createElement('canvas', { id: 'canvas' + i, style: "direction: ltr !important;" })
-							body.appendChild(canvas)
-							var context = canvas.getContext('2d');
-							canvas.height = viewport.height;
-							canvas.width = viewport.width;
-							var renderContext = {
-								canvasContext: context,
-								viewport: viewport
-							};
-							var renderTask = page.render(renderContext);
-							renderTask.promise.then(function () {
-								//$('#padf').removeClass('pdfnotloaded')
-								//document.getElementById('loadingimg').style.display = "none";
-
-							});
-						});
-
-					}
-				}, function (reason) {
-					console.error(reason);
-				});
-
-			})
-			.catch(() => alert('oh no!'));
-	})
 
 </script>
