@@ -26,9 +26,11 @@
 	span.select2 {
 		width: 100% !important
 	}
+
 	#CodeGenrateDiv input {
 		border: 1px solid;
 	}
+
 	label#TypeCode, #SubTypeCode, #SubTypeLevel {
 		width: 100% !important;
 		padding: 4px 16px !important;
@@ -229,11 +231,14 @@
 				select.innerHTML = ``;
 				if (e.length != 0) {
 					UnitCodeChange(true)
+					$('#TypeID').val(e[0]["Units_Type_ID"])
+					$('#TypeCode').text(e[0]["Code"]);
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
 						select.innerHTML += `<option value="${d["Units_Type_ID"]}">${lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]}</option>`
 					})
-				}
+				} else
+					$('#TypeCode').text("");
 			}, error: function (ee) {
 				console.log("error", ee)
 			}
@@ -282,6 +287,7 @@
 			$('#TypeID').val(ID)
 			$('#TypeCode').text(CodeView.Code);
 		}
+		console.log(CodeView)
 		UnitCodeChange(false);
 	}
 	function SubUnitChange(val) {
@@ -296,7 +302,7 @@
 			}
 		})
 		$.ajax({
-			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}`, success: function (dd) {
+			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&LevelID=null`, success: function (dd) {
 				//console.log(dd);
 				let Code = JSON.parse(dd)["Code"].split('');
 				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {

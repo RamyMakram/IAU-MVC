@@ -329,9 +329,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MostafidDBModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Nationality.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Personel_Data.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -357,9 +354,6 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_State.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Request_SupportingDocs.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_Type.cs">
@@ -475,8 +469,8 @@
       <DependentUpon>MostafidDBModel.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="WSHandler.ashx" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

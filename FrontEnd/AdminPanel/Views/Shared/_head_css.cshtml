@@ -10,20 +10,24 @@
 <link href="~/assets/css/fonts.css" rel="stylesheet" />
 <style>
 	.btn.active {
-		background: #00504D !important;
+		background-color: #4f693a !important;
 		border-radius: 25px;
+		border: 0;
+		outline:0;
 	}
-	.noraduis{
-		border-radius:5px !important;
+
+	.noraduis {
+		border-radius: 5px !important;
 	}
-		.btn.active:focus {
-			-webkit-box-shadow: 0 0 0 0.15rem #00504d6e !important;
-			box-shadow: 0 0 0 0.15rem #00504d6e !important;
-		}
+
+	.btn.active:focus {
+		-webkit-box-shadow: 0 0 0 0.15rem #00504d6e !important;
+		box-shadow: 0 0 0 0.15rem #00504d6e !important;
+	}
 
 
 	.btn.btn-primary {
-		background: #2F405E;
+		background: #0a1332;
 		border-color: #2f405e6e;
 	}
 
@@ -50,10 +54,11 @@
 		border-radius: 25px;
 	}
 
-	.btn.deactive:focus {
-		-webkit-box-shadow: 0 0 0 0.15rem #ff000061 !important;
-		box-shadow: 0 0 0 0.15rem #ff000061 !important;
-	}
+		.btn.deactive:focus {
+			-webkit-box-shadow: 0 0 0 0.15rem #ff000061 !important;
+			box-shadow: 0 0 0 0.15rem #ff000061 !important;
+		}
+
 	body[data-sidebar=dark].vertical-collpsed {
 		min-height: auto !important;
 	}
@@ -63,10 +68,10 @@
 	}
 
 	.page-content {
-		/*height: calc(100vh - 130px) !important;*/
-		margin-top: 0px !important;
-		overflow: hidden auto;
-		padding: calc(70px + 24px) calc(24px / 2) 60px calc(24px / 2)
+		height: calc(100vh - 70px - 60px) !important;
+		overflow: auto;
+		margin-top: 70px !important;
+		padding:0 !important
 	}
 
 	td, th {

@@ -20,8 +20,16 @@
 	span.select2 {
 		width: 100% !important
 	}
-</style>
 
+
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
+	}
+</style>
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -35,21 +43,21 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Service_Type_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
+								<label class="control-label" key="t-name" for="name">Name</label>
+								@Html.TextBoxFor(q => q.Service_Type_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name" })
 							</div>
 							<div class="form-group">
-								<label key="t-image" for="name">Image</label>
+								<label class="control-label" key="t-image" for="name">Image</label>
 								<div class="custom-file">
-									@Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input", @type = "file", @name = "name", @id = "customFile" })
-									<label class="custom-file-label" for="customFile">Choose file</label>
+									@Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input en-font", @type = "file", @name = "name", @id = "customFile" })
+									<label class="custom-file-label en-font" for="customFile">Choose file</label>
 								</div>
 							</div>
 						</div>
 
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-enname" for="enname">Mobile</label>
+								<label class="control-label en-font" key="t-enname" for="enname">Mobile</label>
 								@Html.TextBoxFor(q => q.Service_Type_Name_EN, new { @class = "form-control", @name = "enname", @id = "enname" })
 							</div>
 						</div>

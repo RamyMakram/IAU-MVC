@@ -1,4 +1,6 @@
-﻿
+﻿@using IAUAdmin.DTO.Entity;
+@using System.Configuration;
+
 @{
 	ViewBag.Title = "Home Page";
 	ViewBag.pTitle = "Home";
@@ -33,165 +35,78 @@ else
 <link href="~/dashboard/assets/css/themes/layout/aside/dark.rtl.css" rel="stylesheet" type="text/css" />
 <!-- select2 css -->
 <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<style>
+	.img-serviceType {
+		color: transparent;
+		background: transparent !important;
+	}
 
+	.servicename {
+		color: #0a1332 !important
+	}
+
+	i.fa.fa-genderless {
+		color: black !important;
+	}
+
+	.count-data, .loc-count {
+		font-size: 20px;
+		color: #0a1332 !important;
+<<<<<<< HEAD
+		font-weight:bold !important;
+	}
+	.loc-count {
+		padding: 17px 13px !important;
+		width: 63px !important;
+	}
+
+=======
+		font-weight: bold !important;
+	}
+
+	.loc-count {
+		padding: 17px 13px !important;
+		width: 63px !important;
+		font-size: 1rem;
+	}
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
+</style>
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <div class="row">
 	<div class="col-4">
 		<div class="contents-custom">
 			<div class="h-100">
-				<!--begin::Header-->
 				<div class="d-flex flex-column flex-center">
-					<!--begin::Image-->
 					<div class="bgi-no-repeat bgi-size-cover rounded min-h-180px w-100" style="background-image: url(../../dashboard/assets/media/stock-600x400/img-70.jpg )"></div>
-					<!--end::Image-->
-					<!--begin::Title-->
 					<a href="#" class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1">نظام خدمة المستفيدين</a>
-					<!--end::Title-->
-
 				</div>
-				<!--end::Header-->
-				<!--begin::Body-->
 				<div class="pt-1">
-					<!--begin::Item-->
-					<div class="d-flex align-items-center pb-9">
-						<!--begin::Symbol-->
-						<div class="symbol symbol-45 symbol-light mr-4">
-							<span class="symbol-label">
-								<span class="svg-icon svg-icon-2x svg-icon-dark-50">
-									<!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
-									<img src="~/dashboard/assets/media/misc/serv1.png" />
-									<!--end::Svg Icon-->
+					@{
+						var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+					}
+					@foreach (var i in ViewBag.ServiceType as ICollection<ServiceTypeDTO>)
+					{
+						<div class="d-flex align-items-center pb-9">
+							<div class="symbol symbol-45 symbol-light mr-4">
+								<span class="symbol-label img-serviceType">
+									<span class="svg-icon svg-icon-2x svg-icon-dark-50">
+										<img src=@(url + "/" + i.Image_Path) height="36px" />
+									</span>
 								</span>
-							</span>
+							</div>
+							<div class="d-flex flex-column flex-grow-1">
+<<<<<<< HEAD
+								<a href="#" class="text-dark-75 text-hover-primary servicename mb-1 font-size-lg font-weight-bolder">@(lang=="ar"?i.Service_Type_Name_AR:i.Service_Type_Name_EN)</a>
+							</div>
+							<span class="font-weight-bolder label label-xl label-inline px-3 py-5 min-w-45px en-font">@(i.Service_Type_ID+20)</span>
+=======
+								<a href="#" class="text-dark-75 text-hover-primary servicename mb-1 font-size-lg font-weight-bolder">@(lang == "ar" ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</a>
+							</div>
+							<span class="font-weight-bolder label label-xl label-inline px-3 py-5 min-w-45px en-font">@(i.Service_Type_ID + 20)</span>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 						</div>
-						<!--end::Symbol-->
-						<!--begin::Text-->
-						<div class="d-flex flex-column flex-grow-1">
-							<a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Consultation</a>
-
-						</div>
-						<!--end::Text-->
-						<!--begin::label-->
-						<span class="font-weight-bolder label label-xl label-light-success label-inline px-3 py-5 min-w-45px">32</span>
-						<!--end::label-->
-					</div>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<div class="d-flex align-items-center pb-9">
-						<!--begin::Symbol-->
-						<div class="symbol symbol-45 symbol-light mr-4">
-							<span class="symbol-label">
-								<span class="svg-icon svg-icon-2x svg-icon-dark-50">
-									<!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group.svg-->
-									<img src="~/dashboard/assets/media/misc/serv3.png" />
-									<!--end::Svg Icon-->
-								</span>
-							</span>
-						</div>
-						<!--end::Symbol-->
-						<!--begin::Text-->
-						<div class="d-flex flex-column flex-grow-1">
-							<a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Meeting</a>
-
-						</div>
-						<!--end::Text-->
-						<!--begin::label-->
-						<span class="font-weight-bolder label label-xl label-light-danger label-inline px-3 py-5 min-w-45px">582</span>
-						<!--end::label-->
-					</div>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<div class="d-flex align-items-center pb-9">
-						<!--begin::Symbol-->
-						<div class="symbol symbol-45 symbol-light mr-4">
-							<span class="symbol-label">
-								<span class="svg-icon svg-icon-2x svg-icon-dark-50">
-									<!--begin::Svg Icon | path:assets/media/svg/icons/Home/Globe.svg-->
-									<img src="~/dashboard/assets/media/misc/serv2.png" />
-									<!--end::Svg Icon-->
-								</span>
-							</span>
-						</div>
-						<!--end::Symbol-->
-						<!--begin::Text-->
-						<div class="d-flex flex-column flex-grow-1">
-							<a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Suggestion</a>
-
-						</div>
-						<!--end::Text-->
-						<!--begin::label-->
-						<span class="font-weight-bolder label label-xl label-light-primary label-inline py-5 min-w-45px">74</span>
-						<!--end::label-->
-					</div>
-					<!--end::Item-->
-					<!--begin::Item-->
-					<div class="d-flex align-items-center pb-9">
-						<!--begin::Symbol-->
-						<div class="symbol symbol-45 symbol-light mr-4">
-							<span class="symbol-label">
-								<span class="svg-icon svg-icon-2x svg-icon-dark-50">
-									<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-									<img src="~/dashboard/assets/media/misc/serv6.png" />
-									<!--end::Svg Icon-->
-								</span>
-							</span>
-						</div>
-						<!--end::Symbol-->
-						<!--begin::Text-->
-						<div class="d-flex flex-column flex-grow-1">
-							<a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Inquiry</a>
-
-						</div>
-						<!--end::Text-->
-						<!--begin::label-->
-						<span class="font-weight-bolder label label-xl label-light-info label-inline px-3 py-5 min-w-45px">209</span>
-						<!--end::label-->
-					</div>
-					<div class="d-flex align-items-center pb-9">
-						<!--begin::Symbol-->
-						<div class="symbol symbol-45 symbol-light mr-4">
-							<span class="symbol-label">
-								<span class="svg-icon svg-icon-2x svg-icon-dark-50">
-									<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-									<img src="~/dashboard/assets/media/misc/serv4.png" />
-									<!--end::Svg Icon-->
-								</span>
-							</span>
-						</div>
-						<!--end::Symbol-->
-						<!--begin::Text-->
-						<div class="d-flex flex-column flex-grow-1">
-							<a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Notification</a>
-
-						</div>
-						<!--end::Text-->
-						<!--begin::label-->
-						<span class="font-weight-bolder label label-xl label-light-info label-inline px-3 py-5 min-w-45px">209</span>
-						<!--end::label-->
-					</div>
-					<div class="d-flex align-items-center pb-9">
-						<!--begin::Symbol-->
-						<div class="symbol symbol-45 symbol-light mr-4">
-							<span class="symbol-label">
-								<span class="svg-icon svg-icon-2x svg-icon-dark-50">
-									<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-									<img src="~/dashboard/assets/media/misc/serv5.png" />
-									<!--end::Svg Icon-->
-								</span>
-							</span>
-						</div>
-						<!--end::Symbol-->
-						<!--begin::Text-->
-						<div class="d-flex flex-column flex-grow-1">
-							<a href="#" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Complaint</a>
-
-						</div>
-						<!--end::Text-->
-						<!--begin::label-->
-						<span class="font-weight-bolder label label-xl label-light-info label-inline px-3 py-5 min-w-45px">209</span>
-						<!--end::label-->
-					</div>
+					}
 				</div>
 				<!--end::Body-->
 			</div>
@@ -205,102 +120,50 @@ else
 				</h3>
 				<br><br>
 				<p dir="ltr">
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
-					<input class="inputs" type="text" maxlength="1" style="width: 18px;" />
+					@foreach (var i in new string[13])
+					{
+						<input class="inputs" type="text" maxlength="1" style="width: 16px;" />
+					}
 				</p>
 			</div>
-			<!--end::Header-->
-			<!--begin::Body-->
 			<div class="card-body pt-4">
-				<!--begin::Timeline-->
 				<div class="timeline timeline-6 mt-3">
-					<!--begin::Item-->
 					<div class="timeline-item align-items-start">
-						<!--begin::Label-->
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">2021-01-01</div>
-						<!--end::Label-->
-						<!--begin::Badge-->
+						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
 						<div class="timeline-badge">
 							<i class="fa fa-genderless text-warning icon-xl"></i>
 						</div>
-						<!--end::Badge-->
-						<!--begin::Text-->
 						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">تأكيد الطلب</div>
-						<!--end::Text-->
 					</div>
-					<!--end::Item-->
-					<!--begin::Item-->
 					<div class="timeline-item align-items-start">
-						<!--begin::Label-->
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">2021-01-01</div>
-						<!--end::Label-->
-						<!--begin::Badge-->
+						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
 						<div class="timeline-badge">
 							<i class="fa fa-genderless text-info icon-xl"></i>
 						</div>
-						<!--end::Badge-->
-						<!--begin::Text-->
 						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">فرز الترميز</div>
-						<!--end::Text-->
 					</div>
-					<!--end::Item-->
-					<!--begin::Item-->
 					<div class="timeline-item align-items-start">
-						<!--begin::Label-->
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg" style="color: #c80707 !important;">2021-01-01</div>
-						<!--end::Label-->
-						<!--begin::Badge-->
+						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
 						<div class="timeline-badge">
-							<i class="fa fa-genderless text-success icon-xl" style="color: #c80707 !important;"></i>
+							<i class="fa fa-genderless text-success icon-xl"></i>
 						</div>
-						<!--end::Badge-->
-						<!--begin::Text-->
-						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3" style="color: #c80707 !important;">معالجة الطلب</div>
-						<!--end::Text-->
+						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">معالجة الطلب</div>
 					</div>
-					<!--end::Item-->
-					<!--begin::Item-->
 					<div class="timeline-item align-items-start">
-						<!--begin::Label-->
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">2021-01-01</div>
-						<!--end::Label-->
-						<!--begin::Badge-->
+						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
 						<div class="timeline-badge">
 							<i class="fa fa-genderless text-primary icon-xl"></i>
 						</div>
-						<!--end::Badge-->
-						<!--begin::Text-->
 						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">ارسال الطلب</div>
-						<!--end::Text-->
 					</div>
-					<!--end::Item-->
-					<!--begin::Item-->
 					<div class="timeline-item align-items-start">
-						<!--begin::Label-->
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg">2021-01-01</div>
-						<!--end::Label-->
-						<!--begin::Badge-->
+						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
 						<div class="timeline-badge">
 							<i class="fa fa-genderless text-dark icon-xl"></i>
 						</div>
-						<!--end::Badge-->
-						<!--begin::Text-->
 						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">استلام الطلب</div>
-						<!--end::Text-->
 					</div>
-					<!--end::Item-->
 				</div>
-				<!--end::Timeline-->
 			</div>
 		</div>
 	</div>
@@ -312,198 +175,112 @@ else
 						<div class="font-weight-bolder" key="t-statistics">التقارير</div>
 					</div>
 				</div>
-
 			</div>
-			<!--end::Header-->
-			<!--begin::Body-->
 			<div class="card-body d-flex flex-column">
-				<!--begin::Chart-->
 				<div class="flex-grow-1">
-					<div id="kt_mixed_widget_16_chart" style="height: 200px"></div>
+					@*<div id="kt_mixed_widget_16_chart" style="height: 200px"></div>*@
 				</div>
-				<!--end::Chart-->
-				<!--begin::Items-->
 				<div class="mt-10 mb-5">
 					<div class="row row-paddingless mb-10">
-						<!--begin::Item-->
 						<div class="col">
 							<div class="d-flex align-items-center mr-2">
-								<!--begin::Symbol-->
 								<div class="symbol symbol-45 symbol-light-info mr-4 flex-shrink-0">
 									<i class="fas fa-home" style="background:#EEE5FF;color:#8950FC"></i>
 								</div>
-								<!--end::Symbol-->
-								<!--begin::Title-->
 								<div>
-									<div class="font-size-h4 text-dark-75 font-weight-bolder">2034</div>
-									<div class="font-size-sm text-dark font-weight-bold mt-1">عدد الوحدات</div>
+									<div class="font-size-h4 text-dark-75 font-weight-bolder count-data  en-font">2034</div>
+									<div class="font-size-sm text-dark font-weight-bold mt-1">الفئات</div>
 								</div>
-								<!--end::Title-->
 							</div>
 						</div>
-						<!--end::Item-->
-						<!--begin::Item-->
 						<div class="col">
 							<div class="d-flex align-items-center mr-2">
-								<!--begin::Symbol-->
 								<div class="symbol symbol-45 symbol-light-danger mr-4 flex-shrink-0">
 									<i class="fas fa-users" style="color: #E04758;background: #FFE2E5;"></i>
 								</div>
-								<!--end::Symbol-->
-								<!--begin::Title-->
 								<div>
-									<div class="font-size-h4 text-dark-75 font-weight-bolder">706</div>
-									<div class="font-size-sm text-dark font-weight-bold mt-1">عدد المستخدمين</div>
+									<div class="font-size-h4 text-dark-75 font-weight-bolder count-data en-font">706</div>
+									<div class="font-size-sm text-dark font-weight-bold mt-1">المستخدمين</div>
 								</div>
-								<!--end::Title-->
 							</div>
 						</div>
-						<!--end::Item-->
 					</div>
 					<div class="row row-paddingless">
-						<!--begin::Item-->
 						<div class="col">
 							<div class="d-flex align-items-center mr-2">
-								<!--begin::Symbol-->
 								<div class="symbol symbol-45 symbol-light-success mr-4 flex-shrink-0">
 									<i class="fas fa-book-open" style="color: #1BC5BD;background: #C9F7F5;"></i>
 								</div>
-								<!--end::Symbol-->
-								<!--begin::Title-->
 								<div>
-									<div class="font-size-h4 text-dark-75 font-weight-bolder">490004</div>
-									<div class="font-size-sm text-dark font-weight-bold mt-1">عدد الطلبات</div>
+									<div class="font-size-h4 text-dark-75 font-weight-bolder count-data en-font">490004</div>
+									<div class="font-size-sm text-dark font-weight-bold mt-1">الطلبات</div>
 								</div>
-								<!--end::Title-->
 							</div>
 						</div>
-						<!--end::Item-->
-						<!--begin::Item-->
 						<div class="col">
 							<div class="d-flex align-items-center mr-2">
-								<!--begin::Symbol-->
 								<div class="symbol symbol-45 symbol-light-primary mr-4 flex-shrink-0">
 									<i class="fas fa-network-wired" style="color: #3699FF;background: #E1F0FF;"></i>
 								</div>
-								<!--end::Symbol-->
-								<!--begin::Title-->
 								<div>
-									<div class="font-size-h4 text-dark-75 font-weight-bolder">3650</div>
-									<div class="font-size-sm text-dark font-weight-bold mt-1">عدد الفروع</div>
+									<div class="font-size-h4 text-dark-75 font-weight-bolder count-data en-font">3650</div>
+									<div class="font-size-sm text-dark font-weight-bold mt-1">الفروع</div>
 								</div>
-								<!--end::Title-->
 							</div>
 						</div>
-						<!--end::Item-->
 					</div>
 				</div>
-				<!--end::Items-->
 			</div>
-			<!--end::Body-->
 		</div>
-
 	</div>
 	<div class="col-4">
 		<div class="contents-custom">
-			<!--begin::Header-->
 			<div class="card-header border-0 pt-5">
 				<h3 class="card-title font-weight-bolder" key="t-location">المواقع</h3>
 			</div>
-			<!--end::Header-->
-			<!--begin::Body-->
 			<div class="card-body d-flex flex-column">
-				<!--begin::Items-->
 				<div class="mt-5">
-					<!--begin::Item-->
 					<div class="d-flex align-items-center justify-content-between mb-5">
-						<!--begin::Section-->
 						<div class="d-flex align-items-center mr-2">
-							<!--begin::Symbol-->
 							<i class="fas fa-map-marker-alt"></i>
-							<!--end::Symbol-->
-							<!--begin::Title-->
 							<div>
 								<a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">الراكة</a>
-
 							</div>
-							<!--end::Title-->
 						</div>
-						<!--end::Section-->
-						<!--begin::Label-->
-						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">828</div>
-						<!--end::Label-->
+						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base  en-font loc-count">828</div>
 					</div>
-					<!--end::Item-->
-					<!--begin::Widget Item-->
 					<div class="d-flex align-items-center justify-content-between mb-5">
-						<!--begin::Section-->
 						<div class="d-flex align-items-center mr-2">
-							<!--begin::Symbol-->
 							<i class="fas fa-map-marker-alt"></i>
-
-							<!--end::Symbol-->
-							<!--begin::Title-->
 							<div>
 								<a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">الريان</a>
-
 							</div>
-							<!--end::Title-->
 						</div>
-						<!--end::Section-->
-						<!--begin::Label-->
-						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">4545</div>
-						<!--end::Label-->
+						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base en-font loc-count">45</div>
 					</div>
-					<!--end::Widget Item-->
-					<!--begin::Widget Item-->
 					<div class="d-flex align-items-center justify-content-between mb-5">
-						<!--begin::Section-->
 						<div class="d-flex align-items-center mr-2">
-							<!--begin::Symbol-->
 							<i class="fas fa-map-marker-alt"></i>
-
-							<!--end::Symbol-->
-							<!--begin::Title-->
 							<div>
 								<a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">القطيف</a>
-
 							</div>
-							<!--end::Title-->
 						</div>
-						<!--end::Section-->
-						<!--begin::Label-->
-						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">242</div>
-						<!--end::Label-->
+						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base  en-font loc-count">242</div>
 					</div>
 
 					<div class="d-flex align-items-center justify-content-between mb-5">
-						<!--begin::Section-->
 						<div class="d-flex align-items-center mr-2">
-							<!--begin::Symbol-->
 							<i class="fas fa-map-marker-alt"></i>
-
-							<!--end::Symbol-->
-							<!--begin::Title-->
 							<div>
 								<a href="#" class="font-size-h6 text-dark-75 text-hover-primary font-weight-bolder">الدمام</a>
-
 							</div>
-							<!--end::Title-->
 						</div>
-						<!--end::Section-->
-						<!--begin::Label-->
-						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base">428</div>
-						<!--end::Label-->
+						<div class="label label-light label-inline font-weight-bold text-dark-50 py-4 px-3 font-size-base en-font loc-count">428</div>
 					</div>
-
-					<!--end::Widget Item-->
 				</div>
-				<!--end::Widget Items-->
 			</div>
-			<!--end::Body-->
 		</div>
 	</div>
-	<div id="PDFView"></div>
 
 </div>
 <style>

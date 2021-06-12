@@ -86,6 +86,40 @@
 	"t-title-sub-code": "Sub Category Type Code",
 	"t-title-buildnum": "Building Number",
 	"t-title-subservice": "Sub Services",
+	"t-unit-home-mainservices": "Services List",
 	"t-title-type-code": "Category Type Code",
-	"t-Typecode": "Type Code"
+	"t-Typecode": "Type Code",
+	"t-summary": "Summary Of Request",
+	"t-serviceType": "Service Type",
+	"t-reqtype": "Request Type",
+	"t-personalData": "Personal Data",
+	"t-genralInfo": "General Information",
+	"t-IAUAff": "IAU Affliated",
+	"t-applicanttype": "Applicant Type",
+	"t-firstname": "First Name",
+	"t-middlename": "Middle Name",
+	"t-lastname": "Last Name",
+	"t-nationalty": "Nationalty",
+	"t-country": "Country",
+	"t-iddoc": "ID Document",
+	"t-idnumber": "ID Number",
+	"t-address": "Address Information",
+	"t-city": "City",
+	"t-region": "Region",
+	"t-postal": "Postal Code",
+	"t-contactinfo": "Conatct Information",
+	"t-phone": "Mobile Phone",
+	"t-profile": "Profile",
+	"t-date": "Date",
+<<<<<<< HEAD
+	"t-comment": "Comment",
+	"t-yes": "Yes",
+	"t-no": "No"
+=======
+	"t-comment": "Notice",
+	"t-yes": "Yes",
+	"t-no": "No",
+	"t-mostafidname": "Mostafid Name"
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
+
 }

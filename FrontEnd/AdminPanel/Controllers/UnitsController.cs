@@ -128,15 +128,21 @@ namespace AdminPanel.Controllers
 		[HttpPost]
 		public ActionResult Create(UnitsDTO unitsDTO)
 		{
-			int length = unitsDTO.Units_ReqType.Length;
+			int length = 0;
 			unitsDTO.Units_Request_Type = new List<Units_Request_TypeDTO>();
-			for (int i = 0; i < length; i++)
-				unitsDTO.Units_Request_Type.Add(new Units_Request_TypeDTO() { Request_Type_ID = unitsDTO.Units_ReqType[i] });
-			length = unitsDTO.Units_ServiceType.Length;
+			if (unitsDTO.Units_ReqType != null)
+			{
+				length = unitsDTO.Units_ReqType.Length;
+				for (int i = 0; i < length; i++)
+					unitsDTO.Units_Request_Type.Add(new Units_Request_TypeDTO() { Request_Type_ID = unitsDTO.Units_ReqType[i] });
+			}
 			unitsDTO.UnitServiceTypes = new List<UnitServiceTypesDTO>();
-			for (int i = 0; i < length; i++)
-				unitsDTO.UnitServiceTypes.Add(new UnitServiceTypesDTO() { ServiceTypeID = unitsDTO.Units_ServiceType[i] });
-
+			if (unitsDTO.Units_ServiceType != null)
+			{
+				length = unitsDTO.Units_ServiceType.Length;
+				for (int i = 0; i < length; i++)
+					unitsDTO.UnitServiceTypes.Add(new UnitServiceTypesDTO() { ServiceTypeID = unitsDTO.Units_ServiceType[i] });
+			}
 			var Req = APIHandeling.Post("Units/Create", unitsDTO);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -285,10 +291,10 @@ namespace AdminPanel.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetCode(string code, int id)
+		public JsonResult GetCode(string code, int id, int? LevelID)
 		{
 			Console.WriteLine(code + "  " + id);
-			var Data = APIHandeling.getData("Units/GenrateCode?Ref_Number=" + code + "&SubID=" + id);
+			var Data = APIHandeling.getData("Units/GenrateCode?Ref_Number=" + code + "&SubID=" + id + "&StartLevelID=" + LevelID);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			Console.WriteLine(res.result + "  ");

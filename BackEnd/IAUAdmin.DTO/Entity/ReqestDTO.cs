@@ -17,6 +17,7 @@ namespace IAUAdmin.DTO.Entity
         public Nullable<int> Request_Type_ID { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public string Code_Generate { get; set; }
+        public System.DateTime GenratedDate { get; set; }
         public byte Request_State_ID { get; set; }
         public string signpdfpath { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
@@ -26,6 +27,8 @@ namespace IAUAdmin.DTO.Entity
         public virtual RequestTypeDTO Request_Type { get; set; }
         public virtual ServiceTypeDTO Service_Type { get; set; }
         public virtual SubServicesDTO Sub_Services { get; set; }
+        public virtual ICollection<RequestFilesDTO> Request_File { get; set; }
+
         //public virtual ICollection<Request_File> Request_File { get; set; }
         //public virtual ICollection<Request_Log> Request_Log { get; set; }
         //public virtual ICollection<Request_SupportingDocs> Request_SupportingDocs { get; set; }

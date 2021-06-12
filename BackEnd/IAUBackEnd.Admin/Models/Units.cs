@@ -19,9 +19,9 @@ namespace IAUBackEnd.Admin.Models
         {
             this.UnitMainServices = new HashSet<UnitMainServices>();
             this.Units_Request_Type = new HashSet<Units_Request_Type>();
+            this.Units1 = new HashSet<Units>();
             this.UnitServiceTypes = new HashSet<UnitServiceTypes>();
             this.Users = new HashSet<Users>();
-            this.Units1 = new HashSet<Units>();
         }
     
         public int Units_ID { get; set; }
@@ -31,27 +31,27 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<int> Units_Type_ID { get; set; }
         public string Ref_Number { get; set; }
         public string Building_Number { get; set; }
-        public Nullable<bool> IS_Action { get; set; }
-        public bool IS_Mostafid { get; set; }
         public Nullable<int> LevelID { get; set; }
         public Nullable<int> SubID { get; set; }
         public Nullable<int> ServiceTypeID { get; set; }
         public string Code { get; set; }
+        public Nullable<bool> IS_Action { get; set; }
+        public bool IS_Mostafid { get; set; }
     
+        public virtual Service_Type Service_Type { get; set; }
+        public virtual UnitLevel UnitLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UnitMainServices> UnitMainServices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Units_Request_Type> Units_Request_Type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Units> Units1 { get; set; }
+        public virtual Units Units2 { get; set; }
         public virtual Units_Location Units_Location { get; set; }
         public virtual Units_Type Units_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UnitServiceTypes> UnitServiceTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
-        public virtual UnitLevel UnitLevel { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Units> Units1 { get; set; }
-        public virtual Units Units2 { get; set; }
-        public virtual Service_Type Service_Type { get; set; }
     }
 }

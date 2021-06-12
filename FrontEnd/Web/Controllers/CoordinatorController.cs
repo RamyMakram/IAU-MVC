@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using IAU.DTO.Helper;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using Web.App_Start;
 
 namespace Web.Controllers
 {
-	public class CoordinatorController : Controller
+	public class CoordinatorController : BaseController
 	{
 		// GET: Coordinator
 		public ActionResult Index()
@@ -20,13 +21,13 @@ namespace Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(string email, string pass)
+		public async System.Threading.Tasks.Task<ActionResult> Index(string email, string pass)
 		{
-			var res = APIHandeling.LoginAdmin($"User/Login?email={email}&pass={pass}");
+			var res =await APIHandeling.LoginAdminAsync($"User/Login?email={email}&pass={pass}");
 			var resJson = res.Content.ReadAsStringAsync();
-			var lst = JsonConvert.DeserializeObject<GeniricReciever>(resJson.Result);
+			var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (lst.success)
-				return Redirect(ConfigurationManager.AppSettings["AdminPanel"].ToString() + "/LoginForward/Login?t=" + JObject.Parse(lst.result)["Token"]);
+				return Redirect(ConfigurationManager.AppSettings["AdminPanel"].ToString() + "/LoginForward/Login?t=" + JObject.Parse(lst.result.ToString())["Token"]);
 			return View();
 		}
 	}

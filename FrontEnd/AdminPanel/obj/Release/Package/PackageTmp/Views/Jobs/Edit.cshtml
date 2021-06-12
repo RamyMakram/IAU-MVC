@@ -3,7 +3,7 @@
 	ViewBag.Title = "Edit Job";
 	ViewBag.pTitle = "Edit Job";
 	ViewBag.pageTitle = "Jobs";
-	ViewBag.arTitle     = "تعديل وظيفة";
+	ViewBag.arTitle = "تعديل وظيفة";
 	ViewBag.arpageTitle = "تعديل وظيفة";
 	ViewBag.arpTitle = "الوظائف";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,17 @@
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
 
+
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
+	}
+</style>
 
 <div class="row">
 	<div class="col-12">
@@ -30,14 +40,14 @@
 						<div class="col-sm-6">
 							<span style="display:none" id="hit">@Model.User_Permissions_Type_ID</span>
 							<div class="form-group">
-								<label for="Name_AR" key="t-name">Job Name</label>
-								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_AR, new { @class = "form-control", @id = "Name_AR" })
+								<label class="control-label" for="Name_AR" key="t-name">Job Name</label>
+								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_AR, new { @class = "form-control ar-font", @id = "Name_AR" })
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="Name_EN" key="t-enname">Job English Name</label>
-								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_EN, new { @class = "form-control", @id = "Name_EN" })
+								<label class="control-label" for="Name_EN" key="t-enname">Job English Name</label>
+								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_EN, new { @class = "form-control en-font", @id = "Name_EN" })
 							</div>
 						</div>
 					</div>
@@ -62,7 +72,7 @@
 						{
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label style="font-weight:bolder">@Html.DisplayName(i.Name.ToString())</label>
+									<label class="control-label" style="font-weight:bolder">@Html.DisplayName(i.Name.ToString())</label>
 									<div style="margin:0 10px">
 										@{
 											if (i.Sub.Count != 0)
@@ -71,7 +81,7 @@
 												{
 													<div class="custom-control custom-switch mb-3" dir="ltr">
 														<input type="checkbox" class="custom-control-input" onchange="cc('@(c.ID)','@c.Active.ToString()',this)" id=@("customSwitch" + c.ID) checked=@c.Active>
-														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
+														<label  class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
 													</div>
 												}
 											}

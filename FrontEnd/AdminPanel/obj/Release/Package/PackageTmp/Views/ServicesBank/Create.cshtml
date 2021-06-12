@@ -17,9 +17,18 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
-	span.select2 {
-		width: 100% !important
-	}
+    span.select2 {
+        width: 100% !important
+    }
+
+    label.control-label::after {
+        content: ":";
+    }
+
+    label.control-label {
+        font-weight: bold;
+    }
+
 </style>
 
 <div class="row">
@@ -35,8 +44,8 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Main_Services_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
+								<label key="t-name" class="control-label" for="name">Name</label>
+								@Html.TextBoxFor(q => q.Main_Services_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name" })
 							</div>
 							<div class="form-group">
 								<label key="t-servicetype" class="control-label">units</label>
@@ -46,8 +55,8 @@
 
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label key="t-enname" for="Ename">ENNAME</label>
-								@Html.TextBoxFor(q => q.Main_Services_Name_EN, new { @class = "form-control", @name = "Ename", @id = "Ename" })
+								<label key="t-enname" class="control-label" for="Ename">ENNAME</label>
+								@Html.TextBoxFor(q => q.Main_Services_Name_EN, new { @class = "form-control en-font", @name = "Ename", @id = "Ename" })
 							</div>
 							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">

@@ -6,63 +6,101 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+<!-- DataTables -->
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<<<<<<< HEAD
+@*<style>
+		.date {
+			width: 190px !important
+		}
+	</style>*@
+=======
 <style>
-	.date{
-		width:190px !important
+	#MailList tr:nth-of-type(1) {
+		background-color: #fff59d8f;
+		color: white;
 	}
+
+		#MailList tr:nth-of-type(1) td {
+			border: 0;
+			color: black;
+		}
 </style>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 
 @{
 	var lang = Request.Cookies["lang"].Value;
 }
+
 <div class="row">
 	<div class="col-12">
-		<div class="mb-3">
-			<div class="card">
-				<ul class="message-list m-0" id="MailList">
-					@foreach (var i in Model)
-					{
-						<li onclick="Preview('@Url.Action("Preview",new {Id=i.Request_Data_ID })')">
-							<div class="col-mail col-mail-1">
-								<a href="#" class="title">@(i.Personel_Data.First_Name+" "+i.Personel_Data.Middle_Name)</a>@*<span class="star-toggle far fa-star"></span>*@
-							</div>
-							<div class="col-mail col-mail-2">
-								<a href="#" class="subject">
-									<span class="badge-success badge mr-2">@(lang=="ar"? i.Service_Type.Service_Type_Name_AR:i.Service_Type.Service_Type_Name_EN)</span>
-									<span class="badge-pink badge mr-2">@(lang=="ar"? i.Request_Type.Request_Type_Name_AR:i.Request_Type.Request_Type_Name_EN)</span>
-									<span class="badge-dark badge mr-2">@(i.Personel_Data.IAU_ID_Number!="")</span>
-									<span class="teaser">@(i.Required_Fields_Notes==null?"": i.Required_Fields_Notes.Take(400))</span>
-								</a>
-								<div class="date">@(i.CreatedDate.ToString("MM/dd - HH:mm"))</div>
-							</div>
-						</li>
-					}
+		<div class="card">
+			<div class="card-body">
 
-				</ul>
+<<<<<<< HEAD
+				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+=======
+				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
+					<thead>
+						<tr>
+							<th key="t-mainservice">ServiceType</th>
+							<th key="t-request-type">RequestType</th>
+							<th key="t-IAUAff">IS IAU</th>
+<<<<<<< HEAD
+							<th key="t-firstname">Name</th>
+=======
+							<th key="t-mostafidname">Name</th>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
+							<th key="t-date">Date</th>
+							<th key="t-comment">Comment</th>
+						</tr>
+					</thead>
+					<tbody id="MailList">
+						@foreach (var i in Model)
+						{
+<<<<<<< HEAD
+							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')">
+=======
+							<tr @*onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')"*@>
+>>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
+								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+								<td>@(lang == "ar" ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+								<td>
+									@if (i.Personel_Data.IAU_ID_Number != "")
+									{
+										<span key="t-yes"></span>
+									}
+									else
+									{
+										<span key="t-no"></span>
+									}
 
-			</div>
+								</td>
+								<td>@(i.Personel_Data.First_Name)</td>
+								<td>
+									@(i.CreatedDate.ToString("MM/dd - HH:mm"))
+								</td>
 
-			<div class="row">
-				<div class="col-7">
-					Showing 1 - 20 of 30
-				</div>
-				<div class="col-5">
-					<div class="btn-group float-right">
-						<button type="button" class="btn btn-sm btn-success waves-effect"><i class="fa fa-chevron-left"></i></button>
-						<button type="button" class="btn btn-sm btn-success waves-effect"><i class="fa fa-chevron-right"></i></button>
-					</div>
-				</div>
+								<td>@(i.Required_Fields_Notes == null ? "" : i.Required_Fields_Notes.Take(400))</td>
+							</tr>
+						}
+					</tbody>
+				</table>
 			</div>
 		</div>
-	</div>
-</div>
+	</div> <!-- end col -->
+</div> <!-- end row -->
+
 <script>
 	function Preview(url) {
 		window.location.href = url;
 	}
 </script>
-<!-- JAVASCRIPT -->
+
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
@@ -70,11 +108,30 @@
 <script src="~/assets/libs/node-waves/waves.min.js"></script>
 <script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
 
-<!-- Summernote js -->
-<script src="~/assets/libs/summernote/summernote-bs4.min.js"></script>
+<!-- Required datatable js -->
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/libs/jszip/jszip.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
 
-<!-- email summernote init -->
-<script src="~/assets/js/pages/email-summernote.init.js"></script>
+<!-- Responsive examples -->
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-<!-- App js -->
+<!-- Datatable init js -->
+<script src="~/assets/js/pages/datatables.init.js"></script>
+
 <script src="~/assets/js/app.js"></script>
+
+
+
+
+<script src="~/assets/js/pdf.js"></script>
+<script src="~/assets/js/pdf.worker.js"></script>

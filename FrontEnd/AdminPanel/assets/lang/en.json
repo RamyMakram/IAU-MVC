@@ -111,8 +111,15 @@
 	"t-phone": "Mobile Phone",
 	"t-profile": "Profile",
 	"t-date": "Date",
-	"t-comment": "Comment",
+	"t-comment": "Notice",
 	"t-yes": "Yes",
-	"t-no": "No"
+	"t-no": "No",
+	"t-mostafidname": "Mostafid Name",
+	"t-all": "All",
+	"t-date-from": "Date From",
+	"t-date-to": "Date To",
+	"t-filter": "Apply Filter",
+	"t-filters": "Filters",
+	"t-ArchiveSelected": "Archive Selected"
 
 }
