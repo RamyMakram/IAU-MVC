@@ -374,3 +374,19 @@ C:\Users\test\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Release\IAU-BackEnd.csproj
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Release\IAU-BackEnd.csproj.CopyComplete
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Release\IAU-BackEnd.dll
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Release\IAU-BackEnd.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.ico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsi.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsi.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsi.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsi.ico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gvbc.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gvbc.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gvbc.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gvbc.ico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gVBCSCompiler.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gVBCSCompiler.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gVBCSCompiler.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gVBCSCompiler.ico

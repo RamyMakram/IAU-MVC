@@ -726,3 +726,7 @@ C:\Users\test\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CoreCompileInp
 C:\Users\test\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CopyComplete
 C:\Users\test\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.dll
 C:\Users\test\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\roslyn\gcsc.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\roslyn\gcsc.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\roslyn\gcsc.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\roslyn\gcsc.ico

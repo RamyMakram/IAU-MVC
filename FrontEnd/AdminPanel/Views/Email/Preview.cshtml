@@ -21,9 +21,11 @@
 	.select2-selection__rendered, .select2-selection__arrow {
 		margin-top: 3px;
 	}
+
 	span.select2-selection.select2-selection {
 		height: 36px !important;
 	}
+
 	.FileTitle {
 		position: absolute;
 		bottom: 42px;
@@ -149,11 +151,11 @@
 									</tr>
 									<tr>
 										<th key="t-serviceType"></th>
-										<th>@(isAr? Model.Service_Type.Service_Type_Name_AR: Model.Service_Type.Service_Type_Name_EN)</th>
+										<th>@(isAr ? Model.Service_Type.Service_Type_Name_AR : Model.Service_Type.Service_Type_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-reqtype"></th>
-										<th>@(isAr? Model.Request_Type.Request_Type_Name_AR: Model.Request_Type.Request_Type_Name_EN)</th>
+										<th>@(isAr ? Model.Request_Type.Request_Type_Name_AR : Model.Request_Type.Request_Type_Name_EN)</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-personalData"></th>
@@ -167,7 +169,7 @@
 									</tr>
 									<tr>
 										<th key="t-applicanttype"></th>
-										<th>@(isAr?Model.Personel_Data.Applicant_Type.Applicant_Type_Name_AR: Model.Personel_Data.Applicant_Type.Applicant_Type_Name_EN)</th>
+										<th>@(isAr ? Model.Personel_Data.Applicant_Type.Applicant_Type_Name_AR : Model.Personel_Data.Applicant_Type.Applicant_Type_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-firstname"></th>
@@ -186,15 +188,15 @@
 									</tr>
 									<tr>
 										<th key="t-nationalty"></th>
-										<th>@(isAr? Model.Personel_Data.Country.Country_Name_AR: Model.Personel_Data.Country.Country_Name_EN)</th>
+										<th>@(isAr ? Model.Personel_Data.Country.Country_Name_AR : Model.Personel_Data.Country.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-country"></th>
-										<th>@(isAr? Model.Personel_Data.Country1.Country_Name_AR: Model.Personel_Data.Country1.Country_Name_EN)</th>
+										<th>@(isAr ? Model.Personel_Data.Country1.Country_Name_AR : Model.Personel_Data.Country1.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-iddoc"></th>
-										<th>@(isAr?Model.Personel_Data.ID_Document1.Document_Name_AR: Model.Personel_Data.ID_Document1.Document_Name_EN)</th>
+										<th>@(isAr ? Model.Personel_Data.ID_Document1.Document_Name_AR : Model.Personel_Data.ID_Document1.Document_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-idnumber"></th>
@@ -213,7 +215,7 @@
 									</tr>
 									<tr>
 										<th key="t-country"></th>
-										<th>@(isAr? Model.Personel_Data.Country2.Country_Name_AR: Model.Personel_Data.Country2.Country_Name_EN)</th>
+										<th>@(isAr ? Model.Personel_Data.Country2.Country_Name_AR : Model.Personel_Data.Country2.Country_Name_EN)</th>
 									</tr>
 									<tr>
 										<th key="t-postal"></th>
@@ -251,7 +253,7 @@
 										<div class="card">
 											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
-												<p class="row" key="t-requirddoc">@(isAr? i.Required_Documents.Name_AR: @i.Required_Documents.Name_EN)</p>
+												<p class="row" key="t-requirddoc">@(isAr ? i.Required_Documents.Name_AR : @i.Required_Documents.Name_EN)</p>
 												<p class="row">@i.File_Name</p>
 											</div>
 											<div class="py-2 text-center">
@@ -322,8 +324,8 @@
 						</div>
 						<div class="col-4">
 							<div class="form-group">
-								<label key="t-subunits" class="control-label" style="height:70px">Processing Location</label>
-								
+								<label key="t-subunits" class="control-label" style="height:55px">Processing Location</label>
+
 							</div>
 							<div class="form-group">
 								<label key="t-Campus" class="control-label">Campus</label>
@@ -332,7 +334,7 @@
 							<div class="form-group">
 								<label key="t-Buiding" class="control-label">Buiding</label>
 								<select id="Building" class="form-control select2" onchange="BuildChange(event.target.value)">
-									<option value="null" selected>@(isAr?"الكل" :"ALL")</option>
+									<option value="null" selected>@(isAr ? "الكل" : "ALL")</option>
 								</select>
 							</div>
 						</div>
@@ -403,5 +405,7 @@
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
 <script>
+	function ServiceChange(id) {
 
+	}
 </script>

@@ -254,7 +254,7 @@ function initSettings() {
 function initLanguage() {
 	// Auto Loader
 
-	setLanguage(language ?? "ar");
+	setLanguage(language == null ? "ar" : language);
 	//$('.language').on('click', function (e) {
 	//	setLanguage($(this).attr('data-lang'));
 	//});

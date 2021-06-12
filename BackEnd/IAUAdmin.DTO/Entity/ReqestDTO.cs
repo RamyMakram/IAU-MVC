@@ -10,7 +10,7 @@ namespace IAUAdmin.DTO.Entity
     {
         public int Request_Data_ID { get; set; }
         public Nullable<int> Personel_Data_ID { get; set; }
-        public Nullable<int> Provider_Academic_Services_ID { get; set; }
+        public Nullable<int> Unit_ID { get; set; }
         public Nullable<int> Sub_Services_ID { get; set; }
         public string Required_Fields_Notes { get; set; }
         public Nullable<int> Service_Type_ID { get; set; }

@@ -745,3 +745,11 @@ C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\Microsoft.CodeDom.Pro
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Release\IAUBackEnd.Admin.csprojAssemblyReference.cache
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Release\IAUBackEnd.Admin.csproj.CoreCompileInputs.cache
 C:\Users\test\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Release\IAUBackEnd.Admin.csproj.CopyComplete
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gcsc.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gcsc.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gcsc.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gcsc.ico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gVBCSCompiler.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gVBCSCompiler.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gVBCSCompiler.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\roslyn\gVBCSCompiler.ico

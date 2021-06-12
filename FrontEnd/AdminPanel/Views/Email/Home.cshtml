@@ -12,6 +12,15 @@
 <!-- Responsive datatable examples -->
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <style>
+	
+	table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after{
+		opacity:1 !important;
+		color:red;
+	}
+	table.dataTable thead th:before, table.dataTable thead th:after{
+		opacity:1 !important;
+		color:black;
+	}
 	#MailList tr:nth-of-type(1) {
 		background-color: #fff59d8f;
 		color: white;

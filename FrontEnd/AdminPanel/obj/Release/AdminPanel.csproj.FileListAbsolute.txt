@@ -180,10 +180,6 @@ C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.IO.Fi
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Net.Sockets.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
-C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Security.Cryptography.Algorithms.dll
-C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Security.Cryptography.Encoding.dll
-C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Security.Cryptography.Primitives.dll
-C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Text.Encoding.CodePages.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.Threading.Tasks.Extensions.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\System.ValueTuple.dll
@@ -448,3 +444,17 @@ C:\Users\test\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csproj.
 C:\Users\test\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csproj.CopyComplete
 C:\Users\test\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.dll
 C:\Users\test\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\gcsc.exe
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\gcsc.exe.config
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\gcsc.exe.conico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\roslyn\gcsc.ico
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Helpers.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Mvc.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Optimization.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Razor.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.WebPages.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.WebPages.Razor.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\Newtonsoft.Json.xml
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\Antlr3.Runtime.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
