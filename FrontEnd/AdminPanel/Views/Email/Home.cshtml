@@ -12,24 +12,26 @@
 <!-- Responsive datatable examples -->
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <style>
-	
-	table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after{
-		opacity:1 !important;
-		color:red;
+
+	table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after {
+		opacity: 1 !important;
+		color: red;
 	}
-	table.dataTable thead th:before, table.dataTable thead th:after{
-		opacity:1 !important;
-		color:black;
+
+	table.dataTable thead th:before, table.dataTable thead th:after {
+		opacity: 1 !important;
+		color: black;
 	}
-	#MailList tr:nth-of-type(1) {
+
+	#MailList tr.noreaded {
 		background-color: #fff59d8f;
 		color: white;
 	}
 
-		#MailList tr:nth-of-type(1) td {
-			border: 0;
-			color: black;
-		}
+	#MailList tr.noreaded  td {
+		border: 0;
+		color: black;
+	}
 
 	#MailList tr td {
 		border-bottom: 1px solid #0000005c !important;
@@ -69,7 +71,7 @@
 					<tbody id="MailList">
 						@foreach (var i in Model)
 						{
-							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')">
+							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
 								<td><input type="checkbox" class="selectbox-request" id="@i.Request_Data_ID" /></td>
 								<td>@i.Request_Data_ID</td>
 								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
@@ -92,7 +94,7 @@
 
 								<td>
 									<div class="dropdown dropbtn">
-										@(i.Required_Fields_Notes == null ? "" : string.Join("",i.Required_Fields_Notes.Take(15).ToArray())+" ...")
+										@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
 										<div class="dropdown-content">
 											<div class="p-10">
 												@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
@@ -120,7 +122,7 @@
 							<option selected value="null" key="t-all">All</option>
 							@foreach (var i in ViewBag.ServiceType)
 							{
-								<option value="@i.Service_Type_ID">@(lang=="ar"?i.Service_Type_Name_AR:i.Service_Type_Name_EN)</option>
+								<option value="@i.Service_Type_ID">@(lang == "ar" ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
 							}
 						</select>
 					</div>
@@ -130,7 +132,7 @@
 							<option selected value="null" key="t-all">All</option>
 							@foreach (var i in ViewBag.ReqTypes)
 							{
-								<option value="@i.Request_Type_ID">@(lang=="ar"?i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
+								<option value="@i.Request_Type_ID">@(lang == "ar" ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
 							}
 						</select>
 					</div>

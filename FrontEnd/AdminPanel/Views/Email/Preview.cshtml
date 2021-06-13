@@ -61,7 +61,8 @@
 
 		#CodeGenrateDiv input {
 			margin: 0 5px;
-			width: 33px;
+			width: 40px;
+			text-align: center;
 		}
 
 	.FileTitle p {
@@ -85,7 +86,7 @@
 	#padf {
 		overflow-y: auto;
 		overflow-x: hidden;
-		height: 150px;
+		height: 454px;
 		width: 650px;
 	}
 
@@ -99,7 +100,7 @@
 	table#PDFTable tbody tr th {
 		text-align: start !important;
 		font-family: 'DroidArabicKufiRegular' !important;
-		font-size: 19px;
+		font-size: 14px;
 		padding: 6px 19px;
 	}
 
@@ -112,7 +113,7 @@
 			}
 
 		table#PDFTable tbody tr th.boldtitle {
-			font-size: 28px;
+			font-size: 20px;
 			color: #283858;
 		}
 
@@ -126,6 +127,7 @@
 	var isAr = Request.Cookies["lang"].Value == "ar";
 	var url = ConfigurationManager.AppSettings["DomainName"].ToString();
 }
+@Html.Hidden("Language", isAr, new { @id = "Language" })
 <div class="row">
 	<div class="col-12">
 		<div class="mb-3">
@@ -134,8 +136,8 @@
 				<div class="card-body">
 					<div class="media mb-4 justify-content-center align-content-center">
 						<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;font-size: 43px !important;height:100%"></i>						<div class="media-body">
-							<h5 class="font-size-14 mt-1">@Model.Personel_Data.First_Name</h5>
-							<small class="text-muted">@Model.Personel_Data.Email</small>
+							<h5 class="font-size-14 mt-1 en-font">@Model.Personel_Data.First_Name</h5>
+							<small class="text-muted en-font">@Model.Personel_Data.Email</small>
 						</div>
 					</div>
 					<div class="PDFOuterView">
@@ -200,7 +202,7 @@
 									</tr>
 									<tr>
 										<th key="t-idnumber"></th>
-										<th>@(Model.Personel_Data.ID_Number)</th>
+										<th class="en-font">@(Model.Personel_Data.ID_Number)</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-address"></th>
@@ -219,18 +221,18 @@
 									</tr>
 									<tr>
 										<th key="t-postal"></th>
-										<th>@Model.Personel_Data.Postal_Code</th>
+										<th class="en-font">@Model.Personel_Data.Postal_Code</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-contactinfo"></th>
 									</tr>
 									<tr>
 										<th key="t-email"></th>
-										<th>@Model.Personel_Data.Email</th>
+										<th class="en-font">@Model.Personel_Data.Email</th>
 									</tr>
 									<tr>
 										<th key="t-phone"></th>
-										<th>@Model.Personel_Data.Mobile</th>
+										<th class="en-font" style="direction:ltr;text-align:start;@(isAr?"text-align: end !important;":"")">@Model.Personel_Data.Mobile</th>
 									</tr>
 
 								</tbody>
@@ -241,10 +243,86 @@
 			</div>
 			<div class="card">
 				<div class="card-body">
+					@using (Html.BeginForm("Codeing", "Email", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+					{
+						@Html.Hidden("RequestIID", Model.Request_Data_ID)
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									@*<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>*@
+									<div style="display:inline-flex" id="CodeGenrateDiv">
+										<input class="form-control Genratedcode en-font" value="1" readonly disabled />
+										@foreach (var i in new string[12])
+										{
+											<input class="form-control Genratedcode en-font" value="0" readonly disabled />
+										}
+									</div>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group">
+									<label key="t-e-source" class="control-label">المصدر</label>
+									@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "Level(event.target.value)", @name = "source", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
+								<div class="form-group">
+									<label key="t-ServiceType" class="control-label">نوع الخدمة الرئيسية</label>
+									@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @name = "serviceType", @onchange = "ServiceChange(event.target.value)", @id = "ServiceType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
+								<div class="form-group">
+									<label key="t-RequestType" class="control-label">توع الطلب</label>
+									@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control", @name = "reqType", @onchange = "RequestChange(event.target.value)", @id = "ReqestType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group">
+									<label key="t-subunits" class="control-label" style="height:55px">اعدادات الموقع</label>
+
+								</div>
+								<div class="form-group">
+									<label key="t-Campus" class="control-label">الموقع</label>
+									@Html.DropDownList("locations", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
+								<div class="form-group">
+									<label key="t-Buiding" class="control-label">الميني</label>
+									<select id="Building" name="BuildingSelect" class="form-control select2" onchange="BuildChange(event.target.value)">
+										<option value="null" selected>@(isAr ? "الكل" : "ALL")</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="form-group">
+									<label key="t-Provider" class="control-label">الفئة الادارية</label>
+									@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "GetCode()", @name = "unit", @id = "UnitsDataSelect", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+								</div>
+								<div class="form-group">
+									<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
+									<input name="ExpectedDate" type="date" class="form-control  en-font" />
+								</div>
+								<div class="form-group">
+									<label key="t-Status" class="control-label">الحالة</label>
+									<select id="SubUnits" class="form-control select2">
+									</select>
+								</div>
+								@Html.Hidden("type", "c")
+							</div>
+						</div>
+						<button style="display:none;" id="SubmitEncode" type="submit"></button>
+					}
+					@using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data",@style="display:none!important" }))
+					{
+						@Html.Hidden("RequestIID", Model.Request_Data_ID)
+						@Html.Hidden("Unit_ID", Model.Unit_ID)
+						<input name="Expected" type="date" class="form-control  en-font" />
+						<button style="display:none;" id="SubmitForwared" type="submit"></button>
+					}
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
 					<div class="row">
 						<div class="col-4">
 							<p class="card-title-desc" key="t-RequiredDocs">
-								RequiredDocs
+								الاوراق المطلوبة
 							</p>
 							<div class="row">
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
@@ -266,7 +344,7 @@
 						</div>
 						<div class="col-4">
 							<p class="card-title-desc" key="t-SupportiedDocs">
-								SupportiedDocs
+								الاوراق المدعومة
 							</p>
 							<div class="row">
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
@@ -287,72 +365,10 @@
 						</div>
 						<div class="col-4">
 							<p class="card-title-desc" key="t-eforms">
-								Eforms
+								النماذج
 							</p>
 						</div>
 
-					</div>
-				</div>
-			</div>
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-12">
-							<div class="form-group">
-								<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
-								<div style="display:inline-flex" id="CodeGenrateDiv">
-									@foreach (var i in new string[13])
-									{
-										<input class="form-control Genratedcode en-font" value="0" readonly disabled />
-									}
-								</div>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="form-group">
-								<label key="t-e-source" class="control-label">Source</label>
-								@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @name = "type", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-							</div>
-							<div class="form-group">
-								<label key="t-ServiceType" class="control-label">ServiceType</label>
-								@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @name = "serviceType", @onchange = "ServiceChange(event.target.value)", @id = "ServiceType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-							</div>
-							<div class="form-group">
-								<label key="t-RequestType" class="control-label">RequestType</label>
-								@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control", @name = "reqType", @onchange = "RequestChange(event.target.value)", @id = "ReqestType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="form-group">
-								<label key="t-subunits" class="control-label" style="height:55px">Processing Location</label>
-
-							</div>
-							<div class="form-group">
-								<label key="t-Campus" class="control-label">Campus</label>
-								@Html.DropDownList("locations", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-							</div>
-							<div class="form-group">
-								<label key="t-Buiding" class="control-label">Buiding</label>
-								<select id="Building" class="form-control select2" onchange="BuildChange(event.target.value)">
-									<option value="null" selected>@(isAr ? "الكل" : "ALL")</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="form-group">
-								<label key="t-Provider" class="control-label">Provider</label>
-								@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @name = "unit", @id = "Units", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-							</div>
-							<div class="form-group">
-								<label key="t-ExpectedTime" class="control-label">ExpectedTime</label>
-								<input name="Expected" type="date" class="form-control  en-font" />
-							</div>
-							<div class="form-group">
-								<label key="t-Status" class="control-label">Status</label>
-								<select id="SubUnits" class="form-control select2">
-								</select>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -363,10 +379,10 @@
 					</p>
 					<div class="row">
 						<div class="col-4">
-							<button class="btn btn-primary w-100">1 - تكويد</button>
+							<button class="btn btn-primary w-100" onclick="Encode()">1 - تكويد الطلب</button>
 						</div>
 						<div class="col-4">
-							<button class="btn btn-primary w-100">2 - توجييه</button>
+							<button class="btn btn-primary w-100" onclick="Forwared()">2 -  توجيهه الطلب</button>
 						</div>
 						<div class="col-4 justify-content-center d-flex">
 							<button class="btn btn-danger">اغلاق الطلب</button>
@@ -405,7 +421,77 @@
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
 <script>
+	 GetCode()
+	function Encode() {
+		$('#SubmitEncode').click();
+	}
+	function Forwared() {
+		$("[name='Expected']").val($("[name='ExpectedDate']").val());
+		$('#SubmitForwared').click();
+	}
 	function ServiceChange(id) {
+		$.ajax({
+			url: "/Email/GetRequesType?ID=" + id, method: "GET", type: 'json', success: function (x) {
+				let data = JSON.parse(x);
+				if (data.success) {
+					$('#ReqestType').html('');
+					console.log(data)
+					data.result.forEach(e => {
+						$('#ReqestType').append(`<option value="${e["ID"]}">${($('#Language').val() ? e["Name_AR"] : e["Name_EN"])}</option>`);
+					})
+				}
+				GetUnots();
+			}
+		})
+	}
+	function RequestChange(id) {
+		GetUnots()
+	}
+	function Level(id) {
+		document.getElementsByClassName('Genratedcode')[0].value = $("[name='source']").val() ? "1" : "2"
+	}
+	function LocChange(id) {
+		$.ajax({
+			url: "/Email/GetBuildings?ID=" + id, method: "GET", type: 'json', success: function (x) {
+				let data = JSON.parse(x);
+					$('#Building').html('<option value="null" selected>@(isAr ? "الكل" : "ALL")</option>');
+				if (data.success) {
+					data.result.forEach(e => {
+						$('#Building').append(`<option value="${e}">${e}</option>`);
+					})
+				}
+				GetUnots()
+			}
+		})
+	}
+	function BuildChange(id) {
+		GetUnots();
+	}
+	function GetUnots() {
+		$.ajax({
+			url: `/Email/GetUnits?SID=${$('#ServiceType').val()}&RID=${$('#ReqestType').val()}&Loc=${$('#location').val()}&Building=${$('#Building').val()}`, method: "GET", type: 'json', success: function (x) {
+				let data = JSON.parse(x)
+				if (data.success) {
+					$('#UnitsDataSelect').html('');
+					data.result.forEach(e => {
+						$('#UnitsDataSelect').append(`<option value="${e["Units_ID"]}">${($('#Language').val() ? e["Units_Name_AR"] : e["Units_Name_EN"])}</option>`);
+					})
+				}
+				GetCode()
+			}
+		})
 
+	}
+	function GetCode() {
+		if ($('#UnitsDataSelect').val() != null) {
+			$.ajax({
+				url: `/Email/GetCode?RequestIID=${$('#RequestIID').val()}&IsTwasul_OC=${$("[name='IsTwasul_OC']").val()}&Service_Type_ID=${$('#ServiceType').val()}&Request_Type_ID=${$('#ReqestType').val()}&locations=${$('#location').val()}&BuildingSelect=${$('#Building').val()}&Unit_ID=${$('#UnitsDataSelect').val()}&type=c`, method: "GET", type: 'json', success: function (x) {
+					let Code = JSON.parse(x)["result"].split('');
+					([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
+						le.value = Code[i]
+					})
+				}
+			})
+		}
 	}
 </script>

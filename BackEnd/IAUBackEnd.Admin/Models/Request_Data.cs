@@ -19,6 +19,7 @@ namespace IAUBackEnd.Admin.Models
         {
             this.Request_File = new HashSet<Request_File>();
             this.Request_Log = new HashSet<Request_Log>();
+            this.RequestTransaction = new HashSet<RequestTransaction>();
         }
     
         public int? Request_Data_ID { get; set; }
@@ -28,10 +29,13 @@ namespace IAUBackEnd.Admin.Models
         public string Required_Fields_Notes { get; set; }
         public Nullable<int> Service_Type_ID { get; set; }
         public Nullable<int> Request_Type_ID { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
         public string Code_Generate { get; set; }
         public byte Request_State_ID { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
+        public Nullable<bool> Readed { get; set; }
+        public Nullable<System.DateTime> ReadedDate { get; set; }
+        public string TempCode { get; set; }
     
         public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
@@ -42,5 +46,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual ICollection<Request_File> Request_File { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Log> Request_Log { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RequestTransaction> RequestTransaction { get; set; }
     }
 }

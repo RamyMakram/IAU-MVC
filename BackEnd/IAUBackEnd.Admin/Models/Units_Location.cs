@@ -25,6 +25,7 @@ namespace IAUBackEnd.Admin.Models
         public string Units_Location_Name_EN { get; set; }
         public Nullable<int> Location_ID { get; set; }
         public Nullable<bool> IS_Action { get; set; }
+        public string Code { get; set; }
     
         public virtual Location Location { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

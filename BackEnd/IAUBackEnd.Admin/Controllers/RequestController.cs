@@ -24,23 +24,33 @@ namespace IAUBackEnd.Admin.Controllers
 		private MostafidDBEntities p = new MostafidDBEntities();
 
 		// GET: api/Request
-		public async Task<IHttpActionResult> GetRequest_Data()
+		public async Task<IHttpActionResult> GetRequests_Data(int UserID)
 		{
-			return Ok(new ResponseClass() { success = true, result = p.Request_Data.Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate }) });
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			if (Unit.IS_Mostafid)
+				return Ok(new ResponseClass() { success = true, result = p.Request_Data.Where(q => q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.Comment != "" && w.Comment != null) != 0).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false }) });
+			else
+				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => w.Comment != "" && w.Comment == null && w.ToUnitID == Unit.Units_ID).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, Readed = q.Request_Data.Readed ?? false }) });
 		}
-		[EnableCors(origins: "*", headers: "*", methods: "*")]
+		//[EnableCors(origins: "*", headers: "*", methods: "*")]
 
-		public async Task<IHttpActionResult> GetRequest_PDF(string ID)
-		{
-			return Ok(new ResponseClass() { success = true, result = File.ReadAllText(HttpContext.Current.Server.MapPath("~/RequestFiles/" + ID + "/PDF.txt")) });
-		}
 
-		public async Task<IHttpActionResult> GetRequest_Data(int id)
+		public async Task<IHttpActionResult> GetRequest_Data(int id, int UserID)
 		{
-			Request_Data request_Data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q=>q.Request_File.Select(w=>w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id);
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			Request_Data request_Data;
+			if (Unit.IS_Mostafid)
+				request_Data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => w.Comment != "" && w.Comment != null) != 0)));
+			else
+				request_Data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
 			if (request_Data == null)
 				return Ok(new ResponseClass() { success = false });
-
+			if (request_Data.Readed == null || !request_Data.Readed.Value)
+			{
+				request_Data.Readed = true;
+				request_Data.ReadedDate = Helper.GetDate();
+				p.SaveChanges();
+			}
 			return Ok(new ResponseClass() { success = true, result = request_Data });
 		}
 
@@ -115,6 +125,7 @@ namespace IAUBackEnd.Admin.Controllers
 				request_Data.CreatedDate = DateTime.Now;
 				request_Data.Request_State_ID = 1;
 				request_Data.IsTwasul_OC = false;
+				request_Data.Readed = false;
 				p.Request_Data.Add(request_Data);
 				await p.SaveChangesAsync();
 				var path = HttpContext.Current.Server.MapPath("~");
@@ -212,43 +223,65 @@ namespace IAUBackEnd.Admin.Controllers
 				});
 			}
 		}
-		// POST: api/Request
-		[ResponseType(typeof(Request_Data))]
-		public async Task<IHttpActionResult> PostRequest_Data(Request_Data request_Data)
+		[HttpGet]
+		public async Task<IHttpActionResult> Coding(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
 		{
-			if (!ModelState.IsValid)
+			var req = p.Request_Data.Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestIID);
+			req.IsTwasul_OC = IsTwasul_OC;
+			req.Service_Type_ID = Service_Type_ID;
+			req.Request_Type_ID = Request_Type_ID;
+			req.Unit_ID = Unit_ID;
+			string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
+			if (req.Code_Generate == "" || req.Code_Generate == null)
 			{
-				return BadRequest(ModelState);
+				req.Code_Generate = Code;
+				p.SaveChanges();
+				if (type == "c")
+					_ = SendSMS(req.Personel_Data.Mobile, $"تم استلام طلبكم رقم {req.Request_Data_ID} برجاء استخدام الكود ${Code} في حالة الاستعلام ع");
 			}
-
-			p.Request_Data.Add(request_Data);
-			await p.SaveChangesAsync();
-
-			return CreatedAtRoute("DefaultApi", new { id = request_Data.Request_Data_ID }, request_Data);
+			else
+				req.TempCode = Code;
+			p.SaveChanges();
+			return Ok(new ResponseClass() { success = true });
 		}
 
-		// DELETE: api/Request/5
-		[ResponseType(typeof(Request_Data))]
-		public async Task<IHttpActionResult> DeleteRequest_Data(int id)
+		[HttpGet]
+		public async Task<IHttpActionResult> Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected)
 		{
-			Request_Data request_Data = await p.Request_Data.FindAsync(id);
-			if (request_Data == null)
+			try
 			{
-				return NotFound();
+				p.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestIID, ExpireDays = Expected, ForwardDate = Helper.GetDate(), ToUnitID = Unit_ID, Readed = false, FromUnitID = p.Units.First(q => q.IS_Mostafid).Units_ID });
+				p.SaveChanges();
+				return Ok(new ResponseClass() { success = true });
 			}
-
-			p.Request_Data.Remove(request_Data);
-			await p.SaveChangesAsync();
-
-			return Ok(request_Data);
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass() { success = false });
+			}
 		}
 
+		[HttpGet]
+		public async Task<IHttpActionResult> GenrateCode(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
+		{
+			string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
+			return Ok(new ResponseClass() { success = true, result = Code });
+		}
+		private string GetCode(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
+		{
+			var unit = p.Units.Include(q => q.Units_Location).FirstOrDefault(q => q.Units_ID == Unit_ID);
+			int? loc = (locations ?? unit.Units_Location.Location_ID);
+			var Location = p.Units_Location.FirstOrDefault(q => q.Location_ID == loc).Code;
+			string Code = (IsTwasul_OC ? "2" : "1");
+			Code += Location;
+			Code += (BuildingSelect == null || BuildingSelect == "null") ? unit.Building_Number : BuildingSelect;
+			Code += Service_Type_ID + "" + Request_Type_ID;
+			Code += (type == "c" ? "00000" : string.Join("0", new string[5 - RequestIID.ToString().Length]) + RequestIID);
+			return Code;
+		}
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
-			{
 				p.Dispose();
-			}
 			base.Dispose(disposing);
 		}
 

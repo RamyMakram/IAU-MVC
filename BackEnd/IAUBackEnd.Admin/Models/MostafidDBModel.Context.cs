@@ -52,6 +52,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Request_Log> Request_Log { get; set; }
         public virtual DbSet<Request_State> Request_State { get; set; }
         public virtual DbSet<Request_Type> Request_Type { get; set; }
+        public virtual DbSet<RequestTransaction> RequestTransaction { get; set; }
         public virtual DbSet<Required_Documents> Required_Documents { get; set; }
         public virtual DbSet<Service_Type> Service_Type { get; set; }
         public virtual DbSet<Sub_Services> Sub_Services { get; set; }

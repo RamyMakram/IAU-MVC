@@ -29,7 +29,7 @@ namespace AdminPanel.Controllers
 			ViewBag.ReqTypes = ReqTypes;
 
 
-			Data = APIHandeling.getData("Request/GetRequest_Data");
+			Data = APIHandeling.getData("Request/GetRequests_Data?UserID=" + Request.Cookies["u"].Value);
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
@@ -83,7 +83,7 @@ namespace AdminPanel.Controllers
 			else
 				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 
-			Data = APIHandeling.getData("Request/GetRequest_Data?id=" + id);
+			Data = APIHandeling.getData($"Request/GetRequest_Data?id={id}&UserID={Request.Cookies["u"].Value}");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
@@ -91,15 +91,43 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("NotFound", "Error");
 		}
-		public ActionResult PDF()
+		public JsonResult GetRequesType(int ID)
 		{
-			return View();
-		}
-		public string RequestFiles(string ID)
-		{
-			var Data = APIHandeling.getDataRequestFile("/RequestFiles/" + ID + "/PDF.txt");
+			var Data = APIHandeling.getData("Request_Type/GetActiveByMainService?SID=" + ID);
 			var resJson = Data.Content.ReadAsStringAsync();
-			return resJson.Result;
+			return Json(resJson.Result, JsonRequestBehavior.AllowGet);
+		}
+		public JsonResult GetBuildings(int ID)
+		{
+			var Data = APIHandeling.getData("Units/GetUniqueBuildingByLoca?id=" + ID);
+			var resJson = Data.Content.ReadAsStringAsync();
+			return Json(resJson.Result, JsonRequestBehavior.AllowGet);
+		}
+
+		public JsonResult GetUnits(int SID, int RID, int? Loc, string Building)
+		{
+			var Data = APIHandeling.getData($"Units/GetActiveUnits_by?serviceType={SID}&Req={RID}&locid={Loc}&Build={Building}");
+			var resJson = Data.Content.ReadAsStringAsync();
+			return Json(resJson.Result, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult Codeing(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
+		{
+			var Data = APIHandeling.getData($"Request/Coding?RequestIID={RequestIID}&IsTwasul_OC={IsTwasul_OC}&Service_Type_ID={Service_Type_ID}&Request_Type_ID={Request_Type_ID}&locations={locations}&BuildingSelect={BuildingSelect}&Unit_ID={Unit_ID}&type={type}");
+			var resJson = Data.Content.ReadAsStringAsync();
+			return RedirectToAction("Preview", new { id = RequestIID });
+		}
+		public ActionResult Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected)
+		{
+			var Data = APIHandeling.getData($"Request/Forward?RequestIID={RequestIID}&Unit_ID={Unit_ID}&Expected={Expected}");
+			var resJson = Data.Content.ReadAsStringAsync();
+			return RedirectToAction("Home");
+		}
+		public JsonResult GetCode(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
+		{
+			var Data = APIHandeling.getData($"Request/GenrateCode?RequestIID={RequestIID}&IsTwasul_OC={IsTwasul_OC}&Service_Type_ID={Service_Type_ID}&Request_Type_ID={Request_Type_ID}&locations={locations}&BuildingSelect={BuildingSelect}&Unit_ID={Unit_ID}&type={type}");
+			var resJson = Data.Content.ReadAsStringAsync();
+			return Json(resJson.Result, JsonRequestBehavior.AllowGet);
 		}
 	}
 }

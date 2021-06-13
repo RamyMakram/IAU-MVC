@@ -244,6 +244,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\Helper.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Applicant_TypeController.cs" />
@@ -342,6 +343,9 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Region.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequestTransaction.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_Data.cs">
