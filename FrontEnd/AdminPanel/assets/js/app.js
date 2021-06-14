@@ -259,11 +259,12 @@ function initLanguage() {
 	//	setLanguage($(this).attr('data-lang'));
 	//});
 }
-
+var User = "";
 (function ($) {
 
 	init();
-
+	
+	console.log("User IS " + User)
 	function init() {
 		try {
 			let cook = document.cookie.split(';');
@@ -271,6 +272,13 @@ function initLanguage() {
 				let keyandval = i.split('=');
 				if (keyandval[0].trim().replace(' ', '') == "lang") {
 					language = i.split("lang=")[1].replace(' ', '')
+				}
+				else if (keyandval[0].trim().replace(' ', '') == "u") {
+					User = i.split("u=")[1].replace(' ', '')
+					if (User == "") {
+						document.cookie = "";
+						location.href = "/"
+					}
 				}
 			})
 		} catch (e) {
@@ -310,25 +318,23 @@ function initLanguage() {
 
 			return false;
 		});
-		setTimeout(function () {
-			document.getElementById('LoadingDiv').style.display = 'none';
-			WebSocketTest();
-		}, 1500)
+		$.ajax({
+			url: "/Home/GetOrderCount?ID=" + User, method: "Get", success: function (x) {
+				console.log(x)
+				let data = JSON.parse(x)
+				console.log(x, data["result"])
+				var count = document.getElementById('NotficationsCount')
+				count.innerText = data["result"];
+				setTimeout(function () {
+					document.getElementById('LoadingDiv').style.display = 'none';
+					WebSocketTest();
+				}, 1500)
+			}
+		})
+
 		function WebSocketTest() {
 			if ("WebSocket" in window) {
-				let User = "";
-				let cook = document.cookie.split(';');
-				cook.forEach(i => {
-					let keyandval = i.split('=');
-					if (keyandval[0].trim().replace(' ', '') == "u") {
-						User = i.split("u=")[1].replace(' ', '')
-					}
-				})
-				if (User == "") {
-					document.cookie = "";
-					location.href = "/"
-				}
-				console.log("User IS " + User)
+
 				var ws = new WebSocket("wss://localhost:44344/WSHandler.ashx?Name=" + User);
 				//var ws = new WebSocket("wss://mm.iau-bsc.com/WSHandler.ashx?Name=" + User);
 
@@ -351,7 +357,9 @@ function initLanguage() {
 						var dateOptions = { month: '2-digit', day: '2-digit' };
 						var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
 						mailList.innerHTML = `
-						<tr>
+						<tr onclick="Preview('/Email/Preview/${received_msg["Request_Data_ID"]}')" class="noreaded">
+								<td class="sorting_1 dtr-control"><input type="checkbox" class="selectbox-request" id="${received_msg["Request_Data_ID"]}"></td>
+								<td>${received_msg["Request_Data_ID"]}</td>
 								<td>${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : received_msg["Service_Type"]["Service_Type_Name_EN"])}</td>
 								<td>${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</td>
 								<td><span>${document.querySelector(`option[key='${(received_msg["Personel_Data"]["IAU_ID_Number"] == "" ? "t-no" : "t-yes")}']`).innerText}</span></td>

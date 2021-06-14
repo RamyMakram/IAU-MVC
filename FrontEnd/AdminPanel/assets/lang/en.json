@@ -120,6 +120,11 @@
 	"t-date-to": "Date To",
 	"t-filter": "Apply Filter",
 	"t-filters": "Filters",
-	"t-ArchiveSelected": "Archive Selected"
+	"t-ArchiveSelected": "Archive Selected",
+	"t-e-source": "Source",
+	"t-Buiding": "Building",
+	"t-Provider": "Administrative Unit",
+	"t-ExpectedTime": "Expected Time",
+	"t-LocationSetting": "Location Setting"
 
 }

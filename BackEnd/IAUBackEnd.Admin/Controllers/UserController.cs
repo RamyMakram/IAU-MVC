@@ -24,8 +24,10 @@ namespace IAUBackEnd.Admin.Controllers
 			try
 			{
 				var data = p.Users.FirstOrDefault(q => q.IS_Active == "1" && q.User_Email == email && q.User_Password == pass);
-				var Datetime = Encoding.ASCII.GetString(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(new DateTime().AddMinutes(3).Millisecond.ToString())));
+				var date = Helper.GetDate();
+				var Datetime = Helper.GetHashString("" + data.User_ID + data.User_Name + date.ToString());
 				data.TEMP_Login = Datetime;
+				data.LoginDate = date.AddDays(1);
 				p.SaveChanges();
 				return Ok(new ResponseClass
 				{
@@ -48,7 +50,8 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			try
 			{
-				var data = p.Users.FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token);
+				var date = Helper.GetDate();
+				var data = p.Users.FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate > date);
 				return Ok(new ResponseClass
 				{
 					success = true,
@@ -66,22 +69,26 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IHttpActionResult> VerfiyUser(int id)
+		public async Task<IHttpActionResult> VerfiyUser(int id, string token)
 		{
 			try
 			{
-				var data = p.Users.FirstOrDefault(q => q.User_ID == id);
-				if (data.IS_Active == "1")
-					return Ok(new ResponseClass
-					{
-						success = true,
-						result = p.Job_Permissions.Where(q => q.Job_ID == data.Job_ID).Select(q => q.Privilage.Name_EN).ToArray()
-					});
-				else
+				var date = Helper.GetDate();
+				var data = p.Users.Include(q => q.Job.Job_Permissions.Select(s=>s.Privilage)).FirstOrDefault(q => q.User_ID == id && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate > date);
+				if (data == null)
 					return Ok(new ResponseClass
 					{
 						success = false
 					});
+				else
+				{
+					var perm = data.Job.Job_Permissions.Select(q => q.Privilage.Name_EN).ToArray();
+					return Ok(new ResponseClass
+					{
+						success = true,
+						result = perm
+					});
+				}
 			}
 			catch (Exception ee)
 			{

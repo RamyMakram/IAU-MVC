@@ -29,5 +29,11 @@ namespace AdminPanel.Controllers
 			Response.Cookies.Add(new HttpCookie("lang", lang ?? "ar"));
 			return RedirectToAction("Home");
 		}
+		public JsonResult GetOrderCount(int ID)
+		{
+			var Data = APIHandeling.getData("Request/GetRequestsCount?UserID=" + ID);
+			var resJson = Data.Content.ReadAsStringAsync();
+			return Json(resJson.Result, JsonRequestBehavior.AllowGet);
+		}
 	}
 }

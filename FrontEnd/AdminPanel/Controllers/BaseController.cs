@@ -15,14 +15,16 @@ namespace AdminPanel.Controllers
 		protected override void OnActionExecuting(ActionExecutingContext context)
 		{
 			base.OnActionExecuting(context);
-			if (Request.Cookies["u"] != null)
+			if (Request.Cookies["u"] != null&& Request.Cookies["token"] != null)
 			{
-				var res = APIHandeling.getData("User/VerfiyUser?id=" + Request.Cookies["u"].Value);
+				var res = APIHandeling.getData($"User/VerfiyUser?id={Request.Cookies["u"].Value}&token={Request.Cookies["token"].Value}");
 				var Res = res.Content.ReadAsStringAsync();
 				var lst = JsonConvert.DeserializeObject<ResponseClass>(Res.Result);
 				if (!lst.success)
 				{
-					Response.Cookies.Remove("u");
+					Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-9) });
+					Response.Cookies.Set(new HttpCookie("token") { Expires = DateTime.Now.AddYears(-9) });
+					Response.Cookies.Set(new HttpCookie("lang") { Expires = DateTime.Now.AddYears(-9) });
 					context.Result = Redirect("https://iau-bsc.com/Coordinator");
 					return;
 				}
@@ -34,7 +36,12 @@ namespace AdminPanel.Controllers
 				}
 			}
 			else
+			{
+				Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-9) });
+				Response.Cookies.Set(new HttpCookie("token") { Expires = DateTime.Now.AddYears(-9) });
+				Response.Cookies.Set(new HttpCookie("lang") { Expires = DateTime.Now.AddYears(-9) });
 				context.Result = Redirect("https://iau-bsc.com/Coordinator");
+			}
 		}
 		public ActionResult Logout()
 		{

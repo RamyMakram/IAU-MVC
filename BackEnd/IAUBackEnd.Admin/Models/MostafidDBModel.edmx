@@ -486,6 +486,7 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="IS_Active" Type="nchar" MaxLength="1" />
           <Property Name="TEMP_Login" Type="nvarchar" MaxLength="300" />
           <Property Name="UnitID" Type="int" />
+          <Property Name="LoginDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -1473,7 +1474,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySet Name="Units_Request_Type" EntityType="MostafidDBModel.Units_Request_Type" />
           <EntitySet Name="Units_Type" EntityType="MostafidDBModel.Units_Type" />
           <EntitySet Name="UnitServiceTypes" EntityType="MostafidDBModel.UnitServiceTypes" />
-          <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
           <EntitySet Name="ValidTo" EntityType="MostafidDBModel.ValidTo" />
           <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="MostafidDBModel.Statement_Department_File_Sent_Them" />
           <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="MostafidDBModel.FK_Personel_Data_Applicant_Type">
@@ -1547,10 +1547,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_User_Permissions_Job" Association="MostafidDBModel.FK_User_Permissions_Job">
             <End Role="Job" EntitySet="Job" />
             <End Role="Job_Permissions" EntitySet="Job_Permissions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
-            <End Role="Job" EntitySet="Job" />
-            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Permissions_Privilage" Association="MostafidDBModel.FK_User_Permissions_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
@@ -1691,6 +1687,11 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_UnitServiceTypes_Units" Association="MostafidDBModel.FK_UnitServiceTypes_Units">
             <End Role="Units" EntitySet="Units" />
             <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
+          <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
             <End Role="Units" EntitySet="Units" />
@@ -2261,22 +2262,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_UnitServiceTypes_Service_Type" FromRole="UnitServiceTypes" ToRole="Service_Type" />
           <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_UnitServiceTypes_Units" FromRole="UnitServiceTypes" ToRole="Units" />
         </EntityType>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="User_ID" />
-          </Key>
-          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Job_ID" Type="Int32" />
-          <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="UnitID" Type="Int32" />
-          <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
-          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
-        </EntityType>
         <EntityType Name="ValidTo">
           <Key>
             <PropertyRef Name="ID" />
@@ -2507,18 +2492,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
               <PropertyRef Name="User_Permissions_Type_ID" />
             </Principal>
             <Dependent Role="Job_Permissions">
-              <PropertyRef Name="Job_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_User_Permissions_Type">
-          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Job">
-              <PropertyRef Name="User_Permissions_Type_ID" />
-            </Principal>
-            <Dependent Role="Users">
               <PropertyRef Name="Job_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2940,6 +2913,35 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="UnitServiceTypes">
               <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Job_ID" Type="Int32" />
+          <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UnitID" Type="Int32" />
+          <Property Name="LoginDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
+        </EntityType>
+        <Association Name="FK_Users_User_Permissions_Type">
+          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="User_Permissions_Type_ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Job_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3460,21 +3462,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="MostafidDBModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
-                <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
-                <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />
-                <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />
-                <ScalarProperty Name="User_Password" ColumnName="User_Password" />
-                <ScalarProperty Name="User_Email" ColumnName="User_Email" />
-                <ScalarProperty Name="User_Mobile" ColumnName="User_Mobile" />
-                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
-                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ValidTo">
             <EntityTypeMapping TypeName="MostafidDBModel.ValidTo">
               <MappingFragment StoreEntitySet="ValidTo">
@@ -3490,6 +3477,22 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MostafidDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
+                <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />
+                <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />
+                <ScalarProperty Name="User_Password" ColumnName="User_Password" />
+                <ScalarProperty Name="User_Email" ColumnName="User_Email" />
+                <ScalarProperty Name="User_Mobile" ColumnName="User_Mobile" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

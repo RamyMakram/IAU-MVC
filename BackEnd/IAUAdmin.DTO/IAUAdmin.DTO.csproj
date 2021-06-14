@@ -59,6 +59,7 @@
     <Compile Include="Entity\RequestData_DTO.cs" />
     <Compile Include="Entity\RequestFilesDTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
+    <Compile Include="Entity\Request_Transactions.cs" />
     <Compile Include="Entity\RequiredDocsDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
     <Compile Include="Entity\SubServicesDTO.cs" />

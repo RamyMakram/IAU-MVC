@@ -265,21 +265,20 @@
 									@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "Level(event.target.value)", @name = "source", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 								<div class="form-group">
-									<label key="t-ServiceType" class="control-label">نوع الخدمة الرئيسية</label>
+									<label key="t-title-mainservice" class="control-label">نوع الخدمة الرئيسية</label>
 									@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @name = "serviceType", @onchange = "ServiceChange(event.target.value)", @id = "ServiceType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 								<div class="form-group">
-									<label key="t-RequestType" class="control-label">توع الطلب</label>
+									<label key="t-reqtype" class="control-label">توع الطلب</label>
 									@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control", @name = "reqType", @onchange = "RequestChange(event.target.value)", @id = "ReqestType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
 							<div class="col-4">
-								<div class="form-group">
-									<label key="t-subunits" class="control-label" style="height:55px">اعدادات الموقع</label>
-
+								<div class="form-group"  style="height:63px;display:flex;align-items:center">
+									<label key="t-LocationSetting" class="control-label m-0">اعدادات الموقع</label>
 								</div>
 								<div class="form-group">
-									<label key="t-Campus" class="control-label">الموقع</label>
+									<label key="t-location" class="control-label">الموقع</label>
 									@Html.DropDownList("locations", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 								<div class="form-group">
@@ -296,11 +295,15 @@
 								</div>
 								<div class="form-group">
 									<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
-									<input name="ExpectedDate" type="date" class="form-control  en-font" />
+									<input name="ExpectedDate" dir="@(isAr?"rtl":"ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Egypt Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
 								</div>
 								<div class="form-group">
-									<label key="t-Status" class="control-label">الحالة</label>
-									<select id="SubUnits" class="form-control select2">
+									<label key="t-activeTitle" class="control-label">الميني</label>
+									<select id="SSSSstatus" name="BuildingSelect" class="form-control select2">
+										@foreach (var i in ViewBag.Status)
+										{
+											<option value="null" selected disabled>@i</option>
+										}
 									</select>
 								</div>
 								@Html.Hidden("type", "c")
@@ -308,7 +311,7 @@
 						</div>
 						<button style="display:none;" id="SubmitEncode" type="submit"></button>
 					}
-					@using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data",@style="display:none!important" }))
+					@using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
 					{
 						@Html.Hidden("RequestIID", Model.Request_Data_ID)
 						@Html.Hidden("Unit_ID", Model.Unit_ID)

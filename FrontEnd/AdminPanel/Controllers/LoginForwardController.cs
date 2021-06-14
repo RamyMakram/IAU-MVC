@@ -22,6 +22,7 @@ namespace AdminPanel.Controllers
 			if (lst.success)
 			{
 				Response.Cookies.Add(new HttpCookie("u", lst.result.ToString()));
+				Response.Cookies.Add(new HttpCookie("token", t));
 				return RedirectToAction("Home", "Home");
 			}
 			else

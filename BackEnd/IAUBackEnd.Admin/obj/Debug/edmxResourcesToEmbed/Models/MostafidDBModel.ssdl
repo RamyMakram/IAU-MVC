@@ -481,6 +481,7 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
     <Property Name="IS_Active" Type="nchar" MaxLength="1" />
     <Property Name="TEMP_Login" Type="nvarchar" MaxLength="300" />
     <Property Name="UnitID" Type="int" />
+    <Property Name="LoginDate" Type="datetime" />
   </EntityType>
   <EntityType Name="ValidTo">
     <Key>

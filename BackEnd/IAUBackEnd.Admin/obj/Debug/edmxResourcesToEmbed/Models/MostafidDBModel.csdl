@@ -42,7 +42,6 @@
     <EntitySet Name="Units_Request_Type" EntityType="MostafidDBModel.Units_Request_Type" />
     <EntitySet Name="Units_Type" EntityType="MostafidDBModel.Units_Type" />
     <EntitySet Name="UnitServiceTypes" EntityType="MostafidDBModel.UnitServiceTypes" />
-    <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
     <EntitySet Name="ValidTo" EntityType="MostafidDBModel.ValidTo" />
     <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="MostafidDBModel.Statement_Department_File_Sent_Them" />
     <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="MostafidDBModel.FK_Personel_Data_Applicant_Type">
@@ -116,10 +115,6 @@
     <AssociationSet Name="FK_User_Permissions_Job" Association="MostafidDBModel.FK_User_Permissions_Job">
       <End Role="Job" EntitySet="Job" />
       <End Role="Job_Permissions" EntitySet="Job_Permissions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
-      <End Role="Job" EntitySet="Job" />
-      <End Role="Users" EntitySet="Users" />
     </AssociationSet>
     <AssociationSet Name="FK_User_Permissions_Privilage" Association="MostafidDBModel.FK_User_Permissions_Privilage">
       <End Role="Privilage" EntitySet="Privilage" />
@@ -260,6 +255,11 @@
     <AssociationSet Name="FK_UnitServiceTypes_Units" Association="MostafidDBModel.FK_UnitServiceTypes_Units">
       <End Role="Units" EntitySet="Units" />
       <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
+    <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="Users" EntitySet="Users" />
     </AssociationSet>
     <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
       <End Role="Units" EntitySet="Units" />
@@ -830,22 +830,6 @@
     <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_UnitServiceTypes_Service_Type" FromRole="UnitServiceTypes" ToRole="Service_Type" />
     <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_UnitServiceTypes_Units" FromRole="UnitServiceTypes" ToRole="Units" />
   </EntityType>
-  <EntityType Name="Users">
-    <Key>
-      <PropertyRef Name="User_ID" />
-    </Key>
-    <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-    <Property Name="Job_ID" Type="Int32" />
-    <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-    <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-    <Property Name="UnitID" Type="Int32" />
-    <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
-    <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
-  </EntityType>
   <EntityType Name="ValidTo">
     <Key>
       <PropertyRef Name="ID" />
@@ -1076,18 +1060,6 @@
         <PropertyRef Name="User_Permissions_Type_ID" />
       </Principal>
       <Dependent Role="Job_Permissions">
-        <PropertyRef Name="Job_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Users_User_Permissions_Type">
-    <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
-    <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Job">
-        <PropertyRef Name="User_Permissions_Type_ID" />
-      </Principal>
-      <Dependent Role="Users">
         <PropertyRef Name="Job_ID" />
       </Dependent>
     </ReferentialConstraint>
@@ -1509,6 +1481,35 @@
       </Principal>
       <Dependent Role="UnitServiceTypes">
         <PropertyRef Name="UnitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="User_ID" />
+    </Key>
+    <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Job_ID" Type="Int32" />
+    <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+    <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="UnitID" Type="Int32" />
+    <Property Name="LoginDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+    <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
+  </EntityType>
+  <Association Name="FK_Users_User_Permissions_Type">
+    <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
+    <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="User_Permissions_Type_ID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="Job_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

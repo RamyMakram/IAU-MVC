@@ -46,7 +46,7 @@ namespace AdminPanel.Controllers
 				ViewBag.Source = new List<string> { "مستفيد", "تواصل" }.ConvertAll(e => { count = !count; return new SelectListItem() { Text = e, Value = count.ToString() }; });
 			else
 				ViewBag.Source = new List<string> { "Mostafid", "Twasol" }.ConvertAll(e => { count = !count; return new SelectListItem() { Text = e, Value = count.ToString() }; });
-
+			ViewBag.Status = new List<string> { "REQUEST DISPATCHING", "REQUEST SORTING", "REQUEST PROCESSING", "REQUEST PROCESSING", "DELIVERED REQUEST PROCESSED" };
 
 			var Data = APIHandeling.getData("UnitsLocation/GetActive");
 			var resJson = Data.Content.ReadAsStringAsync();
@@ -115,13 +115,21 @@ namespace AdminPanel.Controllers
 		{
 			var Data = APIHandeling.getData($"Request/Coding?RequestIID={RequestIID}&IsTwasul_OC={IsTwasul_OC}&Service_Type_ID={Service_Type_ID}&Request_Type_ID={Request_Type_ID}&locations={locations}&BuildingSelect={BuildingSelect}&Unit_ID={Unit_ID}&type={type}");
 			var resJson = Data.Content.ReadAsStringAsync();
-			return RedirectToAction("Preview", new { id = RequestIID });
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return RedirectToAction("Preview", new { id = RequestIID });
+			else
+				return RedirectToAction("Home");
 		}
 		public ActionResult Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected)
 		{
 			var Data = APIHandeling.getData($"Request/Forward?RequestIID={RequestIID}&Unit_ID={Unit_ID}&Expected={Expected}");
 			var resJson = Data.Content.ReadAsStringAsync();
-			return RedirectToAction("Home");
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return RedirectToAction("Home");
+			else
+				return RedirectToAction("Preview", new { id = RequestIID });
 		}
 		public JsonResult GetCode(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
 		{

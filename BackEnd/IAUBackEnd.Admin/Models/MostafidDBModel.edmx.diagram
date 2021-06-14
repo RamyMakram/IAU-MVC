@@ -46,7 +46,6 @@
         <EntityTypeShape EntityType="MostafidDBModel.Units_Request_Type" Width="1.5" PointX="8.25" PointY="13.625" />
         <EntityTypeShape EntityType="MostafidDBModel.Units_Type" Width="1.5" PointX="0.75" PointY="12.25" />
         <EntityTypeShape EntityType="MostafidDBModel.UnitServiceTypes" Width="1.5" PointX="8.25" PointY="16.625" />
-        <EntityTypeShape EntityType="MostafidDBModel.Users" Width="1.5" PointX="5.25" PointY="15.125" />
         <EntityTypeShape EntityType="MostafidDBModel.ValidTo" Width="1.5" PointX="5.25" PointY="22.875" />
         <EntityTypeShape EntityType="MostafidDBModel.Statement_Department_File_Sent_Them" Width="1.5" PointX="4.75" PointY="0.75" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Applicant_Type" />
@@ -67,7 +66,6 @@
         <AssociationConnector Association="MostafidDBModel.FK_Purchase_Order_Form_FollowUp_Publication_Violations" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_ID_Document" />
         <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Job" />
-        <AssociationConnector Association="MostafidDBModel.FK_Users_User_Permissions_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Privilage" />
         <AssociationConnector Association="MostafidDBModel.FK_Units_Location_Location" />
         <AssociationConnector Association="MostafidDBModel.FK_Main_Services_Service_Type" />
@@ -103,6 +101,8 @@
         <AssociationConnector Association="MostafidDBModel.FK_Units_Units_Location" />
         <AssociationConnector Association="MostafidDBModel.FK_Units_Units_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_UnitServiceTypes_Units" />
+        <EntityTypeShape EntityType="MostafidDBModel.Users" Width="1.5" PointX="8.25" PointY="9.25" />
+        <AssociationConnector Association="MostafidDBModel.FK_Users_User_Permissions_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_Units" />
       </Diagram>
     </edmx:Diagrams>
