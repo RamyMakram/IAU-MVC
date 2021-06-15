@@ -10,10 +10,102 @@
 
 <!-- select2 css -->
 <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<!-- Summernote css -->
+<link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
+	.nav-tabs {
+		/*box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);*/
+		border: none;
+	}
+
+		.nav-tabs .nav-link {
+			border: none;
+			border-radius: 0;
+			transition: color .2s ease-out;
+		}
+
+	.tabs-dark .nav-link {
+		color: #fff;
+	}
+
+	.tabs-light .nav-link {
+		color: rgba(0,0,0,.5);
+	}
+
+	.tabs-dark .nav-link:not(.active):hover {
+		color: #aeb0b3;
+	}
+
+	.tabs-light .nav-link:not(.active):hover {
+		color: #495057;
+	}
+
+	.nav-pills .nav-link {
+		border-radius: 2px;
+		color: #495057;
+		transition: color .2s ease-out, box-shadow .2s;
+	}
+
+		.nav-pills .nav-link:hover {
+			box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+		}
+
+	.nav-pills .nav-item {
+		margin: 0 5px;
+	}
+
+	.nav-pills.pills-dark .nav-link.active {
+		background-color: #343a40 !important;
+		box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+	}
+
+	.nav-pills.pills-dark .nav-link:not(.active):hover {
+		color: #1d1e22;
+	}
+
+	.tabs-marker .nav-link {
+		position: relative;
+	}
+
+		.tabs-marker .nav-link.active .marker {
+			height: 30px;
+			width: 30px;
+			left: 50%;
+			bottom: -30px;
+			transform: translatex(-50%);
+			position: absolute;
+			overflow: hidden;
+		}
+
+			.tabs-marker .nav-link.active .marker:after {
+				content: "";
+				height: 15px;
+				width: 15px;
+				top: -8px;
+				left: 50%;
+				transform: rotate(45deg) translatex(-50%);
+				transform-origin: left;
+				background-color: #4f693a !important;
+				box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+				position: absolute;
+			}
+</style>
+<style>
+	.actionBtn {
+		height: 70px;
+		font-weight: bold;
+	}
+	.carPrev, .carNext {
+		direction: ltr !important;
+	}
+
+	form {
+		width: 100%
+	}
+
 	.select2-selection__rendered {
 		font-weight: normal;
 	}
@@ -47,10 +139,6 @@
 		font-weight: bold;
 	}
 
-	#CodeGenrateDiv input {
-		border: 1px solid;
-	}
-
 	#CodeGenrateDiv {
 		display: inline-flex;
 		width: 100%;
@@ -60,9 +148,12 @@
 	}
 
 		#CodeGenrateDiv input {
+			border: 1px solid;
 			margin: 0 5px;
 			width: 40px;
 			text-align: center;
+			background: #ececec;
+			font-weight: bold;
 		}
 
 	.FileTitle p {
@@ -134,11 +225,12 @@
 			@*<span style="display:none" id="NONE">@Model.Request_Data_ID</span>*@
 			<div class="card">
 				<div class="card-body">
-					<div class="media mb-4 justify-content-center align-content-center">
+					<div class="media mb-4 justify-content-center align-content-center  d-inline-flex justify-content-between w-100">
 						<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;font-size: 43px !important;height:100%"></i>						<div class="media-body">
 							<h5 class="font-size-14 mt-1 en-font">@Model.Personel_Data.First_Name</h5>
 							<small class="text-muted en-font">@Model.Personel_Data.Email</small>
 						</div>
+						<a href="/Email" class="btn btn-primary">Back To Home</a>
 					</div>
 					<div class="PDFOuterView">
 						<div id="padf" class="pdfnotloaded">
@@ -167,7 +259,7 @@
 									</tr>
 									<tr>
 										<th key="t-IAUAff"></th>
-										<th><span key="@(Model.Personel_Data.IAU_ID_Number!=null?"t-yes":"t-no")"></span></th>
+										<th><span key="@(Model.Personel_Data.IAU_ID_Number != null ? "t-yes" : "t-no")"></span></th>
 									</tr>
 									<tr>
 										<th key="t-applicanttype"></th>
@@ -215,10 +307,10 @@
 										<th key="t-region"></th>
 										<th>@Model.Personel_Data.Adress_Region</th>
 									</tr>
-									<tr>
-										<th key="t-country"></th>
-										<th>@(isAr ? Model.Personel_Data.Country2.Country_Name_AR : Model.Personel_Data.Country2.Country_Name_EN)</th>
-									</tr>
+									@*<tr>
+											<th key="t-country"></th>
+											<th>@(isAr ? Model.Personel_Data.Country2.Country_Name_AR : Model.Personel_Data.Country2.Country_Name_EN)</th>
+										</tr>*@
 									<tr>
 										<th key="t-postal"></th>
 										<th class="en-font">@Model.Personel_Data.Postal_Code</th>
@@ -232,7 +324,7 @@
 									</tr>
 									<tr>
 										<th key="t-phone"></th>
-										<th class="en-font" style="direction:ltr;text-align:start;@(isAr?"text-align: end !important;":"")">@Model.Personel_Data.Mobile</th>
+										<th class="en-font" style="direction:ltr;text-align:start;@(isAr ? "text-align: end !important;" : "")">@Model.Personel_Data.Mobile</th>
 									</tr>
 
 								</tbody>
@@ -241,85 +333,201 @@
 					</div>
 				</div>
 			</div>
+			@{
+				var IsMos = (TempData["IsMostafid"] as Nullable<bool>);
+				var ShowEncode = Model.TempCode == "" || Model.TempCode == null;
+			}
 			<div class="card">
 				<div class="card-body">
-					@using (Html.BeginForm("Codeing", "Email", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-					{
-						@Html.Hidden("RequestIID", Model.Request_Data_ID)
-						<div class="row">
+					<div class="row">
+						@{
+
+							var MostafidComment = (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Last();
+							var ShowStaticCode = Model.TempCode == "" || Model.TempCode == null;
 							<div class="col-12">
-								<div class="form-group">
+								<div class="row">
 									@*<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>*@
-									<div style="display:inline-flex" id="CodeGenrateDiv">
-										<input class="form-control Genratedcode en-font" value="1" readonly disabled />
-										@foreach (var i in new string[12])
+									<div class="@(ShowStaticCode?"col-12":"col-9")" style="display:inline-flex" id="CodeGenrateDiv">
+										@if (ShowStaticCode)
 										{
-											<input class="form-control Genratedcode en-font" value="0" readonly disabled />
+											<input class="form-control Genratedcode en-font" value="1" readonly disabled />
+											foreach (var i in new string[12])
+											{
+												<input class="form-control Genratedcode en-font" value="0" readonly disabled />
+											}
+										}
+										else
+										{
+											foreach (var i in MostafidComment.Code.ToCharArray())
+											{
+												<input class="form-control Genratedcode en-font" value="@i" readonly disabled />
+											}
+										}
+									</div>
+									<div class="col-3" style="direction:ltr;justify-content: center;align-items: center;display: flex;">
+										@if (ShowStaticCode && Model.GenratedDate != null)
+										{
+											<span style="padding: 12px;border-radius: 15px;background: aliceblue;">
+												@(Model.GenratedDate.Value.ToString("dd MMM HH:mm"))
+											</span>
 										}
 									</div>
 								</div>
 							</div>
-							<div class="col-4">
-								<div class="form-group">
-									<label key="t-e-source" class="control-label">المصدر</label>
-									@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "Level(event.target.value)", @name = "source", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-								<div class="form-group">
-									<label key="t-title-mainservice" class="control-label">نوع الخدمة الرئيسية</label>
-									@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @name = "serviceType", @onchange = "ServiceChange(event.target.value)", @id = "ServiceType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-								<div class="form-group">
-									<label key="t-reqtype" class="control-label">توع الطلب</label>
-									@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control", @name = "reqType", @onchange = "RequestChange(event.target.value)", @id = "ReqestType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-							</div>
-							<div class="col-4">
-								<div class="form-group"  style="height:63px;display:flex;align-items:center">
-									<label key="t-LocationSetting" class="control-label m-0">اعدادات الموقع</label>
-								</div>
-								<div class="form-group">
-									<label key="t-location" class="control-label">الموقع</label>
-									@Html.DropDownList("locations", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-								<div class="form-group">
-									<label key="t-Buiding" class="control-label">الميني</label>
-									<select id="Building" name="BuildingSelect" class="form-control select2" onchange="BuildChange(event.target.value)">
-										<option value="null" selected>@(isAr ? "الكل" : "ALL")</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-4">
-								<div class="form-group">
-									<label key="t-Provider" class="control-label">الفئة الادارية</label>
-									@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "GetCode()", @name = "unit", @id = "UnitsDataSelect", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-								<div class="form-group">
-									<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
-									<input name="ExpectedDate" dir="@(isAr?"rtl":"ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Egypt Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
-								</div>
-								<div class="form-group">
-									<label key="t-activeTitle" class="control-label">الميني</label>
-									<select id="SSSSstatus" name="BuildingSelect" class="form-control select2">
-										@foreach (var i in ViewBag.Status)
-										{
-											<option value="null" selected disabled>@i</option>
-										}
-									</select>
-								</div>
-								@Html.Hidden("type", "c")
-							</div>
+
+						}
+						<div class="col-12">
+
+							@if (ShowEncode)
+							{
+								using (Html.BeginForm("Codeing", "Email", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+								{
+									@Html.Hidden("RequestIID", Model.Request_Data_ID)
+
+									<div class="row">
+										<div class="col-4">
+											<div class="form-group">
+												<label key="t-e-source" class="control-label">المصدر</label>
+												@Html.DropDownListFor(model => model.IsTwasul_OC, ViewBag.Source as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "Level(event.target.value)", @name = "source", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+											</div>
+											<div class="form-group">
+												<label key="t-title-mainservice" class="control-label">نوع الخدمة الرئيسية</label>
+												@Html.DropDownListFor(model => model.Service_Type_ID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @name = "serviceType", @onchange = "ServiceChange(event.target.value)", @id = "ServiceType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+											</div>
+											<div class="form-group">
+												<label key="t-reqtype" class="control-label">توع الطلب</label>
+												@Html.DropDownListFor(model => model.Request_Type_ID, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control", @name = "reqType", @onchange = "RequestChange(event.target.value)", @id = "ReqestType", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="form-group" style="height:63px;display:flex;align-items:center">
+												<label key="t-LocationSetting" class="control-label m-0">اعدادات الموقع</label>
+											</div>
+											<div class="form-group">
+												<label key="t-location" class="control-label">الموقع</label>
+												@Html.DropDownList("locations", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+											</div>
+											<div class="form-group">
+												<label key="t-Buiding" class="control-label">الميني</label>
+												<select id="Building" name="BuildingSelect" class="form-control select2" onchange="BuildChange(event.target.value)">
+													<option value="null" selected>@(isAr ? "الكل" : "ALL")</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-4">
+											<div class="form-group">
+												<label key="t-Provider" class="control-label">الفئة الادارية</label>
+												@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "GetCode()", @name = "unit", @id = "UnitsDataSelect", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+											</div>
+											<div class="form-group">
+												<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
+												<input name="ExpectedDate" dir="@(isAr ? "rtl" : "ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Egypt Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+											</div>
+											<div class="form-group">
+												<label key="t-activeTitle" class="control-label">الميني</label>
+												<select id="SSSSstatus" name="BuildingSelect" class="form-control select2">
+													@foreach (var i in ViewBag.Status)
+													{
+														<option value="null" selected disabled>@i</option>
+													}
+												</select>
+											</div>
+											@Html.Hidden("type", "c")
+										</div>
+									</div>
+
+									<button style="display:none;" id="SubmitEncode" type="submit"></button>
+								}
+							}
+
+							@using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
+							{
+								@Html.Hidden("RequestIID", Model.Request_Data_ID)
+								@Html.Hidden("Unit_ID", Model.Unit_ID)
+								<input name="Expected" type="date" class="form-control  en-font" />
+								<button style="display:none;" id="SubmitForwared" type="submit"></button>
+							}
+
 						</div>
-						<button style="display:none;" id="SubmitEncode" type="submit"></button>
-					}
-					@using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
-					{
-						@Html.Hidden("RequestIID", Model.Request_Data_ID)
-						@Html.Hidden("Unit_ID", Model.Unit_ID)
-						<input name="Expected" type="date" class="form-control  en-font" />
-						<button style="display:none;" id="SubmitForwared" type="submit"></button>
-					}
+					</div>
 				</div>
 			</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="container">
+							<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true">جديد<span class="marker"></span></a>
+
+								</li>
+								@if (ViewBag.RequestTransaction.Count != 0)
+								{
+									<li class="nav-item">
+										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false">السابق<span class="marker"></span></a>
+									</li>
+								}
+							</ul>
+							<div class="tab-content" id="myTabContent">
+								<div class="tab-pane fade show active" id="home-tab2" role="tabpanel" aria-labelledby="home-tab">
+									<div class="col">
+										@{
+											if (!IsMos.Value)
+											{
+												if (MostafidComment.MostafidComment != null && MostafidComment.MostafidComment != "")
+												{
+													<div class="MostafidComment">
+														<h1 style="margin-bottom:19px">تعليق مركز رعاية المستفيدين</h1>
+														<div class="text">
+															@MostafidComment
+														</div>
+													</div>
+												}
+											}
+										}
+										<div class="summernote">
+										</div>
+
+									</div>
+								</div>
+								@{
+									if (ViewBag.RequestTransaction.Count != 0)
+									{
+										var count = 1;
+										<div class="tab-pane fade" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
+											<div class="col">
+												<div class="CustomeCarso">
+													@foreach (var i in Model.RequestTransaction)
+													{
+														if (i.Comment != "" && i.Comment != null)
+														{
+
+															<div class="data-Comment @(count == 1 ? "active" : "")" data-id="@count">
+																<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span></h3>
+																<div class="text">
+																	@i.Comment
+																</div>
+															</div>
+															count++;
+														}
+													}
+													<div class="row justify-content-between">
+														<button class="btn btn-outline-primary carNext">></button>
+														<button class="btn btn-outline-primary  carPrev"><</button>
+													</div>
+												</div>
+
+											</div>
+										</div>
+									}
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
@@ -347,7 +555,7 @@
 						</div>
 						<div class="col-4">
 							<p class="card-title-desc" key="t-SupportiedDocs">
-								الاوراق المدعومة
+								الاوراق الداعمة
 							</p>
 							<div class="row">
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
@@ -375,30 +583,34 @@
 					</div>
 				</div>
 			</div>
+
+
 			<div class="card">
 				<div class="card-body">
-					<p class="card-title-desc" key="t-Actions">
-						Actions
-					</p>
 					<div class="row">
 						<div class="col-4">
-							<button class="btn btn-primary w-100" onclick="Encode()">1 - تكويد الطلب</button>
+							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" @(ShowEncode ? "onclick='Encode()'" : "")>1 - تكويد الطلب</button>
 						</div>
 						<div class="col-4">
-							<button class="btn btn-primary w-100" onclick="Forwared()">2 -  توجيهه الطلب</button>
+							<button class="btn btn-primary w-100 actionBtn" onclick="Forwared()">2 -  توجيهه الطلب</button>
 						</div>
-						<div class="col-4 justify-content-center d-flex">
-							<button class="btn btn-danger">اغلاق الطلب</button>
-						</div>
+						@if (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+						{
+							<div class="col-4 justify-content-center d-flex">
+								<button class="btn btn-danger actionBtn">اغلاق الطلب</button>
+							</div>
+						}
 					</div>
 				</div>
 			</div>
+
 		</div>
 
 	</div>
 </div>
 <!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
+
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
@@ -416,21 +628,20 @@
 
 <!-- dropzone plugin -->
 <script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
-
+<!-- Summernote js -->
+<script src="~/assets/libs/summernote/summernote-bs4.min.js"></script>
 <!-- init js -->
 <script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
-<script>
+@if (ShowEncode)
+{
+	<script>
 	 GetCode()
 	function Encode() {
 		$('#SubmitEncode').click();
-	}
-	function Forwared() {
-		$("[name='Expected']").val($("[name='ExpectedDate']").val());
-		$('#SubmitForwared').click();
 	}
 	function ServiceChange(id) {
 		$.ajax({
@@ -496,5 +707,12 @@
 				}
 			})
 		}
+	}
+	</script>
+}
+<script>
+	function Forwared() {
+		$("[name='Expected']").val($("[name='ExpectedDate']").val());
+		$('#SubmitForwared').click();
 	}
 </script>

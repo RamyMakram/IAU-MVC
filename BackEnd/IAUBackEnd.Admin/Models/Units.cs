@@ -17,6 +17,8 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Units()
         {
+            this.RequestTransaction = new HashSet<RequestTransaction>();
+            this.RequestTransaction1 = new HashSet<RequestTransaction>();
             this.UnitMainServices = new HashSet<UnitMainServices>();
             this.Units_Request_Type = new HashSet<Units_Request_Type>();
             this.Units1 = new HashSet<Units>();
@@ -38,6 +40,10 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<bool> IS_Action { get; set; }
         public bool IS_Mostafid { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RequestTransaction> RequestTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RequestTransaction> RequestTransaction1 { get; set; }
         public virtual Service_Type Service_Type { get; set; }
         public virtual UnitLevel UnitLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

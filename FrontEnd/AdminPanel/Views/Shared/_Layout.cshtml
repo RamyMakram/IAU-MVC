@@ -42,31 +42,35 @@
 		.dropdown-content {
 			display: none;
 			position: absolute;
-			
 			min-width: 562px;
 			left: -35px;
 			white-space: pre-line;
 			z-index: 99;
 		}
+
 			.dropdown-content div {
 				box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 				background-color: #f1f1f1;
 				padding: 10px;
 				border-radius: 25px;
 			}
-			/* Show the dropdown menu on hover */
-			.dropdown:hover .dropdown-content {
-				display: block;
-			}
+		/* Show the dropdown menu on hover */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
 
 		/* Change the background color of the dropdown button when the dropdown content is shown */
 		.dropdown:hover .dropbtn {
 			background-color: #3e8e41;
 		}
-		.control-label, .card-title {
+
+		li.paginate_button.page-item.active {
+			background-color: grey !important;
+		}
+
+		th, title,.page-title-right,.breadcrumb-item a,.card-title-desc, .control-label, .card-title {
 			color: #0a1332
 		}
-		
 	</style>
 	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
 	@RenderSection("styles", false)

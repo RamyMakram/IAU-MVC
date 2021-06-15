@@ -3090,6 +3090,7 @@
     <Content Include="Views\Levels\Edit.cshtml" />
     <Content Include="Views\Levels\Home.cshtml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <Content Include="Views\Email\PreviewForUnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

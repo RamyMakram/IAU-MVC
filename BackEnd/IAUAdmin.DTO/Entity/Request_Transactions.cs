@@ -15,8 +15,15 @@ namespace IAUAdmin.DTO.Entity
 		public Nullable<System.DateTime> ForwardDate { get; set; }
 		public Nullable<System.DateTime> ExpireDays { get; set; }
 		public string Comment { get; set; }
+		public int? CommentType { get; set; }
 		public bool Readed { get; set; }
+		public string MostafidComment { get; set; }
+		public string Code { get; set; }
+
+
 		public Nullable<System.DateTime> ReadedDate { get; set; }
+		public virtual UnitsDTO Units1 { get; set; }
+		public Nullable<System.DateTime> CommentDate { get; set; }
 
 		public virtual ReqestDTO Request_Data { get; set; }
 	}

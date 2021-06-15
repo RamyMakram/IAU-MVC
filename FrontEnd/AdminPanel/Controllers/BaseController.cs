@@ -1,6 +1,7 @@
 ﻿using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,10 @@ namespace AdminPanel.Controllers
 				}
 				else
 				{
-					var data = JsonConvert.DeserializeObject<string[]>(lst.result.ToString());
+					var data = JObject.Parse(lst.result.ToString());
 					//ViewData["Permissions"] = data;
-					TempData["Permissions"] = data;
+					TempData["Permissions"] = data["perm"].Values<string>().ToArray<string>();
+					TempData["IsMostafid"] = data["IS_Mostafid"].Value<bool>();
 				}
 			}
 			else

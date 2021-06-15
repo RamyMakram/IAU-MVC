@@ -31,11 +31,12 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<int> Request_Type_ID { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string Code_Generate { get; set; }
+        public string TempCode { get; set; }
         public byte Request_State_ID { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
         public Nullable<bool> Readed { get; set; }
         public Nullable<System.DateTime> ReadedDate { get; set; }
-        public string TempCode { get; set; }
+        public Nullable<System.DateTime> GenratedDate { get; set; }
     
         public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }

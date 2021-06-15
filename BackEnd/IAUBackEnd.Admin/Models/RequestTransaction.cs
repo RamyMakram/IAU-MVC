@@ -23,7 +23,13 @@ namespace IAUBackEnd.Admin.Models
         public string Comment { get; set; }
         public bool Readed { get; set; }
         public Nullable<System.DateTime> ReadedDate { get; set; }
+        public string MostafidComment { get; set; }
+        public Nullable<int> CommentType { get; set; }
+        public Nullable<System.DateTime> CommentDate { get; set; }
+        public string Code { get; set; }
     
         public virtual Request_Data Request_Data { get; set; }
+        public virtual Units Units { get; set; }
+        public virtual Units Units1 { get; set; }
     }
 }

@@ -17,9 +17,9 @@ namespace IAUAdmin.DTO.Entity
         public Nullable<int> Request_Type_ID { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public string Code_Generate { get; set; }
-        public System.DateTime GenratedDate { get; set; }
+        public string TempCode { get; set; }
+        public Nullable<System.DateTime> GenratedDate { get; set; }
         public byte Request_State_ID { get; set; }
-        public string signpdfpath { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
 		public Nullable<bool> Readed { get; set; }
 

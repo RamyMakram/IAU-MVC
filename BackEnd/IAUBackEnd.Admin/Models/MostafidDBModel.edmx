@@ -270,6 +270,7 @@
           <Property Name="IsTwasul_OC" Type="bit" />
           <Property Name="Readed" Type="bit" />
           <Property Name="ReadedDate" Type="datetime" />
+          <Property Name="GenratedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Request_File">
           <Key>
@@ -321,8 +322,12 @@
           <Property Name="ForwardDate" Type="datetime" />
           <Property Name="ExpireDays" Type="datetime" />
           <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="CommentType" Type="int" />
           <Property Name="Readed" Type="bit" Nullable="false" />
           <Property Name="ReadedDate" Type="datetime" />
+          <Property Name="MostafidComment" Type="nvarchar(max)" />
+          <Property Name="CommentDate" Type="datetime" />
+          <Property Name="Code" Type="nvarchar" MaxLength="13" />
         </EntityType>
         <EntityType Name="Required_Documents">
           <Key>
@@ -904,6 +909,30 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RequestTransaction_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="1" />
+          <End Role="RequestTransaction" Type="Self.RequestTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="RequestTransaction">
+              <PropertyRef Name="FromUnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestTransaction_Units1">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="RequestTransaction" Type="Self.RequestTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="RequestTransaction">
+              <PropertyRef Name="ToUnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Required_Documents_Sub_Services">
           <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="0..1" />
           <End Role="Required_Documents" Type="Self.Required_Documents" Multiplicity="*" />
@@ -1343,6 +1372,14 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             <End Role="Request_Data" EntitySet="Request_Data" />
             <End Role="RequestTransaction" EntitySet="RequestTransaction" />
           </AssociationSet>
+          <AssociationSet Name="FK_RequestTransaction_Units" Association="Self.FK_RequestTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="RequestTransaction" EntitySet="RequestTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestTransaction_Units1" Association="Self.FK_RequestTransaction_Units1">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="RequestTransaction" EntitySet="RequestTransaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_Required_Documents_Sub_Services" Association="Self.FK_Required_Documents_Sub_Services">
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="Required_Documents" EntitySet="Required_Documents" />
@@ -1474,6 +1511,7 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySet Name="Units_Request_Type" EntityType="MostafidDBModel.Units_Request_Type" />
           <EntitySet Name="Units_Type" EntityType="MostafidDBModel.Units_Type" />
           <EntitySet Name="UnitServiceTypes" EntityType="MostafidDBModel.UnitServiceTypes" />
+          <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
           <EntitySet Name="ValidTo" EntityType="MostafidDBModel.ValidTo" />
           <EntitySet Name="Statement_Department_File_Sent_Them" EntityType="MostafidDBModel.Statement_Department_File_Sent_Them" />
           <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="MostafidDBModel.FK_Personel_Data_Applicant_Type">
@@ -1547,6 +1585,10 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_User_Permissions_Job" Association="MostafidDBModel.FK_User_Permissions_Job">
             <End Role="Job" EntitySet="Job" />
             <End Role="Job_Permissions" EntitySet="Job_Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Permissions_Privilage" Association="MostafidDBModel.FK_User_Permissions_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
@@ -1644,6 +1686,14 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             <End Role="Request_Type" EntitySet="Request_Type" />
             <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
           </AssociationSet>
+          <AssociationSet Name="FK_RequestTransaction_Units" Association="MostafidDBModel.FK_RequestTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="RequestTransaction" EntitySet="RequestTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestTransaction_Units1" Association="MostafidDBModel.FK_RequestTransaction_Units1">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="RequestTransaction" EntitySet="RequestTransaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_Required_Documents_Sub_Services" Association="MostafidDBModel.FK_Required_Documents_Sub_Services">
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="Required_Documents" EntitySet="Required_Documents" />
@@ -1687,11 +1737,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_UnitServiceTypes_Units" Association="MostafidDBModel.FK_UnitServiceTypes_Units">
             <End Role="Units" EntitySet="Units" />
             <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
-          </AssociationSet>
-          <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
-          <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
-            <End Role="Job" EntitySet="Job" />
-            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
             <End Role="Units" EntitySet="Units" />
@@ -2011,6 +2056,7 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="Request_Type_ID" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Code_Generate" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="TempCode" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="Request_State_ID" Type="Byte" Nullable="false" />
           <Property Name="IsTwasul_OC" Type="Boolean" />
           <Property Name="Readed" Type="Boolean" />
@@ -2023,7 +2069,7 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <NavigationProperty Name="Request_File" Relationship="MostafidDBModel.FK_Request_File_Request_Data" FromRole="Request_Data" ToRole="Request_File" />
           <NavigationProperty Name="Request_Log" Relationship="MostafidDBModel.FK_Request_State_Request_Data" FromRole="Request_Data" ToRole="Request_Log" />
           <NavigationProperty Name="RequestTransaction" Relationship="MostafidDBModel.FK_RequestTransaction_Request_Data" FromRole="Request_Data" ToRole="RequestTransaction" />
-          <Property Name="TempCode" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="GenratedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Request_File">
           <Key>
@@ -2086,7 +2132,13 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Readed" Type="Boolean" Nullable="false" />
           <Property Name="ReadedDate" Type="DateTime" Precision="3" />
+          <Property Name="MostafidComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_RequestTransaction_Request_Data" FromRole="RequestTransaction" ToRole="Request_Data" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_RequestTransaction_Units" FromRole="RequestTransaction" ToRole="Units" />
+          <NavigationProperty Name="Units1" Relationship="MostafidDBModel.FK_RequestTransaction_Units1" FromRole="RequestTransaction" ToRole="Units" />
+          <Property Name="CommentType" Type="Int32" />
+          <Property Name="CommentDate" Type="DateTime" Precision="3" />
+          <Property Name="Code" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Required_Documents">
           <Key>
@@ -2205,6 +2257,8 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RequestTransaction" Relationship="MostafidDBModel.FK_RequestTransaction_Units" FromRole="Units" ToRole="RequestTransaction" />
+          <NavigationProperty Name="RequestTransaction1" Relationship="MostafidDBModel.FK_RequestTransaction_Units1" FromRole="Units" ToRole="RequestTransaction" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
           <NavigationProperty Name="UnitLevel" Relationship="MostafidDBModel.FK_Units_UnitLevel" FromRole="Units" ToRole="UnitLevel" />
           <NavigationProperty Name="UnitMainServices" Relationship="MostafidDBModel.FK_UnitMainServices_Units" FromRole="Units" ToRole="UnitMainServices" />
@@ -2261,6 +2315,23 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="UnitID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_UnitServiceTypes_Service_Type" FromRole="UnitServiceTypes" ToRole="Service_Type" />
           <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_UnitServiceTypes_Units" FromRole="UnitServiceTypes" ToRole="Units" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="User_ID" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Job_ID" Type="Int32" />
+          <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UnitID" Type="Int32" />
+          <Property Name="LoginDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -2492,6 +2563,18 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
               <PropertyRef Name="User_Permissions_Type_ID" />
             </Principal>
             <Dependent Role="Job_Permissions">
+              <PropertyRef Name="Job_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_User_Permissions_Type">
+          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="User_Permissions_Type_ID" />
+            </Principal>
+            <Dependent Role="Users">
               <PropertyRef Name="Job_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2784,6 +2867,30 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RequestTransaction_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1" />
+          <End Type="MostafidDBModel.RequestTransaction" Role="RequestTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="RequestTransaction">
+              <PropertyRef Name="FromUnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestTransaction_Units1">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.RequestTransaction" Role="RequestTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="RequestTransaction">
+              <PropertyRef Name="ToUnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Required_Documents_Sub_Services">
           <End Type="MostafidDBModel.Sub_Services" Role="Sub_Services" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Required_Documents" Role="Required_Documents" Multiplicity="*" />
@@ -2913,35 +3020,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="UnitServiceTypes">
               <PropertyRef Name="UnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="User_ID" />
-          </Key>
-          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Job_ID" Type="Int32" />
-          <Property Name="IS_Active" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="UnitID" Type="Int32" />
-          <Property Name="LoginDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
-          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
-        </EntityType>
-        <Association Name="FK_Users_User_Permissions_Type">
-          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Job">
-              <PropertyRef Name="User_Permissions_Type_ID" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="Job_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3234,11 +3312,12 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySetMapping Name="Request_Data">
             <EntityTypeMapping TypeName="MostafidDBModel.Request_Data">
               <MappingFragment StoreEntitySet="Request_Data">
-                <ScalarProperty Name="TempCode" ColumnName="TempCode" />
+                <ScalarProperty Name="GenratedDate" ColumnName="GenratedDate" />
                 <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
                 <ScalarProperty Name="Readed" ColumnName="Readed" />
                 <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
                 <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
+                <ScalarProperty Name="TempCode" ColumnName="TempCode" />
                 <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
@@ -3297,6 +3376,10 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySetMapping Name="RequestTransaction">
             <EntityTypeMapping TypeName="MostafidDBModel.RequestTransaction">
               <MappingFragment StoreEntitySet="RequestTransaction">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="CommentType" ColumnName="CommentType" />
+                <ScalarProperty Name="MostafidComment" ColumnName="MostafidComment" />
                 <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
                 <ScalarProperty Name="Readed" ColumnName="Readed" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
@@ -3462,6 +3545,22 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MostafidDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
+                <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />
+                <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />
+                <ScalarProperty Name="User_Password" ColumnName="User_Password" />
+                <ScalarProperty Name="User_Email" ColumnName="User_Email" />
+                <ScalarProperty Name="User_Mobile" ColumnName="User_Mobile" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ValidTo">
             <EntityTypeMapping TypeName="MostafidDBModel.ValidTo">
               <MappingFragment StoreEntitySet="ValidTo">
@@ -3477,22 +3576,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
                 <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="MostafidDBModel.Users">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
-                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
-                <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
-                <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />
-                <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />
-                <ScalarProperty Name="User_Password" ColumnName="User_Password" />
-                <ScalarProperty Name="User_Email" ColumnName="User_Email" />
-                <ScalarProperty Name="User_Mobile" ColumnName="User_Mobile" />
-                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
-                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

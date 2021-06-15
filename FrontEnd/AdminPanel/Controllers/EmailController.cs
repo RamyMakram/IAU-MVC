@@ -83,11 +83,24 @@ namespace AdminPanel.Controllers
 			else
 				ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 
+			Data = APIHandeling.getData($"Request/GetRequestTranscation?id={id}&UserID={Request.Cookies["u"].Value}");
+			resJson = Data.Content.ReadAsStringAsync();
+			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			ViewBag.RequestTransaction = JsonConvert.DeserializeObject<ICollection<Request_TransactionDTO>>(res.result.ToString());
+
 			Data = APIHandeling.getData($"Request/GetRequest_Data?id={id}&UserID={Request.Cookies["u"].Value}");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			var IsMostafid = (TempData["IsMostafid"] as Nullable<bool>);
 			if (res.success)
-				return View(JsonConvert.DeserializeObject<ReqestDTO>(res.result.ToString()));
+			{
+				var data = JsonConvert.DeserializeObject<ReqestDTO>(res.result.ToString());
+				if (IsMostafid.HasValue && IsMostafid.Value)
+					return View("Preview", data);
+				else
+					return View("PreviewForUnit", data);
+
+			}
 			else
 				return RedirectToAction("NotFound", "Error");
 		}

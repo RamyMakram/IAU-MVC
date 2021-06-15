@@ -49,9 +49,10 @@ namespace IAUBackEnd.Admin.Controllers
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 			Request_Data request_Data;
 			if (Unit.IS_Mostafid)
-				request_Data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => w.Comment != "" && w.Comment != null) != 0)));
+				request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => w.Comment != "" && w.Comment != null) != 0)));
 			else
-				request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
+				request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
+					.FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
 			if (request_Data == null)
 				return Ok(new ResponseClass() { success = false });
 			if (Unit.IS_Mostafid)
@@ -65,12 +66,19 @@ namespace IAUBackEnd.Admin.Controllers
 			}
 			else if (!Unit.IS_Mostafid)
 			{
-				request_Data.RequestTransaction.Last().Readed = true;
+				var data = request_Data.RequestTransaction.ToList().Last();
+				data.Readed = true;
 				p.SaveChanges();
 			}
 			return Ok(new ResponseClass() { success = true, result = request_Data });
 		}
 
+		public async Task<IHttpActionResult> GetRequestTranscation(int id, int UserID)
+		{
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => q.ToUnitID == Unit.Units_ID && q.Request_ID == id);
+			return Ok(new ResponseClass() { success = true, result = RequestTransaction });
+		}
 		// PUT: api/Request/5
 		[ResponseType(typeof(void))]
 		public async Task<IHttpActionResult> PutRequest_Data(int id, Request_Data request_Data)
@@ -252,9 +260,11 @@ namespace IAUBackEnd.Admin.Controllers
 			if (req.Code_Generate == "" || req.Code_Generate == null)
 			{
 				req.Code_Generate = Code;
+				req.TempCode = Code;
+				req.GenratedDate = Helper.GetDate();
 				p.SaveChanges();
 				if (type == "c")
-					_ = SendSMS(req.Personel_Data.Mobile, $"تم استلام طلبكم رقم {req.Request_Data_ID} برجاء استخدام الكود ${Code} في حالة الاستعلام ع");
+					_ = SendSMS(req.Personel_Data.Mobile, $"تم استلام طلبكم رقم {req.Request_Data_ID} برجاء استخدام الكود ${Code} في حالة الاستعلام عن الطلب");
 			}
 			else
 				req.TempCode = Code;
@@ -267,13 +277,21 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			try
 			{
-				p.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestIID, ExpireDays = Expected, ForwardDate = Helper.GetDate(), ToUnitID = Unit_ID, Readed = false, FromUnitID = p.Units.First(q => q.IS_Mostafid).Units_ID });
-				p.SaveChanges();
-				var sendeddata = p.Request_Data.Where(q => q.Request_Data_ID == RequestIID).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = false }).FirstOrDefault();
-				var Users = p.Users.Where(q => q.Units.Units_ID == Unit_ID).Select(q => q.User_ID).ToArray();
-				string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-				WebSocketManager.SendToMulti(Users, message);
-				return Ok(new ResponseClass() { success = true });
+				var sendeddata = p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestIID);
+				if (sendeddata.TempCode != "")
+				{
+					p.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestIID, ExpireDays = Expected, ForwardDate = Helper.GetDate(), ToUnitID = Unit_ID, Readed = false, FromUnitID = p.Units.First(q => q.IS_Mostafid).Units_ID, Code = sendeddata.TempCode });
+					sendeddata.TempCode = "";
+					p.SaveChanges();
+					sendeddata.Readed = false;
+					var Users = p.Users.Where(q => q.Units.Units_ID == Unit_ID).Select(q => q.User_ID).ToArray();
+					string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+					WebSocketManager.SendToMulti(Users, message);
+					return Ok(new ResponseClass() { success = true });
+				}
+				else
+					return Ok(new ResponseClass() { success = false });
+
 			}
 			catch (Exception ee)
 			{
@@ -296,7 +314,7 @@ namespace IAUBackEnd.Admin.Controllers
 			Code += Location;
 			Code += (BuildingSelect == null || BuildingSelect == "null") ? unit.Building_Number : BuildingSelect;
 			Code += Service_Type_ID + "" + Request_Type_ID;
-			Code += (type == "c" ? "00000" : string.Join("0", new string[5 - RequestIID.ToString().Length]) + RequestIID);
+			Code += (string.Join("0", new string[5 - RequestIID.ToString().Length + 1]) + RequestIID);
 			return Code;
 		}
 		protected override void Dispose(bool disposing)
