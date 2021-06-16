@@ -64,8 +64,9 @@
 			background-color: #3e8e41;
 		}
 
-		li.paginate_button.page-item.active {
+		li.paginate_button.page-item:not(.next):not(.previous) a {
 			background-color: grey !important;
+			border:none
 		}
 
 		th, title,.page-title-right,.breadcrumb-item a,.card-title-desc, .control-label, .card-title {

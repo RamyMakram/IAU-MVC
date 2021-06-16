@@ -12,10 +12,12 @@
 <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 <!-- Summernote css -->
 <link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
-
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
+
 	.nav-tabs {
 		/*box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);*/
 		border: none;
@@ -94,10 +96,28 @@
 			}
 </style>
 <style>
+	.constainDocs {
+		width: 100%;
+		height: 150px;
+		overflow-x: auto;
+		flex-direction: column;
+		display: flex !important;
+	}
+
+		.constainDocs .col-3 {
+			display: flex;
+			align-items: center;
+		}
+
+			.constainDocs .col-3 .card {
+				margin: 15px 0 !important;
+			}
+
 	.actionBtn {
 		height: 70px;
 		font-weight: bold;
 	}
+
 	.carPrev, .carNext {
 		direction: ltr !important;
 	}
@@ -143,8 +163,9 @@
 		display: inline-flex;
 		width: 100%;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 		direction: ltr !important;
+		margin: 10px 0
 	}
 
 		#CodeGenrateDiv input {
@@ -342,12 +363,13 @@
 					<div class="row">
 						@{
 
-							var MostafidComment = (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Last();
+							var MostafidComments = (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>);
+							var MostafidComment = MostafidComments.Count == 0 ? new IAUAdmin.DTO.Entity.Request_TransactionDTO() : MostafidComments.Last();
 							var ShowStaticCode = Model.TempCode == "" || Model.TempCode == null;
 							<div class="col-12">
 								<div class="row">
 									@*<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>*@
-									<div class="@(ShowStaticCode?"col-12":"col-9")" style="display:inline-flex" id="CodeGenrateDiv">
+									<div class="@(ShowStaticCode?"col-12":"col-9")" style="display:inline-flex;@(ShowStaticCode?"justify-content: center;":"justify-content: flex-start;")" id="CodeGenrateDiv">
 										@if (ShowStaticCode)
 										{
 											<input class="form-control Genratedcode en-font" value="1" readonly disabled />
@@ -358,16 +380,16 @@
 										}
 										else
 										{
-											foreach (var i in MostafidComment.Code.ToCharArray())
+											foreach (var i in Model.TempCode.ToCharArray())
 											{
 												<input class="form-control Genratedcode en-font" value="@i" readonly disabled />
 											}
 										}
 									</div>
 									<div class="col-3" style="direction:ltr;justify-content: center;align-items: center;display: flex;">
-										@if (ShowStaticCode && Model.GenratedDate != null)
+										@if (!ShowStaticCode && Model.GenratedDate != null)
 										{
-											<span style="padding: 12px;border-radius: 15px;background: aliceblue;">
+											<span style="padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
 												@(Model.GenratedDate.Value.ToString("dd MMM HH:mm"))
 											</span>
 										}
@@ -416,7 +438,7 @@
 										</div>
 										<div class="col-4">
 											<div class="form-group">
-												<label key="t-Provider" class="control-label">الفئة الادارية</label>
+												<label key="t-Provider" class="control-label">مقدم الخدمة</label>
 												@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "GetCode()", @name = "unit", @id = "UnitsDataSelect", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 											</div>
 											<div class="form-group">
@@ -471,20 +493,6 @@
 							<div class="tab-content" id="myTabContent">
 								<div class="tab-pane fade show active" id="home-tab2" role="tabpanel" aria-labelledby="home-tab">
 									<div class="col">
-										@{
-											if (!IsMos.Value)
-											{
-												if (MostafidComment.MostafidComment != null && MostafidComment.MostafidComment != "")
-												{
-													<div class="MostafidComment">
-														<h1 style="margin-bottom:19px">تعليق مركز رعاية المستفيدين</h1>
-														<div class="text">
-															@MostafidComment
-														</div>
-													</div>
-												}
-											}
-										}
 										<div class="summernote">
 										</div>
 
@@ -497,7 +505,7 @@
 										<div class="tab-pane fade" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
 											<div class="col">
 												<div class="CustomeCarso">
-													@foreach (var i in Model.RequestTransaction)
+													@foreach (var i in ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>)
 													{
 														if (i.Comment != "" && i.Comment != null)
 														{
@@ -535,10 +543,10 @@
 							<p class="card-title-desc" key="t-RequiredDocs">
 								الاوراق المطلوبة
 							</p>
-							<div class="row">
+							<div class="row constainDocs">
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
 								{
-									<div class="col-4">
+									<div class="col-3">
 										<div class="card">
 											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
@@ -557,14 +565,14 @@
 							<p class="card-title-desc" key="t-SupportiedDocs">
 								الاوراق الداعمة
 							</p>
-							<div class="row">
+							<div class="row constainDocs">
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
 								{
-									<div class="col-4">
+									<div class="col-3">
 										<div class="card">
-											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
+											<img class="card-img-top img-fluid" data-toggle="tooltip" title="@i.File_Name" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
-												<p class="row">@i.File_Name</p>
+												<p class="row">@(new string(i.File_Name.Take(10).ToArray()))</p>
 											</div>
 											<div class="py-2 text-center">
 												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
@@ -572,6 +580,13 @@
 										</div>
 									</div>
 								}
+								<div class="col-3">
+									<div class="card" style="height: 92px;border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
+										<span>
+											<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green"></i>
+										</span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-4">
@@ -587,17 +602,20 @@
 
 			<div class="card">
 				<div class="card-body">
+					@{
+						var syle = "col-" + (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1 ? 4 : 6);
+					}
 					<div class="row">
-						<div class="col-4">
-							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" @(ShowEncode ? "onclick='Encode()'" : "")>1 - تكويد الطلب</button>
+						<div class="@syle">
+							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" id="sa-encode"><i class="fas fa-sort-amount-down"></i> <span style="margin:0 15px">1 - تكويد الطلب</span></button>
 						</div>
-						<div class="col-4">
-							<button class="btn btn-primary w-100 actionBtn" onclick="Forwared()">2 -  توجيهه الطلب</button>
+						<div class="@syle">
+							<button class="btn btn-primary w-100 actionBtn" id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px">2 -  توجيه الطلب</span></button>
 						</div>
 						@if (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
 						{
-							<div class="col-4 justify-content-center d-flex">
-								<button class="btn btn-danger actionBtn">اغلاق الطلب</button>
+							<div class="@syle justify-content-center d-flex">
+								<button class="btn btn-danger actionBtn"><i class="fas fa-times-circle"></i><span style="margin:0 12px;">اغلاق الطلب</span></button>
 							</div>
 						}
 					</div>
@@ -630,6 +648,8 @@
 <script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
 <!-- Summernote js -->
 <script src="~/assets/libs/summernote/summernote-bs4.min.js"></script>
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <!-- init js -->
 <script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
 <!-- App js -->
@@ -639,10 +659,26 @@
 @if (ShowEncode)
 {
 	<script>
+
+		$('#sa-encode').click(function () {
+			Swal.fire({
+				title:"@(isAr ? "هل انت متاكد من تكويد هذا الطلب؟" : "Are you sure To Codeing this request?")",
+				text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
+				icon: "warning",
+				showCancelButton: true,
+				focusConfirm: false,
+				confirmButtonColor: "#34c38f",
+				cancelButtonColor: "#f46a6a",
+				confirmButtonText: "@(isAr?"موافق":"Yes")",
+				cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
+			}).then(function (result) {
+				if (result.value) {
+					$('#SubmitEncode').click();
+				}
+			});
+		});
 	 GetCode()
-	function Encode() {
-		$('#SubmitEncode').click();
-	}
+
 	function ServiceChange(id) {
 		$.ajax({
 			url: "/Email/GetRequesType?ID=" + id, method: "GET", type: 'json', success: function (x) {
@@ -711,8 +747,25 @@
 	</script>
 }
 <script>
-	function Forwared() {
-		$("[name='Expected']").val($("[name='ExpectedDate']").val());
-		$('#SubmitForwared').click();
-	}
+	$('#sa-forwared').click(function () {
+		Swal.fire({
+			title:"@(isAr ? "هل انت متاكد من توجيه هذا الطلب؟" : "Are you sure To Forward this request?")",
+			text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(isAr?"موافق , توجيه الطلب":"Yes, Forwared it!")",
+			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
+		}).then(function (result) {
+			if (result.value) {
+				$("[name='Expected']").val($("[name='ExpectedDate']").val());
+				$('#SubmitForwared').click();
+			}
+		});
+	});
+	$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
 </script>

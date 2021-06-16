@@ -76,8 +76,16 @@ namespace IAUBackEnd.Admin.Controllers
 		public async Task<IHttpActionResult> GetRequestTranscation(int id, int UserID)
 		{
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
-			var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => q.ToUnitID == Unit.Units_ID && q.Request_ID == id);
-			return Ok(new ResponseClass() { success = true, result = RequestTransaction });
+			if (Unit.IS_Mostafid)
+			{
+				var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => q.Request_ID == id);
+				return Ok(new ResponseClass() { success = true, result = RequestTransaction });
+			}
+			else
+			{
+				var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => (q.ToUnitID != Unit.Units_ID || (q.ToUnitID == Unit.Units_ID && q.Comment != null)) && q.Request_ID == id);
+				return Ok(new ResponseClass() { success = true, result = RequestTransaction });
+			}
 		}
 		// PUT: api/Request/5
 		[ResponseType(typeof(void))]
@@ -151,6 +159,7 @@ namespace IAUBackEnd.Admin.Controllers
 				request_Data.Request_State_ID = 1;
 				request_Data.IsTwasul_OC = false;
 				request_Data.Readed = false;
+				request_Data.Request_State_ID = 1;
 				p.Request_Data.Add(request_Data);
 				await p.SaveChangesAsync();
 				var path = HttpContext.Current.Server.MapPath("~");
@@ -252,24 +261,38 @@ namespace IAUBackEnd.Admin.Controllers
 		public async Task<IHttpActionResult> Coding(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
 		{
 			var req = p.Request_Data.Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestIID);
-			req.IsTwasul_OC = IsTwasul_OC;
-			req.Service_Type_ID = Service_Type_ID;
-			req.Request_Type_ID = Request_Type_ID;
-			req.Unit_ID = Unit_ID;
-			string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
-			if (req.Code_Generate == "" || req.Code_Generate == null)
+			if (req.TempCode == "" || req.TempCode == null)
 			{
-				req.Code_Generate = Code;
-				req.TempCode = Code;
-				req.GenratedDate = Helper.GetDate();
+				req.IsTwasul_OC = IsTwasul_OC;
+				req.Service_Type_ID = Service_Type_ID;
+				req.Request_Type_ID = Request_Type_ID;
+				req.Unit_ID = Unit_ID;
+				string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
+				if (req.Code_Generate == "" || req.Code_Generate == null)
+				{
+					req.Code_Generate = Code;
+					req.TempCode = Code;
+					req.GenratedDate = Helper.GetDate();
+					p.SaveChanges();
+					string message = $@"
+									عزيزي المستفيد
+									نفيدكم بأن كود الطلب الخاص بكم هو ${Code} 
+									برجاء استخدامة في حالة الاستعلام
+								";
+					if (type == "c")
+						_ = SendSMS(req.Personel_Data.Mobile, message);
+				}
+				else
+				{
+					req.TempCode = Code;
+					req.GenratedDate = Helper.GetDate();
+				}
 				p.SaveChanges();
-				if (type == "c")
-					_ = SendSMS(req.Personel_Data.Mobile, $"تم استلام طلبكم رقم {req.Request_Data_ID} برجاء استخدام الكود ${Code} في حالة الاستعلام عن الطلب");
+				return Ok(new ResponseClass() { success = true });
 			}
 			else
-				req.TempCode = Code;
-			p.SaveChanges();
-			return Ok(new ResponseClass() { success = true });
+				return Ok(new ResponseClass() { success = false });
+
 		}
 
 		[HttpGet]
@@ -277,7 +300,7 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			try
 			{
-				var sendeddata = p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestIID);
+				Request_Data sendeddata = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == RequestIID);
 				if (sendeddata.TempCode != "")
 				{
 					p.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestIID, ExpireDays = Expected, ForwardDate = Helper.GetDate(), ToUnitID = Unit_ID, Readed = false, FromUnitID = p.Units.First(q => q.IS_Mostafid).Units_ID, Code = sendeddata.TempCode });
@@ -304,6 +327,27 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
 			return Ok(new ResponseClass() { success = true, result = Code });
+		}
+
+		[HttpPost]
+		public async Task<IHttpActionResult> AddComment(int UserID, int RequestID, int CommentType, [FromBody] string Comment)
+		{
+			var CurrentUnit = p.Users.FirstOrDefault(q => q.User_ID == UserID).UnitID;
+			var sendeddata = p.Request_Data.Include(q => q.RequestTransaction).FirstOrDefault(q => q.Request_Data_ID == RequestID);
+			var trans = sendeddata.RequestTransaction.Last();
+			if (CurrentUnit == trans.ToUnitID)
+			{
+				trans.Comment = Comment;
+				trans.CommentDate = Helper.GetDate();
+				trans.CommentType = CommentType;
+				p.SaveChanges();
+				var Users = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
+				string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+				WebSocketManager.SendToMulti(Users, message);
+				return Ok(new ResponseClass() { success = true });
+			}
+			else
+				return Ok(new ResponseClass() { success = false });
 		}
 		private string GetCode(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
 		{

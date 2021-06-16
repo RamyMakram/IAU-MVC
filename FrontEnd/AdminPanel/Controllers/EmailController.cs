@@ -150,5 +150,27 @@ namespace AdminPanel.Controllers
 			var resJson = Data.Content.ReadAsStringAsync();
 			return Json(resJson.Result, JsonRequestBehavior.AllowGet);
 		}
+		[HttpPost, ValidateInput(false)]
+		public ActionResult AddComment(int RequestIID, string Comment)
+		{
+			var Data = APIHandeling.Post($"Request/AddComment?UserID={Request.Cookies["u"].Value}&RequestID={RequestIID}&CommentType=1",Comment);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return RedirectToAction("Home");
+			else
+				return RedirectToAction("Preview", new { id = RequestIID });
+		}
+		[HttpPost]
+		public ActionResult CloseComment(int RequestIID)
+		{
+			var Data = APIHandeling.Post($"Request/AddComment?UserID={Request.Cookies["u"].Value}&RequestID={RequestIID}&CommentType=0", "No Replay");
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return RedirectToAction("Home");
+			else
+				return RedirectToAction("Preview", new { id = RequestIID });
+		}
 	}
 }

@@ -3085,7 +3085,6 @@
     <Content Include="Views\EForms\Active.cshtml" />
     <Content Include="Views\Shared\_LayoutAdminPanel.cshtml" />
     <Content Include="Views\User\Active.cshtml" />
-    <Content Include="Views\Email\PDF.cshtml" />
     <Content Include="Views\Levels\Create.cshtml" />
     <Content Include="Views\Levels\Edit.cshtml" />
     <Content Include="Views\Levels\Home.cshtml" />

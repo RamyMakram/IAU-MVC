@@ -95,6 +95,23 @@
 			}
 </style>
 <style>
+	.constainDocs {
+		width: 100%;
+		height: 150px;
+		overflow-x: auto;
+		flex-direction: column;
+		display: flex !important;
+	}
+
+		.constainDocs .col-3 {
+			display: flex;
+			align-items: center;
+		}
+
+			.constainDocs .col-3 .card {
+				margin: 15px 0 !important;
+			}
+
 	.actionBtn {
 		height: 70px;
 		font-weight: bold;
@@ -146,7 +163,7 @@
 		display: inline-flex;
 		width: 100%;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 		direction: ltr !important;
 	}
 
@@ -350,7 +367,7 @@
 										}
 									</div>
 									<div class="col-3" style="direction:ltr;justify-content: center;align-items: center;display: flex;">
-										<span style="padding: 12px;border-radius: 15px;background: aliceblue;">
+										<span style="padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
 											@if (Model.GenratedDate != null)
 											{
 												@(Model.GenratedDate.Value.ToString("dd MMM HH:mm"))
@@ -375,7 +392,7 @@
 									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true">جديد<span class="marker"></span></a>
 
 								</li>
-								@if (ViewBag.RequestTransaction.Count > 1)
+								@if (ViewBag.RequestTransaction.Count != 0)
 								{
 									<li class="nav-item">
 										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false">السابق<span class="marker"></span></a>
@@ -392,7 +409,7 @@
 												<div class="MostafidComment">
 													<h1 style="margin-bottom:19px">تعليق مركز رعاية المستفيدين</h1>
 													<div class="text">
-														@MostafidComment
+														@MostafidComment.MostafidComment
 													</div>
 												</div>
 											}
@@ -404,13 +421,13 @@
 									</div>
 								</div>
 								@{
-									if (ViewBag.RequestTransaction.Count > 1)
+									if (ViewBag.RequestTransaction.Count != 0)
 									{
 										var count = 1;
 										<div class="tab-pane fade" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
 											<div class="col">
 												<div class="CustomeCarso">
-													@foreach (var i in Model.RequestTransaction)
+													@foreach (var i in ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>)
 													{
 														if (i.Comment != "" && i.Comment != null)
 														{
@@ -448,10 +465,11 @@
 							<p class="card-title-desc" key="t-RequiredDocs">
 								الاوراق المطلوبة
 							</p>
-							<div class="row">
+							<div class="row constainDocs">
+
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
 								{
-									<div class="col-4">
+									<div class="col-3">
 										<div class="card">
 											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
@@ -464,16 +482,18 @@
 										</div>
 									</div>
 								}
+
 							</div>
 						</div>
 						<div class="col-4">
 							<p class="card-title-desc" key="t-SupportiedDocs">
 								الاوراق الداعمة
 							</p>
-							<div class="row">
+							<div class="row constainDocs">
+
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
 								{
-									<div class="col-4">
+									<div class="col-3">
 										<div class="card">
 											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
@@ -485,6 +505,13 @@
 										</div>
 									</div>
 								}
+								<div class="col-3">
+									<div class="card" style="height: 92px;border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
+										<span>
+											<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green"></i>
+										</span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-4">
@@ -502,10 +529,10 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-6">
-							<button class="btn btn-primary w-100 actionBtn">تم معالجة الطلب</button>
+							<button class="btn btn-primary w-100 actionBtn" id="sa-confirm"><i class="fas fa-clipboard-check"></i><span style="margin:0 12px;">تم معالجة الطلب</span></button>
 						</div>
 						<div class="col-6 justify-content-center d-flex">
-							<button class="btn btn-danger actionBtn" id="sa-warning">رفض لعدم الاختصاص</button>
+							<button class="btn btn-danger actionBtn" id="sa-close"><i class="fas fa-times-circle"></i><span style="margin:0 12px;">رفض لعدم الاختصاص</span></button>
 						</div>
 					</div>
 				</div>
@@ -515,6 +542,17 @@
 
 	</div>
 </div>
+@using (Html.BeginForm("AddComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
+{
+	@Html.Hidden("RequestIID", Model.Request_Data_ID)
+	<input type="text" name="Comment" id="preview-comment" />
+	<button id="xx-confirmRequest" type="submit"></button>
+}
+@using (Html.BeginForm("CloseComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
+{
+	@Html.Hidden("RequestIID", Model.Request_Data_ID)
+	<button id="xx-cancelRequest" type="submit"></button>
+}
 <!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 
@@ -547,18 +585,38 @@
 <script src="~/assets/js/pdf.worker.js"></script>
 
 <script>
-	$('#sa-warning').click(function () {
+	$('#sa-close').click(function () {
 		Swal.fire({
-			title: "Are you sure?",
-			text: "You won't be able to revert this!",
+			title:"@(isAr ? "هل انت متاكد من رفض هذا الطلب؟" : "Are you sure To refuse this request?")",
+			text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
 			icon: "warning",
 			showCancelButton: true,
+			focusConfirm: false,
 			confirmButtonColor: "#34c38f",
 			cancelButtonColor: "#f46a6a",
-			confirmButtonText: "Yes, delete it!"
+			confirmButtonText: "@(isAr?"موافق , ارفض الطلب":"Yes, Resfuse it!")",
+			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
 		}).then(function (result) {
 			if (result.value) {
-				Swal.fire("Deleted!", "Your file has been deleted.", "success");
+				$('#xx-cancelRequest').click()
+			}
+		});
+	});
+	$('#sa-confirm').click(function () {
+		Swal.fire({
+			title:"@(isAr?"هل انت متاكد من تاكيد تعليقك علي هذا الطلب؟" :"Are you sure To Confirm your comment on this request?")",
+			text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(isAr?"موافق":"Yes")",
+			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
+		}).then(function (result) {
+			if (result.value) {
+				$('#preview-comment').val($('.note-editable.card-block').html())
+				$('#xx-confirmRequest').click()
 			}
 		});
 	});
