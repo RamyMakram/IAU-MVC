@@ -356,6 +356,7 @@ var User = "";
 						var html = mailList.innerHTML;
 						var dateOptions = { month: '2-digit', day: '2-digit' };
 						var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
+						$('.dataTables_empty').css({ 'display': 'none' });
 						mailList.innerHTML = `
 						<tr onclick="Preview('/Email/Preview/${received_msg["Request_Data_ID"]}')" class="noreaded">
 								<td class="sorting_1 dtr-control"><input type="checkbox" class="selectbox-request" id="${received_msg["Request_Data_ID"]}"></td>

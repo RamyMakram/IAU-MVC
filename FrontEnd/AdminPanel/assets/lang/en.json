@@ -125,6 +125,18 @@
 	"t-Buiding": "Building",
 	"t-Provider": "Service Provider",
 	"t-ExpectedTime": "Expected Time",
-	"t-LocationSetting": "Location Setting"
+	"t-LocationSetting": "Location Setting",
+	"t-backToEmail": "Back To Requests",
+	"t-PreviousComment": "Previous Comments",
+	"t-NewComment": "New Comment",
+	"t-RequiredDocs": "Required Documents",
+	"t-SupportiedDocs": "Supportied Documents",
+	"t-close": "Close Request",
+	"t-forward": "Forward Request",
+	"t-encode": "Encode Request",
+	"t-preview": "Preview",
+	"t-ConfimRequest": "The request has been processed",
+	"t-RefuseRequest": "Refusal for lack of jurisdiction",
+	"t-MostafidComment": "Mostafid Comment"
 
 }

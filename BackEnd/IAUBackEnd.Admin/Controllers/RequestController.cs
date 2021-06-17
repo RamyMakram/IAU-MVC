@@ -28,17 +28,20 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 			if (Unit.IS_Mostafid)
-				return Ok(new ResponseClass() { success = true, result = p.Request_Data.Where(q => q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.Comment != "" && w.Comment != null) != 0).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false }) });
+			{
+				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.CommentDate != null && w.Comment != "" && w.Comment != null) == q.RequestTransaction.Count)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false, q.Request_State_ID }).ToList();
+				return Ok(new ResponseClass() { success = true, result = data });
+			}
 			else
-				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => w.Comment != "" && w.Comment == null && w.ToUnitID == Unit.Units_ID).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Readed }) });
+				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Readed }) });
 		}
 		public async Task<IHttpActionResult> GetRequestsCount(int UserID)
 		{
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 			if (Unit.IS_Mostafid)
-				return Ok(new ResponseClass() { success = true, result = p.Request_Data.Count(q => q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.Comment != "" && w.Comment != null && !w.Readed) != 0) });
+				return Ok(new ResponseClass() { success = true, result = p.Request_Data.Count(q => q.Request_State_ID != 5 && q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.CommentDate != null && w.Comment != "" && w.Comment != null && !w.Readed) == q.RequestTransaction.Count) });
 			else
-				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Count(w => w.Comment != "" && w.Comment == null && w.ToUnitID == Unit.Units_ID && !w.Readed) });
+				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && !w.Readed) });
 		}
 
 		//[EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -46,81 +49,50 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetRequest_Data(int id, int UserID)
 		{
-			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
-			Request_Data request_Data;
-			if (Unit.IS_Mostafid)
-				request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => w.Comment != "" && w.Comment != null) != 0)));
-			else
-				request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
-					.FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
-			if (request_Data == null)
-				return Ok(new ResponseClass() { success = false });
-			if (Unit.IS_Mostafid)
+			try
 			{
-				if (request_Data.Readed == null || !request_Data.Readed.Value)
+				var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+				Request_Data request_Data;
+				if (Unit.IS_Mostafid)
+					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
+				else
+					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
+						.FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
+				if (request_Data == null)
+					return Ok(new ResponseClass() { success = false });
+				if (Unit.IS_Mostafid)
 				{
-					request_Data.Readed = true;
-					request_Data.ReadedDate = Helper.GetDate();
+					if (request_Data.Readed == null || !request_Data.Readed.Value)
+					{
+						request_Data.Readed = true;
+						request_Data.ReadedDate = Helper.GetDate();
+						p.SaveChanges();
+					}
+				}
+				else if (!Unit.IS_Mostafid)
+				{
+					var data = request_Data.RequestTransaction.ToList().Last();
+					data.Readed = true;
+					if (request_Data.Request_State_ID == 2)
+						request_Data.Request_State_ID = 3;
 					p.SaveChanges();
 				}
+				return Ok(new ResponseClass() { success = true, result = request_Data });
 			}
-			else if (!Unit.IS_Mostafid)
+			catch (Exception ee)
 			{
-				var data = request_Data.RequestTransaction.ToList().Last();
-				data.Readed = true;
-				p.SaveChanges();
+
+				return Ok(new ResponseClass() { success = false, result = ee });
 			}
-			return Ok(new ResponseClass() { success = true, result = request_Data });
 		}
 
 		public async Task<IHttpActionResult> GetRequestTranscation(int id, int UserID)
 		{
-			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
-			if (Unit.IS_Mostafid)
-			{
-				var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => q.Request_ID == id);
-				return Ok(new ResponseClass() { success = true, result = RequestTransaction });
-			}
-			else
-			{
-				var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => (q.ToUnitID != Unit.Units_ID || (q.ToUnitID == Unit.Units_ID && q.Comment != null)) && q.Request_ID == id);
-				return Ok(new ResponseClass() { success = true, result = RequestTransaction });
-			}
+			var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => q.Request_ID == id);
+			return Ok(new ResponseClass() { success = true, result = RequestTransaction });
+
 		}
-		// PUT: api/Request/5
-		[ResponseType(typeof(void))]
-		public async Task<IHttpActionResult> PutRequest_Data(int id, Request_Data request_Data)
-		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
 
-			if (id != request_Data.Request_Data_ID)
-			{
-				return BadRequest();
-			}
-
-			p.Entry(request_Data).State = EntityState.Modified;
-
-			try
-			{
-				await p.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!Request_DataExists(id))
-				{
-					return NotFound();
-				}
-				else
-				{
-					throw;
-				}
-			}
-
-			return StatusCode(HttpStatusCode.NoContent);
-		}
 		[HttpPost]
 		public async Task<IHttpActionResult> SaveApplicantData()
 		{
@@ -276,7 +248,7 @@ namespace IAUBackEnd.Admin.Controllers
 					p.SaveChanges();
 					string message = $@"
 									عزيزي المستفيد
-									نفيدكم بأن كود الطلب الخاص بكم هو ${Code} 
+									نفيدكم بأن كود الطلب الخاص بكم هو {Code} 
 									برجاء استخدامة في حالة الاستعلام
 								";
 					if (type == "c")
@@ -295,16 +267,18 @@ namespace IAUBackEnd.Admin.Controllers
 
 		}
 
-		[HttpGet]
-		public async Task<IHttpActionResult> Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected)
+		[HttpPost]
+		public async Task<IHttpActionResult> Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected, [FromBody]string comment)
 		{
 			try
 			{
 				Request_Data sendeddata = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == RequestIID);
 				if (sendeddata.TempCode != "")
 				{
-					p.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestIID, ExpireDays = Expected, ForwardDate = Helper.GetDate(), ToUnitID = Unit_ID, Readed = false, FromUnitID = p.Units.First(q => q.IS_Mostafid).Units_ID, Code = sendeddata.TempCode });
+					p.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestIID, ExpireDays = Expected, ForwardDate = Helper.GetDate(), ToUnitID = Unit_ID, Readed = false, FromUnitID = p.Units.First(q => q.IS_Mostafid).Units_ID, Code = sendeddata.TempCode, MostafidComment = comment });
 					sendeddata.TempCode = "";
+					if (sendeddata.Request_State_ID == 1)
+						sendeddata.Request_State_ID = 2;
 					p.SaveChanges();
 					sendeddata.Readed = false;
 					var Users = p.Users.Where(q => q.Units.Units_ID == Unit_ID).Select(q => q.User_ID).ToArray();
@@ -333,7 +307,7 @@ namespace IAUBackEnd.Admin.Controllers
 		public async Task<IHttpActionResult> AddComment(int UserID, int RequestID, int CommentType, [FromBody] string Comment)
 		{
 			var CurrentUnit = p.Users.FirstOrDefault(q => q.User_ID == UserID).UnitID;
-			var sendeddata = p.Request_Data.Include(q => q.RequestTransaction).FirstOrDefault(q => q.Request_Data_ID == RequestID);
+			Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == RequestID);
 			var trans = sendeddata.RequestTransaction.Last();
 			if (CurrentUnit == trans.ToUnitID)
 			{
@@ -341,6 +315,8 @@ namespace IAUBackEnd.Admin.Controllers
 				trans.CommentDate = Helper.GetDate();
 				trans.CommentType = CommentType;
 				p.SaveChanges();
+				if (sendeddata.Request_State_ID == 3)
+					sendeddata.Request_State_ID = 4;
 				var Users = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
 				string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 				WebSocketManager.SendToMulti(Users, message);
@@ -349,6 +325,26 @@ namespace IAUBackEnd.Admin.Controllers
 			else
 				return Ok(new ResponseClass() { success = false });
 		}
+		[HttpPost]
+		public async Task<IHttpActionResult> CloseRequest(int UserID, int RequestID)
+		{
+			Request_Data sendeddata = p.Request_Data.Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+
+			if (Unit.IS_Mostafid && (sendeddata.Request_State_ID != 2 && sendeddata.Request_State_ID != 3))
+			{
+				sendeddata.Request_State_ID = 5;
+				p.SaveChanges();
+				string message = $@"
+									عزيزي المستفيد
+									تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate} 
+								";
+				_ = SendSMS(sendeddata.Personel_Data.Mobile, message);
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false });
+		}
+
 		private string GetCode(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
 		{
 			var unit = p.Units.Include(q => q.Units_Location).FirstOrDefault(q => q.Units_ID == Unit_ID);

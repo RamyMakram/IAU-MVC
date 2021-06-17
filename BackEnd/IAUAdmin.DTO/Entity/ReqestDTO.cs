@@ -23,6 +23,8 @@ namespace IAUAdmin.DTO.Entity
         public Nullable<bool> IsTwasul_OC { get; set; }
 		public Nullable<bool> Readed { get; set; }
 
+		public virtual RequestStatusDTO Request_State { get; set; }
+
 		public virtual PersonalDataDTO Personel_Data { get; set; }
         //public virtual Request_State Request_State { get; set; }
         public virtual RequestTypeDTO Request_Type { get; set; }

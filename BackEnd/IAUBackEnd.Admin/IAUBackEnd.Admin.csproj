@@ -254,6 +254,7 @@
     <Compile Include="Controllers\Main_ServicesController.cs" />
     <Compile Include="Controllers\PriviligesController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
+    <Compile Include="Controllers\Request_StateController.cs" />
     <Compile Include="Controllers\Request_TypeController.cs" />
     <Compile Include="Controllers\Service_TypeController.cs" />
     <Compile Include="Controllers\SocketController.cs" />

@@ -127,7 +127,18 @@
 	"t-Buiding": "المبني",
 	"t-Provider": "مقدم الخدمة",
 	"t-ExpectedTime": "الوقت المتوقع",
-	"t-LocationSetting": "اعدادات المواقع"
-
+	"t-LocationSetting": "اعدادات المواقع",
+	"t-backToEmail": "العودة للطلبات",
+	"t-PreviousComment": "التعليقات السابقة",
+	"t-NewComment": "تعليق جديد",
+	"t-RequiredDocs": "الاوراق المطلوبة",
+	"t-SupportiedDocs": "الاوراق الداعمة",
+	"t-close": "اغلاق الطلب",
+	"t-forward": "توجيه الطلب",
+	"t-encode": "تكويد الطلب",
+	"t-preview": "عرض",
+	"t-ConfimRequest": "تم معالجة الطلب",
+	"t-RefuseRequest": "رفض لعدم الاختصاص",
+	"t-MostafidComment": "تعليق مركز رعاية المستفيدين"
 
 }

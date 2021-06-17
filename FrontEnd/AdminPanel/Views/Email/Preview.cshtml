@@ -96,6 +96,27 @@
 			}
 </style>
 <style>
+	.data-Comment {
+		display: none;
+	}
+
+		.data-Comment.active {
+			display: block;
+		}
+
+	.text {
+		height: 253px;
+		border: 1px dashed black;
+		border-radius: 0 25px 25px 0;
+		padding: 15px;
+		margin: 15px 0;
+		overflow: auto;
+	}
+
+		.text[dir='ltr'] {
+			border-radius: 25px 0 0px 25px;
+		}
+
 	.constainDocs {
 		width: 100%;
 		height: 150px;
@@ -251,7 +272,7 @@
 							<h5 class="font-size-14 mt-1 en-font">@Model.Personel_Data.First_Name</h5>
 							<small class="text-muted en-font">@Model.Personel_Data.Email</small>
 						</div>
-						<a href="/Email" class="btn btn-primary">Back To Home</a>
+						<a href="/Email" key="t-backToEmail" class="btn btn-primary">Back To Home</a>
 					</div>
 					<div class="PDFOuterView">
 						<div id="padf" class="pdfnotloaded">
@@ -386,12 +407,16 @@
 											}
 										}
 									</div>
-									<div class="col-3" style="direction:ltr;justify-content: center;align-items: center;display: flex;">
+									<div class="col-3" style="justify-content: space-between;align-items: center;display: flex;">
 										@if (!ShowStaticCode && Model.GenratedDate != null)
 										{
-											<span style="padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
+											<span style="direction:ltr;padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
 												@(Model.GenratedDate.Value.ToString("dd MMM HH:mm"))
 											</span>
+											<div class="form-group">
+												<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
+												<input name="ExpectedDate" dir="@(isAr ? "rtl" : "ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Egypt Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+											</div>
 										}
 									</div>
 								</div>
@@ -448,9 +473,9 @@
 											<div class="form-group">
 												<label key="t-activeTitle" class="control-label">الميني</label>
 												<select id="SSSSstatus" name="BuildingSelect" class="form-control select2">
-													@foreach (var i in ViewBag.Status)
+													@foreach (var i in ViewBag.Status as ICollection<IAUAdmin.DTO.Entity.RequestStatusDTO>)
 													{
-														<option value="null" selected disabled>@i</option>
+														<option value="@i.State_ID" @(Model.Request_State_ID == i.State_ID ? "selected" : "") disabled>@(isAr ? i.StateName_AR : i.StateName_EN)</option>
 													}
 												</select>
 											</div>
@@ -462,12 +487,21 @@
 								}
 							}
 
-							@using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
+							@if (Model.TempCode == "" || Model.TempCode == null)
+							{
+								using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
+								{
+									@Html.Hidden("RequestIID", Model.Request_Data_ID)
+									@Html.Hidden("Unit_ID", Model.Unit_ID)
+									<input name="Expected" type="date" class="form-control  en-font" />
+									<input name="MosComment" id="Mostafidcomment" type="text" class="form-control" />
+									<button style="display:none;" id="SubmitForwared" type="submit"></button>
+								}
+							}
+							@using (Html.BeginForm("CloseRequest", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
 							{
 								@Html.Hidden("RequestIID", Model.Request_Data_ID)
-								@Html.Hidden("Unit_ID", Model.Unit_ID)
-								<input name="Expected" type="date" class="form-control  en-font" />
-								<button style="display:none;" id="SubmitForwared" type="submit"></button>
+								<button style="display:none;" id="SubmitClose" type="submit"></button>
 							}
 
 						</div>
@@ -480,13 +514,12 @@
 						<div class="container">
 							<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true">جديد<span class="marker"></span></a>
-
+									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment" ></span><span class="marker"></span></a>
 								</li>
 								@if (ViewBag.RequestTransaction.Count != 0)
 								{
 									<li class="nav-item">
-										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false">السابق<span class="marker"></span></a>
+										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment" ></span><span class="marker"></span></a>
 									</li>
 								}
 							</ul>
@@ -501,7 +534,7 @@
 								@{
 									if (ViewBag.RequestTransaction.Count != 0)
 									{
-										var count = 1;
+										var count = 0;
 										<div class="tab-pane fade" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
 											<div class="col">
 												<div class="CustomeCarso">
@@ -510,18 +543,31 @@
 														if (i.Comment != "" && i.Comment != null)
 														{
 
-															<div class="data-Comment @(count == 1 ? "active" : "")" data-id="@count">
-																<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span></h3>
-																<div class="text">
-																	@i.Comment
+															count++;
+															<div class="data-Comment @(count == ViewBag.RequestTransaction.Count ? "active" : "")" data-id="@count">
+																<div style="display:inline-flex;justify-content:space-between;width:100%">
+																	<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)</h3>
+																	<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																</div>
+																<div class="text" dir="@(isAr?"rtl":"ltr")">
+																	@Html.Raw(i.Comment)
 																</div>
 															</div>
-															count++;
 														}
 													}
 													<div class="row justify-content-between">
-														<button class="btn btn-outline-primary carNext">></button>
-														<button class="btn btn-outline-primary  carPrev"><</button>
+														@if (isAr)
+														{
+															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+														}
+														else
+														{
+															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+														}
 													</div>
 												</div>
 
@@ -548,10 +594,10 @@
 								{
 									<div class="col-3">
 										<div class="card">
-											<img class="card-img-top img-fluid" src="~/assets/images/attachment.png" alt="Card image cap">
+											<img class="card-img-top img-fluid" data-toggle="tooltip" title="@i.File_Name" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
-												<p class="row" key="t-requirddoc">@(isAr ? i.Required_Documents.Name_AR : @i.Required_Documents.Name_EN)</p>
-												<p class="row">@i.File_Name</p>
+												<p class="row" key="t-requirddoc">@(new string((isAr ? i.Required_Documents.Name_AR : @i.Required_Documents.Name_EN).Take(10).ToArray()))</p>
+												<p class="row">@(new string(i.File_Name.Take(10).ToArray()))</p>
 											</div>
 											<div class="py-2 text-center">
 												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
@@ -603,19 +649,19 @@
 			<div class="card">
 				<div class="card-body">
 					@{
-						var syle = "col-" + (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1 ? 4 : 6);
+						var syle = "col-" + (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1 ? (ShowEncode ? 4 : 6) : 6);
 					}
 					<div class="row">
 						<div class="@syle">
-							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" id="sa-encode"><i class="fas fa-sort-amount-down"></i> <span style="margin:0 15px">1 - تكويد الطلب</span></button>
+							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" id="sa-encode"><i class="fas fa-sort-amount-down"></i> <span style="margin:0 15px" key="t-encode">1 - تكويد الطلب</span></button>
 						</div>
 						<div class="@syle">
-							<button class="btn btn-primary w-100 actionBtn" id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px">2 -  توجيه الطلب</span></button>
+							<button class="btn btn-primary w-100 actionBtn" @(Model.TempCode != "" && Model.TempCode != null ? "" : "disabled") id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px" key="t-forward">2 -  توجيه الطلب</span></button>
 						</div>
-						@if (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+						@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
 						{
 							<div class="@syle justify-content-center d-flex">
-								<button class="btn btn-danger actionBtn"><i class="fas fa-times-circle"></i><span style="margin:0 12px;">اغلاق الطلب</span></button>
+								<button class="btn btn-danger actionBtn" id="sa-close"><i class="fas fa-times-circle"></i><span style="margin:0 12px;" key="t-close">اغلاق الطلب</span></button>
 							</div>
 						}
 					</div>
@@ -656,6 +702,44 @@
 <script src="~/assets/js/app.js"></script>
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
+<script>
+	let toal = parseInt($('#total-comment').text());
+	let activeComment = parseInt($('#total-comment').text());
+	$('.carNext').on('click', function () {
+		activeComment = ((activeComment++) % toal) + 1;
+		$('#from-comment').text(activeComment)
+		$('.data-Comment').removeClass('active');
+		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+	})
+	$('.carPrev').on('click', function () {
+		activeComment = activeComment - 1 == 0 ? toal : activeComment - 1;
+		$('#from-comment').text(activeComment)
+		$('.data-Comment').removeClass('active');
+		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+	})
+</script>
+@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+{
+	<script>
+		$('#sa-close').click(function () {
+		Swal.fire({
+			title:"@(isAr ? "هل انت متاكد من اغلاق هذا الطلب؟" : "Are you sure To Close this request?")",
+			text: "@(isAr?"سيتم ارسال رسالة للمستفيد تفيد بانه تم الانتهاء من الطلب , للمتابعة اضغط موافق":"A message will be sent to the beneficiary stating that the application has been completed and proceeded, press Yes")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(isAr?"موافق , اغلق الطلب":"Yes, Close it!")",
+			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
+		}).then(function (result) {
+			if (result.value) {
+				$('#SubmitClose').click();
+			}
+		});
+	});
+	</script>
+}
 @if (ShowEncode)
 {
 	<script>
@@ -746,8 +830,10 @@
 	}
 	</script>
 }
-<script>
-	$('#sa-forwared').click(function () {
+@if (Model.TempCode != "" && Model.TempCode != null)
+{
+	<script>
+		$('#sa-forwared').click(function () {
 		Swal.fire({
 			title:"@(isAr ? "هل انت متاكد من توجيه هذا الطلب؟" : "Are you sure To Forward this request?")",
 			text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
@@ -761,11 +847,16 @@
 		}).then(function (result) {
 			if (result.value) {
 				$("[name='Expected']").val($("[name='ExpectedDate']").val());
+				$('#Mostafidcomment').val($('.note-editable.card-block').html())
+
 				$('#SubmitForwared').click();
 			}
 		});
 	});
-	$(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip();
-});
+	</script>
+}
+<script>
+	$(document).ready(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
 </script>
