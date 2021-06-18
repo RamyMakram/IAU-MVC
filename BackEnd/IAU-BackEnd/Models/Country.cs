@@ -18,6 +18,8 @@ namespace IAU_BackEnd.Models
         public Country()
         {
             this.Personel_Data = new HashSet<Personel_Data>();
+            this.Personel_Data1 = new HashSet<Personel_Data>();
+            this.Personel_Data2 = new HashSet<Personel_Data>();
             this.Region = new HashSet<Region>();
         }
     
@@ -28,6 +30,10 @@ namespace IAU_BackEnd.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personel_Data> Personel_Data { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Personel_Data> Personel_Data1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Personel_Data> Personel_Data2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Region> Region { get; set; }
     }

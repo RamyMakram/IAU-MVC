@@ -9,46 +9,45 @@
 
 namespace IAU_BackEnd.Models
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
-    public partial class MostafidDatabaseEntities : DbContext
-    {
-        public MostafidDatabaseEntities()
-            : base("name=MostafidDatabaseEntities")
-        {
+	using System;
+	using System.Data.Entity;
+	using System.Data.Entity.Infrastructure;
+
+	public partial class MostafidDatabaseEntities : DbContext
+	{
+		public MostafidDatabaseEntities()
+			: base("name=MostafidDatabaseEntities")
+		{
 			this.Configuration.LazyLoadingEnabled = false;
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
-        public virtual DbSet<City> City { get; set; }
-        public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<ID_Document> ID_Document { get; set; }
-        public virtual DbSet<Main_Services> Main_Services { get; set; }
-        public virtual DbSet<Nationality> Nationality { get; set; }
-        public virtual DbSet<Personel_Data> Personel_Data { get; set; }
-        public virtual DbSet<Region> Region { get; set; }
-        public virtual DbSet<Request_Data> Request_Data { get; set; }
-        public virtual DbSet<Request_File> Request_File { get; set; }
-        public virtual DbSet<Request_Log> Request_Log { get; set; }
-        public virtual DbSet<Request_State> Request_State { get; set; }
-        public virtual DbSet<Request_SupportingDocs> Request_SupportingDocs { get; set; }
-        public virtual DbSet<Request_Type> Request_Type { get; set; }
-        public virtual DbSet<Required_Documents> Required_Documents { get; set; }
-        public virtual DbSet<Service_Type> Service_Type { get; set; }
-        public virtual DbSet<Sub_Services> Sub_Services { get; set; }
-        public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
-        public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
-        public virtual DbSet<Units> Units { get; set; }
-        public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
-        public virtual DbSet<ValidTo> ValidTo { get; set; }
-        public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
-        public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
-        public virtual DbSet<E_Forms> E_Forms { get; set; }
-    }
+		}
+
+		protected override void OnModelCreating(DbModelBuilder modelBuilder)
+		{
+			throw new UnintentionalCodeFirstException();
+		}
+
+		public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
+		public virtual DbSet<City> City { get; set; }
+		public virtual DbSet<Country> Country { get; set; }
+		public virtual DbSet<E_Forms> E_Forms { get; set; }
+		public virtual DbSet<ID_Document> ID_Document { get; set; }
+		public virtual DbSet<Main_Services> Main_Services { get; set; }
+		public virtual DbSet<Personel_Data> Personel_Data { get; set; }
+		public virtual DbSet<Region> Region { get; set; }
+		public virtual DbSet<Request_File> Request_File { get; set; }
+		public virtual DbSet<Request_Log> Request_Log { get; set; }
+		public virtual DbSet<Request_State> Request_State { get; set; }
+		public virtual DbSet<Request_Type> Request_Type { get; set; }
+		public virtual DbSet<Required_Documents> Required_Documents { get; set; }
+		public virtual DbSet<Service_Type> Service_Type { get; set; }
+		public virtual DbSet<Sub_Services> Sub_Services { get; set; }
+		public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
+		public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
+		public virtual DbSet<Units> Units { get; set; }
+		public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
+		public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
+		public virtual DbSet<ValidTo> ValidTo { get; set; }
+		public virtual DbSet<Request_Data> Request_Data { get; set; }
+		public virtual DbSet<RequestTransaction> RequestTransaction { get; set; }
+	}
 }

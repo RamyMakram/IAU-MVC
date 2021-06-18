@@ -58,6 +58,7 @@
     <Compile Include="Controllers\IDDOcController.cs" />
     <Compile Include="Controllers\MainServiceController.cs" />
     <Compile Include="Controllers\Region_CityController.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\RequestTypeController.cs" />
     <Compile Include="Controllers\ServiceTypeController.cs" />
     <Compile Include="Controllers\SubServicesController.cs" />
@@ -100,13 +101,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MostafidModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Nationality.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Personel_Data.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Region.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequestTransaction.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_Data.cs">
@@ -119,9 +120,6 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_State.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Request_SupportingDocs.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Request_Type.cs">

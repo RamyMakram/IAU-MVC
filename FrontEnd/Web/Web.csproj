@@ -281,6 +281,7 @@
     <Content Include="Design\img\VisionLogo.png" />
     <Content Include="Design\img\VisionLogo2.png" />
     <Content Include="Design\JS\AraTranslate.js" />
+    <Content Include="Design\JS\bootstrap.bundle.min.js" />
     <Content Include="Design\JS\bootstrap.min.js" />
     <Content Include="Design\JS\follow.js" />
     <Content Include="Design\JS\IFrameChanges.js" />

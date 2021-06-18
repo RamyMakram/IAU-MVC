@@ -58,23 +58,11 @@
     <Property Name="IS_Action" Type="bit" />
     <Property Name="ServiceTypeID" Type="int" />
   </EntityType>
-  <EntityType Name="Nationality">
-    <Key>
-      <PropertyRef Name="Nationality_ID" />
-    </Key>
-    <Property Name="Nationality_ID" Type="int" Nullable="false" />
-    <Property Name="Nationality_Name_EN" Type="nvarchar" MaxLength="250" />
-    <Property Name="Nationality_Name_AR" Type="nvarchar" MaxLength="250" />
-    <Property Name="IS_Action" Type="bit" />
-  </EntityType>
   <EntityType Name="Personel_Data">
     <Key>
       <PropertyRef Name="Personel_Data_ID" />
     </Key>
     <Property Name="Personel_Data_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ID_Document" Type="int" Nullable="false" />
-    <Property Name="ID_Number" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="IAU_Affiliate_ID" Type="int" />
     <Property Name="IAU_ID_Number" Type="nvarchar" MaxLength="100" />
     <Property Name="Applicant_Type_ID" Type="int" />
     <Property Name="Title_Middle_Names_ID" Type="int" />
@@ -82,13 +70,17 @@
     <Property Name="Middle_Name" Type="nvarchar" MaxLength="100" />
     <Property Name="Last_Name" Type="nvarchar" MaxLength="100" />
     <Property Name="Nationality_ID" Type="int" />
+    <Property Name="ID_Document" Type="int" Nullable="false" />
     <Property Name="Country_ID" Type="int" />
-    <Property Name="City_Country_1" Type="nvarchar" MaxLength="200" />
-    <Property Name="City_Country_2" Type="nvarchar" MaxLength="200" />
-    <Property Name="Region_Postal_Code_1" Type="nvarchar" MaxLength="100" />
-    <Property Name="Region_Postal_Code_2" Type="nvarchar" MaxLength="100" />
+    <Property Name="ID_Number" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Address_CountryID" Type="int" Nullable="false" />
+    <Property Name="Address_CityID" Type="int" />
+    <Property Name="Adress_RegionID" Type="int" />
+    <Property Name="Address_City" Type="nvarchar" MaxLength="200" />
+    <Property Name="Adress_Region" Type="nvarchar" MaxLength="200" />
+    <Property Name="Postal_Code" Type="nvarchar" MaxLength="100" />
     <Property Name="Email" Type="nvarchar" MaxLength="200" />
-    <Property Name="Mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="IS_Action" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="Region">
@@ -107,16 +99,19 @@
     </Key>
     <Property Name="Request_Data_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Personel_Data_ID" Type="int" />
-    <Property Name="Provider_Academic_Services_ID" Type="int" />
+    <Property Name="Unit_ID" Type="int" />
     <Property Name="Sub_Services_ID" Type="int" />
     <Property Name="Required_Fields_Notes" Type="nvarchar(max)" />
     <Property Name="Service_Type_ID" Type="int" />
     <Property Name="Request_Type_ID" Type="int" />
-    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-    <Property Name="Code_Generate" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Code_Generate" Type="nvarchar" MaxLength="13" />
+    <Property Name="TempCode" Type="nvarchar" MaxLength="13" />
     <Property Name="Request_State_ID" Type="tinyint" Nullable="false" />
-    <Property Name="signpdfpath" Type="varchar(max)" />
     <Property Name="IsTwasul_OC" Type="bit" />
+    <Property Name="Readed" Type="bit" />
+    <Property Name="ReadedDate" Type="datetime" />
+    <Property Name="GenratedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Request_File">
     <Key>
@@ -124,9 +119,10 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="File_Name" Type="nvarchar" MaxLength="250" Nullable="false" />
-    <Property Name="File_Path" Type="varchar(max)" Nullable="false" />
+    <Property Name="File_Path" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="Request_ID" Type="int" Nullable="false" />
+    <Property Name="RequiredDoc_ID" Type="int" />
   </EntityType>
   <EntityType Name="Request_Log">
     <Key>
@@ -142,18 +138,9 @@
     <Key>
       <PropertyRef Name="State_ID" />
     </Key>
-    <Property Name="State_ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="State_ID" Type="tinyint" Nullable="false" />
     <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Request_SupportingDocs">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RequestID" Type="int" Nullable="false" />
-    <Property Name="SupportingDocID" Type="int" Nullable="false" />
-    <Property Name="Path" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="Request_Type">
     <Key>
@@ -164,6 +151,24 @@
     <Property Name="Request_Type_Name_AR" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_Action" Type="bit" />
     <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="RequestTransaction">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Request_ID" Type="int" Nullable="false" />
+    <Property Name="FromUnitID" Type="int" Nullable="false" />
+    <Property Name="ToUnitID" Type="int" />
+    <Property Name="ForwardDate" Type="datetime" />
+    <Property Name="ExpireDays" Type="datetime" />
+    <Property Name="Comment" Type="nvarchar(max)" />
+    <Property Name="CommentType" Type="int" />
+    <Property Name="Readed" Type="bit" Nullable="false" />
+    <Property Name="ReadedDate" Type="datetime" />
+    <Property Name="MostafidComment" Type="nvarchar(max)" />
+    <Property Name="CommentDate" Type="datetime" />
+    <Property Name="Code" Type="nvarchar" MaxLength="13" />
   </EntityType>
   <EntityType Name="Required_Documents">
     <Key>
@@ -290,6 +295,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Personel_Data_Applicant_Type">
+    <End Role="Applicant_Type" Type="Self.Applicant_Type" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Applicant_Type">
+        <PropertyRef Name="Applicant_Type_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Applicant_Type_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_City">
+    <End Role="City" Type="Self.City" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="City_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Address_CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Personel_Data_Country">
     <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
     <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
@@ -298,7 +327,31 @@
         <PropertyRef Name="Country_ID" />
       </Principal>
       <Dependent Role="Personel_Data">
+        <PropertyRef Name="Nationality_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Country1">
+    <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
         <PropertyRef Name="Country_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Country_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Personel_Data_Country2">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Country_ID" />
+      </Principal>
+      <Dependent Role="Personel_Data">
+        <PropertyRef Name="Address_CountryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -314,15 +367,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Personel_Data_Nationality">
-    <End Role="Nationality" Type="Self.Nationality" Multiplicity="0..1" />
+  <Association Name="FK_Personel_Data_Region">
+    <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
     <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Nationality">
-        <PropertyRef Name="Nationality_ID" />
+      <Principal Role="Region">
+        <PropertyRef Name="Region_ID" />
       </Principal>
       <Dependent Role="Personel_Data">
-        <PropertyRef Name="Nationality_ID" />
+        <PropertyRef Name="Adress_RegionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -410,6 +463,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Request_Data_Units">
+    <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Unit_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Request_File_Request_Data">
     <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
     <End Role="Request_File" Type="Self.Request_File" Multiplicity="*" />
@@ -419,6 +484,18 @@
       </Principal>
       <Dependent Role="Request_File">
         <PropertyRef Name="Request_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_File_Required_Documents">
+    <End Role="Required_Documents" Type="Self.Required_Documents" Multiplicity="0..1" />
+    <End Role="Request_File" Type="Self.Request_File" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Required_Documents">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Request_File">
+        <PropertyRef Name="RequiredDoc_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -446,27 +523,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Request_SupportingDocs_Request_Data">
+  <Association Name="FK_RequestTransaction_Request_Data">
     <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
-    <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+    <End Role="RequestTransaction" Type="Self.RequestTransaction" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Request_Data">
         <PropertyRef Name="Request_Data_ID" />
       </Principal>
-      <Dependent Role="Request_SupportingDocs">
-        <PropertyRef Name="RequestID" />
+      <Dependent Role="RequestTransaction">
+        <PropertyRef Name="Request_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Request_SupportingDocs_Supporting_Documents">
-    <End Role="Required_Documents" Type="Self.Required_Documents" Multiplicity="1" />
-    <End Role="Request_SupportingDocs" Type="Self.Request_SupportingDocs" Multiplicity="*" />
+  <Association Name="FK_RequestTransaction_Units">
+    <End Role="Units" Type="Self.Units" Multiplicity="1" />
+    <End Role="RequestTransaction" Type="Self.RequestTransaction" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Required_Documents">
-        <PropertyRef Name="ID" />
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
       </Principal>
-      <Dependent Role="Request_SupportingDocs">
-        <PropertyRef Name="SupportingDocID" />
+      <Dependent Role="RequestTransaction">
+        <PropertyRef Name="FromUnitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestTransaction_Units1">
+    <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+    <End Role="RequestTransaction" Type="Self.RequestTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
+      </Principal>
+      <Dependent Role="RequestTransaction">
+        <PropertyRef Name="ToUnitID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -621,15 +710,14 @@
     <EntitySet Name="E-Forms" EntityType="Self.E-Forms" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ID_Document" EntityType="Self.ID_Document" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Data" EntityType="Self.Request_Data" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_File" EntityType="Self.Request_File" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Log" EntityType="Self.Request_Log" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_State" EntityType="Self.Request_State" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Request_SupportingDocs" EntityType="Self.Request_SupportingDocs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Request_Type" EntityType="Self.Request_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequestTransaction" EntityType="Self.RequestTransaction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Required_Documents" EntityType="Self.Required_Documents" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
@@ -651,7 +739,23 @@
       <End Role="Service_Type" EntitySet="Service_Type" />
       <End Role="Main_Services" EntitySet="Main_Services" />
     </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="Self.FK_Personel_Data_Applicant_Type">
+      <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_City" Association="Self.FK_Personel_Data_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
     <AssociationSet Name="FK_Personel_Data_Country" Association="Self.FK_Personel_Data_Country">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Country1" Association="Self.FK_Personel_Data_Country1">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="Personel_Data" EntitySet="Personel_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Personel_Data_Country2" Association="Self.FK_Personel_Data_Country2">
       <End Role="Country" EntitySet="Country" />
       <End Role="Personel_Data" EntitySet="Personel_Data" />
     </AssociationSet>
@@ -659,8 +763,8 @@
       <End Role="ID_Document" EntitySet="ID_Document" />
       <End Role="Personel_Data" EntitySet="Personel_Data" />
     </AssociationSet>
-    <AssociationSet Name="FK_Personel_Data_Nationality" Association="Self.FK_Personel_Data_Nationality">
-      <End Role="Nationality" EntitySet="Nationality" />
+    <AssociationSet Name="FK_Personel_Data_Region" Association="Self.FK_Personel_Data_Region">
+      <End Role="Region" EntitySet="Region" />
       <End Role="Personel_Data" EntitySet="Personel_Data" />
     </AssociationSet>
     <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="Self.FK_Personel_Data_Title_Middle_Names">
@@ -691,8 +795,16 @@
       <End Role="Sub_Services" EntitySet="Sub_Services" />
       <End Role="Request_Data" EntitySet="Request_Data" />
     </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Units" Association="Self.FK_Request_Data_Units">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
     <AssociationSet Name="FK_Request_File_Request_Data" Association="Self.FK_Request_File_Request_Data">
       <End Role="Request_Data" EntitySet="Request_Data" />
+      <End Role="Request_File" EntitySet="Request_File" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_File_Required_Documents" Association="Self.FK_Request_File_Required_Documents">
+      <End Role="Required_Documents" EntitySet="Required_Documents" />
       <End Role="Request_File" EntitySet="Request_File" />
     </AssociationSet>
     <AssociationSet Name="FK_Request_Log_Request_State" Association="Self.FK_Request_Log_Request_State">
@@ -703,13 +815,17 @@
       <End Role="Request_Data" EntitySet="Request_Data" />
       <End Role="Request_Log" EntitySet="Request_Log" />
     </AssociationSet>
-    <AssociationSet Name="FK_Request_SupportingDocs_Request_Data" Association="Self.FK_Request_SupportingDocs_Request_Data">
+    <AssociationSet Name="FK_RequestTransaction_Request_Data" Association="Self.FK_RequestTransaction_Request_Data">
       <End Role="Request_Data" EntitySet="Request_Data" />
-      <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+      <End Role="RequestTransaction" EntitySet="RequestTransaction" />
     </AssociationSet>
-    <AssociationSet Name="FK_Request_SupportingDocs_Supporting_Documents" Association="Self.FK_Request_SupportingDocs_Supporting_Documents">
-      <End Role="Required_Documents" EntitySet="Required_Documents" />
-      <End Role="Request_SupportingDocs" EntitySet="Request_SupportingDocs" />
+    <AssociationSet Name="FK_RequestTransaction_Units" Association="Self.FK_RequestTransaction_Units">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="RequestTransaction" EntitySet="RequestTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestTransaction_Units1" Association="Self.FK_RequestTransaction_Units1">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="RequestTransaction" EntitySet="RequestTransaction" />
     </AssociationSet>
     <AssociationSet Name="FK_Required_Documents_Sub_Services" Association="Self.FK_Required_Documents_Sub_Services">
       <End Role="Sub_Services" EntitySet="Sub_Services" />
