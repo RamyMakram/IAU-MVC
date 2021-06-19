@@ -395,7 +395,7 @@ function sendSMS() {
 	$(".loading").addClass("active");
 
 	$.ajax({
-		url: `/Home/SendVerification?to=${data.Mobile}`,
+		url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}`,
 		type: "GET",
 		success: function (result) {
 			var myModal = new bootstrap.Modal(document.getElementById('FourMessage'), {
