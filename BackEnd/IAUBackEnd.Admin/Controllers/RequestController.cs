@@ -331,7 +331,7 @@ namespace IAUBackEnd.Admin.Controllers
 			Request_Data sendeddata = p.Request_Data.Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 
-			if (Unit.IS_Mostafid && (sendeddata.Request_State_ID != 2 && sendeddata.Request_State_ID != 3))
+			if (Unit.IS_Mostafid && (sendeddata.Request_State_ID != 2))
 			{
 				sendeddata.Request_State_ID = 5;
 				p.SaveChanges();

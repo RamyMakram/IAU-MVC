@@ -1,8 +1,11 @@
 ﻿@model ICollection<IAUAdmin.DTO.Entity.ReqestDTO>
 @{
-	ViewBag.Title = "Home";
-	ViewBag.pTitle = "Emails";
-	ViewBag.pageTitle = "Inbox";
+	ViewBag.Title = "Requests";
+	ViewBag.pTitle = "Requests";
+	ViewBag.pageTitle = "All Requests";
+	ViewBag.arTitle = "الطلبات";
+	ViewBag.arpageTitle = "الطلبات";
+	ViewBag.arpTitle = "كل الطلبات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,25 +14,32 @@
 <link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <!-- Responsive datatable examples -->
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<<<<<<< HEAD
-@*<style>
-		.date {
-			width: 190px !important
-		}
-	</style>*@
-=======
 <style>
-	#MailList tr:nth-of-type(1) {
+
+	table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after {
+		opacity: 1 !important;
+		color: red;
+	}
+
+	table.dataTable thead th:before, table.dataTable thead th:after {
+		opacity: 1 !important;
+		color: black;
+	}
+
+	#MailList tr.noreaded {
 		background-color: #fff59d8f;
 		color: white;
 	}
 
-		#MailList tr:nth-of-type(1) td {
-			border: 0;
-			color: black;
-		}
+	#MailList tr.noreaded  td {
+		border: 0;
+		color: black;
+	}
+
+	#MailList tr td {
+		border-bottom: 1px solid #0000005c !important;
+	}
 </style>
->>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 
 @{
 	var lang = Request.Cookies["lang"].Value;
@@ -39,22 +49,24 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
+				<div class="col-12 justify-content-between">
+					<button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center" style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
+						<span key="t-filters"></span><i class="fas fa-caret-down"></i>
+					</button>
+					<button type="button" class="btn btn-primary ">
+						<span key="t-ArchiveSelected">Archive Selected</span>
+					</button>
+				</div>
 
-<<<<<<< HEAD
-				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-=======
 				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
->>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 					<thead>
 						<tr>
+							<th style="padding: 9px;"><input type="checkbox" id="mainCheck" /></th>
+							<th>#</th>
 							<th key="t-mainservice">ServiceType</th>
 							<th key="t-request-type">RequestType</th>
 							<th key="t-IAUAff">IS IAU</th>
-<<<<<<< HEAD
-							<th key="t-firstname">Name</th>
-=======
 							<th key="t-mostafidname">Name</th>
->>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
 							<th key="t-date">Date</th>
 							<th key="t-comment">Comment</th>
 						</tr>
@@ -62,11 +74,9 @@
 					<tbody id="MailList">
 						@foreach (var i in Model)
 						{
-<<<<<<< HEAD
-							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')">
-=======
-							<tr @*onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')"*@>
->>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
+							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
+								<td><input type="checkbox" class="selectbox-request" id="@i.Request_Data_ID" /></td>
+								<td>@i.Request_Data_ID</td>
 								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
 								<td>@(lang == "ar" ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
 								<td>
@@ -85,7 +95,16 @@
 									@(i.CreatedDate.ToString("MM/dd - HH:mm"))
 								</td>
 
-								<td>@(i.Required_Fields_Notes == null ? "" : i.Required_Fields_Notes.Take(400))</td>
+								<td>
+									<div class="dropdown dropbtn">
+										@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
+										<div class="dropdown-content">
+											<div class="p-10">
+												@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
+											</div>
+										</div>
+									</div>
+								</td>
 							</tr>
 						}
 					</tbody>
@@ -95,13 +114,69 @@
 	</div> <!-- end col -->
 </div> <!-- end row -->
 
+<div class="modal fade" id="FilterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" @*style="max-width:97vw"*@>
+		<div class="modal-content">
+			<div class="modal-body m-0">
+				<div class="row w-100 h-100 m-0">
+					<div class="col-12 form-group">
+						<label key="t-mainservice" class="control-label"></label>
+						<select class="form-control select2">
+							<option selected value="null" key="t-all">All</option>
+							@foreach (var i in ViewBag.ServiceType)
+							{
+								<option value="@i.Service_Type_ID">@(lang == "ar" ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
+							}
+						</select>
+					</div>
+					<div class="col-12 form-group">
+						<label key="t-request-type" class="control-label"></label>
+						<select class="form-control select2">
+							<option selected value="null" key="t-all">All</option>
+							@foreach (var i in ViewBag.ReqTypes)
+							{
+								<option value="@i.Request_Type_ID">@(lang == "ar" ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
+							}
+						</select>
+					</div>
+					<div class="col-12 form-group">
+						<label key="t-IAUAff" class="control-label"></label>
+						<select class="form-control select2">
+							<option selected value="0" key="t-no"></option>
+							<option value="1" key="t-yes"></option>
+						</select>
+					</div>
+					<div class="col-12 d-inline-flex justify-content-around">
+						<div class="form-group">
+							<label class="control-label" key="t-date-from">From</label>
+							<input type="date" class="form-group" />
+						</div>
+						<div class="form-group">
+							<label class="control-label" key="t-date-to">To</label>
+							<input type="date" class="form-group" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" key="t-cancel">Close</button>
+				<button type="button" class="btn btn-primary" key="t-filter">Filter</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+
 <script>
 	function Preview(url) {
 		window.location.href = url;
 	}
-</script>
+	$('#mainCheck').on('click', function () {
+		console.log(this.checked)
+		this.checked ? $('.selectbox-request').prop('checked', true) : $('.selectbox-request').prop('checked', false);
 
-<script src="~/assets/libs/jquery/jquery.min.js"></script>
+	})
+</script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>

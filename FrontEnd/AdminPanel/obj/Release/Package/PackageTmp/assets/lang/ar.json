@@ -93,7 +93,7 @@
 	"t-Typecode": "كود النوع",
 	"t-summary": "   ملخص الطلب   ",
 	"t-serviceType": "   نوع الخدمة   ",
-	"t-reqtype": "   نوع الطلب   ",
+	"t-reqtype": "نوع الطلب",
 	"t-personalData": "   البيانات الشخصية   ",
 	"t-genralInfo": "   البيانات العامة   ",
 	"t-IAUAff": "   منسوب للجامعة   ",
@@ -111,19 +111,34 @@
 	"t-postal": "   الرقم البريدي   ",
 	"t-contactinfo": "   معلومات الاتصال   ",
 	"t-phone": "   رقم الهاتف   ",
-<<<<<<< HEAD
-	"t-profile": "ملفي",
-	"t-date": "التاريخ",
-	"t-comment": "تعليق الطلب",
-	"t-yes": "نعم",
-	"t-no": "لا"
-=======
 	"t-profile": "الملف الشخصي",
 	"t-date": "التاريخ",
 	"t-comment": "ملاحظات",
 	"t-yes": "نعم",
 	"t-no": "لا",
-	"t-mostafidname": "اسم المستفيد"
->>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed
+	"t-mostafidname": "اسم المستفيد",
+	"t-all": "الكل",
+	"t-date-from": "التاريخ من",
+	"t-date-to": "التاريخ الي",
+	"t-filter": "تطبيق الفرز",
+	"t-filters": "فرز",
+	"t-ArchiveSelected": "حفظ الطلبات المحدده",
+	"t-e-source": "المصدر",
+	"t-Buiding": "المبني",
+	"t-Provider": "مقدم الخدمة",
+	"t-ExpectedTime": "الوقت المتوقع",
+	"t-LocationSetting": "اعدادات المواقع",
+	"t-backToEmail": "العودة للطلبات",
+	"t-PreviousComment": "التعليقات السابقة",
+	"t-NewComment": "تعليق جديد",
+	"t-RequiredDocs": "الاوراق المطلوبة",
+	"t-SupportiedDocs": "الاوراق الداعمة",
+	"t-close": "اغلاق الطلب",
+	"t-forward": "توجيه الطلب",
+	"t-encode": "تكويد الطلب",
+	"t-preview": "عرض",
+	"t-ConfimRequest": "تم معالجة الطلب",
+	"t-RefuseRequest": "رفض لعدم الاختصاص",
+	"t-MostafidComment": "تعليق مركز رعاية المستفيدين"
 
 }

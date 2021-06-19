@@ -37,7 +37,6 @@
 
 				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
 				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
-
 				@using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data" }))
 				{
 					<div class="row">
@@ -50,7 +49,7 @@
 								<label class="control-label" key="t-path" for="name">Image</label>
 								<div class="custom-file">
 									@Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input en-font", @type = "file", @name = "name", @id = "customFile" })
-									<label class="custom-file-label en-font" id="fileRaplace" for="customFile"></label>
+									<label class="custom-file-label en-font" id="fileRaplace" for="customFile">Choose file</label>
 								</div>
 							</div>
 						</div>
@@ -99,16 +98,16 @@
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
 <script>
-		document.getElementById("customFile").addEventListener('change',
-			function (e) {
-				if (this.files.length != 0) {
-					$('#fileRaplace').text(this.files[0].name)
-				}
-				else {
-					$('#fileRaplace').text("")
-				}
-			},
-			false
-		);
-	
+	document.getElementById("customFile").addEventListener('change',
+		function (e) {
+			if (this.files.length != 0) {
+				$('#fileRaplace').text(this.files[0].name)
+			}
+			else {
+				$('#fileRaplace').text("")
+			}
+		},
+		false
+	);
+
 </script>

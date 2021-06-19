@@ -272,8 +272,12 @@
     <EntitySetMapping Name="Request_Data">
       <EntityTypeMapping TypeName="MostafidDBModel.Request_Data">
         <MappingFragment StoreEntitySet="Request_Data">
+          <ScalarProperty Name="GenratedDate" ColumnName="GenratedDate" />
+          <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
+          <ScalarProperty Name="Readed" ColumnName="Readed" />
           <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
           <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
+          <ScalarProperty Name="TempCode" ColumnName="TempCode" />
           <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
@@ -326,6 +330,25 @@
           <ScalarProperty Name="Request_Type_Name_AR" ColumnName="Request_Type_Name_AR" />
           <ScalarProperty Name="Request_Type_Name_EN" ColumnName="Request_Type_Name_EN" />
           <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequestTransaction">
+      <EntityTypeMapping TypeName="MostafidDBModel.RequestTransaction">
+        <MappingFragment StoreEntitySet="RequestTransaction">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+          <ScalarProperty Name="CommentType" ColumnName="CommentType" />
+          <ScalarProperty Name="MostafidComment" ColumnName="MostafidComment" />
+          <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
+          <ScalarProperty Name="Readed" ColumnName="Readed" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="ExpireDays" ColumnName="ExpireDays" />
+          <ScalarProperty Name="ForwardDate" ColumnName="ForwardDate" />
+          <ScalarProperty Name="ToUnitID" ColumnName="ToUnitID" />
+          <ScalarProperty Name="FromUnitID" ColumnName="FromUnitID" />
+          <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -443,6 +466,7 @@
     <EntitySetMapping Name="Units_Location">
       <EntityTypeMapping TypeName="MostafidDBModel.Units_Location">
         <MappingFragment StoreEntitySet="Units_Location">
+          <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
           <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
           <ScalarProperty Name="Units_Location_Name_EN" ColumnName="Units_Location_Name_EN" />
@@ -484,6 +508,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="MostafidDBModel.Users">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
           <ScalarProperty Name="UnitID" ColumnName="UnitID" />
           <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
           <ScalarProperty Name="IS_Active" ColumnName="IS_Active" />

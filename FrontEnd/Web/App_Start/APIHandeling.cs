@@ -160,6 +160,17 @@ namespace Web.App_Start
 			var res = await h.GetAsync("/api/" + apiName);
 			return res;
 		}
+		public static HttpResponseMessage GetDataAdmin(string apiName)
+		{
+			HttpClient h = new HttpClient();
+
+			h.BaseAddress = new Uri(AdminURL);
+
+			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+
+			var res = h.GetAsync("/api/" + apiName);
+			return res.Result; ;
+		}
 		/// <summary>
 		/// INSERT using API
 		/// </summary>

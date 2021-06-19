@@ -1,7 +1,12 @@
 ﻿@model IAUAdmin.DTO.Entity.ReqestDTO
 @using System.Configuration;
 @{
-	ViewBag.Title = "Preview";
+	ViewBag.pTitle = "Requests";
+	ViewBag.pageTitle = "All Requests";
+	ViewBag.Title = "Preview Request";
+	ViewBag.arTitle = "الطلبات";
+	ViewBag.arpageTitle = "الطلبات";
+	ViewBag.arpTitle = "استعراض الطلب";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -487,7 +492,7 @@
 								}
 							}
 
-							@if (Model.TempCode == "" || Model.TempCode == null)
+							@if (Model.TempCode != "" && Model.TempCode != null)
 							{
 								using (Html.BeginForm("Forward", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
 								{
@@ -498,10 +503,14 @@
 									<button style="display:none;" id="SubmitForwared" type="submit"></button>
 								}
 							}
-							@using (Html.BeginForm("CloseRequest", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
+							@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
 							{
-								@Html.Hidden("RequestIID", Model.Request_Data_ID)
-								<button style="display:none;" id="SubmitClose" type="submit"></button>
+
+								using (Html.BeginForm("CloseRequest", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
+								{
+									@Html.Hidden("RequestIID", Model.Request_Data_ID)
+									<button style="display:none;" id="SubmitClose" type="submit"></button>
+								}
 							}
 
 						</div>
@@ -514,12 +523,12 @@
 						<div class="container">
 							<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment" ></span><span class="marker"></span></a>
+									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment"></span><span class="marker"></span></a>
 								</li>
 								@if (ViewBag.RequestTransaction.Count != 0)
 								{
 									<li class="nav-item">
-										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment" ></span><span class="marker"></span></a>
+										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
 									</li>
 								}
 							</ul>

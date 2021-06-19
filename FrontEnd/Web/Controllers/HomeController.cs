@@ -61,7 +61,7 @@ namespace Web.Controllers
 				//Console.WriteLine(code);
 				code = 1111;
 				string message = $@"Use this code {code} to complete your request.";
-				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message);
+				var res = APIHandeling.GetDataAdmin("/Request/SendSMS?Mobile=" + to + "&message=" + message);
 				var resJson = res.Content.ReadAsStringAsync().Result;
 				Response.Cookies.Add(new HttpCookie("n", Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())))));
 				return Json(resJson, JsonRequestBehavior.AllowGet);
