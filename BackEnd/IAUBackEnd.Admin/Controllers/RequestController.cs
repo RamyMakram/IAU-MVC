@@ -126,7 +126,6 @@ namespace IAUBackEnd.Admin.Controllers
 					await p.SaveChangesAsync();
 				}
 				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
-				request_Data.Code_Generate = DateTime.Now.ToString("yyyyMMddHHmm");
 				request_Data.CreatedDate = DateTime.Now;
 				request_Data.Request_State_ID = 1;
 				request_Data.IsTwasul_OC = false;
@@ -247,12 +246,11 @@ namespace IAUBackEnd.Admin.Controllers
 					req.GenratedDate = Helper.GetDate();
 					p.SaveChanges();
 					string message = $@"
-									عزيزي المستفيد
-									نفيدكم بأن كود الطلب الخاص بكم هو {Code} 
+									عزيزي المستفيد,
+									:نفيدكم بأن كود الطلب الخاص بكم هو {Code} 
 									برجاء استخدامة في حالة الاستعلام
 								";
-					if (type == "c")
-						_ = SendSMS(req.Personel_Data.Mobile, message);
+					_ = SendSMS(req.Personel_Data.Mobile, message);
 				}
 				else
 				{

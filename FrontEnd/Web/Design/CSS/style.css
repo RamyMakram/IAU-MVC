@@ -861,9 +861,9 @@ nav {
         letter-spacing: 0.05em;
     }
 
-        .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span:last-of-type {
+        /*.containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span:last-of-type {
             letter-spacing: 0.15em;
-        }
+        }*/
 
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 {
         padding: 0px

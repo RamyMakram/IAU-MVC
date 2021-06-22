@@ -154,11 +154,11 @@ $("#right-arrow").click(function() {
             ([...controls]).forEach(e => {
                 if (e.value == "" || e.value == null || e.value == "null") {
                     $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
-                    error = true;
                     if (e.id == "IAUID" && affilte.value == 0) {
-                        error = false;
                         $(e).css({ 'border': 'none', 'background': '#646e85' })
                     }
+                    else
+                        error = true;
                 }
                 else {
                     $(e).css({ 'border': 'none', 'background': 'white' })
@@ -166,6 +166,15 @@ $("#right-arrow").click(function() {
             });
             let e = $('#Mobile')
             if (e.val() == "" || e.val() == null || e.val() == "null" || e.val().length != 9) {
+                $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
+                error = true;
+                return;
+            }
+            else {
+                $(e).css({ 'border': 'none', 'background': 'white' })
+            }
+            e = $('#idNumber')
+            if (e.val() == "" || e.val() == null || e.val() == "null" || e.val().length != 10) {
                 $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
                 error = true;
                 return;
@@ -218,6 +227,11 @@ $("#right-arrow").click(function() {
         }
         if (error)
             return;
+        else {
+            $(".nav-fill .nav-link").removeClass("active");
+            $(".nav-fill .nav-item:nth-of-type(" + incrementValue + ") .nav-link").addClass("active")
+            incrementValue++;
+        }
 
 
     } else {
@@ -567,7 +581,7 @@ function saveRequest() {
 											<a href="" class="btn" id="Okaybutton">موافق</a>
 										</div>
 									</div > `
-                            :`<div class= "row" >
+                            : `<div class= "row" >
 										<div class="success">
 											<span>Your request has been sent successfully. You will soon receive the </span><br />
 											<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
@@ -852,7 +866,7 @@ function serialiazeForm() {
             Adress_Region: isSaudi ? null : $('#Region_Postal_Code_1').val(),
             Postal_Code: $('#Region_Postal_Code_2').val(),
             Email: $('#Email').val(),
-            Mobile: "96" + $('#Mobile').val(),
+            Mobile: "966" + $('#Mobile').val(),
         },
         Affiliated: isAffilate,
         ID_Document_Name: $('#ID_Document  option:selected').text(),
@@ -892,7 +906,7 @@ function SerializeGenratePDF() {
         Region: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
         postal: $('#Region_Postal_Code_2').val(),
         Email: $('#Email').val(),
-        Mobile: "96" + $('#Mobile').val(),
+        Mobile: "966" + $('#Mobile').val(),
 
 
         Personel_Data: {
@@ -909,7 +923,7 @@ function SerializeGenratePDF() {
             Adress_Region: $('#Region_Postal_Code_1').val(),
             Postal_Code: $('#Region_Postal_Code_2').val(),
             Email: $('#Email').val(),
-            Mobile: $('#Mobile').val(),
+            Mobile: "966" +$('#Mobile').val(),
         },
         title_Middle_Names: $('#title  option:selected').text(),
         title: $('#title  option:selected').val() == "null" ? null : $('#title  option:selected').val(),
