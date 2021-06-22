@@ -2,11 +2,15 @@
     font-family: "Frutiger";
     src: url("../webfonts/fru/frutiger-normal-5871d13e09363.ttf");
 }
-
+.required-field div:nth-of-type(1) label:after, .required-lable:after {
+	content: "*";
+	color: red;
+	padding: 0 5px;
+}
 html,
 body {
-    height: 100%;
-    background-color: #0a1332;
+	height: 100%;
+	background-color: #0a1332;
 }
 
 /* #region Navbar */
@@ -26,7 +30,7 @@ nav {
 
     nav a img:first-of-type {
         width: 60px;
-        margin-right: 20px;
+        margin-right: 20px;x
     }
 
     nav a img:nth-of-type(2) {
@@ -162,19 +166,21 @@ nav {
     padding-top: 15px;
 }
 
-    .containt #Service_Type_Id .stick p,
-    .containt #Request_Type_Id .stick p,
-    .containt #start-request .stick p {
-        margin: 0px;
-        text-transform: uppercase;
-        font-size: 14px;
-        line-height: 1.2;
-        font-weight: bold;
-    }
+	.containt #Service_Type_Id .stick p,
+	.containt #Request_Type_Id .stick p,
+	.containt #start-request .stick p {
+		margin: 0px;
+		text-transform: uppercase;
+		font-size: 14px;
+		line-height: 1.2;
+		font-weight: bold;
+		white-space: pre-line;
+	}
 
 .containt #Service_Type_Id .col-lg-3 .stick img {
-    width: 90px;
-    margin-bottom: 40px;
+	width: 90px;
+	margin-bottom: 40px;
+	height: 100px !important;
 }
 
 .containt #Service_Type_Id .stick p:nth-of-type(1),

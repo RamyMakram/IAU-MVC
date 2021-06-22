@@ -329,7 +329,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">معلومات عامة</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row  required-field">
 									<div class="col-md-5">
 										<label>منسوبي الجامعة</label>
 									</div>
@@ -340,9 +340,9 @@
 												 data-bs-custom-class="beautifier"
 												 title='إذا كنت طالبًا أو موظفًا مسجلًا في الجامعة (أعضاء هيئة التدريس والموظفين) ، سواء كنت سعوديًا أو متعاقدًا ، فاضغط على نعم. إذا لم تكن في أي من الحالات السابقة ، فاضغط على "لا"' />
 											<select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
-												<option disabled selected>اختر</option>
-												<option value="0">نعم</option>
-												<option value="1">لا</option>
+												<option disabled selected value="null">اختر</option>
+												<option value="1">نعم</option>
+												<option value="0">لا</option>
 											</select>
 											<button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
 										}
@@ -350,7 +350,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>الرقم الأكاديمي</label>
 									</div>
@@ -361,7 +361,7 @@
 										<input type="text" id="IAUID" name="IAUID">
 									</div>
 								</div>
-								<div class="row">
+								<div class="row  required-field">
 									<div class="col-md-5">
 										<label>نوع مقدم الطلب</label>
 									</div>
@@ -379,7 +379,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">اسم مقدم الطلب</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>اللقب</label>
 									</div>
@@ -394,7 +394,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row  required-field">
 									<div class="col-md-5">
 										<label>الاسم الأول</label>
 									</div>
@@ -408,7 +408,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>الاسم الأوسط</label>
 									</div>
@@ -419,7 +419,7 @@
 										<input type="text" id="MiddelName" />
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>اسم العائلة</label>
 									</div>
@@ -435,7 +435,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">الجنسية</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>الجنسية</label>
 									</div>
@@ -450,7 +450,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>مكان الإقامة</label>
 									</div>
@@ -470,7 +470,7 @@
 
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>نوع الهوية</label>
 									</div>
@@ -488,7 +488,7 @@
 									</div>
 
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>رقم الهوية</label>
 									</div>
@@ -509,7 +509,7 @@
 									 title="الرجاء إدخال العنوان الذي سنستخدمه في النهاية للاتصال بنا" />
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>الدولة</label>
 									</div>
@@ -525,7 +525,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>المنطقة</label>
 									</div>
@@ -539,7 +539,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>المدينة</label>
 									</div>
@@ -565,7 +565,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">معلومات الاتصال</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>البريد الالكتروني</label>
 									</div>
@@ -578,7 +578,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>رقم الجوال</label>
 									</div>
@@ -586,7 +586,9 @@
 										<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 											 data-bs-custom-class="beautifier"
 											 title="الرجاء إدخال رقم الهاتف المحمول الذي سنستخدمه  للاتصال بك." />
-										<input type="text" id="Mobile" name="Mobile">
+										<div style="display:inline-flex;direction:ltr;width: 162px;">
+											<span style="padding:3px">96</span><input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -598,7 +600,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">general information</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>IAU Affiliated</label>
 									</div>
@@ -608,10 +610,10 @@
 											<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 												 data-bs-custom-class="beautifier"
 												 title="If you are an IAU registered student or employee (faculty and staff), whether Saudi or contracted, click Yes. If you are not in any of the previous cases, press No" />
-											<select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
-												<option disabled selected>Select</option>
-												<option value="0">Yes</option>
-												<option value="1">No</option>
+											<select id="Affiliated" class="required" name="Affiliated" onchange="AffiliatedState()">
+												<option disabled selected value="null">Select</option>
+												<option value="1">Yes</option>
+												<option value="0">No</option>
 											</select>
 											<button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
 										}
@@ -619,7 +621,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>IAU ID Number</label>
 									</div>
@@ -630,7 +632,7 @@
 										<input type="text" id="IAUID" name="IAUID">
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Applicant type</label>
 									</div>
@@ -648,7 +650,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">Name of the applicant</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Title</label>
 									</div>
@@ -663,7 +665,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>First name</label>
 									</div>
@@ -677,7 +679,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Middle name</label>
 									</div>
@@ -688,7 +690,7 @@
 										<input type="text" id="MiddelName" />
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Family name</label>
 									</div>
@@ -704,7 +706,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">Nationality</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Nationality</label>
 									</div>
@@ -719,7 +721,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Country of residence</label>
 									</div>
@@ -739,7 +741,7 @@
 
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>ID Document</label>
 									</div>
@@ -757,7 +759,7 @@
 									</div>
 
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>ID Number</label>
 									</div>
@@ -778,7 +780,7 @@
 									 title="Please Insert the address we will eventually use to contact us" />
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Country</label>
 									</div>
@@ -794,7 +796,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Region</label>
 									</div>
@@ -808,7 +810,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>City</label>
 									</div>
@@ -820,7 +822,7 @@
 										<input type="text" id="City_Country_1" name="City_Country_1">
 									</div>
 								</div>
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Postal Code</label>
 									</div>
@@ -834,7 +836,7 @@
 						<div class="row">
 							<div class="col-md-12 col-lg-4">Contact information</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Email Address</label>
 									</div>
@@ -847,7 +849,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row">
+								<div class="row required-field">
 									<div class="col-md-5">
 										<label>Mobile Number</label>
 									</div>
@@ -855,7 +857,9 @@
 										<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 											 data-bs-custom-class="beautifier"
 											 title="Please insert the Mobile Number we will eventually use to contact you." />
-										<input type="text" id="Mobile" name="Mobile">
+										<div style="display:inline-flex;direction:ltr;width: 162px;">
+											<span style="padding:3px">96</span><input type="text" id="Mobile" name="Mobile" maxlength="9">
+										</div>
 									</div>
 								</div>
 							</div>
@@ -869,8 +873,8 @@
 					<p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
 					<div id="Documents">
 						<div class="row" style="margin-right:25px">
-							<div class="col-md-3">حدد الخدمة</div>
-							<div class="col-md-9" style="padding:0px">
+							<div class="col-md-3  required-lable">حدد الخدمة</div>
+							<div class="col-md-9  required-field" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
@@ -878,8 +882,8 @@
 									<option disabled selected value="null">اختر-----------------</option>
 								</select>
 							</div>
-							<div class="col-md-3">أختر الخدمة الرئيسية</div>
-							<div class="col-md-9" style="padding:0px">
+							<div class="col-md-3  required-lable">أختر الخدمة الرئيسية</div>
+							<div class="col-md-9 required-field" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title='الآن وقد تم تحديد مقدم الخدمات ، يرجى تحديد الخدمة الرئيسية المطلوبة. إذا لم يكن أيًا من العناصر المدرجة مطلوبًا ، فيرجى تحديد مقدم خدمات آخر  من الصفحة السابقة. إذا أدركت أن الخدمة المطلوبة غير مدرجة ، فيرجى النقر فوق "السابق" للعودة إلى صفحة نوع الخدمة واختيار خدمة أخرى.' />
@@ -887,8 +891,8 @@
 									<option disabled selected value="null">اختر ----------------</option>
 								</select>
 							</div>
-							<div class="col-md-3">أختر الخدمة الفرعية</div>
-							<div class="col-md-9" style="padding:0px">
+							<div class="col-md-3 required-lable">أختر الخدمة الفرعية</div>
+							<div class="col-md-9 required-field" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="الآن بعد أن تم تحديد الخدمة الرئيسية ، يرجى تحديد الخدمة الفرعية المطلوبة. إذا لم يكن أي من القوائم المدرجة مطلوبًا ، فيرجى تحديد مزود آخر أو جامعة IAU. في حالة عدم إدراج الخدمة الفرعية المطلوبة ، يرجى النقر فوق السابق للعودة إلى نوع الخدمة واختيار خدمة أخرى." />
@@ -912,7 +916,7 @@
 							</div>
 						</div>
 						<div class="row" style="margin-top:0px;margin-right:25px">
-							<div class="col-md-3">تحميل المستندات المطلوبة</div>
+							<div class="col-md-3   required-lable">تحميل المستندات المطلوبة</div>
 							<input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
 							<div class="col-md-1" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
@@ -968,8 +972,8 @@
 					<p>please fill the fields for the requested service</p>
 					<div id="Documents">
 						<div class="row" style="margin-left: 25px; ">
-							<div class="col-md-3">select provider services</div>
-							<div class="col-md-9" style="padding:0px">
+							<div class="col-md-3   required-lable">select provider services</div>
+							<div class="col-md-9  required-field" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="Kindly select the Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
@@ -977,8 +981,8 @@
 									<option disabled selected value="null">Select-----------------</option>
 								</select>
 							</div>
-							<div class="col-md-3">Select main services</div>
-							<div class="col-md-9" style="padding:0px">
+							<div class="col-md-3  required-lable">Select main services</div>
+							<div class="col-md-9 required-field" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="Now that the provider is selected, please select the desired Main Service. If none of the listed is required, please select another Provider or IAU University from the previous tab. If you realize the required service is not enlisted, kindly click Previous to go back to the Service Type and select another service." />
@@ -986,8 +990,8 @@
 									<option disabled selected value="null">Select ----------------</option>
 								</select>
 							</div>
-							<div class="col-md-3">select sub-services</div>
-							<div class="col-md-9" style="padding:0px">
+							<div class="col-md-3  required-lable">select sub-services</div>
+							<div class="col-md-9 required-field" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="Now that the Main Service is selected, please select the required Sub-Service. If none of the listed is required, please select another Provider or IAU University. In case the required sub-service is not enlisted, kindly click Previous to go back to the Service Type and select another service" />
@@ -1013,7 +1017,7 @@
 							</div>
 						</div>
 						<div class="row" style="margin-top:0px;margin-left: 25px; ">
-							<div class="col-md-3">upload Required documnets</div>
+							<div class="col-md-3  required-lable">upload Required documnets</div>
 							<input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
 							<div class="col-md-1" style="padding:0px">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
@@ -1072,13 +1076,13 @@
 					<p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
 					<div id="Documents">
 						<div class="row" style="margin-right:20px">
-							<div class="col-md-3">حدد الخدمة</div>
+							<div class="col-md-3  required-lable">حدد الخدمة</div>
 							<div class="col-md-1">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
 							</div>
-							<div class="col-md-8" style="padding:0px">
+							<div class="col-md-8 required-field" style="padding:0px">
 								<select id="providerOther" name="provider">
 									<option disabled selected value="null">اختر-----------------</option>
 								</select>
@@ -1094,7 +1098,7 @@
 							</div>
 							<div class="col-md-8" id="drop-area-other">
 								<p>قم بإسقاط الملف هنا أو انقر للتحميل (أقصى حجم للتحميل 20 ميجابايت)<i class="fas fa-upload"></i></p>
-								<div class="row" id="filesNameDropOther" name="filesNameDropOther" class="row">
+								<div class="row" id="filesNameDropOther" name="filesNameDropOther">
 								</div>
 							</div>
 						</div>
@@ -1123,20 +1127,20 @@
 					<p>please fill the fields for the requested service</p>
 					<div id="Documents">
 						<div class="row" style="margin-left:20px">
-							<div class="col-md-3">select provider of services</div>
+							<div class="col-md-3  required-lable">select provider of services</div>
 							<div class="col-md-1">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
 									 data-bs-custom-class="beautifier"
 									 title="Kindly select the Academic Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
 							</div>
-							<div class="col-md-8" style="padding:0px">
+							<div class="col-md-8 required-field" style="padding:0px">
 								<select id="providerOther" name="provider" onchange="selectMainService()">
 									<option disabled selected value="null">Select-----------------</option>
 								</select>
 							</div>
 						</div>
 						<div class="row" style="margin-left:20px">
-							<div class="col-md-3">upload required documnets</div>
+							<div class="col-md-3  required-lable">upload required documnets</div>
 							<input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
 							<div class="col-md-1">
 								<img src="~/Design/img/Help ICON.png" data-bs-toggle="tooltip" data-bs-placement="right"
