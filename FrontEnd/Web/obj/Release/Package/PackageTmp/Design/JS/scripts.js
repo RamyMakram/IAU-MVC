@@ -625,7 +625,6 @@ function saveRequest() {
 }
 
 function AssignCity(data) {
-    CityComponentSelect = "<select>"
     data.forEach(function(element) {
         CityComponentSelect += "<option value=" + element.City_ID + ">" + (language == "ar" ? element.City_Name_AR : element.City_Name_EN) + "</option>"
     });
@@ -904,6 +903,7 @@ function SerializeGenratePDF() {
         Region_Postal_Code_1: $('#City_Country_2 option:selected').text(),
         Region_Postal_Code_2: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
         Region: isSaudi ? $('#Region_Postal_Code_1 option:selected').text() : $('#Region_Postal_Code_1').val(),
+        CityAndRegion: isSaudi ? $('#City_Country_1 option:selected').text() : $('#City_Country_1').val(),
         postal: $('#Region_Postal_Code_2').val(),
         Email: $('#Email').val(),
         Mobile: "966" + $('#Mobile').val(),
@@ -989,7 +989,7 @@ function GeneratePdfData() {
     }
     let Form = SerializeGenratePDF();
     let FilesDiv = ""
-    Form["file_names"].splice(',').forEach(e => { FilesDiv += e == "," ? "" : "<span style='margin:0 6px'>" + e + "</span>" })
+    Form["file_names"].splice(',').forEach(e => { FilesDiv += e == "," ? "" : "<p style='margin:0 6px;direction:ltr;text-align:center'>" + e + "</p>" })
     document.getElementById('padf').innerHTML = `
 	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
 	<img src="../Design/img/MousLogo2.png">
@@ -1062,7 +1062,7 @@ function GeneratePdfData() {
 				</tr>
 				<tr class="row">
 					<th class="col-6" key="t-region"></th>
-					<th class="col-6">${Form["Region"]}</th>
+					<th class="col-6">${Form["CityAndRegion"]}</th>
 				</tr>
 				<tr class="row">
 					<th class="col-6" key="t-country"></th>
@@ -1087,7 +1087,7 @@ function GeneratePdfData() {
 					<th class="boldtitle" key="t-attachment"></th>
 				</tr>
 				<tr class="row" style="display:inline-flex">
-					<th class="col-12">${FilesDiv}</th>
+					<th class="col-12 FilesINPDF">${FilesDiv}</th>
 				</tr>
 			</tbody>
 		</table>

@@ -845,15 +845,19 @@ nav {
 .containt2 .row .col-md-12:nth-of-type(3) {
     display: none;
 }
+.FilesINPDF p{
+	color:green;
 
-    .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .border-state img {
-        width: 80px;
-        height: 80px;
-        background-color: #0a1332;
-        border-radius: 10px;
-        padding: 8px;
-        border: 3px solid #fff;
-    }
+}
+
+.containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .border-state img {
+	width: 80px;
+	height: 80px;
+	background-color: #0a1332;
+	border-radius: 10px;
+	padding: 8px;
+	border: 3px solid #fff;
+}
 
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span {
         background: none;

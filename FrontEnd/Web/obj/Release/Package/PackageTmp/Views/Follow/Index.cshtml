@@ -1,9 +1,15 @@
 ﻿<span style="display:none" id="lang">@ViewBag.CookieLang</span>
+@if (ViewBag.CookieLang!="ar")
+{
+	<style>
+		.state span {
+			letter-spacing: 3px !important;
+			width: auto !important;
+		}
+	</style>
+}
 <style>
-	.state span {
-		letter-spacing: 3px !important;
-		width: auto !important;
-	}
+
 
 	.col-md-3.col-sm-6 span {
 		font-size: 13px !important;
