@@ -574,8 +574,8 @@ function saveRequest() {
                         document.getElementById('MainBody').innerHTML = language == "ar" ?
                             `<div class= "row" >
 										<div class="success">
-											<span>لقد تم ارسال طلبك بنجاح . سيتم ارسال </span><br />
-											<span>الرقم التتبعي والروابط لمتابعة طلبك عن طريق الرسائل النصية</span>
+											<span>لقد تم ارسال طلبك بنجاح، </span><br />
+											<span> وسيتم إرسال كود الطلب الخاص بكم لمتابعة طلبكم عن طريق الرسائل النصيه</span>
 										</div>
 										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
 											<a href="" class="btn" id="Okaybutton">موافق</a>
@@ -1058,15 +1058,15 @@ function GeneratePdfData() {
 				</tr>
 				<tr class="row">
 					<th class="col-6" key="t-city"></th>
-					<th class="col-6">${Form["Region_Postal_Code_1"]}</th>
-				</tr>
-				<tr class="row">
-					<th class="col-6" key="t-region"></th>
 					<th class="col-6">${Form["CityAndRegion"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-country"></th>
+					<th class="col-6" key="t-region"></th>
 					<th class="col-6">${Form["Region_Postal_Code_2"]}</th>
+				</tr>
+				<tr class="row">
+					<th class="col-6" key="t-country"></th>
+					<th class="col-6">${Form["Region_Postal_Code_1"]}</th>
 				</tr>
 				<tr class="row">
 					<th class="col-6" key="t-postal"></th>
@@ -1178,8 +1178,7 @@ function CountryState() {
 									`
                     document.getElementById('Region_Postal_Code_1').addEventListener('change', function(e) {
                         let cities = Object.create(Cities).filter(q => q.Region_ID == this.value)
-                        console.log(Cities)
-                        console.log(cities)
+                        CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
                         AssignCity(cities)
                         document.getElementById('City').innerHTML = `
 									<img />
