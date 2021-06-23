@@ -953,9 +953,9 @@ function GeneratePdfData() {
         't-iddoc': '   نوع الهوية   ',
         't-idnumber': '   رقم الهوية   ',
         't-address': '   العنوان   ',
-        't-city': '   الدولة   ',
-        't-region': '   المدينة   ',
-        't-country': '   المنطقة   ',
+		't-city': '   المدينة   ',
+		't-region': '   المنطقة   ',
+		't-country': '   الدولة   ',
         't-postal': '   الرقم البريدي   ',
         't-contactinfo': '   معلومات الاتصال   ',
         't-email': '   البريد الالكتروني   ',
@@ -989,7 +989,7 @@ function GeneratePdfData() {
     }
     let Form = SerializeGenratePDF();
     let FilesDiv = ""
-    Form["file_names"].splice(',').forEach(e => { FilesDiv += e == "," ? "" : "<p style='margin:0 6px;direction:ltr;text-align:center'>" + e + "</p>" })
+    Form["file_names"].splice(',').forEach(e => { FilesDiv += e == "," ? "" : "<p style='margin:0 6px;direction:ltr;text-align:center;color:green !important'>" + e + "</p>" })
     document.getElementById('padf').innerHTML = `
 	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
 	<img src="../Design/img/MousLogo2.png">
