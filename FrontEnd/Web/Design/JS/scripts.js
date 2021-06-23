@@ -618,7 +618,7 @@ function AssignCity(data) {
     CityComponentSelect += "</select>"
 }
 
-$("#Required_Fields_Notes_Other").keyup(function() {
+$("#Required_Fields_Notes_Other").keyup(function () {
     $("#text-area-counter_Other").text($(this).val().length + "/300")
     if ($(this).val()) {
         $(".insideTextArea").hide();
@@ -1278,3 +1278,19 @@ $("#ResendVerificationCode").click(function() {
         }
     }, 1000);
 });
+
+$('img[data-bs-toggle="tooltip"]').mouseleave(function () {
+    $('[role="tooltip"]').removeClass("show");
+
+})
+//var value = true;
+//$('img[data-bs-toggle="tooltip"]').click(function () {
+//    if (value == false) {
+//        $('[role="tooltip"]').fadeOut();
+
+//        value = true;
+//    } else {
+//        $('[role="tooltip"]').fadeIn();
+//        value = false;
+//    }
+//})

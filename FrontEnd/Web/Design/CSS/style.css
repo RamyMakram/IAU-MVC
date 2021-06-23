@@ -160,7 +160,7 @@ nav {
     border-radius: 15px;
     color: #fff;
     width: 88%;
-    padding: 25px 0px;
+    padding: 25px 8px;
     height: 207px;
     margin: 10px;
     padding-top: 15px;
@@ -874,8 +874,8 @@ nav {
             height: 5px;
             background-color: #b73559;
             position: relative;
-            left: -25px;
-            width: 154%;
+            left: -29px;
+            width: 165%;
             top: 30px;
         }
 
@@ -1189,7 +1189,13 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 .ar .master-login {
     direction: rtl;
 }
-
+@media (min-width:1000px) and (max-width:1200px) {
+    .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
+        left: -15px !important;
+        width: 138% !important;
+    }
+   
+}
 @media (max-width: 1350px) {
     .containt #Service_Type_Id .stick p, .containt #Request_Type_Id .stick p, .containt #start-request .stick p {
         letter-spacing: normal !important;
@@ -1202,12 +1208,10 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     #padf {
         width: 100% !important;
     }
-
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: -15px;
-        width: 135%;
+        left: -30px;
+        width: 165%;
     }
-
     .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
         left: 13px !important;
     }
@@ -1230,6 +1234,10 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 
     nav .vision {
         display: none;
+    }
+
+    #nav-contact , #nav-lang{
+        display:flex !important;
     }
 }
 
@@ -1467,3 +1475,23 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
         width: 85%
     }
 }
+
+/****************************** Main Page ************************************/
+.main-page{
+    margin-top:100px;
+}
+    .main-page .collapse-container{
+        margin:5px 0px
+    }
+        .main-page .collapse-container > a {
+            display: block;
+            padding: 15px 10px;
+            background-color: #4f693a;
+            border:none;
+            border-radius:0;
+        }
+        .main-page .collapse-container > a p{
+            margin:0px;
+            text-align:left;
+        }
+        
