@@ -9,7 +9,38 @@
 <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css" />
 <link href="~/assets/css/fonts.css" rel="stylesheet" />
 <style>
+	div#datatable-buttons_wrapper > div.row:nth-of-type(1) > div:nth-of-type(1) {
+		background: red;
+		display: none;
+	}
 
+	div#datatable-buttons_wrapper > div.row:nth-of-type(1) > div:nth-of-type(2) {
+		justify-content: start;
+		display: flex;
+	}
+
+	.HeaderOfPage {
+		height: 0px !important;
+		margin: 0px !important;
+	}
+	.HeaderOfPage .card-title-desc{
+		color:transparent;
+	}
+	.createNew-link {
+		position: relative;
+		/*left: 19px;*/
+		top: 24px;
+	}
+
+	table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after {
+		opacity: 1 !important;
+		color: red;
+	}
+
+	table.dataTable thead th:before, table.dataTable thead th:after {
+		opacity: 1 !important;
+		color: black;
+	}
 
 	.noraduis {
 		border-radius: 5px !important;
@@ -25,16 +56,18 @@
 		background: #0a1332 !important;
 		border-color: #2f405e6e !important;
 	}
+
 	.btn.active {
 		background-color: #4f693a !important;
 		border-radius: 25px;
 		border: 0;
 		outline: 0;
 	}
-		.swal2-confirm:focus, .btn.btn-primary:focus {
-			-webkit-box-shadow: 0 0 0 0.15rem #2f405eba !important;
-			box-shadow: 0 0 0 0.15rem #2f405eba !important;
-		}
+
+	.swal2-confirm:focus, .btn.btn-primary:focus {
+		-webkit-box-shadow: 0 0 0 0.15rem #2f405eba !important;
+		box-shadow: 0 0 0 0.15rem #2f405eba !important;
+	}
 
 	.btn-primary:not(:disabled):not(.disabled):active {
 		background: #0a1332;

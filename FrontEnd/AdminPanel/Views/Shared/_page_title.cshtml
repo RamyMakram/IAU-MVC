@@ -9,45 +9,53 @@
 
 					<div class="page-title-right">
 						<ol class="breadcrumb m-0">
+							@if (ViewBag.pageTitle != null && ViewBag.pageTitle != "")
+							{
+								<li class="breadcrumb-item">
+									<a href="javascript: void(0);">
+										@{
+											var data = "";
+											if (ViewBag.pageTitle != null)
+											{
+												data = (ViewBag.pageTitle as string).Replace(",null", "").Replace(", ", "").Replace(",", " / ");
+											}
+
+										}
+										@data
+									</a>
+								</li>
+							}
+							<li class="breadcrumb-item active">@ViewBag.pTitle</li>
+						</ol>
+					</div>
+				}
+				if (Request.Cookies["lang"].Value == "ar")
+				{
+					if (ViewBag.arpTitle != null || ViewBag.arpTitle != "")
+					{
+
+						<h4 class="mb-0 font-size-18">@ViewBag.arpTitle</h4>
+					}
+
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
 							<li class="breadcrumb-item">
 								<a href="javascript: void(0);">
 									@{
 										var data = "";
-										if (ViewBag.pageTitle != null)
-										{
-											data=(ViewBag.pageTitle as string).Replace(",null", "").Replace(", ", "").Replace(",", " / ");}
-
-										}
-								@data
-							</a>
-						</li>
-						<li class="breadcrumb-item active">@ViewBag.pTitle</li>
-					</ol>
-				</div>
-			}
-			if (Request.Cookies["lang"].Value == "ar")
-			{
-				<h4 class="mb-0 font-size-18">@ViewBag.arpTitle</h4>
-
-				<div class="page-title-right">
-					<ol class="breadcrumb m-0">
-						<li class="breadcrumb-item">
-						<li class="breadcrumb-item">
-							<a href="javascript: void(0);">
-								@{
-										var data = "";
 										if (ViewBag.arpageTitle != null)
 										{
-											data=(ViewBag.arpageTitle as string).Replace(",null", "").Replace(", ", "").Replace(",", " / ");}
-
+											data = (ViewBag.arpageTitle as string).Replace(",null", "").Replace(", ", "").Replace(",", " / ");
 										}
-								@data
-							</a>
-						</li>
-						<li class="breadcrumb-item active">@ViewBag.arpTitle</li>
-					</ol>
-				</div>
-			}
+
+									}
+									@data
+								</a>
+							</li>
+							<li class="breadcrumb-item active">@ViewBag.arpTitle</li>
+						</ol>
+					</div>
+				}
 			}
 		</div>
 	</div>

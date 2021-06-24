@@ -26,7 +26,6 @@
         <EntityTypeShape EntityType="MostafidDBModel.Purchase_Order_Form" Width="1.5" PointX="13.25" PointY="1.375" />
         <EntityTypeShape EntityType="MostafidDBModel.Purchase_Order_Form_Required" Width="1.5" PointX="15.5" PointY="5.75" />
         <EntityTypeShape EntityType="MostafidDBModel.Region" Width="1.5" PointX="0.75" PointY="35.5" />
-        <EntityTypeShape EntityType="MostafidDBModel.Request_Data" Width="1.5" PointX="7.5" PointY="21.5" />
         <EntityTypeShape EntityType="MostafidDBModel.Request_File" Width="1.5" PointX="9.75" PointY="28.875" />
         <EntityTypeShape EntityType="MostafidDBModel.Request_Log" Width="1.5" PointX="9.75" PointY="23.875" />
         <EntityTypeShape EntityType="MostafidDBModel.Request_State" Width="1.5" PointX="5.25" PointY="6.75" />
@@ -76,19 +75,11 @@
         <AssociationConnector Association="MostafidDBModel.FK_ValidTo_Main_Services" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Region" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" />
-        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Personel_Data" />
         <AssociationConnector Association="MostafidDBModel.FK_Privilage_Privilage" />
         <AssociationConnector Association="MostafidDBModel.FK_Privilage_Privilage1" />
         <AssociationConnector Association="MostafidDBModel.FK_Purchase_Order_Form_Required_Purchase_Order_Form" />
         <AssociationConnector Association="MostafidDBModel.FK_Purchase_Order_Form_Supplier_Names" />
         <AssociationConnector Association="MostafidDBModel.FK_Purchase_Order_Form_Type_Support_Project" />
-        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Request_State" />
-        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Request_Type" />
-        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Service_Type" />
-        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Sub_Services" />
-        <AssociationConnector Association="MostafidDBModel.FK_Request_File_Request_Data" />
-        <AssociationConnector Association="MostafidDBModel.FK_Request_State_Request_Data" />
-        <AssociationConnector Association="MostafidDBModel.FK_RequestTransaction_Request_Data" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_File_Required_Documents" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Log_Request_State" />
         <AssociationConnector Association="MostafidDBModel.FK_Units_Request_Type_Request_Type" />
@@ -106,6 +97,16 @@
         <AssociationConnector Association="MostafidDBModel.FK_Units_Units_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_UnitServiceTypes_Units" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_Units" />
+        <EntityTypeShape EntityType="MostafidDBModel.Request_Data" Width="1.5" PointX="7.5" PointY="20.875" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Personel_Data" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Request_State" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Request_Type" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Service_Type" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Sub_Services" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Units" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_File_Request_Data" />
+        <AssociationConnector Association="MostafidDBModel.FK_Request_State_Request_Data" />
+        <AssociationConnector Association="MostafidDBModel.FK_RequestTransaction_Request_Data" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

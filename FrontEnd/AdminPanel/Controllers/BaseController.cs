@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,11 +13,13 @@ namespace AdminPanel.Controllers
 {
 	public class BaseController : Controller
 	{
+		string RedirectUrl = ConfigurationManager.AppSettings["RedirectUrl"].ToString();
+
 		// GET: Base
 		protected override void OnActionExecuting(ActionExecutingContext context)
 		{
 			base.OnActionExecuting(context);
-			if (Request.Cookies["u"] != null&& Request.Cookies["token"] != null)
+			if (Request.Cookies["u"] != null && Request.Cookies["token"] != null)
 			{
 				var res = APIHandeling.getData($"User/VerfiyUser?id={Request.Cookies["u"].Value}&token={Request.Cookies["token"].Value}");
 				var Res = res.Content.ReadAsStringAsync();
@@ -26,7 +29,7 @@ namespace AdminPanel.Controllers
 					Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-9) });
 					Response.Cookies.Set(new HttpCookie("token") { Expires = DateTime.Now.AddYears(-9) });
 					Response.Cookies.Set(new HttpCookie("lang") { Expires = DateTime.Now.AddYears(-9) });
-					context.Result = Redirect("https://iau-bsc.com/Coordinator");
+					context.Result = Redirect(RedirectUrl);
 					return;
 				}
 				else
@@ -42,7 +45,7 @@ namespace AdminPanel.Controllers
 				Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-9) });
 				Response.Cookies.Set(new HttpCookie("token") { Expires = DateTime.Now.AddYears(-9) });
 				Response.Cookies.Set(new HttpCookie("lang") { Expires = DateTime.Now.AddYears(-9) });
-				context.Result = Redirect("https://iau-bsc.com/Coordinator");
+				context.Result = Redirect(RedirectUrl);
 			}
 		}
 		public ActionResult Logout()
@@ -50,7 +53,7 @@ namespace AdminPanel.Controllers
 			Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-9) });
 			Response.Cookies.Set(new HttpCookie("token") { Expires = DateTime.Now.AddYears(-9) });
 			Response.Cookies.Set(new HttpCookie("lang") { Expires = DateTime.Now.AddYears(-9) });
-			return Redirect("https://iau-bsc.com/Coordinator/index");
+			return Redirect(RedirectUrl);
 		}
 	}
 }

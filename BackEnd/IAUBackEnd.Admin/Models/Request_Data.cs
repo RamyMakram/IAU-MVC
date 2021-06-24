@@ -43,6 +43,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual Request_Type Request_Type { get; set; }
         public virtual Service_Type Service_Type { get; set; }
         public virtual Sub_Services Sub_Services { get; set; }
+        public virtual Units Units { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_File> Request_File { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

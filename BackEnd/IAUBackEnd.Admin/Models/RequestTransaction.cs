@@ -28,8 +28,8 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<System.DateTime> CommentDate { get; set; }
         public string Code { get; set; }
     
-        public virtual Request_Data Request_Data { get; set; }
         public virtual Units Units { get; set; }
         public virtual Units Units1 { get; set; }
+        public virtual Request_Data Request_Data { get; set; }
     }
 }

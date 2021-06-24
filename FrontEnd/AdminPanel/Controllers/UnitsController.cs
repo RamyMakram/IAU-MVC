@@ -1,6 +1,7 @@
 ﻿using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,12 +37,17 @@ namespace AdminPanel.Controllers
 		public ActionResult Edit(int Id)
 		{
 			LoadEditOrCreate();
+			var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
 			var Data = APIHandeling.getData("Units/GetUnits?id=" + Id);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
 			{
-				var data = JsonConvert.DeserializeObject<UnitsDTO>(res.result.ToString());
+				var ress = res.result.ToString();
+				var Res = JObject.Parse(ress);
+				var data = JsonConvert.DeserializeObject<UnitsDTO>(Res["Unit"].ToString());
+				ViewBag.Units_Types = new SelectList(JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(Res["Units_Types"].ToString()), "Units_Type_ID", isar ? "Units_Type_Name_AR" : "Units_Type_Name_EN");
+				ViewBag.SubUnits = new SelectList(JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(Res["SubUnits"].ToString()), "Units_ID", isar ? "Units_Name_AR" : "Units_Name_EN");
 				int length = 0;
 				if (data.Units_Request_Type != null)
 				{

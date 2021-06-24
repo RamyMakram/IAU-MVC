@@ -10,6 +10,27 @@
 	//ViewBag.arpageTitle = "";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+	i.fa.fa-genderless {
+		color: black;
+		font-size: 24px !important;
+	}
+
+	#searchOrder {
+		width: 26px;
+		height: 28px;
+		padding: 0;
+		display: inline-flex;
+		justify-content: center !important;
+		align-items: center;
+	}
+
+	.input-code {
+		width: 16px;
+		height: 29px;
+		margin: auto
+	}
+</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 <!--end::Fonts-->
 <link rel="shortcut icon" href="~/dashboard/assets/media/logos/fav.png" />
@@ -28,7 +49,7 @@ else
 {
 	<link href="~/dashboard/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
 }
-
+<span style="display:none" id="lang">@lang</span>
 <link href="~/dashboard/assets/css/themes/layout/header/base/light.rtl.css" rel="stylesheet" type="text/css" />
 <link href="~/dashboard/assets/css/themes/layout/header/menu/light.rtl.css" rel="stylesheet" type="text/css" />
 <link href="~/dashboard/assets/css/themes/layout/brand/dark.rtl.css" rel="stylesheet" type="text/css" />
@@ -46,7 +67,11 @@ else
 	}
 
 	i.fa.fa-genderless {
-		color: black !important;
+		color: black;
+	}
+
+	.progress-sucess-state div, .progress-sucess-state div i {
+		color: green !important;
 	}
 
 	.count-data, .loc-count {
@@ -60,10 +85,10 @@ else
 		width: 63px !important;
 		font-size: 1rem;
 	}
-	.panel-home{
-		min-width:400px;
+
+	.panel-home {
+		min-width: 400px;
 	}
-	
 </style>
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
@@ -72,7 +97,7 @@ else
 		<div class="contents-custom">
 			<div class="h-100">
 				<div class="d-flex flex-column flex-center">
-					<div class="bgi-no-repeat bgi-size-cover rounded min-h-180px w-100" style="background-image: url(../../dashboard/assets/media/stock-600x400/img-70.jpg )"></div>
+					<div class="bgi-no-repeat bgi-size-cover rounded min-h-180px w-100" style="background-image: url(../../assets/images/slider_e-01_0.jpg)"></div>
 					<a href="#" class="card-title font-weight-bolder text-dark-75 text-hover-primary font-size-h4 m-0 pt-7 pb-1">نظام خدمة المستفيدين</a>
 				</div>
 				<div class="pt-1">
@@ -104,52 +129,53 @@ else
 		<div class="contents-custom">
 			<div class="card-header align-items-center border-0 mt-4 px-0">
 				<h3 class="card-title align-items-start flex-column">
-					<span class="font-weight-bolder text-dark">رقم الطلب</span>
+					<span class="font-weight-bolder text-dark">الإستعلام عن الطلب</span>
 				</h3>
 				<br><br>
-				<p dir="ltr">
+				<p dir="ltr" style="text-align:center">
 					@foreach (var i in new string[13])
 					{
-						<input class="inputs" type="text" maxlength="1" style="width: 16px;" />
+						<input class="inputs input-code en-font" type="text" maxlength="1" />
 					}
+					<span class="btn btn-outline-info" id="searchOrder">
+						<i class="fas fa-search p-0" style="    height: fit-content;"></i>
+					</span>
 				</p>
 			</div>
 			<div class="card-body pt-4">
 				<div class="timeline timeline-6 mt-3">
-					<div class="timeline-item align-items-start">
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
+					<div class="timeline-item align-items-start state state1">
 						<div class="timeline-badge">
-							<i class="fa fa-genderless text-warning icon-xl"></i>
+							<i class="fa fa-genderless icon-xl"></i>
 						</div>
-						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">ايفاد الطلب</div>
+						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">تأكيد الطلب</div>
 					</div>
-					<div class="timeline-item align-items-start">
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
+					<div class="timeline-item align-items-start state state2">
 						<div class="timeline-badge">
-							<i class="fa fa-genderless text-info icon-xl"></i>
+							<i class="fa fa-genderless icon-xl"></i>
 						</div>
-						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">فرز الطلب</div>
+						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">إيفاد إلى مزود الخدمة</div>
 					</div>
-					<div class="timeline-item align-items-start">
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
+					<div class="timeline-item align-items-start state state3">
 						<div class="timeline-badge">
-							<i class="fa fa-genderless text-success icon-xl"></i>
+							<i class="fa fa-genderless icon-xl"></i>
 						</div>
 						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">معالجة الطلب</div>
 					</div>
-					<div class="timeline-item align-items-start">
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
+					<div class="timeline-item align-items-start state state4">
 						<div class="timeline-badge">
-							<i class="fa fa-genderless text-primary icon-xl"></i>
+							<i class="fa fa-genderless icon-xl"></i>
 						</div>
 						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">ارسال الطلب</div>
 					</div>
-					<div class="timeline-item align-items-start">
-						<div class="timeline-label font-weight-bolder text-dark-75 font-size-lg en-font">2021-01-01</div>
+					<div class="timeline-item align-items-start state state5">
 						<div class="timeline-badge">
-							<i class="fa fa-genderless text-dark icon-xl"></i>
+							<i class="fa fa-genderless icon-xl"></i>
 						</div>
 						<div class="font-weight-mormal font-size-lg timeline-content text-muted pl-3">تسليم الطلب</div>
+					</div>
+					<div class="row justify-content-center align-items-center d-none" id="previewOrder">
+						<a class="btn btn-active" key="t-Preview" href="#"></a>
 					</div>
 				</div>
 			</div>
@@ -157,18 +183,15 @@ else
 	</div>
 	<div class="col-4 panel-home">
 		<div class="contents-custom">
-			<div class="card-header border-0 pt-5">
+			<div class="card-header border-0 pt-5 pb-0">
 				<div class="card-title">
 					<div class="card-label">
 						<div class="font-weight-bolder" key="t-statistics">التقارير</div>
 					</div>
 				</div>
 			</div>
-			<div class="card-body d-flex flex-column">
-				<div class="flex-grow-1">
-					@*<div id="kt_mixed_widget_16_chart" style="height: 200px"></div>*@
-				</div>
-				<div class="mt-10 mb-5">
+			<div class="card-body d-flex flex-column p-0">
+				<div class="mb-5">
 					<div class="row row-paddingless mb-10">
 						<div class="col">
 							<div class="d-flex align-items-center mr-2">
@@ -183,19 +206,6 @@ else
 						</div>
 						<div class="col">
 							<div class="d-flex align-items-center mr-2">
-								<div class="symbol symbol-45 symbol-light-danger mr-4 flex-shrink-0">
-									<i class="fas fa-users" style="color: #E04758;background: #FFE2E5;"></i>
-								</div>
-								<div>
-									<div class="font-size-h4 text-dark-75 font-weight-bolder count-data en-font">706</div>
-									<div class="font-size-sm text-dark font-weight-bold mt-1">المستخدمين</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row row-paddingless">
-						<div class="col">
-							<div class="d-flex align-items-center mr-2">
 								<div class="symbol symbol-45 symbol-light-success mr-4 flex-shrink-0">
 									<i class="fas fa-book-open" style="color: #1BC5BD;background: #C9F7F5;"></i>
 								</div>
@@ -205,6 +215,20 @@ else
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="row row-paddingless">
+						<div class="col">
+							<div class="d-flex align-items-center mr-2">
+								<div class="symbol symbol-45 symbol-light-danger mr-4 flex-shrink-0">
+									<i class="fas fa-users" style="color: #E04758;background: #FFE2E5;"></i>
+								</div>
+								<div>
+									<div class="font-size-h4 text-dark-75 font-weight-bolder count-data en-font">706</div>
+									<div class="font-size-sm text-dark font-weight-bold mt-1">الخدمات الرئيسية</div>
+								</div>
+							</div>
+						</div>
+
 						<div class="col">
 							<div class="d-flex align-items-center mr-2">
 								<div class="symbol symbol-45 symbol-light-primary mr-4 flex-shrink-0">
@@ -212,22 +236,18 @@ else
 								</div>
 								<div>
 									<div class="font-size-h4 text-dark-75 font-weight-bolder count-data en-font">3650</div>
-									<div class="font-size-sm text-dark font-weight-bold mt-1">الفروع</div>
+									<div class="font-size-sm text-dark font-weight-bold mt-1">الخدمات الفرعية</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="col-4 panel-home">
-		<div class="contents-custom">
-			<div class="card-header border-0 pt-5">
-				<h3 class="card-title font-weight-bolder" key="t-location">المواقع</h3>
+			<div class="card-header border-0 p-0">
+				<h3 class="card-title font-weight-bolder" key="t-locations">المواقع</h3>
 			</div>
-			<div class="card-body d-flex flex-column">
-				<div class="mt-5">
+			<div class="card-body d-flex flex-column p-0">
+				<div>
 					<div class="d-flex align-items-center justify-content-between mb-5">
 						<div class="d-flex align-items-center mr-2">
 							<i class="fas fa-map-marker-alt"></i>
@@ -267,6 +287,7 @@ else
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </div>
@@ -349,9 +370,62 @@ else
 	}
 </script>
 <script>
+	let thereisrequest = false;
 	$(".inputs").keyup(function () {
 		if (this.value.length == this.maxLength) {
-			$(this).next('.inputs').focus();
+			this.value = this.value.toUpperCase();
+			if ((this.value.charAt(0) <= 'Z' && this.value.charAt(0) >= 'A') || (this.value.charAt(0) >= '0' && this.value.charAt(0) <= '9')) {
+				$(this).next('.inputs').focus();
+				if ($(this).next('.inputs').length == 0)
+					$('#searchOrder').click();
+			}
+			else
+				this.value = "";
+		}
+		if (thereisrequest) {
+			$('.state').removeClass('progress-sucess-state')
+			$("#previewOrder").css("display", "none");
+			thereisrequest = false;
 		}
 	});
+	$('#searchOrder').on('click', function () {
+		let requestCode = "";
+		let controls = $('.inputs');
+		([...controls]).map(e => requestCode += e.value);
+		console.log(requestCode)
+		if (requestCode.length == 13) {
+			$.ajax({
+				url: "/Home/FollowRequest",
+				data:
+				{
+					requestCode
+				},
+				method: "Post",
+				success: function (result) {
+					let data = JSON.parse(result);
+					if (data.success) {
+						if (data.result == null) {
+							alert(language == "ar" ? "!كود خاطئ" : "Wrong Code!")
+							$("#div_Follow").css("display", "none");
+						}
+						else {
+							$(".containt2 .row .col-md-12:nth-of-type(3)").css("display", "block");
+							let request = data.result;
+							$('.state').removeClass('progress-sucess-state')
+							$('.state' + request.Request.Request_State_ID).addClass('progress-sucess-state')
+							for (var i = 1; i < request.Request.Request_State_ID; i++)
+								$('.state' + i).addClass('progress-sucess-state')
+							thereisrequest = true;
+							$("#previewOrder").css("display", "block");
+						}
+					}
+					else {
+						alert(language == "ar" ? "!كود خاطئ" : "Wrong Code!")
+					}
+				}
+			});
+
+		}
+	});
+
 </script>

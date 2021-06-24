@@ -95,14 +95,6 @@
 			}
 </style>
 <style>
-	.constainDocs[dir='rtl']{
-		border-left:2px dashed;
-		border-left-color:black;
-	}
-	.constainDocs[dir='ltr']{
-		border-right:2px dashed;
-		border-right-color:black;
-	}
 	.data-Comment {
 		display: none;
 	}
@@ -143,10 +135,8 @@
 
 	.actionBtn {
 		height: 70px;
-		width: 50% !important;
 		font-weight: bold;
 	}
-
 
 	.carPrev, .carNext {
 		direction: ltr !important;
@@ -479,20 +469,20 @@
 															</div>
 														}
 													}
-													<div class="row justify-content-between">
-														@if (isAr)
-														{
-															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
-															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
-															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
-														}
-														else
-														{
-															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
-															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
-															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
-														}
-													</div>
+												<div class="row justify-content-between">
+													@if (isAr)
+													{
+														<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+														<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+														<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+													}
+													else
+													{
+														<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+														<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+														<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+													}
+												</div>
 												</div>
 
 											</div>
@@ -513,15 +503,16 @@
 							<p class="card-title-desc" key="t-RequiredDocs">
 								الاوراق المطلوبة
 							</p>
-							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
+							<div class="row constainDocs">
 
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
 								{
 									<div class="col-3">
-										<div class="card w-100">
-											<i class="fas fa-file" data-toggle="tooltip" title="@((isAr ? i.Required_Documents.Name_AR : i.Required_Documents.Name_EN)+"\n"+i.File_Name)" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
+										<div class="card">
+											<img class="card-img-top img-fluid" data-toggle="tooltip" title="@i.File_Name" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
-												<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
+												<p class="row" key="t-requirddoc">@(new string((isAr ? i.Required_Documents.Name_AR : @i.Required_Documents.Name_EN).Take(10).ToArray()))</p>
+												<p class="row">@(new string(i.File_Name.Take(10).ToArray()))</p>
 											</div>
 											<div class="py-2 text-center">
 												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
@@ -536,15 +527,15 @@
 							<p class="card-title-desc" key="t-SupportiedDocs">
 								الاوراق الداعمة
 							</p>
-							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
+							<div class="row constainDocs">
 
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
 								{
 									<div class="col-3">
-										<div class="card w-100">
-											<i class="fas fa-file" data-toggle="tooltip" title="@i.File_Name" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
+										<div class="card">
+											<img class="card-img-top img-fluid" data-toggle="tooltip" title="@i.File_Name" src="~/assets/images/attachment.png" alt="Card image cap">
 											<div class="FileTitle row">
-												<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
+												<p class="row">@(new string(i.File_Name.Take(10).ToArray()))</p>
 											</div>
 											<div class="py-2 text-center">
 												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
@@ -576,10 +567,10 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-6">
-							<button class="btn btn-primary w-100 actionBtn d-flex justify-content-center" id="sa-confirm"><i class="fas fa-clipboard-check"></i><span style="margin:0 12px;" key="t-ConfimRequest">تم معالجة الطلب</span></button>
+							<button class="btn btn-primary w-100 actionBtn" id="sa-confirm"><i class="fas fa-clipboard-check"></i><span style="margin:0 12px;" key="t-ConfimRequest">تم معالجة الطلب</span></button>
 						</div>
 						<div class="col-6 justify-content-center d-flex">
-							<button class="btn btn-danger actionBtn d-flex justify-content-center" id="sa-close"><i class="fas fa-times-circle"></i><span style="margin:0 12px;" key="t-RefuseRequest">رفض لعدم الاختصاص</span></button>
+							<button class="btn btn-danger actionBtn" id="sa-close"><i class="fas fa-times-circle"></i><span style="margin:0 12px;" key="t-RefuseRequest">رفض لعدم الاختصاص</span></button>
 						</div>
 					</div>
 				</div>

@@ -47,7 +47,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Purchase_Order_Form> Purchase_Order_Form { get; set; }
         public virtual DbSet<Purchase_Order_Form_Required> Purchase_Order_Form_Required { get; set; }
         public virtual DbSet<Region> Region { get; set; }
-        public virtual DbSet<Request_Data> Request_Data { get; set; }
         public virtual DbSet<Request_File> Request_File { get; set; }
         public virtual DbSet<Request_Log> Request_Log { get; set; }
         public virtual DbSet<Request_State> Request_State { get; set; }
@@ -70,5 +69,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<Statement_Department_File_Sent_Them> Statement_Department_File_Sent_Them { get; set; }
+        public virtual DbSet<Request_Data> Request_Data { get; set; }
     }
 }
