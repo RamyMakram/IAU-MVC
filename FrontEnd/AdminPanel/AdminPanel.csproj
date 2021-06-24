@@ -3093,7 +3093,7 @@
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Views\Email\PreviewForUnit.cshtml" />
     <Content Include="Views\SendedRequests\Home.cshtml" />
-    <Content Include="Views\SendedRequests\PreviewForUnit.cshtml" />
+    <Content Include="Views\SendedRequests\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

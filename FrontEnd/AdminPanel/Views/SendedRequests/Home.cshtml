@@ -49,19 +49,15 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="col-12 justify-content-between">
+				<div class="col-12 justify-content-between mb-3">
 					<button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center" style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
 						<span key="t-filters"></span><i class="fas fa-caret-down"></i>
-					</button>
-					<button type="button" class="btn btn-primary ">
-						<span key="t-ArchiveSelected">Archive Selected</span>
 					</button>
 				</div>
 
 				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
 						<tr>
-							<th style="padding: 9px;"><input type="checkbox" id="mainCheck" /></th>
 							<th>#</th>
 							<th key="t-mainservice">ServiceType</th>
 							<th key="t-request-type">RequestType</th>
@@ -75,7 +71,6 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
-								<td><input type="checkbox" class="selectbox-request" id="@i.Request_Data_ID" /></td>
 								<td>@i.Request_Data_ID</td>
 								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
 								<td>@(lang == "ar" ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>

@@ -35,6 +35,19 @@ namespace IAUBackEnd.Admin.Controllers
 			else
 				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Readed }).OrderByDescending(q => q.CreatedDate) });
 		}
+
+		public async Task<IHttpActionResult> GetSendedRequests_Data(int UserID)
+		{
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			if (Unit.IS_Mostafid)
+			{
+				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() != 0 || q.RequestTransaction.Count(w => w.CommentDate == null || w.Comment == "" || w.Comment == null) == q.RequestTransaction.Count)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.RequestTransaction.OrderByDescending(w => w.ID).First().Readed, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
+				return Ok(new ResponseClass() { success = true, result = data });
+			}
+			else
+				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => (w.Comment != "" && w.Comment != null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Request_Data.Readed }).OrderByDescending(q => q.CreatedDate) });
+		}
+
 		public async Task<IHttpActionResult> GetRequestsCount(int UserID)
 		{
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
