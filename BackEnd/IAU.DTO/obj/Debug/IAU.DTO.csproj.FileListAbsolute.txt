@@ -143,3 +143,24 @@ C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csprojAss
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csproj.CopyComplete
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.pdb
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\IAU.DTO.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\IAU.DTO.pdb
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\Microsoft.Web.Infrastructure.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\Newtonsoft.Json.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.Helpers.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.Mvc.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.Razor.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.WebPages.Deployment.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.WebPages.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.WebPages.Razor.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.Helpers.xml
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.Mvc.xml
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.Razor.xml
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.WebPages.xml
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.WebPages.Deployment.xml
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\bin\Debug\System.Web.WebPages.Razor.xml
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csproj.AssemblyReference.cache
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csproj.CoreCompileInputs.cache
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csproj.CopyComplete
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.dll
+F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.pdb

@@ -1,4 +1,7 @@
-﻿<span style="display:none" id="lang">@ViewBag.CookieLang</span>
+﻿@{ 
+    ViewBag.title = "Request";
+}
+<span style="display:none" id="lang">@ViewBag.CookieLang</span>
 @if (ViewBag.CookieLang != "ar")
 {
 	<style>
@@ -94,7 +97,7 @@
 
 
 		</div>
-		<div class="col-md-12" id="div_Follow" style="display:none">
+		<div class="col-md-12" id="div_Follow" >
 			<div class="row">
 				<div class="col-md-3 col-sm-6">
 					@if (ViewBag.CookieLang == "ar")
@@ -176,8 +179,8 @@
 							}
 							else
 							{
-								<span>Confirmed</span>
-								<span>Request</span>
+								<span>Dispatching</span>
+								<span style="letter-spacing: 0.40em; padding-left: 4px; ">Request</span>
 							}
 
 						</div>
@@ -195,9 +198,8 @@
 							}
 							else
 							{
-								<span>Dispatching</span>
-								<span style="letter-spacing: 5px !important;">To Service</span>
-								<span>Provider</span>
+								<span style="letter-spacing: 0.18em; padding-left: 2px;">Sorting</span>
+								<span>Request</span>
 							}
 
 						</div>
@@ -215,8 +217,8 @@
 							}
 							else
 							{
-								<span>Processing</span>
-								<span>Request</span>
+								<span >Processing</span>
+								<span style=" letter-spacing: 0.35em; padding-left: 4px;">Request</span>
 							}
 
 						</div>
@@ -236,8 +238,8 @@
 							else
 							{
 								<span>Dispatching</span>
-								<span>Progressed</span>
-								<span>request</span>
+								<span style="letter-spacing: 0.08em; padding-left: 2px;">Progressed</span>
+								<span style=" letter-spacing: 0.45em; padding-left: 4px;">request</span>
 							}
 
 						</div>
@@ -257,8 +259,8 @@
 							else
 							{
 								<span>Processed</span>
-								<span>request</span>
-								<span>delivered</span>
+								<span style="letter-spacing: 0.25em; padding-left: 2px;">request</span>
+								<span style="letter-spacing: 0.09em; padding-left: 2px;">delivered</span>
 							}
 
 						</div>

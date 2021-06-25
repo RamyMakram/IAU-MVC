@@ -633,14 +633,14 @@ function AssignCity(data) {
 }
 
 $("#Required_Fields_Notes_Other").keyup(function () {
-	$("#text-area-counter_Other").text($(this).val().length + "/300")
-	if ($(this).val()) {
-		$(".insideTextArea").hide();
-		$(".insideTextAreaCounter").show()
-	} else if (!$(this).val()) {
-		$(".insideTextArea").show();
-		$(".insideTextAreaCounter").hide()
-	}
+    $("#text-area-counter_Other").text($(this).val().length + "/300")
+    if ($(this).val()) {
+        $(".insideTextArea").hide();
+        $(".insideTextAreaCounter").show()
+    } else if (!$(this).val()) {
+        $(".insideTextArea").show();
+        $(".insideTextAreaCounter").hide()
+    }
 });
 
 $("#Required_Fields_Notes").keyup(function () {
@@ -1270,25 +1270,25 @@ $(".modal-body .verification-input input").keyup(function (element) {
 	}
 });
 
-$("#ResendVerificationCode").click(function () {
-	$("#ResendVerificatio   nCode").attr("disabled", "disabled");
-	if (language == "ar") {
-		$("#ResendVerificationCode").html("يمكنك اعادة ارسال الكود بعد <span id='downConter'>(30)</span> ثانية");
-	} else {
-		$("#ResendVerificationCode").html("You Can Resend Code After <span id='downConter'>(30)</span> Second");
-	}
-	counter = 30;
-	var x = setInterval(function () {
-		counter--;
-		document.getElementById("downConter").innerHTML = "(" + counter + ")";
-		if (counter == 0) {
-			$("#ResendVerificationCode").removeAttr("disabled");
-			if (language == "ar") {
-				$("#ResendVerificationCode").html("أعد ارسال كود التحقق");
-			} else {
-				$("#ResendVerificationCode").html("Resend Verification Code");
-			}
-			clearInterval(x);
-		}
-	}, 1000);
+$("#ResendVerificationCode").click(function() {
+    $("#ResendVerificatio   nCode").attr("disabled", "disabled");
+    if (language == "ar") {
+        $("#ResendVerificationCode").html("يمكنك اعادة ارسال الكود بعد <span id='downConter'>(30)</span> ثانية");
+    } else {
+        $("#ResendVerificationCode").html("You Can Resend Code After <span id='downConter'>(30)</span> Second");
+    }
+    counter = 30;
+    var x = setInterval(function() {
+        counter--;
+        document.getElementById("downConter").innerHTML = "(" + counter + ")";
+        if (counter == 0) {
+            $("#ResendVerificationCode").removeAttr("disabled");
+            if (language == "ar") {
+                $("#ResendVerificationCode").html("أعد ارسال كود التحقق");
+            } else {
+                $("#ResendVerificationCode").html("Resend Verification Code");
+            }
+            clearInterval(x);
+        }
+    }, 1000);
 });
