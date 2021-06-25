@@ -269,27 +269,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Request_Data">
-      <EntityTypeMapping TypeName="MostafidDBModel.Request_Data">
-        <MappingFragment StoreEntitySet="Request_Data">
-          <ScalarProperty Name="GenratedDate" ColumnName="GenratedDate" />
-          <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
-          <ScalarProperty Name="Readed" ColumnName="Readed" />
-          <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
-          <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
-          <ScalarProperty Name="TempCode" ColumnName="TempCode" />
-          <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
-          <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
-          <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
-          <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
-          <ScalarProperty Name="Unit_ID" ColumnName="Unit_ID" />
-          <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
-          <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Request_File">
       <EntityTypeMapping TypeName="MostafidDBModel.Request_File">
         <MappingFragment StoreEntitySet="Request_File">
@@ -536,6 +515,27 @@
           <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_EN" ColumnName="Statement_Department_File_Sent_Them_Name_EN" />
           <ScalarProperty Name="Statement_Department_File_Sent_Them_Name_AR" ColumnName="Statement_Department_File_Sent_Them_Name_AR" />
           <ScalarProperty Name="Statement_Department_File_Sent_Them_ID" ColumnName="Statement_Department_File_Sent_Them_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_Data">
+      <EntityTypeMapping TypeName="MostafidDBModel.Request_Data">
+        <MappingFragment StoreEntitySet="Request_Data">
+          <ScalarProperty Name="GenratedDate" ColumnName="GenratedDate" />
+          <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
+          <ScalarProperty Name="Readed" ColumnName="Readed" />
+          <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
+          <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
+          <ScalarProperty Name="TempCode" ColumnName="TempCode" />
+          <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
+          <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
+          <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
+          <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
+          <ScalarProperty Name="Unit_ID" ColumnName="Unit_ID" />
+          <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
+          <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

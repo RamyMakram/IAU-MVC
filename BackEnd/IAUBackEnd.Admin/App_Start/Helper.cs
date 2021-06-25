@@ -11,7 +11,7 @@ namespace IAUBackEnd.Admin
 	{
 		public static DateTime GetDate()
 		{
-			return TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arab Standard Time"));
+			return TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
 		}
 
 		public static byte[] GetHash(string inputString)

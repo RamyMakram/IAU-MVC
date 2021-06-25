@@ -24,6 +24,7 @@ namespace IAUAdmin.DTO.Entity
 		public Nullable<bool> Readed { get; set; }
 
 		public virtual RequestStatusDTO Request_State { get; set; }
+		public virtual UnitsDTO Units { get; set; }
 
 		public virtual PersonalDataDTO Personel_Data { get; set; }
         //public virtual Request_State Request_State { get; set; }

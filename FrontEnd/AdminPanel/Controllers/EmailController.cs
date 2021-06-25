@@ -56,6 +56,14 @@ namespace AdminPanel.Controllers
 				ViewBag.RequestTransaction = JsonConvert.DeserializeObject<ICollection<Request_TransactionDTO>>(res.result.ToString());
 
 				var RequestData = JsonConvert.DeserializeObject<ReqestDTO>(Request_res.result.ToString());
+				Data = APIHandeling.getData("Units/GetActive");
+				resJson = Data.Content.ReadAsStringAsync();
+				res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+				var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
+				if (isar)
+					ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_AR");
+				else
+					ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 				if (IsMostafid.HasValue && IsMostafid.Value)
 				{
 					if ((RequestData.TempCode == "" || RequestData.TempCode == null))
@@ -98,15 +106,6 @@ namespace AdminPanel.Controllers
 							ViewBag.ReqTypes = new SelectList(ReqTypes, "Request_Type_ID", "Request_Type_Name_AR");
 						else
 							ViewBag.ReqTypes = new SelectList(ReqTypes, "Request_Type_ID", "Request_Type_Name_EN");
-
-						Data = APIHandeling.getData("Units/GetActive");
-						resJson = Data.Content.ReadAsStringAsync();
-						res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-						var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
-						if (isar)
-							ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_AR");
-						else
-							ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
 					}
 					return View("Preview", RequestData);
 				}

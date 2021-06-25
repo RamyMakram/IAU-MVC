@@ -27,14 +27,14 @@
 	}
 
 	#MailList tr.noreaded {
-		background-color: #fff59d8f;
+		background-color: #eae0ca;
 		color: white;
 	}
 
-	#MailList tr.noreaded  td {
-		border: 0;
-		color: black;
-	}
+		#MailList tr.noreaded td {
+			border: 0;
+			color: black;
+		}
 
 	#MailList tr td {
 		border-bottom: 1px solid #0000005c !important;
@@ -210,3 +210,8 @@
 
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
+<script>
+	$('.paginate_button.page-item a').on('click', function () {
+		getLanguage()
+	})
+</script>

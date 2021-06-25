@@ -36,8 +36,8 @@
 		border: 1px solid #aaa !important;
 		border-radius: 6px !important;
 		/* font-size: 11px; */
-		font-weight: bold;
-		font-size: 16px;
+		/*font-weight: bold;*/
+		font-size: 14px;
 	}
 
 	span.select2-selection.select2-selection {
@@ -79,10 +79,22 @@
 						<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
 						<div style="display:inline-flex" id="CodeGenrateDiv">
 							<span>@Model.Ref_Number</span>
-							@foreach (var i in Model.Ref_Number.ToCharArray())
-							{
-								<input class="form-control Genratedcode en-font" value="@i" disabled />
+							@{
+								var Codes = Model.Ref_Number.ToCharArray();
+								for (int i = 0; i < 15; i++)
+								{
+									if (Codes.Length - 1 < i)
+									{
+										<input class="form-control Genratedcode en-font" value="@(Codes[i])" disabled />
+									}
+									else
+									{
+										<input class="form-control Genratedcode en-font" value="@(Codes[i])" disabled />
+									}
+								}
+
 							}
+
 						</div>
 					</div>
 				</div>
@@ -110,8 +122,9 @@
 							</div>
 							<div class="form-group">
 								<label key="t-subunits" class="control-label">Types</label>
-								<select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
-								</select>
+								@*<select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
+									</select>*@
+								@Html.DropDownListFor(model => model.SubID, ViewBag.SubUnits as SelectList, new { @onchange = "SubUnitChange(event.target.value)", @id = "SubUnits", @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 							</div>
 							<div class="form-group">
 								<label class="control-label" key="t-name" for="name">Name</label>
@@ -151,15 +164,17 @@
 							<div class="form-group" style="display:inline-flex;width: 100%;margin:0">
 								<div style="width: 65%; padding: 0 3px;">
 									<label key="t-unittypes" class="control-label">Unit Type</label>
-									<select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
-									</select>
+									@*<select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
+										</select>*@
+									@Html.DropDownListFor(model => model.Units_Type_ID, ViewBag.Units_Types as SelectList, new { @onchange = "UnitTypeChange(event.target.value)", @id = "UnitType", @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+
 								</div>
 								<div class="form-group" style="width: 35%; padding: 0 3px;margin: 0;">
-									<label key="t-title-code" class="control-label">Code</label>
-									<label id="TypeCode" style="width: 100%; padding: 5px;"></label>
+									<label key="t-title-code" class="control-label">@(lang == "ar" ? Model.Units_Type.Units_Type_Name_AR : Model.Units_Type.Units_Type_Name_EN)</label>
+									<label id="TypeCode" style="width: 100%; padding: 5px;">@Model.Units_Type.Code</label>
 								</div>
 							</div>
-							<div class="form-group" style="display:inline-flex;width: 100%;height:70px;    margin: 9px 0 11px 0;">
+							<div class="form-group" style="display:inline-flex;width: 100%;height:70px;margin: 9px 0 11px 0;">
 								<div style="width: 65%; padding: 0 3px;">
 									<label key="t-title-subunittypes" class="control-label"></label>
 									<label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
@@ -177,9 +192,24 @@
 							<div class="form-group">
 								<label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
 								<div style="display:inline-flex;width:100%;">
-									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control en-font BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control  en-font BuldingNumber", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (IEnumerable<SelectListItem>)ViewBag.Service_TypeCharList, new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @style = "padding:0 5px" })
+									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
+										@foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+										{
+											<option value="@i" @(i.ToString()[0]==Model.Building_Number[2]? "selected":"")>@i</option>
+										}
+									</select>
+									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
+										@foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+										{
+											<option value="@i" @(i.ToString()[0]==Model.Building_Number[1]? "selected":"")>@i</option>
+										}
+									</select>
+									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
+										@foreach (var i in new List<string> { "A", "D", "M", "F", "S", "R", "H" })
+										{
+											<option value="@i" @(i[0]==Model.Building_Number[0]? "selected":"")>@i</option>
+										}
+									</select>
 								</div>
 							</div>
 
@@ -212,28 +242,36 @@
 <script>
 	let UnitTypes = [];
 	let count = 0;
-	$(document).ready(function () {
-		LevelChange(document.getElementById('LEVEID').value)
-		let BuildN = $('#BuildNum').val().split('')
-		if (BuildN.length != 0) {
-			let BuildngsControls = document.getElementsByClassName('BuldingNumber');
+	//$(document).ready(function () {
+	//	LevelChange(document.getElementById('LEVEID').value)
+	//	let BuildN = $('#BuildNum').val().split('')
+	//	if (BuildN.length != 0) {
+	//		let BuildngsControls = document.getElementsByClassName('BuldingNumber');
 
-			([...BuildngsControls]).reverse().map(function (a, index) {
-				return a.value = BuildN[index]
-			})
-		}
-		else
-			BuildChange();
-		let Code = $('#RefNum').val().split('');
-		([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
-			le.value = Code[i]
+	//		([...BuildngsControls]).reverse().map(function (a, index) {
+	//			return a.value = BuildN[index]
+	//		})
+	//	}
+	//	else
+	//		BuildChange();
+	//	let Code = $('#RefNum').val().split('');
+	//	([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
+	//		le.value = Code[i]
+	//	})
+	//	LocationChange($('#LocationIDSelect').val())
+	//	//UnitCodeChange(false,"", true)
+
+	//})
+	$.ajax({
+			url: "/Units/getTypeOFUnit?id=" +$('#SubUnits').val() , success: function (d) {
+				var lang = document.getElementById("lang").value
+				$('#SubTypeLevel').text(lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]);
+				$('#SubTypeCode').text(d["Code"]);
+			}, error: function (ee) {
+				console.log("error", ee)
+			}
 		})
-		LocationChange($('#LocationIDSelect').val())
-		//UnitCodeChange(false,"", true)
-
-	})
 	function getUnitTypes(ID) {
-		console.log("LevelID:"+ID)
 		$.ajax({
 			url: `/Units/getUnitTypes?id=${ID}`, success: function (e) {
 				UnitTypes = e;
@@ -400,8 +438,10 @@
 		}
 		if (ISLevelChange) {
 			console.log("Delete From:" + startIn)
-			for (startIn; startIn <= 15; startIn++)
+			for (startIn; startIn <= 15; startIn++) {
+				console.log(startIn)
 				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = "0"
+			}
 		}
 
 		let BuildngsControls = document.querySelectorAll('#CodeGenrateDiv input')

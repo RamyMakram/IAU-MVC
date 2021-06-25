@@ -273,7 +273,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="File_Name" Type="nvarchar" MaxLength="250" Nullable="false" />
-    <Property Name="File_Path" Type="varchar(max)" Nullable="false" />
+    <Property Name="File_Path" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="Request_ID" Type="int" Nullable="false" />
     <Property Name="RequiredDoc_ID" Type="int" />
@@ -292,7 +292,7 @@
     <Key>
       <PropertyRef Name="State_ID" />
     </Key>
-    <Property Name="State_ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="State_ID" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
@@ -832,6 +832,18 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Request_Data_Units">
+    <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+    <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="Units_ID" />
+      </Principal>
+      <Dependent Role="Request_Data">
+        <PropertyRef Name="Unit_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Request_File_Request_Data">
     <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
     <End Role="Request_File" Type="Self.Request_File" Multiplicity="*" />
@@ -1341,6 +1353,10 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
     </AssociationSet>
     <AssociationSet Name="FK_Request_Data_Sub_Services" Association="Self.FK_Request_Data_Sub_Services">
       <End Role="Sub_Services" EntitySet="Sub_Services" />
+      <End Role="Request_Data" EntitySet="Request_Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Data_Units" Association="Self.FK_Request_Data_Units">
+      <End Role="Units" EntitySet="Units" />
       <End Role="Request_Data" EntitySet="Request_Data" />
     </AssociationSet>
     <AssociationSet Name="FK_Request_File_Request_Data" Association="Self.FK_Request_File_Request_Data">

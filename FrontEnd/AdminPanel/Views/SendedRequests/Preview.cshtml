@@ -196,7 +196,7 @@
 			border: 1px solid;
 			margin: 0 5px;
 			width: 40px;
-			text-align: center;
+			text-align: center !important;
 			background: #ececec;
 			font-weight: bold;
 		}
@@ -235,7 +235,7 @@
 
 	table#PDFTable tbody tr th {
 		text-align: start !important;
-		font-family: 'DroidArabicKufiRegular' !important;
+		/*font-family: 'DroidArabicKufiRegular' !important;*/
 		font-size: 14px;
 		padding: 6px 19px;
 	}
@@ -275,7 +275,7 @@
 							<h5 class="font-size-14 mt-1 en-font">@Model.Personel_Data.First_Name</h5>
 							<small class="text-muted en-font">@Model.Personel_Data.Email</small>
 						</div>
-						<a href="/Email" class="btn btn-primary" key="t-backToEmail">Back To Home</a>
+						<a href="/SendedRequests" class="btn btn-primary" key="t-backToEmail">Back To Home</a>
 					</div>
 					<div class="PDFOuterView">
 						<div id="padf" class="pdfnotloaded">
@@ -295,6 +295,10 @@
 									<tr>
 										<th key="t-reqtype"></th>
 										<th>@(isAr ? Model.Request_Type.Request_Type_Name_AR : Model.Request_Type.Request_Type_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-Provider"></th>
+										<th>@(isAr ? (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).LastOrDefault().Units1.Units_Name_AR : (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).LastOrDefault().Units1.Units_Name_EN)</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-personalData"></th>
@@ -469,20 +473,20 @@
 															</div>
 														}
 													}
-												<div class="row justify-content-between">
-													@if (isAr)
-													{
-														<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
-														<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
-														<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
-													}
-													else
-													{
-														<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
-														<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
-														<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
-													}
-												</div>
+													<div class="row justify-content-between">
+														@if (isAr)
+														{
+															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+														}
+														else
+														{
+															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+														}
+													</div>
 												</div>
 
 											</div>
@@ -508,11 +512,11 @@
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
 								{
 									<div class="col-3">
-										<div class="card">
-											<img class="card-img-top img-fluid" data-toggle="tooltip" title="@i.File_Name" src="~/assets/images/attachment.png" alt="Card image cap">
-											<div class="FileTitle row">
-												<p class="row" key="t-requirddoc">@(new string((isAr ? i.Required_Documents.Name_AR : @i.Required_Documents.Name_EN).Take(10).ToArray()))</p>
-												<p class="row">@(new string(i.File_Name.Take(10).ToArray()))</p>
+										<div class="card w-100">
+											<i class="fas fa-file" data-toggle="tooltip" title="@((isAr ? i.Required_Documents.Name_AR : i.Required_Documents.Name_EN)+"\n"+i.File_Name)" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
+											<div class="FileTitle row w-100">
+												<p class="row" key="t-requirddoc">@(new string((isAr ? i.Required_Documents.Name_AR : i.Required_Documents.Name_EN).Take(10).ToArray()))</p>
+												<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
 											</div>
 											<div class="py-2 text-center">
 												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
@@ -532,10 +536,10 @@
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
 								{
 									<div class="col-3">
-										<div class="card">
-											<img class="card-img-top img-fluid" data-toggle="tooltip" title="@i.File_Name" src="~/assets/images/attachment.png" alt="Card image cap">
+										<div class="card w-100">
+											<i class="fas fa-file" data-toggle="tooltip" title="@i.File_Name" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
 											<div class="FileTitle row">
-												<p class="row">@(new string(i.File_Name.Take(10).ToArray()))</p>
+												<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
 											</div>
 											<div class="py-2 text-center">
 												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
@@ -543,13 +547,7 @@
 										</div>
 									</div>
 								}
-								<div class="col-3">
-									<div class="card" style="height: 92px;border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
-										<span>
-											<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green"></i>
-										</span>
-									</div>
-								</div>
+
 							</div>
 						</div>
 						<div class="col-4">
@@ -563,33 +561,36 @@
 			</div>
 
 
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-6">
-							<button class="btn btn-primary w-100 actionBtn" id="sa-confirm"><i class="fas fa-clipboard-check"></i><span style="margin:0 12px;" key="t-ConfimRequest">تم معالجة الطلب</span></button>
-						</div>
-						<div class="col-6 justify-content-center d-flex">
-							<button class="btn btn-danger actionBtn" id="sa-close"><i class="fas fa-times-circle"></i><span style="margin:0 12px;" key="t-RefuseRequest">رفض لعدم الاختصاص</span></button>
+			@*<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-6">
+								<button class="btn btn-primary w-100 actionBtn" id="sa-confirm"><i class="fas fa-clipboard-check"></i><span style="margin:0 12px;" key="t-ConfimRequest">تم معالجة الطلب</span></button>
+							</div>
+							<div class="col-6 justify-content-center d-flex">
+								<button class="btn btn-danger actionBtn" id="sa-close"><i class="fas fa-times-circle"></i><span style="margin:0 12px;" key="t-RefuseRequest">رفض لعدم الاختصاص</span></button>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</div>*@
 
 		</div>
 
 	</div>
 </div>
-@using (Html.BeginForm("AddComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
+@if (false)
 {
-	@Html.Hidden("RequestIID", Model.Request_Data_ID)
-	<input type="text" name="Comment" id="preview-comment" />
-	<button id="xx-confirmRequest" type="submit"></button>
-}
-@using (Html.BeginForm("CloseComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
-{
-	@Html.Hidden("RequestIID", Model.Request_Data_ID)
-	<button id="xx-cancelRequest" type="submit"></button>
+	using (Html.BeginForm("AddComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
+	{
+		@Html.Hidden("RequestIID", Model.Request_Data_ID)
+		<input type="text" name="Comment" id="preview-comment" />
+		<button id="xx-confirmRequest" type="submit"></button>
+	}
+	using (Html.BeginForm("CloseComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
+	{
+		@Html.Hidden("RequestIID", Model.Request_Data_ID)
+		<button id="xx-cancelRequest" type="submit"></button>
+	}
 }
 <!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
@@ -622,7 +623,8 @@
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
 
-<script>
+@{
+	<script>
 	$('#sa-close').click(function () {
 		Swal.fire({
 			title:"@(isAr ? "هل انت متاكد من رفض هذا الطلب؟" : "Are you sure To refuse this request?")",
@@ -658,20 +660,22 @@
 			}
 		});
 	});
-</script>
-<script>
-	let toal = parseInt($('#total-comment').text());
-	let activeComment = parseInt($('#total-comment').text());
-	$('.carNext').on('click', function () {
-		activeComment = ((activeComment++) % toal) + 1;
-		$('#from-comment').text(activeComment)
-		$('.data-Comment').removeClass('active');
-		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
-	})
-	$('.carPrev').on('click', function () {
-		activeComment = activeComment - 1 == 0 ? toal : activeComment - 1;
-		$('#from-comment').text(activeComment)
-		$('.data-Comment').removeClass('active');
-		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
-	})
-</script>
+	</script>
+	<script>
+		let toal = parseInt($('#total-comment').text());
+		let activeComment = parseInt($('#total-comment').text());
+		$('.carNext').on('click', function () {
+			activeComment = ((activeComment++) % toal) + 1;
+			$('#from-comment').text(activeComment)
+			$('.data-Comment').removeClass('active');
+			$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+		})
+		$('.carPrev').on('click', function () {
+			activeComment = activeComment - 1 == 0 ? toal : activeComment - 1;
+			$('#from-comment').text(activeComment)
+			$('.data-Comment').removeClass('active');
+			$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+		})
+	</script>
+
+}

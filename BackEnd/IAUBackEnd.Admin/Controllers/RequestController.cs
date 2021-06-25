@@ -41,7 +41,7 @@ namespace IAUBackEnd.Admin.Controllers
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 			if (Unit.IS_Mostafid)
 			{
-				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() != 0 || q.RequestTransaction.Count(w => w.CommentDate == null || w.Comment == "" || w.Comment == null) == q.RequestTransaction.Count)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.RequestTransaction.OrderByDescending(w => w.ID).First().Readed, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
+				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && q.RequestTransaction.Count() != 0 && q.RequestTransaction.Count(w => w.CommentDate == null || w.Comment == "" || w.Comment == null) == q.RequestTransaction.Count).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Readed, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
 				return Ok(new ResponseClass() { success = true, result = data });
 			}
 			else
@@ -59,7 +59,6 @@ namespace IAUBackEnd.Admin.Controllers
 
 		//[EnableCors(origins: "*", headers: "*", methods: "*")]
 
-
 		public async Task<IHttpActionResult> GetRequest_Data(int id, int UserID)
 		{
 			try
@@ -67,9 +66,9 @@ namespace IAUBackEnd.Admin.Controllers
 				var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 				Request_Data request_Data;
 				if (Unit.IS_Mostafid)
-					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
+					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
 				else
-					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
+					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
 						.FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
 				if (request_Data == null)
 					return Ok(new ResponseClass() { success = false });
@@ -90,6 +89,28 @@ namespace IAUBackEnd.Admin.Controllers
 						request_Data.Request_State_ID = 3;
 					p.SaveChanges();
 				}
+				return Ok(new ResponseClass() { success = true, result = request_Data });
+			}
+			catch (Exception ee)
+			{
+
+				return Ok(new ResponseClass() { success = false, result = ee });
+			}
+		}
+		public async Task<IHttpActionResult> GetSendedRequest_Data(int id, int UserID)
+		{
+			try
+			{
+				var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+				Request_Data request_Data;
+				if (Unit.IS_Mostafid)
+					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment == null));
+				else
+					request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
+						.FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count != 0 || q.RequestTransaction.Count(w => (w.Comment != "" && w.Comment != null) && w.ToUnitID == Unit.Units_ID) != 0)));
+				if (request_Data == null)
+					return Ok(new ResponseClass() { success = false });
+
 				return Ok(new ResponseClass() { success = true, result = request_Data });
 			}
 			catch (Exception ee)
@@ -139,7 +160,7 @@ namespace IAUBackEnd.Admin.Controllers
 					await p.SaveChangesAsync();
 				}
 				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
-				request_Data.CreatedDate = DateTime.Now;
+				request_Data.CreatedDate = Helper.GetDate();
 				request_Data.Request_State_ID = 1;
 				request_Data.IsTwasul_OC = false;
 				request_Data.Readed = false;

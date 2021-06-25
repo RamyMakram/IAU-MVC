@@ -101,14 +101,16 @@
 			}
 </style>
 <style>
-	.constainDocs[dir='rtl']{
-		border-left:2px dashed;
-		border-left-color:black;
+	.constainDocs[dir='rtl'] {
+		border-left: 2px dashed;
+		border-left-color: black;
 	}
-	.constainDocs[dir='ltr']{
-		border-right:2px dashed;
-		border-right-color:black;
+
+	.constainDocs[dir='ltr'] {
+		border-right: 2px dashed;
+		border-right-color: black;
 	}
+
 	.data-Comment {
 		display: none;
 	}
@@ -246,7 +248,7 @@
 
 	table#PDFTable tbody tr th {
 		text-align: start !important;
-		font-family: 'DroidArabicKufiRegular' !important;
+		/*font-family: 'DroidArabicKufiRegular' !important;*/
 		font-size: 14px;
 		padding: 6px 19px;
 	}
@@ -442,6 +444,7 @@
 
 						}
 						<div class="col-12">
+							@*@Html.Hidden("BuildNumberdata", Model.Units.Building_Number, new { @id = "BuildNumber-data" })*@
 
 							@if (ShowEncode)
 							{
@@ -470,7 +473,7 @@
 											</div>
 											<div class="form-group">
 												<label key="t-location" class="control-label">الموقع</label>
-												@Html.DropDownList("locations", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+												@Html.DropDownListFor(q => q.Units.Units_Location_ID, (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 											</div>
 											<div class="form-group">
 												<label key="t-Buiding" class="control-label">الميني</label>
@@ -815,8 +818,9 @@
 				let data = JSON.parse(x);
 					$('#Building').html('<option value="null" selected>@(isAr ? "الكل" : "ALL")</option>');
 				if (data.success) {
+					let BuildNum = $('#BuildNumber-data').val()
 					data.result.forEach(e => {
-						$('#Building').append(`<option value="${e}">${e}</option>`);
+						$('#Building').append(`<option ${BuildNum==e?'selected':''} value="${e}">${e}</option>`);
 					})
 				}
 				GetUnots()
