@@ -29,12 +29,25 @@ namespace IAUBackEnd.Admin.Controllers
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 			if (Unit.IS_Mostafid)
 			{
-				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.CommentDate != null && w.Comment != "" && w.Comment != null) == q.RequestTransaction.Count)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false, q.Request_State_ID }).ToList();
+				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.CommentDate != null && w.Comment != "" && w.Comment != null) == q.RequestTransaction.Count)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
 				return Ok(new ResponseClass() { success = true, result = data });
 			}
 			else
-				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Readed }) });
+				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Readed }).OrderByDescending(q => q.CreatedDate) });
 		}
+
+		public async Task<IHttpActionResult> GetSendedRequests_Data(int UserID)
+		{
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			if (Unit.IS_Mostafid)
+			{
+				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() != 0 || q.RequestTransaction.Count(w => w.CommentDate == null || w.Comment == "" || w.Comment == null) == q.RequestTransaction.Count)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.RequestTransaction.OrderByDescending(w => w.ID).First().Readed, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
+				return Ok(new ResponseClass() { success = true, result = data });
+			}
+			else
+				return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Where(w => (w.Comment != "" && w.Comment != null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Request_Data.Readed }).OrderByDescending(q => q.CreatedDate) });
+		}
+
 		public async Task<IHttpActionResult> GetRequestsCount(int UserID)
 		{
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
@@ -126,7 +139,6 @@ namespace IAUBackEnd.Admin.Controllers
 					await p.SaveChangesAsync();
 				}
 				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
-				request_Data.Code_Generate = DateTime.Now.ToString("yyyyMMddHHmm");
 				request_Data.CreatedDate = DateTime.Now;
 				request_Data.Request_State_ID = 1;
 				request_Data.IsTwasul_OC = false;
@@ -247,12 +259,11 @@ namespace IAUBackEnd.Admin.Controllers
 					req.GenratedDate = Helper.GetDate();
 					p.SaveChanges();
 					string message = $@"
-									عزيزي المستفيد
-									نفيدكم بأن كود الطلب الخاص بكم هو {Code} 
+									عزيزي المستفيد,
+									:نفيدكم بأن كود الطلب الخاص بكم هو {Code} 
 									برجاء استخدامة في حالة الاستعلام
 								";
-					if (type == "c")
-						_ = SendSMS(req.Personel_Data.Mobile, message);
+					_ = SendSMS(req.Personel_Data.Mobile, message);
 				}
 				else
 				{
@@ -355,7 +366,23 @@ namespace IAUBackEnd.Admin.Controllers
 			Code += (BuildingSelect == null || BuildingSelect == "null") ? unit.Building_Number : BuildingSelect;
 			Code += Service_Type_ID + "" + Request_Type_ID;
 			Code += (string.Join("0", new string[5 - RequestIID.ToString().Length + 1]) + RequestIID);
+			if (Code.Length != 13)
+				Code += string.Join("0", new string[13 - Code.Length]);
 			return Code;
+		}
+		[HttpPost]
+		public async Task<IHttpActionResult> FollowRequest([FromBody]string Code)
+		{
+			try
+			{
+				var data = p.Request_Data.Include(q => q.Units).Include(q => q.Request_State).Where(q => q.Code_Generate == Code)
+					.Select(q => new { q.IsTwasul_OC, q.Request_State, q.Request_Data_ID, q.Request_State_ID }).FirstOrDefault();
+				return Ok(new ResponseClass() { success = true, result = new { Request = data, State = p.RequestTransaction.Where(q => q.Request_ID == data.Request_Data_ID).Include(q => q.Units).OrderByDescending(w => w.ID).FirstOrDefault() } });
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass() { success = false, result = ee });
+			}
 		}
 		protected override void Dispose(bool disposing)
 		{

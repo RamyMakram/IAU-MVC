@@ -37,7 +37,7 @@
 		border: 1px solid #aaa !important;
 		border-radius: 6px !important;
 		/* font-size: 11px; */
-		font-weight: bold;
+		/*font-weight: bold;*/
 		font-size: 16px;
 		margin: 1px 0 !important;
 	}
@@ -177,9 +177,9 @@
 							<div class="form-group">
 								<label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
 								<div style="display:inline-flex;width:100%;">
-									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (IEnumerable<SelectListItem>)ViewBag.Service_TypeCharList, new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+									@Html.DropDownList(" ", (new List<string> { "A", "D", "M", "F", "S", "R", "H" }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @style = "padding:0 5px" })
 								</div>
 							</div>
 

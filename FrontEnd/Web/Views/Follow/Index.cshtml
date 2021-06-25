@@ -2,6 +2,26 @@
     ViewBag.title = "Request";
 }
 <span style="display:none" id="lang">@ViewBag.CookieLang</span>
+@if (ViewBag.CookieLang != "ar")
+{
+	<style>
+		.state span {
+			letter-spacing: 3px !important;
+			width: auto !important;
+		}
+	</style>
+}
+<style>
+
+
+	.col-md-3.col-sm-6 span {
+		font-size: 13px !important;
+	}
+
+	#spn_location:after, #spn_status:after {
+		content: "...";
+	}
+</style>
 <div class="col-md-12 containt2">
 	<div class="row">
 		<div class="col-md-12">
@@ -43,7 +63,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12 serial-input">
+		<div class="col-md-12 serial-input" style="display: inline-flex;align-items: center;justify-content: center">
 			@if (ViewBag.CookieLang == "ar")
 			{
 				<label>أدخل رقم الطلب</label>
@@ -52,30 +72,28 @@
 			{
 				<label>Insert request number</label>
 			}
+			<div style="width:fit-content;direction:ltr !important">
+				@{
+					var cot = 1;
+					foreach (var i in new string[13])
+					{
+						<input id="@("search_digit"+cot)" type="text" class="search" maxlength="1">
+					}
+				}
+			</div>
 
-			<input id="search_digit1" type="text" class="search" maxlength="1">
-			<input id="search_digit2" type="text" class="search" maxlength="1">
-			<input id="search_digit3" type="text" class="search" maxlength="1">
-			<input id="search_digit4" type="text" class="search" maxlength="1">
-			<input id="search_digit5" type="text" class="search" maxlength="1">
-			<input id="search_digit6" type="text" class="search" maxlength="1">
-			<input id="search_digit7" type="text" class="search" maxlength="1">
-			<input id="search_digit8" type="text" class="search" maxlength="1">
-			<input id="search_digit9" type="text" class="search" maxlength="1">
-			<input id="search_digit10" type="text" class="search" maxlength="1">
-			<input id="search_digit11" type="text" class="search" maxlength="1">
-			<input id="search_digit12" type="text" class="search" maxlength="1">
-			<input id="search_digit13" type="text" class="search" maxlength="1">
-			@if (ViewBag.CookieLang == "ar")
-			{
-				<button onclick="showState()">عرض</button>
-				<button onclick="searchByPhone()">ابحث عن الطلب السابق</button>
-			}
-			else
-			{
-				<button onclick="showState()">Show</button>
-				<button onclick="searchByPhone()">Search For Previous Request</button>
-			}
+			<div style="width:fit-content">
+				@if (ViewBag.CookieLang == "ar")
+				{
+					<button onclick="showState()">عرض</button>
+					<button onclick="searchByPhone()">ابحث عن الطلب السابق</button>
+				}
+				else
+				{
+					<button onclick="showState()">Show</button>
+					<button onclick="searchByPhone()">Search For Previous Request</button>
+				}
+			</div>
 
 
 		</div>
@@ -156,8 +174,8 @@
 							</div>
 							@if (ViewBag.CookieLang == "ar")
 							{
-								<span>طلب</span>
-								<span>ايفاد</span>
+								<span>تأكيد</span>
+								<span>الطلب</span>
 							}
 							else
 							{
@@ -175,8 +193,8 @@
 							</div>
 							@if (ViewBag.CookieLang == "ar")
 							{
-								<span>طلب</span>
-								<span>الفرز</span>
+								<span>إيفاد إلى</span>
+								<span>مزود الخدمة</span>
 							}
 							else
 							{
@@ -194,8 +212,8 @@
 							</div>
 							@if (ViewBag.CookieLang == "ar")
 							{
-								<span>طلب</span>
-								<span>المعالجة</span>
+								<span>معالجة</span>
+								<span>الطلب</span>
 							}
 							else
 							{

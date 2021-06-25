@@ -35,5 +35,12 @@ namespace AdminPanel.Controllers
 			var resJson = Data.Content.ReadAsStringAsync();
 			return Json(resJson.Result, JsonRequestBehavior.AllowGet);
 		}
+		[HttpPost]
+		public JsonResult FollowRequest(string requestCode)
+		{
+			var res = APIHandeling.Post("/Request/FollowRequest", requestCode);
+			var lst = res.Content.ReadAsStringAsync().Result;
+			return Json(lst, JsonRequestBehavior.AllowGet);
+		}
 	}
 }

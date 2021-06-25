@@ -173,6 +173,7 @@
     <Compile Include="Controllers\LevelsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
+    <Compile Include="Controllers\SendedRequestsController.cs" />
     <Compile Include="Controllers\ServicesBankController.cs" />
     <Compile Include="Controllers\RequestTypeController.cs" />
     <Compile Include="Controllers\ServiceTypesController.cs" />
@@ -259,6 +260,7 @@
     <Content Include="assets\images\product\img-7.png" />
     <Content Include="assets\images\product\img-8.png" />
     <Content Include="assets\images\profile-img.png" />
+    <Content Include="assets\images\slider_e-01_0.jpg" />
     <Content Include="assets\images\small\img-1.jpg" />
     <Content Include="assets\images\small\img-2.jpg" />
     <Content Include="assets\images\small\img-3.jpg" />
@@ -3090,6 +3092,8 @@
     <Content Include="Views\Levels\Home.cshtml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <Content Include="Views\Email\PreviewForUnit.cshtml" />
+    <Content Include="Views\SendedRequests\Home.cshtml" />
+    <Content Include="Views\SendedRequests\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

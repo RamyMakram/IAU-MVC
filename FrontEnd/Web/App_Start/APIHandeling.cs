@@ -167,7 +167,8 @@ namespace Web.App_Start
 			h.BaseAddress = new Uri(AdminURL);
 
 			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
-
+			System.Net.ServicePointManager.SecurityProtocol |=
+	SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 			var res = h.GetAsync("/api/" + apiName);
 			return res.Result; ;
 		}
