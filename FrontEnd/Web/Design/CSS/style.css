@@ -843,7 +843,7 @@ nav {
     }
 
 .containt2 .row .col-md-12:nth-of-type(3) {
-    display: none;
+    /*display: none;*/
 }
 
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .border-state img {
@@ -858,7 +858,7 @@ nav {
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span {
         background: none;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.04em;
     }
 
         .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span:last-of-type {
@@ -1494,4 +1494,69 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
             margin:0px;
             text-align:left;
         }
-        
+    .main-page .New-Idea h3,
+    .main-page .operation-System h3 {
+        color: #4f693a;
+        font-size: 30px;
+        font-weight: bold;
+        padding: 10px 5px 10px 0px;
+    }
+
+    .main-page .New-Idea p,
+    .main-page .New-Idea ul,
+    .main-page .New-Idea ol,
+    .main-page .operation-System p,
+    .main-page .operation-System ul,
+    .main-page .operation-System ol {
+        color: #fff;
+        font-size: 20px;
+        text-align: justify;
+    }
+    .main-page .New-Idea ul,
+    .main-page .New-Idea ol,
+    .main-page .operation-System ul,
+    .main-page .operation-System ol {
+        text-align: left
+    }
+    .main-page .New-Idea .overview,
+    .main-page .New-Idea .AboutIAU,
+    .main-page .New-Idea .Objective,
+    .main-page .New-Idea .vision,
+    .main-page .operation-System .Scope-of-Services,
+    .main-page .operation-System .Reference-Points {
+        margin-bottom: 80px;
+        padding: 0px 20px;
+    }
+        .main-page .New-Idea .Objective ul,
+        .main-page .New-Idea .Objective li {
+            text-align: left;
+            font-size: 18px;
+            color: #c85d32;
+        }
+        .main-page .New-Idea .Objective .Objective-count-p{
+            margin-top:20px;
+        }
+        .main-page .New-Idea .Objective .Objective-count-img p{
+            font-weight:bold;
+        }
+
+        .main-page .New-Idea .Objective .Objective-question{
+            margin-top:40px;
+        }
+        .main-page .New-Idea .Objective .Objective-question p{
+            text-align:left;
+        }
+            .main-page .New-Idea .Objective .Objective-question ol *,
+            .main-page .New-Idea .Objective .Objective-question ul *{
+                color:#fff;
+            }
+
+    .main-page .New-Idea .vision > ul > li{
+        margin:15px 0px;
+        text-align:justify;
+    }
+        .main-page .New-Idea .vision > ul > li > b,
+        .main-page .operation-System .Scope-of-Services ol li b {
+            font-size: 23px;
+            color: #4b7428
+        }

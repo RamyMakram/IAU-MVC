@@ -586,12 +586,10 @@
                                         <label>رقم الجوال</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="الرجاء إدخال رقم الهاتف المحمول الذي سنستخدمه  للاتصال بك." />
-                                        <div style="display:inline-flex;direction:ltr;width: 162px;">
-                                            <span style="padding:3px">96</span><input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9">
-                                        </div>
+                                        <span style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">96<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px"></span>
                                     </div>
                                 </div>
                             </div>
@@ -860,9 +858,8 @@
                                         <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the Mobile Number we will eventually use to contact you." />
-                                        <div style="display:inline-flex;direction:ltr;width: 162px;">
-                                            <span style="padding:3px">96</span><input type="text" id="Mobile" name="Mobile" maxlength="9">
-                                        </div>
+                                            <span style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">96<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px"></span>
+
                                     </div>
                                 </div>
                             </div>
@@ -1073,7 +1070,7 @@
                 }
 
             </div>
-            <div class="row" id="Documents-Other">
+            <div class="row" id="Documents-Other" style="display:none;">
                 @if (ViewBag.CookieLang == "ar")
                 {
                     <p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
