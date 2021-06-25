@@ -1,24 +1,4 @@
-C:\Users\Ramy\Desktop\IAU MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.dll
-C:\Users\Ramy\Desktop\IAU MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.pdb
-C:\Users\Ramy\Desktop\IAU MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csproj.CoreCompileInputs.cache
-C:\Users\Ramy\Desktop\IAU MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.dll
-C:\Users\Ramy\Desktop\IAU MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.pdb
-C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.dll
-C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.pdb
-C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csproj.CoreCompileInputs.cache
-C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.dll
-C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.pdb
-C:\Users\Ramy\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csprojAssemblyReference.cache
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.pdb
-C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csprojAssemblyReference.cache
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.pdb
-<<<<<<< HEAD
-=======
-C:\Users\Ramy Makram\OneDrive\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.dll
-C:\Users\Ramy Makram\OneDrive\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\bin\Release\IAUAdmin.DTO.pdb
-C:\Users\Ramy Makram\OneDrive\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csprojAssemblyReference.cache
-C:\Users\Ramy Makram\OneDrive\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.dll
-C:\Users\Ramy Makram\OneDrive\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.pdb
->>>>>>> b4e877f1f7d3c315a75e3cb0cf7e3e0f9c582fed

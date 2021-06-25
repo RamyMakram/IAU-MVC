@@ -49,7 +49,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="col-12 justify-content-between">
+				<div class="col-12 justify-content-between mb-3">
 					<button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center" style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
 						<span key="t-filters"></span><i class="fas fa-caret-down"></i>
 					</button>
@@ -90,8 +90,8 @@
 									}
 
 								</td>
-								<td>@(i.Personel_Data.First_Name)</td>
-								<td>
+								<td class="en-font">@(i.Personel_Data.First_Name)</td>
+								<td class="en-font">
 									@(i.CreatedDate.ToString("MM/dd - HH:mm"))
 								</td>
 

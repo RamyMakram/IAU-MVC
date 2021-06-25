@@ -364,8 +364,8 @@ var User = "";
 								<td>${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : received_msg["Service_Type"]["Service_Type_Name_EN"])}</td>
 								<td>${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</td>
 								<td><span>${document.querySelector(`option[key='${(received_msg["Personel_Data"]["IAU_ID_Number"] == "" ? "t-no" : "t-yes")}']`).innerText}</span></td>
-								<td>${received_msg["Personel_Data"]["First_Name"]}</td>
-								<td>${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</td>
+								<td class="en-font">${received_msg["Personel_Data"]["First_Name"]}</td>
+								<td class="en-font">${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</td>
 								<td>${(received_msg["Required_Fields_Notes"] == null ? "" : received_msg["Required_Fields_Notes"].substr(0, 400))}</td>
 							</tr>
 						`+ html
