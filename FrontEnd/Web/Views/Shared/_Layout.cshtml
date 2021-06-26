@@ -55,6 +55,16 @@
                             <a class="nav-link" href="#">help and support</a>
                         </li>
                     }
+                    <li id="nav-contact" style="display:none;">
+                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                    </li>
+                    <li id="nav-lang" style="display:none;">
+                        <a class="nav-link"
+                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
+													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
+                            @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+                        </a>
+                    </li>
 
                 </ul>
 				<div class="vision">

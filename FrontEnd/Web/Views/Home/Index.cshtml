@@ -152,6 +152,9 @@
                         </li>
 
                     }
+                    <li id="nav-contact" style="display:none;">
+                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                    </li>
                     <li id="nav-lang" style="display:none;">
                         <a class="nav-link"
                            href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
@@ -159,9 +162,7 @@
                             @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
                         </a>
                     </li>
-                    <li id="nav-contact" style="display:none;">
-                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
-                    </li>
+
                 </ul>
                 <div class="vision">
                     <div>
@@ -589,7 +590,7 @@
                                         <img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="الرجاء إدخال رقم الهاتف المحمول الذي سنستخدمه  للاتصال بك." />
-                                        <span style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">96<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px"></span>
+                                        <span id="spanMobile" style="direction:ltr;display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000 ; ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border: 0px; outline: 0px; width: 68% "></span>
                                     </div>
                                 </div>
                             </div>
@@ -858,7 +859,7 @@
                                         <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the Mobile Number we will eventually use to contact you." />
-                                            <span style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">96<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px"></span>
+                                            <span id="spanMobile"  style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px;width:68%"></span>
 
                                     </div>
                                 </div>
