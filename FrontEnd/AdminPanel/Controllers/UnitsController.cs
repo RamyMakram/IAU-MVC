@@ -26,7 +26,7 @@ namespace AdminPanel.Controllers
 		}
 		public ActionResult Detials(int Id)
 		{
-			var Data = APIHandeling.getData("Units/GetUnits?id=" + Id);
+			var Data = APIHandeling.getData("Units/GetUnitsByID?id=" + Id);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)

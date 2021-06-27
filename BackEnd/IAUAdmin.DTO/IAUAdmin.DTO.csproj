@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Entity\ApplicantRequest_Data_DTO.cs" />
     <Compile Include="Entity\ApplicantTypeDTO.cs" />
+    <Compile Include="Entity\CityDTO.cs" />
+    <Compile Include="Entity\RegionDTO.cs" />
     <Compile Include="Entity\CountryDTO.cs" />
     <Compile Include="Entity\E_FormsDTO.cs" />
     <Compile Include="Entity\IDDocDTO.cs" />

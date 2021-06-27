@@ -10,6 +10,10 @@
 					font-family: 'DroidArabicKufiRegular' !important;
 					font-weight: bolder !important;
 				}
+
+				.select2-selection__rendered {
+					direction: rtl;
+				}
 			</style>
 		}
 		else
@@ -19,12 +23,21 @@
 					font-family: 'Frutiger LT Arabic 55 Roman' !important;
 					font-weight: bolder !important;
 				}
+
+				.select2-selection__rendered {
+					direction: ltr;
+				}
 			</style>
 		}
 	}
+
 	<style>
+		.actionForm {
+			padding: 30px;
+		}
+
 		.tooltip {
-			white-space: pre-line;
+			white-space: pre-line !important;
 		}
 
 		.en-font, td.dataTables_empty, button.buttons-html5, .TH-en, div#datatable-buttons_wrapper div.row:nth-of-type(3), div#datatable-buttons_wrapper div.row:nth-of-type(3) {

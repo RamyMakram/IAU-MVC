@@ -1,321 +1,321 @@
 ﻿@model IAU.DTO.Entity._HomeDTO
 @{
-    Layout = null;
+	Layout = null;
 }
 @using System.Configuration;
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="description" content="" />
-    <title>IAU - BSC</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
-    <link rel="stylesheet" href="~/Design/CSS/style.css" />
-    <style>
-        div#City {
-            /*align-items: center;
-            justify-content: center;
-            display: flex;*/
-            margin: 0;
-            padding: 0;
-        }
+	<meta charset="utf-8" />
+	<meta name="description" content="" />
+	<title>IAU - BSC</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/Design/CSS/all.min.css" />
+	<link rel="stylesheet" href="~/Design/CSS/style.css" />
+	<style>
+		div#City {
+			/*align-items: center;
+			justify-content: center;
+			display: flex;*/
+			margin: 0;
+			padding: 0;
+		}
 
-        table#PDFTable {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 29px;
-        }
+		table#PDFTable {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			margin-bottom: 29px;
+		}
 
-        #padf div img {
-            width: 120px !important;
-        }
+		#padf div img {
+			width: 120px !important;
+		}
 
-        .boldtitle {
-            font-weight: 900;
-            padding: 5px 0;
-            font-size: 21px;
-            width: 100% !important;
-        }
+		.boldtitle {
+			font-weight: 900;
+			padding: 5px 0;
+			font-size: 21px;
+			width: 100% !important;
+		}
 
 
-        table#PDFTable tbody tr th {
-            text-align: start !important;
-            /*font-family: 'DroidArabicKufiRegular' !important;*/
-            font-size: 19px;
-            padding: 6px 19px;
-            overflow-wrap: break-word;
-        }
+		table#PDFTable tbody tr th {
+			text-align: start !important;
+			/*font-family: 'DroidArabicKufiRegular' !important;*/
+			font-size: 19px;
+			padding: 6px 19px;
+			overflow-wrap: break-word;
+		}
 
-        table#PDFTable tbody tr.row {
-            width: 100%;
-            margin: 0;
-        }
+		table#PDFTable tbody tr.row {
+			width: 100%;
+			margin: 0;
+		}
 
-        table#PDFTable tbody tr th:not(.boldtitle) {
-            border: 1px solid #eee;
-        }
+		table#PDFTable tbody tr th:not(.boldtitle) {
+			border: 1px solid #eee;
+		}
 
-            table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
-                font-weight: normal
-            }
+			table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
+				font-weight: normal
+			}
 
-        table#PDFTable tbody tr th.boldtitle {
-            font-size: 28px;
-            color: #283858;
-        }
-    </style>
-    @if (ViewBag.CookieLang == "ar")
-    {
-        <style>
-            .containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
-                letter-spacing: normal !important;
-            }
+		table#PDFTable tbody tr th.boldtitle {
+			font-size: 28px;
+			color: #283858;
+		}
+	</style>
+	@if (ViewBag.CookieLang == "ar")
+	{
+		<style>
+			.containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
+				letter-spacing: normal !important;
+			}
 
-            a.nav-link {
-                font-weight: bold;
-                font-size: 19px;
-            }
+			a.nav-link {
+				font-weight: bold;
+				font-size: 19px;
+			}
 
-            .mainservice p, .requesttype p {
-                font-size: 18px !important;
-                font-weight: bold !important;
-            }
-        </style>
-        <link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
-    }
-    <style>
-        .loading {
-            display: none;
-        }
+			.mainservice p, .requesttype p {
+				font-size: 18px !important;
+				font-weight: bold !important;
+			}
+		</style>
+		<link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
+	}
+	<style>
+		.loading {
+			display: none;
+		}
 
-            .loading.active {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100vw;
-                height: 100vh;
-                z-index: 9999999;
-                position: fixed;
-                background: #0a1332;
-            }
-    </style>
-    <script src="~/Design/JS/AraTranslate.js"></script>
+			.loading.active {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100vw;
+				height: 100vh;
+				z-index: 9999999;
+				position: fixed;
+				background: #0a1332;
+			}
+	</style>
+	<script src="~/Design/JS/AraTranslate.js"></script>
 </head>
 <body class="@ViewBag.CookieLang">
-    <div class="loading active">
-        <img src="~/Design/img/loading2.gif" />
-    </div>
-    <nav class="navbar navbar-expand-xl">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">
-                    <i class="fas fa-bars" style="color: #b6a1a1;font-size: 30px;"></i>
-                </span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Main/Index">الرئيسية</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="~/Home/Index">طلب</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Coordinator/index">المنسقين</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">المساعدة والدعم الفنى</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Main/Index">Main</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Coordinator/index">Coordinator</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">help and support</a>
-                        </li>
+	<div class="loading active">
+		<img src="~/Design/img/loading2.gif" />
+	</div>
+	<nav class="navbar navbar-expand-xl">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+					aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon">
+					<i class="fas fa-bars" style="color: #b6a1a1;font-size: 30px;"></i>
+				</span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<li class="nav-item">
+							<a class="nav-link" href="~/Main/Index">الرئيسية</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="~/Home/Index">طلب</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="~/Coordinator/index">المنسقين</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">المساعدة والدعم الفنى</a>
+						</li>
+					}
+					else
+					{
+						<li class="nav-item">
+							<a class="nav-link" href="~/Main/Index">Main</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="~/Coordinator/index">Coordinator</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">help and support</a>
+						</li>
 
-                    }
-                    <li id="nav-contact" style="display:none;">
-                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
-                    </li>
-                    <li id="nav-lang" style="display:none;">
-                        <a class="nav-link"
-                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
+					}
+					<li id="nav-contact" style="display:none;">
+						<a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+					</li>
+					<li id="nav-lang" style="display:none;">
+						<a class="nav-link"
+						   href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
 													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
-                            @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
-                        </a>
-                    </li>
+							@(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+						</a>
+					</li>
 
-                </ul>
-                <div class="vision">
-                    <div>
-                        <button>@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</button>
-                        @Html.Partial("~/Views/Shared/_Language.cshtml")
-                    </div>
-                    <img src="~/Design/img/VisionLogo2.png">
-                </div>
-            </div>
-        </div>
-    </nav>
+				</ul>
+				<div class="vision">
+					<div>
+						<button>@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</button>
+						@Html.Partial("~/Views/Shared/_Language.cshtml")
+					</div>
+					<img src="~/Design/img/VisionLogo2.png">
+				</div>
+			</div>
+		</div>
+	</nav>
 
-    <ul class="nav nav-pills nav-fill" style="display: none;">
-        @if (ViewBag.CookieLang == "ar")
-        {
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">نوع الخدمة</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">نوع الطلب</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="personel-data-m" data-counter="4">البيانات الشخصية</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">بيانات الطلب</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">التأكيد</a>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">Service Type</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">Request Type</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="personel-data-m" data-counter="4">Personel Data</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">Request Data</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">Confirmation</a>
-            </li>
-        }
-    </ul>
-    <div class="row MContaint">
+	<ul class="nav nav-pills nav-fill" style="display: none;">
+		@if (ViewBag.CookieLang == "ar")
+		{
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">نوع الخدمة</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">نوع الطلب</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="personel-data-m" data-counter="4">البيانات الشخصية</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">بيانات الطلب</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">التأكيد</a>
+			</li>
+		}
+		else
+		{
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">Service Type</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">Request Type</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="personel-data-m" data-counter="4">Personel Data</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">Request Data</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">Confirmation</a>
+			</li>
+		}
+	</ul>
+	<div class="row MContaint">
 
-        @if (ViewBag.CookieLang == "ar")
-        {
-            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-right"></i>
-                <p>السابق</p>
-            </div>
+		@if (ViewBag.CookieLang == "ar")
+		{
+			<div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-right"></i>
+				<p>السابق</p>
+			</div>
 
-        }
-        else
-        {
-            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-left"></i>
-                <p>PREVIOUS</p>
-            </div>
-        }
+		}
+		else
+		{
+			<div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-left"></i>
+				<p>PREVIOUS</p>
+			</div>
+		}
 
-        <div class="col-md-8 containt" id="MainBody">
-            <div class="row" id="start-request">
-                <div class="col-md-12 main-title">
-                    <p>iau - bsc</p>
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <p>قم بتقديم أو متابعة الطلبات المقدمة</p>
-                    }
-                    else
-                    {
-                        <p>submit or follow submitted requests</p>
-                    }
-                </div>
-                <div class=" col-sm-12 col-lg-2"></div>
-                <div class="col-sm-12  col-md-6 col-lg-4">
-                    <div class="stick submit" id="NewRequest">
-                        <img src="~/Design/img/newrequest.png">
-                        @if (ViewBag.CookieLang == "ar")
-                        {
-                            <p class="first">طلب جديد</p>
-                        }
-                        else
-                        {
-                            <p class="first">Submit</p>
-                            <p class="second">new request</p>
-                        }
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6  col-lg-4">
-                    <div class="stick follow">
-                        <img src="~/Design/img/follow.png">
-                        @if (ViewBag.CookieLang == "ar")
-                        {
-                            <p class="first1">متابعة الطلب</p>
-                        }
-                        else
-                        {
-                            <p class="first1">follow-up</p>
-                            <p class="second1">request</p>
-                        }
-                    </div>
-                </div>
-            </div>
-            @{
-                var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString();
-                var counter = 0;
-                var isar = ViewBag.CookieLang == "ar";
-            }
-            <span style="display:none !important" id="serverpath">@serverpath</span>
-            <div class="row" id="Service_Type_Id" style="display: none;">
-                <div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px;margin-top:45px">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        @*<p style="direction: ltr; text-align: right;">@@ IAU - BSC</p>
-                            <p>أنـــــــــــــــــــــــــــــــــــواع</p>
-                            <p>الخـــــــــــدمــــــــــــــات</p>*@
-                        <img src="~/Design/img/ArRequestType.png" style="width:100%" />
-                    }
-                    else
-                    {
-                        @*<p style="direction:ltr">@@ IAU - BSC</p>
-                            <p>Services</p>
-                            <p>Types</p>*@
-                        <img src="~/Design/img/EnServiceType.png" style="width:100%" />
-                    }
-                </div>
-                @foreach (var service in Model.Service_Type)
-                {
-                    var mainservice_class = counter == 0 ? "stick active mainservice" : "stick mainservice";
+		<div class="col-md-8 containt" id="MainBody">
+			<div class="row" id="start-request">
+				<div class="col-md-12 main-title">
+					<p>iau - bsc</p>
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<p>قم بتقديم أو متابعة الطلبات المقدمة</p>
+					}
+					else
+					{
+						<p>submit or follow submitted requests</p>
+					}
+				</div>
+				<div class=" col-sm-12 col-lg-2"></div>
+				<div class="col-sm-12  col-md-6 col-lg-4">
+					<div class="stick submit" id="NewRequest">
+						<img src="~/Design/img/newrequest.png">
+						@if (ViewBag.CookieLang == "ar")
+						{
+							<p class="first">طلب جديد</p>
+						}
+						else
+						{
+							<p class="first">Submit</p>
+							<p class="second">new request</p>
+						}
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6  col-lg-4">
+					<div class="stick follow">
+						<img src="~/Design/img/follow.png">
+						@if (ViewBag.CookieLang == "ar")
+						{
+							<p class="first1">متابعة الطلب</p>
+						}
+						else
+						{
+							<p class="first1">follow-up</p>
+							<p class="second1">request</p>
+						}
+					</div>
+				</div>
+			</div>
+			@{
+				var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString();
+				var counter = 0;
+				var isar = ViewBag.CookieLang == "ar";
+			}
+			<span style="display:none !important" id="serverpath">@serverpath</span>
+			<div class="row" id="Service_Type_Id" style="display: none;">
+				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px;margin-top:45px">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						@*<p style="direction: ltr; text-align: right;">@@ IAU - BSC</p>
+							<p>أنـــــــــــــــــــــــــــــــــــواع</p>
+							<p>الخـــــــــــدمــــــــــــــات</p>*@
+						<img src="~/Design/img/ArRequestType.png" style="width:100%" />
+					}
+					else
+					{
+						@*<p style="direction:ltr">@@ IAU - BSC</p>
+							<p>Services</p>
+							<p>Types</p>*@
+						<img src="~/Design/img/EnServiceType.png" style="width:100%" />
+					}
+				</div>
+				@foreach (var service in Model.Service_Type)
+				{
+					var mainservice_class = counter == 0 ? "stick active mainservice" : "stick mainservice";
 
-                    <div class="col-md-4 col-lg-3">
-                        <div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
-                            <img src="@(serverpath+"/"+service.Image_Path)"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 data-bs-custom-class="beautifier"
-                                 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
-                            <p>@(isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN)</p>
-                            @*<p>services</p>*@
-                        </div>
-                    </div>
-                    counter++;
-                }
+					<div class="col-md-4 col-lg-3">
+						<div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
+							<img src="@(serverpath+"/"+service.Image_Path)" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="top"
+								 data-bs-custom-class="beautifier"
+								 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+							<p>@(isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN)</p>
+							@*<p>services</p>*@
+						</div>
+					</div>
+					counter++;
+				}
 
-            </div>
-            @{ counter = 0;}
-            <div class="row" id="Request_Type_Id" style="display: none; ">
+			</div>
+			@{ counter = 0;}
+			<div class="row" id="Request_Type_Id" style="display: none; ">
 
             </div>
             <div class="row" id="personel-data-m" style="display: none;">
@@ -943,8 +943,8 @@
                                 <div id="filesNameDrop" name="filesNameDrop" class="row">
 
 
-                                </div>
-                            </div>
+								</div>
+							</div>
 
                         </div>
                         <div class="row" style="margin-top:0px;margin-right:25px">
@@ -1044,8 +1044,8 @@
                                 <div id="filesNameDrop" name="filesNameDrop" class="row">
 
 
-                                </div>
-                            </div>
+								</div>
+							</div>
 
                         </div>
                         <div class="row" style="margin-top:0px; margin-left: 25px; ">
@@ -1162,210 +1162,212 @@
                                      data-bs-custom-class="beautifier"
                                      title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
 
-                            </div>
-                            <div class="col-md-8" style="padding:0px;">
-                                <div id="textarea-container">
-                                    <div class="insideTextArea">
-                                        <span>Request Description (300 character max.)</span>
-                                    </div>
-                                    <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
-                                    <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter_Other">/300</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+							</div>
+							<div class="col-md-8" style="padding:0px;">
+								<div id="textarea-container">
+									<div class="insideTextArea">
+										<span>Request Description (300 character max.)</span>
+									</div>
+									<textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
+									<div class="insideTextAreaCounter">
+										<span id="text-area-counter_Other">/300</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
 
-            </div>
-            <div class="row" id="Confirmation-m" style="display: none;">
-                @if (ViewBag.CookieLang == "ar")
-                {
-                    <p>لم يتم تقديم طلبك حتى الآن!</p>
-                    <div id="Confirmation">
-                        <div class="row" id="pdfpreview">
-                            <div class="col-md-12">
-                                <ol style="margin:10px 0px">
-                                    <li>
-                                        يرجى <span> مراجعة الطلب</span>  إذا كان معرف الطلب الخاص بك غير مكتمل و / أو كنت بحاجة إلى تصحيح أي أخطاء ، يرجى النقر فوق
-                                        <span> السابق</span> وإكمال ما هو ضروري. إذا كنت راضيًا عن المعلومات التي أدخلتها ، فيرجى النقر فوق <span>إرسال</span>
+			</div>
+			<div class="row" id="Confirmation-m" style="display: none;">
+				@if (ViewBag.CookieLang == "ar")
+				{
+					<p>لم يتم تقديم طلبك حتى الآن!</p>
+					<div id="Confirmation">
+						<div class="row" id="pdfpreview">
+							<div class="col-md-12">
+								<ol style="margin:10px 0px">
+									<li>
+										يرجى <span> مراجعة الطلب</span>  إذا كان معرف الطلب الخاص بك غير مكتمل و / أو كنت بحاجة إلى تصحيح أي أخطاء ، يرجى النقر فوق
+										<span> السابق</span> وإكمال ما هو ضروري. إذا كنت راضيًا عن المعلومات التي أدخلتها ، فيرجى النقر فوق <span>إرسال</span>
 
-                                        <div id="padf" class="pdfnotloaded">
+										<div id="padf" class="pdfnotloaded">
 
-                                        </div>
-                                    </li>
-                                    <li>
-                                        اضغط فوق الزر <span>إرسال</span>  عندما تكون مستعدًا للإرسال
-                                        <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-                                            <button id="saveRequestBTN" onclick="sendSMS()">إرسال</button>
-                                        </div>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <p> !Your Request Has Not Submited Yet</p>
-                    <div id="Confirmation">
-                        <div class="row" id="pdfpreview">
-                            <div class="col-md-12">
-                                <ol style="margin:10px 0px">
-                                    <li>
-                                        Please <span>review request</span>  If your request id incomplete and/or you need to correct any errors, please click
-                                        <span>previous</span> and complete what is necessary. If you are satisfied with the information you entered, please click <span>SUBMIT</span>
+										</div>
+									</li>
+									<li>
+										اضغط فوق الزر <span>إرسال</span>  عندما تكون مستعدًا للإرسال
+										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+											<button id="saveRequestBTN" onclick="sendSMS()">إرسال</button>
+										</div>
+									</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				}
+				else
+				{
+					<p> !Your Request Has Not Submited Yet</p>
+					<div id="Confirmation">
+						<div class="row" id="pdfpreview">
+							<div class="col-md-12">
+								<ol style="margin:10px 0px">
+									<li>
+										Please <span>review request</span>  If your request id incomplete and/or you need to correct any errors, please click
+										<span>previous</span> and complete what is necessary. If you are satisfied with the information you entered, please click <span>SUBMIT</span>
 
-                                        <div id="padf" class="pdfnotloaded">
+										<div id="padf" class="pdfnotloaded">
 
-                                        </div>
-                                    </li>
-                                    <li>
-                                        click the <span>submit</span> button wher you're ready to submit
-                                        <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-                                            <button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
-                                        </div>
-                                    </li>
+										</div>
+									</li>
+									<li>
+										click the <span>submit</span> button wher you're ready to submit
+										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+											<button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
+										</div>
+									</li>
 
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        @if (ViewBag.CookieLang == "ar")
-        {
-            <div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-left"></i>
-                <p>التالى</p>
-            </div>
-        }
-        else
-        {
-            <div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-right"></i>
-                <p>Next</p>
-            </div>
-        }
-    </div>
+								</ol>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+		@if (ViewBag.CookieLang == "ar")
+		{
+			<div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-left"></i>
+				<p>التالى</p>
+			</div>
+		}
+		else
+		{
+			<div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-right"></i>
+				<p>Next</p>
+			</div>
+		}
+	</div>
 
-    <div class="modal fade" id="formModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form1</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">name:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">Phone:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">Email:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">other Info:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="modal fade" id="formModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Form1</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form class="row">
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">name:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">Phone:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">Email:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">other Info:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="modal fade" id="FourMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <h5 class="modal-title" id="exampleModalLabel">أكد, لإستكمال طلبك</h5>
-                    }
-                    else
-                    {
-                        <h5 class="modal-title" id="exampleModalLabel">Confirm to Complete request</h5>
-                    }
-                    @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <div class="alert alert-danger" id="verficationFeedback" style="display:none">
-                            من فضلك, ادخل الكود الصحيح
-                        </div>
-                        <div class="alert alert-danger" id="GenralError" style="display:none">
-                            هناك خطأ عام
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-danger" id="verficationFeedback" style="display:none">
-                            PLZ, Enter Correct Verification Code.
-                        </div>
-                        <div class="alert alert-danger" id="GenralError" style="display:none">
-                            There Is General Error
-                        </div>
-                    }
-                    <form>
-                        <div class="mb-3 text-center verification-input">
-                            @if (ViewBag.CookieLang == "ar")
-                            {
-                                <label for="verficationCode" class="col-form-label">أدخل 4 أرقام تلقيتها لإكمال الطلب</label>
-                            }
-                            else
-                            {
-                                <label for="verficationCode" class="col-form-label">Enter 4 Digits You Received to Complete Request</label>
-                            }
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                        </div>
-                    </form>
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <button id="ResendVerificationCode" lang=ar-sa>أعد ارسال كود التحقق</button>
-                    }
-                    else
-                    {
-                        <button id="ResendVerificationCode">Resend Verification Code</button>
+	<div class="modal fade" id="FourMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<h5 class="modal-title" id="exampleModalLabel">أكد, لإستكمال طلبك</h5>
+					}
+					else
+					{
+						<h5 class="modal-title" id="exampleModalLabel">Confirm to Complete request</h5>
+					}
+					@*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<div class="alert alert-danger" id="verficationFeedback" style="display:none">
+							من فضلك, ادخل الكود الصحيح
+						</div>
+						<div class="alert alert-danger" id="GenralError" style="display:none">
+							هناك خطأ عام
+						</div>
+					}
+					else
+					{
+						<div class="alert alert-danger" id="verficationFeedback" style="display:none">
+							PLZ, Enter Correct Verification Code.
+						</div>
+						<div class="alert alert-danger" id="GenralError" style="display:none">
+							There Is General Error
+						</div>
+					}
+					<form>
+						<div class="mb-3 text-center">
+							@if (ViewBag.CookieLang == "ar")
+							{
+								<label for="verficationCode" class="col-form-label">أدخل 4 أرقام تلقيتها لإكمال الطلب</label>
+							}
+							else
+							{
+								<label for="verficationCode" class="col-form-label">Enter 4 Digits You Received to Complete Request</label>
+							}
+							<div class=" verification-input" style="direction:ltr !important">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+							</div>
+						</div>
+					</form>
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<button id="ResendVerificationCode" lang=ar-sa>أعد ارسال كود التحقق</button>
+					}
+					else
+					{
+						<button id="ResendVerificationCode">Resend Verification Code</button>
 
-                    }
-                </div>
-                <div class="modal-footer text-center">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">تاكيد</button>
-                    }
-                    else
-                    {
-                        <button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">Confirm</button>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
+					}
+				</div>
+				<div class="modal-footer text-center">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">تاكيد</button>
+					}
+					else
+					{
+						<button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">Confirm</button>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <span style="display:none !important" id="SignaturePDF"></span>
-    <script src="~/Design/JS/popper.js"></script>
-    <script src="~/Design/JS/bootstrap.min.js"></script>
-    <script src="~/Design/JS/jquery.js"></script>
-    <script src="~/Design/JS/pdf.js"></script>
-    <script src="~/Design/JS/pdf.worker.js"></script>
-    <script src="~/Design/JS/scripts.js?ver=1.0" charset="utf-8" type="text/javascript"></script>
+	<span style="display:none !important" id="SignaturePDF"></span>
+	<script src="~/Design/JS/popper.js"></script>
+	<script src="~/Design/JS/bootstrap.min.js"></script>
+	<script src="~/Design/JS/jquery.js"></script>
+	<script src="~/Design/JS/pdf.js"></script>
+	<script src="~/Design/JS/pdf.worker.js"></script>
+	<script src="~/Design/JS/scripts.js?ver=1.0" charset="utf-8" type="text/javascript"></script>
 </body>
 
 </html>

@@ -16,7 +16,7 @@
 <h2 key="t-deactive">Deactive</h2>
 
 <div class="row">
-	@using (Html.BeginForm("Active", "ServicesBank",  new { Id = Model.Main_Services_ID, x = "" }, FormMethod.Post))
+	@using (Html.BeginForm("Active", "ServicesBank",  new { Id = Model.Main_Services_ID, x = "" }, FormMethod.Post, new { @class = "actionForm" }))
 	{
 		<div class="alert alert-success dt-center p-14" style="text-align:center;width:100%" key="t-active-mainservice">
 			Do u want to Active this User?

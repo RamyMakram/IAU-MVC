@@ -1,13 +1,14 @@
 ﻿
 @{
-    Layout = null;
+	Layout = null;
+	ViewBag.Title = "IAU-BSC | Coordinate";
 }
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="description" content="" />
-    <title></title>
+	<title>IAU-BSC | Coordinate</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
@@ -34,7 +35,7 @@
                             <a class="nav-link" href="~/Home/Index">الرئيسية</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link "  href="~/Home/Index">طلب</a>
+                            <a class="nav-link " href="~/Home/Index">طلب</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="~/Coordinator/index">المنسقين</a>
@@ -49,7 +50,7 @@
                             <a class="nav-link" href="~/Home/Index">Main</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link "  href="~/Home/Index">Request</a>
+                            <a class="nav-link " href="~/Home/Index">Request</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="~/Coordinator/index">Coordinator</a>
@@ -58,6 +59,16 @@
                             <a class="nav-link" href="#">help and support</a>
                         </li>
                     }
+                    <li id="nav-contact" style="display:none;">
+                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                    </li>
+                    <li id="nav-lang" style="display:none;">
+                        <a class="nav-link"
+                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
+													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
+                            @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+                        </a>
+                    </li>
                 </ul>
                 <div class="vision">
                     <div>
