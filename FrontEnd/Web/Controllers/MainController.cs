@@ -11,6 +11,7 @@ namespace Web.Controllers
         // GET: Main
         public ActionResult Index()
         {
+            ViewBag.CookieLang = Request.Cookies["lang"].Value;
             return View();
         }
     }
