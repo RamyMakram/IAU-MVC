@@ -11,11 +11,9 @@ namespace IAUBackEnd.Admin
 	{
 		public static void Register(HttpConfiguration config)
 		{
-			config.Formatters.Remove(config.Formatters.XmlFormatter);
-			var json = config.Formatters.JsonFormatter;
-			json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+			config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
 
-			json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
 			config.EnableCors();
 			config.MapHttpAttributeRoutes();
 

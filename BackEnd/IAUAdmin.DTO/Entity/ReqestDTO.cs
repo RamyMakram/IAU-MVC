@@ -22,6 +22,8 @@ namespace IAUAdmin.DTO.Entity
         public byte Request_State_ID { get; set; }
         public Nullable<bool> IsTwasul_OC { get; set; }
 		public Nullable<bool> Readed { get; set; }
+        public Nullable<int> Units_Location_ID { get; set; }
+        public string BuildNumber { get; set; }
 
 		public virtual RequestStatusDTO Request_State { get; set; }
 		public virtual UnitsDTO Units { get; set; }

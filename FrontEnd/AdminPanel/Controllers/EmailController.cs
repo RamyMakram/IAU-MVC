@@ -1,6 +1,7 @@
 ﻿using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,8 +55,9 @@ namespace AdminPanel.Controllers
 				resJson = Data.Content.ReadAsStringAsync();
 				var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 				ViewBag.RequestTransaction = JsonConvert.DeserializeObject<ICollection<Request_TransactionDTO>>(res.result.ToString());
-
-				var RequestData = JsonConvert.DeserializeObject<ReqestDTO>(Request_res.result.ToString());
+				var Req = JObject.Parse(Request_res.result.ToString());
+				var RequestData = JsonConvert.DeserializeObject<ReqestDTO>(Req["request_Data"].ToString());
+				RequestData.Units = new UnitsDTO() { Building_Number = Req["Building_Number"].Value<string>(), Units_Location_ID = Req["Units_Location_ID"].Value<int>() };
 				Data = APIHandeling.getData("Units/GetActive");
 				resJson = Data.Content.ReadAsStringAsync();
 				res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -141,9 +143,9 @@ namespace AdminPanel.Controllers
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
-				return RedirectToAction("Preview", new { id = RequestIID });
-			else
 				return RedirectToAction("Home");
+			else
+				return RedirectToAction("Preview", new { id = RequestIID });
 		}
 		[HttpPost, ValidateInput(false)]
 		public ActionResult Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected, string MosComment)

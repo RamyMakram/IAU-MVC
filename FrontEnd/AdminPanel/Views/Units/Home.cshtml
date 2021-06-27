@@ -91,7 +91,7 @@
 									<img src="@(url+"/"+i.Service_Type.Image_Path)" id="img-@(i.Service_Type.Service_Type_ID)" onclick="FilterMain(this,@(i.Service_Type.Service_Type_ID))" />
 
 								</td>
-								<td class="TH-ar ar-font">@(i.Units_Name_AR)</td>
+								<td class="TH-ar ar-font"><span style="color:blue;padding:0 10px;">@(i.IS_Mostafid ? "✔" : "")</span> @(i.Units_Name_AR)</td>
 								<td class="TH-en en-font">@(i.Units_Name_EN)</td>
 								<td>
 									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
@@ -435,10 +435,14 @@
 		})
 	}
 	$(document).ready(function () {
-		$('li.paginate_button').on('click', function () {
+		IntialListener()
+	})
+	function IntialListener() {
+		$('.paginate_button').on('click', function () {
 			console.log("Cloick")
 			getLanguage()
+			IntialListener()
 		})
-	})
+	}
 </script>
 

@@ -23,6 +23,10 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = db.Applicant_Type.Where(q => q.IS_Action == true) });
 		}
+		public async Task<IHttpActionResult> GetDate()
+		{
+			return Ok(new ResponseClass() { success = true, result = Helper.GetDate() });
+		}
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

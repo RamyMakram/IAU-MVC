@@ -28,7 +28,9 @@
 		font-weight: bold;
 	}
 </style>
-
+@{ 
+	var isAr = Request.Cookies["lang"].Value=="ar";
+}
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -71,7 +73,7 @@
 						{
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label"style="font-weight:bolder">@Html.DisplayName(i.Name.ToString())</label>
+									<label class="control-label"style="font-weight:bolder">@Html.DisplayName(isAr?i.Name:i.Name_EN)</label>
 									<div style="margin:0 10px">
 										@{
 											if (i.Sub.Count != 0)
@@ -80,7 +82,7 @@
 												{
 													<div class="custom-control custom-switch mb-3" dir="ltr">
 														<input type="checkbox" class="custom-control-input" onchange="cc('@(c.ID)',this)" id=@("customSwitch" + c.ID) checked=@c.Active>
-														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
+														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@(isAr?c.Name:c.Name_EN)</label>
 													</div>
 												}
 											}
@@ -90,7 +92,7 @@
 												{
 													<div class="custom-control custom-switch mb-3" dir="ltr">
 														<input type="checkbox" class="custom-control-input" onchange="cc('@(c.ID)',this)" id=@("customSwitch" + c.ID) checked=@c.Active>
-														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
+														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@(isAr?c.Name:c.Name_EN)</label>
 													</div>
 												}
 											}

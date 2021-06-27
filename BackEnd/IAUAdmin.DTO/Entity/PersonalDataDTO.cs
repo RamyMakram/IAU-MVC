@@ -31,7 +31,8 @@ namespace IAUAdmin.DTO.Entity
 		public ApplicantTypeDTO Applicant_Type { get; set; }
 		public virtual IDDocDTO ID_Document1 { get; set; }
 
-		public virtual CountryDTO Region { get; set; }
+		public virtual CityDTO City { get; set; }
+		public virtual RegionDTO Region { get; set; }
 		public virtual CountryDTO Country { get; set; }
 		public virtual CountryDTO Country1 { get; set; }
 		public virtual CountryDTO Country2 { get; set; }

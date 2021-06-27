@@ -85,8 +85,8 @@ namespace Web.Controllers
 					//var data = JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data);
 					var Files = new List<CustomeFile>();
 					List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
-
-					using (var client = new HttpClient())
+					HttpClientHandler handler = new HttpClientHandler();
+					using (var client = new HttpClient(handler,false))
 					{
 						using (var content = new MultipartFormDataContent())
 						{
@@ -156,9 +156,9 @@ namespace Web.Controllers
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 		[HttpGet]
-		public JsonResult GetApplicantData(int ServiceID)
+		public JsonResult GetApplicantData(int ServiceID, int RequestType)
 		{
-			var res = APIHandeling.getData("/AppType/GetActive?SID=" + ServiceID);
+			var res = APIHandeling.getData("/AppType/GetActive?SID=" + ServiceID + "&ReqType=" + RequestType);
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);

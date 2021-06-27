@@ -1,1371 +1,1373 @@
 ﻿@model IAU.DTO.Entity._HomeDTO
 @{
-    Layout = null;
+	Layout = null;
 }
 @using System.Configuration;
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="description" content="" />
-    <title>IAU - BSC</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
-    <link rel="stylesheet" href="~/Design/CSS/style.css" />
-    <style>
-        div#City {
-            /*align-items: center;
-            justify-content: center;
-            display: flex;*/
-            margin: 0;
-            padding: 0;
-        }
+	<meta charset="utf-8" />
+	<meta name="description" content="" />
+	<title>IAU - BSC</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/Design/CSS/all.min.css" />
+	<link rel="stylesheet" href="~/Design/CSS/style.css" />
+	<style>
+		div#City {
+			/*align-items: center;
+			justify-content: center;
+			display: flex;*/
+			margin: 0;
+			padding: 0;
+		}
 
-        table#PDFTable {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 29px;
-        }
+		table#PDFTable {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			margin-bottom: 29px;
+		}
 
-        #padf div img {
-            width: 120px !important;
-        }
+		#padf div img {
+			width: 120px !important;
+		}
 
-        .boldtitle {
-            font-weight: 900;
-            padding: 5px 0;
-            font-size: 21px;
-            width: 100% !important;
-        }
+		.boldtitle {
+			font-weight: 900;
+			padding: 5px 0;
+			font-size: 21px;
+			width: 100% !important;
+		}
 
 
-        table#PDFTable tbody tr th {
-            text-align: start !important;
-            /*font-family: 'DroidArabicKufiRegular' !important;*/
-            font-size: 19px;
-            padding: 6px 19px;
-            overflow-wrap: break-word;
-        }
+		table#PDFTable tbody tr th {
+			text-align: start !important;
+			/*font-family: 'DroidArabicKufiRegular' !important;*/
+			font-size: 19px;
+			padding: 6px 19px;
+			overflow-wrap: break-word;
+		}
 
-        table#PDFTable tbody tr.row {
-            width: 100%;
-            margin: 0;
-        }
+		table#PDFTable tbody tr.row {
+			width: 100%;
+			margin: 0;
+		}
 
-        table#PDFTable tbody tr th:not(.boldtitle) {
-            border: 1px solid #eee;
-        }
+		table#PDFTable tbody tr th:not(.boldtitle) {
+			border: 1px solid #eee;
+		}
 
-            table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
-                font-weight: normal
-            }
+			table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
+				font-weight: normal
+			}
 
-        table#PDFTable tbody tr th.boldtitle {
-            font-size: 28px;
-            color: #283858;
-        }
-    </style>
-    @if (ViewBag.CookieLang == "ar")
-    {
-        <style>
-            .containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
-                letter-spacing: normal !important;
-            }
+		table#PDFTable tbody tr th.boldtitle {
+			font-size: 28px;
+			color: #283858;
+		}
+	</style>
+	@if (ViewBag.CookieLang == "ar")
+	{
+		<style>
+			.containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
+				letter-spacing: normal !important;
+			}
 
-            a.nav-link {
-                font-weight: bold;
-                font-size: 19px;
-            }
+			a.nav-link {
+				font-weight: bold;
+				font-size: 19px;
+			}
 
-            .mainservice p, .requesttype p {
-                font-size: 18px !important;
-                font-weight: bold !important;
-            }
-        </style>
-        <link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
-    }
-    <style>
-        .loading {
-            display: none;
-        }
+			.mainservice p, .requesttype p {
+				font-size: 18px !important;
+				font-weight: bold !important;
+			}
+		</style>
+		<link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
+	}
+	<style>
+		.loading {
+			display: none;
+		}
 
-            .loading.active {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100vw;
-                height: 100vh;
-                z-index: 9999999;
-                position: fixed;
-                background: #0a1332;
-            }
-    </style>
-    <script src="~/Design/JS/AraTranslate.js"></script>
+			.loading.active {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100vw;
+				height: 100vh;
+				z-index: 9999999;
+				position: fixed;
+				background: #0a1332;
+			}
+	</style>
+	<script src="~/Design/JS/AraTranslate.js"></script>
 </head>
 <body class="@ViewBag.CookieLang">
-    <div class="loading active">
-        <img src="~/Design/img/loading2.gif" />
-    </div>
-    <nav class="navbar navbar-expand-xl">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">
-                    <i class="fas fa-bars" style="color: #b6a1a1;font-size: 30px;"></i>
-                </span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Main/Index">الرئيسية</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="~/Home/Index">طلب</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Coordinator/index">المنسقين</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">المساعدة والدعم الفنى</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Main/Index">Main</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Coordinator/index">Coordinator</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">help and support</a>
-                        </li>
+	<div class="loading active">
+		<img src="~/Design/img/loading2.gif" />
+	</div>
+	<nav class="navbar navbar-expand-xl">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+					aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon">
+					<i class="fas fa-bars" style="color: #b6a1a1;font-size: 30px;"></i>
+				</span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<li class="nav-item">
+							<a class="nav-link" href="~/Main/Index">الرئيسية</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="~/Home/Index">طلب</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="~/Coordinator/index">المنسقين</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">المساعدة والدعم الفنى</a>
+						</li>
+					}
+					else
+					{
+						<li class="nav-item">
+							<a class="nav-link" href="~/Main/Index">Main</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="~/Coordinator/index">Coordinator</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">help and support</a>
+						</li>
 
-                    }
-                    <li id="nav-contact" style="display:none;">
-                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
-                    </li>
-                    <li id="nav-lang" style="display:none;">
-                        <a class="nav-link"
-                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
+					}
+					<li id="nav-contact" style="display:none;">
+						<a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+					</li>
+					<li id="nav-lang" style="display:none;">
+						<a class="nav-link"
+						   href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
 													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
-                            @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
-                        </a>
-                    </li>
+							@(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+						</a>
+					</li>
 
-                </ul>
-                <div class="vision">
-                    <div>
-                        <button>@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</button>
-                        @Html.Partial("~/Views/Shared/_Language.cshtml")
-                    </div>
-                    <img src="~/Design/img/VisionLogo2.png">
-                </div>
-            </div>
-        </div>
-    </nav>
+				</ul>
+				<div class="vision">
+					<div>
+						<button>@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</button>
+						@Html.Partial("~/Views/Shared/_Language.cshtml")
+					</div>
+					<img src="~/Design/img/VisionLogo2.png">
+				</div>
+			</div>
+		</div>
+	</nav>
 
-    <ul class="nav nav-pills nav-fill" style="display: none;">
-        @if (ViewBag.CookieLang == "ar")
-        {
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">نوع الخدمة</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">نوع الطلب</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="personel-data-m" data-counter="4">البيانات الشخصية</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">بيانات الطلب</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">التأكيد</a>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">Service Type</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">Request Type</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="personel-data-m" data-counter="4">Personel Data</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">Request Data</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">Confirmation</a>
-            </li>
-        }
-    </ul>
-    <div class="row MContaint">
+	<ul class="nav nav-pills nav-fill" style="display: none;">
+		@if (ViewBag.CookieLang == "ar")
+		{
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">نوع الخدمة</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">نوع الطلب</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="personel-data-m" data-counter="4">البيانات الشخصية</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">بيانات الطلب</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">التأكيد</a>
+			</li>
+		}
+		else
+		{
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">Service Type</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">Request Type</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="personel-data-m" data-counter="4">Personel Data</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">Request Data</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">Confirmation</a>
+			</li>
+		}
+	</ul>
+	<div class="row MContaint">
 
-        @if (ViewBag.CookieLang == "ar")
-        {
-            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-right"></i>
-                <p>السابق</p>
-            </div>
+		@if (ViewBag.CookieLang == "ar")
+		{
+			<div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-right"></i>
+				<p>السابق</p>
+			</div>
 
-        }
-        else
-        {
-            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-left"></i>
-                <p>PREVIOUS</p>
-            </div>
-        }
+		}
+		else
+		{
+			<div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-left"></i>
+				<p>PREVIOUS</p>
+			</div>
+		}
 
-        <div class="col-md-8 containt" id="MainBody">
-            <div class="row" id="start-request">
-                <div class="col-md-12 main-title">
-                    <p>iau - bsc</p>
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <p>قم بتقديم أو متابعة الطلبات المقدمة</p>
-                    }
-                    else
-                    {
-                        <p>submit or follow submitted requests</p>
-                    }
-                </div>
-                <div class=" col-sm-12 col-lg-2"></div>
-                <div class="col-sm-12  col-md-6 col-lg-4">
-                    <div class="stick submit" id="NewRequest">
-                        <img src="~/Design/img/newrequest.png">
-                        @if (ViewBag.CookieLang == "ar")
-                        {
-                            <p class="first">طلب جديد</p>
-                        }
-                        else
-                        {
-                            <p class="first">Submit</p>
-                            <p class="second">new request</p>
-                        }
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6  col-lg-4">
-                    <div class="stick follow">
-                        <img src="~/Design/img/follow.png">
-                        @if (ViewBag.CookieLang == "ar")
-                        {
-                            <p class="first1">متابعة الطلب</p>
-                        }
-                        else
-                        {
-                            <p class="first1">follow-up</p>
-                            <p class="second1">request</p>
-                        }
-                    </div>
-                </div>
-            </div>
-            @{
-                var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString();
-                var counter = 0;
-                var isar = ViewBag.CookieLang == "ar";
-            }
-            <span style="display:none !important" id="serverpath">@serverpath</span>
-            <div class="row" id="Service_Type_Id" style="display: none;">
-                <div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px;margin-top:45px">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        @*<p style="direction: ltr; text-align: right;">@@ IAU - BSC</p>
-                            <p>أنـــــــــــــــــــــــــــــــــــواع</p>
-                            <p>الخـــــــــــدمــــــــــــــات</p>*@
-                        <img src="~/Design/img/ArRequestType.png" style="width:100%" />
-                    }
-                    else
-                    {
-                        @*<p style="direction:ltr">@@ IAU - BSC</p>
-                            <p>Services</p>
-                            <p>Types</p>*@
-                        <img src="~/Design/img/EnServiceType.png" style="width:100%" />
-                    }
-                </div>
-                @foreach (var service in Model.Service_Type)
-                {
-                    var mainservice_class = counter == 0 ? "stick active mainservice" : "stick mainservice";
+		<div class="col-md-8 containt" id="MainBody">
+			<div class="row" id="start-request">
+				<div class="col-md-12 main-title">
+					<p>iau - bsc</p>
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<p>قم بتقديم أو متابعة الطلبات المقدمة</p>
+					}
+					else
+					{
+						<p>submit or follow submitted requests</p>
+					}
+				</div>
+				<div class=" col-sm-12 col-lg-2"></div>
+				<div class="col-sm-12  col-md-6 col-lg-4">
+					<div class="stick submit" id="NewRequest">
+						<img src="~/Design/img/newrequest.png">
+						@if (ViewBag.CookieLang == "ar")
+						{
+							<p class="first">طلب جديد</p>
+						}
+						else
+						{
+							<p class="first">Submit</p>
+							<p class="second">new request</p>
+						}
+					</div>
+				</div>
+				<div class="col-sm-12 col-md-6  col-lg-4">
+					<div class="stick follow">
+						<img src="~/Design/img/follow.png">
+						@if (ViewBag.CookieLang == "ar")
+						{
+							<p class="first1">متابعة الطلب</p>
+						}
+						else
+						{
+							<p class="first1">follow-up</p>
+							<p class="second1">request</p>
+						}
+					</div>
+				</div>
+			</div>
+			@{
+				var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString();
+				var counter = 0;
+				var isar = ViewBag.CookieLang == "ar";
+			}
+			<span style="display:none !important" id="serverpath">@serverpath</span>
+			<div class="row" id="Service_Type_Id" style="display: none;">
+				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px;margin-top:45px">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						@*<p style="direction: ltr; text-align: right;">@@ IAU - BSC</p>
+							<p>أنـــــــــــــــــــــــــــــــــــواع</p>
+							<p>الخـــــــــــدمــــــــــــــات</p>*@
+						<img src="~/Design/img/ArRequestType.png" style="width:100%" />
+					}
+					else
+					{
+						@*<p style="direction:ltr">@@ IAU - BSC</p>
+							<p>Services</p>
+							<p>Types</p>*@
+						<img src="~/Design/img/EnServiceType.png" style="width:100%" />
+					}
+				</div>
+				@foreach (var service in Model.Service_Type)
+				{
+					var mainservice_class = counter == 0 ? "stick active mainservice" : "stick mainservice";
 
-                    <div class="col-md-4 col-lg-3">
-                        <div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
-                            <img src="@(serverpath+"/"+service.Image_Path)"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 data-bs-custom-class="beautifier"
-                                 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
-                            <p>@(isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN)</p>
-                            @*<p>services</p>*@
-                        </div>
-                    </div>
-                    counter++;
-                }
+					<div class="col-md-4 col-lg-3">
+						<div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
+							<img src="@(serverpath+"/"+service.Image_Path)" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="top"
+								 data-bs-custom-class="beautifier"
+								 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+							<p>@(isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN)</p>
+							@*<p>services</p>*@
+						</div>
+					</div>
+					counter++;
+				}
 
-            </div>
-            @{ counter = 0;}
-            <div class="row" id="Request_Type_Id" style="display: none; ">
+			</div>
+			@{ counter = 0;}
+			<div class="row" id="Request_Type_Id" style="display: none; ">
 
-            </div>
-            <div class="row" id="personel-data-m" style="display: none;">
-                @if (ViewBag.CookieLang == "ar")
-                {
-                    <p>يرجى تعبئة جميع الحقول المطلوبة</p>
-                }
-                else
-                {
-                    <p> Please fill the required fields</p>
-                }
-                <div id="personel-data" style="padding:0px 20px;">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">معلومات عامة</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row  required-field">
-                                    <div class="col-md-5">
-                                        <label>منسوبي الجامعة</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        @using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
-                                        {
-                                            <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                                 data-bs-custom-class="beautifier"
-                                                 title='إذا كنت طالبًا أو موظفًا مسجلًا في الجامعة (أعضاء هيئة التدريس والموظفين) ، سواء كنت سعوديًا أو متعاقدًا ، فاضغط على نعم. إذا لم تكن في أي من الحالات السابقة ، فاضغط على "لا"' />
-                                            <select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
-                                                <option disabled selected value="null">اختر</option>
-                                                <option value="1">نعم</option>
-                                                <option value="0">لا</option>
-                                            </select>
-                                            <button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>الرقم الأكاديمي</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="يرجى كتابة رقم هوية الجامعة الخاص بك ، سواء كان رقم هوية الطالب أو الرقم الوظيفي  الخاص بك ، متبوعًا بكلمة المرور." />
-                                        <input type="text" id="IAUID" name="IAUID">
-                                    </div>
-                                </div>
-                                <div class="row  required-field">
-                                    <div class="col-md-5">
-                                        <label>نوع مقدم الطلب</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title='لمساعدتنا في متابعة طلبك بسهولة ، يرجى تحديد المصطلح الذي يصفك بشكل أفضل كمقدم  لهذا الطلب. إذا كنت لا تتوافق مع أي من الفئات التالية ، فيرجى الضغط على "أخرى".' />
-                                        <select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
-                                            <option disabled selected value="null">اختر-----------------</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">اسم مقدم الطلب</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>اللقب</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        <select id="title" name="title">
-                                            <option disabled selected value="null">اختر-----------------</option>
-                                            @foreach (var i in Model.Titles)
-                                            {
-                                                <option value="@i.Title_Middle_Names_ID">@(isar ? i.Title_Middle_Names_Name_AR : i.Title_Middle_Names_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row  required-field">
-                                    <div class="col-md-5">
-                                        <label>الاسم الأول</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسمك الأول كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، يرجى كتابة اسمك الأول كما هو موضح في جواز السفر." />
-                                        <input type="text" id="FirstName">
-                                    </div>
+			</div>
+			<div class="row" id="personel-data-m" style="display: none;">
+				@if (ViewBag.CookieLang == "ar")
+				{
+					<p>يرجى تعبئة جميع الحقول المطلوبة</p>
+				}
+				else
+				{
+					<p> Please fill the required fields</p>
+				}
+				<div id="personel-data" style="padding:0px 20px;">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<div class="row">
+							<div class="col-md-12 col-lg-4">معلومات عامة</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row  required-field">
+									<div class="col-md-5">
+										<label>منسوبي الجامعة</label>
+									</div>
+									<div class="col-md-7">
+										@using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
+										{
+											<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+												 data-bs-custom-class="beautifier"
+												 title='إذا كنت طالبًا أو موظفًا مسجلًا في الجامعة (أعضاء هيئة التدريس والموظفين) ، سواء كنت سعوديًا أو متعاقدًا ، فاضغط على نعم. إذا لم تكن في أي من الحالات السابقة ، فاضغط على "لا"' />
+											<select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
+												<option disabled selected value="null">اختر</option>
+												<option value="1">نعم</option>
+												<option value="0">لا</option>
+											</select>
+											<button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
+										}
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>الرقم الأكاديمي</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="يرجى كتابة رقم هوية الجامعة الخاص بك ، سواء كان رقم هوية الطالب أو الرقم الوظيفي  الخاص بك ، متبوعًا بكلمة المرور." />
+										<input type="text" id="IAUID" name="IAUID" maxlength="10">
+									</div>
+								</div>
+								<div class="row  required-field">
+									<div class="col-md-5">
+										<label>نوع مقدم الطلب</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title='لمساعدتنا في متابعة طلبك بسهولة ، يرجى تحديد المصطلح الذي يصفك بشكل أفضل كمقدم  لهذا الطلب. إذا كنت لا تتوافق مع أي من الفئات التالية ، فيرجى الضغط على "أخرى".' />
+										<select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
+											<option disabled selected value="null">اختر-----------------</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">اسم مقدم الطلب</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>اللقب</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										<select id="title" name="title">
+											<option disabled selected value="null">اختر-----------------</option>
+											@foreach (var i in Model.Titles)
+											{
+												<option value="@i.Title_Middle_Names_ID">@(isar ? i.Title_Middle_Names_Name_AR : i.Title_Middle_Names_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
+								<div class="row  required-field">
+									<div class="col-md-5">
+										<label>الاسم الأول</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسمك الأول كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، يرجى كتابة اسمك الأول كما هو موضح في جواز السفر." />
+										<input type="text" id="FirstName">
+									</div>
 
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>الاسم الأوسط</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسمك الاوسط كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، فيرجى كتابة اسمك الاوسط  أو الأسماء كما هو موضح في جواز السفر." />
-                                        <input type="text" id="MiddelName" />
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>اسم العائلة</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسم العائلة كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، يرجى كتابة اسم العائلة كما هو موضح في جواز السفر." />
-                                        <input type="text" id="FamilyName">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">الجنسية</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>الجنسية</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        <select id="Nationality_ID" name="Nationality_ID">
-                                            <option disabled selected value="null">اختر-----------------</option>
-                                            @foreach (var i in Model.Country)
-                                            {
-                                                <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>مكان الإقامة</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="الرجاء اختيار الدولة  التي تعيش فيه حاليًا. ستتعلق معلومات العنوان في علامات التبويب أدناه باختيارك لبلد الإقامة." />
-                                        <select id="Country_ID" name="Country_ID">
-                                            <option disabled selected value="null">اختر-----------------</option>
-                                            @foreach (var i in Model.Country)
-                                            {
-                                                <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>الاسم الأوسط</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسمك الاوسط كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، فيرجى كتابة اسمك الاوسط  أو الأسماء كما هو موضح في جواز السفر." />
+										<input type="text" id="MiddelName" />
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>اسم العائلة</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسم العائلة كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، يرجى كتابة اسم العائلة كما هو موضح في جواز السفر." />
+										<input type="text" id="FamilyName">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">الجنسية</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>الجنسية</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										<select id="Nationality_ID" name="Nationality_ID">
+											<option disabled selected value="null">اختر-----------------</option>
+											@foreach (var i in Model.Country)
+											{
+												<option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>مكان الإقامة</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="الرجاء اختيار الدولة  التي تعيش فيه حاليًا. ستتعلق معلومات العنوان في علامات التبويب أدناه باختيارك لبلد الإقامة." />
+										<select id="Country_ID" name="Country_ID">
+											<option disabled selected value="null">اختر-----------------</option>
+											@foreach (var i in Model.Country)
+											{
+												<option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
 
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>نوع الهوية</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى تحديد بطاقة الهوية الوطنية. إذا كنت مقيما في المملكة العربية السعودية ، فيرجى تحديد رقم بطاقة الهوية (الإقامة). خلاف ذلك ، الرجاء اختيار جواز السفر" />
-                                        <select id="ID_Document" name="ID_Document">
-                                            <option disabled selected value="null">اختر-----------------</option>
-                                            @foreach (var i in Model.IDS)
-                                            {
-                                                <option value="@i.ID_Document1">@(isar ? i.Document_Name_AR : i.Document_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>نوع الهوية</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى تحديد بطاقة الهوية الوطنية. إذا كنت مقيما في المملكة العربية السعودية ، فيرجى تحديد رقم بطاقة الهوية (الإقامة). خلاف ذلك ، الرجاء اختيار جواز السفر" />
+										<select id="ID_Document" name="ID_Document">
+											<option disabled selected value="null">اختر-----------------</option>
+											@foreach (var i in Model.IDS)
+											{
+												<option value="@i.ID_Document1">@(isar ? i.Document_Name_AR : i.Document_Name_EN)</option>
+											}
+										</select>
+									</div>
 
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>رقم الهوية</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="الرجاء إدخال رقم وثيقة الهوية المحددة." />
-                                        <input type="text" id="idNumber">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">
-                                معلومات العنوان
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="الرجاء إدخال العنوان الذي سنستخدمه في النهاية للاتصال بنا" />
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>الدولة</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        @*Countery*@
-                                        <select id="City_Country_2" name="City_Country_2" onchange="CountryState()">
-                                            <option disabled selected value="null">اختر-----------------</option>
-                                            @foreach (var i in Model.Country)
-                                            {
-                                                <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>المنطقة</label>
-                                    </div>
-                                    <div class="col-md-7" id="Region">
-                                        <img />
-                                        @*<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">
-                                                <option disabled selected value="null">Select-----------------</option>
-                                            </select>*@
-                                        <input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>المدينة</label>
-                                    </div>
-                                    <div class="col-md-7" id="City">
-                                        <img />
-                                        @*<select id="City_Country_1" name="City_Country_1">
-                                                <option disabled selected value="null">Select-----------------</option>
-                                            </select>*@
-                                        <input type="text" id="City_Country_1" name="City_Country_1">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <label>الرمز البريدي</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        <input type="text" id="Region_Postal_Code_2" name="Region_Postal_Code_2" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">معلومات الاتصال</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>البريد الالكتروني</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="الرجاء إدخال عنوان البريد الإلكتروني الذي سنستخدمه للاتصال بك." />
-                                        <input type="email" id="Email" name="Email" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>رقم الجوال</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="الرجاء إدخال رقم الهاتف المحمول الذي سنستخدمه  للاتصال بك." />
-                                        <span id="spanMobile" style="direction:ltr;display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000 ; ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border: 0px; outline: 0px; width: 68% "></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>رقم الهوية</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="الرجاء إدخال رقم وثيقة الهوية المحددة." />
+										<input type="text" id="idNumber">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">
+								معلومات العنوان
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="الرجاء إدخال العنوان الذي سنستخدمه في النهاية للاتصال بنا" />
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>الدولة</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										@*Countery*@
+										<select id="City_Country_2" name="City_Country_2" onchange="CountryState()">
+											<option disabled selected value="null">اختر-----------------</option>
+											@foreach (var i in Model.Country)
+											{
+												<option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>المنطقة</label>
+									</div>
+									<div class="col-md-7" id="Region">
+										<img />
+										@*<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">
+												<option disabled selected value="null">Select-----------------</option>
+											</select>*@
+										<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>المدينة</label>
+									</div>
+									<div class="col-md-7" id="City">
+										<img />
+										@*<select id="City_Country_1" name="City_Country_1">
+												<option disabled selected value="null">Select-----------------</option>
+											</select>*@
+										<input type="text" id="City_Country_1" name="City_Country_1">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5">
+										<label>الرمز البريدي</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										<input type="text" id="Region_Postal_Code_2" name="Region_Postal_Code_2" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">معلومات الاتصال</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>البريد الالكتروني</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="الرجاء إدخال عنوان البريد الإلكتروني الذي سنستخدمه للاتصال بك." />
+										<input type="email" id="Email" name="Email" />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>رقم الجوال</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="الرجاء إدخال رقم الهاتف المحمول الذي سنستخدمه  للاتصال بك." />
+										<span id="spanMobile" style="direction:ltr;display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000 ; ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border: 0px; outline: 0px; width: 68% "></span>
+									</div>
+								</div>
+							</div>
+						</div>
 
-                    }
-                    else
-                    {
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">general information</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>IAU Affiliated</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        @using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
-                                        {
-                                            <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                                 data-bs-custom-class="beautifier"
-                                                 title="If you are an IAU registered student or employee (faculty and staff), whether Saudi or contracted, click Yes. If you are not in any of the previous cases, press No" />
-                                            <select id="Affiliated" class="required" name="Affiliated" onchange="AffiliatedState()">
-                                                <option disabled selected value="null">Select</option>
-                                                <option value="1">Yes</option>
-                                                <option value="0">No</option>
-                                            </select>
-                                            <button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>IAU ID Number</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password." />
-                                        <input type="text" id="IAUID" name="IAUID">
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Applicant type</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="To help us proceed easily with your request, please select the field that best describe you as an applicant of this request.  If you don’t conform with any of the following categories please select Other. " />
-                                        <select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
-                                            <option disabled selected value="null">Select-----------------</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">Name of the applicant</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Title</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        <select id="title" name="title">
-                                            <option disabled selected value="null">Select-----------------</option>
-                                            @foreach (var i in Model.Titles)
-                                            {
-                                                <option value="@i.Title_Middle_Names_ID">@(isar ? i.Title_Middle_Names_Name_AR : i.Title_Middle_Names_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>First name</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="If you are a Saudi or GCC Citizen please insert your First Name as shown in the National ID Card. If not, kindly write your First Name as shown in the Passport." />
-                                        <input type="text" id="FirstName">
-                                    </div>
+					}
+					else
+					{
+						<div class="row">
+							<div class="col-md-12 col-lg-4">general information</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>IAU Affiliated</label>
+									</div>
+									<div class="col-md-7">
+										@using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
+										{
+											<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+												 data-bs-custom-class="beautifier"
+												 title="If you are an IAU registered student or employee (faculty and staff), whether Saudi or contracted, click Yes. If you are not in any of the previous cases, press No" />
+											<select id="Affiliated" class="required" name="Affiliated" onchange="AffiliatedState()">
+												<option disabled selected value="null">Select</option>
+												<option value="1">Yes</option>
+												<option value="0">No</option>
+											</select>
+											<button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
+										}
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>IAU ID Number</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password." />
+										<input type="text" id="IAUID" name="IAUID" maxlength="10">
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Applicant type</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="To help us proceed easily with your request, please select the field that best describe you as an applicant of this request.  If you don’t conform with any of the following categories please select Other. " />
+										<select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
+											<option disabled selected value="null">Select-----------------</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">Name of the applicant</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Title</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										<select id="title" name="title">
+											<option disabled selected value="null">Select-----------------</option>
+											@foreach (var i in Model.Titles)
+											{
+												<option value="@i.Title_Middle_Names_ID">@(isar ? i.Title_Middle_Names_Name_AR : i.Title_Middle_Names_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>First name</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="If you are a Saudi or GCC Citizen please insert your First Name as shown in the National ID Card. If not, kindly write your First Name as shown in the Passport." />
+										<input type="text" id="FirstName">
+									</div>
 
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Middle name</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="If you are a Saudi or GCC Citizen please insert your Middle Name or Names as shown in the National ID Card. If not, kindly write your Middle Name or Names as shown in the Passport." />
-                                        <input type="text" id="MiddelName" />
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Family name</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="If you are a Saudi or GCC Citizen please insert your Family Name as shown in the National ID Card. If not, kindly write your Family Name as shown in the Passport." />
-                                        <input type="text" id="FamilyName">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">Nationality</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Nationality</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        <select id="Nationality_ID" name="Nationality_ID">
-                                            <option disabled selected value="null">Select-----------------</option>
-                                            @foreach (var i in Model.Country)
-                                            {
-                                                <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Country of residence</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="Please insert the country you are currently living in. The address information in the tabs below will relate to the country of residence." />
-                                        <select id="Country_ID" name="Country_ID">
-                                            <option disabled selected value="null">Select-----------------</option>
-                                            @foreach (var i in Model.Country)
-                                            {
-                                                <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Middle name</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="If you are a Saudi or GCC Citizen please insert your Middle Name or Names as shown in the National ID Card. If not, kindly write your Middle Name or Names as shown in the Passport." />
+										<input type="text" id="MiddelName" />
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Family name</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="If you are a Saudi or GCC Citizen please insert your Family Name as shown in the National ID Card. If not, kindly write your Family Name as shown in the Passport." />
+										<input type="text" id="FamilyName">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">Nationality</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Nationality</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										<select id="Nationality_ID" name="Nationality_ID">
+											<option disabled selected value="null">Select-----------------</option>
+											@foreach (var i in Model.Country)
+											{
+												<option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Country of residence</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="Please insert the country you are currently living in. The address information in the tabs below will relate to the country of residence." />
+										<select id="Country_ID" name="Country_ID">
+											<option disabled selected value="null">Select-----------------</option>
+											@foreach (var i in Model.Country)
+											{
+												<option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
 
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>ID Document</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="If you are a Saudi or GCC Citizen please select National ID Card. If not but live in Saudi Arabia, kindly select resident identity card number (Iqama). Otherwise, please select Passport" />
-                                        <select id="ID_Document" name="ID_Document">
-                                            <option disabled selected value="null">Select-----------------</option>
-                                            @foreach (var i in Model.IDS)
-                                            {
-                                                <option value="@i.ID_Document1">@(isar ? i.Document_Name_AR : i.Document_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>ID Document</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="If you are a Saudi or GCC Citizen please select National ID Card. If not but live in Saudi Arabia, kindly select resident identity card number (Iqama). Otherwise, please select Passport" />
+										<select id="ID_Document" name="ID_Document">
+											<option disabled selected value="null">Select-----------------</option>
+											@foreach (var i in Model.IDS)
+											{
+												<option value="@i.ID_Document1">@(isar ? i.Document_Name_AR : i.Document_Name_EN)</option>
+											}
+										</select>
+									</div>
 
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>ID Number</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="Please insert the number of the selected ID Document." />
-                                        <input type="text" id="idNumber">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">
-                                Address information
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Please Insert the address we will eventually use to contact us" />
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Country</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        @*Countery*@
-                                        <select id="City_Country_2" name="City_Country_2" onchange="CountryState()">
-                                            <option disabled selected value="null">Select-----------------</option>
-                                            @foreach (var i in Model.Country)
-                                            {
-                                                <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Region</label>
-                                    </div>
-                                    <div class="col-md-7" id="Region">
-                                        <img />
-                                        @*<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">
-                                                <option disabled selected value="null">Select-----------------</option>
-                                            </select>*@
-                                        <input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>City</label>
-                                    </div>
-                                    <div class="col-md-7" id="City">
-                                        <img />
-                                        @*<select id="City_Country_1" name="City_Country_1">
-                                                <option disabled selected value="null">Select-----------------</option>
-                                            </select>*@
-                                        <input type="text" id="City_Country_1" name="City_Country_1">
-                                    </div>
-                                </div>
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Postal Code</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img />
-                                        <input type="text" id="Region_Postal_Code_2" name="Region_Postal_Code_2" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-lg-4">Contact information</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Email Address</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="Please insert the Email Address we will eventually use to contact you." />
-                                        <input type="email" id="Email" name="Email" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>Mobile Number</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="Please insert the Mobile Number we will eventually use to contact you." />
-                                            <span id="spanMobile"  style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px;width:68%"></span>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>ID Number</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="Please insert the number of the selected ID Document." />
+										<input type="text" id="idNumber">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">
+								Address information
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Please Insert the address we will eventually use to contact us" />
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Country</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										@*Countery*@
+										<select id="City_Country_2" name="City_Country_2" onchange="CountryState()">
+											<option disabled selected value="null">Select-----------------</option>
+											@foreach (var i in Model.Country)
+											{
+												<option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
+											}
+										</select>
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Region</label>
+									</div>
+									<div class="col-md-7" id="Region">
+										<img />
+										@*<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">
+												<option disabled selected value="null">Select-----------------</option>
+											</select>*@
+										<input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>City</label>
+									</div>
+									<div class="col-md-7" id="City">
+										<img />
+										@*<select id="City_Country_1" name="City_Country_1">
+												<option disabled selected value="null">Select-----------------</option>
+											</select>*@
+										<input type="text" id="City_Country_1" name="City_Country_1">
+									</div>
+								</div>
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Postal Code</label>
+									</div>
+									<div class="col-md-7">
+										<img />
+										<input type="text" id="Region_Postal_Code_2" name="Region_Postal_Code_2" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 col-lg-4">Contact information</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Email Address</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="Please insert the Email Address we will eventually use to contact you." />
+										<input type="email" id="Email" name="Email" />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-lg-4">
+								<div class="row required-field">
+									<div class="col-md-5">
+										<label>Mobile Number</label>
+									</div>
+									<div class="col-md-7">
+										<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+											 data-bs-custom-class="beautifier"
+											 title="Please insert the Mobile Number we will eventually use to contact you." />
+										<span id="spanMobile" style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px;width:68%"></span>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-            <div class="row" id="Documents-Inquery" style="display:none;">
-                @if (ViewBag.CookieLang == "ar")
-                {
-                    <p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
-                    <div id="Documents">
-                        <div class="row" style="margin-right:25px">
-                            <div class="col-md-3  required-lable">حدد الخدمة</div>
-                            <div class="col-md-9  required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
-                                <select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
-                                    <option disabled selected value="null">اختر-----------------</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3  required-lable">أختر الخدمة الرئيسية</div>
-                            <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title='الآن وقد تم تحديد مقدم الخدمات ، يرجى تحديد الخدمة الرئيسية المطلوبة. إذا لم يكن أيًا من العناصر المدرجة مطلوبًا ، فيرجى تحديد مقدم خدمات آخر  من الصفحة السابقة. إذا أدركت أن الخدمة المطلوبة غير مدرجة ، فيرجى النقر فوق "السابق" للعودة إلى صفحة نوع الخدمة واختيار خدمة أخرى.' />
-                                <select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
-                                    <option disabled selected value="null">اختر ----------------</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 required-lable">أختر الخدمة الفرعية</div>
-                            <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="الآن بعد أن تم تحديد الخدمة الرئيسية ، يرجى تحديد الخدمة الفرعية المطلوبة. إذا لم يكن أي من القوائم المدرجة مطلوبًا ، فيرجى تحديد مزود آخر أو جامعة IAU. في حالة عدم إدراج الخدمة الفرعية المطلوبة ، يرجى النقر فوق السابق للعودة إلى نوع الخدمة واختيار خدمة أخرى." />
-                                <select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
-                                    <option disabled selected value="null">اختر ----------------</option>
-                                </select>
-                            </div>
-                            <div class="row" style="margin-top:0px;padding:0px;">
-                                <div class="col-md-3">النماذج الإلكترونية</div>
-                                <div class="col-md-1" style="padding:0px">
-                                    <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                         data-bs-custom-class="beautifier"
-                                         title="يرجى ملء استمارة (استمارات) الطلب الإلكترونية المسجلة. يرجى التأكد من إكمال جميع الحقول المطلوبة لتجنب أي تأخير أو رفض للطلب." />
-                                </div>
-                                <div class="col-md-8 e-form" id="E-forms">
-                                    <p>يُرجى النقر فوق نموذج (تطبيقات) النموذج الإلكتروني وملء الحقول المطلوبة</p>
-                                    <div class="row" style="margin-top: 0px;overflow: auto" id="EFormsView">
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+			<div class="row" id="Documents-Inquery" style="display:none;">
+				@if (ViewBag.CookieLang == "ar")
+				{
+					<p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
+					<div id="Documents">
+						<div class="row" style="margin-right:25px">
+							<div class="col-md-3  required-lable">حدد الخدمة</div>
+							<div class="col-md-9  required-field" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
+								<select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
+									<option disabled selected value="null">اختر-----------------</option>
+								</select>
+							</div>
+							<div class="col-md-3  required-lable">أختر الخدمة الرئيسية</div>
+							<div class="col-md-9 required-field" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title='الآن وقد تم تحديد مقدم الخدمات ، يرجى تحديد الخدمة الرئيسية المطلوبة. إذا لم يكن أيًا من العناصر المدرجة مطلوبًا ، فيرجى تحديد مقدم خدمات آخر  من الصفحة السابقة. إذا أدركت أن الخدمة المطلوبة غير مدرجة ، فيرجى النقر فوق "السابق" للعودة إلى صفحة نوع الخدمة واختيار خدمة أخرى.' />
+								<select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
+									<option disabled selected value="null">اختر ----------------</option>
+								</select>
+							</div>
+							<div class="col-md-3 required-lable">أختر الخدمة الفرعية</div>
+							<div class="col-md-9 required-field" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="الآن بعد أن تم تحديد الخدمة الرئيسية ، يرجى تحديد الخدمة الفرعية المطلوبة. إذا لم يكن أي من القوائم المدرجة مطلوبًا ، فيرجى تحديد مزود آخر أو جامعة IAU. في حالة عدم إدراج الخدمة الفرعية المطلوبة ، يرجى النقر فوق السابق للعودة إلى نوع الخدمة واختيار خدمة أخرى." />
+								<select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
+									<option disabled selected value="null">اختر ----------------</option>
+								</select>
+							</div>
+							<div class="row" style="margin-top:0px;padding:0px;">
+								<div class="col-md-3">النماذج الإلكترونية</div>
+								<div class="col-md-1" style="padding:0px">
+									<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+										 data-bs-custom-class="beautifier"
+										 title="يرجى ملء استمارة (استمارات) الطلب الإلكترونية المسجلة. يرجى التأكد من إكمال جميع الحقول المطلوبة لتجنب أي تأخير أو رفض للطلب." />
+								</div>
+								<div class="col-md-8 e-form" id="E-forms">
+									<p>يُرجى النقر فوق نموذج (تطبيقات) النموذج الإلكتروني وملء الحقول المطلوبة</p>
+									<div class="row" style="margin-top: 0px;overflow: auto" id="EFormsView">
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top:0px;margin-right:25px">
-                            <div class="col-md-3   required-lable">تحميل المستندات المطلوبة</div>
-                            <input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
-                            <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
-                            </div>
-                            <div class="col-md-8 e-form" id="upload-area">
-                                <p>يرجى مراجعة المستندات المطلوبة لتحميل الملفات ذات الصلة</p>
-                                <div class="row" id="filesName" name="filesName" style="margin-top:0px">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top:0px;margin-right:25px">
-                            <div class="col-md-3">تحميل الوثائق الداعمة</div>
-                            <input type="file" id="filelistSupportive" style="display: none;" multiple onchange="HandelDragAndDrop(this.files)" />
-                            <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
-                            </div>
-                            <div class="col-md-8 e-form" id="drop-area">
-                                <p>قم بإسقاط الملف هنا أو انقر للتحميل (أقصى حجم للتحميل 20 ميجابايت)<i class="fas fa-upload"></i></p>
-                                <div id="filesNameDrop" name="filesNameDrop" class="row">
-
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row" style="margin-top:0px;margin-right:25px">
-                            <div class="col-md-3">وصف الطلب</div>
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
-                            </div>
-                            <div class="col-md-8" style="padding:0px;">
-                                <div id="textarea-container">
-                                    <div class="insideTextArea">
-                                        <p>وصف الطلب (300 حرف كحد أقصى)</p>
-                                    </div>
-                                    <textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="300"></textarea>
-                                    <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter">/300</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <p>please fill the fields for the requested service</p>
-                    <div id="Documents">
-                        <div class="row" style="margin-left: 25px; ">
-                            <div class="col-md-3   required-lable">select provider services</div>
-                            <div class="col-md-9  required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Kindly select the Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
-                                <select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
-                                    <option disabled selected value="null">Select-----------------</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3  required-lable">Select main services</div>
-                            <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Now that the provider is selected, please select the desired Main Service. If none of the listed is required, please select another Provider or IAU University from the previous tab. If you realize the required service is not enlisted, kindly click Previous to go back to the Service Type and select another service." />
-                                <select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
-                                    <option disabled selected value="null">Select ----------------</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3  required-lable">select sub-services</div>
-                            <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Now that the Main Service is selected, please select the required Sub-Service. If none of the listed is required, please select another Provider or IAU University. In case the required sub-service is not enlisted, kindly click Previous to go back to the Service Type and select another service" />
-                                <select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
-                                    <option disabled selected value="null">Select ----------------</option>
-                                </select>
-                            </div>
-                            <div class="row" style="margin-top:0px;padding:0px;">
-                                <div class="col-md-3">E-forms</div>
-                                <div class="col-md-1" style="padding:0px">
-                                    <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                         data-bs-custom-class="beautifier"
-                                         title="Kindly fill out the enlisted electronic application form(s). Please ensure to complete all required fields to avoid any delay or rejection of the request. " />
-                                </div>
-                                <div class="col-md-8 e-form" id="E-forms">
-                                    <p>please click E-form Application (s) and fill the required fields</p>
-                                    <div class="row" style="margin-top: 0px;overflow: auto" id="EFormsView">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row" style="margin-top:0px;margin-right:25px">
+							<div class="col-md-3   required-lable">تحميل المستندات المطلوبة</div>
+							<input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
+							<div class="col-md-1" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
+							</div>
+							<div class="col-md-8 e-form" id="upload-area">
+								<p>يرجى مراجعة المستندات المطلوبة لتحميل الملفات ذات الصلة</p>
+								<div class="row" id="filesName" name="filesName" style="margin-top:0px">
+								</div>
+							</div>
+						</div>
+						<div class="row" style="margin-top:0px;margin-right:25px">
+							<div class="col-md-3">تحميل الوثائق الداعمة</div>
+							<input type="file" id="filelistSupportive" style="display: none;" multiple onchange="HandelDragAndDrop(this.files)" />
+							<div class="col-md-1" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
+							</div>
+							<div class="col-md-8 e-form" id="drop-area">
+								<p>قم بإسقاط الملف هنا أو انقر للتحميل (أقصى حجم للتحميل 20 ميجابايت)<i class="fas fa-upload"></i></p>
+								<div id="filesNameDrop" name="filesNameDrop" class="row">
 
 
+								</div>
+							</div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top:0px;margin-left: 25px; ">
-                            <div class="col-md-3  required-lable">upload Required documnets</div>
-                            <input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
-                            <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
-                            </div>
-                            <div class="col-md-8 e-form" id="upload-area">
-                                <p>please review the required documents to upload related file</p>
-                                <div class="row" id="filesName" name="filesName" style="margin-top:0px">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top:0px;margin-left: 25px; ">
-                            <div class="col-md-3">upload supportive documnets</div>
-                            <input type="file" id="filelistSupportive" style="display: none;" multiple onchange="HandelDragAndDrop(this.files)" />
-                            <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
-                            </div>
-                            <div class="col-md-8 e-form" id="drop-area">
-                                <p>Drop file Here Or Click to upload(Maximum load size 20MB) <i class="fas fa-upload"></i></p>
-                                <div id="filesNameDrop" name="filesNameDrop" class="row">
+						</div>
+						<div class="row" style="margin-top:0px;margin-right:25px">
+							<div class="col-md-3">وصف الطلب</div>
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
+							</div>
+							<div class="col-md-8" style="padding:0px;">
+								<div id="textarea-container">
+									<div class="insideTextArea">
+										<p>وصف الطلب (300 حرف كحد أقصى)</p>
+									</div>
+									<textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="300"></textarea>
+									<div class="insideTextAreaCounter">
+										<span id="text-area-counter">/300</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				else
+				{
+					<p>please fill the fields for the requested service</p>
+					<div id="Documents">
+						<div class="row" style="margin-left: 25px; ">
+							<div class="col-md-3   required-lable">select provider services</div>
+							<div class="col-md-9  required-field" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Kindly select the Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
+								<select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
+									<option disabled selected value="null">Select-----------------</option>
+								</select>
+							</div>
+							<div class="col-md-3  required-lable">Select main services</div>
+							<div class="col-md-9 required-field" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Now that the provider is selected, please select the desired Main Service. If none of the listed is required, please select another Provider or IAU University from the previous tab. If you realize the required service is not enlisted, kindly click Previous to go back to the Service Type and select another service." />
+								<select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
+									<option disabled selected value="null">Select ----------------</option>
+								</select>
+							</div>
+							<div class="col-md-3  required-lable">select sub-services</div>
+							<div class="col-md-9 required-field" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Now that the Main Service is selected, please select the required Sub-Service. If none of the listed is required, please select another Provider or IAU University. In case the required sub-service is not enlisted, kindly click Previous to go back to the Service Type and select another service" />
+								<select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
+									<option disabled selected value="null">Select ----------------</option>
+								</select>
+							</div>
+							<div class="row" style="margin-top:0px;padding:0px;">
+								<div class="col-md-3">E-forms</div>
+								<div class="col-md-1" style="padding:0px">
+									<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+										 data-bs-custom-class="beautifier"
+										 title="Kindly fill out the enlisted electronic application form(s). Please ensure to complete all required fields to avoid any delay or rejection of the request. " />
+								</div>
+								<div class="col-md-8 e-form" id="E-forms">
+									<p>please click E-form Application (s) and fill the required fields</p>
+									<div class="row" style="margin-top: 0px;overflow: auto" id="EFormsView">
 
 
-                                </div>
-                            </div>
 
-                        </div>
-                        <div class="row" style="margin-top:0px; margin-left: 25px; ">
-                            <div class="col-md-3">Request Description</div>
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
-                            </div>
-                            <div class="col-md-8" style="padding:0px;">
-                                <div id="textarea-container">
-                                    <div class="insideTextArea">
-                                        <p>Request Description (300 character max.)</p>
-                                    </div>
-                                    <textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="300"></textarea>
-                                    <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter">/300</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row" style="margin-top:0px;margin-left: 25px; ">
+							<div class="col-md-3  required-lable">upload Required documnets</div>
+							<input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
+							<div class="col-md-1" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
+							</div>
+							<div class="col-md-8 e-form" id="upload-area">
+								<p>please review the required documents to upload related file</p>
+								<div class="row" id="filesName" name="filesName" style="margin-top:0px">
+								</div>
+							</div>
+						</div>
+						<div class="row" style="margin-top:0px;margin-left: 25px; ">
+							<div class="col-md-3">upload supportive documnets</div>
+							<input type="file" id="filelistSupportive" style="display: none;" multiple onchange="HandelDragAndDrop(this.files)" />
+							<div class="col-md-1" style="padding:0px">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
+							</div>
+							<div class="col-md-8 e-form" id="drop-area">
+								<p>Drop file Here Or Click to upload(Maximum load size 20MB) <i class="fas fa-upload"></i></p>
+								<div id="filesNameDrop" name="filesNameDrop" class="row">
 
-            </div>
-            <div class="row" id="Documents-Other" style="display:none;">
-                @if (ViewBag.CookieLang == "ar")
-                {
-                    <p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
-                    <div id="Documents">
-                        <div class="row" style="margin-right:20px">
-                            <div class="col-md-3  required-lable">حدد الخدمة</div>
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
-                            </div>
-                            <div class="col-md-8 required-field" style="padding:0px">
-                                <select id="providerOther" name="provider">
-                                    <option disabled selected value="null">اختر-----------------</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-right:20px">
-                            <div class="col-md-3">تحميل المستندات المطلوبة</div>
-                            <input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
-                            </div>
-                            <div class="col-md-8" id="drop-area-other">
-                                <p>قم بإسقاط الملف هنا أو انقر للتحميل (أقصى حجم للتحميل 20 ميجابايت)<i class="fas fa-upload"></i></p>
-                                <div class="row" id="filesNameDropOther" name="filesNameDropOther">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-right:20px">
-                            <div class="col-md-3">وصف الطلب</div>
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right" 
-                                     data-bs-custom-class="beautifier"
-                                     title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
-                            </div>
-                            <div class="col-md-8" style="padding:0px;">
-                                <div id="textarea-container">
-                                    <div class="insideTextArea">
-                                        <span>وصف الطلب (300 حرف كحد أقصى)</span>
-                                    </div>
-                                    <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
-                                    <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter_Other">/300</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <p>please fill the fields for the requested service</p>
-                    <div id="Documents">
-                        <div class="row" style="margin-left:20px">
-                            <div class="col-md-3  required-lable">select provider of services</div>
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Kindly select the Academic Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
-                            </div>
-                            <div class="col-md-8 required-field" style="padding:0px">
-                                <select id="providerOther" name="provider" onchange="selectMainService()">
-                                    <option disabled selected value="null">Select-----------------</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-left:20px">
-                            <div class="col-md-3  required-lable">upload required documnets</div>
-                            <input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
-                            </div>
-                            <div class="col-md-8" id="drop-area-other">
-                                <p>Drop file Here Or Click to upload(Maximum load size 20 MB) <i class="fas fa-upload"></i></p>
-                                <div class="row" id="filesNameDropOther" name="filesNameDropOther" class="row">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-left:20px">
-                            <div class="col-md-3">Request Description</div>
-                            <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                     data-bs-custom-class="beautifier"
-                                     title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
 
-                            </div>
-                            <div class="col-md-8" style="padding:0px;">
-                                <div id="textarea-container">
-                                    <div class="insideTextArea">
-                                        <span>Request Description (300 character max.)</span>
-                                    </div>
-                                    <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
-                                    <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter_Other">/300</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+								</div>
+							</div>
 
-            </div>
-            <div class="row" id="Confirmation-m" style="display: none;">
-                @if (ViewBag.CookieLang == "ar")
-                {
-                    <p>لم يتم تقديم طلبك حتى الآن!</p>
-                    <div id="Confirmation">
-                        <div class="row" id="pdfpreview">
-                            <div class="col-md-12">
-                                <ol style="margin:10px 0px">
-                                    <li>
-                                        يرجى <span> مراجعة الطلب</span>  إذا كان معرف الطلب الخاص بك غير مكتمل و / أو كنت بحاجة إلى تصحيح أي أخطاء ، يرجى النقر فوق
-                                        <span> السابق</span> وإكمال ما هو ضروري. إذا كنت راضيًا عن المعلومات التي أدخلتها ، فيرجى النقر فوق <span>إرسال</span>
+						</div>
+						<div class="row" style="margin-top:0px; margin-left: 25px; ">
+							<div class="col-md-3">Request Description</div>
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
+							</div>
+							<div class="col-md-8" style="padding:0px;">
+								<div id="textarea-container">
+									<div class="insideTextArea">
+										<p>Request Description (300 character max.)</p>
+									</div>
+									<textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="300"></textarea>
+									<div class="insideTextAreaCounter">
+										<span id="text-area-counter">/300</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
 
-                                        <div id="padf" class="pdfnotloaded">
+			</div>
+			<div class="row" id="Documents-Other" style="display:none;">
+				@if (ViewBag.CookieLang == "ar")
+				{
+					<p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
+					<div id="Documents">
+						<div class="row" style="margin-right:20px">
+							<div class="col-md-3  required-lable">حدد الخدمة</div>
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
+							</div>
+							<div class="col-md-8 required-field" style="padding:0px">
+								<select id="providerOther" name="provider">
+									<option disabled selected value="null">اختر-----------------</option>
+								</select>
+							</div>
+						</div>
+						<div class="row" style="margin-right:20px">
+							<div class="col-md-3">تحميل المستندات المطلوبة</div>
+							<input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
+							</div>
+							<div class="col-md-8" id="drop-area-other">
+								<p>قم بإسقاط الملف هنا أو انقر للتحميل (أقصى حجم للتحميل 20 ميجابايت)<i class="fas fa-upload"></i></p>
+								<div class="row" id="filesNameDropOther" name="filesNameDropOther">
+								</div>
+							</div>
+						</div>
+						<div class="row" style="margin-right:20px">
+							<div class="col-md-3">وصف الطلب</div>
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
+							</div>
+							<div class="col-md-8" style="padding:0px;">
+								<div id="textarea-container">
+									<div class="insideTextArea">
+										<span>وصف الطلب (300 حرف كحد أقصى)</span>
+									</div>
+									<textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
+									<div class="insideTextAreaCounter">
+										<span id="text-area-counter_Other">/300</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				else
+				{
+					<p>please fill the fields for the requested service</p>
+					<div id="Documents">
+						<div class="row" style="margin-left:20px">
+							<div class="col-md-3  required-lable">select provider of services</div>
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Kindly select the Academic Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
+							</div>
+							<div class="col-md-8 required-field" style="padding:0px">
+								<select id="providerOther" name="provider" onchange="selectMainService()">
+									<option disabled selected value="null">Select-----------------</option>
+								</select>
+							</div>
+						</div>
+						<div class="row" style="margin-left:20px">
+							<div class="col-md-3  required-lable">upload required documnets</div>
+							<input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
+							</div>
+							<div class="col-md-8" id="drop-area-other">
+								<p>Drop file Here Or Click to upload(Maximum load size 20 MB) <i class="fas fa-upload"></i></p>
+								<div class="row" id="filesNameDropOther" name="filesNameDropOther" class="row">
+								</div>
+							</div>
+						</div>
+						<div class="row" style="margin-left:20px">
+							<div class="col-md-3">Request Description</div>
+							<div class="col-md-1">
+								<img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+									 data-bs-custom-class="beautifier"
+									 title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
 
-                                        </div>
-                                    </li>
-                                    <li>
-                                        اضغط فوق الزر <span>إرسال</span>  عندما تكون مستعدًا للإرسال
-                                        <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-                                            <button id="saveRequestBTN" onclick="sendSMS()">إرسال</button>
-                                        </div>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <p> !Your Request Has Not Submited Yet</p>
-                    <div id="Confirmation">
-                        <div class="row" id="pdfpreview">
-                            <div class="col-md-12">
-                                <ol style="margin:10px 0px">
-                                    <li>
-                                        Please <span>review request</span>  If your request id incomplete and/or you need to correct any errors, please click
-                                        <span>previous</span> and complete what is necessary. If you are satisfied with the information you entered, please click <span>SUBMIT</span>
+							</div>
+							<div class="col-md-8" style="padding:0px;">
+								<div id="textarea-container">
+									<div class="insideTextArea">
+										<span>Request Description (300 character max.)</span>
+									</div>
+									<textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
+									<div class="insideTextAreaCounter">
+										<span id="text-area-counter_Other">/300</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
 
-                                        <div id="padf" class="pdfnotloaded">
+			</div>
+			<div class="row" id="Confirmation-m" style="display: none;">
+				@if (ViewBag.CookieLang == "ar")
+				{
+					<p>لم يتم تقديم طلبك حتى الآن!</p>
+					<div id="Confirmation">
+						<div class="row" id="pdfpreview">
+							<div class="col-md-12">
+								<ol style="margin:10px 0px">
+									<li>
+										يرجى <span> مراجعة الطلب</span>  إذا كان معرف الطلب الخاص بك غير مكتمل و / أو كنت بحاجة إلى تصحيح أي أخطاء ، يرجى النقر فوق
+										<span> السابق</span> وإكمال ما هو ضروري. إذا كنت راضيًا عن المعلومات التي أدخلتها ، فيرجى النقر فوق <span>إرسال</span>
 
-                                        </div>
-                                    </li>
-                                    <li>
-                                        click the <span>submit</span> button wher you're ready to submit
-                                        <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-                                            <button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
-                                        </div>
-                                    </li>
+										<div id="padf" class="pdfnotloaded">
 
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        @if (ViewBag.CookieLang == "ar")
-        {
-            <div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-left"></i>
-                <p>التالى</p>
-            </div>
-        }
-        else
-        {
-            <div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
-                <i class="fas fa-chevron-right"></i>
-                <p>Next</p>
-            </div>
-        }
-    </div>
+										</div>
+									</li>
+									<li>
+										اضغط فوق الزر <span>إرسال</span>  عندما تكون مستعدًا للإرسال
+										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+											<button id="saveRequestBTN" onclick="sendSMS()">إرسال</button>
+										</div>
+									</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				}
+				else
+				{
+					<p> !Your Request Has Not Submited Yet</p>
+					<div id="Confirmation">
+						<div class="row" id="pdfpreview">
+							<div class="col-md-12">
+								<ol style="margin:10px 0px">
+									<li>
+										Please <span>review request</span>  If your request id incomplete and/or you need to correct any errors, please click
+										<span>previous</span> and complete what is necessary. If you are satisfied with the information you entered, please click <span>SUBMIT</span>
 
-    <div class="modal fade" id="formModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form1</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">name:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">Phone:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">Email:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <label for="recipient-name" class="col-form-label">other Info:</label>
-                            <input type="text" class="form-control" id="recipient-name">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+										<div id="padf" class="pdfnotloaded">
 
-    <div class="modal fade" id="FourMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <h5 class="modal-title" id="exampleModalLabel">أكد, لإستكمال طلبك</h5>
-                    }
-                    else
-                    {
-                        <h5 class="modal-title" id="exampleModalLabel">Confirm to Complete request</h5>
-                    }
-                    @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <div class="alert alert-danger" id="verficationFeedback" style="display:none">
-                            من فضلك, ادخل الكود الصحيح
-                        </div>
-                        <div class="alert alert-danger" id="GenralError" style="display:none">
-                            هناك خطأ عام
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-danger" id="verficationFeedback" style="display:none">
-                            PLZ, Enter Correct Verification Code.
-                        </div>
-                        <div class="alert alert-danger" id="GenralError" style="display:none">
-                            There Is General Error
-                        </div>
-                    }
-                    <form>
-                        <div class="mb-3 text-center verification-input">
-                            @if (ViewBag.CookieLang == "ar")
-                            {
-                                <label for="verficationCode" class="col-form-label">أدخل 4 أرقام تلقيتها لإكمال الطلب</label>
-                            }
-                            else
-                            {
-                                <label for="verficationCode" class="col-form-label">Enter 4 Digits You Received to Complete Request</label>
-                            }
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                            <input type="text" class="form-control" maxlength="1" autocomplete="off">
-                        </div>
-                    </form>
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <button id="ResendVerificationCode" lang=ar-sa>أعد ارسال كود التحقق</button>
-                    }
-                    else
-                    {
-                        <button id="ResendVerificationCode">Resend Verification Code</button>
+										</div>
+									</li>
+									<li>
+										click the <span>submit</span> button wher you're ready to submit
+										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+											<button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
+										</div>
+									</li>
 
-                    }
-                </div>
-                <div class="modal-footer text-center">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">تاكيد</button>
-                    }
-                    else
-                    {
-                        <button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">Confirm</button>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
+								</ol>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+		@if (ViewBag.CookieLang == "ar")
+		{
+			<div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-left"></i>
+				<p>التالى</p>
+			</div>
+		}
+		else
+		{
+			<div class="col-md-2" id="right-arrow" style="visibility: hidden;padding:0px">
+				<i class="fas fa-chevron-right"></i>
+				<p>Next</p>
+			</div>
+		}
+	</div>
 
-    <span style="display:none !important" id="SignaturePDF"></span>
-    <script src="~/Design/JS/popper.js"></script>
-    <script src="~/Design/JS/bootstrap.min.js"></script>
-    <script src="~/Design/JS/jquery.js"></script>
-    <script src="~/Design/JS/pdf.js"></script>
-    <script src="~/Design/JS/pdf.worker.js"></script>
-    <script src="~/Design/JS/scripts.js?ver=1.0" charset="utf-8" type="text/javascript"></script>
+	<div class="modal fade" id="formModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Form1</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form class="row">
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">name:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">Phone:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">Email:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<label for="recipient-name" class="col-form-label">other Info:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="FourMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<h5 class="modal-title" id="exampleModalLabel">أكد, لإستكمال طلبك</h5>
+					}
+					else
+					{
+						<h5 class="modal-title" id="exampleModalLabel">Confirm to Complete request</h5>
+					}
+					@*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<div class="alert alert-danger" id="verficationFeedback" style="display:none">
+							من فضلك, ادخل الكود الصحيح
+						</div>
+						<div class="alert alert-danger" id="GenralError" style="display:none">
+							هناك خطأ عام
+						</div>
+					}
+					else
+					{
+						<div class="alert alert-danger" id="verficationFeedback" style="display:none">
+							PLZ, Enter Correct Verification Code.
+						</div>
+						<div class="alert alert-danger" id="GenralError" style="display:none">
+							There Is General Error
+						</div>
+					}
+					<form>
+						<div class="mb-3 text-center">
+							@if (ViewBag.CookieLang == "ar")
+							{
+								<label for="verficationCode" class="col-form-label">أدخل 4 أرقام تلقيتها لإكمال الطلب</label>
+							}
+							else
+							{
+								<label for="verficationCode" class="col-form-label">Enter 4 Digits You Received to Complete Request</label>
+							}
+							<div class=" verification-input" style="direction:ltr !important">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+								<input type="text" class="form-control" maxlength="1" autocomplete="off">
+							</div>
+						</div>
+					</form>
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<button id="ResendVerificationCode" lang=ar-sa>أعد ارسال كود التحقق</button>
+					}
+					else
+					{
+						<button id="ResendVerificationCode">Resend Verification Code</button>
+
+					}
+				</div>
+				<div class="modal-footer text-center">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">تاكيد</button>
+					}
+					else
+					{
+						<button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">Confirm</button>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<span style="display:none !important" id="SignaturePDF"></span>
+	<script src="~/Design/JS/popper.js"></script>
+	<script src="~/Design/JS/bootstrap.min.js"></script>
+	<script src="~/Design/JS/jquery.js"></script>
+	<script src="~/Design/JS/pdf.js"></script>
+	<script src="~/Design/JS/pdf.worker.js"></script>
+	<script src="~/Design/JS/scripts.js?ver=1.0" charset="utf-8" type="text/javascript"></script>
 </body>
 
 </html>

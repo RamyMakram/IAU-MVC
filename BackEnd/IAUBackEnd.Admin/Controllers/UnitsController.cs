@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Data.Entity;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetUnits()
 		{
-			return Ok(new ResponseClass() { success = true, result = p.Units.Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+			return Ok(new ResponseClass() { success = true, result = p.Units.Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
 		}
 
 		public async Task<IHttpActionResult> GetActive()
@@ -35,13 +36,12 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		public async Task<IHttpActionResult> GetActiveUnits_by(int serviceType, int Req, int? locid, string Build)
 		{
-			var publider = PredicateBuilder.New<Units>();
-			publider.And(q => (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Count(w => w.ServiceTypeID == serviceType) != 0) && q.Units_Request_Type.Count(w => w.Request_Type_ID == Req) != 0);
+			var publider = PredicateBuilder.New<Units>(q => (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Count(w => w.ServiceTypeID == serviceType) != 0) && q.Units_Request_Type.Count(w => w.Request_Type_ID == Req) != 0);
+			if (Build != "" && Build != "null" && Build != null)
+				publider.And(q => q.Building_Number.Equals(Build));
 			if (locid != null)
 				publider.And(q => q.Units_Location_ID == locid);
-			if (Build != "" && Build != "null" && Build != null)
-				publider.And(q => q.Building_Number == Build);
-			return Ok(new ResponseClass() { success = true, result = p.Units.Where(publider).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID }) });
+			return Ok(new ResponseClass() { success = true, result = p.Units.Where(publider).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID, q.Building_Number, q.Units_Location_ID }) });
 		}
 		public async Task<IHttpActionResult> GetActiveUnits_byLevel(int id, int? uintId)
 		{
@@ -68,6 +68,14 @@ namespace IAUBackEnd.Admin.Controllers
 					SubUnits = p.Units.Where(q => q.LevelID < units.LevelID && q.Units_ID != id).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID })
 				}
 			});
+		}
+		public async Task<IHttpActionResult> GetUnitsByID(int id)
+		{
+			var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.ServiceTypeID, q.Code, q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
+			if (units == null)
+				return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
+
+			return Ok(new ResponseClass() { success = true, result = units });
 		}
 		[HttpGet]
 		public async Task<IHttpActionResult> ThereIsNoMostafid()
