@@ -303,7 +303,7 @@
 
                     <div class="col-md-4 col-lg-3">
                         <div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
-                            <img src="@(serverpath+"/"+service.Image_Path)"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="top"
+                            <img src="@(serverpath+"/"+service.Image_Path)"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="top"
                                  data-bs-custom-class="beautifier"
                                  title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
                             <p>@(isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN)</p>
@@ -340,7 +340,7 @@
                                     <div class="col-md-7">
                                         @using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
                                         {
-                                            <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                            <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                                  data-bs-custom-class="beautifier"
                                                  title='إذا كنت طالبًا أو موظفًا مسجلًا في الجامعة (أعضاء هيئة التدريس والموظفين) ، سواء كنت سعوديًا أو متعاقدًا ، فاضغط على نعم. إذا لم تكن في أي من الحالات السابقة ، فاضغط على "لا"' />
                                             <select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
@@ -359,7 +359,7 @@
                                         <label>الرقم الأكاديمي</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="يرجى كتابة رقم هوية الجامعة الخاص بك ، سواء كان رقم هوية الطالب أو الرقم الوظيفي  الخاص بك ، متبوعًا بكلمة المرور." />
                                         <input type="text" id="IAUID" name="IAUID">
@@ -370,7 +370,7 @@
                                         <label>نوع مقدم الطلب</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title='لمساعدتنا في متابعة طلبك بسهولة ، يرجى تحديد المصطلح الذي يصفك بشكل أفضل كمقدم  لهذا الطلب. إذا كنت لا تتوافق مع أي من الفئات التالية ، فيرجى الضغط على "أخرى".' />
                                         <select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
@@ -403,7 +403,7 @@
                                         <label>الاسم الأول</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسمك الأول كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، يرجى كتابة اسمك الأول كما هو موضح في جواز السفر." />
                                         <input type="text" id="FirstName">
@@ -417,7 +417,7 @@
                                         <label>الاسم الأوسط</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسمك الاوسط كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، فيرجى كتابة اسمك الاوسط  أو الأسماء كما هو موضح في جواز السفر." />
                                         <input type="text" id="MiddelName" />
@@ -428,7 +428,7 @@
                                         <label>اسم العائلة</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى إدخال اسم العائلة كما هو موضح في بطاقة الهوية الوطنية. إذا لم يكن كذلك ، يرجى كتابة اسم العائلة كما هو موضح في جواز السفر." />
                                         <input type="text" id="FamilyName">
@@ -459,7 +459,7 @@
                                         <label>مكان الإقامة</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="الرجاء اختيار الدولة  التي تعيش فيه حاليًا. ستتعلق معلومات العنوان في علامات التبويب أدناه باختيارك لبلد الإقامة." />
                                         <select id="Country_ID" name="Country_ID">
@@ -479,7 +479,7 @@
                                         <label>نوع الهوية</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="إذا كنت مواطنًا سعوديًا أو من دول مجلس التعاون الخليجي ، فيرجى تحديد بطاقة الهوية الوطنية. إذا كنت مقيما في المملكة العربية السعودية ، فيرجى تحديد رقم بطاقة الهوية (الإقامة). خلاف ذلك ، الرجاء اختيار جواز السفر" />
                                         <select id="ID_Document" name="ID_Document">
@@ -497,7 +497,7 @@
                                         <label>رقم الهوية</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="الرجاء إدخال رقم وثيقة الهوية المحددة." />
                                         <input type="text" id="idNumber">
@@ -508,7 +508,7 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-4">
                                 معلومات العنوان
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="الرجاء إدخال العنوان الذي سنستخدمه في النهاية للاتصال بنا" />
                             </div>
@@ -574,7 +574,7 @@
                                         <label>البريد الالكتروني</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="الرجاء إدخال عنوان البريد الإلكتروني الذي سنستخدمه للاتصال بك." />
                                         <input type="email" id="Email" name="Email" />
@@ -587,7 +587,7 @@
                                         <label>رقم الجوال</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png" data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="الرجاء إدخال رقم الهاتف المحمول الذي سنستخدمه  للاتصال بك." />
                                         <span id="spanMobile" style="direction:ltr;display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000 ; ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border: 0px; outline: 0px; width: 68% "></span>
@@ -609,7 +609,7 @@
                                     <div class="col-md-7">
                                         @using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
                                         {
-                                            <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                            <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                                  data-bs-custom-class="beautifier"
                                                  title="If you are an IAU registered student or employee (faculty and staff), whether Saudi or contracted, click Yes. If you are not in any of the previous cases, press No" />
                                             <select id="Affiliated" class="required" name="Affiliated" onchange="AffiliatedState()">
@@ -628,7 +628,7 @@
                                         <label>IAU ID Number</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password." />
                                         <input type="text" id="IAUID" name="IAUID">
@@ -639,7 +639,7 @@
                                         <label>Applicant type</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="To help us proceed easily with your request, please select the field that best describe you as an applicant of this request.  If you don’t conform with any of the following categories please select Other. " />
                                         <select id="Applicant_Type_ID" name="Applicant_Type_ID" onchange="LoadApiDocumentsData()">
@@ -672,7 +672,7 @@
                                         <label>First name</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="If you are a Saudi or GCC Citizen please insert your First Name as shown in the National ID Card. If not, kindly write your First Name as shown in the Passport." />
                                         <input type="text" id="FirstName">
@@ -686,7 +686,7 @@
                                         <label>Middle name</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="If you are a Saudi or GCC Citizen please insert your Middle Name or Names as shown in the National ID Card. If not, kindly write your Middle Name or Names as shown in the Passport." />
                                         <input type="text" id="MiddelName" />
@@ -697,7 +697,7 @@
                                         <label>Family name</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="If you are a Saudi or GCC Citizen please insert your Family Name as shown in the National ID Card. If not, kindly write your Family Name as shown in the Passport." />
                                         <input type="text" id="FamilyName">
@@ -728,7 +728,7 @@
                                         <label>Country of residence</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the country you are currently living in. The address information in the tabs below will relate to the country of residence." />
                                         <select id="Country_ID" name="Country_ID">
@@ -748,7 +748,7 @@
                                         <label>ID Document</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="If you are a Saudi or GCC Citizen please select National ID Card. If not but live in Saudi Arabia, kindly select resident identity card number (Iqama). Otherwise, please select Passport" />
                                         <select id="ID_Document" name="ID_Document">
@@ -766,7 +766,7 @@
                                         <label>ID Number</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the number of the selected ID Document." />
                                         <input type="text" id="idNumber">
@@ -777,7 +777,7 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-4">
                                 Address information
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Please Insert the address we will eventually use to contact us" />
                             </div>
@@ -843,7 +843,7 @@
                                         <label>Email Address</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the Email Address we will eventually use to contact you." />
                                         <input type="email" id="Email" name="Email" />
@@ -856,7 +856,7 @@
                                         <label>Mobile Number</label>
                                     </div>
                                     <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                        <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the Mobile Number we will eventually use to contact you." />
                                             <span id="spanMobile"  style="display:inline-block;width:85%;border: solid 1px #d5d5d5; padding: 0 0 0 5px;background-color:#fff;color:#000  ">966<input type="text" id="Mobile" name="Mobile" minlength="9" maxlength="9" style="border:0px;outline:0px;width:68%"></span>
@@ -876,7 +876,7 @@
                         <div class="row" style="margin-right:25px">
                             <div class="col-md-3  required-lable">حدد الخدمة</div>
                             <div class="col-md-9  required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
                                 <select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
@@ -885,7 +885,7 @@
                             </div>
                             <div class="col-md-3  required-lable">أختر الخدمة الرئيسية</div>
                             <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title='الآن وقد تم تحديد مقدم الخدمات ، يرجى تحديد الخدمة الرئيسية المطلوبة. إذا لم يكن أيًا من العناصر المدرجة مطلوبًا ، فيرجى تحديد مقدم خدمات آخر  من الصفحة السابقة. إذا أدركت أن الخدمة المطلوبة غير مدرجة ، فيرجى النقر فوق "السابق" للعودة إلى صفحة نوع الخدمة واختيار خدمة أخرى.' />
                                 <select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
@@ -894,7 +894,7 @@
                             </div>
                             <div class="col-md-3 required-lable">أختر الخدمة الفرعية</div>
                             <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="الآن بعد أن تم تحديد الخدمة الرئيسية ، يرجى تحديد الخدمة الفرعية المطلوبة. إذا لم يكن أي من القوائم المدرجة مطلوبًا ، فيرجى تحديد مزود آخر أو جامعة IAU. في حالة عدم إدراج الخدمة الفرعية المطلوبة ، يرجى النقر فوق السابق للعودة إلى نوع الخدمة واختيار خدمة أخرى." />
                                 <select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
@@ -904,7 +904,7 @@
                             <div class="row" style="margin-top:0px;padding:0px;">
                                 <div class="col-md-3">النماذج الإلكترونية</div>
                                 <div class="col-md-1" style="padding:0px">
-                                    <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                    <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                          data-bs-custom-class="beautifier"
                                          title="يرجى ملء استمارة (استمارات) الطلب الإلكترونية المسجلة. يرجى التأكد من إكمال جميع الحقول المطلوبة لتجنب أي تأخير أو رفض للطلب." />
                                 </div>
@@ -920,7 +920,7 @@
                             <div class="col-md-3   required-lable">تحميل المستندات المطلوبة</div>
                             <input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
                             <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
                             </div>
@@ -934,7 +934,7 @@
                             <div class="col-md-3">تحميل الوثائق الداعمة</div>
                             <input type="file" id="filelistSupportive" style="display: none;" multiple onchange="HandelDragAndDrop(this.files)" />
                             <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
                             </div>
@@ -950,7 +950,7 @@
                         <div class="row" style="margin-top:0px;margin-right:25px">
                             <div class="col-md-3">وصف الطلب</div>
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
                             </div>
@@ -975,7 +975,7 @@
                         <div class="row" style="margin-left: 25px; ">
                             <div class="col-md-3   required-lable">select provider services</div>
                             <div class="col-md-9  required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Kindly select the Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
                                 <select id="provider" name="provider" onchange="GetMainServices(event.target.value)">
@@ -984,7 +984,7 @@
                             </div>
                             <div class="col-md-3  required-lable">Select main services</div>
                             <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Now that the provider is selected, please select the desired Main Service. If none of the listed is required, please select another Provider or IAU University from the previous tab. If you realize the required service is not enlisted, kindly click Previous to go back to the Service Type and select another service." />
                                 <select id="Main_Services_ID" name="Main_Services_ID" onchange="GetSubServices(event.target.value)">
@@ -993,7 +993,7 @@
                             </div>
                             <div class="col-md-3  required-lable">select sub-services</div>
                             <div class="col-md-9 required-field" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Now that the Main Service is selected, please select the required Sub-Service. If none of the listed is required, please select another Provider or IAU University. In case the required sub-service is not enlisted, kindly click Previous to go back to the Service Type and select another service" />
                                 <select id="Sub_Services_ID" name="Sub_Services_ID" onchange="GetEfroms(event.target.value)" disabled>
@@ -1003,7 +1003,7 @@
                             <div class="row" style="margin-top:0px;padding:0px;">
                                 <div class="col-md-3">E-forms</div>
                                 <div class="col-md-1" style="padding:0px">
-                                    <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                    <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                          data-bs-custom-class="beautifier"
                                          title="Kindly fill out the enlisted electronic application form(s). Please ensure to complete all required fields to avoid any delay or rejection of the request. " />
                                 </div>
@@ -1021,7 +1021,7 @@
                             <div class="col-md-3  required-lable">upload Required documnets</div>
                             <input type="file" id="filelist" style="display: none;" onchange="HandelDragAndDrop(this.files)" />
                             <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
                             </div>
@@ -1035,7 +1035,7 @@
                             <div class="col-md-3">upload supportive documnets</div>
                             <input type="file" id="filelistSupportive" style="display: none;" multiple onchange="HandelDragAndDrop(this.files)" />
                             <div class="col-md-1" style="padding:0px">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
                             </div>
@@ -1051,7 +1051,7 @@
                         <div class="row" style="margin-top:0px; margin-left: 25px; ">
                             <div class="col-md-3">Request Description</div>
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
                             </div>
@@ -1079,7 +1079,7 @@
                         <div class="row" style="margin-right:20px">
                             <div class="col-md-3  required-lable">حدد الخدمة</div>
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title='يرجى تحديد مقدم الخدمات   الذي تحتاجه من القائمة المحددة وفقًا لنوع مقدم الطلب والانتساب. إذا لم تكن متأكدًا من الإجابة ، فيرجى اختيار "جامعة الإمام عبد الرحمن بن فيصل".' />
                             </div>
@@ -1093,7 +1093,7 @@
                             <div class="col-md-3">تحميل المستندات المطلوبة</div>
                             <input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="يرجى سحب الملفات المطلوبة في هذا الحقل أو النقر فوق تحميل لتحديدها. تنسيقات الملفات المقبولة للتحميلات هي (.jpg ، .pdf ، .png). جميع الصيغ الأخرى غير مقبولة. يرجى التأكد من أن الحد الأقصى لحجم التحميل لا يتجاوز 20 ميغا بايت." />
                             </div>
@@ -1106,7 +1106,7 @@
                         <div class="row" style="margin-right:20px">
                             <div class="col-md-3">وصف الطلب</div>
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right" 
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right" 
                                      data-bs-custom-class="beautifier"
                                      title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
                             </div>
@@ -1131,7 +1131,7 @@
                         <div class="row" style="margin-left:20px">
                             <div class="col-md-3  required-lable">select provider of services</div>
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Kindly select the Academic Services Provider you need from the given list according to the Applicant Type and Affiliation. If you are not sure of the answer, please select IAU University. " />
                             </div>
@@ -1145,7 +1145,7 @@
                             <div class="col-md-3  required-lable">upload required documnets</div>
                             <input type="file" id="filelistOther" multiple onchange="HandelDragAndDrop(this.files)" style="display: none;" />
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="Kindly drop the required files to this field or click upload to select them. Accepted file formats for uploads are (.jpg, .pdf, .png). All other formats are not accepted. Please make sure the maximum load size does not exceed 20 MB." />
                             </div>
@@ -1158,7 +1158,7 @@
                         <div class="row" style="margin-left:20px">
                             <div class="col-md-3">Request Description</div>
                             <div class="col-md-1">
-                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="click hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                <img src="~/Design/img/Help ICON.png"  data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
                                      title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
 
