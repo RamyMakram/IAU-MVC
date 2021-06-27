@@ -219,6 +219,8 @@
 		padding: 1px 0px;
 		white-space: nowrap;
 		font-size: 10px;
+		width: 100%;
+		justify-content: center;
 	}
 
 	table#PDFTable {
@@ -363,16 +365,16 @@
 									</tr>
 									<tr>
 										<th key="t-city"></th>
-										<th>@Model.Personel_Data.Address_City</th>
+										<th>@(Model.Personel_Data.Address_City ?? (isAr ? Model.Personel_Data.City.City_Name_AR : Model.Personel_Data.City.City_Name_EN))</th>
 									</tr>
 									<tr>
 										<th key="t-region"></th>
-										<th>@Model.Personel_Data.Adress_Region</th>
+										<th>@(Model.Personel_Data.Adress_Region ?? (isAr ? Model.Personel_Data.Region.Region_Name_AR : Model.Personel_Data.Region.Region_Name_EN))</th>
 									</tr>
-									@*<tr>
-											<th key="t-country"></th>
-											<th>@(isAr ? Model.Personel_Data.Country2.Country_Name_AR : Model.Personel_Data.Country2.Country_Name_EN)</th>
-										</tr>*@
+									<tr>
+										<th key="t-country"></th>
+										<th>@(isAr ? Model.Personel_Data.Country2.Country_Name_AR : Model.Personel_Data.Country2.Country_Name_EN)</th>
+									</tr>
 									<tr>
 										<th key="t-postal"></th>
 										<th class="en-font">@Model.Personel_Data.Postal_Code</th>
@@ -444,7 +446,7 @@
 
 						}
 						<div class="col-12">
-							@*@Html.Hidden("BuildNumberdata", Model.Units.Building_Number, new { @id = "BuildNumber-data" })*@
+							@Html.Hidden("BuildNumberdata", Model.Units.Building_Number, new { @id = "BuildNumber-data" })
 
 							@if (ShowEncode)
 							{
@@ -473,7 +475,7 @@
 											</div>
 											<div class="form-group">
 												<label key="t-location" class="control-label">الموقع</label>
-												@Html.DropDownListFor(q => q.Units.Units_Location_ID, (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+												@Html.DropDownList("ss", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control ", @id = "location", @onchange = "LocChange(event.target.value)", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 											</div>
 											<div class="form-group">
 												<label key="t-Buiding" class="control-label">الميني</label>
@@ -637,8 +639,7 @@
 								الاوراق الداعمة
 							</p>
 							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
-								@foreach (var item in new string[15])
-								{
+								@{
 									foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
 									{
 										<div class="col-3">
@@ -771,7 +772,9 @@
 @if (ShowEncode)
 {
 	<script>
-
+		$('#location').val(@(Model.Units.Units_Location_ID));
+		$($('#location').parent()).children("span").children("span").children("span").children("span:nth-of-type(1)").text($('#location option:selected').text())
+		LocChange(@(Model.Units.Units_Location_ID))
 		$('#sa-encode').click(function () {
 			Swal.fire({
 				title:"@(isAr ? "هل انت متاكد من تكويد هذا الطلب؟" : "Are you sure To Codeing this request?")",

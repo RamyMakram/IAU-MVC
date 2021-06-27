@@ -16,7 +16,7 @@
 <h2 key="t-deactive">Deactive</h2>
 
 <div class="row">
-	@using (Html.BeginForm("Deactive", "UnitLocation", new { Id = Model.Units_Location_ID, x = "" }, FormMethod.Post))
+	@using (Html.BeginForm("Deactive", "UnitLocation", new { Id = Model.Units_Location_ID, x = "" }, FormMethod.Post, new { @class = "actionForm" }))
 	{
 		<div class="alert alert-danger dt-center p-14" style="text-align:center;width:100%" key="t-deactive-unitlocation">
 			Do u want to deactive this User?

@@ -1,4 +1,5 @@
-﻿////////////////////////////////////////////////////get cookie of lang /////////////////////////////////
+﻿
+////////////////////////////////////////////////////get cookie of lang /////////////////////////////////
 var language = GetCookie();
 
 function GetCookie() {
@@ -110,7 +111,7 @@ function reIntializeReType() {
 		let ID = $('.mainservice.active').attr('data-mainserviceid');
 		$(".loading").addClass("active");
 		$.ajax({
-			url: "/Home/GetApplicantData?ServiceID=" + ID, method: "Get", success: function (data) {
+			url: "/Home/GetApplicantData?ServiceID=" + ID + "&RequestType=" + $(this).attr("data-requesttypeid"), method: "Get", success: function (data) {
 				$("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
 				console.log(JSON.parse(data))
 				JSON.parse(data).forEach(i => {
@@ -123,6 +124,7 @@ function reIntializeReType() {
 			inquiry = true;
 			uploadfiles = [];
 			FileNames = [];
+			$('#filesName').html("");
 		}
 		else {
 			inquiry = false;
@@ -164,9 +166,10 @@ $("#right-arrow").click(function () {
 					$(e).css({ 'border': 'none', 'background': 'white' })
 				}
 			});
-			let e = $('#Mobile')
-			if (e.val() == "" || e.val() == null || e.val() == "null" || e.val().length != 9) {
+			let e = $('#spanMobile'), z = $("#Mobile");
+			if (z.val() == "" || z.val() == null || z.val() == "null" || z.val().length != 9) {
 				$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
+				z.css({ 'background': '#ffafaf' });
 				error = true;
 				return;
 			}
@@ -186,6 +189,7 @@ $("#right-arrow").click(function () {
 				$(".nav-fill .nav-link").removeClass("active");
 				$(".nav-fill .nav-item:nth-of-type(" + incrementValue + ") .nav-link").addClass("active")
 				incrementValue++;
+				LoadApiDocumentsData()
 			}
 		}
 	} else if (incrementValue == 6) {
@@ -307,7 +311,10 @@ $("#right-arrow").click(function () {
 		// enterpdfpreview = true;
 	}
 });
-
+$("#Mobile").change(function () {
+	$("#Mobile").css({ 'border': 'none', 'background': 'white' })
+	$("#spanMobile").css({ 'border': 'none', 'background': 'white' })
+})
 $("#left-arrow").click(function () {
 	incrementValue--;
 	if (incrementValue == 6 || incrementValue == 5) {
@@ -373,17 +380,6 @@ $(".nav-fill .nav-link").click(function () {
 ///////////////////////////////////ServiceType////////////////////////////////////////////
 $('.mainservice').click(function (e) {
 	let ID = $(this).attr('data-mainserviceid');
-	$(".loading").addClass("active");
-	$.ajax({
-		url: "/Home/GetApplicantData?ServiceID=" + ID, method: "Get", success: function (data) {
-			$("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
-			console.log(JSON.parse(data))
-			JSON.parse(data).forEach(i => {
-				$("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
-			})
-			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
-		}
-	})
 	$(".loading").addClass("active");
 
 	$.ajax({
@@ -466,7 +462,7 @@ function HandelDragAndDrop(files) {
 	if (inquiry) {
 		let sum = 0;
 		//$('#filesNameDrop').html("");
-		DropedFile = files;
+		//DropedFile = files;
 		if (Math.floor((sum / 1024) / 1024 > 20)) {
 			alert("max files size 20MB")
 		} else {
@@ -633,14 +629,14 @@ function AssignCity(data) {
 }
 
 $("#Required_Fields_Notes_Other").keyup(function () {
-    $("#text-area-counter_Other").text($(this).val().length + "/300")
-    if ($(this).val()) {
-        $(".insideTextArea").hide();
-        $(".insideTextAreaCounter").show()
-    } else if (!$(this).val()) {
-        $(".insideTextArea").show();
-        $(".insideTextAreaCounter").hide()
-    }
+	$("#text-area-counter_Other").text($(this).val().length + "/300")
+	if ($(this).val()) {
+		$(".insideTextArea").hide();
+		$(".insideTextAreaCounter").show()
+	} else if (!$(this).val()) {
+		$(".insideTextArea").show();
+		$(".insideTextAreaCounter").hide()
+	}
 });
 
 $("#Required_Fields_Notes").keyup(function () {
@@ -839,15 +835,11 @@ function GetEfroms(ID) {
 
 function serialiazeForm() {
 	let Data = {
-		Unit_ID: $('#provider  option:selected').val() == "null" ? null : $('#provider  option:selected').val(),
-		provider_Name: $('#provider  option:selected').text(),
+		Unit_ID: $((inquiry ? "#provider" : "#providerOther") + '  option:selected').val() == "null" ? null : $((inquiry ? "#provider" : "#providerOther") + '  option:selected').val(),
 		Sub_Services_ID: $('#Sub_Services_ID  option:selected').val() == "null" ? null : $('#Sub_Services_ID  option:selected').val(),
-		Sub_Services_Name: $('#Sub_Services_ID  option:selected').text(),
 		Required_Fields_Notes: $('#Required_Fields_Notes').val() == "null" ? null : $('#Required_Fields_Notes').val(),
 		Service_Type_ID: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid'),
-		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
 		Request_Type_ID: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'),
-		Request_Type_Name: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypename'),
 		Personel_Data: {
 			IAU_ID_Number: $('#IAUID').val(),
 			Applicant_Type_ID: $('#Applicant_Type_ID  option:selected').val() == "null" ? null : $('#Applicant_Type_ID  option:selected').val(),
@@ -883,13 +875,14 @@ function serialiazeForm() {
 		Address: "",
 		file_names: FileNames
 	}
+	console.log(Data);
 	return Data;
 }
 
 function SerializeGenratePDF() {
 	let Data = {
 		Affiliated: $("#Affiliated option:selected").text(),
-		provider_Name: $('#provider  option:selected').text(),
+		provider_Name: $((inquiry ? "#provider" : "#providerOther") + '  option:selected').text(),
 		Sub_Services_Name: $('#Sub_Services_ID  option:selected').text(),
 		Service_Type_Name: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainservicename'),
 		first_Name: $("#FirstName").val(),
@@ -1270,25 +1263,25 @@ $(".modal-body .verification-input input").keyup(function (element) {
 	}
 });
 
-$("#ResendVerificationCode").click(function() {
-    $("#ResendVerificatio   nCode").attr("disabled", "disabled");
-    if (language == "ar") {
-        $("#ResendVerificationCode").html("يمكنك اعادة ارسال الكود بعد <span id='downConter'>(30)</span> ثانية");
-    } else {
-        $("#ResendVerificationCode").html("You Can Resend Code After <span id='downConter'>(30)</span> Second");
-    }
-    counter = 30;
-    var x = setInterval(function() {
-        counter--;
-        document.getElementById("downConter").innerHTML = "(" + counter + ")";
-        if (counter == 0) {
-            $("#ResendVerificationCode").removeAttr("disabled");
-            if (language == "ar") {
-                $("#ResendVerificationCode").html("أعد ارسال كود التحقق");
-            } else {
-                $("#ResendVerificationCode").html("Resend Verification Code");
-            }
-            clearInterval(x);
-        }
-    }, 1000);
+$("#ResendVerificationCode").click(function () {
+	$("#ResendVerificatio   nCode").attr("disabled", "disabled");
+	if (language == "ar") {
+		$("#ResendVerificationCode").html("يمكنك اعادة ارسال الكود بعد <span id='downConter'>(30)</span> ثانية");
+	} else {
+		$("#ResendVerificationCode").html("You Can Resend Code After <span id='downConter'>(30)</span> Second");
+	}
+	counter = 30;
+	var x = setInterval(function () {
+		counter--;
+		document.getElementById("downConter").innerHTML = "(" + counter + ")";
+		if (counter == 0) {
+			$("#ResendVerificationCode").removeAttr("disabled");
+			if (language == "ar") {
+				$("#ResendVerificationCode").html("أعد ارسال كود التحقق");
+			} else {
+				$("#ResendVerificationCode").html("Resend Verification Code");
+			}
+			clearInterval(x);
+		}
+	}, 1000);
 });

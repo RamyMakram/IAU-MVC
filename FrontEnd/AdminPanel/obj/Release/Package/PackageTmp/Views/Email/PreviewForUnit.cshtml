@@ -95,14 +95,16 @@
 			}
 </style>
 <style>
-	.constainDocs[dir='rtl']{
-		border-left:2px dashed;
-		border-left-color:black;
+	.constainDocs[dir='rtl'] {
+		border-left: 2px dashed;
+		border-left-color: black;
 	}
-	.constainDocs[dir='ltr']{
-		border-right:2px dashed;
-		border-right-color:black;
+
+	.constainDocs[dir='ltr'] {
+		border-right: 2px dashed;
+		border-right-color: black;
 	}
+
 	.data-Comment {
 		display: none;
 	}
@@ -356,16 +358,16 @@
 									</tr>
 									<tr>
 										<th key="t-city"></th>
-										<th>@Model.Personel_Data.Address_City</th>
+										<th>@(Model.Personel_Data.Address_City ?? (isAr ? Model.Personel_Data.City.City_Name_AR : Model.Personel_Data.City.City_Name_EN))</th>
 									</tr>
 									<tr>
 										<th key="t-region"></th>
-										<th>@Model.Personel_Data.Adress_Region</th>
+										<th>@(Model.Personel_Data.Adress_Region ?? (isAr ? Model.Personel_Data.Region.Region_Name_AR : Model.Personel_Data.Region.Region_Name_EN))</th>
 									</tr>
-									@*<tr>
-											<th key="t-country"></th>
-											<th>@(isAr ? Model.Personel_Data.Country2.Country_Name_AR : Model.Personel_Data.Country2.Country_Name_EN)</th>
-										</tr>*@
+									<tr>
+										<th key="t-country"></th>
+										<th>@(isAr ? Model.Personel_Data.Country2.Country_Name_AR : Model.Personel_Data.Country2.Country_Name_EN)</th>
+									</tr>
 									<tr>
 										<th key="t-postal"></th>
 										<th class="en-font">@Model.Personel_Data.Postal_Code</th>
