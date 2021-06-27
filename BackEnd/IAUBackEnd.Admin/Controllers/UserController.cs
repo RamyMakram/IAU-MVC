@@ -182,7 +182,8 @@ namespace IAUBackEnd.Admin.Controllers
 						q.IS_Active,
 						q.Job_ID,
 						q.Job.User_Permissions_Type_Name_AR,
-						q.Job.User_Permissions_Type_Name_EN
+						q.Job.User_Permissions_Type_Name_EN,
+						q.UnitID
 					})
 					.FirstOrDefault();
 				return Ok(new ResponseClass
@@ -212,6 +213,7 @@ namespace IAUBackEnd.Admin.Controllers
 				data.User_Name = users.User_Name;
 				data.User_Password = users.User_Password;
 				data.Job_ID = users.Job_ID;
+				data.UnitID = users.UnitID;
 				p.SaveChanges();
 				return Ok(new ResponseClass
 				{

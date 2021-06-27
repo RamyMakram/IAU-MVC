@@ -466,7 +466,7 @@ function HandelDragAndDrop(files) {
 	if (inquiry) {
 		let sum = 0;
 		//$('#filesNameDrop').html("");
-		DropedFile = files;
+		//DropedFile = files;
 		if (Math.floor((sum / 1024) / 1024 > 20)) {
 			alert("max files size 20MB")
 		} else {
