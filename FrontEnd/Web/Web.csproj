@@ -277,6 +277,16 @@
     <Content Include="Design\img\MousLogo.png" />
     <Content Include="Design\img\MousLogo2.png" />
     <Content Include="Design\img\newrequest.png" />
+    <Content Include="Design\img\Picture1.jpg" />
+    <Content Include="Design\img\Picture10.png" />
+    <Content Include="Design\img\Picture2.png" />
+    <Content Include="Design\img\Picture3.png" />
+    <Content Include="Design\img\Picture4.jpg" />
+    <Content Include="Design\img\Picture5.png" />
+    <Content Include="Design\img\Picture6.png" />
+    <Content Include="Design\img\Picture7.jpg" />
+    <Content Include="Design\img\Picture8.png" />
+    <Content Include="Design\img\Picture9.png" />
     <Content Include="Design\img\reader.png" />
     <Content Include="Design\img\spinner1.gif" />
     <Content Include="Design\img\VisionLogo.png" />

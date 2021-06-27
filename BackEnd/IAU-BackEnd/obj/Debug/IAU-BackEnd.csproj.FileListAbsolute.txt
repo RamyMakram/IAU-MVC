@@ -119,7 +119,6 @@ C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\System.Threading.Tasks.Ex
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\IAU.DTO.pdb
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\System.Diagnostics.DiagnosticSource.xml
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\System.Threading.Tasks.Extensions.xml
-C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.csprojAssemblyReference.cache
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.csproj.CoreCompileInputs.cache
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.csproj.CopyComplete
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.dll
@@ -640,3 +639,8 @@ F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd
 F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.csproj.CopyComplete
 F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.dll
 F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.pdb
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe.config
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe.conico
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.ico
+C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.csproj.AssemblyReference.cache
