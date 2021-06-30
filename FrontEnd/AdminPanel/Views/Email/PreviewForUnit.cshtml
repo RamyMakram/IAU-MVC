@@ -600,6 +600,7 @@
 @using (Html.BeginForm("CloseComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
 {
 	@Html.Hidden("RequestIID", Model.Request_Data_ID)
+	<input type="text" name="Comment" id="close-comment" />
 	<button id="xx-cancelRequest" type="submit"></button>
 }
 <!-- JAVASCRIPT -->
@@ -647,6 +648,7 @@
 			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
 		}).then(function (result) {
 			if (result.value) {
+				$('#close-comment').val($('.note-editable.card-block').html())
 				$('#xx-cancelRequest').click()
 			}
 		});

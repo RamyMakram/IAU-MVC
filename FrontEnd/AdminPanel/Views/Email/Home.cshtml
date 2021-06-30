@@ -172,10 +172,12 @@
 		window.location.href = url;
 	}
 	$('#mainCheck').on('click', function () {
-		console.log(this.checked)
 		this.checked ? $('.selectbox-request').prop('checked', true) : $('.selectbox-request').prop('checked', false);
 
 	})
+	$('.selectbox-request').on('click', function () {
+		event.stopPropagation()
+	});
 </script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
@@ -210,8 +212,3 @@
 
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
-<script>
-	$('.paginate_button.page-item a').on('click', function () {
-		getLanguage()
-	})
-</script>

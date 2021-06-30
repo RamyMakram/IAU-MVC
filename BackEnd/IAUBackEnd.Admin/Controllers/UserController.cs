@@ -51,11 +51,11 @@ namespace IAUBackEnd.Admin.Controllers
 			try
 			{
 				var date = Helper.GetDate();
-				var data = p.Users.FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate > date);
+				var data = p.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate > date);
 				return Ok(new ResponseClass
 				{
 					success = true,
-					result = data.User_ID
+					result = new { data.User_ID, EN_Top = "Hello " + data.Units.Units_Name_EN + " ," + data.User_Name, AR_Top = "مرحبا " + data.Units.Units_Name_AR + " ," + data.User_Name }
 				});
 			}
 			catch (Exception ee)

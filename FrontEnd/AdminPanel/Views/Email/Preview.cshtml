@@ -313,7 +313,12 @@
 									</tr>
 									<tr>
 										<th key="t-Provider"></th>
-										<th>@((ViewBag.Units as IEnumerable<SelectListItem>).First(q => q.Value == Model.Unit_ID.ToString()).Text)</th>
+										<th>
+											@{
+												var data = (ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>).First(q => q.Units_ID == Model.Unit_ID);
+											}
+											@(isAr ? data.Units_Name_AR : data.Units_Name_EN)
+										</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-personalData"></th>
@@ -487,7 +492,12 @@
 										<div class="col-4">
 											<div class="form-group">
 												<label key="t-Provider" class="control-label">مقدم الخدمة</label>
-												@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "GetCode()", @name = "unit", @id = "UnitsDataSelect", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+												<select class="select2 form-control" onchange="GetCode()" name="Unit_ID" id="UnitsDataSelect" dir="@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")">
+													@foreach (var i in ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>)
+													{
+														<option value="@i.Units_ID" @(i.Units_ID == Model.Unit_ID ? "selected" : "")>@(isAr ? i.Units_Name_AR : i.Units_Name_EN)</option>
+													}
+												</select>
 											</div>
 											<div class="form-group">
 												<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
@@ -774,7 +784,7 @@
 	<script>
 		$('#location').val(@(Model.Units.Units_Location_ID));
 		$($('#location').parent()).children("span").children("span").children("span").children("span:nth-of-type(1)").text($('#location option:selected').text())
-		LocChange(@(Model.Units.Units_Location_ID))
+		LocChange(@(Model.Units.Units_Location_ID),true)
 		$('#sa-encode').click(function () {
 			Swal.fire({
 				title:"@(isAr ? "هل انت متاكد من تكويد هذا الطلب؟" : "Are you sure To Codeing this request?")",
@@ -814,8 +824,8 @@
 	}
 	function Level(id) {
 		document.getElementsByClassName('Genratedcode')[0].value = $("[name='source']").val() ? "1" : "2"
-	}
-	function LocChange(id) {
+		}
+		function LocChange(id, init = false) {
 		$.ajax({
 			url: "/Email/GetBuildings?ID=" + id, method: "GET", type: 'json', success: function (x) {
 				let data = JSON.parse(x);
@@ -826,6 +836,7 @@
 						$('#Building').append(`<option ${BuildNum==e?'selected':''} value="${e}">${e}</option>`);
 					})
 				}
+				if(!init)
 				GetUnots()
 			}
 		})
@@ -849,7 +860,7 @@
 
 	}
 	function GetCode() {
-		if ($('#UnitsDataSelect').val() != null) {
+		if ($('#UnitsDataSelect option:selected').val() != null) {
 			$.ajax({
 				url: `/Email/GetCode?RequestIID=${$('#RequestIID').val()}&IsTwasul_OC=${$("[name='IsTwasul_OC']").val()}&Service_Type_ID=${$('#ServiceType').val()}&Request_Type_ID=${$('#ReqestType').val()}&locations=${$('#location').val()}&BuildingSelect=${$('#Building').val()}&Unit_ID=${$('#UnitsDataSelect').val()}&type=c`, method: "GET", type: 'json', success: function (x) {
 					let Code = JSON.parse(x)["result"].split('');

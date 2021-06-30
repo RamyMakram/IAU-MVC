@@ -63,9 +63,9 @@ namespace AdminPanel.Controllers
 				res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 				var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
 				if (isar)
-					ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_AR");
+					ViewBag.Units = Units;
 				else
-					ViewBag.Units = new SelectList(Units, "Units_ID", "Units_Name_EN");
+					ViewBag.Units = Units;
 				if (IsMostafid.HasValue && IsMostafid.Value)
 				{
 					if ((RequestData.TempCode == "" || RequestData.TempCode == null))
@@ -143,9 +143,9 @@ namespace AdminPanel.Controllers
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
-				return RedirectToAction("Home");
-			else
 				return RedirectToAction("Preview", new { id = RequestIID });
+			else
+				return RedirectToAction("Home");
 		}
 		[HttpPost, ValidateInput(false)]
 		public ActionResult Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected, string MosComment)
@@ -176,9 +176,9 @@ namespace AdminPanel.Controllers
 				return RedirectToAction("Preview", new { id = RequestIID });
 		}
 		[HttpPost]
-		public ActionResult CloseComment(int RequestIID)
+		public ActionResult CloseComment(int RequestIID, string Comment)
 		{
-			var Data = APIHandeling.Post($"Request/AddComment?UserID={Request.Cookies["u"].Value}&RequestID={RequestIID}&CommentType=0", "No Replay");
+			var Data = APIHandeling.Post($"Request/AddComment?UserID={Request.Cookies["u"].Value}&RequestID={RequestIID}&CommentType=0", Comment);
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)

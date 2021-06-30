@@ -29,7 +29,7 @@ namespace IAUBackEnd.Admin.Controllers
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 			if (Unit.IS_Mostafid)
 			{
-				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.CommentDate != null && w.Comment != "" && w.Comment != null) == q.RequestTransaction.Count)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
+				var data = p.Request_Data.Where(q => q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.Count(w => w.CommentDate != null && w.Comment != "" && w.Comment != null) == q.RequestTransaction.Count)).Select(q => new { Required_Fields_Notes = q.RequestTransaction.Count() == 0 ? q.Required_Fields_Notes : q.RequestTransaction.OrderByDescending(s => s.CommentDate).FirstOrDefault().Comment, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
 				return Ok(new ResponseClass() { success = true, result = data });
 			}
 			else
@@ -201,7 +201,7 @@ namespace IAUBackEnd.Admin.Controllers
 				var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
 				string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 				WebSocketManager.SendToMulti(MostafidUsers, message);
-				message = @"عزيزي المستفيد ، \n تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعه";
+				message = @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعه";
 				SendSMS(model.Mobile, message);
 				transaction.Commit();
 				return Ok(new
@@ -263,7 +263,7 @@ namespace IAUBackEnd.Admin.Controllers
 					req.TempCode = Code;
 					req.GenratedDate = Helper.GetDate();
 					p.SaveChanges();
-					string message = $@"عزيزي المستفيد,\n :نفيدكم بأن كود الطلب الخاص بكم هو {Code}\n برجاء استخدامة في حالة الاستعلام";
+					string message = $@"عزيزي المستفيد, :نفيدكم بأن كود الطلب الخاص بكم هو {Code} برجاء استخدامة في حالة الاستعلام";
 					_ = SendSMS(req.Personel_Data.Mobile, message);
 				}
 				else
@@ -348,7 +348,7 @@ namespace IAUBackEnd.Admin.Controllers
 			{
 				sendeddata.Request_State_ID = 5;
 				p.SaveChanges();
-				string message = $@"عزيزي المستفيد \n تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate}";
+				string message = $@"عزيزي المستفيد , تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate}";
 				_ = SendSMS(sendeddata.Personel_Data.Mobile, message);
 				return Ok(new ResponseClass() { success = true });
 			}
