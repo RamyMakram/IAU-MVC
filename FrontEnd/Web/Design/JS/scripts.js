@@ -39,6 +39,7 @@ let type = []
 let titles = []
 let doctype = []
 $(document).ready(function () {
+	
 	let data = null;
 	let cook = document.cookie.split(';');
 	cook.forEach(i => {
@@ -104,6 +105,12 @@ $(document).ready(function () {
 			location.href = location.href.split("?")[0]
 		setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 
+	}
+	if (document.body.offsetWidth < 767) {
+		$("#Service_Type_Id img").removeAttr("data-bs-toggle");
+		$("#Service_Type_Id img").removeAttr("data-bs-trigger");
+		$("#Service_Type_Id img").removeAttr("data-bs-original-title");
+		$("#Service_Type_Id img").removeAttr("aria-label");
 	}
 });
 function reIntializeReType() {
