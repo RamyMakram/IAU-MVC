@@ -263,7 +263,7 @@ var User = "";
 (function ($) {
 
 	init();
-	
+
 	console.log("User IS " + User)
 	function init() {
 		try {
@@ -324,7 +324,12 @@ var User = "";
 				let data = JSON.parse(x)
 				console.log(x, data["result"])
 				var count = document.getElementById('NotficationsCount')
-				count.innerText = data["result"];
+				debugger
+				if (data["result"] != 0)
+					count.innerText = data["result"];
+
+				else
+					count.style.display = "none";
 				setTimeout(function () {
 					document.getElementById('LoadingDiv').style.display = 'none';
 					WebSocketTest();
