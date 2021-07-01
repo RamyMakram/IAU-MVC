@@ -35,9 +35,16 @@ namespace AdminPanel.Controllers
 				else
 				{
 					var data = JObject.Parse(lst.result.ToString());
-					//ViewData["Permissions"] = data;
-					TempData["Permissions"] = data["perm"].Values<string>().ToArray<string>();
+					var Permissions = data["perm"].Values<string>().ToArray<string>();
+					TempData["Permissions"] = Permissions;
 					TempData["IsMostafid"] = data["IS_Mostafid"].Value<bool>();
+					var RequestPage = Request.Url.AbsolutePath.Split('/')[1];
+					if (RequestPage != "" && RequestPage != "Home" && RequestPage != "Email" && RequestPage != "SendedRequests")
+					{
+						var PerName = Models.Privilges.PagesPriviliges.FirstOrDefault(q => q.path == RequestPage);
+						if (PerName == null || !Permissions.Contains(PerName.Name))
+							context.Result = RedirectToAction("NotPermited", "Error");
+					}
 				}
 			}
 			else
