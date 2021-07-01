@@ -38,12 +38,36 @@ namespace AdminPanel.Controllers
 					var Permissions = data["perm"].Values<string>().ToArray<string>();
 					TempData["Permissions"] = Permissions;
 					TempData["IsMostafid"] = data["IS_Mostafid"].Value<bool>();
-					var RequestPage = Request.Url.AbsolutePath.Split('/')[1];
+					var Url = Request.Url.AbsolutePath.Split('/');
+					var RequestPage = Url[1];
 					if (RequestPage != "" && RequestPage != "Home" && RequestPage != "Email" && RequestPage != "SendedRequests")
 					{
 						var PerName = Models.Privilges.PagesPriviliges.FirstOrDefault(q => q.path == RequestPage);
 						if (PerName == null || !Permissions.Contains(PerName.Name))
 							context.Result = RedirectToAction("NotPermited", "Error");
+						if (Url.Length > 3)
+						{
+							RequestPage = Url[2].ToLower();
+							switch (RequestPage)
+							{
+								case "active":
+								case "deactive":
+									if (!Permissions.Contains("Active or Deactive Item"))
+										context.Result = RedirectToAction("NotPermited", "Error");
+									break;
+								case "create":
+									if (!Permissions.Contains("Add New Item"))
+										context.Result = RedirectToAction("NotPermited", "Error");
+									break;
+								case "edit":
+									if (!Permissions.Contains("Edit Item"))
+										context.Result = RedirectToAction("NotPermited", "Error");
+									break;
+								default:
+									break;
+							}
+						}
+
 					}
 				}
 			}
