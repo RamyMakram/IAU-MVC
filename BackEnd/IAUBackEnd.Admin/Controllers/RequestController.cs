@@ -376,9 +376,31 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 
 		[HttpPost]
+		public async Task<IHttpActionResult> ArchiveRequests(int UserID, [FromBody] string Requests)
+		{
+			var requests = JsonConvert.DeserializeObject<int[]>(Requests);
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			if (Unit.IS_Mostafid)
+			{
+				foreach (var i in requests)
+				{
+					Request_Data sendeddata = p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == i);
+					if (sendeddata.Request_State_ID == 1)
+					{
+						sendeddata.Request_State_ID = 5;
+						sendeddata.Is_Archived = true;
+					}
+				}
+				p.SaveChanges();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false });
+		}
+
+		[HttpPost]
 		public async Task<IHttpActionResult> CloseRequest(int UserID, int RequestID)
 		{
-			Request_Data sendeddata = p.Request_Data.Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
+			Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 
 			if (Unit.IS_Mostafid && (sendeddata.Request_State_ID != 2))
@@ -387,7 +409,8 @@ namespace IAUBackEnd.Admin.Controllers
 				sendeddata.Is_Archived = true;
 				p.SaveChanges();
 				string message = $@"عزيزي المستفيد , تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate}";
-				_ = SendSMS(sendeddata.Personel_Data.Mobile, message);
+				if (sendeddata.RequestTransaction.Count != 0)
+					_ = SendSMS(sendeddata.Personel_Data.Mobile, message);
 				return Ok(new ResponseClass() { success = true });
 			}
 			return Ok(new ResponseClass() { success = false });

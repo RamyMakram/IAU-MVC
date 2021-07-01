@@ -198,5 +198,14 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("Preview", new { id = RequestIID });
 		}
+
+		[HttpPost]
+		public ActionResult Archive(string requests)
+		{
+			var Data = APIHandeling.Post($"Request/ArchiveRequests?UserID={Request.Cookies["u"].Value}", requests);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return RedirectToAction("Home");
+		}
 	}
 }

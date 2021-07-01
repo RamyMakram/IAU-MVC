@@ -12,6 +12,8 @@
 <!-- DataTables -->
 <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <!-- Responsive datatable examples -->
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <style>
@@ -42,7 +44,7 @@
 </style>
 
 @{
-	var lang = Request.Cookies["lang"].Value;
+	var isAr = Request.Cookies["lang"].Value == "ar";
 }
 
 <div class="row">
@@ -53,7 +55,7 @@
 					<button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center" style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
 						<span key="t-filters"></span><i class="fas fa-caret-down"></i>
 					</button>
-					<button type="button" class="btn btn-primary ">
+					<button type="button" class="btn btn-primary" id="sa-archive">
 						<span key="t-ArchiveSelected">Archive Selected</span>
 					</button>
 				</div>
@@ -72,40 +74,44 @@
 						</tr>
 					</thead>
 					<tbody id="MailList">
-						@foreach (var i in Model)
-						{
-							<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
-								<td><input type="checkbox" class="selectbox-request" id="@i.Request_Data_ID" /></td>
-								<td>@i.Request_Data_ID</td>
-								<td>@(lang == "ar" ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
-								<td>@(lang == "ar" ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
-								<td>
-									@if (i.Personel_Data.IAU_ID_Number != "")
-									{
-										<span key="t-yes"></span>
-									}
-									else
-									{
-										<span key="t-no"></span>
-									}
+						@{
+							var count = 1;
+							foreach (var i in Model)
+							{
+								<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
+									<td class="for-Checkbox"><input type="checkbox" class="selectbox-request check-@i.Request_Data_ID" id="@i.Request_Data_ID" /></td>
+									<td>@count</td>
+									<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+									<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+									<td>
+										@if (i.Personel_Data.IAU_ID_Number != "")
+										{
+											<span key="t-yes"></span>
+										}
+										else
+										{
+											<span key="t-no"></span>
+										}
 
-								</td>
-								<td class="en-font">@(i.Personel_Data.First_Name)</td>
-								<td class="en-font">
-									@(i.CreatedDate.ToString("MM/dd - HH:mm"))
-								</td>
+									</td>
+									<td class="en-font">@(i.Personel_Data.First_Name)</td>
+									<td class="en-font">
+										@(i.CreatedDate.ToString("MM/dd - HH:mm"))
+									</td>
 
-								<td>
-									<div class="dropdown dropbtn">
-										@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
-										<div class="dropdown-content">
-											<div class="p-10">
-												@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
+									<td>
+										<div class="dropdown dropbtn">
+											@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
+											<div class="dropdown-content">
+												<div class="p-10">
+													@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
+												</div>
 											</div>
 										</div>
-									</div>
-								</td>
-							</tr>
+									</td>
+								</tr>
+							}
+							count++;
 						}
 					</tbody>
 				</table>
@@ -125,7 +131,7 @@
 							<option selected value="null" key="t-all">All</option>
 							@foreach (var i in ViewBag.ServiceType)
 							{
-								<option value="@i.Service_Type_ID">@(lang == "ar" ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
+								<option value="@i.Service_Type_ID">@(isAr ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
 							}
 						</select>
 					</div>
@@ -135,7 +141,7 @@
 							<option selected value="null" key="t-all">All</option>
 							@foreach (var i in ViewBag.ReqTypes)
 							{
-								<option value="@i.Request_Type_ID">@(lang == "ar" ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
+								<option value="@i.Request_Type_ID">@(isAr ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
 							}
 						</select>
 					</div>
@@ -175,10 +181,18 @@
 		this.checked ? $('.selectbox-request').prop('checked', true) : $('.selectbox-request').prop('checked', false);
 
 	})
-	$('.selectbox-request').on('click', function () {
+	$('.for-Checkbox').click(function () {
+		$(this).children("input")[0].click();
+	})
+	$('.selectbox-request,.for-Checkbox').on('click', function () {
 		event.stopPropagation()
 	});
 </script>
+@using (Html.BeginForm("Archive", "Email", FormMethod.Post, new { @style = "display:none!important" }))
+{
+	<input type="text" name="requests" id="selected-request" />
+	<button id="xx-confirmRequest" type="submit"></button>
+}
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
 <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
@@ -201,14 +215,31 @@
 <!-- Responsive examples -->
 <script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
 <script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-
 <!-- Datatable init js -->
 <script src="~/assets/js/pages/datatables.init.js"></script>
-
 <script src="~/assets/js/app.js"></script>
 
-
-
-
-<script src="~/assets/js/pdf.js"></script>
-<script src="~/assets/js/pdf.worker.js"></script>
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<script>
+	$('#sa-archive').click(function () {
+		Swal.fire({
+			title:"@(isAr ? "هل انت متاكد من اغلاق هذه الطلبات وارشفتها؟" : "Are you sure To Close and Archive this requests?")",
+			text: "@(isAr?" للمتابعة اضغط موافق":"press Yes")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(isAr?"موافق , اغلق الطلب":"Yes, Close it!")",
+			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
+		}).then(function (result) {
+			if (result.value) {
+				let data = [];
+				([...$('.selectbox-request:checked')]).map(s => { data.push(s.id) })
+				$('#selected-request').val(JSON.stringify(data));
+				$('#xx-confirmRequest').click();
+			}
+		});
+	});
+</script>
