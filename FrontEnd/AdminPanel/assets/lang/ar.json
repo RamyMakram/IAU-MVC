@@ -133,12 +133,13 @@
 	"t-NewComment": "تعليق جديد",
 	"t-RequiredDocs": "الاوراق المطلوبة",
 	"t-SupportiedDocs": "الاوراق الداعمة",
-	"t-close": "اغلاق الطلب",
+	"t-close": "اغلاق الطلب وارشفته",
 	"t-forward": "توجيه الطلب",
 	"t-encode": "تكويد الطلب",
 	"t-preview": "عرض",
 	"t-ConfimRequest": "تم معالجة الطلب",
 	"t-RefuseRequest": "رفض لعدم الاختصاص",
-	"t-MostafidComment": "تعليق مركز رعاية المستفيدين"
+	"t-MostafidComment": "تعليق مركز رعاية المستفيدين",
+	"t-AttachFile": "اضافة"
 
 }

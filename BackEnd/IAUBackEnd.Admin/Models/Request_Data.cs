@@ -37,6 +37,7 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<bool> Readed { get; set; }
         public Nullable<System.DateTime> ReadedDate { get; set; }
         public Nullable<System.DateTime> GenratedDate { get; set; }
+        public bool Is_Archived { get; set; }
     
         public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }

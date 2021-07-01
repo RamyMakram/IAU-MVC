@@ -19,6 +19,7 @@ namespace IAUAdmin.DTO.Entity
 		public bool Readed { get; set; }
 		public string MostafidComment { get; set; }
 		public string Code { get; set; }
+		public bool Is_Reminder { get; set; }
 
 
 		public Nullable<System.DateTime> ReadedDate { get; set; }

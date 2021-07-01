@@ -55,5 +55,16 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("NotFound", "Error");
 		}
+		[HttpPost, ValidateInput(false)]
+		public ActionResult Reminder(int req, string Comment)
+		{
+			var Data = APIHandeling.Post($"Request/AddReminder?UserID={Request.Cookies["u"].Value}&RequestID={req}", Comment);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return RedirectToAction("Preview", new { id = req });
+			else
+				return RedirectToAction("Home");
+		}
 	}
 }

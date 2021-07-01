@@ -537,7 +537,7 @@
 									<button style="display:none;" id="SubmitForwared" type="submit"></button>
 								}
 							}
-							@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+							@if (ShowEncode && ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0))
 							{
 
 								using (Html.BeginForm("CloseRequest", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
@@ -583,11 +583,30 @@
 												<div class="CustomeCarso">
 													@foreach (var i in ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>)
 													{
-														if (i.Comment != "" && i.Comment != null)
+														if (i.MostafidComment != null && i.MostafidComment != "")
+														{
+															count++;
+															<div class="data-Comment" data-id="@count">
+																<div style="display:inline-flex;justify-content:space-between;width:100%">
+																	<h3>
+																		<span key="t-MostafidComment"></span>
+																		@if (i.Is_Reminder)
+																		{
+																			<i class="far fa-bell" style="color:red;padding:0 15px"></i>
+																		}
+																	</h3>
+																	<span>@i.ForwardDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																</div>
+																<div class="text" dir="@(isAr?"rtl":"ltr")">
+																	@Html.Raw(i.MostafidComment)
+																</div>
+															</div>
+														}
+														if (i.Comment != "" && i.Comment != null && i.CommentDate != null)
 														{
 
 															count++;
-															<div class="data-Comment @(count == ViewBag.RequestTransaction.Count ? "active" : "")" data-id="@count">
+															<div class="data-Comment" data-id="@count">
 																<div style="display:inline-flex;justify-content:space-between;width:100%">
 																	<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)</h3>
 																	<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span>
@@ -695,16 +714,16 @@
 			<div class="card">
 				<div class="card-body">
 					@{
-						var syle = "d-flex justify-content-center col-" + (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1 ? (ShowEncode ? 4 : 6) : 6);
+						var syle = "d-flex justify-content-center col-" + ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0 ? (ShowEncode ? 4 : 6) : 6);
 					}
 					<div class="row">
 						<div class="@syle">
 							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" id="sa-encode"><i class="fas fa-sort-amount-down"></i> <span style="margin:0 15px" key="t-encode">1 - تكويد الطلب</span></button>
 						</div>
 						<div class="@syle">
-							<button class="btn btn-primary w-100 actionBtn" @(Model.TempCode != "" && Model.TempCode != null ? "" : "disabled") id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px" key="t-forward">2 -  توجيه الطلب</span></button>
+							<button class="btn btn-primary w-100 actionBtn" @(ShowEncode ? "" : "disabled") id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px" key="t-forward">2 -  توجيه الطلب</span></button>
 						</div>
-						@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+						@if (ShowEncode && ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0))
 						{
 							<div class="@syle justify-content-center d-flex">
 								<button class="btn btn-primary active actionBtn" style="border-radius: .25rem !important;" id="sa-close"><i class="fas fa-check"></i><span style="margin:0 12px;" key="t-close">اغلاق الطلب</span></button>
@@ -764,12 +783,12 @@
 		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
 	})
 </script>
-@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+@if (ShowEncode && ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0))
 {
 	<script>
 		$('#sa-close').click(function () {
 		Swal.fire({
-			title:"@(isAr ? "هل انت متاكد من اغلاق هذا الطلب؟" : "Are you sure To Close this request?")",
+			title:"@(isAr ? "هل انت متاكد من اغلاق هذا الطلب وارشفته؟" : "Are you sure To Close and Archive this request?")",
 			text: "@(isAr?"سيتم ارسال رسالة للمستفيد تفيد بانه تم الانتهاء من الطلب , للمتابعة اضغط موافق":"A message will be sent to the beneficiary stating that the application has been completed and proceeded, press Yes")",
 			icon: "warning",
 			showCancelButton: true,
@@ -908,5 +927,6 @@
 <script>
 	$(document).ready(function () {
 		$('[data-toggle="tooltip"]').tooltip();
+		$('.data-Comment:last').addClass('active')
 	});
 </script>

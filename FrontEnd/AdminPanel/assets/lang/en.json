@@ -131,12 +131,13 @@
 	"t-NewComment": "New Comment",
 	"t-RequiredDocs": "Required Documents",
 	"t-SupportiedDocs": "Supportied Documents",
-	"t-close": "Close Request",
+	"t-close": "Close and Archive Request",
 	"t-forward": "Forward Request",
 	"t-encode": "Encode Request",
 	"t-preview": "Preview",
 	"t-ConfimRequest": "The request has been processed",
 	"t-RefuseRequest": "Refusal for lack of jurisdiction",
-	"t-MostafidComment": "Mostafid Comment"
+	"t-MostafidComment": "Mostafid Comment",
+	"t-AttachFile": "Attach"
 
 }

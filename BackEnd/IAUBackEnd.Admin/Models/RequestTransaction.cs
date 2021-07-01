@@ -27,6 +27,7 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<int> CommentType { get; set; }
         public Nullable<System.DateTime> CommentDate { get; set; }
         public string Code { get; set; }
+        public bool Is_Reminder { get; set; }
     
         public virtual Units Units { get; set; }
         public virtual Units Units1 { get; set; }

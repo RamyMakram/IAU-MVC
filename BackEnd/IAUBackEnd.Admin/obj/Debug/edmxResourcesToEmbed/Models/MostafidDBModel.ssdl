@@ -266,6 +266,7 @@
     <Property Name="Readed" Type="bit" />
     <Property Name="ReadedDate" Type="datetime" />
     <Property Name="GenratedDate" Type="datetime" />
+    <Property Name="Is_Archived" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Request_File">
     <Key>
@@ -323,6 +324,7 @@
     <Property Name="MostafidComment" Type="nvarchar(max)" />
     <Property Name="CommentDate" Type="datetime" />
     <Property Name="Code" Type="nvarchar" MaxLength="13" />
+    <Property Name="Is_Reminder" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Required_Documents">
     <Key>
