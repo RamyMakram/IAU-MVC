@@ -797,7 +797,8 @@ nav {
     height: 26px;
     color: #b73559;
     font-weight: bold;
-    font-size: 21px;
+    font-size: 18px;
+    padding: 0px 0px;
 }
 
 .containt2 .row .col-md-12:nth-of-type(3) label {

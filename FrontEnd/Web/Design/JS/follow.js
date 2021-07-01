@@ -17,7 +17,7 @@ function GetCookie() {
     return cookieValue;
 }
 
-$(".containt2 input.search").click(function(element) {
+$(".containt2 input.search").click(function (element) {
     if (!$(element.currentTarget).val()) {
         $(".containt2 input.search").each(element => {
             if (!$(".containt2 input.search:eq(" + element + ")").val()) {
@@ -27,14 +27,23 @@ $(".containt2 input.search").click(function(element) {
         });
     }
 });
+let inputLocatin;
+$(".containt2 input.search").keyup(function (element) {
 
-$(".containt2 input.search").keyup(function(element) {
-    $(".containt2 input.search").each(element => {
-        if (!$(".containt2 input.search:eq(" + element + ")").val()) {
-            $(".containt2 input.search:eq(" + element + ")").focus();
+    $(".containt2 input.search").each(elementCount => {
+        if (!$(".containt2 input.search:eq(" + elementCount + ")").val()) {
+            $(".containt2 input.search:eq(" + elementCount + ")").focus();
+            inputLocatin = elementCount;
             return false;
         }
     });
+
+    if (element.key == "Backspace") {
+        if (inputLocatin > 0) {
+            $(".containt2 input.search:eq(" + inputLocatin-- + ")").val("");
+            $(".containt2 input.search:eq(" + inputLocatin-- + ")").focus();
+        }
+    }
 
     if (element.key == "Enter") {
         show();
@@ -65,7 +74,7 @@ function show() {
                 requestCode
             },
             method: "Post",
-            success: function(result) {
+            success: function (result) {
                 let data = JSON.parse(result);
                 if (data.success) {
                     if (data.result == null) {
