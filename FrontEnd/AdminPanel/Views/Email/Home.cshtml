@@ -127,7 +127,7 @@
 				<div class="row w-100 h-100 m-0">
 					<div class="col-12 form-group">
 						<label key="t-mainservice" class="control-label"></label>
-						<select class="form-control select2">
+						<select id="Filter-ST" class="form-control select2">
 							<option selected value="null" key="t-all">All</option>
 							@foreach (var i in ViewBag.ServiceType)
 							{
@@ -137,7 +137,7 @@
 					</div>
 					<div class="col-12 form-group">
 						<label key="t-request-type" class="control-label"></label>
-						<select class="form-control select2">
+						<select id="Filter-RT" class="form-control select2">
 							<option selected value="null" key="t-all">All</option>
 							@foreach (var i in ViewBag.ReqTypes)
 							{
@@ -147,7 +147,7 @@
 					</div>
 					<div class="col-12 form-group">
 						<label key="t-IAUAff" class="control-label"></label>
-						<select class="form-control select2">
+						<select id="Filter-MT" class="form-control select2">
 							<option selected value="0" key="t-no"></option>
 							<option value="1" key="t-yes"></option>
 						</select>
@@ -155,23 +155,53 @@
 					<div class="col-12 d-inline-flex justify-content-around">
 						<div class="form-group">
 							<label class="control-label" key="t-date-from">From</label>
-							<input type="date" class="form-group" />
+							<input id="Filter-DF" type="date" class="form-group en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
 						</div>
 						<div class="form-group">
 							<label class="control-label" key="t-date-to">To</label>
-							<input type="date" class="form-group" />
+							<input id="Filter-DT" type="date" class="form-group en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal" key="t-cancel">Close</button>
-				<button type="button" class="btn btn-primary" key="t-filter">Filter</button>
+				<button type="button" class="btn btn-primary" key="t-filter" id="btn-filter">Filter</button>
 			</div>
 		</div>
 	</div>
 </div>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script>
+	$("#btn-filter").click(function () {
+		var dateOptions = { month: '2-digit', day: '2-digit' };
+		var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
+		$.ajax({
+			url: `/Email/Filter?ST=${$('#Filter-ST').val()}&RT=${$('#Filter-RT').val()}&MT=${$('#Filter-MT').val()}&DF=${$('#Filter-DF').val()}&DT=${$('#Filter-DT').val()}`, processData: false, method: "POST", success: function (d) {
+				let Data = JSON.parse(d);
+				let html = document.getElementsByTagName("tbody")[0]
+				html.innerHTML = "";
+				let count = 1;
+				Data.forEach(received_msg => {
+					html.innerHTML += `
+						<tr onclick="Preview('/Email/Preview/${received_msg["Request_Data_ID"]}')" class="${received_msg["Readed"]?'':'noreaded'}">
+								<td class="sorting_1 dtr-control"><input type="checkbox" class="selectbox-request" id="${received_msg["Request_Data_ID"]}"></td>
+								<td>${count}</td>
+								<td>${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : received_msg["Service_Type"]["Service_Type_Name_EN"])}</td>
+								<td>${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</td>
+								<td><span>${document.querySelector(`option[key='${(received_msg["Personel_Data"]["IAU_ID_Number"] == "" ? "t-no" : "t-yes")}']`).innerText}</span></td>
+								<td class="en-font">${received_msg["Personel_Data"]["First_Name"]}</td>
+								<td class="en-font">${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</td>
+								<td>${(received_msg["Required_Fields_Notes"] == null ? "" : received_msg["Required_Fields_Notes"].substr(0, 400))}</td>
+							</tr>
+						`
+					count++;
+				})
+
+			}
+		})
+	})
+</script>
 
 <script>
 	function Preview(url) {

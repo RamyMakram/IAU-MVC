@@ -15,6 +15,7 @@ using System.Web.Http.Description;
 using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
+using LinqKit;
 using Newtonsoft.Json;
 
 namespace IAUBackEnd.Admin.Controllers
@@ -32,12 +33,64 @@ namespace IAUBackEnd.Admin.Controllers
 				if (Unit.IS_Mostafid)
 				{
 					var data = p.Request_Data.Where(q => !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null)).Select(q => new { Required_Fields_Notes = q.RequestTransaction.Count() == 0 ? q.Required_Fields_Notes : q.RequestTransaction.OrderByDescending(s => s.CommentDate).FirstOrDefault().Comment, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
+					var ss = data.ToList();
 					return Ok(new ResponseClass() { success = true, result = data });
 				}
 				else
 				{
 					var data = p.RequestTransaction.Where(w => !w.Request_Data.Is_Archived && (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, CreatedDate = q.ForwardDate, q.Readed }).OrderByDescending(q => q.CreatedDate);
 					var ss = data.ToList();
+					return Ok(new ResponseClass() { success = true, result = data });
+				}
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass() { success = false, result = ee });
+			}
+		}
+		public async Task<IHttpActionResult> GetFilterdRequests_Data(int? ST, int? RT, int? MT, DateTime? DF, DateTime? DT, int UserID)
+		{
+			try
+			{
+				var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+				if (Unit.IS_Mostafid)
+				{
+					var Pred = PredicateBuilder.New<Request_Data>(q => !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null));
+					if (ST.HasValue)
+						Pred.And(q => q.Service_Type_ID == ST);
+					if (RT.HasValue)
+						Pred.And(q => q.Request_Type_ID == RT);
+					if (MT.HasValue)
+						if (MT == 0)
+							Pred.And(q => q.Personel_Data.IAU_ID_Number == "" || q.Personel_Data.IAU_ID_Number != null);
+						else
+							Pred.And(q => q.Personel_Data.IAU_ID_Number != "" && q.Personel_Data.IAU_ID_Number != null);
+					if (DF.HasValue)
+						Pred.And(q => q.CreatedDate >= DF);
+					if (DT.HasValue)
+						Pred.And(q => q.CreatedDate <= DT);
+
+					var data = p.Request_Data.Where(Pred).Select(q => new { Required_Fields_Notes = q.RequestTransaction.Count() == 0 ? q.Required_Fields_Notes : q.RequestTransaction.OrderByDescending(s => s.CommentDate).FirstOrDefault().Comment, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
+					return Ok(new ResponseClass() { success = true, result = data });
+				}
+				else
+				{
+					var Pred = PredicateBuilder.New<RequestTransaction>(w => !w.Request_Data.Is_Archived && (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5);
+					if (ST.HasValue)
+						Pred.And(q => q.Request_Data.Service_Type_ID == ST);
+					if (RT.HasValue)
+						Pred.And(q => q.Request_Data.Request_Type_ID == RT);
+					if (MT.HasValue)
+						if (MT == 0)
+							Pred.And(q => q.Request_Data.Personel_Data.IAU_ID_Number == "" || q.Request_Data.Personel_Data.IAU_ID_Number != null);
+						else
+							Pred.And(q => q.Request_Data.Personel_Data.IAU_ID_Number != "" && q.Request_Data.Personel_Data.IAU_ID_Number != null);
+					if (DF.HasValue)
+						Pred.And(q => q.Request_Data.CreatedDate >= DF);
+					if (DT.HasValue)
+						Pred.And(q => q.Request_Data.CreatedDate <= DT);
+
+					var data = p.RequestTransaction.Where(Pred).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, CreatedDate = q.ForwardDate, q.Readed }).OrderByDescending(q => q.CreatedDate);
 					return Ok(new ResponseClass() { success = true, result = data });
 				}
 			}
@@ -61,13 +114,89 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass() { success = true, result = data });
 			}
 		}
+		public async Task<IHttpActionResult> GetFilterSendedRequests_Data(int? ST, int? RT, int? MT, DateTime? DF, DateTime? DT, int UserID)
+		{
+			try
+			{
+				var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+				if (Unit.IS_Mostafid)
+				{
+					var Pred = PredicateBuilder.New<Request_Data>(q => !q.Is_Archived && q.Request_State_ID != 5 && q.RequestTransaction.Count() != 0 && (q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == "" || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == null));
+					if (ST.HasValue)
+						Pred.And(q => q.Service_Type_ID == ST);
+					if (RT.HasValue)
+						Pred.And(q => q.Request_Type_ID == RT);
+					if (MT.HasValue)
+						if (MT == 0)
+							Pred.And(q => q.Personel_Data.IAU_ID_Number == "" || q.Personel_Data.IAU_ID_Number != null);
+						else
+							Pred.And(q => q.Personel_Data.IAU_ID_Number != "" && q.Personel_Data.IAU_ID_Number != null);
+					if (DF.HasValue)
+						Pred.And(q => q.CreatedDate >= DF);
+					if (DT.HasValue)
+						Pred.And(q => q.CreatedDate <= DT);
 
+					var data = p.Request_Data.Where(Pred).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
+					return Ok(new ResponseClass() { success = true, result = data });
+				}
+				else
+				{
+					var Pred = PredicateBuilder.New<RequestTransaction>(w => !w.Request_Data.Is_Archived && (w.Comment != "" && w.Comment != null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5);
+					if (ST.HasValue)
+						Pred.And(q => q.Request_Data.Service_Type_ID == ST);
+					if (RT.HasValue)
+						Pred.And(q => q.Request_Data.Request_Type_ID == RT);
+					if (MT.HasValue)
+						if (MT == 0)
+							Pred.And(q => q.Request_Data.Personel_Data.IAU_ID_Number == "" || q.Request_Data.Personel_Data.IAU_ID_Number != null);
+						else
+							Pred.And(q => q.Request_Data.Personel_Data.IAU_ID_Number != "" && q.Request_Data.Personel_Data.IAU_ID_Number != null);
+					if (DF.HasValue)
+						Pred.And(q => q.Request_Data.CreatedDate >= DF);
+					if (DT.HasValue)
+						Pred.And(q => q.Request_Data.CreatedDate <= DT);
+
+					var data = p.RequestTransaction.Where(Pred).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Request_Data.Readed }).Distinct().OrderByDescending(q => q.CreatedDate);
+					return Ok(new ResponseClass() { success = true, result = data });
+				}
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass() { success = false, result = ee });
+			}
+		}
 		public async Task<IHttpActionResult> GetArchivedRequests_Data(int UserID)
 		{
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 			if (Unit.IS_Mostafid)
 			{
 				var data = p.Request_Data.Where(q => q.Is_Archived).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
+				return Ok(new ResponseClass() { success = true, result = data });
+			}
+			return Ok(new ResponseClass() { success = false });
+		}
+
+		public async Task<IHttpActionResult> GetFilterArchivedRequests_Data(int? ST, int? RT, int? MT, DateTime? DF, DateTime? DT, int UserID)
+		{
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			if (Unit.IS_Mostafid)
+			{
+				var Pred = PredicateBuilder.New<Request_Data>(q => q.Is_Archived);
+				if (ST.HasValue)
+					Pred.And(q => q.Service_Type_ID == ST);
+				if (RT.HasValue)
+					Pred.And(q => q.Request_Type_ID == RT);
+				if (MT.HasValue)
+					if (MT == 0)
+						Pred.And(q => q.Personel_Data.IAU_ID_Number == "" || q.Personel_Data.IAU_ID_Number != null);
+					else
+						Pred.And(q => q.Personel_Data.IAU_ID_Number != "" && q.Personel_Data.IAU_ID_Number != null);
+				if (DF.HasValue)
+					Pred.And(q => q.CreatedDate >= DF);
+				if (DT.HasValue)
+					Pred.And(q => q.CreatedDate <= DT);
+
+				var data = p.Request_Data.Where(Pred).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
 				return Ok(new ResponseClass() { success = true, result = data });
 			}
 			return Ok(new ResponseClass() { success = false });
@@ -168,6 +297,7 @@ namespace IAUBackEnd.Admin.Controllers
 			var RequestTransaction = p.RequestTransaction.Include(q => q.Units1).Where(q => q.Request_ID == id);
 			return Ok(new ResponseClass() { success = true, result = RequestTransaction });
 		}
+
 
 		[HttpPost]
 		public async Task<IHttpActionResult> SaveApplicantData()

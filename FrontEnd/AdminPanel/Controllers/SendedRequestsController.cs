@@ -66,5 +66,16 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("Home");
 		}
+		[HttpPost]
+		public JsonResult Filter(int? ST, int? RT, int? MT, DateTime? DT, DateTime? DF)
+		{
+			var Data = APIHandeling.getData($"Request/GetFilterSendedRequests_Data?RT={RT}&ST={ST}&MT={MT}&DF={DF}&DT={DT}&UserID=" + Request.Cookies["u"].Value);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(res.result.ToString());
+			else
+				return Json("");
+		}
 	}
 }

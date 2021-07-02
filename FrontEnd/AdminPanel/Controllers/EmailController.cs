@@ -42,9 +42,6 @@ namespace AdminPanel.Controllers
 		public ActionResult Preview(int id)
 		{
 			var isar = Request.Cookies["lang"].Value == "ar";
-
-
-
 			var Data = APIHandeling.getData($"Request/GetRequest_Data?id={id}&UserID={Request.Cookies["u"].Value}");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var Request_res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -206,6 +203,18 @@ namespace AdminPanel.Controllers
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return RedirectToAction("Home");
+		}
+
+		[HttpPost]
+		public JsonResult Filter(int? ST, int? RT, int? MT, DateTime? DT, DateTime? DF)
+		{
+			var Data = APIHandeling.getData($"Request/GetFilterdRequests_Data?RT={RT}&ST={ST}&MT={MT}&DF={DF}&DT={DT}&UserID=" + Request.Cookies["u"].Value);
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return Json(res.result.ToString());
+			else
+				return Json("");
 		}
 	}
 }
