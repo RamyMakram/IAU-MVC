@@ -136,6 +136,7 @@
 		width: 100%;
 		height: 150px;
 		overflow-x: auto;
+		overflow-y: hidden;
 		flex-direction: column;
 		display: flex !important;
 	}
@@ -150,8 +151,8 @@
 			}
 
 	.actionBtn {
-		height: 70px;
-		width: 50% !important;
+		height: 52px;
+		width: 60% !important;
 		font-weight: bold;
 	}
 
@@ -313,7 +314,12 @@
 									</tr>
 									<tr>
 										<th key="t-Provider"></th>
-										<th>@((ViewBag.Units as IEnumerable<SelectListItem>).First(q => q.Value == Model.Unit_ID.ToString()).Text)</th>
+										<th>
+											@{
+												var data = (ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>).First(q => q.Units_ID == Model.Unit_ID);
+											}
+											@(isAr ? data.Units_Name_AR : data.Units_Name_EN)
+										</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-personalData"></th>
@@ -412,7 +418,16 @@
 							<div class="col-12">
 								<div class="row">
 									@*<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>*@
-									<div class="@(ShowStaticCode?"col-12":"col-9")" style="display:inline-flex;@(ShowStaticCode?"justify-content: center;":"justify-content: flex-start;")" id="CodeGenrateDiv">
+									@if (!ShowStaticCode && Model.GenratedDate != null)
+									{
+										<div class="col-2" style="justify-content: space-between;align-items: center;display: flex;">
+											<div class="form-group">
+												<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
+												<input name="ExpectedDate" dir="@(isAr ? "rtl" : "ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Egypt Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+											</div>
+										</div>
+									}
+									<div class="@(ShowStaticCode?"col-12":"col-8")" style="display:inline-flex;@(Model.GenratedDate != null?"justify-content: center;":"justify-content: flex-start;")" id="CodeGenrateDiv">
 										@if (ShowStaticCode)
 										{
 											<input class="form-control Genratedcode en-font" value="1" readonly disabled />
@@ -429,18 +444,14 @@
 											}
 										}
 									</div>
-									<div class="col-3" style="justify-content: space-between;align-items: center;display: flex;">
-										@if (!ShowStaticCode && Model.GenratedDate != null)
-										{
+									@if (!ShowStaticCode && Model.GenratedDate != null)
+									{
+										<div class="col-2" style="justify-content: space-between;align-items: center;display: flex;">
 											<span style="direction:ltr;padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
 												@(Model.GenratedDate.Value.ToString("dd MMM HH:mm"))
 											</span>
-											<div class="form-group">
-												<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
-												<input name="ExpectedDate" dir="@(isAr ? "rtl" : "ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Egypt Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
-											</div>
-										}
-									</div>
+										</div>
+									}
 								</div>
 							</div>
 
@@ -487,7 +498,12 @@
 										<div class="col-4">
 											<div class="form-group">
 												<label key="t-Provider" class="control-label">مقدم الخدمة</label>
-												@Html.DropDownListFor(q => q.Unit_ID, ViewBag.Units as IEnumerable<SelectListItem>, new { @class = "select2 form-control", @onchange = "GetCode()", @name = "unit", @id = "UnitsDataSelect", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+												<select class="select2 form-control" onchange="GetCode()" name="Unit_ID" id="UnitsDataSelect" dir="@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")">
+													@foreach (var i in ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>)
+													{
+														<option value="@i.Units_ID" @(i.Units_ID == Model.Unit_ID ? "selected" : "")>@(isAr ? i.Units_Name_AR : i.Units_Name_EN)</option>
+													}
+												</select>
 											</div>
 											<div class="form-group">
 												<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
@@ -521,7 +537,7 @@
 									<button style="display:none;" id="SubmitForwared" type="submit"></button>
 								}
 							}
-							@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+							@if (ShowEncode && ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0))
 							{
 
 								using (Html.BeginForm("CloseRequest", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
@@ -567,11 +583,30 @@
 												<div class="CustomeCarso">
 													@foreach (var i in ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>)
 													{
-														if (i.Comment != "" && i.Comment != null)
+														if (i.MostafidComment != null && i.MostafidComment != "")
+														{
+															count++;
+															<div class="data-Comment" data-id="@count">
+																<div style="display:inline-flex;justify-content:space-between;width:100%">
+																	<h3>
+																		<span key="t-MostafidComment"></span>
+																		@if (i.Is_Reminder)
+																		{
+																			<i class="far fa-bell" style="color:red;padding:0 15px"></i>
+																		}
+																	</h3>
+																	<span>@i.ForwardDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																</div>
+																<div class="text" dir="@(isAr?"rtl":"ltr")">
+																	@Html.Raw(i.MostafidComment)
+																</div>
+															</div>
+														}
+														if (i.Comment != "" && i.Comment != null && i.CommentDate != null)
 														{
 
 															count++;
-															<div class="data-Comment @(count == ViewBag.RequestTransaction.Count ? "active" : "")" data-id="@count">
+															<div class="data-Comment" data-id="@count">
 																<div style="display:inline-flex;justify-content:space-between;width:100%">
 																	<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)</h3>
 																	<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span>
@@ -644,7 +679,7 @@
 									{
 										<div class="col-3">
 											<div class="card w-100">
-												<i class="fas fa-file" data-toggle="tooltip" title="@i.File_Name" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
+												<i class="fas fa-file" data-toggle="tooltip" title="@i.File_Name" style="text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
 												<div class="FileTitle row">
 													<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
 												</div>
@@ -655,11 +690,12 @@
 										</div>
 									}
 								}
-								<div class="col-3">
-									<div class="card" style="height: 92px;border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
-										<span>
-											<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green"></i>
-										</span>
+								<div class="col-3" style="border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
+									<div class="card w-100">
+										<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green;text-align: center;justify-self: center;font-size: 48px;margin-bottom: 20px;"></i>
+										<div class="py-2 text-center">
+											<a class="font-weight-medium" key="t-AttachFile">Attach File</a>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -678,19 +714,19 @@
 			<div class="card">
 				<div class="card-body">
 					@{
-						var syle = "d-flex justify-content-center col-" + (MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1 ? (ShowEncode ? 4 : 6) : 6);
+						var syle = "d-flex justify-content-center col-" + ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0 ? (ShowEncode ? 4 : 6) : 6);
 					}
 					<div class="row">
 						<div class="@syle">
 							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" id="sa-encode"><i class="fas fa-sort-amount-down"></i> <span style="margin:0 15px" key="t-encode">1 - تكويد الطلب</span></button>
 						</div>
 						<div class="@syle">
-							<button class="btn btn-primary w-100 actionBtn" @(Model.TempCode != "" && Model.TempCode != null ? "" : "disabled") id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px" key="t-forward">2 -  توجيه الطلب</span></button>
+							<button class="btn btn-primary w-100 actionBtn" @(ShowEncode ? "" : "disabled") id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px" key="t-forward">2 -  توجيه الطلب</span></button>
 						</div>
-						@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+						@if (ShowEncode && ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0))
 						{
 							<div class="@syle justify-content-center d-flex">
-								<button class="btn btn-danger actionBtn" id="sa-close"><i class="fas fa-times-circle"></i><span style="margin:0 12px;" key="t-close">اغلاق الطلب</span></button>
+								<button class="btn btn-primary active actionBtn" style="border-radius: .25rem !important;" id="sa-close"><i class="fas fa-check"></i><span style="margin:0 12px;" key="t-close">اغلاق الطلب</span></button>
 							</div>
 						}
 					</div>
@@ -747,12 +783,12 @@
 		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
 	})
 </script>
-@if (ShowEncode && MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1)
+@if (ShowEncode && ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0))
 {
 	<script>
 		$('#sa-close').click(function () {
 		Swal.fire({
-			title:"@(isAr ? "هل انت متاكد من اغلاق هذا الطلب؟" : "Are you sure To Close this request?")",
+			title:"@(isAr ? "هل انت متاكد من اغلاق هذا الطلب وارشفته؟" : "Are you sure To Close and Archive this request?")",
 			text: "@(isAr?"سيتم ارسال رسالة للمستفيد تفيد بانه تم الانتهاء من الطلب , للمتابعة اضغط موافق":"A message will be sent to the beneficiary stating that the application has been completed and proceeded, press Yes")",
 			icon: "warning",
 			showCancelButton: true,
@@ -774,7 +810,7 @@
 	<script>
 		$('#location').val(@(Model.Units.Units_Location_ID));
 		$($('#location').parent()).children("span").children("span").children("span").children("span:nth-of-type(1)").text($('#location option:selected').text())
-		LocChange(@(Model.Units.Units_Location_ID))
+		LocChange(@(Model.Units.Units_Location_ID),true)
 		$('#sa-encode').click(function () {
 			Swal.fire({
 				title:"@(isAr ? "هل انت متاكد من تكويد هذا الطلب؟" : "Are you sure To Codeing this request?")",
@@ -814,8 +850,8 @@
 	}
 	function Level(id) {
 		document.getElementsByClassName('Genratedcode')[0].value = $("[name='source']").val() ? "1" : "2"
-	}
-	function LocChange(id) {
+		}
+		function LocChange(id, init = false) {
 		$.ajax({
 			url: "/Email/GetBuildings?ID=" + id, method: "GET", type: 'json', success: function (x) {
 				let data = JSON.parse(x);
@@ -826,6 +862,7 @@
 						$('#Building').append(`<option ${BuildNum==e?'selected':''} value="${e}">${e}</option>`);
 					})
 				}
+				if(!init)
 				GetUnots()
 			}
 		})
@@ -849,7 +886,7 @@
 
 	}
 	function GetCode() {
-		if ($('#UnitsDataSelect').val() != null) {
+		if ($('#UnitsDataSelect option:selected').val() != null) {
 			$.ajax({
 				url: `/Email/GetCode?RequestIID=${$('#RequestIID').val()}&IsTwasul_OC=${$("[name='IsTwasul_OC']").val()}&Service_Type_ID=${$('#ServiceType').val()}&Request_Type_ID=${$('#ReqestType').val()}&locations=${$('#location').val()}&BuildingSelect=${$('#Building').val()}&Unit_ID=${$('#UnitsDataSelect').val()}&type=c`, method: "GET", type: 'json', success: function (x) {
 					let Code = JSON.parse(x)["result"].split('');
@@ -890,5 +927,6 @@
 <script>
 	$(document).ready(function () {
 		$('[data-toggle="tooltip"]').tooltip();
+		$('.data-Comment:last').addClass('active')
 	});
 </script>

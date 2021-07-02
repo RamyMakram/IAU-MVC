@@ -99,9 +99,19 @@
 		display: none;
 	}
 
-		.data-Comment.active {
-			display: block;
-		}
+	.constainDocs[dir='rtl'] {
+		border-left: 2px dashed;
+		border-left-color: black;
+	}
+
+	.constainDocs[dir='ltr'] {
+		border-right: 2px dashed;
+		border-right-color: black;
+	}
+
+	.data-Comment.active {
+		display: block;
+	}
 
 	.text {
 		height: 253px;
@@ -120,6 +130,7 @@
 		width: 100%;
 		height: 150px;
 		overflow-x: auto;
+		overflow-y: hidden;
 		flex-direction: column;
 		display: flex !important;
 	}
@@ -267,7 +278,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="mb-3">
-			@*<span style="display:none" id="NONE">@Model.Request_Data_ID</span>*@
+			<span style="display:none" id="NONE">@Model.Request_Data_ID</span>
 			<div class="card">
 				<div class="card-body">
 					<div class="media mb-4 justify-content-center align-content-center  d-inline-flex justify-content-between w-100">
@@ -389,7 +400,7 @@
 							var MostafidComment = (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Last();
 							<div class="col-12">
 								<div class="row">
-									<div class="col-9" style="display:inline-flex" id="CodeGenrateDiv">
+									<div class="col-9" style="display:inline-flex;@(isAr?"justify-content:flex-start":"justify-content:flex-end")" id="CodeGenrateDiv">
 										@foreach (var i in MostafidComment.Code.ToCharArray())
 										{
 											<input class="form-control Genratedcode en-font" value="@i" readonly disabled />
@@ -412,57 +423,78 @@
 					</div>
 				</div>
 			</div>
+			@{
+				var RequestTransaction = ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>;
+				var IsMostafid = (bool)TempData["IsMostafid"];
+
+			}
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
 						<div class="container">
 							<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment"></span><span class="marker"></span></a>
-
-								</li>
-								@if (ViewBag.RequestTransaction.Count != 0)
+								@if (IsMostafid)
 								{
 									<li class="nav-item">
-										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
+										<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment"></span><span class="marker"></span></a>
+
+									</li>
+								}
+								@if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
+								{
+									<li class="nav-item">
+										<a class="nav-link btn btn-primary @(IsMostafid?"":"active")" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
 									</li>
 								}
 							</ul>
 							<div class="tab-content" id="myTabContent">
-								<div class="tab-pane fade show active" id="home-tab2" role="tabpanel" aria-labelledby="home-tab">
-									<div class="col">
-										@{
-
-											if (MostafidComment.MostafidComment != null && MostafidComment.MostafidComment != "")
-											{
-												<div class="MostafidComment">
-													<h3 style="margin-bottom:19px" key="t-MostafidComment">تعليق مركز رعاية المستفيدين</h3>
-													<div class="text" style="height:100px !important" dir="@(isAr?"rtl":"ltr")">
-														@Html.Raw(MostafidComment.MostafidComment)
-													</div>
-												</div>
-											}
-
-										}
-										<div class="summernote">
+								@if (IsMostafid)
+								{
+									<div class="tab-pane fade show active" id="home-tab2" role="tabpanel" aria-labelledby="home-tab">
+										<div class="col-12">
+											<div class="summernote">
+												<p>@(isAr ? "ملاحظه للتذكير\n" : "Note to remember\n"):</p>
+												<p><br /></p>
+											</div>
 										</div>
-
+										<div class="col-12 d-flex justify-content-center mt-3">
+											<button class="btn btn-primary" style="background-color: #4f693a !important;" id="AddNote" key="t-SubmitReminder">add Note</button>
+										</div>
 									</div>
-								</div>
+								}
 								@{
-									if (ViewBag.RequestTransaction.Count != 0)
+									if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
 									{
 										var count = 0;
-										<div class="tab-pane fade" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
+										<div class="tab-pane fade @(IsMostafid?"":"show active")" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
 											<div class="col">
 												<div class="CustomeCarso">
-													@foreach (var i in ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>)
+													@foreach (var i in RequestTransaction)
 													{
-														if (i.Comment != "" && i.Comment != null)
+														if (i.MostafidComment != null && i.MostafidComment != "")
+														{
+															count++;
+															<div class="data-Comment" data-id="@count">
+																<div style="display:inline-flex;justify-content:space-between;width:100%">
+																	<h3>
+																		<span key="t-MostafidComment"></span>
+																		@if (i.Is_Reminder)
+																		{
+																			<i class="far fa-bell" style="color:red;padding:0 15px"></i>
+																		}
+																	</h3>
+																	<span>@i.ForwardDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																</div>
+																<div class="text" dir="@(isAr?"rtl":"ltr")">
+																	@Html.Raw(i.MostafidComment)
+																</div>
+															</div>
+														}
+														if (i.Comment != "" && i.Comment != null && i.CommentDate != null)
 														{
 
 															count++;
-															<div class="data-Comment @(count == ViewBag.RequestTransaction.Count-1 ? "active" : "")" data-id="@count">
+															<div class="data-Comment" data-id="@count">
 																<div style="display:inline-flex;justify-content:space-between;width:100%">
 																	<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)</h3>
 																	<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span>
@@ -507,7 +539,7 @@
 							<p class="card-title-desc" key="t-RequiredDocs">
 								الاوراق المطلوبة
 							</p>
-							<div class="row constainDocs">
+							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
 
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID != null))
 								{
@@ -531,7 +563,7 @@
 							<p class="card-title-desc" key="t-SupportiedDocs">
 								الاوراق الداعمة
 							</p>
-							<div class="row constainDocs">
+							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
 
 								@foreach (var i in Model.Request_File.Where(q => q.RequiredDoc_ID == null))
 								{
@@ -578,20 +610,6 @@
 
 	</div>
 </div>
-@if (false)
-{
-	using (Html.BeginForm("AddComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
-	{
-		@Html.Hidden("RequestIID", Model.Request_Data_ID)
-		<input type="text" name="Comment" id="preview-comment" />
-		<button id="xx-confirmRequest" type="submit"></button>
-	}
-	using (Html.BeginForm("CloseComment", "Email", FormMethod.Post, new { @style = "display:none!important" }))
-	{
-		@Html.Hidden("RequestIID", Model.Request_Data_ID)
-		<button id="xx-cancelRequest" type="submit"></button>
-	}
-}
 <!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 
@@ -623,59 +641,54 @@
 <script src="~/assets/js/pdf.js"></script>
 <script src="~/assets/js/pdf.worker.js"></script>
 
-@{
+@if (IsMostafid)
+{
+	using (Html.BeginForm("Reminder", "SendedRequests", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))
+	{
+		@Html.Hidden("req", Model.Request_Data_ID);
+		@Html.Hidden("Comment", "", new { @id = "comment-reminder" });
+		<button id="submit-reminder" type="submit"></button>
+	}
 	<script>
-	$('#sa-close').click(function () {
-		Swal.fire({
-			title:"@(isAr ? "هل انت متاكد من رفض هذا الطلب؟" : "Are you sure To refuse this request?")",
-			text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
-			icon: "warning",
-			showCancelButton: true,
-			focusConfirm: false,
-			confirmButtonColor: "#34c38f",
-			cancelButtonColor: "#f46a6a",
-			confirmButtonText: "@(isAr?"موافق , ارفض الطلب":"Yes, Resfuse it!")",
-			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
-		}).then(function (result) {
-			if (result.value) {
-				$('#xx-cancelRequest').click()
-			}
-		});
-	});
-	$('#sa-confirm').click(function () {
-		Swal.fire({
-			title:"@(isAr?"هل انت متاكد من تاكيد تعليقك علي هذا الطلب؟" :"Are you sure To Confirm your comment on this request?")",
-			text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
-			icon: "warning",
-			showCancelButton: true,
-			focusConfirm: false,
-			confirmButtonColor: "#34c38f",
-			cancelButtonColor: "#f46a6a",
-			confirmButtonText: "@(isAr?"موافق":"Yes")",
-			cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
-		}).then(function (result) {
-			if (result.value) {
-				$('#preview-comment').val($('.note-editable.card-block').html())
-				$('#xx-confirmRequest').click()
-			}
-		});
-	});
-	</script>
-	<script>
-		let toal = parseInt($('#total-comment').text());
-		let activeComment = parseInt($('#total-comment').text());
-		$('.carNext').on('click', function () {
-			activeComment = ((activeComment++) % toal) + 1;
-			$('#from-comment').text(activeComment)
-			$('.data-Comment').removeClass('active');
-			$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
-		})
-		$('.carPrev').on('click', function () {
-			activeComment = activeComment - 1 == 0 ? toal : activeComment - 1;
-			$('#from-comment').text(activeComment)
-			$('.data-Comment').removeClass('active');
-			$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
-		})
-	</script>
+		$('#AddNote').on('click', function () {
+				Swal.fire({
+					title:"@(isAr?"هل انت متاكد من ارسال تنبية لهذه الفئة؟" :"Are you sure To Send Reminder to this unit?")",
+					text: "@(isAr?"لن تستطيع ارجاع ذلك بعد اتمام العملية!":"You won't be able to revert this!")",
+					icon: "warning",
+					showCancelButton: true,
+					focusConfirm: false,
+					confirmButtonColor: "#34c38f",
+					cancelButtonColor: "#f46a6a",
+					confirmButtonText: "@(isAr?"موافق":"Yes")",
+					cancelButtonText: "@(isAr?"الغاء العملية":"Cancel Process")",
+				}).then(function (result) {
+					if (result.value) {
+						$('#comment-reminder').val($('.note-editable.card-block').html())
+						$('#submit-reminder').click()
+					}
+				});
 
+		})
+	</script>
 }
+<script>
+	let toal = parseInt($('#total-comment').text());
+	let activeComment = parseInt($('#total-comment').text());
+	$('.carNext').on('click', function () {
+		activeComment = ((activeComment++) % toal) + 1;
+		$('#from-comment').text(activeComment)
+		$('.data-Comment').removeClass('active');
+		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+	})
+	$('.carPrev').on('click', function () {
+		activeComment = activeComment - 1 == 0 ? toal : activeComment - 1;
+		$('#from-comment').text(activeComment)
+		$('.data-Comment').removeClass('active');
+		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+	})
+
+	$(document).ready(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+		$('.data-Comment:last').addClass('active')
+	});
+</script>

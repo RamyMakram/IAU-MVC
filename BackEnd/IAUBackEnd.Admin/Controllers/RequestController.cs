@@ -62,6 +62,17 @@ namespace IAUBackEnd.Admin.Controllers
 			}
 		}
 
+		public async Task<IHttpActionResult> GetArchivedRequests_Data(int UserID)
+		{
+			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+			if (Unit.IS_Mostafid)
+			{
+				var data = p.Request_Data.Where(q => q.Is_Archived).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
+				return Ok(new ResponseClass() { success = true, result = data });
+			}
+			return Ok(new ResponseClass() { success = false });
+		}
+
 		public async Task<IHttpActionResult> GetRequestsCount(int UserID)
 		{
 			var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
@@ -129,6 +140,25 @@ namespace IAUBackEnd.Admin.Controllers
 			catch (Exception ee)
 			{
 
+				return Ok(new ResponseClass() { success = false, result = ee });
+			}
+		}
+		public async Task<IHttpActionResult> GetArchivedRequest_Data(int id, int UserID)
+		{
+			try
+			{
+				var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+				if (Unit.IS_Mostafid)
+				{
+					Request_Data request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Is_Archived && q.Request_Data_ID == id);
+					if (request_Data == null)
+						return Ok(new ResponseClass() { success = false });
+					return Ok(new ResponseClass() { success = true, result = request_Data });
+				}
+				return Ok(new ResponseClass() { success = false });
+			}
+			catch (Exception ee)
+			{
 				return Ok(new ResponseClass() { success = false, result = ee });
 			}
 		}

@@ -11,7 +11,7 @@
 					font-weight: bolder !important;
 				}
 
-				.select2-selection__rendered {
+				.select2-selection__rendered, .select2-results__option {
 					direction: rtl;
 				}
 			</style>
@@ -24,7 +24,7 @@
 					font-weight: bolder !important;
 				}
 
-				.select2-selection__rendered {
+				.select2-selection__rendered, .select2-results__option {
 					direction: ltr;
 				}
 			</style>
@@ -161,6 +161,16 @@
 			$('.btn.btn-circle:has(i.fas.fa-plus-circle)').addClass("createNew-link")
 			$('.HeaderOfPage .card-title-desc').attr('key','').text("");
 		})
+			$(document).ready(function () {
+		IntialListener()
+	})
+	function IntialListener() {
+		$('.paginate_button').on('click', function () {
+			console.log("Cloick")
+			getLanguage()
+			IntialListener()
+		})
+	}
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js">
 	</script>

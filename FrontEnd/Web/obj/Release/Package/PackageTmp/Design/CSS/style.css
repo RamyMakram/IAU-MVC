@@ -687,9 +687,8 @@ nav {
         }
 
     #Confirmation button {
-        text-align: center;
         width: 185px;
-        margin: 10px 25px 20px;
+        margin: auto;
         color: #4f693a;
         text-transform: uppercase;
         font-weight: bold;
@@ -772,9 +771,10 @@ nav {
     margin-bottom: 0px;
     margin-left: 150px;
 }
-.ar .containt2 .row .col-md-12:first-of-type p{
-    margin-left:0px;
-    margin-right:150px;
+
+.ar .containt2 .row .col-md-12:first-of-type p {
+    margin-left: 0px;
+    margin-right: 150px;
 }
 
 .containt2 .row .col-md-12:first-of-type div span {
@@ -806,8 +806,9 @@ nav {
     margin-bottom: 20px;
     margin-top: 10px;
 }
-.ar .containt2 .row .col-md-12:nth-of-type(3) label{
-    text-align:right;
+
+.ar .containt2 .row .col-md-12:nth-of-type(3) label {
+    text-align: right;
 }
 
 .containt2 .row .col-md-12:nth-of-type(3) span {
@@ -817,10 +818,11 @@ nav {
     width: 120px;
     display: inline-block;
     font-weight: bold;
-    margin-top:10px;
+    margin-top: 10px;
 }
-.state span{
-    margin-top:0px !important;
+
+.state span {
+    margin-top: 0px !important;
 }
 /*.containt2 .row .col-md-12:nth-of-type(3) .col-md-3:nth-of-type(1) span {
 	width: 30px;
@@ -919,6 +921,14 @@ nav {
     min-width: 430px !important;
 }
 
+.ar .modal-dialog {
+    direction: rtl;
+}
+
+    .ar .modal-dialog .btn-close {
+        direction: ltr;
+        margin-left: 0px;
+    }
 
 input:focus {
     outline: none;
@@ -1196,7 +1206,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 }
 
     .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: 30px !important;
+        left: 27px !important;
     }
 
     .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span {
@@ -1223,12 +1233,12 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     }
 
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: -30px;
-        width: 165%;
+        left: -28px;
+        width: 161%;
     }
 
     .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: 30px !important;
+        left: 28px !important;
     }
 
     nav ul {
@@ -1244,25 +1254,18 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
             text-align: right;
         }
 }
+
 @media (min-width: 1400px) {
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: -41px !important;
-        width: 176% !important;
-    }
-    .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: 41px !important;
-    }
-} 
-@media (min-width:1000px) and (max-width:1200px) {
-    .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: -15px !important;
-        width: 138% !important;
+        left: -38px !important;
+        width: 173% !important;
     }
 
     .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: 15px !important;
+        left: 38px !important;
     }
 }
+
 
 
 @media (max-width: 1200px) {
@@ -1274,9 +1277,10 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     #nav-contact, #nav-lang {
         display: flex !important;
     }
+
     .serial-input > div {
-        display:block;
-        width:100%;
+        display: block;
+        width: 100%;
     }
 
     #div_Follow .row > .col-md-3 {
@@ -1284,7 +1288,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 999px) and (min-width: 767px) {
     .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
         left: 0px !important;
         width: 100% !important;
@@ -1293,9 +1297,29 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
         left: 0px !important;
     }
+
+    .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span {
+        letter-spacing: 0px !important;
+        margin-left: -15px;
+    }
+
+    .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-2 span {
+        margin-right: -14px;
+    }
 }
 
-@media (max-width: 768px) {
+@media (min-width:992px) and (max-width:1200px) {
+    .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
+        left: -15px !important;
+        width: 138% !important;
+    }
+
+    .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
+        left: 15px !important;
+    }
+}
+
+@media (max-width: 767px) {
     nav {
         padding: 0px
     }
@@ -1340,8 +1364,10 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
         margin: auto;
     }
 
-    .modal-content {
-        width: 92%;
+    .modal-dialog {
+        min-width: 50% !important;
+        width: 50%;
+        margin: auto;
     }
 
     #Documents-Inquery #Documents select {
@@ -1386,8 +1412,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     }
 
     #padf {
-        width: 350px !important;
-        margin: 10px -20px !important
+        width: 100% !important;
     }
 
     #Confirmation ol {
@@ -1438,13 +1463,13 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
             height: 113%;
             background-color: #b73559;
             position: relative;
-            left: -200px !important;
+            left: -40% !important;
             width: 6px !important;
             top: -22px !important;
         }
 
     .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: 200px !important;
+        left: 40% !important;
     }
 
     #Documents-Other, #Documents-Inquery {
@@ -1452,7 +1477,8 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     }
 
     #Confirmation-m {
-        padding-left: 20px;
+        width: 100%;
+        margin:auto; 
     }
 
 
@@ -1489,6 +1515,10 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
         margin-left: 0px;
     }
 
+    .ar .containt2 .row .col-md-12:first-of-type p {
+        margin-right: 0px;
+    }
+
     .main-page .btn .col-md-10 {
         width: 80%;
     }
@@ -1496,62 +1526,67 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     .main-page .btn .col-md-2 {
         width: 20%;
     }
-    .main-page img{
+
+    .main-page img {
         margin: 10px 0px !important;
-        width : 100% !important;
+        width: 100% !important;
     }
 
-    .state .border-state{
-        float:left;
-        margin-right:10px
+    .state .border-state {
+        float: left;
+        margin-right: 10px
     }
+
     .state .stat-text-div {
-        margin-top:10px;
+        margin-top: 10px;
         width: 40%;
         float: left;
     }
+
     .ar .state .border-state {
         margin-right: 0px;
         margin-left: 10px
     }
+
     .ar .state .border-state,
     .ar .state .stat-text-div {
         float: right;
     }
 }
+
 @media (max-width: 575px) {
-    .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: -128px !important;
-    }
-
-    #padf {
-        width: 307px !important;
-    }
-
-    .ar .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .col-md-1 span {
-        left: 128px !important;
-    }
 
     #div_Follow .attribute {
         width: 45%;
         float: left;
     }
+
     #div_Follow .row > .col-md-3 {
-        width:100%;
+        width: 100%;
     }
+
     #div_Follow .value {
         width: 55%;
         float: left;
     }
-    
-    
 }
 
 @media (max-width: 330px) {
     #padf {
         width: 226px !important;
     }
-
+    #Request_Type_Id .stick img,
+    #Service_Type_Id .stick img,
+    #start-request .stick img {
+        width: 100% !important;
+    }
+    #Request_Type_Id .stick,
+    #Service_Type_Id .stick,
+    #start-request .stick {
+        height: fit-content !important;
+    }
+  
+ 
 }
 
 @media (max-width: 576px) {
@@ -1559,16 +1594,39 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
         width: 15%
     }
 
+    .modal-dialog {
+        min-width: 85% !important;
+        width: 85%;
+        margin: auto
+    }
+
     #E-forms .col-sm-8 {
         width: 85%
     }
 }
 
-@media (max-width: 370px){
+@media (max-width: 370px) {
     .containt2 .row .col-md-12:nth-of-type(2) input {
         width: 16px;
         font-size: 15px;
         padding: 0px;
+    }
+}
+
+@media (max-width: 1024px) and (min-width:768px) {
+    #personel-data .row .col-md-6 {
+        width: 100%;
+    }
+}
+@media (max-width: 1326px) and (min-width:768px) {
+    .ar #personel-data .row .col-md-6 {
+        width: 100%;
+    }
+}
+@media (max-width: 790px) and (min-width:768px) {
+    .nav-fill .nav-item {
+        width: 100%;
+        margin-bottom: 3px;
     }
 }
 /****************************** Main Page ************************************/
@@ -1591,7 +1649,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
             .main-page .collapse-container > a p {
                 margin: 0px;
                 text-align: left;
-                font-weight:bold;
+                font-weight: bold;
             }
 
     .main-page .New-Idea h3,

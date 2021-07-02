@@ -39,8 +39,8 @@ namespace AdminPanel.Controllers
 					TempData["Permissions"] = Permissions;
 					TempData["IsMostafid"] = data["IS_Mostafid"].Value<bool>();
 					var Url = Request.Url.AbsolutePath.Split('/');
-					var RequestPage = Url[1];
-					if (RequestPage != "" && RequestPage != "Home" && RequestPage != "Email" && RequestPage != "SendedRequests")
+					var RequestPage = Url[1].ToUpper();
+					if (RequestPage != "" && RequestPage != "Home".ToUpper() && RequestPage != "Email".ToUpper() && RequestPage != "SendedRequests".ToUpper() && !((bool)TempData["IsMostafid"] && RequestPage == "ArchivedRequests".ToUpper()))
 					{
 						var PerName = Models.Privilges.PagesPriviliges.FirstOrDefault(q => q.path == RequestPage);
 						if (PerName == null || !Permissions.Contains(PerName.Name))

@@ -166,6 +166,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\User_Session.cs" />
+    <Compile Include="Controllers\ArchivedRequestsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EFormsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
@@ -3095,6 +3096,8 @@
     <Content Include="Views\Email\PreviewForUnit.cshtml" />
     <Content Include="Views\SendedRequests\Home.cshtml" />
     <Content Include="Views\SendedRequests\Preview.cshtml" />
+    <Content Include="Views\ArchivedRequests\Home.cshtml" />
+    <Content Include="Views\ArchivedRequests\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

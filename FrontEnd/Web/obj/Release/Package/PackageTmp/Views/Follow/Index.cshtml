@@ -305,25 +305,27 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Display related requests for this phone </h5>
-                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">@(ViewBag.CookieLang == "ar"? "عرض جميع الطلبات المتعلقه برقم الهاتف": "Display related requests for this phone" )</h5>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger" id="verficationFeedback" style="display:none">
-                    PLZ, Enter Correct Verification Code.
+                    @(ViewBag.CookieLang == "ar"? "من فضلك ادخل رقم الهاتف صحيح": "PLZ, Enter Correct Phone Number." )
+                    
                 </div>
                 <div class="alert alert-danger" id="GenralError" style="display:none">
-                    There Is General Error
+                    @(ViewBag.CookieLang == "ar"? "خطأ عام": "There Is General Error" )
+                    
                 </div>
                 <form>
                     <div class="mb-3 phone-input">
-                        <label for="verficationCode" class="col-form-label">please insert your phone Number</label>
+                        <label for="verficationCode" class="col-form-label"> @(ViewBag.CookieLang == "ar"? "من فضلك ادخل رقم الهاتف": "please insert your phone Number" ) </label>
                         <input type="text" class="form-control" autocomplete="off">
                     </div>
                 </form>
             </div>
             <div class="modal-footer text-center">
-                <button type="button" onclick="" class="btn btn-success" id="Comfirm-Digits">Show</button>
+                <button type="button" onclick="" class="btn btn-success" id="Comfirm-Digits">@(ViewBag.CookieLang == "ar"? "عرض": "Show" )</button>
             </div>
         </div>
     </div>

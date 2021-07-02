@@ -263,7 +263,7 @@ var User = "";
 (function ($) {
 
 	init();
-	
+
 	console.log("User IS " + User)
 	function init() {
 		try {
@@ -324,7 +324,11 @@ var User = "";
 				let data = JSON.parse(x)
 				console.log(x, data["result"])
 				var count = document.getElementById('NotficationsCount')
-				count.innerText = data["result"];
+				if (data["result"] != 0)
+					count.innerText = data["result"];
+
+				else
+					count.style.display = "none";
 				setTimeout(function () {
 					document.getElementById('LoadingDiv').style.display = 'none';
 					WebSocketTest();
@@ -335,8 +339,8 @@ var User = "";
 		function WebSocketTest() {
 			if ("WebSocket" in window) {
 
-				//var ws = new WebSocket("wss://localhost:44344/WSHandler.ashx?Name=" + User);
-				var ws = new WebSocket("wss://mm.iau-bsc.com/WSHandler.ashx?Name=" + User);
+				var ws = new WebSocket("wss://localhost:44344/WSHandler.ashx?Name=" + User);
+				//var ws = new WebSocket("wss://mm.iau-bsc.com/WSHandler.ashx?Name=" + User);
 
 				ws.onopen = function () {
 				};
@@ -351,6 +355,8 @@ var User = "";
 					sound.play();
 					var count = document.getElementById('NotficationsCount')
 					count.innerText = parseInt(count.innerText) + 1
+					count.style.display = "block";
+
 					if (window.location.pathname.split('/')[1] == "Email") {
 						var mailList = document.getElementById('MailList')
 						var html = mailList.innerHTML;

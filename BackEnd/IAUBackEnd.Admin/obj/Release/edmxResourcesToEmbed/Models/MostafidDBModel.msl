@@ -315,6 +315,7 @@
     <EntitySetMapping Name="RequestTransaction">
       <EntityTypeMapping TypeName="MostafidDBModel.RequestTransaction">
         <MappingFragment StoreEntitySet="RequestTransaction">
+          <ScalarProperty Name="Is_Reminder" ColumnName="Is_Reminder" />
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
           <ScalarProperty Name="CommentType" ColumnName="CommentType" />
@@ -521,6 +522,7 @@
     <EntitySetMapping Name="Request_Data">
       <EntityTypeMapping TypeName="MostafidDBModel.Request_Data">
         <MappingFragment StoreEntitySet="Request_Data">
+          <ScalarProperty Name="Is_Archived" ColumnName="Is_Archived" />
           <ScalarProperty Name="GenratedDate" ColumnName="GenratedDate" />
           <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
           <ScalarProperty Name="Readed" ColumnName="Readed" />

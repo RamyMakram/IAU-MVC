@@ -361,27 +361,23 @@ else
 <script src="~/dashboard/assets/js/pages/widgets.js"></script>
 
 <script>
-	var currentUrl = window.location.href;
-	var url = new URL(currentUrl);
-	var phone = url.searchParams.get("phone");
-
-	function order() {
-		//window.location.href = "order.html?phone=" + phone;
-	}
-</script>
-<script>
+	$('.inputs')[0].focus()
 	let thereisrequest = false;
 	$(".inputs").keyup(function () {
-		if (this.value.length == this.maxLength) {
+		var key = event.keyCode || event.charCode;
+		if (key == 8 || key == 46) {
+			this.value = "";
+			$(this).prev('.inputs').focus();
+		}
+		else if (this.value.length == this.maxLength) {
 			this.value = this.value.toUpperCase();
 			if ((this.value.charAt(0) <= 'Z' && this.value.charAt(0) >= 'A') || (this.value.charAt(0) >= '0' && this.value.charAt(0) <= '9')) {
 				$(this).next('.inputs').focus();
 				if ($(this).next('.inputs').length == 0)
 					$('#searchOrder').click();
 			}
-			else
-				this.value = "";
 		}
+
 		if (thereisrequest) {
 			$('.state').removeClass('progress-sucess-state')
 			$("#previewOrder").css("display", "none");
@@ -392,7 +388,6 @@ else
 		let requestCode = "";
 		let controls = $('.inputs');
 		([...controls]).map(e => requestCode += e.value);
-		console.log(requestCode)
 		if (requestCode.length == 13) {
 			$.ajax({
 				url: "/Home/FollowRequest",
@@ -407,6 +402,9 @@ else
 						if (data.result == null) {
 							alert(language == "ar" ? "!كود خاطئ" : "Wrong Code!")
 							$("#div_Follow").css("display", "none");
+							//([...$('.inputs')]).map(s => {
+							//	$(s).val('')
+							//})
 						}
 						else {
 							$(".containt2 .row .col-md-12:nth-of-type(3)").css("display", "block");
@@ -417,6 +415,7 @@ else
 								$('.state' + i).addClass('progress-sucess-state')
 							thereisrequest = true;
 							$("#previewOrder").css("display", "block");
+							
 						}
 					}
 					else {
