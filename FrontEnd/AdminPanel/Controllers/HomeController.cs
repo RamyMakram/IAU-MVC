@@ -17,11 +17,13 @@ namespace AdminPanel.Controllers
 		{
 			if (Request.Cookies["lang"] == null)
 				Response.Cookies.Add(new HttpCookie("lang", "ar"));
-			var Data = APIHandeling.getData("Service_Type/GetActive");
+			var Data = APIHandeling.getData("Statistics/Get");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-			var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
-			ViewBag.ServiceType = Services;
+			var data = JObject.Parse(res.result.ToString());
+			ViewBag.ServiceType = JsonConvert.DeserializeObject<ICollection<GlobalCount>>(data["MostafidCount"].ToString());
+			ViewBag.Stat = data["Stat"].ToString();
+			ViewBag.Locations = JsonConvert.DeserializeObject<ICollection<GlobalCount>>(data["Locations"].ToString());
 			return View();
 		}
 		public ActionResult ChangeLanguage(string lang)

@@ -40,9 +40,9 @@ namespace AdminPanel.Controllers
 					TempData["IsMostafid"] = data["IS_Mostafid"].Value<bool>();
 					var Url = Request.Url.AbsolutePath.Split('/');
 					var RequestPage = Url[1].ToUpper();
-					if (RequestPage != "" && RequestPage != "Home".ToUpper() && RequestPage != "Email".ToUpper() && RequestPage != "SendedRequests".ToUpper() && !((bool)TempData["IsMostafid"] && RequestPage == "ArchivedRequests".ToUpper()))
+					if (RequestPage != "" && RequestPage != "Home".ToUpper() && RequestPage != "Email".ToUpper() && RequestPage != "SendedRequests".ToUpper() && !((bool)TempData["IsMostafid"] && RequestPage == "ArchivedRequests".ToUpper()) && RequestPage != "BASE")
 					{
-						var PerName = Models.Privilges.PagesPriviliges.FirstOrDefault(q => q.path == RequestPage);
+						var PerName = Models.Privilges.PagesPriviliges.FirstOrDefault(q => q.path.ToUpper() == RequestPage);
 						if (PerName == null || !Permissions.Contains(PerName.Name))
 							context.Result = RedirectToAction("NotPermited", "Error");
 						if (Url.Length > 3)

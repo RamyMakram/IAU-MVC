@@ -41,17 +41,20 @@
 						</a>
 					</li>
 
-					<li>
-						<a href="#" class="waves-effect" id="">
-							<i class="fas fa-server"></i>
-							<span key="t-SevicesSettings">ادارة خدمات المستفيدين</span>
-						</a>
-					</li>
+					if ((bool)TempData["IsMostafid"])
+					{
+						<li>
+							<a href=@Url.Action("Home", "ArchivedRequests") class="waves-effect" id="ArchivedRequests">
+								<i class="fas fa-server"></i>
+								<span key="t-SevicesSettings">ادارة خدمات المستفيدين</span>
+							</a>
+						</li>
+					}
 
 					if (data.Contains("Statistics"))
 					{
 						<li>
-							<a href="#" class="waves-effect" id="x">
+							<a href="#" class="waves-effect" id="xhhvvhv">
 								<i class="fas fa-chart-pie"></i>
 								<span key="t-statistics">التقارير والاحصائيات</span>
 							</a>

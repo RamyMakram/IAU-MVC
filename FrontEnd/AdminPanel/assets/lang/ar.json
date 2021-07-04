@@ -140,6 +140,19 @@
 	"t-ConfimRequest": "تم معالجة الطلب",
 	"t-RefuseRequest": "رفض لعدم الاختصاص",
 	"t-MostafidComment": "تعليق مركز رعاية المستفيدين",
-	"t-AttachFile": "اضافة"
+	"t-AttachFile": "اضافة",
+	"t-ArchivedOrders": "ارشيف الطلبات",
+	"t-Home-MostafidSysytem": "نظام خدمة المستفيدين",
+	"t-Home-ConfirmOrder": "تأكيد الطلب",
+	"t-Home-SendToUnit": "ارسال إلى مزود الخدمة",
+	"t-Home-Processing": "معالجة الطلب",
+	"t-Home-UnitProcess": "تقديم طلب الإرسال",
+	"t-Home-Finished": "تم تسليم الطلب المعالج",
+	"t-Home-locations": "المواقع",
+	"t-Home-subservices": "الخدمات الفرعية",
+	"t-Home-mainserives": "الخدمات الرئيسية",
+	"t-Home-orders": "الطلبات",
+	"t-Home-unit": "الفئات",
+	"t-Home-InquiryRequest": "الاستعلام عن الطلب"
 
 }

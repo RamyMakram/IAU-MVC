@@ -46,7 +46,7 @@
 						<li>
 							<a href=@Url.Action("Home", "ArchivedRequests") class="waves-effect" id="ArchivedRequests">
 								<i class="fas fa-server"></i>
-								<span key="t-SevicesSettings">ادارة خدمات المستفيدين</span>
+								<span key="t-ArchivedOrders">ادارة خدمات المستفيدين</span>
 							</a>
 						</li>
 					}
@@ -101,10 +101,10 @@
 									<li><a href=@Url.Action("Home", "Jobs") id="Jobs" key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
 								}
 
-								if (data.Contains("General Settings"))
+								@*if (data.Contains("General Settings"))
 								{
 									<li><a href="#" id="UserSS" key="t-mainsettings">الإعدادات العامة</a></li>
-								}
+								}*@
 							}
 						</ul>
 					</li>

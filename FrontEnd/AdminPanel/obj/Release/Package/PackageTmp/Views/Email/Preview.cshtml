@@ -423,7 +423,7 @@
 										<div class="col-2" style="justify-content: space-between;align-items: center;display: flex;">
 											<div class="form-group">
 												<label key="t-ExpectedTime" class="control-label">الوقت المتوقع</label>
-												<input name="ExpectedDate" dir="@(isAr ? "rtl" : "ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Egypt Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+												<input name="ExpectedDate" dir="@(isAr ? "rtl" : "ltr")" type="date" class="form-control  en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
 											</div>
 										</div>
 									}
