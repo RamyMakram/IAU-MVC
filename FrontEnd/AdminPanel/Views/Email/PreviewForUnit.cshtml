@@ -287,7 +287,8 @@
 					<div class="media mb-4 justify-content-center align-content-center  d-inline-flex justify-content-between w-100">
 						<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;font-size: 43px !important;height:100%"></i>						<div class="media-body">
 							<h5 class="font-size-14 mt-1 en-font">@Model.Personel_Data.First_Name</h5>
-							<small class="text-muted en-font">@Model.Personel_Data.Email</small>
+							<small class="text-muted en-font"><a href="mailto:@Model.Personel_Data.Email">@Model.Personel_Data.Email</a></small>
+							<h5 class="font-size-12 mt-1 en-font"><span key="t-order-date">تاريخ الطلب</span>:@Model.CreatedDate.ToString("dd-MM-yy HH:mm")</h5>
 						</div>
 						<a href="/Email" class="btn btn-primary" key="t-backToEmail">Back To Home</a>
 					</div>

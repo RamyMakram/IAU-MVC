@@ -289,7 +289,8 @@
 					<div class="media mb-4 justify-content-center align-content-center  d-inline-flex justify-content-between w-100">
 						<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;font-size: 43px !important;height:100%"></i>						<div class="media-body">
 							<h5 class="font-size-14 mt-1 en-font">@Model.Personel_Data.First_Name</h5>
-							<small class="text-muted en-font">@Model.Personel_Data.Email</small>
+							<small class="text-muted en-font"><a href="mailto:@Model.Personel_Data.Email">@Model.Personel_Data.Email</a></small>
+							<h5 class="font-size-12 mt-1 en-font"><span key="t-order-date">تاريخ الطلب</span>:@Model.CreatedDate.ToString("dd-MM-yy HH:mm")</h5>
 						</div>
 						<a href="/ArchivedRequests" class="btn btn-primary" key="t-backToEmail">Back To Home</a>
 					</div>
@@ -314,7 +315,9 @@
 									</tr>
 									<tr>
 										<th key="t-Provider"></th>
-										<th>@(isAr ? (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).LastOrDefault().Units1.Units_Name_AR : (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).LastOrDefault().Units1.Units_Name_EN)</th>
+										<th>
+											@(isAr ? Model.Units.Units_Name_AR : Model.Units.Units_Name_EN)
+										</th>
 									</tr>
 									<tr>
 										<th class="boldtitle" key="t-personalData"></th>
@@ -398,122 +401,124 @@
 					</div>
 				</div>
 			</div>
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						@{
-							var MostafidComment = (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Last();
-							<div class="col-12">
-								<div class="row">
-									<div class="col-9" style="display:inline-flex;@(isAr?"justify-content:flex-start":"justify-content:flex-end")" id="CodeGenrateDiv">
-										@foreach (var i in MostafidComment.Code.ToCharArray())
-										{
-											<input class="form-control Genratedcode en-font" value="@i" readonly disabled />
-										}
-									</div>
-									<div class="col-3" style="direction:ltr;justify-content: center;align-items: center;display: flex;">
-										<span style="padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
-											@if (Model.GenratedDate != null)
+			@if ((ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count > 0)
+			{
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							@{
+								var MostafidComment = (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Last();
+								<div class="col-12">
+									<div class="row">
+										<div class="col-9" style="display:inline-flex;@(isAr ? "justify-content:flex-start" : "justify-content:flex-end")" id="CodeGenrateDiv">
+											@foreach (var i in MostafidComment.Code.ToCharArray())
 											{
-												@(Model.GenratedDate.Value.ToString("dd MMM HH:mm"))
+												<input class="form-control Genratedcode en-font" value="@i" readonly disabled />
 											}
-										</span>
+										</div>
+										<div class="col-3" style="direction:ltr;justify-content: center;align-items: center;display: flex;">
+											<span style="padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
+												@if (Model.GenratedDate != null)
+												{
+													@(Model.GenratedDate.Value.ToString("dd MMM HH:mm"))
+												}
+											</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						}
-						<div class="col-12">
+							}
+							<div class="col-12">
 
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			@{
 				var RequestTransaction = ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>;
 				var IsMostafid = (bool)TempData["IsMostafid"];
-
-			}
-			<div class="card">
-				<div class="card-body">
-					<div class="row">
-						<div class="container">
-							<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
-								@if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
-								{
-									<li class="nav-item">
-										<a class="nav-link btn btn-primary active" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
-									</li>
-								}
-							</ul>
-							<div class="tab-content" id="myTabContent">
-								@{
-									if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="container">
+								<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
+									@if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
 									{
-										var count = 0;
-										<div class="tab-pane fade show active" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
-											<div class="col">
-												<div class="CustomeCarso">
-													@foreach (var i in RequestTransaction)
-													{
-														if (i.MostafidComment != null && i.MostafidComment != "")
-														{
-															count++;
-															<div class="data-Comment" data-id="@count">
-																<div style="display:inline-flex;justify-content:space-between;width:100%">
-																	<h3>
-																		<span key="t-MostafidComment"></span>
-																		@if (i.Is_Reminder)
-																		{
-																			<i class="far fa-bell" style="color:red;padding:0 15px"></i>
-																		}
-																	</h3>
-																	<span>@i.ForwardDate.Value.ToString("dd-MM-yy HH:mm")</span>
-																</div>
-																<div class="text" dir="@(isAr?"rtl":"ltr")">
-																	@Html.Raw(i.MostafidComment)
-																</div>
-															</div>
-														}
-														if (i.Comment != "" && i.Comment != null && i.CommentDate != null)
-														{
-
-															count++;
-															<div class="data-Comment" data-id="@count">
-																<div style="display:inline-flex;justify-content:space-between;width:100%">
-																	<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)</h3>
-																	<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span>
-																</div>
-																<div class="text" dir="@(isAr?"rtl":"ltr")">
-																	@Html.Raw(i.Comment)
-																</div>
-															</div>
-														}
-													}
-													<div class="row justify-content-between">
-														@if (isAr)
-														{
-															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
-															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
-															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
-														}
-														else
-														{
-															<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
-															<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
-															<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
-														}
-													</div>
-												</div>
-
-											</div>
-										</div>
+										<li class="nav-item">
+											<a class="nav-link btn btn-primary active" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
+										</li>
 									}
-								}
+								</ul>
+								<div class="tab-content" id="myTabContent">
+									@{
+										if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
+										{
+											var count = 0;
+											<div class="tab-pane fade show active" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
+												<div class="col">
+													<div class="CustomeCarso">
+														@foreach (var i in RequestTransaction)
+														{
+															if (i.MostafidComment != null && i.MostafidComment != "")
+															{
+																count++;
+																<div class="data-Comment" data-id="@count">
+																	<div style="display:inline-flex;justify-content:space-between;width:100%">
+																		<h3>
+																			<span key="t-MostafidComment"></span>
+																			@if (i.Is_Reminder)
+																			{
+																				<i class="far fa-bell" style="color:red;padding:0 15px"></i>
+																			}
+																		</h3>
+																		<span>@i.ForwardDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																	</div>
+																	<div class="text" dir="@(isAr?"rtl":"ltr")">
+																		@Html.Raw(i.MostafidComment)
+																	</div>
+																</div>
+															}
+															if (i.Comment != "" && i.Comment != null && i.CommentDate != null)
+															{
+
+																count++;
+																<div class="data-Comment" data-id="@count">
+																	<div style="display:inline-flex;justify-content:space-between;width:100%">
+																		<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)</h3>
+																		<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																	</div>
+																	<div class="text" dir="@(isAr?"rtl":"ltr")">
+																		@Html.Raw(i.Comment)
+																	</div>
+																</div>
+															}
+														}
+														<div class="row justify-content-between">
+															@if (isAr)
+															{
+																<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+																<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+																<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+															}
+															else
+															{
+																<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+																<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+																<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+															}
+														</div>
+													</div>
+
+												</div>
+											</div>
+										}
+									}
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+
+			}
+
 
 
 			<div class="card">

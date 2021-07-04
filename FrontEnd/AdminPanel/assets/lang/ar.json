@@ -153,6 +153,8 @@
 	"t-Home-mainserives": "الخدمات الرئيسية",
 	"t-Home-orders": "الطلبات",
 	"t-Home-unit": "الفئات",
-	"t-Home-InquiryRequest": "الاستعلام عن الطلب"
+	"t-Home-InquiryRequest": "الاستعلام عن الطلب",
+	"t-SubmitReminder": "ارسال تذكير",
+	"t-order-date": "تاريخ الطلب"
 
 }
