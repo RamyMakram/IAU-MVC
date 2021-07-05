@@ -54,7 +54,7 @@
     <Property Name="RequestCode" Type="char" MaxLength="13" />
     <Property Name="RequestStatus" Type="tinyint" Nullable="false" />
     <Property Name="TransactionDate" Type="date" Nullable="false" />
-    <Property Name="Delayed" Type="tinyint" Nullable="false" />
+    <Property Name="Delayed" Type="int" Nullable="false" />
     <Property Name="AddedDate" Type="datetime" Nullable="false" />
     <Property Name="Readed" Type="bit" Nullable="false" />
   </EntityType>

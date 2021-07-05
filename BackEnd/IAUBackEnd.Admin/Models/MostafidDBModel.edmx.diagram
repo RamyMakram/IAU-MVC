@@ -104,12 +104,12 @@
         <AssociationConnector Association="MostafidDBModel.FK_Request_File_Request_Data" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_State_Request_Data" />
         <AssociationConnector Association="MostafidDBModel.FK_RequestTransaction_Request_Data" />
-        <EntityTypeShape EntityType="MostafidDBModel.DelayedTransaction" Width="1.5" PointX="13.5" PointY="14.25" />
         <EntityTypeShape EntityType="MostafidDBModel.Request_State" Width="1.5" PointX="5.375" PointY="1.25" />
-        <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_Data" />
-        <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_State" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Request_State" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Log_Request_State" />
+        <EntityTypeShape EntityType="MostafidDBModel.DelayedTransaction" Width="1.5" PointX="13.5" PointY="14.25" />
+        <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_Data" />
+        <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_State" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

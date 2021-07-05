@@ -532,6 +532,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Request_State">
+      <EntityTypeMapping TypeName="MostafidDBModel.Request_State">
+        <MappingFragment StoreEntitySet="Request_State">
+          <ScalarProperty Name="AllowedDelay" ColumnName="AllowedDelay" />
+          <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
+          <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
+          <ScalarProperty Name="State_ID" ColumnName="State_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="DelayedTransaction">
       <EntityTypeMapping TypeName="MostafidDBModel.DelayedTransaction">
         <MappingFragment StoreEntitySet="DelayedTransaction">
@@ -543,16 +553,6 @@
           <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
           <ScalarProperty Name="RequestID" ColumnName="RequestID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Request_State">
-      <EntityTypeMapping TypeName="MostafidDBModel.Request_State">
-        <MappingFragment StoreEntitySet="Request_State">
-          <ScalarProperty Name="AllowedDelay" ColumnName="AllowedDelay" />
-          <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
-          <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
-          <ScalarProperty Name="State_ID" ColumnName="State_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

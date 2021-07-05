@@ -19,7 +19,7 @@ namespace IAUBackEnd.Admin.Models
         public string RequestCode { get; set; }
         public byte RequestStatus { get; set; }
         public System.DateTime TransactionDate { get; set; }
-        public byte Delayed { get; set; }
+        public int Delayed { get; set; }
         public System.DateTime AddedDate { get; set; }
         public bool Readed { get; set; }
     

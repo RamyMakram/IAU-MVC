@@ -88,15 +88,25 @@
 					<i class="bx bx-fullscreen"></i>
 				</button>
 			</div>
-
-			@*<div class="dropdown d-inline-block">
-				<button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="bx bx-bell bx-tada"></i>
-					<span class="badge badge-danger badge-pill" id="">0</span>
-				</button>
-			</div>*@
-
+			@if ((TempData["Permissions"] as string[]).Contains("Delayed Transactions Alert"))
+			{
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="bx bx-bell bx-tada"></i>
+						<span class="badge badge-danger badge-pill" id="">0</span>
+					</button>
+					<div class="dropdown-menu dropdown-menu-right" style="min-width:35rem !important">
+						<!-- item-->
+						<a class="dropdown-item" href="#">Simple Data</a>
+						<div class="dropdown-divider"></div>						<a class="dropdown-item" href="#">Simple Data</a>
+						<div class="dropdown-divider"></div>						<a class="dropdown-item" href="#">Simple Data</a>
+						<div class="dropdown-divider"></div>						<a class="dropdown-item" href="#">Simple Data</a>
+						<div class="dropdown-divider"></div>						<a class="dropdown-item" href="#">Simple Data</a>
+						<div class="dropdown-divider"></div>
+					</div>
+				</div>
+			}
 			<div class="dropdown d-inline-block">
 				<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center;">
