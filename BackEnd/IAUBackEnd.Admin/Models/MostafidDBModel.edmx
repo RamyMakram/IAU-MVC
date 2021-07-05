@@ -50,6 +50,19 @@
           <Property Name="Country_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
         </EntityType>
+        <EntityType Name="DelayedTransaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="RequestCode" Type="char" MaxLength="13" />
+          <Property Name="RequestStatus" Type="tinyint" Nullable="false" />
+          <Property Name="TransactionDate" Type="date" Nullable="false" />
+          <Property Name="Delayed" Type="tinyint" Nullable="false" />
+          <Property Name="AddedDate" Type="datetime" Nullable="false" />
+          <Property Name="Readed" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Department_ID" />
@@ -177,7 +190,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" />
@@ -298,9 +311,10 @@
           <Key>
             <PropertyRef Name="State_ID" />
           </Key>
-          <Property Name="State_ID" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="State_ID" Type="tinyint" Nullable="false" />
           <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AllowedDelay" Type="tinyint" />
         </EntityType>
         <EntityType Name="Request_Type">
           <Key>
@@ -512,6 +526,30 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="City">
               <PropertyRef Name="Region_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Request_Data">
+          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="1" />
+          <End Role="DelayedTransaction" Type="Self.DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Request_State">
+          <End Role="Request_State" Type="Self.Request_State" Multiplicity="1" />
+          <End Role="DelayedTransaction" Type="Self.DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_State">
+              <PropertyRef Name="State_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="RequestStatus" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1205,6 +1243,7 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="College_Administration" EntityType="Self.College_Administration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DelayedTransaction" EntityType="Self.DelayedTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E-Forms" EntityType="Self.E-Forms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
@@ -1253,6 +1292,14 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_City_Region" Association="Self.FK_City_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="City" EntitySet="City" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Request_Data" Association="Self.FK_DelayedTransaction_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="Self.FK_DelayedTransaction_Request_State">
+            <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
           <AssociationSet Name="FK_Department_College_Administration" Association="Self.FK_Department_College_Administration">
             <End Role="College_Administration" EntitySet="College_Administration" />
@@ -1511,7 +1558,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySet Name="Region" EntityType="MostafidDBModel.Region" />
           <EntitySet Name="Request_File" EntityType="MostafidDBModel.Request_File" />
           <EntitySet Name="Request_Log" EntityType="MostafidDBModel.Request_Log" />
-          <EntitySet Name="Request_State" EntityType="MostafidDBModel.Request_State" />
           <EntitySet Name="Request_Type" EntityType="MostafidDBModel.Request_Type" />
           <EntitySet Name="RequestTransaction" EntityType="MostafidDBModel.RequestTransaction" />
           <EntitySet Name="Required_Documents" EntityType="MostafidDBModel.Required_Documents" />
@@ -1663,10 +1709,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             <End EntitySet="Required_Documents" Role="Required_Documents" />
             <End EntitySet="Request_File" Role="Request_File" />
           </AssociationSet>
-          <AssociationSet Name="FK_Request_Log_Request_State" Association="MostafidDBModel.FK_Request_Log_Request_State">
-            <End EntitySet="Request_State" Role="Request_State" />
-            <End EntitySet="Request_Log" Role="Request_Log" />
-          </AssociationSet>
           <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDBModel.FK_Units_Request_Type_Request_Type">
             <End EntitySet="Request_Type" Role="Request_Type" />
             <End EntitySet="Units_Request_Type" Role="Units_Request_Type" />
@@ -1732,10 +1774,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             <End EntitySet="Personel_Data" Role="Personel_Data" />
             <End EntitySet="Request_Data" Role="Request_Data" />
           </AssociationSet>
-          <AssociationSet Name="FK_Request_Data_Request_State" Association="MostafidDBModel.FK_Request_Data_Request_State">
-            <End EntitySet="Request_State" Role="Request_State" />
-            <End EntitySet="Request_Data" Role="Request_Data" />
-          </AssociationSet>
           <AssociationSet Name="FK_Request_Data_Request_Type" Association="MostafidDBModel.FK_Request_Data_Request_Type">
             <End EntitySet="Request_Type" Role="Request_Type" />
             <End EntitySet="Request_Data" Role="Request_Data" />
@@ -1763,6 +1801,24 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_RequestTransaction_Request_Data" Association="MostafidDBModel.FK_RequestTransaction_Request_Data">
             <End EntitySet="Request_Data" Role="Request_Data" />
             <End EntitySet="RequestTransaction" Role="RequestTransaction" />
+          </AssociationSet>
+          <EntitySet Name="DelayedTransaction" EntityType="MostafidDBModel.DelayedTransaction" />
+          <EntitySet Name="Request_State" EntityType="MostafidDBModel.Request_State" />
+          <AssociationSet Name="FK_DelayedTransaction_Request_Data" Association="MostafidDBModel.FK_DelayedTransaction_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="MostafidDBModel.FK_DelayedTransaction_Request_State">
+            <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_Data_Request_State" Association="MostafidDBModel.FK_Request_Data_Request_State">
+            <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="Request_Data" EntitySet="Request_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_Log_Request_State" Association="MostafidDBModel.FK_Request_Log_Request_State">
+            <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="Request_Log" EntitySet="Request_Log" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
@@ -2088,18 +2144,8 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="CreatedDate" Nullable="false" Precision="3" Type="DateTime" />
           <Property Name="Employee_ID" Type="Int32" />
           <NavigationProperty Name="Employee" Relationship="MostafidDBModel.FK_Request_Log_Employee" FromRole="Request_Log" ToRole="Employee" />
-          <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Log_Request_State" FromRole="Request_Log" ToRole="Request_State" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_State_Request_Data" FromRole="Request_Log" ToRole="Request_Data" />
-        </EntityType>
-        <EntityType Name="Request_State">
-          <Key>
-            <PropertyRef Name="State_ID" />
-          </Key>
-          <Property Name="State_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Byte" />
-          <Property Name="StateName_AR" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="StateName_EN" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
-          <NavigationProperty Name="Request_Log" Relationship="MostafidDBModel.FK_Request_Log_Request_State" FromRole="Request_State" ToRole="Request_Log" />
-          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_State" ToRole="Request_Data" />
+          <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Log_Request_State" FromRole="Request_Log" ToRole="Request_State" />
         </EntityType>
         <EntityType Name="Request_Type">
           <Key>
@@ -2743,18 +2789,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Request_Log_Request_State">
-          <End Type="MostafidDBModel.Request_State" Multiplicity="1" Role="Request_State" />
-          <End Type="MostafidDBModel.Request_Log" Multiplicity="*" Role="Request_Log" />
-          <ReferentialConstraint>
-            <Principal Role="Request_State">
-              <PropertyRef Name="State_ID" />
-            </Principal>
-            <Dependent Role="Request_Log">
-              <PropertyRef Name="Request_State_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Units_Request_Type_Request_Type">
           <End Type="MostafidDBModel.Request_Type" Multiplicity="0..1" Role="Request_Type" />
           <End Type="MostafidDBModel.Units_Request_Type" Multiplicity="*" Role="Units_Request_Type" />
@@ -2955,7 +2989,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="ReadedDate" Precision="3" Type="DateTime" />
           <Property Name="GenratedDate" Precision="3" Type="DateTime" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
-          <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
           <NavigationProperty Name="Request_Type" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Request_Data" ToRole="Sub_Services" />
@@ -2964,6 +2997,8 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <NavigationProperty Name="Request_Log" Relationship="MostafidDBModel.FK_Request_State_Request_Data" FromRole="Request_Data" ToRole="Request_Log" />
           <NavigationProperty Name="RequestTransaction" Relationship="MostafidDBModel.FK_RequestTransaction_Request_Data" FromRole="Request_Data" ToRole="RequestTransaction" />
           <Property Name="Is_Archived" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_Data" FromRole="Request_Data" ToRole="DelayedTransaction" />
+          <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
         </EntityType>
         <Association Name="FK_Request_Data_Personel_Data">
           <End Type="MostafidDBModel.Personel_Data" Multiplicity="0..1" Role="Personel_Data" />
@@ -2974,18 +3009,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Request_Data">
               <PropertyRef Name="Personel_Data_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Request_Data_Request_State">
-          <End Type="MostafidDBModel.Request_State" Multiplicity="1" Role="Request_State" />
-          <End Type="MostafidDBModel.Request_Data" Multiplicity="*" Role="Request_Data" />
-          <ReferentialConstraint>
-            <Principal Role="Request_State">
-              <PropertyRef Name="State_ID" />
-            </Principal>
-            <Dependent Role="Request_Data">
-              <PropertyRef Name="Request_State_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3070,6 +3093,81 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="RequestTransaction">
               <PropertyRef Name="Request_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DelayedTransaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="RequestCode" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
+          <Property Name="RequestStatus" Type="Byte" Nullable="false" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Delayed" Type="Byte" Nullable="false" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Readed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_Data" FromRole="DelayedTransaction" ToRole="Request_Data" />
+          <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_State" FromRole="DelayedTransaction" ToRole="Request_State" />
+        </EntityType>
+        <EntityType Name="Request_State">
+          <Key>
+            <PropertyRef Name="State_ID" />
+          </Key>
+          <Property Name="State_ID" Type="Byte" Nullable="false" />
+          <Property Name="StateName_AR" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StateName_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AllowedDelay" Type="Byte" />
+          <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_State" FromRole="Request_State" ToRole="DelayedTransaction" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_State" ToRole="Request_Data" />
+          <NavigationProperty Name="Request_Log" Relationship="MostafidDBModel.FK_Request_Log_Request_State" FromRole="Request_State" ToRole="Request_Log" />
+        </EntityType>
+        <Association Name="FK_DelayedTransaction_Request_Data">
+          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="1" />
+          <End Type="MostafidDBModel.DelayedTransaction" Role="DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Request_State">
+          <End Type="MostafidDBModel.Request_State" Role="Request_State" Multiplicity="1" />
+          <End Type="MostafidDBModel.DelayedTransaction" Role="DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_State">
+              <PropertyRef Name="State_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_Data_Request_State">
+          <End Type="MostafidDBModel.Request_State" Role="Request_State" Multiplicity="1" />
+          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_State">
+              <PropertyRef Name="State_ID" />
+            </Principal>
+            <Dependent Role="Request_Data">
+              <PropertyRef Name="Request_State_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_Log_Request_State">
+          <End Type="MostafidDBModel.Request_State" Role="Request_State" Multiplicity="1" />
+          <End Type="MostafidDBModel.Request_Log" Role="Request_Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_State">
+              <PropertyRef Name="State_ID" />
+            </Principal>
+            <Dependent Role="Request_Log">
+              <PropertyRef Name="Request_State_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3370,15 +3468,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Request_State">
-            <EntityTypeMapping TypeName="MostafidDBModel.Request_State">
-              <MappingFragment StoreEntitySet="Request_State">
-                <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
-                <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
-                <ScalarProperty Name="State_ID" ColumnName="State_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Request_Type">
             <EntityTypeMapping TypeName="MostafidDBModel.Request_Type">
               <MappingFragment StoreEntitySet="Request_Type">
@@ -3616,6 +3705,30 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
                 <ScalarProperty Name="Unit_ID" ColumnName="Unit_ID" />
                 <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
                 <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DelayedTransaction">
+            <EntityTypeMapping TypeName="MostafidDBModel.DelayedTransaction">
+              <MappingFragment StoreEntitySet="DelayedTransaction">
+                <ScalarProperty Name="Readed" ColumnName="Readed" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Delayed" ColumnName="Delayed" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
+                <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Request_State">
+            <EntityTypeMapping TypeName="MostafidDBModel.Request_State">
+              <MappingFragment StoreEntitySet="Request_State">
+                <ScalarProperty Name="AllowedDelay" ColumnName="AllowedDelay" />
+                <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
+                <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
+                <ScalarProperty Name="State_ID" ColumnName="State_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

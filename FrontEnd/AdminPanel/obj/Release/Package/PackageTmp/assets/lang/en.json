@@ -138,6 +138,21 @@
 	"t-ConfimRequest": "The request has been processed",
 	"t-RefuseRequest": "Refusal for lack of jurisdiction",
 	"t-MostafidComment": "Mostafid Comment",
-	"t-AttachFile": "Attach"
+	"t-AttachFile": "Attach",
+	"t-ArchivedOrders": "Archived Requests",
+	"t-Home-MostafidSysytem": "Mostafid System",
+	"t-Home-ConfirmOrder": "Confirmed Request",
+	"t-Home-SendToUnit": "Dispatching To Service Provider",
+	"t-Home-Processing": "PROCESSING REQUEST",
+	"t-Home-UnitProcess": "Processing Request",
+	"t-Home-Finished": "Processed Request Delivered",
+	"t-Home-locations": "Locations",
+	"t-Home-subservices": "SubServices",
+	"t-Home-mainserives": "MainSerivces",
+	"t-Home-orders": "Requests",
+	"t-Home-unit": "Units",
+	"t-Home-InquiryRequest": "Request Inquiry",
+	"t-SubmitReminder": "Send Reminder",
+	"t-order-date": "Requet Date"
 
 }

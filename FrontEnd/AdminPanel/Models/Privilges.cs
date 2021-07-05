@@ -51,7 +51,7 @@ namespace AdminPanel.Models
 			new PagesPriviliges()
 			{
 				Name = "General Settings",
-				path = "General Settings"
+				path = "GlobalSettings"
 			}
 		};
 	}

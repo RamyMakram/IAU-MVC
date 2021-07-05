@@ -20,6 +20,7 @@ namespace IAUBackEnd.Admin.Models
             this.Request_File = new HashSet<Request_File>();
             this.Request_Log = new HashSet<Request_Log>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
+            this.DelayedTransaction = new HashSet<DelayedTransaction>();
         }
     
         public int? Request_Data_ID { get; set; }
@@ -40,7 +41,6 @@ namespace IAUBackEnd.Admin.Models
         public bool Is_Archived { get; set; }
     
         public virtual Personel_Data Personel_Data { get; set; }
-        public virtual Request_State Request_State { get; set; }
         public virtual Request_Type Request_Type { get; set; }
         public virtual Service_Type Service_Type { get; set; }
         public virtual Sub_Services Sub_Services { get; set; }
@@ -51,5 +51,8 @@ namespace IAUBackEnd.Admin.Models
         public virtual ICollection<Request_Log> Request_Log { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestTransaction> RequestTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DelayedTransaction> DelayedTransaction { get; set; }
+        public virtual Request_State Request_State { get; set; }
     }
 }

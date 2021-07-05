@@ -170,6 +170,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EFormsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\GlobalSettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LevelsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
@@ -3098,6 +3099,7 @@
     <Content Include="Views\SendedRequests\Preview.cshtml" />
     <Content Include="Views\ArchivedRequests\Home.cshtml" />
     <Content Include="Views\ArchivedRequests\Preview.cshtml" />
+    <Content Include="Views\GlobalSettings\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

@@ -249,6 +249,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Applicant_TypeController.cs" />
     <Compile Include="Controllers\E_FormsController.cs" />
+    <Compile Include="Controllers\GeneralSettingController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\Main_ServicesController.cs" />
@@ -282,6 +283,9 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Country.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DelayedTransaction.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Department.cs">

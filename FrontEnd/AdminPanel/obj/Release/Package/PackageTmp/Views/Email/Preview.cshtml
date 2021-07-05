@@ -289,7 +289,8 @@
 					<div class="media mb-4 justify-content-center align-content-center  d-inline-flex justify-content-between w-100">
 						<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;font-size: 43px !important;height:100%"></i>						<div class="media-body">
 							<h5 class="font-size-14 mt-1 en-font">@Model.Personel_Data.First_Name</h5>
-							<small class="text-muted en-font">@Model.Personel_Data.Email</small>
+							<small class="text-muted en-font"><a href="mailto:@Model.Personel_Data.Email">@Model.Personel_Data.Email</a></small>
+							<h5 class="font-size-12 mt-1 en-font"><span key="t-order-date">تاريخ الطلب</span>:@Model.CreatedDate.ToString("dd-MM-yy HH:mm")</h5>
 						</div>
 						<a href="/Email" key="t-backToEmail" class="btn btn-primary">Back To Home</a>
 					</div>
@@ -427,7 +428,7 @@
 											</div>
 										</div>
 									}
-									<div class="@(ShowStaticCode?"col-12":"col-8")" style="display:inline-flex;@(Model.GenratedDate != null?"justify-content: center;":"justify-content: flex-start;")" id="CodeGenrateDiv">
+									<div class="@(ShowStaticCode?"col-12 ":"col-8")" style="display:inline-flex;justify-content: center;" id="CodeGenrateDiv">
 										@if (ShowStaticCode)
 										{
 											<input class="form-control Genratedcode en-font" value="1" readonly disabled />
@@ -670,8 +671,8 @@
 							</div>
 						</div>
 						<div class="col-4">
-							<p class="card-title-desc" key="t-SupportiedDocs">
-								الاوراق الداعمة
+							<p class="card-title-desc d-inline-flex justify-content-between w-100 align-items-center">
+								<span key="t-SupportiedDocs">الاوراق الداعمة</span><i class="fas fa-upload" style="color:green;margin:0 38px;"></i>
 							</p>
 							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
 								@{
@@ -690,14 +691,14 @@
 										</div>
 									}
 								}
-								<div class="col-3" style="border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
+								@*<div class="col-3" style="border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
 									<div class="card w-100">
 										<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green;text-align: center;justify-self: center;font-size: 48px;margin-bottom: 20px;"></i>
 										<div class="py-2 text-center">
 											<a class="font-weight-medium" key="t-AttachFile">Attach File</a>
 										</div>
 									</div>
-								</div>
+								</div>*@
 							</div>
 						</div>
 						<div class="col-4">
@@ -721,7 +722,7 @@
 							<button class="btn btn-primary w-100 actionBtn @(ShowEncode?"":"disabled")" id="sa-encode"><i class="fas fa-sort-amount-down"></i> <span style="margin:0 15px" key="t-encode">1 - تكويد الطلب</span></button>
 						</div>
 						<div class="@syle">
-							<button class="btn btn-primary w-100 actionBtn" @(ShowEncode ? "" : "disabled") id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px" key="t-forward">2 -  توجيه الطلب</span></button>
+							<button class="btn btn-primary w-100 actionBtn" @(ShowEncode ? "disabled" : "") id="sa-forwared"><i class="far fa-share-square"></i> <span style="margin:0 15px" key="t-forward">2 -  توجيه الطلب</span></button>
 						</div>
 						@if (ShowEncode && ((MostafidComment.CommentType.HasValue && MostafidComment.CommentType == 1) || (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count() == 0))
 						{
@@ -849,9 +850,10 @@
 		GetUnots()
 	}
 	function Level(id) {
-		document.getElementsByClassName('Genratedcode')[0].value = $("[name='source']").val() ? "1" : "2"
-		}
-		function LocChange(id, init = false) {
+		document.getElementsByClassName('Genratedcode')[0].value = $("[name='IsTwasul_OC']").val()=="False" ? "1" : "2"
+	}
+
+	function LocChange(id, init = false) {
 		$.ajax({
 			url: "/Email/GetBuildings?ID=" + id, method: "GET", type: 'json', success: function (x) {
 				let data = JSON.parse(x);

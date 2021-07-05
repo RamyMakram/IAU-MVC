@@ -11,5 +11,6 @@ namespace IAUAdmin.DTO.Entity
 		public byte State_ID { get; set; }
 		public string StateName_AR { get; set; }
 		public string StateName_EN { get; set; }
+		public int? AllowedDelay { get; set; }
 	}
 }

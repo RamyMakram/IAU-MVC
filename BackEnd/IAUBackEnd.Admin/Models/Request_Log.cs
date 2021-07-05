@@ -21,7 +21,7 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<int> Employee_ID { get; set; }
     
         public virtual Employee Employee { get; set; }
-        public virtual Request_State Request_State { get; set; }
         public virtual Request_Data Request_Data { get; set; }
+        public virtual Request_State Request_State { get; set; }
     }
 }

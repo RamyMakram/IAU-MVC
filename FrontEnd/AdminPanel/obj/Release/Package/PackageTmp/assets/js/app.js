@@ -355,7 +355,7 @@ var User = "";
 					sound.play();
 					var count = document.getElementById('NotficationsCount')
 					count.innerText = parseInt(count.innerText) + 1
-					count.style.display = "block";
+					count.style.display = "display: inline-flex;";
 
 					if (window.location.pathname.split('/')[1] == "Email") {
 						var mailList = document.getElementById('MailList')

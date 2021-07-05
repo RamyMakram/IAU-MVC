@@ -81,7 +81,7 @@
 												{
 													<div class="custom-control custom-switch mb-3" dir="ltr">
 														<input type="checkbox" class="custom-control-input" onchange="cc('@(c.ID)','@c.Active.ToString()',this)" id=@("customSwitch" + c.ID) checked=@c.Active>
-														<label  class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
+														<label class="custom-control-label" for=@("customSwitch" + c.ID)>@c.Name</label>
 													</div>
 												}
 											}
@@ -145,7 +145,7 @@
 				enctype: 'multipart/form-data',
 				data: fileData,
 				success: function (res) {
-
+					window.location.href = window.location.href
 				},
 				error: function () {
 
@@ -165,7 +165,7 @@
 				enctype: 'multipart/form-data',
 				data: fileData,
 				success: function (res) {
-
+					window.location.href = window.location.href
 				},
 				error: function () {
 

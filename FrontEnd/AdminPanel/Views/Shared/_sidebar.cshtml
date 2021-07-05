@@ -101,10 +101,10 @@
 									<li><a href=@Url.Action("Home", "Jobs") id="Jobs" key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
 								}
 
-								@*if (data.Contains("General Settings"))
+								if (data.Contains("General Settings"))
 								{
-									<li><a href="#" id="UserSS" key="t-mainsettings">الإعدادات العامة</a></li>
-								}*@
+									<li><a href=@Url.Action("Home", "GlobalSettings") id="GlobalSettings" key="t-mainsettings">الإعدادات العامة</a></li>
+								}
 							}
 						</ul>
 					</li>
