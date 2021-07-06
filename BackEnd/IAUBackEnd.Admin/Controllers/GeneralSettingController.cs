@@ -16,7 +16,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetStatusDelayeValue()
 		{
-			var data = p.Request_State.Where(q => q.State_ID != 5).Select(s => new { s.State_ID, s.StateName_AR, s.StateName_EN, s.AllowedDelay });
+			var data = p.Request_State.Select(s => new { s.State_ID, s.StateName_AR, s.StateName_EN, s.AllowedDelay });
 			return Ok(new ResponseClass() { success = true, result = data });
 		}
 

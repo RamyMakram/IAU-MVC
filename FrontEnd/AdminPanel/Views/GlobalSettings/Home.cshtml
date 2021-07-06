@@ -1,10 +1,10 @@
 ﻿@model ICollection<IAUAdmin.DTO.Entity.RequestStatusDTO>
 @{
-	ViewBag.Title = "Edit Allowed Delay";
-	ViewBag.pTitle = "Edit Allowed Delay";
+	ViewBag.Title = "Define Request Time";
+	ViewBag.pTitle = "Define Request Time";
 	ViewBag.pageTitle = "Global Settings";
-	ViewBag.arTitle = "تعديل الوقت المسموح للتاخير";
-	ViewBag.arpTitle = "تعديل الوقت المسموح للتاخير";
+	ViewBag.arTitle = "تحديد الوقت المستغرق للطلب";
+	ViewBag.arpTitle = "تحديد الوقت المستغرق للطلب";
 	ViewBag.arpageTitle = "الإعدادات العامة";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -17,10 +17,6 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
-	span.select2 {
-		width: 100% !important
-	}
-
 	label.control-label::after {
 		content: ":";
 	}
@@ -29,36 +25,64 @@
 		font-weight: bold;
 	}
 
-	span.select2-selection.select2-selection--single {
-		height: 36px !important;
+	.view-time {
+		margin: auto;
+		width: 30vw;
+		border: 1px dotted black;
+		border-radius: 10px;
 	}
 
-	.select2-selection__rendered, .select2-selection__arrow {
-		margin-top: 3px;
-		font-weight: normal;
+	.card-body .row {
+		position: relative;
+	}
+
+		.card-body .row:before {
+			content: '';
+			position: absolute;
+			right: 40vw;
+			width: 0px;
+			top: 0;
+			bottom: 0;
+			border: 1px dashed black;
+		}
+
+	.mainview-time {
+		background: white;
 	}
 </style>
+@{
+	var isAr = Request.Cookies["lang"].Value == "ar";
+}
 <div class="row">
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
 
-				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
-				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+				<p class="card-title-desc">@(isAr ? "مراحل الطلب" : "Request Status")</p>
 
 				<div class="row">
-					@foreach (var i in Model)
-					{
-						<div class="col-xl-6 col-lg-6 col-md-6 col-12">
-							<div class="form-group">
-								<label class="control-label" for="name">@(Request.Cookies["lang"].Value == "ar" ? i.StateName_AR : i.StateName_EN)</label>
-								@Html.TextBox("State-" + i.State_ID, i.AllowedDelay, new { @class = "form-control ar-font State-val", @type = "number" })
+					@{
+						var cou = 0;
+						foreach (var i in Model)
+						{
+							cou += i.AllowedDelay ?? 0;
+							<div class="col-12 text-center mainview-time" style="margin-top: 25px">
+								<div class="view-time">
+									<p class="card-title-desc" style="text-align:start;padding:0 25px;margin-top:-10px"><span style="background:white;padding:0 15px">@(i.State_ID + " - " + (isAr ? i.StateName_AR : i.StateName_EN))</span></p>
+									<div class="form-group d-inline-flex align-items-center justify-content-center">
+										@Html.TextBox("State-" + i.State_ID, i.AllowedDelay, new { @class = "form-control en-font State-val", @onchange = "Recalc()", @type = "number", @style = "width:150px;text-align:center!important" })
+										<span key="t-day" style="padding:0 15px">@(isAr ? "يوم" : "Day")</span>
+									</div>
+								</div>
 							</div>
-						</div>
+						}
 					}
-					<button type="submit" key="t-save" id="SaveDataOFDelayed" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
 				</div>
+				<div class="col-12 text-center" style="margin-top: 25px">
+					<p class="text-center">@(isAr ? "الوقت الاجمالي المستغرق" : "Total Days") <span id="DaysCount">@cou</span> @(isAr ? "يوم" : "Day")</p>
+				</div>
+				<button type="submit" key="t-save" id="SaveDataOFDelayed" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+				@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
 
 			</div>
 		</div>
@@ -86,6 +110,14 @@
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
 <script>
+	function Recalc() {
+		let count = 0;
+		([...$('input.State-val')]).forEach(i => {
+			let val = $(i).val()
+			count += parseInt(val == "" ? 0 : val)
+		})
+		$('#DaysCount').html(count)
+	}
 	$('#SaveDataOFDelayed').click(function () {
 		let data = [];
 		([...$('input.State-val')]).forEach(i => {
