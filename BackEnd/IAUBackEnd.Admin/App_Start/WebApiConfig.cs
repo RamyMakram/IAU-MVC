@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Web.Http;
-using IAUBackEnd.Admin.Models;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 
 namespace IAUBackEnd.Admin
@@ -26,8 +26,8 @@ namespace IAUBackEnd.Admin
 				routeTemplate: "api/{controller}/{action}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
-			//Thread Task = new Thread(new ThreadStart(InvokeMethod));
-			//Task.Start();
+			Thread Task = new Thread(new ThreadStart(InvokeMethod));
+			Task.Start();
 		}
 		static void InvokeMethod()
 		{
@@ -40,7 +40,7 @@ namespace IAUBackEnd.Admin
 					if (s.Hour == 0)
 					{
 						MostafidDBEntities p = new MostafidDBEntities();
-						var states = p.Request_State.Where(q => q.State_ID != 5).ToList();
+						var states = p.Request_State.ToList();
 						List<DelayedTransDTO> times = new List<DelayedTransDTO>();
 						foreach (var i in states)
 						{
@@ -55,11 +55,17 @@ namespace IAUBackEnd.Admin
 							}
 							else if (i.State_ID == 4)
 							{
-								data = p.Request_Data.Where(q => !q.Is_Archived && q.Request_State_ID == i.State_ID && EntityFunctions.DiffDays(((q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value), s) > i.AllowedDelay).Select(q => new DelayedTransDTO() { RequestID = q.Request_Data_ID.Value, Delayed = EntityFunctions.DiffDays(((q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value), s).Value, AddedDate = s, Readed = false, RequestCode = q.Code_Generate, RequestStatus = q.Request_State_ID, TransactionDate = (q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value }).ToList();
+								///////Transaction in Mostafid Mail-Box and not Encoded
+								var LastState = states.Last();
+								data = p.Request_Data.Include(q => q.RequestTransaction).Where(q => !q.Is_Archived && q.Request_State_ID == i.State_ID && q.TempCode == null && q.RequestTransaction.FirstOrDefault().CommentDate != null && EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().CommentDate.Value, s) > LastState.AllowedDelay).Select(q => new DelayedTransDTO() { RequestID = q.Request_Data_ID.Value, Delayed = EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().CommentDate.Value, s).Value, AddedDate = s, Readed = false, RequestCode = q.Code_Generate, RequestStatus = q.Request_State_ID, TransactionDate = (q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value }).ToList();
+								times.AddRange(data);
+								///////Transaction in Mostafid Mail-Box and Encoded or forwarded
+
+								data = p.Request_Data.Include(q => q.RequestTransaction).Where(q => !q.Is_Archived && q.Request_State_ID == i.State_ID && q.RequestTransaction.FirstOrDefault().CommentDate == null && EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().ForwardDate.Value, s) > i.AllowedDelay).Select(q => new DelayedTransDTO() { RequestID = q.Request_Data_ID.Value, Delayed = EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().ForwardDate.Value, s).Value, AddedDate = s, Readed = false, RequestCode = q.Code_Generate, RequestStatus = q.Request_State_ID, TransactionDate = (q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value }).ToList();
 							}
 							times.AddRange(data);
 						}
-						foreach (var i in times)
+						foreach (var i in times.Distinct())
 						{
 							var req = p.DelayedTransaction.FirstOrDefault(q => q.RequestID == i.RequestID && q.RequestStatus == i.RequestStatus);
 							if (req == null)
@@ -89,7 +95,7 @@ namespace IAUBackEnd.Admin
 				}
 				catch (Exception e)
 				{
-					Thread.Sleep(1000 * 60 * 5); // 1 min
+					Thread.Sleep(1000 * 60 * 5); // 5 min
 				}
 			}
 		}
