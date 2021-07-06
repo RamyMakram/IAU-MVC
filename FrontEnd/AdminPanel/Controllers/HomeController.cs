@@ -44,5 +44,14 @@ namespace AdminPanel.Controllers
 			var lst = res.Content.ReadAsStringAsync().Result;
 			return Json(lst, JsonRequestBehavior.AllowGet);
 		}
+
+		[HttpPost]
+		public JsonResult GetDelayedRequests()
+		{
+			var Data = APIHandeling.getData("/DelayedRequest/GetActive");
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(res.success ? res.result.ToString() : "[]");
+		}
 	}
 }

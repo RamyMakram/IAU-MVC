@@ -1,0 +1,659 @@
+﻿@model IAUAdmin.DTO.Entity.DelayedTransDTO
+@using System.Configuration;
+@{
+	ViewBag.pTitle = "Requests";
+	ViewBag.pageTitle = "Delayed Transactions";
+	ViewBag.Title = "Preview Request";
+	ViewBag.arTitle = "الطلبات";
+	ViewBag.arpageTitle = "المعاملات المتاخرة";
+	ViewBag.arpTitle = "استعراض الطلب";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Summernote css -->
+<link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<!-- Summernote css -->
+<link href="~/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
+	.nav-tabs {
+		/*box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);*/
+		border: none;
+	}
+
+		.nav-tabs .nav-link {
+			border: none;
+			border-radius: 0;
+			transition: color .2s ease-out;
+		}
+
+	.tabs-dark .nav-link {
+		color: #fff;
+	}
+
+	.tabs-light .nav-link {
+		color: rgba(0,0,0,.5);
+	}
+
+	.tabs-dark .nav-link:not(.active):hover {
+		color: #aeb0b3;
+	}
+
+	.tabs-light .nav-link:not(.active):hover {
+		color: #495057;
+	}
+
+	.nav-pills .nav-link {
+		border-radius: 2px;
+		color: #495057;
+		transition: color .2s ease-out, box-shadow .2s;
+	}
+
+		.nav-pills .nav-link:hover {
+			box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+		}
+
+	.nav-pills .nav-item {
+		margin: 0 5px;
+	}
+
+	.nav-pills.pills-dark .nav-link.active {
+		background-color: #343a40 !important;
+		box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+	}
+
+	.nav-pills.pills-dark .nav-link:not(.active):hover {
+		color: #1d1e22;
+	}
+
+	.tabs-marker .nav-link {
+		position: relative;
+	}
+
+		.tabs-marker .nav-link.active .marker {
+			height: 30px;
+			width: 30px;
+			left: 50%;
+			bottom: -30px;
+			transform: translatex(-50%);
+			position: absolute;
+			overflow: hidden;
+		}
+
+			.tabs-marker .nav-link.active .marker:after {
+				content: "";
+				height: 15px;
+				width: 15px;
+				top: -8px;
+				left: 50%;
+				transform: rotate(45deg) translatex(-50%);
+				transform-origin: left;
+				background-color: #4f693a !important;
+				box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+				position: absolute;
+			}
+</style>
+<style>
+	.data-Comment {
+		display: none;
+	}
+
+	.constainDocs[dir='rtl'] {
+		border-left: 2px dashed;
+		border-left-color: black;
+	}
+
+	.constainDocs[dir='ltr'] {
+		border-right: 2px dashed;
+		border-right-color: black;
+	}
+
+	.data-Comment.active {
+		display: block;
+	}
+
+	.text {
+		height: 253px;
+		border: 1px dashed black;
+		border-radius: 0 25px 25px 0;
+		padding: 15px;
+		margin: 15px 0;
+		overflow: auto;
+	}
+
+		.text[dir='ltr'] {
+			border-radius: 25px 0 0px 25px;
+		}
+
+	.constainDocs {
+		width: 100%;
+		height: 150px;
+		overflow-x: auto;
+		overflow-y: hidden;
+		flex-direction: column;
+		display: flex !important;
+	}
+
+		.constainDocs .col-3 {
+			display: flex;
+			align-items: center;
+		}
+
+			.constainDocs .col-3 .card {
+				margin: 15px 0 !important;
+			}
+
+	.actionBtn {
+		height: 70px;
+		font-weight: bold;
+	}
+
+	.carPrev, .carNext {
+		direction: ltr !important;
+	}
+
+		.carPrev[dir='ltr'], .carNext[dir='ltr'] {
+			direction: rtl !important;
+		}
+
+	form {
+		width: 100%
+	}
+
+	.select2-selection__rendered {
+		font-weight: normal;
+	}
+
+	.select2-selection__rendered, .select2-selection__arrow {
+		margin-top: 3px;
+	}
+
+	span.select2-selection.select2-selection {
+		height: 36px !important;
+	}
+
+	.FileTitle {
+		position: absolute;
+		bottom: 42px;
+		display: flex;
+		background: #6b686866;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		color: #0a1332;
+		margin: 0;
+		border-radius: 6px 9px 0 0;
+	}
+
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
+	}
+
+
+	#CodeGenrateDiv {
+		display: inline-flex;
+		width: 100%;
+		align-items: center;
+		justify-content: flex-start;
+		direction: ltr !important;
+	}
+
+		#CodeGenrateDiv input {
+			border: 1px solid;
+			margin: 0 5px;
+			width: 40px;
+			text-align: center !important;
+			background: #ececec;
+			font-weight: bold;
+		}
+
+	.FileTitle p {
+		margin: 0;
+		padding: 1px 0px;
+		white-space: nowrap;
+		font-size: 10px;
+	}
+
+	table#PDFTable {
+		/*font-family: arial, sans-serif;*/
+		border-collapse: collapse;
+		width: 100%;
+		margin-bottom: 29px;
+	}
+
+	#padf div img {
+		width: 120px !important;
+	}
+
+	#padf {
+		overflow-y: auto;
+		overflow-x: hidden;
+		height: 454px;
+		width: 650px;
+	}
+
+	.boldtitle {
+		font-weight: 900;
+		padding: 5px 0;
+		font-size: 21px;
+	}
+
+
+	table#PDFTable tbody tr th {
+		text-align: start !important;
+		/*font-family: 'DroidArabicKufiRegular' !important;*/
+		font-size: 14px;
+		padding: 6px 19px;
+	}
+
+		table#PDFTable tbody tr th:not(.boldtitle) {
+			border: 1px solid #eee;
+		}
+
+			table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
+				font-weight: normal
+			}
+
+		table#PDFTable tbody tr th.boldtitle {
+			font-size: 20px;
+			color: #283858;
+		}
+
+	.PDFOuterView {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>
+@{
+	var isAr = Request.Cookies["lang"].Value == "ar";
+	var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+}
+@Html.Hidden("Language", isAr, new { @id = "Language" })
+<div class="row">
+	<div class="col-12">
+		<div class="mb-3">
+			<span style="display:none" id="NONE">@Model.Request_Data.Request_Data_ID</span>
+			<div class="card">
+				<div class="card-body">
+					<div class="media mb-4 justify-content-center align-content-center  d-inline-flex justify-content-between w-100">
+						<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;font-size: 43px !important;height:100%"></i>						<div class="media-body">
+							<h5 class="font-size-14 mt-1 en-font">@Model.Request_Data.Personel_Data.First_Name</h5>
+							<small class="text-muted en-font"><a href="mailto:@Model.Request_Data.Personel_Data.Email">@Model.Request_Data.Personel_Data.Email</a></small>
+							<h5 class="font-size-12 mt-1 en-font"><span key="t-order-date">تاريخ الطلب</span>:@Model.Request_Data.CreatedDate.ToString("dd-MM-yy HH:mm")</h5>
+						</div>
+						<a href="/Home" class="btn btn-primary">@(isAr ? "الرجوع للرئيسية" : "Back To Home")</a>
+					</div>
+					<div class="PDFOuterView">
+						<div id="padf" class="pdfnotloaded">
+							<div style="padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;">
+								<img src="~/assets/images/MousLogo2.png">
+								<img src="~/assets/images/VisionLogo.png">
+							</div>
+							<table class='container' id="PDFTable" style="width: 100%;padding: 15px;">
+								<tbody>
+									<tr>
+										<th>@(isAr ? "التاخر في حالة" : "Delayed in Status")</th>
+										<th>@(isAr ? Model.Request_State.StateName_AR : Model.Request_State.StateName_EN)</th>
+									</tr>
+									<tr>
+										<th>@(isAr ? "عدد ايام التاخير" : "Days of Delay")</th>
+										<th class="en-font">@Model.Delayed</th>
+									</tr>
+									<tr>
+										<th>@(isAr ? "تاريخ المعاملة" : "Date of Transaction")</th>
+										<th class="en-font">@Model.TransactionDate.ToString("dd-MM-yy HH:mm")</th>
+									</tr>
+									@*<tr>
+											<th key="t-serviceType"></th>
+											<th>@(isAr ? Model.Request_Data.Service_Type.Service_Type_Name_AR : Model.Request_Data.Service_Type.Service_Type_Name_EN)</th>
+										</tr>*@
+									<tr>
+										<th class="boldtitle" key="t-summary"></th>
+									</tr>
+									<tr>
+										<th key="t-serviceType"></th>
+										<th>@(isAr ? Model.Request_Data.Service_Type.Service_Type_Name_AR : Model.Request_Data.Service_Type.Service_Type_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-reqtype"></th>
+										<th>@(isAr ? Model.Request_Data.Request_Type.Request_Type_Name_AR : Model.Request_Data.Request_Type.Request_Type_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-Provider"></th>
+										<th>
+											@(isAr ? Model.Request_Data.Units.Units_Name_AR : Model.Request_Data.Units.Units_Name_EN)
+										</th>
+									</tr>
+									<tr>
+										<th>@(isAr ? "الحالة الحالية" : "Current Status")</th>
+										<th>@(isAr ? Model.Request_Data.Request_State.StateName_AR : Model.Request_Data.Request_State.StateName_EN)</th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-personalData"></th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-genralInfo"></th>
+									</tr>
+									<tr>
+										<th key="t-IAUAff"></th>
+										<th><span key="@(Model.Request_Data.Personel_Data.IAU_ID_Number != null ? "t-yes" : "t-no")"></span></th>
+									</tr>
+									<tr>
+										<th key="t-applicanttype"></th>
+										<th>@(isAr ? Model.Request_Data.Personel_Data.Applicant_Type.Applicant_Type_Name_AR : Model.Request_Data.Personel_Data.Applicant_Type.Applicant_Type_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-firstname"></th>
+										<th>@Model.Request_Data.Personel_Data.First_Name</th>
+									</tr>
+									<tr>
+										<th key="t-middlename"></th>
+										<th>@Model.Request_Data.Personel_Data.Middle_Name</th>
+									</tr>
+									<tr>
+										<th key="t-lastname"></th>
+										<th>@Model.Request_Data.Personel_Data.Last_Name</th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-nationalty"></th>
+									</tr>
+									<tr>
+										<th key="t-nationalty"></th>
+										<th>@(isAr ? Model.Request_Data.Personel_Data.Country.Country_Name_AR : Model.Request_Data.Personel_Data.Country.Country_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-country"></th>
+										<th>@(isAr ? Model.Request_Data.Personel_Data.Country1.Country_Name_AR : Model.Request_Data.Personel_Data.Country1.Country_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-iddoc"></th>
+										<th>@(isAr ? Model.Request_Data.Personel_Data.ID_Document1.Document_Name_AR : Model.Request_Data.Personel_Data.ID_Document1.Document_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-idnumber"></th>
+										<th class="en-font">@(Model.Request_Data.Personel_Data.ID_Number)</th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-address"></th>
+									</tr>
+									<tr>
+										<th key="t-city"></th>
+										<th>@(Model.Request_Data.Personel_Data.Address_City ?? (isAr ? Model.Request_Data.Personel_Data.City.City_Name_AR : Model.Request_Data.Personel_Data.City.City_Name_EN))</th>
+									</tr>
+									<tr>
+										<th key="t-region"></th>
+										<th>@(Model.Request_Data.Personel_Data.Adress_Region ?? (isAr ? Model.Request_Data.Personel_Data.Region.Region_Name_AR : Model.Request_Data.Personel_Data.Region.Region_Name_EN))</th>
+									</tr>
+									<tr>
+										<th key="t-country"></th>
+										<th>@(isAr ? Model.Request_Data.Personel_Data.Country2.Country_Name_AR : Model.Request_Data.Personel_Data.Country2.Country_Name_EN)</th>
+									</tr>
+									<tr>
+										<th key="t-postal"></th>
+										<th class="en-font">@Model.Request_Data.Personel_Data.Postal_Code</th>
+									</tr>
+									<tr>
+										<th class="boldtitle" key="t-contactinfo"></th>
+									</tr>
+									<tr>
+										<th key="t-email"></th>
+										<th class="en-font">@Model.Request_Data.Personel_Data.Email</th>
+									</tr>
+									<tr>
+										<th key="t-phone"></th>
+										<th class="en-font" style="direction:ltr;text-align:start;@(isAr ? "text-align: end !important;" : "")">@Model.Request_Data.Personel_Data.Mobile</th>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			@if ((ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Count > 0)
+			{
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							@{
+								var MostafidComment = (ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>).Last();
+								<div class="col-12">
+									<div class="row">
+										<div class="col-9" style="display:inline-flex;@(isAr ? "justify-content:flex-start" : "justify-content:flex-end")" id="CodeGenrateDiv">
+											@foreach (var i in MostafidComment.Code.ToCharArray())
+											{
+												<input class="form-control Genratedcode en-font" value="@i" readonly disabled />
+											}
+										</div>
+										<div class="col-3" style="direction:ltr;justify-content: center;align-items: center;display: flex;">
+											<span style="padding: 12px;border-radius: 15px;background: darkgreen;color: white;">
+												@if (Model.Request_Data.GenratedDate != null)
+												{
+													@(Model.Request_Data.GenratedDate.Value.ToString("dd MMM HH:mm"))
+												}
+											</span>
+										</div>
+									</div>
+								</div>
+							}
+							<div class="col-12">
+
+							</div>
+						</div>
+					</div>
+				</div>
+				var RequestTransaction = ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>;
+				var IsMostafid = (bool)TempData["IsMostafid"];
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="container">
+								<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
+									@if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
+									{
+										<li class="nav-item">
+											<a class="nav-link btn btn-primary active" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
+										</li>
+									}
+								</ul>
+								<div class="tab-content" id="myTabContent">
+									@{
+										if (RequestTransaction.Count(i => i.Comment != "" && i.Comment != null) != 0)
+										{
+											var count = 0;
+											<div class="tab-pane fade show active" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
+												<div class="col">
+													<div class="CustomeCarso">
+														@foreach (var i in RequestTransaction)
+														{
+															if (i.MostafidComment != null && i.MostafidComment != "")
+															{
+																count++;
+																<div class="data-Comment" data-id="@count">
+																	<div style="display:inline-flex;justify-content:space-between;width:100%">
+																		<h3>
+																			<span key="t-MostafidComment"></span>
+																			@if (i.Is_Reminder)
+																			{
+																				<i class="far fa-bell" style="color:red;padding:0 15px"></i>
+																			}
+																		</h3>
+																		<span>@i.ForwardDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																	</div>
+																	<div class="text" dir="@(isAr?"rtl":"ltr")">
+																		@Html.Raw(i.MostafidComment)
+																	</div>
+																</div>
+															}
+															if (i.Comment != "" && i.Comment != null && i.CommentDate != null)
+															{
+
+																count++;
+																<div class="data-Comment" data-id="@count">
+																	<div style="display:inline-flex;justify-content:space-between;width:100%">
+																		<h3>@(isAr ? i.Units1.Units_Name_AR : i.Units1.Units_Name_EN)</h3>
+																		<span>@i.CommentDate.Value.ToString("dd-MM-yy HH:mm")</span>
+																	</div>
+																	<div class="text" dir="@(isAr?"rtl":"ltr")">
+																		@Html.Raw(i.Comment)
+																	</div>
+																</div>
+															}
+														}
+														<div class="row justify-content-between">
+															@if (isAr)
+															{
+																<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+																<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+																<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+															}
+															else
+															{
+																<button class="btn btn-outline-primary carPrev" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-left"></i></button>
+																<span style="direction:ltr"><span id="from-comment">@count</span> of <span id="total-comment">@count</span></span>
+																<button class="btn btn-outline-primary carNext" dir="@(isAr?"rtl":"ltr")"><i class="fas fa-arrow-right"></i></button>
+															}
+														</div>
+													</div>
+
+												</div>
+											</div>
+										}
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			}
+
+
+
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-4">
+							<p class="card-title-desc" key="t-RequiredDocs">
+								الاوراق المطلوبة
+							</p>
+							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
+
+								@foreach (var i in Model.Request_Data.Request_File.Where(q => q.RequiredDoc_ID != null))
+								{
+									<div class="col-3">
+										<div class="card w-100">
+											<i class="fas fa-file" data-toggle="tooltip" title="@((isAr ? i.Required_Documents.Name_AR : i.Required_Documents.Name_EN)+"\n"+i.File_Name)" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
+											<div class="FileTitle row w-100">
+												<p class="row" key="t-requirddoc">@(new string((isAr ? i.Required_Documents.Name_AR : i.Required_Documents.Name_EN).Take(10).ToArray()))</p>
+												<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
+											</div>
+											<div class="py-2 text-center">
+												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
+											</div>
+										</div>
+									</div>
+								}
+
+							</div>
+						</div>
+						<div class="col-4">
+							<p class="card-title-desc" key="t-SupportiedDocs">
+								الاوراق الداعمة
+							</p>
+							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
+
+								@foreach (var i in Model.Request_Data.Request_File.Where(q => q.RequiredDoc_ID == null))
+								{
+									<div class="col-3">
+										<div class="card w-100">
+											<i class="fas fa-file" data-toggle="tooltip" title="@i.File_Name" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
+											<div class="FileTitle row">
+												<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
+											</div>
+											<div class="py-2 text-center">
+												<a target="_blank" href="@url/@i.File_Path" class="font-weight-medium" key="t-preview">Preview</a>
+											</div>
+										</div>
+									</div>
+								}
+
+							</div>
+						</div>
+						<div class="col-4">
+							<p class="card-title-desc" key="t-eforms">
+								النماذج
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Summernote js -->
+<script src="~/assets/libs/summernote/summernote-bs4.min.js"></script>
+
+<!-- email summernote init -->
+<script src="~/assets/js/pages/email-summernote.init.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<!-- Summernote js -->
+<script src="~/assets/libs/summernote/summernote-bs4.min.js"></script>
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
+<script src="~/assets/js/pdf.js"></script>
+<script src="~/assets/js/pdf.worker.js"></script>
+
+<script>
+	let toal = parseInt($('#total-comment').text());
+	let activeComment = parseInt($('#total-comment').text());
+	$('.carNext').on('click', function () {
+		activeComment = ((activeComment++) % toal) + 1;
+		$('#from-comment').text(activeComment)
+		$('.data-Comment').removeClass('active');
+		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+	})
+	$('.carPrev').on('click', function () {
+		activeComment = activeComment - 1 == 0 ? toal : activeComment - 1;
+		$('#from-comment').text(activeComment)
+		$('.data-Comment').removeClass('active');
+		$(`.data-Comment[data-id='${activeComment}']`).addClass('active');
+	})
+
+	$(document).ready(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+		$('.data-Comment:last').addClass('active')
+	});
+</script>

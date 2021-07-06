@@ -17,6 +17,8 @@ namespace IAUAdmin.DTO.Entity
 		public int Delayed { get; set; }
 		public System.DateTime AddedDate { get; set; }
 		public bool Readed { get; set; }
+		public virtual ReqestDTO Request_Data { get; set; }
+		public virtual RequestStatusDTO Request_State { get; set; }
 
 	}
 }

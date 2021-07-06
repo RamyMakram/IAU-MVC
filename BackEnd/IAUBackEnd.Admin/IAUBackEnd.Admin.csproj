@@ -248,6 +248,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Applicant_TypeController.cs" />
+    <Compile Include="Controllers\DelayedRequestController.cs" />
     <Compile Include="Controllers\E_FormsController.cs" />
     <Compile Include="Controllers\GeneralSettingController.cs" />
     <Compile Include="Controllers\JobController.cs" />

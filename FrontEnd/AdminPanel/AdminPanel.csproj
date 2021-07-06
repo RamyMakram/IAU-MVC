@@ -168,6 +168,7 @@
     <Compile Include="App_Start\User_Session.cs" />
     <Compile Include="Controllers\ArchivedRequestsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DelayedTrasactionController.cs" />
     <Compile Include="Controllers\EFormsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\GlobalSettingsController.cs" />
@@ -3100,6 +3101,7 @@
     <Content Include="Views\ArchivedRequests\Home.cshtml" />
     <Content Include="Views\ArchivedRequests\Preview.cshtml" />
     <Content Include="Views\GlobalSettings\Home.cshtml" />
+    <Content Include="Views\DelayedTrasaction\Preview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

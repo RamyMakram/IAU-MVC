@@ -52,6 +52,11 @@ namespace AdminPanel.Models
 			{
 				Name = "General Settings",
 				path = "GlobalSettings"
+			},
+			new PagesPriviliges()
+			{
+				Name = "Delayed Transactions Alert",
+				path = "DelayedTrasaction"
 			}
 		};
 	}
