@@ -551,7 +551,7 @@
 									<div class="col-3">
 										<div class="card w-100">
 											<i class="fas fa-file" data-toggle="tooltip" title="@((isAr ? i.Required_Documents.Name_AR : i.Required_Documents.Name_EN)+"\n"+i.File_Name)" style="    text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
-											<div class="FileTitle row w-100">
+											<div class="FileTitle row w-100" style="bottom:26px !important">
 												<p class="row" key="t-requirddoc">@(new string((isAr ? i.Required_Documents.Name_AR : i.Required_Documents.Name_EN).Take(10).ToArray()))</p>
 												<p class="row">@(new string(i.File_Name.Take(12).ToArray()))</p>
 											</div>
