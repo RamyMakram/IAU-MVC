@@ -1,0 +1,137 @@
+﻿@model ICollection<IAUAdmin.DTO.Entity.RequestStatusDTO>
+@{
+	ViewBag.Title = "Define Request Time";
+	ViewBag.pTitle = "Define Request Time";
+	ViewBag.pageTitle = "Global Settings";
+	ViewBag.arTitle = "تحديد الوقت المستغرق للطلب";
+	ViewBag.arpTitle = "تحديد الوقت المستغرق للطلب";
+	ViewBag.arpageTitle = "الإعدادات العامة";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
+	label.control-label::after {
+		content: ":";
+	}
+
+	label.control-label {
+		font-weight: bold;
+	}
+
+	.view-time {
+		margin: auto;
+		width: 30vw;
+		border: 1px dotted black;
+		border-radius: 10px;
+	}
+
+	.card-body .row {
+		position: relative;
+	}
+
+		.card-body .row:before {
+			content: '';
+			position: absolute;
+			right: 40vw;
+			width: 0px;
+			top: 0;
+			bottom: 0;
+			border: 1px dashed black;
+		}
+
+	.mainview-time {
+		background: white;
+	}
+</style>
+@{
+	var isAr = Request.Cookies["lang"].Value == "ar";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<p class="card-title-desc">@(isAr ? "مراحل الطلب" : "Request Status")</p>
+
+				<div class="row">
+					@{
+						var cou = 0;
+						foreach (var i in Model)
+						{
+							cou += i.AllowedDelay ?? 0;
+							<div class="col-12 text-center mainview-time" style="margin-top: 25px">
+								<div class="view-time">
+									<p class="card-title-desc" style="text-align:start;padding:0 25px;margin-top:-10px"><span style="background:white;padding:0 15px">@(i.State_ID + " - " + (isAr ? i.StateName_AR : i.StateName_EN))</span></p>
+									<div class="form-group d-inline-flex align-items-center justify-content-center">
+										@Html.TextBox("State-" + i.State_ID, i.AllowedDelay, new { @class = "form-control en-font State-val", @onchange = "Recalc()", @type = "number", @style = "width:150px;text-align:center!important" })
+										<span key="t-day" style="padding:0 15px">@(isAr ? "يوم" : "Day")</span>
+									</div>
+								</div>
+							</div>
+						}
+					}
+				</div>
+				<div class="col-12 text-center" style="margin-top: 25px">
+					<p class="text-center">@(isAr ? "الوقت الاجمالي المستغرق" : "Total Days") <span id="DaysCount">@cou</span> @(isAr ? "يوم" : "Day")</p>
+				</div>
+				<button type="submit" key="t-save" id="SaveDataOFDelayed" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+				@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
+
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
+<script>
+	function Recalc() {
+		let count = 0;
+		([...$('input.State-val')]).forEach(i => {
+			let val = $(i).val()
+			count += parseInt(val == "" ? 0 : val)
+		})
+		$('#DaysCount').html(count)
+	}
+	$('#SaveDataOFDelayed').click(function () {
+		let data = [];
+		([...$('input.State-val')]).forEach(i => {
+			let ref = $(i);
+			data.push({ State_ID: ref.attr('name').split('-')[1], AllowedDelay: ref.val() })
+		})
+		let form = new FormData();
+		form.append("data", JSON.stringify(data));
+		console.log(data)
+		$.ajax({
+			url: "/GlobalSettings/SaveData", processData: false,
+			contentType: false, enctype: 'multipart/form-data', data: form, type: "POST", success: function () {
+				window.location.href = window.location.href
+			}
+		})
+	})
+</script>

@@ -88,15 +88,19 @@
 					<i class="bx bx-fullscreen"></i>
 				</button>
 			</div>
+			@if ((TempData["Permissions"] as string[]).Contains("Delayed Transactions Alert"))
+			{
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="bx bx-bell bx-tada"></i>
+						<span class="badge badge-danger badge-pill" id="DelayedTrans-count">0</span>
+					</button>
+					<div class="dropdown-menu dropdown-menu-right" id="DelayedTrans-View" style="min-width:35rem !important">
 
-			@*<div class="dropdown d-inline-block">
-				<button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="bx bx-bell bx-tada"></i>
-					<span class="badge badge-danger badge-pill" id="">0</span>
-				</button>
-			</div>*@
-
+					</div>
+				</div>
+			}
 			<div class="dropdown d-inline-block">
 				<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center;">
@@ -121,5 +125,35 @@
 			position: absolute !important;
 			top: 12px !important;
 		}
+
+		.noreaded {
+			background-color: #eae0ca !important;
+			color: black !important;
+		}
 	</style>
+	@if ((TempData["Permissions"] as string[]).Contains("Delayed Transactions Alert"))
+	{
+		var isAr = Request.Cookies["lang"].Value == "ar";
+		<script src="~/assets/libs/jquery/jquery.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$.ajax({
+					url: "/Home/GetDelayedRequests", type: "POST", success: function (d) {
+						let data = JSON.parse(d)
+
+						$('#DelayedTrans-count').html(data.length)
+						let Bind=''
+						data.forEach(i => {
+							Bind += `
+									<a class="dropdown-item ${i["Readed"]?"":"noreaded"}" href="/DelayedTrasaction/Preview/${i["ID"]}">'${i['ReqID']}'@(isAr?" معاملة متاخرة . حالة الطلب":" Delayed Transaction . Request Satus ") ' ${i['@(isAr?"RequestStatusAR":"RequestStatusEN")']} '</a>
+									<div class="dropdown-divider ${i["Readed"]?"":"noreaded"}"></div>
+									`
+						})
+
+						$('#DelayedTrans-View').html(Bind)
+					}
+				})
+			})
+		</script>
+	}
 </header>

@@ -290,7 +290,7 @@ var User = "";
 		initMenuItemScroll();
 		initHoriMenuActive();
 		initFullScreen();
-		initRightSidebar();
+		//initRightSidebar();
 		try {
 
 			$("#side-menu").metisMenu();

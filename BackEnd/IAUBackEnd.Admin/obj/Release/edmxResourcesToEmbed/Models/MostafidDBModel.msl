@@ -292,15 +292,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Request_State">
-      <EntityTypeMapping TypeName="MostafidDBModel.Request_State">
-        <MappingFragment StoreEntitySet="Request_State">
-          <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
-          <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
-          <ScalarProperty Name="State_ID" ColumnName="State_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Request_Type">
       <EntityTypeMapping TypeName="MostafidDBModel.Request_Type">
         <MappingFragment StoreEntitySet="Request_Type">
@@ -538,6 +529,30 @@
           <ScalarProperty Name="Unit_ID" ColumnName="Unit_ID" />
           <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
           <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request_State">
+      <EntityTypeMapping TypeName="MostafidDBModel.Request_State">
+        <MappingFragment StoreEntitySet="Request_State">
+          <ScalarProperty Name="AllowedDelay" ColumnName="AllowedDelay" />
+          <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
+          <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
+          <ScalarProperty Name="State_ID" ColumnName="State_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DelayedTransaction">
+      <EntityTypeMapping TypeName="MostafidDBModel.DelayedTransaction">
+        <MappingFragment StoreEntitySet="DelayedTransaction">
+          <ScalarProperty Name="Readed" ColumnName="Readed" />
+          <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+          <ScalarProperty Name="Delayed" ColumnName="Delayed" />
+          <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+          <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
+          <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

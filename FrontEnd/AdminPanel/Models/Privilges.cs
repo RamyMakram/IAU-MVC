@@ -7,6 +7,13 @@ namespace AdminPanel.Models
 {
 	public class Privilges
 	{
+		public static List<string> GlobalPrivilges = new List<string>()
+		{
+			"Home".ToUpper(),
+			"Email".ToUpper(),
+			"SendedRequests".ToUpper(),
+			"BASE"
+		};
 		public static List<PagesPriviliges> PagesPriviliges = new List<PagesPriviliges>() {
 			new PagesPriviliges()
 			{
@@ -26,7 +33,7 @@ namespace AdminPanel.Models
 			new PagesPriviliges()
 			{
 				Name = "Service Bank",
-				path = "ServicesBank"
+				path = "ServicesBank,SubServices,EForms"
 			},
 			new PagesPriviliges()
 			{
