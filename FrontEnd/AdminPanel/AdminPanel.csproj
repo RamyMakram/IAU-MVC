@@ -176,6 +176,7 @@
     <Compile Include="Controllers\LevelsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\LoginForwardController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SendedRequestsController.cs" />
     <Compile Include="Controllers\ServicesBankController.cs" />
     <Compile Include="Controllers\RequestTypeController.cs" />
@@ -3102,6 +3103,7 @@
     <Content Include="Views\ArchivedRequests\Preview.cshtml" />
     <Content Include="Views\GlobalSettings\Home.cshtml" />
     <Content Include="Views\DelayedTrasaction\Preview.cshtml" />
+    <Content Include="Views\Report\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

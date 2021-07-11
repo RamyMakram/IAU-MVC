@@ -38,11 +38,11 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		public async Task<IHttpActionResult> GetLocationWithLang(int id, string lang)
 		{
-			var location = await p.Units_Location.FindAsync(id);
+			var location = p.Units_Location.Include(q => q.Location).FirstOrDefault(q => q.Units_Location_ID == id);
 			if (location == null)
 				return Ok(new ResponseClass() { success = false, result = "Location Is Null" });
 
-			return Ok(new ResponseClass() { success = true, result = new UnitsLocDTO { Units_Location_ID = location.Units_Location_ID, IS_Action = location.IS_Action, Location_ID = location.Location_ID, Units_Location_Name_AR = location.Units_Location_Name_AR, Units_Location_Name_EN = location.Units_Location_Name_EN, Location = new LocationsDTO() { Location_ID = location.Location.Location_ID, Name = lang == "ar" ? location.Location.Location_Name_AR : location.Location.Location_Name_EN } } });
+			return Ok(new ResponseClass() { success = true, result = location });
 		}
 		public async Task<IHttpActionResult> EditUnits_Location(Units_Location units_Location)
 		{

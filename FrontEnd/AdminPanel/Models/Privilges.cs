@@ -12,6 +12,7 @@ namespace AdminPanel.Models
 			"Home".ToUpper(),
 			"Email".ToUpper(),
 			"SendedRequests".ToUpper(),
+			"Report".ToUpper(),
 			"BASE"
 		};
 		public static List<PagesPriviliges> PagesPriviliges = new List<PagesPriviliges>() {

@@ -7,6 +7,7 @@
 	ViewBag.arpageTitle = "معلومات الموقع";
 	ViewBag.arpTitle = "مواقع الوحدات";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var isAr = Request.Cookies["lang"].Value == "ar";
 }
 
 
@@ -27,7 +28,7 @@
 				</tr>
 				<tr>
 					<th key="t-location" scope="row">EN Name</th>
-					<td>@Model.Location.Name</td>
+					<td>@(isAr ? Model.Location.Location_Name_AR : Model.Location.Location_Name_EN)</td>
 				</tr>
 			</tbody>
 		</table>
