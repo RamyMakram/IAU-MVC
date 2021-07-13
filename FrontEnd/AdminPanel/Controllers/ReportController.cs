@@ -55,5 +55,9 @@ namespace AdminPanel.Controllers
 			ViewBag.Status = JsonConvert.DeserializeObject<ICollection<RequestStatusDTO>>(res.result.ToString());
 			return View();
 		}
+		public ActionResult Filter(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
+		{
+			return View();
+		}
 	}
 }

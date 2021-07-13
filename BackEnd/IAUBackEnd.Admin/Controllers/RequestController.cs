@@ -17,6 +17,7 @@ using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
 using LinqKit;
 using Newtonsoft.Json;
+//using System.Linq.Dynamic;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -279,7 +280,7 @@ namespace IAUBackEnd.Admin.Controllers
 				var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
 				if (Unit.IS_Mostafid)
 				{
-					Request_Data request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).Include(q=>q.Units).FirstOrDefault(q => q.Is_Archived && q.Request_Data_ID == id);
+					Request_Data request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).Include(q => q.Units).FirstOrDefault(q => q.Is_Archived && q.Request_Data_ID == id);
 					if (request_Data == null)
 						return Ok(new ResponseClass() { success = false });
 					return Ok(new ResponseClass() { success = true, result = request_Data });
@@ -598,6 +599,43 @@ namespace IAUBackEnd.Admin.Controllers
 				var data = p.Request_Data.Include(q => q.Units).Include(q => q.Request_State).Where(q => q.Code_Generate == Code)
 					.Select(q => new { q.IsTwasul_OC, q.Request_State, q.Request_Data_ID, q.Request_State_ID }).FirstOrDefault();
 				return Ok(new ResponseClass() { success = true, result = new { Request = data, State = p.RequestTransaction.Where(q => q.Request_ID == data.Request_Data_ID).Include(q => q.Units).OrderByDescending(w => w.ID).FirstOrDefault() } });
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass() { success = false, result = ee });
+			}
+		}
+		[HttpPost]
+		public async Task<IHttpActionResult> ReportRequests(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
+		{
+			try
+			{
+				var Pred = PredicateBuilder.New<Request_Data>(q => q.Is_Archived);
+				if (ST.HasValue)
+					Pred.And(q => q.Service_Type_ID == ST);
+				if (RT.HasValue)
+					Pred.And(q => q.Request_Type_ID == RT);
+				if (MT.HasValue)
+					if (MT == 0)
+						Pred.And(q => q.Personel_Data.IAU_ID_Number == "" || q.Personel_Data.IAU_ID_Number != null);
+					else
+						Pred.And(q => q.Personel_Data.IAU_ID_Number != "" && q.Personel_Data.IAU_ID_Number != null);
+				if (DF.HasValue)
+					Pred.And(q => q.CreatedDate >= DF);
+				if (DT.HasValue)
+					Pred.And(q => q.CreatedDate <= DT);
+				if (location.HasValue)
+					Pred.And(q => q.RequestTransaction.Count(s => s.Units.Units_Location_ID == location) != 0);
+				if (Unit.HasValue)
+					Pred.And(q => q.RequestTransaction.Count(s => s.ToUnitID == Unit) != 0);
+				if (ReqStatus.HasValue)
+					Pred.And(q => q.Request_State_ID == ReqStatus);
+				if (ReqSource.HasValue)
+					Pred.And(q => q.IsTwasul_OC == ReqSource);
+
+				var data = p.Request_Data.Where(Pred).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
+				return Ok(new ResponseClass() { success = true, result = data });
+
 			}
 			catch (Exception ee)
 			{
