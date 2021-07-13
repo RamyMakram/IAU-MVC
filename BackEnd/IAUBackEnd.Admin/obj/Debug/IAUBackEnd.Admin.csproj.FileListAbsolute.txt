@@ -498,3 +498,4 @@ C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Debug\IAUBackEnd.Adm
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Debug\IAUBackEnd.Admin.csproj.CopyComplete
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Debug\IAUBackEnd.Admin.dll
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Debug\IAUBackEnd.Admin.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\System.Linq.Dynamic.dll

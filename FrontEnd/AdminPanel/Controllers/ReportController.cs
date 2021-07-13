@@ -55,9 +55,15 @@ namespace AdminPanel.Controllers
 			ViewBag.Status = JsonConvert.DeserializeObject<ICollection<RequestStatusDTO>>(res.result.ToString());
 			return View();
 		}
-		public ActionResult Filter(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
+		public ActionResult FilterRequest(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
 		{
-			return View();
+			var Data = APIHandeling.Post($"Request/ReportRequests?RT={RT}&ST={ST}&MT={MT}&DF={DF}&DT={DT}&location={location}&Unit={Unit}&ReqStatus={ReqStatus}&ReqSource={ReqSource}&Columns={Columns}", "");
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return View("Filter", JsonConvert.DeserializeObject<ICollection<RequestReportDTO>>(res.result.ToString()));
+			else
+				return RedirectToAction("Home");
 		}
 	}
 }

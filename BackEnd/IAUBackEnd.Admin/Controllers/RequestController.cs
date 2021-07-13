@@ -17,7 +17,7 @@ using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
 using LinqKit;
 using Newtonsoft.Json;
-//using System.Linq.Dynamic;
+using System.Linq.Dynamic;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -49,6 +49,7 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass() { success = false, result = ee });
 			}
 		}
+		
 		public async Task<IHttpActionResult> GetFilterdRequests_Data(int? ST, int? RT, int? MT, DateTime? DF, DateTime? DT, int UserID)
 		{
 			try
@@ -605,6 +606,39 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass() { success = false, result = ee });
 			}
 		}
+		public string SelectQueryData(string cols)
+		{
+			var ReturnedXols = new[] {
+				new { Table = "Personel_Data" ,Cols=new string[]{ "IAU_ID_Number", "Middle_Name", "Last_Name", "ID_Number", "First_Name", "Mobile", "Email", "Postal_Code" } },
+				new { Table = "Personel_Data.Applicant_Type" ,Cols =new string[]{ "Applicant_Type_ID"} },
+				new { Table = "Personel_Data.Title_Middle_Names" ,Cols =new string[]{ "Title_Middle_Names_ID"} },
+				new { Table = "Personel_Data.Country" ,Cols =new string[]{ "Nationality_ID"} },
+				new { Table = "Personel_Data.Country2" ,Cols =new string[]{ "Address_CountryID" } },
+				new { Table = "Personel_Data.City" ,Cols =new string[]{ "Address_CityID" } },
+				new { Table = "Personel_Data.Region" ,Cols =new string[]{ "Adress_RegionID" } },
+				new { Table = "" ,Cols =new string[]{ "Code_Generate", "CreatedDate" } },
+				new { Table = "Service_Type" ,Cols =new string[]{ "Service_Type_ID" } },
+				new { Table = "Request_Type" ,Cols =new string[]{ "Request_Type_ID" } },
+				new { Table = "Request_State" ,Cols =new string[]{ "Request_State_ID" } },
+			   };
+			string SelectQuery = "Request_Data_ID";
+			var conls = cols.Split(',').Distinct();
+			foreach (var i in conls)
+			{
+				var Table = ReturnedXols.FirstOrDefault(q => q.Cols.Contains(i));
+				if (Table != null)
+				{
+					SelectQuery += ",";
+					if (Table.Table.Contains("Personel_Data.") || Table.Table.Equals("Service_Type") || Table.Table.Equals("Request_Type") || Table.Table.Equals("Request_State"))
+						SelectQuery += SelectQuery.Contains(Table.Table) ? "" : Table.Table;
+					else if (Table.Table == "")
+						SelectQuery += i;
+					else
+						SelectQuery += Table.Table + "." + i;
+				}
+			}
+			return $"new({SelectQuery})";
+		}
 		[HttpPost]
 		public async Task<IHttpActionResult> ReportRequests(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
 		{
@@ -633,7 +667,7 @@ namespace IAUBackEnd.Admin.Controllers
 				if (ReqSource.HasValue)
 					Pred.And(q => q.IsTwasul_OC == ReqSource);
 
-				var data = p.Request_Data.Where(Pred).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
+				var data = p.Request_Data.Where(Pred).Select(SelectQueryData(Columns)).Distinct();
 				return Ok(new ResponseClass() { success = true, result = data });
 
 			}

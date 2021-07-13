@@ -105,7 +105,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				@using (Html.BeginForm("Filter", "Report", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+				@using (Html.BeginForm("", "", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "FilterForm" }))
 				{
 					<div class="row w-100 h-100 m-0">
 						<div class="col-6 form-group">
@@ -182,17 +182,15 @@
 										<ul class="list1">
 											<li data-key="Service_Type_ID" class="active"> Service Type  </li>
 											<li data-key="Request_Type_ID"> Request Type  </li>
-											<li data-key="Nationality_ID"> Nationalty  </li>
 											<li data-key="Request_State_ID"> Request Status  </li>
 											<li data-key="Code_Generate"> Request Code  </li>
 											<li data-key="CreatedDate"> Created Date  </li>
 											<li data-key="IAU_ID_Number"> IAU ID Number </li>
 											<li data-key="Applicant_Type_ID"> Applicant Type  </li>
-											<li data-key="Title_Middle_Names_ID"> Title  </li>
 											<li data-key="Middle_Name"> Middle Name  </li>
 											<li data-key="Last_Name"> Last_Name  </li>
 											<li data-key="Nationality_ID"> Nationality  </li>
-											<li data-key="ID_Document"> ID Number  </li>
+											<li data-key="ID_Number"> ID Number  </li>
 											<li data-key="Address_CountryID"> Address Country</li>
 											<li data-key="Address_CityID"> Address City  </li>
 											<li data-key="Adress_RegionID"> Adress Region  </li>
@@ -221,10 +219,8 @@
 							</div>
 						</div>
 						<div class="col-12 justify-content-center d-flex">
-							<button class="btn btn-primary w-50" id="btn-filter">فرز</button>
+							<input  class="btn btn-primary w-50" id="btn-filter" type="button" value="فرز"/>
 						</div>
-						<button class="hidden d-none" id="submitFilter" type="submit"></button>
-
 					</div>
 				}
 			</div>
@@ -278,10 +274,12 @@
 		$('.list2').append($('.list1 .selected').removeClass('selected'));
 	});
 	$('#btn-filter').click(s => {
+		event.stopPropagation()
+		event.stopImmediatePropagation()
 		let Columns = "";
 		let count = 0;
 		([...$('.list2 li')]).forEach(i => { Columns += count == 0 ? $(i).attr('data-key') : "," + $(i).attr('data-key'); count++; });
 		$('#cols').val(Columns)
-		$('#submitFilter').click();
+		location.href = "/Report/FilterRequest?" + $('#FilterForm').serialize()
 	})
 </script>

@@ -1,0 +1,192 @@
+﻿@model ICollection<IAUAdmin.DTO.Entity.RequestReportDTO>
+@{
+	ViewBag.Title = "Requests";
+	ViewBag.pTitle = "Requests";
+	ViewBag.pageTitle = "Filterd Requests";
+	ViewBag.arTitle = "الطلبات";
+	ViewBag.arpageTitle = "الطلبات";
+	ViewBag.arpTitle = " الطلبات المفلتره";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var isAr = Request.Cookies["lang"].Value == "ar";
+
+}
+
+<!-- DataTables -->
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="col-12 d-flex justify-content-end mb-3">
+					@*<button type="button" class="btn btn-primary" id="sa-archive">
+							<span key="t-">Archive Selected</span>
+						</button>*@
+					<a href="/Report" class="btn btn-primary">@(isAr ? "العوده للرئيسية" : "Back To Home")</a>
+
+				</div>
+
+				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+					<thead>
+						<tr>
+							<th>#</th>
+							@{
+								var data = Request.QueryString.Cast().Keys.Cast<string>().ToList();
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "الأسم الاول" : "First Name")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "الأسم الاوسط" : "Middle Name")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "الاسم الاخير" : "Last Name")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "الهاتف" : "Mobile")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "البريد الالكتروني" : "Email")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "الجنسية" : "Nationalty")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "الدولة" : "Country")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "المنطقة" : "Region")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "المدينة" : "City")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "رقم البريد" : "Postal")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "رقم الهوية" : "ID Number")</th>
+								}
+								if (data.Contains("MT"))
+								{
+									<th>@(isAr ? "منسوب للجامعة" : "IAU Affilate")</th>
+								}
+								if (data.Contains("ST"))
+								{
+									<th>@(isAr ? "الخدمة الرئيسية" : "Service Type")</th>
+								}
+								if (data.Contains("ST"))
+								{
+									<th>@(isAr ? "نوع الطلب" : "Request Type")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "كود الطلب" : "Request Code")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "تاريخ الانشاء" : "Creation Date")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "نوع مقدم الطلب" : "Applicant Type")</th>
+								}
+								if (data.Contains(""))
+								{
+									<th>@(isAr ? "حالة الطلب" : "Status")</th>
+								}
+							}
+						</tr>
+					</thead>
+					<tbody id="MailList">
+						@*@{
+								var count = 1;
+								foreach (var i in Model)
+								{
+									<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
+										<td class="for-Checkbox"><input type="checkbox" class="selectbox-request check-@i.Request_Data_ID" id="@i.Request_Data_ID" /></td>
+										<td>@count</td>
+										<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+										<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+										<td>
+											@if (i.Personel_Data.IAU_ID_Number != "")
+											{
+												<span key="t-yes"></span>
+											}
+											else
+											{
+												<span key="t-no"></span>
+											}
+
+										</td>
+										<td class="en-font">@(i.Personel_Data.First_Name)</td>
+										<td class="en-font">
+											@(i.CreatedDate.ToString("MM/dd - HH:mm"))
+										</td>
+
+										<td>
+											<div class="dropdown dropbtn">
+												@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
+												<div class="dropdown-content">
+													<div class="p-10">
+														@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								}
+								count++;
+							}*@
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div> <!-- end col -->
+</div> <!-- end row -->
+
+
+
+
+
+
+
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Required datatable js -->
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/libs/jszip/jszip.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<!-- Datatable init js -->
+<script src="~/assets/js/pages/datatables.init.js"></script>
+<script src="~/assets/js/app.js"></script>
