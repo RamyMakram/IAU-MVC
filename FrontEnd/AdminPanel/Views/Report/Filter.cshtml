@@ -8,9 +8,15 @@
 	ViewBag.arpTitle = " الطلبات المفلتره";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	var isAr = Request.Cookies["lang"].Value == "ar";
+	var data = Request.QueryString["Columns"];
+
 
 }
-
+<style>
+	#datatable-buttons_wrapper .row .col-sm-12{
+		overflow:auto;
+	}
+</style>
 <!-- DataTables -->
 <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
@@ -36,76 +42,75 @@
 						<tr>
 							<th>#</th>
 							@{
-								var data = Request.QueryString.Cast().Keys.Cast<string>().ToList();
-								if (data.Contains(""))
+								if (data.Contains("First_Name"))
 								{
 									<th>@(isAr ? "الأسم الاول" : "First Name")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Middle_Name"))
 								{
 									<th>@(isAr ? "الأسم الاوسط" : "Middle Name")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Last_Name"))
 								{
 									<th>@(isAr ? "الاسم الاخير" : "Last Name")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Mobile"))
 								{
 									<th>@(isAr ? "الهاتف" : "Mobile")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Email"))
 								{
 									<th>@(isAr ? "البريد الالكتروني" : "Email")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Nationality"))
 								{
 									<th>@(isAr ? "الجنسية" : "Nationalty")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Country"))
 								{
 									<th>@(isAr ? "الدولة" : "Country")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Region"))
 								{
 									<th>@(isAr ? "المنطقة" : "Region")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("City"))
 								{
 									<th>@(isAr ? "المدينة" : "City")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Postal_Code"))
 								{
 									<th>@(isAr ? "رقم البريد" : "Postal")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("ID_Number"))
 								{
 									<th>@(isAr ? "رقم الهوية" : "ID Number")</th>
 								}
-								if (data.Contains("MT"))
+								if (data.Contains("IAU_ID_Number"))
 								{
 									<th>@(isAr ? "منسوب للجامعة" : "IAU Affilate")</th>
 								}
-								if (data.Contains("ST"))
+								if (data.Contains("ServiceType"))
 								{
 									<th>@(isAr ? "الخدمة الرئيسية" : "Service Type")</th>
 								}
-								if (data.Contains("ST"))
+								if (data.Contains("RequestType"))
 								{
 									<th>@(isAr ? "نوع الطلب" : "Request Type")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("Code_Generate"))
 								{
 									<th>@(isAr ? "كود الطلب" : "Request Code")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("CreatedDate"))
 								{
 									<th>@(isAr ? "تاريخ الانشاء" : "Creation Date")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("ApplicantType"))
 								{
 									<th>@(isAr ? "نوع مقدم الطلب" : "Applicant Type")</th>
 								}
-								if (data.Contains(""))
+								if (data.Contains("RequestStatus"))
 								{
 									<th>@(isAr ? "حالة الطلب" : "Status")</th>
 								}
@@ -113,45 +118,104 @@
 						</tr>
 					</thead>
 					<tbody id="MailList">
-						@*@{
-								var count = 1;
-								foreach (var i in Model)
-								{
-									<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
-										<td class="for-Checkbox"><input type="checkbox" class="selectbox-request check-@i.Request_Data_ID" id="@i.Request_Data_ID" /></td>
-										<td>@count</td>
-										<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
-										<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
-										<td>
-											@if (i.Personel_Data.IAU_ID_Number != "")
+						@{
+							var count = 1;
+							foreach (var i in Model)
+							{
+								<tr>
+									<td>@count</td>
+									@{
+										if (data.Contains("First_Name"))
+										{
+											<td>@i.First_Name</td>
+										}
+										if (data.Contains("Middle_Name"))
+										{
+											<td>@i.Middle_Name</td>
+										}
+										if (data.Contains("Last_Name"))
+										{
+											<td>@i.Last_Name</td>
+										}
+										if (data.Contains("Mobile"))
+										{
+											<td class="en-font">@i.Mobile</td>
+										}
+										if (data.Contains("Email"))
+										{
+											<td class="en-font">@i.Email</td>
+										}
+										if (data.Contains("Nationality"))
+										{
+											<td>@(isAr ? i.Country.Country_Name_AR : i.Country.Country_Name_EN)</td>
+										}
+										if (data.Contains("Country"))
+										{
+											<td>@(isAr ? i.Country2.Country_Name_AR : i.Country2.Country_Name_EN)</td>
+										}
+										if (data.Contains("Region"))
+										{
+											if (i.Region == null)
 											{
-												<span key="t-yes"></span>
+												<td>@i.Adress_Region</td>
 											}
 											else
 											{
-												<span key="t-no"></span>
+												<td>@(isAr ? i.Region.Region_Name_AR : i.Region.Region_Name_EN)</td>
 											}
-
-										</td>
-										<td class="en-font">@(i.Personel_Data.First_Name)</td>
-										<td class="en-font">
-											@(i.CreatedDate.ToString("MM/dd - HH:mm"))
-										</td>
-
-										<td>
-											<div class="dropdown dropbtn">
-												@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
-												<div class="dropdown-content">
-													<div class="p-10">
-														@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-								}
+										}
+										if (data.Contains("City"))
+										{
+											if (i.City == null)
+											{
+												<td>@i.Address_City</td>
+											}
+											else
+											{
+												<td>@(isAr ? i.City.City_Name_AR : i.City.City_Name_EN)</td>
+											}
+										}
+										if (data.Contains("Postal"))
+										{
+											<td class="en-font">@i.Postal_Code</td>
+										}
+										if (data.Contains("ID_Number"))
+										{
+											<td class="en-font">@i.ID_Number</td>
+										}
+										if (data.Contains("IAU_ID_Number"))
+										{
+											<td class="en-font">@i.IAU_ID_Number</td>
+										}
+										if (data.Contains("ServiceType"))
+										{
+											<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+										}
+										if (data.Contains("RequestType"))
+										{
+											<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+										}
+										if (data.Contains("Code_Generate"))
+										{
+											<td class="en-font">@i.Code_Generate</td>
+										}
+										if (data.Contains("CreatedDate"))
+										{
+											<td class="en-font">@i.CreatedDate</td>
+										}
+										if (data.Contains("ApplicantType"))
+										{
+											<td>@(isAr ? i.Applicant_Type.Applicant_Type_Name_AR : i.Applicant_Type.Applicant_Type_Name_EN)</td>
+										}
+										if (data.Contains("RequestStatus"))
+										{
+											<td>@(isAr ? i.Request_State.StateName_AR : i.Request_State.StateName_EN)</td>
+										}
+									}
+								</tr>
 								count++;
-							}*@
+							}
+						}
 					</tbody>
 				</table>
 			</div>

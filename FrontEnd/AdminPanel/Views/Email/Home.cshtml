@@ -110,8 +110,8 @@
 										</div>
 									</td>
 								</tr>
+								count++;
 							}
-							count++;
 						}
 					</tbody>
 				</table>
@@ -184,7 +184,7 @@
 				let count = 1;
 				Data.forEach(received_msg => {
 					html.innerHTML += `
-						<tr onclick="Preview('/Email/Preview/${received_msg["Request_Data_ID"]}')" class="${received_msg["Readed"]?'':'noreaded'}">
+						<tr onclick="Preview('/Email/Preview/${received_msg["Request_Data_ID"]}')" class="${received_msg["Readed"] ? '' : 'noreaded'}">
 								<td class="sorting_1 dtr-control"><input type="checkbox" class="selectbox-request" id="${received_msg["Request_Data_ID"]}"></td>
 								<td>${count}</td>
 								<td>${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : received_msg["Service_Type"]["Service_Type_Name_EN"])}</td>

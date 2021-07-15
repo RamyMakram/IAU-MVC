@@ -49,7 +49,7 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass() { success = false, result = ee });
 			}
 		}
-		
+
 		public async Task<IHttpActionResult> GetFilterdRequests_Data(int? ST, int? RT, int? MT, DateTime? DF, DateTime? DT, int UserID)
 		{
 			try
@@ -610,16 +610,16 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			var ReturnedXols = new[] {
 				new { Table = "Personel_Data" ,Cols=new string[]{ "IAU_ID_Number", "Middle_Name", "Last_Name", "ID_Number", "First_Name", "Mobile", "Email", "Postal_Code" } },
-				new { Table = "Personel_Data.Applicant_Type" ,Cols =new string[]{ "Applicant_Type_ID"} },
-				new { Table = "Personel_Data.Title_Middle_Names" ,Cols =new string[]{ "Title_Middle_Names_ID"} },
-				new { Table = "Personel_Data.Country" ,Cols =new string[]{ "Nationality_ID"} },
-				new { Table = "Personel_Data.Country2" ,Cols =new string[]{ "Address_CountryID" } },
-				new { Table = "Personel_Data.City" ,Cols =new string[]{ "Address_CityID" } },
-				new { Table = "Personel_Data.Region" ,Cols =new string[]{ "Adress_RegionID" } },
+				new { Table = "Personel_Data.Applicant_Type" ,Cols =new string[]{ "ApplicantType" } },
+				//new { Table = "Personel_Data.Title_Middle_Names" ,Cols =new string[]{ "Title_Middle_Names_ID"} },
+				new { Table = "Personel_Data.Country" ,Cols =new string[]{ "Nationality" } },
+				new { Table = "Personel_Data.Country2" ,Cols =new string[]{ "Country" } },
+				new { Table = "Personel_Data.City" ,Cols =new string[]{ "City" } },
+				new { Table = "Personel_Data.Region" ,Cols =new string[]{ "Region" } },
 				new { Table = "" ,Cols =new string[]{ "Code_Generate", "CreatedDate" } },
-				new { Table = "Service_Type" ,Cols =new string[]{ "Service_Type_ID" } },
-				new { Table = "Request_Type" ,Cols =new string[]{ "Request_Type_ID" } },
-				new { Table = "Request_State" ,Cols =new string[]{ "Request_State_ID" } },
+				new { Table = "Service_Type" ,Cols =new string[]{ "ServiceType" } },
+				new { Table = "Request_Type" ,Cols =new string[]{ "RequestType" } },
+				new { Table = "Request_State" ,Cols =new string[]{ "RequestStatus" } },
 			   };
 			string SelectQuery = "Request_Data_ID";
 			var conls = cols.Split(',').Distinct();
@@ -635,6 +635,10 @@ namespace IAUBackEnd.Admin.Controllers
 						SelectQuery += i;
 					else
 						SelectQuery += Table.Table + "." + i;
+					if (i.Contains("City"))
+						SelectQuery += ",Personel_Data.Address_City";
+					if (i.Contains("Region"))
+						SelectQuery += ",Personel_Data.Adress_Region";
 				}
 			}
 			return $"new({SelectQuery})";

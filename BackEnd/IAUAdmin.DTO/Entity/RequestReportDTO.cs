@@ -27,5 +27,7 @@ namespace IAUAdmin.DTO.Entity
 		public string First_Name { get; set; }
 		public string Email { get; set; }
 		public string Mobile { get; set; }
+		public string Adress_Region { get; set; }
+		public string Address_City { get; set; }
 	}
 }

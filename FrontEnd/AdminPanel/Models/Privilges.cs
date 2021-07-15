@@ -12,7 +12,6 @@ namespace AdminPanel.Models
 			"Home".ToUpper(),
 			"Email".ToUpper(),
 			"SendedRequests".ToUpper(),
-			"Report".ToUpper(),
 			"BASE"
 		};
 		public static List<PagesPriviliges> PagesPriviliges = new List<PagesPriviliges>() {
@@ -25,6 +24,10 @@ namespace AdminPanel.Models
 			{
 				Name = "Permissions",
 				path = "Jobs"
+			},new PagesPriviliges()
+			{
+				Name = "Statistics",
+				path = "Report"
 			},
 			new PagesPriviliges()
 			{

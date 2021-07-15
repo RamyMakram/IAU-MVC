@@ -8,6 +8,8 @@ using System.Threading;
 using System.Web.Http;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.IO;
+using System.Text;
 
 namespace IAUBackEnd.Admin
 {
@@ -33,10 +35,10 @@ namespace IAUBackEnd.Admin
 		{
 			while (true)
 			{
+				string filepath = System.Web.Hosting.HostingEnvironment.MapPath("~") + "\\Log.txt";
+				DateTime s = Helper.GetDate();
 				try
 				{
-					DateTime s = Helper.GetDate();
-
 					if (s.Hour == 0)
 					{
 						MostafidDBEntities p = new MostafidDBEntities();
@@ -57,11 +59,11 @@ namespace IAUBackEnd.Admin
 							{
 								///////Transaction in Mostafid Mail-Box and not Encoded
 								var LastState = states.Last();
-								data = p.Request_Data.Include(q => q.RequestTransaction).Where(q => !q.Is_Archived && q.Request_State_ID == i.State_ID && q.TempCode == null && q.RequestTransaction.FirstOrDefault().CommentDate != null && EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().CommentDate.Value, s) > LastState.AllowedDelay).Select(q => new DelayedTransDTO() { RequestID = q.Request_Data_ID.Value, Delayed = EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().CommentDate.Value, s).Value, AddedDate = s, Readed = false, RequestCode = q.Code_Generate, RequestStatus = q.Request_State_ID, TransactionDate = (q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value }).ToList();
+								data = p.Request_Data.Include(q => q.RequestTransaction).Where(q => !q.Is_Archived && q.Request_State_ID == i.State_ID && (q.TempCode == null || q.TempCode == "") && q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate != null && EntityFunctions.DiffDays(q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate.Value, s) > LastState.AllowedDelay).Select(q => new DelayedTransDTO() { RequestID = q.Request_Data_ID.Value, Delayed = EntityFunctions.DiffDays(q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate.Value, s).Value, AddedDate = s, Readed = false, RequestCode = q.Code_Generate, RequestStatus = q.Request_State_ID, TransactionDate = (q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value }).ToList();
 								times.AddRange(data);
 								///////Transaction in Mostafid Mail-Box and Encoded or forwarded
 
-								data = p.Request_Data.Include(q => q.RequestTransaction).Where(q => !q.Is_Archived && q.Request_State_ID == i.State_ID && q.RequestTransaction.FirstOrDefault().CommentDate == null && EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().ForwardDate.Value, s) > i.AllowedDelay).Select(q => new DelayedTransDTO() { RequestID = q.Request_Data_ID.Value, Delayed = EntityFunctions.DiffDays(q.RequestTransaction.FirstOrDefault().ForwardDate.Value, s).Value, AddedDate = s, Readed = false, RequestCode = q.Code_Generate, RequestStatus = q.Request_State_ID, TransactionDate = (q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value }).ToList();
+								data = p.Request_Data.Include(q => q.RequestTransaction).Where(q => !q.Is_Archived && q.Request_State_ID == i.State_ID && q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate == null && EntityFunctions.DiffDays(q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate.Value, s) > i.AllowedDelay).Select(q => new DelayedTransDTO() { RequestID = q.Request_Data_ID.Value, Delayed = EntityFunctions.DiffDays(q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate.Value, s).Value, AddedDate = s, Readed = false, RequestCode = q.Code_Generate, RequestStatus = q.Request_State_ID, TransactionDate = (q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().CommentDate ?? q.RequestTransaction.OrderByDescending(f => f.ID).FirstOrDefault().ForwardDate).Value }).ToList();
 							}
 							times.AddRange(data);
 						}
@@ -77,7 +79,7 @@ namespace IAUBackEnd.Admin
 							}
 						}
 						p.SaveChanges();
-
+						File.AppendAllText(filepath, $"\n{s.ToString("dd-MM HH:mm:ss")} Succses,WithCount:" + times.Count + ",IDs:" + string.Join("|", times.Select(q => q.RequestID).ToArray()), Encoding.UTF8);
 						Debug.WriteLine("Succses " + s.ToString("HH:mm:ss"));
 						DateTime now = Helper.GetDate();
 						DateTime tomorrowMidnight = now.Date.AddDays(1);
@@ -89,12 +91,14 @@ namespace IAUBackEnd.Admin
 						DateTime now = Helper.GetDate();
 						DateTime tomorrowMidnight = now.Date.AddDays(1);
 						TimeSpan ts = tomorrowMidnight.Subtract(now);
-						Debug.WriteLine(String.Format("Tomorrow midnight will be in {0} days, {1} hours, {2} minutes, {3} seconds {4} Mill.", ts.Days, ts.Hours, ts.Minutes, ts.Seconds, Math.Abs(ts.TotalMilliseconds)));
+						var xx = $"\n{s.ToString("dd-MM HH:mm:ss")} SleepTo," + ts.ToString();
+						File.AppendAllText(filepath, xx, Encoding.UTF8);
 						Thread.Sleep((int)Math.Abs(ts.TotalMilliseconds + 1));
 					}
 				}
 				catch (Exception e)
 				{
+					File.AppendAllText(filepath, $"\n{s.ToString("dd-MM HH:mm:ss")} Exception, Sleep To 5 minutes->" + e.Message + ",Inner->" + e.InnerException, Encoding.UTF8);
 					Thread.Sleep(1000 * 60 * 5); // 5 min
 				}
 			}

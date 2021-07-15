@@ -177,23 +177,23 @@
 							<div class="main">
 								<div class="container">
 									<div class="list-1">
-										<h3 class="text-center p-2">المتاح</h3>
+										<h3 class="text-center p-2">@(isAr ? "المتاح" : "Available")</h3>
 										<hr />
 										<ul class="list1">
-											<li data-key="Service_Type_ID" class="active"> Service Type  </li>
-											<li data-key="Request_Type_ID"> Request Type  </li>
-											<li data-key="Request_State_ID"> Request Status  </li>
-											<li data-key="Code_Generate"> Request Code  </li>
-											<li data-key="CreatedDate"> Created Date  </li>
+											<li data-key="ServiceType" class="active"> Service Type  </li>
+											<li data-key="RequestType"> Request Type  </li>
+											<li data-key="RequestStatus"> Request Status  </li>
+											<li data-key="Code"> Request Code  </li>
+											<li data-key="CDate"> Created Date  </li>
 											<li data-key="IAU_ID_Number"> IAU ID Number </li>
-											<li data-key="Applicant_Type_ID"> Applicant Type  </li>
+											<li data-key="ApplicantType"> Applicant Type  </li>
 											<li data-key="Middle_Name"> Middle Name  </li>
 											<li data-key="Last_Name"> Last_Name  </li>
-											<li data-key="Nationality_ID"> Nationality  </li>
+											<li data-key="Nationality"> Nationality  </li>
 											<li data-key="ID_Number"> ID Number  </li>
-											<li data-key="Address_CountryID"> Address Country</li>
-											<li data-key="Address_CityID"> Address City  </li>
-											<li data-key="Adress_RegionID"> Adress Region  </li>
+											<li data-key="Country"> Address Country</li>
+											<li data-key="City"> Address City  </li>
+											<li data-key="Region"> Adress Region  </li>
 											<li data-key="Postal_Code"> Postal Code  </li>
 										</ul>
 									</div>
@@ -206,7 +206,7 @@
 								</div>
 								<div class="container-3">
 									<div class="list-2">
-										<h3 class="text-center p-2">المعروض</h3>
+										<h3 class="text-center p-2">@(isAr ? "المعروض" : "Viewed")</h3>
 										<hr />
 										<ul class="list2">
 											<li data-key="First_Name"> First Name  </li>
@@ -219,7 +219,7 @@
 							</div>
 						</div>
 						<div class="col-12 justify-content-center d-flex">
-							<input  class="btn btn-primary w-50" id="btn-filter" type="button" value="فرز"/>
+							<input class="btn btn-primary w-50" id="btn-filter" type="button" value="@(isAr?"فرز":"Filter")" />
 						</div>
 					</div>
 				}
