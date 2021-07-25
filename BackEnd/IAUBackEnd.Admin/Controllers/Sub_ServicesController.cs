@@ -112,7 +112,21 @@ namespace IAUBackEnd.Admin.Controllers
 
 			return Ok(new ResponseClass() { success = true });
 		}
-
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			Sub_Services sub_Services = p.Sub_Services.Include(q => q.Request_Data).Include(q => q.E_Forms).FirstOrDefault(q => q.Sub_Services_ID == id);
+			if (sub_Services == null)
+				return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
+			if (sub_Services.E_Forms.Count == 0 && sub_Services.Request_Data.Count == 0)
+			{
+				p.Required_Documents.RemoveRange(p.Required_Documents.Where(q => q.SubServiceID == id));
+				p.Sub_Services.Remove(sub_Services);
+				await p.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+		}
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

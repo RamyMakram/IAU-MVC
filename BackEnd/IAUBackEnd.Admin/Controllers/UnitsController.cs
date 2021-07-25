@@ -215,6 +215,23 @@ namespace IAUBackEnd.Admin.Controllers
 			return Ok(new ResponseClass() { success = true });
 		}
 
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			Units units = p.Units.Include(q => q.Request_Data).Include(q => q.RequestTransaction1).Include(q => q.RequestTransaction).Include(q => q.Users).Include(q => q.Units1).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Units_ID == id);
+			if (units == null)
+				return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
+			if (units.Request_Data.Count == 0 && units.RequestTransaction1.Count == 0 && units.RequestTransaction.Count == 0 && units.Users.Count == 0 && units.Units1.Count == 0 && units.UnitMainServices.Count == 0)
+			{
+				p.Units_Request_Type.RemoveRange(p.Units_Request_Type.Where(q => q.Units_ID == id).ToList());
+				p.UnitServiceTypes.RemoveRange(p.UnitServiceTypes.Where(q => q.UnitID == id).ToList());
+				p.Units.Remove(units);
+				await p.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+		}
+
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

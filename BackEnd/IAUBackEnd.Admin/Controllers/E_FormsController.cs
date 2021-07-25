@@ -103,6 +103,18 @@ namespace IAUBackEnd.Admin.Controllers
 
 			return Ok(new ResponseClass() { success = true });
 		}
+
+		[HttpPost]
+		public async Task<IHttpActionResult> Delete(int id)
+		{
+			E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id);
+			if (e_Forms == null)
+				return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+			p.E_Forms.Remove(e_Forms);
+			await p.SaveChangesAsync();
+
+			return Ok(new ResponseClass() { success = true });
+		}
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

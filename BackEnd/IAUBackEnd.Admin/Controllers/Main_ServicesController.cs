@@ -35,8 +35,8 @@ namespace IAUBackEnd.Admin.Controllers
 			var Unit = db.Units.FirstOrDefault(q => q.Units_ID == id);
 			foreach (var i in servicetype)
 				pred.Or(q => q.ServiceTypeID == i);
-			pred.Or(q => q.ServiceTypeID== Unit.ServiceTypeID);
-			var data = db.Main_Services.Where(q => q.IS_Action.Value).Where(pred).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR,q.ServiceTypeID, q.Main_Services_Name_EN, Active = q.UnitMainServices.Count(w => w.UnitID == id) > 0 });
+			pred.Or(q => q.ServiceTypeID == Unit.ServiceTypeID);
+			var data = db.Main_Services.Where(q => q.IS_Action.Value).Where(pred).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.ServiceTypeID, q.Main_Services_Name_EN, Active = q.UnitMainServices.Count(w => w.UnitID == id) > 0 });
 			return Ok(new ResponseClass() { success = true, result = data });
 		}
 
@@ -110,6 +110,22 @@ namespace IAUBackEnd.Admin.Controllers
 			main_Services.IS_Action = true;
 			await db.SaveChangesAsync();
 			return Ok(new ResponseClass() { success = true });
+		}
+
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id);
+			if (main_Services == null)
+				return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
+			if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.Count == 0)
+			{
+				db.Main_Services.Remove(main_Services);
+				db.ValidTo.RemoveRange(db.ValidTo.Where(q => q.MainServiceID == id));
+				await db.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false, result = "CantRemove" });
 		}
 		protected override void Dispose(bool disposing)
 		{

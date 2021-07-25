@@ -7,6 +7,7 @@
 	ViewBag.arpageTitle = "الرئيسية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
 	ViewBag.arpTitle = "الخدمات الفرعية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
 }
 
 <!-- DataTables -->
@@ -14,7 +15,8 @@
 <link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <!-- Responsive datatable examples -->
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -51,10 +53,18 @@
 								<td class="TH-ar ar-font">@i.Sub_Services_Name_AR</td>
 								<td class="TH-en en-font">@i.Sub_Services_Name_EN</td>
 								<td>
-									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Sub_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
+									@Html.ActionLink(i.IS_Action.Value?(Request.Cookies["lang"].Value == "ar" ? "تفعيل" : "Active"):(Request.Cookies["lang"].Value == "ar" ? "معطل" : "Deactive"), i.IS_Action.Value ? "Deactive" : "Active", new { Id = i.Sub_Services_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home", @style = "background-color:" + (i.IS_Action.Value ? "green;" : "#f03b3b;") + "border-radius: 70px;" })
 								</td>
-								<td>@Html.ActionLink("Eforms", "Home", "EForms", new { SubService = i.Sub_Services_ID, SharedVal = (Request.Cookies["lang"].Value == "ar" ? i.Sub_Services_Name_AR : i.Sub_Services_Name_EN) }, new { @class = "btn btn-primary", @key = "t-eforms" })</td>
-								<td>@Html.ActionLink("Edit", "Edit", new { Id = i.Sub_Services_ID, MainService = Request.QueryString["MainService"], SharedVal = Request.QueryString["SharedVal"] }, new { @class = "btn btn-primary", @key = "t-edit" })</td>
+								<td>@Html.ActionLink(Request.Cookies["lang"].Value == "ar" ? "النماذج الالكترونية" : "Eforms", "Home", "EForms", new { SubService = i.Sub_Services_ID, SharedVal = (Request.Cookies["lang"].Value == "ar" ? i.Sub_Services_Name_AR : i.Sub_Services_Name_EN) }, new { @class = "btn btn-primary", @key = "t-eforms" })</td>
+								<td>
+									@Html.ActionLink(Request.Cookies["lang"].Value == "ar" ? "تعديل" : "Edit", "Edit", new { Id = i.Sub_Services_ID, MainService = Request.QueryString["MainService"], SharedVal = Request.QueryString["SharedVal"] }, new { @class = "btn btn-primary" })
+									@{
+										if (ShowDelete)
+										{
+											<button class="btn btn-primary" onclick="Delete('@i.Sub_Services_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
+										}
+									}
+								</td>
 							</tr>
 						}
 					</tbody>
@@ -96,8 +106,49 @@
 <!-- Datatable init js -->
 <script src="~/assets/js/pages/datatables.init.js"></script>
 
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
 <script src="~/assets/js/app.js"></script>
 
 
 
 
+@if (ShowDelete)
+{
+
+	<script>
+		function Delete(id) {
+			event.stopPropagation()
+		event.stopImmediatePropagation()
+		Swal.fire({
+			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حذف هذه الخدمة الفرعية؟" : "Are you sure To Delete this Sub Service?")",
+			text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق , احذف الخدمة" : "Yes, Delete it!")",
+			cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+		}).then(function (result) {
+			if (result.value) {
+				$.ajax({
+					url: '/SubServices/Delete?id=' + id,method: "POST",  success: function (res) {
+						if (res["success"] == true)
+							location.href = location.href;
+						else {
+							Swal.fire({
+								  icon: 'error',
+								  title: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف" : "Delete failed")",
+								  text: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . بسبب ان هناك بيانات معتمده علي هذه الخدمة" : "Delete failed.Because there are data depended on this Service")",
+								  confirmButtonText:'@(Request.Cookies["lang"].Value == "ar" ? "حسنا" : "Okay")',
+								})
+						}
+				}
+			})
+			}
+		});
+	}
+	</script>
+}

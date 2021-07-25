@@ -66,6 +66,10 @@ namespace AdminPanel.Controllers
 								case "preview":
 								case "detials":
 									break;
+								case "delete":
+									if (!Permissions.Contains("Delete Item"))
+										context.Result = RedirectToAction("NotPermited", "Error");
+									break;
 								default:
 									context.Result = RedirectToAction("NotPermited", "Error");
 									break;
