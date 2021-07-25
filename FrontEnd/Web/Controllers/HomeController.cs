@@ -63,12 +63,13 @@ namespace Web.Controllers
 				string message = $@"Use this code {code} to complete your request.";
 				var res = APIHandeling.GetDataAdmin("/Request/SendSMS?Mobile=" + to + "&message=" + message);
 				var resJson = res.Content.ReadAsStringAsync().Result;
-				Response.Cookies.Add(new HttpCookie("n", Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())))));
+				string HashedCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())));
+				Response.Cookies.Add(new HttpCookie("n", HashedCode));
 				return Json(resJson, JsonRequestBehavior.AllowGet);
 			}
 			catch (Exception ex)
 			{
-				return Json(new { Result = "ERROR", Message = ex.Message }, JsonRequestBehavior.AllowGet);
+				return Json(new { Result = "ERROR", ex.Message }, JsonRequestBehavior.AllowGet);
 			}
 		}
 
@@ -80,13 +81,12 @@ namespace Web.Controllers
 				if (request_Data == null || code == "")
 					return null;
 				var shaCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code)));
-				if (shaCode == Request.Cookies["n"].Value)
+				if (Request.Cookies["n"] != null && shaCode == Request.Cookies["n"].Value)
 				{
-					//var data = JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data);
 					var Files = new List<CustomeFile>();
 					List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
 					HttpClientHandler handler = new HttpClientHandler();
-					using (var client = new HttpClient(handler,false))
+					using (var client = new HttpClient(handler, false))
 					{
 						using (var content = new MultipartFormDataContent())
 						{
@@ -95,10 +95,6 @@ namespace Web.Controllers
 							for (int i = 0; i < length; i++)
 							{
 								HttpPostedFileBase file = Request.Files[i];
-								//byte[] Bytes = new byte[file.InputStream.Length + 1];
-								//file.InputStream.Read(Bytes, 0, Bytes.Length);
-								//Files.Add(new CustomeFile() { bytes = Bytes, filename = file.FileName });
-								//files.Add(file);
 								byte[] Bytes = new byte[file.InputStream.Length + 1];
 								file.InputStream.Read(Bytes, 0, Bytes.Length);
 								var fileContent = new ByteArrayContent(Bytes);
@@ -116,7 +112,10 @@ namespace Web.Controllers
 								var d = result.Content.ReadAsStringAsync();
 								var lst = JsonConvert.DeserializeObject<ResponseClass>(d.Result);
 								if (lst.success)
+								{
+									Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
 									return JsonConvert.SerializeObject(new ResponseClass() { success = true });
+								}
 								else
 									return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
 							}

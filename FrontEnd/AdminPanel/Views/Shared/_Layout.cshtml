@@ -106,6 +106,10 @@
 		th, title, .page-title-right, .breadcrumb-item a, .card-title-desc, .control-label, .card-title {
 			color: #0a1332
 		}
+
+		.modal-body {
+			overflow: auto;
+		}
 	</style>
 	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
 	@RenderSection("styles", false)

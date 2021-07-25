@@ -335,8 +335,9 @@ namespace IAUBackEnd.Admin.Controllers
 				if (provider.Contents.Count > 1)
 				{
 					var count = 0;
-					var RequiredFiles = p.Required_Documents.Where(q => q.SubServiceID == request_Data.Sub_Services_ID).ToList();
 					if (p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID).Request_Type_Name_EN.ToLower().Contains("inquiry"))
+					{
+						var RequiredFiles = p.Required_Documents.Where(q => q.SubServiceID == request_Data.Sub_Services_ID).ToList();
 						foreach (var i in RequiredFiles)
 						{
 							var file = provider.Contents[count];
@@ -354,6 +355,7 @@ namespace IAUBackEnd.Admin.Controllers
 							});
 							count++;
 						}
+					}
 					int length = provider.Contents.Count - 1;
 					for (; count < length; count++)
 					{

@@ -63,6 +63,7 @@ namespace AdminPanel.Controllers
 									if (!Permissions.Contains("Edit Item"))
 										context.Result = RedirectToAction("NotPermited", "Error");
 									break;
+								case "preview":
 								case "detials":
 									break;
 								default:

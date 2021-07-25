@@ -183,9 +183,9 @@ nav {
     }
 
 .containt #Service_Type_Id .col-lg-3 .stick img {
-    width: 90px;
-    margin-bottom: 40px;
-    height: 100px !important;
+	width: 90px;
+	margin-bottom: 10px;
+	height: 100px !important;
 }
 
 .containt #Service_Type_Id .stick p:nth-of-type(1),
