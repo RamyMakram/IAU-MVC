@@ -158,5 +158,20 @@ namespace IAUBackEnd.Admin.Controllers
 				});
 			}
 		}
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			var job = p.Job.Include(q => q.Users).FirstOrDefault(q => q.User_Permissions_Type_ID == id);
+			if (job == null)
+				return Ok(new ResponseClass() { success = false, result = "Job Location Is Null" });
+			if (job.Users.Count == 0)
+			{
+				p.Job_Permissions.RemoveRange(p.Job_Permissions.Where(q => q.Job_ID == id));
+				p.Job.Remove(job);
+				await p.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+		}
 	}
 }

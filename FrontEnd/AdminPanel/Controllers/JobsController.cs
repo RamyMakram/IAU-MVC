@@ -119,9 +119,13 @@ namespace AdminPanel.Controllers
 				return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = ee });
 			}
 		}
-		public ActionResult Deactive(int id)
+		[HttpPost]
+		public JsonResult Delete(int id)
 		{
-			return View();
+			var Data = APIHandeling.Post("Job/_Delete?id=" + id, new { });
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(res);
 		}
 	}
 }

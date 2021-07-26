@@ -29,7 +29,7 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			try
 			{
-				var data = p.Service_Type.Where(q => q.IS_Action.Value).Select(q => q.Service_Type_Name_EN).ToList().Select(q=>q.ElementAt(0));
+				var data = p.Service_Type.Where(q => q.IS_Action.Value).Select(q => q.Service_Type_Name_EN).ToList().Select(q => q.ElementAt(0));
 				return Ok(new ResponseClass() { success = true, result = data });
 			}
 			catch (Exception ee)
@@ -111,6 +111,20 @@ namespace IAUBackEnd.Admin.Controllers
 			await p.SaveChangesAsync();
 
 			return Ok(new ResponseClass() { success = true });
+		}
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			Service_Type service_Type = p.Service_Type.Include(q => q.Request_Data).Include(q => q.UnitServiceTypes).Include(q => q.Units).FirstOrDefault(q => q.Service_Type_ID == id);
+			if (service_Type == null)
+				return Ok(new ResponseClass() { success = false, result = "Type IS NULL" });
+			if (service_Type.Request_Data.Count == 0 && service_Type.UnitServiceTypes.Count == 0 && service_Type.Units.Count == 0)
+			{
+				p.Service_Type.Remove(service_Type);
+				await p.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false, result = "CantRemove" });
 		}
 
 		protected override void Dispose(bool disposing)

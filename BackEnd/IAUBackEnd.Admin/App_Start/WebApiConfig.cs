@@ -10,6 +10,9 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.IO;
 using System.Text;
+using System.Web.Hosting;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace IAUBackEnd.Admin
 {
@@ -28,10 +31,9 @@ namespace IAUBackEnd.Admin
 				routeTemplate: "api/{controller}/{action}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
-			Thread Task = new Thread(new ThreadStart(InvokeMethod));
-			Task.Start();
+			HostingEnvironment.QueueBackgroundWorkItem(async _ => { await InvokeMethod(); });
 		}
-		static void InvokeMethod()
+		static async Task InvokeMethod()
 		{
 			while (true)
 			{
@@ -84,7 +86,7 @@ namespace IAUBackEnd.Admin
 						DateTime now = Helper.GetDate();
 						DateTime tomorrowMidnight = now.Date.AddDays(1);
 						TimeSpan ts = tomorrowMidnight.Subtract(now);
-						Thread.Sleep((int)Math.Abs(ts.TotalMilliseconds + 1));
+						await Task.Delay((int)Math.Abs(ts.TotalMilliseconds + 1));
 					}
 					else
 					{
@@ -93,13 +95,13 @@ namespace IAUBackEnd.Admin
 						TimeSpan ts = tomorrowMidnight.Subtract(now);
 						var xx = $"\n{s.ToString("dd-MM HH:mm:ss")} SleepTo," + ts.ToString();
 						File.AppendAllText(filepath, xx, Encoding.UTF8);
-						Thread.Sleep((int)Math.Abs(ts.TotalMilliseconds + 1));
+						await Task.Delay((int)Math.Abs(ts.TotalMilliseconds + 1));
 					}
 				}
 				catch (Exception e)
 				{
-					File.AppendAllText(filepath, $"\n{s.ToString("dd-MM HH:mm:ss")} Exception, Sleep To 5 minutes->" + e.Message + ",Inner->" + e.InnerException, Encoding.UTF8);
-					Thread.Sleep(1000 * 60 * 5); // 5 min
+					File.AppendAllText(filepath, $"\n{s.ToString("dd-MM HH:mm:ss")} Exception, Sleep To 5 minutes->" + JsonConvert.SerializeObject(e), Encoding.UTF8);
+					await Task.Delay(1000 * 60 * 5); // 5 min
 				}
 			}
 		}

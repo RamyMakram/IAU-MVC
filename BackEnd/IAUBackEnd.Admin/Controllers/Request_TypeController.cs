@@ -101,6 +101,20 @@ namespace IAUBackEnd.Admin.Controllers
 
 			return Ok(new ResponseClass() { success = true });
 		}
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			Request_Type request_Type = p.Request_Type.Include(q => q.Units_Request_Type).Include(q => q.Request_Data).FirstOrDefault(q => q.Request_Type_ID == id);
+			if (request_Type == null)
+				return Ok(new ResponseClass() { success = false, result = "Request Is NULL" });
+			if (request_Type.Request_Data.Count==0&&request_Type.Units_Request_Type.Count==0)
+			{
+				p.Request_Type.Remove(request_Type);
+				await p.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+		}
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

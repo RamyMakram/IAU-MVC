@@ -111,5 +111,13 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("NotFound", "Error");
 		}
+		[HttpPost]
+		public JsonResult Delete(int id)
+		{
+			var Data = APIHandeling.Post("Request_Type/_Delete?id=" + id, new { });
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(res);
+		}
 	}
 }

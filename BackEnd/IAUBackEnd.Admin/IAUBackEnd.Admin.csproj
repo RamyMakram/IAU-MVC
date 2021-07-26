@@ -265,6 +265,7 @@
     <Compile Include="Controllers\SocketController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\Sub_ServicesController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UnitLevelsController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitsLocationController.cs" />

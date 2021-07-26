@@ -310,6 +310,15 @@ namespace IAUBackEnd.Admin.Controllers
 				});
 			}
 		}
-
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			var user = p.Users.FirstOrDefault(q => q.User_ID == id);
+			if (user == null)
+				return Ok(new ResponseClass() { success = false, result = "User Is Null" });
+			p.Users.Remove(user);
+			await p.SaveChangesAsync();
+			return Ok(new ResponseClass() { success = true });
+		}
 	}
 }

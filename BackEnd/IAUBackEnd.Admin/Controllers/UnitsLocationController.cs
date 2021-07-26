@@ -93,6 +93,20 @@ namespace IAUBackEnd.Admin.Controllers
 			await p.SaveChangesAsync();
 			return Ok(new ResponseClass() { success = true });
 		}
+		[HttpPost]
+		public async Task<IHttpActionResult> _Delete(int id)
+		{
+			Units_Location units_Location = p.Units_Location.Include(q => q.Units).FirstOrDefault(q => q.Units_Location_ID == id);
+			if (units_Location == null)
+				return Ok(new ResponseClass() { success = false, result = "Units Location Is Null" });
+			if (units_Location.Units.Count == 0)
+			{
+				p.Units_Location.Remove(units_Location);
+				await p.SaveChangesAsync();
+				return Ok(new ResponseClass() { success = true });
+			}
+			return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+		}
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

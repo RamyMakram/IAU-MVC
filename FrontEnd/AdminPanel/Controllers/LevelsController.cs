@@ -25,31 +25,31 @@ namespace AdminPanel.Controllers
 		//{
 		//	return View();
 		//}
-		public ActionResult Edit(int id)
-		{
-			var Data = APIHandeling.getData("UnitLevels/GetUnitLevel?id=" + id);
-			var resJson = Data.Content.ReadAsStringAsync();
-			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+		//public ActionResult Edit(int id)
+		//{
+		//	var Data = APIHandeling.getData("UnitLevels/GetUnitLevel?id=" + id);
+		//	var resJson = Data.Content.ReadAsStringAsync();
+		//	var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
-			if (res.success)
-				return View(JsonConvert.DeserializeObject<UnitLevelDTO>(res.result.ToString()));
-			else
-				return RedirectToAction("NotFound", "Error");
-		}
-		[HttpPost]
-		public ActionResult Edit(int Id, UnitLevelDTO loc)
-		{
-			loc.ID = Id;
-			loc.Units_Type = JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(loc.Units_Type_STR);
-			var Req = APIHandeling.Post("UnitLevels/Update", loc);
-			var resJson = Req.Content.ReadAsStringAsync();
-			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+		//	if (res.success)
+		//		return View(JsonConvert.DeserializeObject<UnitLevelDTO>(res.result.ToString()));
+		//	else
+		//		return RedirectToAction("NotFound", "Error");
+		//}
+		//[HttpPost]
+		//public ActionResult Edit(int Id, UnitLevelDTO loc)
+		//{
+		//	loc.ID = Id;
+		//	loc.Units_Type = JsonConvert.DeserializeObject<ICollection<UnitTypeDTO>>(loc.Units_Type_STR);
+		//	var Req = APIHandeling.Post("UnitLevels/Update", loc);
+		//	var resJson = Req.Content.ReadAsStringAsync();
+		//	var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
-			if (res.success)
-				return RedirectToAction("Home");
-			else
-				return RedirectToAction("NotFound", "Error");
-		}
+		//	if (res.success)
+		//		return RedirectToAction("Home");
+		//	else
+		//		return RedirectToAction("NotFound", "Error");
+		//}
 
 		//[HttpPost]
 		//public ActionResult Create(UnitLevelDTO user)
