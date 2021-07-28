@@ -17,7 +17,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-12 display-1 mob-loc1" style="margin-top:25px;display:none">
+            <div class="col-md-12 display-1 mob-loc1" style="margin-top:25px;display:none; background-color: rgb(255, 255, 255);padding: 20px 12px;">
                 <blockquote style="color: #0a1332; font-size: 16px; margin: 0px 0px 50px; font-weight: 400;">
                     "A special message of gratitude goes to His Excellency Dr. Abdullah AlRubaish, The
                     President of Imam AbdulRahman bin Faisal University for his enthusiasm and belief in
@@ -48,7 +48,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-12 display-2 mob-loc2" style="display:none;">
+            <div class="col-md-12 display-2 mob-loc2" style="display: none; background-color: rgb(255, 255, 255); padding: 20px 12px; ">
                 <div class="col-md-12 " style="padding:10px;">
                     <div>
                         <img src="~/Design/img/picture1.jpg" style="float: right; margin: 5px 20px 20px; width: 370px;" />
@@ -79,7 +79,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-12 New-Idea mob-loc3" style="display:none;">
+            <div class="col-md-12 New-Idea mob-loc3" style="display: none; background-color: rgb(255, 255, 255); padding: 20px 12px; ">
                 <div class="overview">
                     <h3>1.1 OverView :</h3>
                     <p>
@@ -372,7 +372,7 @@
                             </ul>
                         </div>
                         <div class="col-md-5">
-                            <img src="~/Design/img/Picture5.png" style="width:100%;position:relative;top:20%;" />
+                            <img src="~/Design/img/Picture5.png" style="width:100%;position:relative;top: 5%;" />
                         </div>
                     </div>
                 </div>
@@ -388,7 +388,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-12 operation-System mob-loc4" style="display:none;">
+            <div class="col-md-12 operation-System mob-loc4" style="display: none; background-color: rgb(255, 255, 255); padding: 20px 12px; ">
                 <div class="Scope-of-Services">
                     <h3>2.1 The IAU-BSC Scope of Services :</h3>
                     <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
@@ -509,7 +509,7 @@
             </div>
         </div>
         <div class="col-md-8 content" style="background-color: #fff; margin-top: 6px;">
-            <div class="col-md-12 display-1 loc1" style="margin-top:25px;display:none">
+            <div class="col-md-12 display-1 loc1" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
                 <blockquote style="color: #0a1332; font-size: 16px; margin: 0px 0px 50px;">
                     "A special message of gratitude goes to His Excellency Dr. Abdullah AlRubaish, The
                     President of Imam AbdulRahman bin Faisal University for his enthusiasm and belief in
@@ -839,7 +839,7 @@
                             </ul>
                         </div>
                         <div class="col-md-5">
-                            <img src="~/Design/img/Picture5.png" style="width:100%;position:relative;top:20%;" />
+                            <img src="~/Design/img/Picture5.png" style="width:100%;position:relative;top: 5%;" />
                         </div>
                     </div>
                 </div>
@@ -955,8 +955,8 @@
             $(this).addClass("active");
 
         } else {
-            $(" .active").fadeOut();
-            $(" .active").removeClass("active");
+            $(".col-md-12.active").fadeOut();
+            $(".col-md-12.active").removeClass("active");
             $(".mob-" + $(this).attr("location")).fadeIn();
             $(".mob-" + $(this).attr("location")).addClass("active");
             $(".main-page a").removeClass("active");
