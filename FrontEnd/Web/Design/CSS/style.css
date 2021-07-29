@@ -2,7 +2,10 @@
     font-family: "Frutiger";
     src: url("../webfonts/fru/frutiger-normal-5871d13e09363.ttf");
 }
-
+@font-face {
+    font-family:"Myriad Pro Regular";
+    src: url("../webfonts/Myriad Pro Regular.ttf");
+}
 .required-field div:nth-of-type(1) label:after, .required-lable:after {
     content: "*";
     color: red;
@@ -1645,6 +1648,9 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 .main-page {
     margin-top: 100px;
 }
+    .main-page * {
+        font-family: "Myriad Pro Regular","Font Awesome 5 Free";
+    }
 
     .main-page .collapse-container {
         margin: 5px 0px
@@ -1656,6 +1662,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
             background-color: #4f693a;
             border: none;
             border-radius: 0;
+            letter-spacing: 2px;
         }
 
             .main-page .collapse-container > a p {
