@@ -15,6 +15,12 @@ body {
     background-color: #0a1332;
 }
 
+.navbar-brand{
+    margin-right:0px;
+}
+.main-page a.active {
+    background-color: #a5cc7d !important;
+}
 /* #region Navbar */
 nav {
     background-color: transparent;
@@ -31,14 +37,12 @@ nav {
         }
 
     nav a img:first-of-type {
-        width: 60px;
-        margin-right: 20px;
-        x
+        width: 120px;
     }
 
     nav a img:nth-of-type(2) {
         width: 120px;
-        margin-right: 20px;
+        margin-right: 10px;
     }
 
 
@@ -53,7 +57,7 @@ nav {
             color: #fff;
             text-transform: uppercase;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 17px;
             text-align: left;
         }
 
@@ -1271,13 +1275,20 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 
 @media (max-width: 1200px) {
 
-    nav .vision {
+    /*nav .vision {
         display: none;
-    }
+    }*/
 
-    #nav-contact, #nav-lang {
-        display: flex !important;
+    nav ul li {
+        margin: 0px 5px;
     }
+        nav ul li a{
+            font-size:15px;
+        }
+
+        /*#nav-contact, #nav-lang {*/
+            /*display: flex !important;*/
+        /*}*/
 
     .serial-input > div {
         display: block;
@@ -1667,8 +1678,8 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     .main-page .operation-System p,
     .main-page .operation-System ul,
     .main-page .operation-System ol {
-        color: #fff;
-        font-size: 20px;
+        color: #0a1332;
+        font-size: 16px;
         text-align: justify;
     }
 
@@ -1692,7 +1703,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
         .main-page .New-Idea .Objective ul,
         .main-page .New-Idea .Objective li {
             text-align: left;
-            font-size: 18px;
+            font-size: 16px;
             color: #c85d32;
         }
 
@@ -1714,7 +1725,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 
             .main-page .New-Idea .Objective .Objective-question ol *,
             .main-page .New-Idea .Objective .Objective-question ul * {
-                color: #fff;
+                color: #0a1332;
             }
 
         .main-page .New-Idea .vision > ul > li {

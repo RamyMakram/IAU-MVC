@@ -127,7 +127,7 @@
 							<a class="nav-link" href="~/Main/Index">الرئيسية</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="~/Home/Index">طلب</a>
+							<a class="nav-link active" aria-current="page" href="~/Home/Index">تقديم/متابعة طلب</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="~/Coordinator/index">المنسقين</a>
@@ -142,7 +142,7 @@
 							<a class="nav-link" href="~/Main/Index">Main</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="~/Home/Index">Request</a>
+							<a class="nav-link active" aria-current="page" href="~/Home/Index">Submit/Follow-up</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="~/Coordinator/index">Coordinator</a>
@@ -281,7 +281,7 @@
 			}
 			<span style="display:none !important" id="serverpath">@serverpath</span>
 			<div class="row" id="Service_Type_Id" style="display: none;">
-				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px;margin-top:45px">
+				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; margin-top: 45px; padding-right: 31px;">
 					@if (ViewBag.CookieLang == "ar")
 					{
 						@*<p style="direction: ltr; text-align: right;">@@ IAU - BSC</p>
@@ -308,7 +308,7 @@
 								 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
 							<p>
 								@{
-									var names = string.Join("<br/>", (isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN).Split(' '));
+									var names = (isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN).Replace(" ","\n");
 									@Html.Raw(names);
 								}
 
