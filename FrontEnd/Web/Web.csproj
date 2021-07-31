@@ -274,7 +274,7 @@
     <Content Include="Design\img\HELP ICON.png" />
     <Content Include="Design\img\IAULOGO.png" />
     <Content Include="Design\img\loading2.gif" />
-    <Content Include="Design\img\MousLogo.png" />
+    <Content Include="Design\img\MousLogo2.png" />
     <Content Include="Design\img\newrequest.png" />
     <Content Include="Design\img\Picture1.jpg" />
     <Content Include="Design\img\Picture10.png" />
@@ -359,6 +359,7 @@
     <Content Include="Design\webfonts\FrutigerLTArabic55Roman.woff" />
     <Content Include="Design\webfonts\FrutigerLTArabic65Bold.woff" />
     <Content Include="Design\webfonts\frutigerltarabic75black.woff" />
+    <Content Include="Design\webfonts\Myriad Pro Regular.ttf" />
     <None Include="packages.config" />
     <Content Include="Views\Coordinator\Index.cshtml" />
     <Content Include="Views\Shared\_Language.cshtml" />
