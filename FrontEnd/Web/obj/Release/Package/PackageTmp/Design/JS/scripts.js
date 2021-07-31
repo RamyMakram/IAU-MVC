@@ -39,7 +39,7 @@ let type = []
 let titles = []
 let doctype = []
 $(document).ready(function () {
-	
+
 	let data = null;
 	let cook = document.cookie.split(';');
 	cook.forEach(i => {
@@ -1269,7 +1269,7 @@ $(".modal-body .verification-input input").keyup(function (element) {
 		}
 	}
 });
-
+let AllowResend = true;
 $("#ResendVerificationCode").click(function () {
 	$("#ResendVerificatio   nCode").attr("disabled", "disabled");
 	if (language == "ar") {
@@ -1277,11 +1277,29 @@ $("#ResendVerificationCode").click(function () {
 	} else {
 		$("#ResendVerificationCode").html("You Can Resend Code After <span id='downConter'>(30)</span> Second");
 	}
+	if (AllowResend) {
+		$("#saveRequestBTN").html("<img src='././Design/img/spinner1.gif' style='width: 53px;'/>");
+		let data = serialiazeForm();
+		$(".loading").addClass("active");
+
+		$.ajax({
+			url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}`,
+			type: "GET",
+			success: function (result) {
+				setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+			},
+			complete: function () {
+				$("#saveRequestBTN").html(language == "ar" ? "إرسال" : "Submit")
+			},
+		})
+		AllowResend = false;
+	}
 	counter = 30;
 	var x = setInterval(function () {
 		counter--;
 		document.getElementById("downConter").innerHTML = "(" + counter + ")";
 		if (counter == 0) {
+			AllowResend = true;
 			$("#ResendVerificationCode").removeAttr("disabled");
 			if (language == "ar") {
 				$("#ResendVerificationCode").html("أعد ارسال كود التحقق");

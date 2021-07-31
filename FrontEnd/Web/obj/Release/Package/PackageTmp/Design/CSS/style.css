@@ -2,7 +2,10 @@
     font-family: "Frutiger";
     src: url("../webfonts/fru/frutiger-normal-5871d13e09363.ttf");
 }
-
+@font-face {
+    font-family:"Myriad Pro Regular";
+    src: url("../webfonts/Myriad Pro Regular.ttf");
+}
 .required-field div:nth-of-type(1) label:after, .required-lable:after {
     content: "*";
     color: red;
@@ -15,6 +18,12 @@ body {
     background-color: #0a1332;
 }
 
+.navbar-brand{
+    margin-right:0px;
+}
+.main-page a.active {
+    background-color: #a5cc7d !important;
+}
 /* #region Navbar */
 nav {
     background-color: transparent;
@@ -31,14 +40,12 @@ nav {
         }
 
     nav a img:first-of-type {
-        width: 60px;
-        margin-right: 20px;
-        x
+        width: 120px;
     }
 
     nav a img:nth-of-type(2) {
         width: 120px;
-        margin-right: 20px;
+        margin-right: 10px;
     }
 
 
@@ -53,7 +60,7 @@ nav {
             color: #fff;
             text-transform: uppercase;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 17px;
             text-align: left;
         }
 
@@ -183,9 +190,9 @@ nav {
     }
 
 .containt #Service_Type_Id .col-lg-3 .stick img {
-    width: 90px;
-    margin-bottom: 40px;
-    height: 100px !important;
+	width: 90px;
+	margin-bottom: 10px;
+	height: 100px !important;
 }
 
 .containt #Service_Type_Id .stick p:nth-of-type(1),
@@ -1271,13 +1278,20 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 
 @media (max-width: 1200px) {
 
-    nav .vision {
+    /*nav .vision {
         display: none;
-    }
+    }*/
 
-    #nav-contact, #nav-lang {
-        display: flex !important;
+    nav ul li {
+        margin: 0px 5px;
     }
+        nav ul li a{
+            font-size:15px;
+        }
+
+        /*#nav-contact, #nav-lang {*/
+            /*display: flex !important;*/
+        /*}*/
 
     .serial-input > div {
         display: block;
@@ -1634,6 +1648,9 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 .main-page {
     margin-top: 100px;
 }
+    .main-page * {
+        font-family: "Myriad Pro Regular","Font Awesome 5 Free";
+    }
 
     .main-page .collapse-container {
         margin: 5px 0px
@@ -1645,6 +1662,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
             background-color: #4f693a;
             border: none;
             border-radius: 0;
+            letter-spacing: 2px;
         }
 
             .main-page .collapse-container > a p {
@@ -1667,8 +1685,8 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
     .main-page .operation-System p,
     .main-page .operation-System ul,
     .main-page .operation-System ol {
-        color: #fff;
-        font-size: 20px;
+        color: #0a1332;
+        font-size: 16px;
         text-align: justify;
     }
 
@@ -1692,7 +1710,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
         .main-page .New-Idea .Objective ul,
         .main-page .New-Idea .Objective li {
             text-align: left;
-            font-size: 18px;
+            font-size: 16px;
             color: #c85d32;
         }
 
@@ -1714,7 +1732,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 
             .main-page .New-Idea .Objective .Objective-question ol *,
             .main-page .New-Idea .Objective .Objective-question ul * {
-                color: #fff;
+                color: #0a1332;
             }
 
         .main-page .New-Idea .vision > ul > li {

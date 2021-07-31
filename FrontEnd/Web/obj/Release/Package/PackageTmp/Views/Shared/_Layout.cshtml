@@ -28,10 +28,10 @@
                     @if (ViewBag.CookieLang == "ar")
                     {
                         <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "Main"? "active" : "")" href="~/Main/Index">الرئيسية</a>
+                            <a class="nav-link @(ViewBag.title == "IAU-BSC | Main"? "active" : "")" href="~/Main/Index">الرئيسية</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home/Index">طلب</a>
+                            <a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home/Index">تقديم/متابعة طلب</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="~/Coordinator/index">المنسقين</a>
@@ -43,10 +43,10 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "Main"? "active" : "")" href="~/Main/Index">Main</a>
+                            <a class="nav-link @(ViewBag.title == "IAU-BSC | Main"? "active" : "")" href="~/Main/Index">Main</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home/Index">Request</a>
+                            <a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home/Index">Submit/Follow-up</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="~/Coordinator/index">Coordinator</a>
