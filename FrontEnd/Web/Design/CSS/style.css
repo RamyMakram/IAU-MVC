@@ -1652,6 +1652,10 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
         font-family: "Myriad Pro Regular","Font Awesome 5 Free";
     }
 
+    .main-page p, .main-page blockquote, .main-page ol, .main-page ul {
+        line-height: 1.6em;
+    }
+
     .main-page .collapse-container {
         margin: 5px 0px
     }
