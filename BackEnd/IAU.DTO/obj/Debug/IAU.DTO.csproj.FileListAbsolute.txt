@@ -39,3 +39,4 @@ F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csproj.
 F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csproj.CopyComplete
 F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.dll
 F:\Freelance\Elbzary\Musstafid\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU.DTO\obj\Debug\IAU.DTO.csproj.CoreCompileInputs.cache

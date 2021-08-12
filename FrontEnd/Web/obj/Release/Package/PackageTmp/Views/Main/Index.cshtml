@@ -962,5 +962,15 @@
             $(".main-page a").removeClass("active");
             $(this).addClass("active");
         }
-    })
+    });
+
+        if (document.body.offsetWidth > 767) {
+            $(".content .loc1").fadeIn();
+            $(".content .loc1").addClass("active");
+            $(".main-page .collapse-container:first-child a").addClass("active");
+        } else {
+            $(".mob-loc1").fadeIn();
+            $(".mob-loc1").addClass("active");
+            $(".main-page .collapse-container:first-child a").addClass("active");
+        }
 </script>

@@ -257,3 +257,4 @@ C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Debug\AdminPanel.dll
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Debug\AdminPanel.pdb
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Linq.Dynamic.dll
 F:\Freelance\Elbzary\Musstafid\IAU-MVC\FrontEnd\AdminPanel\bin\System.Linq.Dynamic.dll
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Debug\AdminPanel.csproj.CoreCompileInputs.cache

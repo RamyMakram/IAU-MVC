@@ -282,3 +282,4 @@ C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Debug\Web.csproj.CoreCompileInpu
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Debug\Web.csproj.CopyComplete
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Debug\Web.dll
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Debug\Web.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache

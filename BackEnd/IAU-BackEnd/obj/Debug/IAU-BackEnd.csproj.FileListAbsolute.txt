@@ -644,3 +644,4 @@ C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe.config
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.exe.conico
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\bin\roslyn\gcsc.ico
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.csproj.AssemblyReference.cache
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAU-BackEnd\obj\Debug\IAU-BackEnd.csproj.CoreCompileInputs.cache

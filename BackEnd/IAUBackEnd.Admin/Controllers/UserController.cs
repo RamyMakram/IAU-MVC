@@ -12,6 +12,11 @@ using IAUAdmin.DTO.Helper;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
+using System.IO;
+using System.Web;
+using System.Data;
+using System.Data.SqlClient;
+using System.Net.Http.Headers;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -320,5 +325,67 @@ namespace IAUBackEnd.Admin.Controllers
 			await p.SaveChangesAsync();
 			return Ok(new ResponseClass() { success = true });
 		}
+		[HttpGet]
+		[Route("")]
+		public HttpResponseMessage GetFile(string fileName)
+		{
+			//Create HTTP Response.
+			HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+
+			//Set the File Path.
+			//string filePath = HttpContext.Current.Server.MapPath("~/Files/") + fileName;
+			string filePath = @"E:\Photoshop\nwdn_file_temp_1611321815050.jpg";
+
+			//Check whether File exists.
+			if (!File.Exists(filePath))
+			{
+				//Throw 404 (Not Found) exception if File not found.
+				response.StatusCode = HttpStatusCode.NotFound;
+				response.ReasonPhrase = string.Format("File not found: {0} .", filePath);
+				throw new HttpResponseException(response);
+			}
+
+			//Read the File into a Byte Array.
+			byte[] bytes = File.ReadAllBytes(filePath);
+
+			//Set the Response Content.
+			response.Content = new ByteArrayContent(bytes);
+
+			//Set the Response Content Length.
+			response.Content.Headers.ContentLength = bytes.LongLength;
+
+			//Set the Content Disposition Header Value and FileName.
+			response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+			response.Content.Headers.ContentDisposition.FileName = Path.GetFileName(filePath);
+
+			//Set the File Content Type.
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(Path.GetFileName(filePath)));
+			return response;
+		}
+		//public (string fileType, byte[] archiveData, string archiveName) DownloadFiles(string subDirectory)
+		//{
+		//	var zipName = $"archive-{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.zip";
+
+		//	var files = Directory.GetFiles(Path.Combine(_hostingEnvironment.ContentRootPath, subDirectory)).ToList();
+
+		//	using (var memoryStream = new MemoryStream())
+		//	{
+		//		using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+		//		{
+		//			files.ForEach(file =>
+		//			{
+		//				var theFile = archive.CreateEntry(file);
+		//				using (var streamWriter = new StreamWriter(theFile.Open()))
+		//				{
+		//					streamWriter.Write(File.ReadAllText(file));
+		//				}
+
+		//			});
+		//		}
+
+		//		return (new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(Path.GetFileName(filePath))), memoryStream.ToArray(), zipName);
+		//	}
+
+		//}
 	}
 }
