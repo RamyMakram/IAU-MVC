@@ -327,7 +327,7 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		[HttpGet]
 		[Route("")]
-		public HttpResponseMessage GetFile(string fileName)
+		public async Task<HttpResponseMessage> GetFile(string fileName)
 		{
 			//Create HTTP Response.
 			HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
