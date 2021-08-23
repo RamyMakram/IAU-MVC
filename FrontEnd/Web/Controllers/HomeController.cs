@@ -58,8 +58,6 @@ namespace Web.Controllers
 			{
 				int code = new Random().Next(1000, 9999);
 				Debug.WriteLine(code);
-				//Console.WriteLine(code);
-				//code = 1111;
 				string message = $@"Use this code {code} to complete your request.";
 				var res = APIHandeling.GetDataAdmin("/Request/SendSMS?Mobile=" + to + "&message=" + message);
 				var resJson = res.Content.ReadAsStringAsync().Result;

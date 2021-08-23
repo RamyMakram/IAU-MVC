@@ -187,3 +187,4 @@ C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CoreCompileIn
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CopyComplete
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.dll
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.pdb
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CoreCompileInputs.cache

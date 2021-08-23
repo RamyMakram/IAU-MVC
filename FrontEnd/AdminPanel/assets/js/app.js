@@ -339,8 +339,7 @@ var User = "";
 		function WebSocketTest() {
 			if ("WebSocket" in window) {
 
-				//var ws = new WebSocket("wss://localhost:44344/WSHandler.ashx?Name=" + User);
-				var ws = new WebSocket("wss://mm.iau-bsc.com/WSHandler.ashx?Name=" + User);
+				var ws = new WebSocket("ws://10.30.2.188:8081/WSHandler.ashx?Name=" + User);
 
 				ws.onopen = function () {
 				};

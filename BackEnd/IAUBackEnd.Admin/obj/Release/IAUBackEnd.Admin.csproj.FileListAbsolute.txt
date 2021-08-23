@@ -332,3 +332,4 @@ C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Release\IAUBackEnd.A
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Release\IAUBackEnd.Admin.dll
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Release\IAUBackEnd.Admin.pdb
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\bin\System.Linq.Dynamic.dll
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUBackEnd.Admin\obj\Release\IAUBackEnd.Admin.csproj.CoreCompileInputs.cache
