@@ -110,7 +110,7 @@
 				<div class="dropdown-menu dropdown-menu-right">
 					<!-- item-->
 					@*<a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle mr-1"></i> <span key="t-profile">Profile</span></a>
-					<div class="dropdown-divider"></div>*@
+						<div class="dropdown-divider"></div>*@
 					<a class="dropdown-item text-danger" href="/Base/Logout"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span key="t-logout">Logout</span></a>
 				</div>
 			</div>
@@ -142,15 +142,20 @@
 						let data = JSON.parse(d)
 
 						$('#DelayedTrans-count').html(data.length)
-						let Bind=''
-						data.forEach(i => {
-							Bind += `
-									<a class="dropdown-item ${i["Readed"]?"":"noreaded"}" href="/DelayedTrasaction/Preview/${i["ID"]}">'${i['ReqID']}'@(isAr?" معاملة متاخرة . حالة الطلب":" Delayed Transaction . Request Satus ") ' ${i['@(isAr?"RequestStatusAR":"RequestStatusEN")']} '</a>
-									<div class="dropdown-divider ${i["Readed"]?"":"noreaded"}"></div>
-									`
-						})
+						if (data.length != 0) {
+							let Bind = ''
+							data.forEach(i => {
+								Bind += `
+										<a class="dropdown-item ${i["Readed"] ? "" : "noreaded"}" href="/DelayedTrasaction/Preview/${i["ID"]}">@(isAr?"المعاملة رقم ":"Transaction Number ")'${i['ReqID']}'@(isAr?" معاملة متاخرة ، حالة الطلب":" is Delayed Transaction , Request Status ") ' ${i['@(isAr?"RequestStatusAR":"RequestStatusEN")']} '</a>
+										<div class="dropdown-divider ${i["Readed"] ? "" : "noreaded"}"></div>
+										`
+							})
 
-						$('#DelayedTrans-View').html(Bind)
+							$('#DelayedTrans-View').html(Bind)
+						} else {
+							$('#DelayedTrans-View').html(``)
+							$('#DelayedTrans-View').css({'display':'none'})
+						}
 					}
 				})
 			})

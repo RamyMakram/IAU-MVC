@@ -502,6 +502,10 @@ function deleteFileSupport(id) {
 var saverequest_Clicked = false;
 let data = null;
 function sendSMS() {
+	document.getElementById('verficationFeedback').style.display = 'none';
+	document.getElementById('GenralError').style.display = 'none';
+	$('.verification-input input').val("")
+	$('.verification-input input:nth-child(1)').focus()
 	$("#saveRequestBTN").html("<img src='././Design/img/spinner1.gif' style='width: 53px;'/>");
 	data = serialiazeForm();
 	$(".loading").addClass("active");
