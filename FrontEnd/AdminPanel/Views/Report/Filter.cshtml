@@ -485,13 +485,11 @@
 				body.appendChild(page);
 				document.getElementById('VIEwTemP__dsdm').appendChild(html);
 			}
+			console.log(i.clientHeight)
 			tbody.appendChild(i);
 		});
-		return html;
-	}
-	function openWin() {
 		var myWindow = window.open('', '', 'width=800,height=700');
-		myWindow.document.write(GetHTML().innerHTML);
+		myWindow.document.write(html.innerHTML);
 		myWindow.focus();
 		myWindow.addEventListener('load', (event) => {
 			myWindow.print();
@@ -499,6 +497,9 @@
 		});
 		myWindow.document.close();
 		$('.page-link[data-dt-idx="1"]').click()
+	}
+	function openWin() {
+		GetHTML()
 	}
 	$(document).ready(() => {
 		$('input[aria-controls="datatable-buttons"]').css({ 'display': 'none' });
