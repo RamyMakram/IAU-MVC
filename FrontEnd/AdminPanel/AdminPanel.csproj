@@ -266,6 +266,9 @@
     <Content Include="assets\images\product\img-7.png" />
     <Content Include="assets\images\product\img-8.png" />
     <Content Include="assets\images\profile-img.png" />
+    <Content Include="assets\images\repo\iaubackgroud.jpeg" />
+    <Content Include="assets\images\repo\iaufooter.jpeg" />
+    <Content Include="assets\images\repo\iauHeader.jpeg" />
     <Content Include="assets\images\slider_e-01_0.jpg" />
     <Content Include="assets\images\small\img-1.jpg" />
     <Content Include="assets\images\small\img-2.jpg" />

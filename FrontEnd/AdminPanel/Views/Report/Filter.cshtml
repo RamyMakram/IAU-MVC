@@ -13,8 +13,8 @@
 
 }
 <style>
-	#datatable-buttons_wrapper .row .col-sm-12{
-		overflow:auto;
+	#datatable-buttons_wrapper .row .col-sm-12 {
+		overflow: auto;
 	}
 </style>
 <!-- DataTables -->
@@ -34,6 +34,7 @@
 							<span key="t-">Archive Selected</span>
 						</button>*@
 					<a href="/Report" class="btn btn-primary">@(isAr ? "العوده للرئيسية" : "Back To Home")</a>
+					<a href="#" class="btn btn-primary mx-1" onclick="openWin()">@(isAr ? "طباعة" : "Print")</a>
 
 				</div>
 
@@ -120,100 +121,104 @@
 					<tbody id="MailList">
 						@{
 							var count = 1;
-							foreach (var i in Model)
+							for (int s = 0; s < 25; s++)
 							{
-								<tr>
-									<td>@count</td>
-									@{
-										if (data.Contains("First_Name"))
-										{
-											<td>@i.First_Name</td>
-										}
-										if (data.Contains("Middle_Name"))
-										{
-											<td>@i.Middle_Name</td>
-										}
-										if (data.Contains("Last_Name"))
-										{
-											<td>@i.Last_Name</td>
-										}
-										if (data.Contains("Mobile"))
-										{
-											<td class="en-font">@i.Mobile</td>
-										}
-										if (data.Contains("Email"))
-										{
-											<td class="en-font">@i.Email</td>
-										}
-										if (data.Contains("Nationality"))
-										{
-											<td>@(isAr ? i.Country.Country_Name_AR : i.Country.Country_Name_EN)</td>
-										}
-										if (data.Contains("Country"))
-										{
-											<td>@(isAr ? i.Country2.Country_Name_AR : i.Country2.Country_Name_EN)</td>
-										}
-										if (data.Contains("Region"))
-										{
-											if (i.Region == null)
+								foreach (var i in Model)
+								{
+									<tr>
+										<td>@count</td>
+										@{
+											if (data.Contains("First_Name"))
 											{
-												<td>@i.Adress_Region</td>
+												<td>@i.First_Name</td>
 											}
-											else
+											if (data.Contains("Middle_Name"))
 											{
-												<td>@(isAr ? i.Region.Region_Name_AR : i.Region.Region_Name_EN)</td>
+												<td>@i.Middle_Name</td>
 											}
-										}
-										if (data.Contains("City"))
-										{
-											if (i.City == null)
+											if (data.Contains("Last_Name"))
 											{
-												<td>@i.Address_City</td>
+												<td>@i.Last_Name</td>
 											}
-											else
+											if (data.Contains("Mobile"))
 											{
-												<td>@(isAr ? i.City.City_Name_AR : i.City.City_Name_EN)</td>
+												<td class="en-font">@i.Mobile</td>
+											}
+											if (data.Contains("Email"))
+											{
+												<td class="en-font">@i.Email</td>
+											}
+											if (data.Contains("Nationality"))
+											{
+												<td>@(isAr ? i.Country.Country_Name_AR : i.Country.Country_Name_EN)</td>
+											}
+											if (data.Contains("Country"))
+											{
+												<td>@(isAr ? i.Country2.Country_Name_AR : i.Country2.Country_Name_EN)</td>
+											}
+											if (data.Contains("Region"))
+											{
+												if (i.Region == null)
+												{
+													<td>@i.Adress_Region</td>
+												}
+												else
+												{
+													<td>@(isAr ? i.Region.Region_Name_AR : i.Region.Region_Name_EN)</td>
+												}
+											}
+											if (data.Contains("City"))
+											{
+												if (i.City == null)
+												{
+													<td>@i.Address_City</td>
+												}
+												else
+												{
+													<td>@(isAr ? i.City.City_Name_AR : i.City.City_Name_EN)</td>
+												}
+											}
+											if (data.Contains("Postal"))
+											{
+												<td class="en-font">@i.Postal_Code</td>
+											}
+											if (data.Contains("ID_Number"))
+											{
+												<td class="en-font">@i.ID_Number</td>
+											}
+											if (data.Contains("IAU_ID_Number"))
+											{
+												<td class="en-font">@i.IAU_ID_Number</td>
+											}
+											if (data.Contains("ServiceType"))
+											{
+												<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+											}
+											if (data.Contains("RequestType"))
+											{
+												<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+											}
+											if (data.Contains("Code_Generate"))
+											{
+												<td class="en-font">@i.Code_Generate</td>
+											}
+											if (data.Contains("CreatedDate"))
+											{
+												<td class="en-font">@i.CreatedDate</td>
+											}
+											if (data.Contains("ApplicantType"))
+											{
+												<td>@(isAr ? i.Applicant_Type.Applicant_Type_Name_AR : i.Applicant_Type.Applicant_Type_Name_EN)</td>
+											}
+											if (data.Contains("RequestStatus"))
+											{
+												<td>@(isAr ? i.Request_State.StateName_AR : i.Request_State.StateName_EN)</td>
 											}
 										}
-										if (data.Contains("Postal"))
-										{
-											<td class="en-font">@i.Postal_Code</td>
-										}
-										if (data.Contains("ID_Number"))
-										{
-											<td class="en-font">@i.ID_Number</td>
-										}
-										if (data.Contains("IAU_ID_Number"))
-										{
-											<td class="en-font">@i.IAU_ID_Number</td>
-										}
-										if (data.Contains("ServiceType"))
-										{
-											<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
-										}
-										if (data.Contains("RequestType"))
-										{
-											<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
-										}
-										if (data.Contains("Code_Generate"))
-										{
-											<td class="en-font">@i.Code_Generate</td>
-										}
-										if (data.Contains("CreatedDate"))
-										{
-											<td class="en-font">@i.CreatedDate</td>
-										}
-										if (data.Contains("ApplicantType"))
-										{
-											<td>@(isAr ? i.Applicant_Type.Applicant_Type_Name_AR : i.Applicant_Type.Applicant_Type_Name_EN)</td>
-										}
-										if (data.Contains("RequestStatus"))
-										{
-											<td>@(isAr ? i.Request_State.StateName_AR : i.Request_State.StateName_EN)</td>
-										}
-									}
-								</tr>
-								count++;
+
+									</tr>
+									count++;
+								}
 							}
 						}
 					</tbody>
@@ -222,7 +227,9 @@
 		</div>
 	</div> <!-- end col -->
 </div> <!-- end row -->
+<div id="VIEwTemP__dsdm" style="opacity:0;height:0 !important;overflow-y: auto;">
 
+</div>
 
 
 
@@ -254,3 +261,168 @@
 <!-- Datatable init js -->
 <script src="~/assets/js/pages/datatables.init.js"></script>
 <script src="~/assets/js/app.js"></script>
+<script type="text/javascript">
+	const max_contentSize = 753;
+	function GetNewPage() {
+		//debugger
+		document.getElementById('VIEwTemP__dsdm').innerHTML = ``;
+		var page_div = document.createElement("div")
+		page_div.className = "page"
+		page_div.innerHTML = `
+					<div class="watermark">
+						<img src="/assets/images/repo/iaubackgroud.jpeg" height="205px">
+					</div>
+					<div class="header" style="height: 210px;">
+						<img src="/assets/images/repo/iauHeader.jpeg" height="180px">
+					</div>
+					<div class="content">
+
+					</div>
+					 <div class="footer" style="height: 210px;">
+						<img src="/assets/images/repo/iaufooter.jpeg" height="90px">
+					</div>`
+		return page_div;
+	}
+	function GetHTML() {
+		//debugger
+		
+		thead = document.createElement("thead");
+		thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
+		var tbody_data = [];
+		let length = document.getElementsByClassName("page-link").length;
+		for (var i = 0; i < length; i++) {
+			([...document.querySelectorAll('#MailList tr')]).forEach(s => {
+				tbody_data.push(s);
+			})
+			if ($('#datatable-buttons_next').hasClass("disabled"))
+				break;
+			else
+				$('#datatable-buttons_next').click();
+		}
+		var html = document.createElement("html");
+		var head = document.createElement("head");
+		head.innerHTML = `<meta charset="UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Document</title>
+				<style>
+
+					body{
+						direction: rtl;
+					}
+					.page {
+						border: 1px solid black;
+						width: 794px;
+						height: 1123px;
+						position: relative;
+					}
+
+					table {
+						margin: 12px 28px;
+						width: auto !important;
+					}
+
+					tr {
+						border: 1px solid;
+					}
+
+					th {
+						border: 1px solid;
+					}
+
+					td {
+						text-align: center;
+						border: 1px solid;
+					}
+
+					.watermark {
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						right: 0;
+						width: 810px !important;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						z-index: 15;
+					}
+
+					.watermark img {
+						z-index: 15;
+
+					}
+
+					.header {
+						padding: 6px;
+					}
+					.header img {
+						height: 180px !important;
+					}
+
+					.content,
+					table,
+					.header {
+						z-index: 25;
+						position: relative;
+					}
+
+					.footer {
+						position: absolute;
+						right: 0px;
+						bottom: 1px;
+						width: 794px;
+						height: 99px !important;
+						text-align: center;
+					}
+
+					 .footer img {
+						height: 90px !important;
+					 }
+				</style>`
+		html.appendChild(head);
+		var body = document.createElement("body");
+		html.appendChild(body);
+
+		var page = GetNewPage();
+		var table = document.createElement("table");
+		table.appendChild(thead)
+		var tbody = document.createElement("tbody");
+		table.appendChild(tbody)
+		var content = page.getElementsByClassName('content')[0];
+		content.appendChild(table);
+		body.appendChild(page);
+		document.getElementById('VIEwTemP__dsdm').appendChild(html);
+
+		tbody_data.forEach(i => {
+			if (content.clientHeight > max_contentSize) {
+				page = GetNewPage();
+				table = document.createElement("table");
+				thead = document.createElement("thead");
+				thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
+				table.appendChild(thead)
+				tbody = document.createElement("tbody");
+				table.appendChild(tbody)
+				content = page.getElementsByClassName('content')[0];
+				content.appendChild(table);
+				body.appendChild(page);
+				document.getElementById('VIEwTemP__dsdm').appendChild(html);
+			}
+			tbody.appendChild(i);
+		});
+		return html;
+	}
+	function openWin() {
+		var myWindow = window.open('', '', 'width=800,height=700');
+		myWindow.document.write(GetHTML().innerHTML);
+		myWindow.focus();
+		myWindow.addEventListener('load', (event) => {
+			myWindow.print();
+			myWindow.close();
+		});
+		myWindow.document.close();
+		$('.page-link[data-dt-idx="1"]').click()
+	}
+	$(document).ready(() => {
+		$('input[aria-controls="datatable-buttons"]').css({ 'display': 'none' });
+	})
+</script>

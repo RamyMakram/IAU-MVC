@@ -1,10 +1,10 @@
 ﻿@{
-	ViewBag.Title = "Requests";
-	ViewBag.pTitle = "Requests";
-	ViewBag.pageTitle = "All Requests";
-	ViewBag.arTitle = "الطلبات";
-	ViewBag.arpageTitle = "الطلبات";
-	ViewBag.arpTitle = "كل الطلبات";
+	ViewBag.Title = "Statistics";
+	ViewBag.pTitle = "Statistics";
+	ViewBag.pageTitle = "Home";
+	ViewBag.arTitle = "التقارير والاحصائيات";
+	ViewBag.arpageTitle = "التقارير والاحصائيات";
+	ViewBag.arpTitle = "الرئيسية";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	var isAr = Request.Cookies["lang"].Value == "ar";
 
@@ -180,21 +180,21 @@
 										<h3 class="text-center p-2">@(isAr ? "المتاح" : "Available")</h3>
 										<hr />
 										<ul class="list1">
-											<li data-key="ServiceType" class="active"> Service Type  </li>
-											<li data-key="RequestType"> Request Type  </li>
-											<li data-key="RequestStatus"> Request Status  </li>
-											<li data-key="Code"> Request Code  </li>
-											<li data-key="CDate"> Created Date  </li>
-											<li data-key="IAU_ID_Number"> IAU ID Number </li>
-											<li data-key="ApplicantType"> Applicant Type  </li>
-											<li data-key="Middle_Name"> Middle Name  </li>
-											<li data-key="Last_Name"> Last_Name  </li>
-											<li data-key="Nationality"> Nationality  </li>
-											<li data-key="ID_Number"> ID Number  </li>
-											<li data-key="Country"> Address Country</li>
-											<li data-key="City"> Address City  </li>
-											<li data-key="Region"> Adress Region  </li>
-											<li data-key="Postal_Code"> Postal Code  </li>
+											<li data-key="ServiceType" class="active"> @(isAr?"نوع الخدمة": "Service Type")  </li>
+											<li data-key="RequestType">@(isAr?"نوع الطلب": "Request Type")  </li>
+											<li data-key="RequestStatus"> @(isAr?"حالة الطلب": "Request Status")  </li>
+											<li data-key="Code"> @(isAr?"رقم الطلب": "Code")  </li>
+											<li data-key="CDate"> @(isAr?"تاريخ الانشاء": "Creation Date")  </li>
+											<li data-key="IAU_ID_Number"> @(isAr?"رقم المستفيد": "IAU ID Number") </li>
+											<li data-key="ApplicantType"> @(isAr?"نوع مقدم الطلب": "Applicant Type")  </li>
+											<li data-key="Middle_Name"> @(isAr?"الاسم الاوسط": "Middle Name")  </li>
+											<li data-key="Last_Name"> @(isAr?"الاسم الاخير": "Last Name")  </li>
+											<li data-key="Nationality"> @(isAr?"الجنسية": "Nationality")  </li>
+											<li data-key="ID_Number"> @(isAr?"رقم الهوية": "ID Number")  </li>
+											<li data-key="Country"> @(isAr?"": "Country")</li>
+											<li data-key="City"> @(isAr?"": "City")  </li>
+											<li data-key="Region"> @(isAr?"": "Region")  </li>
+											<li data-key="Postal_Code"> @(isAr?"الرقم البريدي": "Postal Code")  </li>
 										</ul>
 									</div>
 								</div>
@@ -209,9 +209,9 @@
 										<h3 class="text-center p-2">@(isAr ? "المعروض" : "Viewed")</h3>
 										<hr />
 										<ul class="list2">
-											<li data-key="First_Name"> First Name  </li>
-											<li data-key="Mobile"> Mobile </li>
-											<li data-key="Email"> Email  </li>
+											<li data-key="First_Name"> @(isAr?"الاسم الاول": "First Name")  </li>
+											<li data-key="Mobile"> @(isAr?"رقم الهاتف": "Mobile") </li>
+											<li data-key="Email"> @(isAr?"البريد الالكتروني": "Email")  </li>
 										</ul>
 									</div>
 								</div>
