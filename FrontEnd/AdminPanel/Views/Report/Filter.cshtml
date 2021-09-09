@@ -30,14 +30,55 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="col-12 d-flex justify-content-end mb-3">
-					@*<button type="button" class="btn btn-primary" id="sa-archive">
-							<span key="t-">Archive Selected</span>
-						</button>*@
 					<a href="/Report" class="btn btn-primary">@(isAr ? "العوده للرئيسية" : "Back To Home")</a>
 					<a href="#" class="btn btn-primary mx-1" onclick="openWin()">@(isAr ? "طباعة" : "Print")</a>
 
 				</div>
+				<div class="col-12 d-flex justify-content-end mb-3">
+					<div id="InfoData" class="table-responsive">
+						<table class="table mb-0 table-bordered">
+							<tbody>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الخدمة الاساسية":"Main Service")</th>
+									<td id="ST">@(Request.QueryString["ST"]=="null"?(isAr?"الكل":"All"): Request.QueryString["ST"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"أنواع الطلبات":"Request Type")</th>
+									<td id="RT">@(Request.QueryString["RT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["RT"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"منسوب للجامعة":"IAU Affliate")</th>
+									<td id="MT">@(Request.QueryString["MT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["MT"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الموقع":"Location")</th>
+									<td id="location">@(Request.QueryString["location"] =="null"?(isAr?"الكل":"All"): Request.QueryString["location"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الفئة الادارية":"Unit")</th>
+									<td id="Unit">@(Request.QueryString["Unit"] =="null"?(isAr?"الكل":"All"): Request.QueryString["Unit"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"حالة الطلب":"Request Status")</th>
+									<td id="ReqStatus">@(Request.QueryString["ReqStatus"] =="null"?(isAr?"الكل":"All"): Request.QueryString["ReqStatus"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"المصدر":"Source")</th>
+									<td id="ReqSource">@(Request.QueryString["ReqSource"] =="null"?(isAr?"الكل":"All"): Request.QueryString["ReqSource"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"التاريخ من":"Date From")</th>
+									<td>@(Request.QueryString["DF"] =="null"?(isAr?"الكل":"All"): Request.QueryString["DF"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"التاريخ الي":"Date To")</th>
+									<td>@(Request.QueryString["DT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["DT"])</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
+				</div>
 				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
 						<tr>
@@ -264,7 +305,6 @@
 <script type="text/javascript">
 	const max_contentSize = 753;
 	function GetNewPage() {
-		//debugger
 		document.getElementById('VIEwTemP__dsdm').innerHTML = ``;
 		var page_div = document.createElement("div")
 		page_div.className = "page"
@@ -283,9 +323,13 @@
 					</div>`
 		return page_div;
 	}
+	function GetInfoPage() {
+		var page_div = document.createElement("div")
+		page_div.className = "table-responsive"
+		page_div.innerHTML = document.getElementById('InfoData').innerHTML
+		return page_div;
+	}
 	function GetHTML() {
-		//debugger
-		
 		thead = document.createElement("thead");
 		thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
 		var tbody_data = [];
@@ -378,12 +422,46 @@
 					 .footer img {
 						height: 90px !important;
 					 }
+					.table tbody tr th,
+					.table tbody tr td {
+						padding: 7px;
+					}
+
+					.table tbody tr th {
+						width: 200px !important;
+					}
+
+					.table tbody tr td {
+						width: auto !important;
+					}
+
+					.table {
+						width: 93% !important;
+					}
+
+					div.content.infopage {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						height: 776px;
+					}
+
+					div.content.infopage div table {
+						width: 734px !important;
+					}
 				</style>`
 		html.appendChild(head);
 		var body = document.createElement("body");
 		html.appendChild(body);
 
 		var page = GetNewPage();
+		var Info_PG = GetInfoPage();
+		var content = page.getElementsByClassName('content')[0];
+		content.className += " infopage";
+		content.appendChild(Info_PG);
+		body.appendChild(page);
+
+		page = GetNewPage();
 		var table = document.createElement("table");
 		table.appendChild(thead)
 		var tbody = document.createElement("tbody");
@@ -424,5 +502,11 @@
 	}
 	$(document).ready(() => {
 		$('input[aria-controls="datatable-buttons"]').css({ 'display': 'none' });
+		var data = JSON.parse(localStorage.getItem('PP_sdat_rep'))
+		var keys = Object.keys(data);
+		keys.forEach(i => {
+			$("#" + i).text(data[i])
+		})
+		console.log(Object.keys(data))
 	})
 </script>

@@ -280,6 +280,16 @@
 		let count = 0;
 		([...$('.list2 li')]).forEach(i => { Columns += count == 0 ? $(i).attr('data-key') : "," + $(i).attr('data-key'); count++; });
 		$('#cols').val(Columns)
+		var data = {
+			ST: $('[name="ST"] option:selected').text(),
+			MT: $('[name="MT"] option:selected').text(),
+			RT: $('[name="RT"] option:selected').text(),
+			ReqSource: $('[name="ReqSource"] option:selected').text(),
+			ReqStatus: $('[name="ReqStatus"] option:selected').text(),
+			Unit: $('[name="Unit"] option:selected').text(),
+			location: $('[name="location"] option:selected').text()
+		}
+		localStorage.setItem("PP_sdat_rep", JSON.stringify(data))
 		location.href = "/Report/FilterRequest?" + $('#FilterForm').serialize()
 	})
 </script>
