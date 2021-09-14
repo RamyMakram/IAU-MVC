@@ -352,7 +352,7 @@
 				<style>
 
 					body{
-						direction: rtl;
+						direction: @(isAr?"rtl":"ltr");
 					}
 					.page {
 						border: 1px solid black;
@@ -485,7 +485,6 @@
 				body.appendChild(page);
 				document.getElementById('VIEwTemP__dsdm').appendChild(html);
 			}
-			console.log(i.clientHeight)
 			tbody.appendChild(i);
 		});
 		var myWindow = window.open('', '', 'width=800,height=700');
@@ -508,6 +507,5 @@
 		keys.forEach(i => {
 			$("#" + i).text(data[i])
 		})
-		console.log(Object.keys(data))
 	})
 </script>

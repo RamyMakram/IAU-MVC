@@ -8,5 +8,5 @@ C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csp
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csproj.CoreCompileInputs.cache
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.dll
 C:\Users\elewa\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.pdb
-C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csprojAssemblyReference.cache
 C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csproj.CoreCompileInputs.cache
+C:\Users\Ramy Makram\Desktop\IAU-MVC\BackEnd\IAUAdmin.DTO\obj\Release\IAUAdmin.DTO.csproj.AssemblyReference.cache

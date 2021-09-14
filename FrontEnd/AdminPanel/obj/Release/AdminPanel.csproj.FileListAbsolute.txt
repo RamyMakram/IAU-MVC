@@ -79,7 +79,6 @@ C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Http.xml
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Http.Cors.xml
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\LinqKit.xml
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Web.Http.WebHost.xml
-C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csprojAssemblyReference.cache
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csproj.CopyComplete
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.pdb
@@ -171,3 +170,4 @@ C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.dll
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.pdb
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\bin\System.Linq.Dynamic.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csproj.CoreCompileInputs.cache
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\AdminPanel\obj\Release\AdminPanel.csproj.AssemblyReference.cache

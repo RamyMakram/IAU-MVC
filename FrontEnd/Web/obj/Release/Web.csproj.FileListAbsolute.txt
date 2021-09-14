@@ -88,7 +88,6 @@ C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\Microsoft.Owin.Security.Co
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\Microsoft.Owin.Security.WsFederation.xml
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\System.IdentityModel.Tokens.Jwt.pdb
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\bin\System.IdentityModel.Tokens.Jwt.xml
-C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csprojAssemblyReference.cache
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CopyComplete
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.dll
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.pdb
@@ -188,3 +187,4 @@ C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CopyComplete
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.dll
 C:\Users\elewa\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.pdb
 C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.CoreCompileInputs.cache
+C:\Users\Ramy Makram\Desktop\IAU-MVC\FrontEnd\Web\obj\Release\Web.csproj.AssemblyReference.cache
