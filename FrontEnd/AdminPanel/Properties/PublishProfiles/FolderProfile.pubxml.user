@@ -5,6 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\Ramy Makram\Desktop\FE_Admin</_PublishTargetUrl>
+    <History>True|2021-09-14T11:23:56.0263016Z;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="assets/css/app-dark.css">
@@ -328,6 +329,15 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="assets/images/profile-img.png">
       <publishTime>12/16/2020 18:46:46</publishTime>
     </File>
+    <File Include="assets/images/repo/iaubackgroud.jpeg">
+      <publishTime>09/08/2021 13:21:09</publishTime>
+    </File>
+    <File Include="assets/images/repo/iaufooter.jpeg">
+      <publishTime>09/08/2021 13:21:09</publishTime>
+    </File>
+    <File Include="assets/images/repo/iauHeader.jpeg">
+      <publishTime>09/08/2021 13:21:09</publishTime>
+    </File>
     <File Include="assets/images/slider_e-01_0.jpg">
       <publishTime>06/24/2021 18:28:30</publishTime>
     </File>
@@ -383,7 +393,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/22/2021 12:00:26</publishTime>
     </File>
     <File Include="assets/js/app.js">
-      <publishTime>08/30/2021 09:09:37</publishTime>
+      <publishTime>08/30/2021 11:58:20</publishTime>
     </File>
     <File Include="assets/js/lang/jquery.multiLanguage.js">
       <publishTime>03/29/2021 13:11:08</publishTime>
@@ -1211,13 +1221,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/24/2021 18:19:11</publishTime>
     </File>
     <File Include="bin/AdminPanel.dll">
-      <publishTime>08/30/2021 09:10:33</publishTime>
+      <publishTime>09/14/2021 12:00:27</publishTime>
     </File>
     <File Include="bin/AdminPanel.dll.config">
-      <publishTime>08/30/2021 09:10:18</publishTime>
+      <publishTime>09/14/2021 13:22:57</publishTime>
     </File>
     <File Include="bin/AdminPanel.pdb">
-      <publishTime>08/30/2021 09:10:33</publishTime>
+      <publishTime>09/14/2021 12:00:27</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>03/16/2021 13:13:33</publishTime>
@@ -1235,19 +1245,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/02/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/IAUAdmin.DTO.dll">
-      <publishTime>08/29/2021 17:25:30</publishTime>
+      <publishTime>09/14/2021 12:00:24</publishTime>
     </File>
     <File Include="bin/IAUAdmin.DTO.pdb">
-      <publishTime>08/29/2021 17:25:30</publishTime>
+      <publishTime>09/14/2021 12:00:24</publishTime>
     </File>
     <File Include="bin/IAUBackEnd.Admin.dll">
-      <publishTime>08/29/2021 17:25:32</publishTime>
+      <publishTime>09/14/2021 12:00:26</publishTime>
     </File>
     <File Include="bin/IAUBackEnd.Admin.dll.config">
-      <publishTime>08/23/2021 12:56:32</publishTime>
+      <publishTime>09/01/2021 14:21:21</publishTime>
     </File>
     <File Include="bin/IAUBackEnd.Admin.pdb">
-      <publishTime>08/29/2021 17:25:32</publishTime>
+      <publishTime>09/14/2021 12:00:26</publishTime>
     </File>
     <File Include="bin/LinqKit.dll">
       <publishTime>03/16/2021 07:24:18</publishTime>
@@ -8537,10 +8547,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/11/2021 12:03:43</publishTime>
     </File>
     <File Include="Views/Report/Filter.cshtml">
-      <publishTime>08/30/2021 08:27:01</publishTime>
+      <publishTime>09/14/2021 13:22:24</publishTime>
     </File>
     <File Include="Views/Report/Home.cshtml">
-      <publishTime>08/30/2021 08:26:39</publishTime>
+      <publishTime>09/09/2021 14:03:51</publishTime>
     </File>
     <File Include="Views/RequestType/Active.cshtml">
       <publishTime>06/27/2021 17:12:57</publishTime>
@@ -8744,7 +8754,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/29/2021 15:27:49</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/30/2021 09:10:35</publishTime>
+      <publishTime>09/14/2021 13:23:48</publishTime>
     </File>
   </ItemGroup>
 </Project>

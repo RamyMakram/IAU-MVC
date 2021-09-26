@@ -162,104 +162,102 @@
 					<tbody id="MailList">
 						@{
 							var count = 1;
-							for (int s = 0; s < 25; s++)
+
+							foreach (var i in Model)
 							{
-								foreach (var i in Model)
-								{
-									<tr>
-										<td>@count</td>
-										@{
-											if (data.Contains("First_Name"))
+								<tr>
+									<td>@count</td>
+									@{
+										if (data.Contains("First_Name"))
+										{
+											<td>@i.First_Name</td>
+										}
+										if (data.Contains("Middle_Name"))
+										{
+											<td>@i.Middle_Name</td>
+										}
+										if (data.Contains("Last_Name"))
+										{
+											<td>@i.Last_Name</td>
+										}
+										if (data.Contains("Mobile"))
+										{
+											<td class="en-font">@i.Mobile</td>
+										}
+										if (data.Contains("Email"))
+										{
+											<td class="en-font">@i.Email</td>
+										}
+										if (data.Contains("Nationality"))
+										{
+											<td>@(isAr ? i.Country.Country_Name_AR : i.Country.Country_Name_EN)</td>
+										}
+										if (data.Contains("Country"))
+										{
+											<td>@(isAr ? i.Country2.Country_Name_AR : i.Country2.Country_Name_EN)</td>
+										}
+										if (data.Contains("Region"))
+										{
+											if (i.Region == null)
 											{
-												<td>@i.First_Name</td>
+												<td>@i.Adress_Region</td>
 											}
-											if (data.Contains("Middle_Name"))
+											else
 											{
-												<td>@i.Middle_Name</td>
-											}
-											if (data.Contains("Last_Name"))
-											{
-												<td>@i.Last_Name</td>
-											}
-											if (data.Contains("Mobile"))
-											{
-												<td class="en-font">@i.Mobile</td>
-											}
-											if (data.Contains("Email"))
-											{
-												<td class="en-font">@i.Email</td>
-											}
-											if (data.Contains("Nationality"))
-											{
-												<td>@(isAr ? i.Country.Country_Name_AR : i.Country.Country_Name_EN)</td>
-											}
-											if (data.Contains("Country"))
-											{
-												<td>@(isAr ? i.Country2.Country_Name_AR : i.Country2.Country_Name_EN)</td>
-											}
-											if (data.Contains("Region"))
-											{
-												if (i.Region == null)
-												{
-													<td>@i.Adress_Region</td>
-												}
-												else
-												{
-													<td>@(isAr ? i.Region.Region_Name_AR : i.Region.Region_Name_EN)</td>
-												}
-											}
-											if (data.Contains("City"))
-											{
-												if (i.City == null)
-												{
-													<td>@i.Address_City</td>
-												}
-												else
-												{
-													<td>@(isAr ? i.City.City_Name_AR : i.City.City_Name_EN)</td>
-												}
-											}
-											if (data.Contains("Postal"))
-											{
-												<td class="en-font">@i.Postal_Code</td>
-											}
-											if (data.Contains("ID_Number"))
-											{
-												<td class="en-font">@i.ID_Number</td>
-											}
-											if (data.Contains("IAU_ID_Number"))
-											{
-												<td class="en-font">@i.IAU_ID_Number</td>
-											}
-											if (data.Contains("ServiceType"))
-											{
-												<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
-											}
-											if (data.Contains("RequestType"))
-											{
-												<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
-											}
-											if (data.Contains("Code_Generate"))
-											{
-												<td class="en-font">@i.Code_Generate</td>
-											}
-											if (data.Contains("CreatedDate"))
-											{
-												<td class="en-font">@i.CreatedDate</td>
-											}
-											if (data.Contains("ApplicantType"))
-											{
-												<td>@(isAr ? i.Applicant_Type.Applicant_Type_Name_AR : i.Applicant_Type.Applicant_Type_Name_EN)</td>
-											}
-											if (data.Contains("RequestStatus"))
-											{
-												<td>@(isAr ? i.Request_State.StateName_AR : i.Request_State.StateName_EN)</td>
+												<td>@(isAr ? i.Region.Region_Name_AR : i.Region.Region_Name_EN)</td>
 											}
 										}
+										if (data.Contains("City"))
+										{
+											if (i.City == null)
+											{
+												<td>@i.Address_City</td>
+											}
+											else
+											{
+												<td>@(isAr ? i.City.City_Name_AR : i.City.City_Name_EN)</td>
+											}
+										}
+										if (data.Contains("Postal"))
+										{
+											<td class="en-font">@i.Postal_Code</td>
+										}
+										if (data.Contains("ID_Number"))
+										{
+											<td class="en-font">@i.ID_Number</td>
+										}
+										if (data.Contains("IAU_ID_Number"))
+										{
+											<td class="en-font">@i.IAU_ID_Number</td>
+										}
+										if (data.Contains("ServiceType"))
+										{
+											<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+										}
+										if (data.Contains("RequestType"))
+										{
+											<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+										}
+										if (data.Contains("Code_Generate"))
+										{
+											<td class="en-font">@i.Code_Generate</td>
+										}
+										if (data.Contains("CreatedDate"))
+										{
+											<td class="en-font">@i.CreatedDate</td>
+										}
+										if (data.Contains("ApplicantType"))
+										{
+											<td>@(isAr ? i.Applicant_Type.Applicant_Type_Name_AR : i.Applicant_Type.Applicant_Type_Name_EN)</td>
+										}
+										if (data.Contains("RequestStatus"))
+										{
+											<td>@(isAr ? i.Request_State.StateName_AR : i.Request_State.StateName_EN)</td>
+										}
+									}
 
-									</tr>
-									count++;
-								}
+								</tr>
+								count++;
 							}
 						}
 					</tbody>

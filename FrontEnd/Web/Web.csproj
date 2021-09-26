@@ -296,8 +296,6 @@
     <Content Include="Design\JS\follow.js" />
     <Content Include="Design\JS\IFrameChanges.js" />
     <Content Include="Design\JS\jquery.js" />
-    <Content Include="Design\JS\pdf.js" />
-    <Content Include="Design\JS\pdf.worker.js" />
     <Content Include="Design\JS\popper.js" />
     <Content Include="Design\JS\scripts.js" />
     <Content Include="Design\webfonts\fa-brands-400.svg" />

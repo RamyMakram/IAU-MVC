@@ -13,8 +13,8 @@
 
 }
 <style>
-	#datatable-buttons_wrapper .row .col-sm-12{
-		overflow:auto;
+	#datatable-buttons_wrapper .row .col-sm-12 {
+		overflow: auto;
 	}
 </style>
 <!-- DataTables -->
@@ -30,13 +30,55 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="col-12 d-flex justify-content-end mb-3">
-					@*<button type="button" class="btn btn-primary" id="sa-archive">
-							<span key="t-">Archive Selected</span>
-						</button>*@
 					<a href="/Report" class="btn btn-primary">@(isAr ? "العوده للرئيسية" : "Back To Home")</a>
+					<a href="#" class="btn btn-primary mx-1" onclick="openWin()">@(isAr ? "طباعة" : "Print")</a>
 
 				</div>
+				<div class="col-12 d-flex justify-content-end mb-3">
+					<div id="InfoData" class="table-responsive">
+						<table class="table mb-0 table-bordered">
+							<tbody>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الخدمة الاساسية":"Main Service")</th>
+									<td id="ST">@(Request.QueryString["ST"]=="null"?(isAr?"الكل":"All"): Request.QueryString["ST"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"أنواع الطلبات":"Request Type")</th>
+									<td id="RT">@(Request.QueryString["RT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["RT"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"منسوب للجامعة":"IAU Affliate")</th>
+									<td id="MT">@(Request.QueryString["MT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["MT"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الموقع":"Location")</th>
+									<td id="location">@(Request.QueryString["location"] =="null"?(isAr?"الكل":"All"): Request.QueryString["location"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الفئة الادارية":"Unit")</th>
+									<td id="Unit">@(Request.QueryString["Unit"] =="null"?(isAr?"الكل":"All"): Request.QueryString["Unit"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"حالة الطلب":"Request Status")</th>
+									<td id="ReqStatus">@(Request.QueryString["ReqStatus"] =="null"?(isAr?"الكل":"All"): Request.QueryString["ReqStatus"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"المصدر":"Source")</th>
+									<td id="ReqSource">@(Request.QueryString["ReqSource"] =="null"?(isAr?"الكل":"All"): Request.QueryString["ReqSource"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"التاريخ من":"Date From")</th>
+									<td>@(Request.QueryString["DF"] =="null"?(isAr?"الكل":"All"): Request.QueryString["DF"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"التاريخ الي":"Date To")</th>
+									<td>@(Request.QueryString["DT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["DT"])</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
+				</div>
 				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 					<thead>
 						<tr>
@@ -120,6 +162,7 @@
 					<tbody id="MailList">
 						@{
 							var count = 1;
+
 							foreach (var i in Model)
 							{
 								<tr>
@@ -212,6 +255,7 @@
 											<td>@(isAr ? i.Request_State.StateName_AR : i.Request_State.StateName_EN)</td>
 										}
 									}
+
 								</tr>
 								count++;
 							}
@@ -222,7 +266,9 @@
 		</div>
 	</div> <!-- end col -->
 </div> <!-- end row -->
+<div id="VIEwTemP__dsdm" style="opacity:0;height:0 !important;overflow-y: auto;">
 
+</div>
 
 
 
@@ -254,3 +300,210 @@
 <!-- Datatable init js -->
 <script src="~/assets/js/pages/datatables.init.js"></script>
 <script src="~/assets/js/app.js"></script>
+<script type="text/javascript">
+	const max_contentSize = 753;
+	function GetNewPage() {
+		document.getElementById('VIEwTemP__dsdm').innerHTML = ``;
+		var page_div = document.createElement("div")
+		page_div.className = "page"
+		page_div.innerHTML = `
+					<div class="watermark">
+						<img src="/assets/images/repo/iaubackgroud.jpeg" height="205px">
+					</div>
+					<div class="header" style="height: 210px;">
+						<img src="/assets/images/repo/iauHeader.jpeg" height="180px">
+					</div>
+					<div class="content">
+
+					</div>
+					 <div class="footer" style="height: 210px;">
+						<img src="/assets/images/repo/iaufooter.jpeg" height="90px">
+					</div>`
+		return page_div;
+	}
+	function GetInfoPage() {
+		var page_div = document.createElement("div")
+		page_div.className = "table-responsive"
+		page_div.innerHTML = document.getElementById('InfoData').innerHTML
+		return page_div;
+	}
+	function GetHTML() {
+		thead = document.createElement("thead");
+		thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
+		var tbody_data = [];
+		let length = document.getElementsByClassName("page-link").length;
+		for (var i = 0; i < length; i++) {
+			([...document.querySelectorAll('#MailList tr')]).forEach(s => {
+				tbody_data.push(s);
+			})
+			if ($('#datatable-buttons_next').hasClass("disabled"))
+				break;
+			else
+				$('#datatable-buttons_next').click();
+		}
+		var html = document.createElement("html");
+		var head = document.createElement("head");
+		head.innerHTML = `<meta charset="UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Document</title>
+				<style>
+
+					body{
+						direction: @(isAr?"rtl":"ltr");
+					}
+					.page {
+						border: 1px solid black;
+						width: 794px;
+						height: 1123px;
+						position: relative;
+					}
+
+					table {
+						margin: 12px 28px;
+						width: auto !important;
+					}
+
+					tr {
+						border: 1px solid;
+					}
+
+					th {
+						border: 1px solid;
+					}
+
+					td {
+						text-align: center;
+						border: 1px solid;
+					}
+
+					.watermark {
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						right: 0;
+						width: 810px !important;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						z-index: 15;
+					}
+
+					.watermark img {
+						z-index: 15;
+
+					}
+
+					.header {
+						padding: 6px;
+					}
+					.header img {
+						height: 180px !important;
+					}
+
+					.content,
+					table,
+					.header {
+						z-index: 25;
+						position: relative;
+					}
+
+					.footer {
+						position: absolute;
+						right: 0px;
+						bottom: 1px;
+						width: 794px;
+						height: 99px !important;
+						text-align: center;
+					}
+
+					 .footer img {
+						height: 90px !important;
+					 }
+					.table tbody tr th,
+					.table tbody tr td {
+						padding: 7px;
+					}
+
+					.table tbody tr th {
+						width: 200px !important;
+					}
+
+					.table tbody tr td {
+						width: auto !important;
+					}
+
+					.table {
+						width: 93% !important;
+					}
+
+					div.content.infopage {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						height: 776px;
+					}
+
+					div.content.infopage div table {
+						width: 734px !important;
+					}
+				</style>`
+		html.appendChild(head);
+		var body = document.createElement("body");
+		html.appendChild(body);
+
+		var page = GetNewPage();
+		var Info_PG = GetInfoPage();
+		var content = page.getElementsByClassName('content')[0];
+		content.className += " infopage";
+		content.appendChild(Info_PG);
+		body.appendChild(page);
+
+		page = GetNewPage();
+		var table = document.createElement("table");
+		table.appendChild(thead)
+		var tbody = document.createElement("tbody");
+		table.appendChild(tbody)
+		var content = page.getElementsByClassName('content')[0];
+		content.appendChild(table);
+		body.appendChild(page);
+		document.getElementById('VIEwTemP__dsdm').appendChild(html);
+
+		tbody_data.forEach(i => {
+			if (content.clientHeight > max_contentSize) {
+				page = GetNewPage();
+				table = document.createElement("table");
+				thead = document.createElement("thead");
+				thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
+				table.appendChild(thead)
+				tbody = document.createElement("tbody");
+				table.appendChild(tbody)
+				content = page.getElementsByClassName('content')[0];
+				content.appendChild(table);
+				body.appendChild(page);
+				document.getElementById('VIEwTemP__dsdm').appendChild(html);
+			}
+			tbody.appendChild(i);
+		});
+		var myWindow = window.open('', '', 'width=800,height=700');
+		myWindow.document.write(html.innerHTML);
+		myWindow.focus();
+		myWindow.addEventListener('load', (event) => {
+			myWindow.print();
+			myWindow.close();
+		});
+		myWindow.document.close();
+		$('.page-link[data-dt-idx="1"]').click()
+	}
+	function openWin() {
+		GetHTML()
+	}
+	$(document).ready(() => {
+		$('input[aria-controls="datatable-buttons"]').css({ 'display': 'none' });
+		var data = JSON.parse(localStorage.getItem('PP_sdat_rep'))
+		var keys = Object.keys(data);
+		keys.forEach(i => {
+			$("#" + i).text(data[i])
+		})
+	})
+</script>
