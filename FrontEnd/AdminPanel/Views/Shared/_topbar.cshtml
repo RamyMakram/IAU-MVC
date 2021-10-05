@@ -1,0 +1,164 @@
+﻿<style>
+	.navbar-brand-box {
+		background: #0a1332 !important;
+	}
+
+	body[data-sidebar=dark] .logo-light {
+		display: flex !important;
+		justify-content: center;
+	}
+
+	a.dropdown-item.notify-item.language {
+		justify-content: space-around;
+		align-items: center;
+	}
+</style>
+<header id="page-topbar">
+	<div class="navbar-header">
+		<div class="d-flex">
+			<!-- LOGO -->
+			<div class="navbar-brand-box">
+				<a href=@Url.Action("Home", "Home") class="logo logo-dark">
+					<span class="logo-sm">
+						<img src="~/dashboard/assets/media/logos/logo-light-small.png" alt="" height="25">
+					</span>
+					<span class="logo-lg">
+						<img src="~/dashboard/assets/media/logos/logo-light.png" alt="" height="50">
+					</span>
+				</a>
+
+				<a href=@Url.Action("Home", "Home") class="logo logo-light">
+					<span class="logo-sm">
+						<img src="~/dashboard/assets/media/logos/logo-light-small.png" alt="" height="25">
+					</span>
+					<span class="logo-lg">
+						<img src="~/dashboard/assets/media/logos/logo-light.png" alt="" height="50">
+					</span>
+				</a>
+			</div>
+
+			<div class="d-inline-flex align-items-center">
+				<button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">
+					<i class="fa fa-fw fa-bars"></i>
+				</button>
+				<h4 class="m-0" style="color: #3f4254;">@HttpUtility.UrlDecode((Request.Cookies[Request.Cookies["lang"].Value == "ar" ? "ar_top_name" : "en_top_name"].Value.ToString()))</h4>
+			</div>
+		</div>
+
+		<div class="d-flex">
+
+			<div class="dropdown d-inline-block d-lg-none ml-2">
+				<button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="mdi mdi-magnify"></i>
+				</button>
+				<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+					 aria-labelledby="page-header-search-dropdown">
+
+					<form class="p-3">
+						<div class="form-group m-0">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="dropdown d-inline-block">
+				@if (Request.Cookies["lang"].Value == "ar")
+				{
+					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "en" }) class="btn header-item waves-effect text-center en-font language" data-lang="en" style=" display: flex; align-items: center; font-weight: 600;">
+						EN
+					</a>
+				}
+				else
+				{
+					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "ar" }) class="btn header-item waves-effect text-center en-font language" data-lang="ar" style=" display: flex; align-items: center; font-weight: 600;">
+						AR
+					</a>
+				}
+			</div>
+
+			<div class="dropdown d-none d-lg-inline-block ml-1">
+				<button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+					<i class="bx bx-fullscreen"></i>
+				</button>
+			</div>
+			@if ((TempData["Permissions"] as string[]).Contains("Delayed Transactions Alert"))
+			{
+				<div class="dropdown d-inline-block">
+					<button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="bx bx-bell bx-tada"></i>
+						<span class="badge badge-danger badge-pill" id="DelayedTrans-count">0</span>
+					</button>
+					<div class="dropdown-menu dropdown-menu-right" id="DelayedTrans-View" style="min-width:35rem !important">
+
+					</div>
+				</div>
+			}
+			<div class="dropdown d-inline-block">
+				<button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center;">
+					<i class="rounded-circle header-profile-user bx bx-user font-size-16 align-middle mr-1" style=" display: flex; justify-content: center; align-items: center;"></i>
+					<span class="d-none d-xl-inline-block ml-1" key="t-henry"></span>
+				</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<!-- item-->
+					@*<a class="dropdown-item" href="#"><i class="bx bx-user font-size-16 align-middle mr-1"></i> <span key="t-profile">Profile</span></a>
+						<div class="dropdown-divider"></div>*@
+					<a class="dropdown-item text-danger" href="/Base/Logout"><i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> <span key="t-logout">Logout</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<style>
+		.btn .badge {
+			font-size: 11px !important;
+		}
+
+		.noti-icon .badge {
+			position: absolute !important;
+			top: 12px !important;
+		}
+
+		.noreaded {
+			background-color: #eae0ca !important;
+			color: black !important;
+		}
+	</style>
+	@if ((TempData["Permissions"] as string[]).Contains("Delayed Transactions Alert"))
+	{
+		var isAr = Request.Cookies["lang"].Value == "ar";
+		<script src="~/assets/libs/jquery/jquery.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$.ajax({
+					url: "/Home/GetDelayedRequests", type: "POST", success: function (d) {
+						let data = JSON.parse(d)
+
+						$('#DelayedTrans-count').html(data.length)
+						if (data.length != 0) {
+							let Bind = ''
+							data.forEach(i => {
+								Bind += `
+										<a class="dropdown-item ${i["Readed"] ? "" : "noreaded"}" href="/DelayedTrasaction/Preview/${i["ID"]}">@(isAr?"المعاملة رقم ":"Transaction Number ")'${i['ReqID']}'@(isAr?" معاملة متاخرة ، حالة الطلب":" is Delayed Transaction , Request Status ") ' ${i['@(isAr?"RequestStatusAR":"RequestStatusEN")']} '</a>
+										<div class="dropdown-divider ${i["Readed"] ? "" : "noreaded"}"></div>
+										`
+							})
+
+							$('#DelayedTrans-View').html(Bind)
+						} else {
+							$('#DelayedTrans-View').html(``)
+							$('#DelayedTrans-View').css({'display':'none'})
+						}
+					}
+				})
+			})
+		</script>
+	}
+</header>

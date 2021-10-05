@@ -1,0 +1,166 @@
+﻿<!-- Bootstrap Css -->
+<link href="~/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" />
+
+<!-- Icons Css -->
+<link href="~/assets/css/icons.min.css" rel="stylesheet" />
+
+<!-- App Css-->
+<link href="~/assets/css/app.min.css" id="app-style" rel="stylesheet" />
+<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css" />
+<link href="~/assets/css/fonts.css" rel="stylesheet" />
+<style>
+	div#datatable-buttons_wrapper > div.row:nth-of-type(1) > div:nth-of-type(1) {
+		background: red;
+		display: none;
+	}
+
+	div#datatable-buttons_wrapper > div.row:nth-of-type(1) > div:nth-of-type(2) {
+		justify-content: start;
+		display: flex;
+	}
+
+	.HeaderOfPage {
+		height: 0px !important;
+		margin: 0px !important;
+	}
+	.HeaderOfPage .card-title-desc{
+		color:transparent;
+	}
+	.createNew-link {
+		position: relative;
+		/*left: 19px;*/
+		top: 24px;
+	}
+
+	table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after {
+		opacity: 1 !important;
+		color: red;
+	}
+
+	table.dataTable thead th:before, table.dataTable thead th:after {
+		opacity: 1 !important;
+		color: black;
+	}
+
+	.noraduis {
+		border-radius: 5px !important;
+	}
+
+	.btn.active:focus {
+		-webkit-box-shadow: 0 0 0 0.15rem #00504d6e !important;
+		box-shadow: 0 0 0 0.15rem #00504d6e !important;
+	}
+
+
+	.swal2-confirm, .btn.btn-primary {
+		background: #0a1332 !important;
+		border-color: #2f405e6e !important;
+	}
+
+	.btn.active {
+		background-color: #4f693a !important;
+		border-radius: 25px;
+		border: 0;
+		outline: 0;
+	}
+
+	.swal2-confirm:focus, .btn.btn-primary:focus {
+		-webkit-box-shadow: 0 0 0 0.15rem #2f405eba !important;
+		box-shadow: 0 0 0 0.15rem #2f405eba !important;
+	}
+
+	.btn-primary:not(:disabled):not(.disabled):active {
+		background: #0a1332;
+		border-color: #2f405e6e;
+	}
+
+	/*.TH-ar {
+		text-align: right !important;
+	}
+
+	.TH-en {
+		text-align: left !important;
+	}*/
+
+	.btn.deactive {
+		background: red !important;
+		border-radius: 25px;
+	}
+
+		.btn.deactive:focus {
+			-webkit-box-shadow: 0 0 0 0.15rem #ff000061 !important;
+			box-shadow: 0 0 0 0.15rem #ff000061 !important;
+		}
+
+	body[data-sidebar=dark].vertical-collpsed {
+		min-height: auto !important;
+	}
+
+	td {
+		vertical-align: baseline;
+	}
+
+	.page-content {
+		height: calc(100vh - 70px - 60px) !important;
+		overflow: auto;
+		margin-top: 70px !important;
+		padding: 0 !important
+	}
+
+	td, th {
+		text-align: center
+	}
+
+	tr {
+		cursor: pointer
+	}
+
+	.loadinger {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		background: white;
+		z-index: 999999;
+	}
+
+		.loadinger img {
+			width: 31%;
+		}
+
+		.loadinger .col-12 {
+			text-align: center;
+		}
+
+			.loadinger .col-12 p {
+				color: #00ad5f;
+				font-weight: bolder;
+				font-size: 28px;
+			}
+
+	.HeaderOfPage {
+		display: inline-flex;
+		justify-content: space-between;
+		height: fit-content;
+		width: 100%;
+		align-items: center;
+		margin-bottom: 30px;
+	}
+
+		.HeaderOfPage p {
+			height: 100%;
+			margin: 0;
+		}
+
+		.HeaderOfPage a {
+			border-radius: 70px
+		}
+
+			.HeaderOfPage a i {
+				color: green;
+				font-size: 25px;
+			}
+</style>

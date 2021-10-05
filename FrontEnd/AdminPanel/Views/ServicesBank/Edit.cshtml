@@ -1,0 +1,89 @@
+﻿@model IAUAdmin.DTO.Entity.MainServiceDTO
+@{
+    ViewBag.Title = "Edit Service";
+    ViewBag.pTitle = "Edit Service";
+    ViewBag.pageTitle = "Main Service";
+    ViewBag.arTitle = "تعديل خدمة";
+    ViewBag.arpageTitle = "تعديل خدمة";
+    ViewBag.arpTitle = "الخدمات الرئيسية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
+    label.control-label::after {
+        content: ":";
+    }
+
+    label.control-label {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title" key="t-basicInfo">Basic Information</h4>
+
+                @using (Html.BeginForm("Edit", "ServicesBank", FormMethod.Post, new { encType = "multipart/form-data" }))
+                {
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" key="t-name" for="name">Name</label>
+                                @Html.TextBoxFor(q => q.Main_Services_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-servicetype" class="control-label">units</label>
+                                @Html.DropDownListFor(q => q.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "form-control select2" })
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" key="t-enname" for="Ename">ENNAME</label>
+                                @Html.TextBoxFor(q => q.Main_Services_Name_EN, new { @class = "form-control en-font", @name = "Ename", @id = "Ename" })
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox mb-3 p-0">
+                                    <label class="control-label" key="t-Applicanttype" for="customCheck1">Applicanttype</label>
+                                    @Html.ListBoxFor(model => model.Applicant_Types, ViewBag.ApplicantType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    @Html.ActionLink("Cancel", "Home", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>

@@ -1,0 +1,150 @@
+﻿@model ICollection<IAUAdmin.DTO.Entity.UserDTO>
+@{
+	ViewBag.Title = "Home Page";
+	ViewBag.pageTitle = "Home Page";
+	ViewBag.pTitle = "Users";
+	ViewBag.arTitle = "الرئيسية";
+	ViewBag.arpageTitle = "الرئيسية";
+	ViewBag.arpTitle = "المستخدمين";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
+}
+
+<!-- DataTables -->
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<div class="HeaderOfPage">
+					<p class="card-title-desc" key="t-users">
+						Manage Users
+					</p>
+
+					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+				</div>
+				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+					<thead>
+						<tr>
+							<th key="t-name">User Name</th>
+							<th key="t-mobile">Mobile</th>
+							<th key="t-email">Email</th>
+							<th key="t-job">Department</th>
+							<th key="t-activeTitle">Active</th>
+							<th></th>
+						</tr>
+					</thead>
+					@{
+						var lang = Request.Cookies["lang"].Value;
+					}
+					<tbody>
+						@foreach (var i in Model)
+						{
+							<tr onclick="Go('@Url.Action("Detials", "User", new { Id = i.User_ID })')">
+								<td>@i.User_Name</td>
+								<td class="en-font">@i.User_Mobile</td>
+								<td class="en-font">@i.User_Email</td>
+								<td>@(lang == "ar" ? i.User_Permissions_Type_Name_AR : i.User_Permissions_Type_Name_EN)</td>
+								@*<td>@i.User_Permissions_Type_Name_EN</td>*@
+								<td>
+									@Html.ActionLink("Active", i.IS_Active == "1" ? "Deactive" : "Active", new { Id = i.User_ID }, new { @class = i.IS_Active == "1" ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Active == "1" ? "t-active-Home" : "t-deactive-Home" })
+								</td>
+								<td>
+									@Html.ActionLink("Edit", "Edit", new { Id = i.User_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+									@{
+										if (ShowDelete)
+										{
+											<button class="btn btn-primary" onclick="Delete('@i.User_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
+										}
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div> <!-- end col -->
+</div> <!-- end row -->
+<!-- JAVASCRIPT -->
+<script>
+	function Go(url) {
+		window.location.href = url
+	}
+</script>
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Required datatable js -->
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/libs/jszip/jszip.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="~/assets/js/pages/datatables.init.js"></script>
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+<script src="~/assets/js/app.js"></script>
+
+@if (ShowDelete)
+{
+
+	<script>
+		function Delete(id) {
+			event.stopPropagation()
+		event.stopImmediatePropagation()
+		Swal.fire({
+			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حذف هذا المستخدم؟" : "Are you sure To Delete this User?")",
+			text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق , احذف المستخدم" : "Yes, Delete it!")",
+			cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+		}).then(function (result) {
+			if (result.value) {
+				$.ajax({
+					url: '/User/Delete?id=' + id,method: "POST",  success: function (res) {
+						if (res["success"] == true)
+							location.href = location.href;
+						else {
+							Swal.fire({
+								  icon: 'error',
+								  title: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف" : "Delete failed")",
+								  text: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . بسبب ان هناك بيانات معتمده علي هذا المستخدم" : "Delete failed.Because there are data depended on this User")",
+								  confirmButtonText:'@(Request.Cookies["lang"].Value == "ar" ? "حسنا" : "Okay")',
+								})
+						}
+				}
+			})
+			}
+		});
+	}
+	</script>
+}

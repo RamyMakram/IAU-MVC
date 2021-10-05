@@ -1,0 +1,509 @@
+﻿@model ICollection<IAUAdmin.DTO.Entity.RequestReportDTO>
+@{
+	ViewBag.Title = "Statistics";
+	ViewBag.pTitle = "Statistics";
+	ViewBag.pageTitle = "Filterd Requests";
+	ViewBag.arTitle = "التقارير والاحصائيات";
+	ViewBag.arpageTitle = "التقارير والاحصائيات";
+	ViewBag.arpTitle = " الطلبات المفلتره";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var isAr = Request.Cookies["lang"].Value == "ar";
+	var data = Request.QueryString["Columns"];
+
+
+}
+<style>
+	#datatable-buttons_wrapper .row .col-sm-12 {
+		overflow: auto;
+	}
+</style>
+<!-- DataTables -->
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="col-12 d-flex justify-content-end mb-3">
+					<a href="/Report" class="btn btn-primary">@(isAr ? "العوده للرئيسية" : "Back To Home")</a>
+					<a href="#" class="btn btn-primary mx-1" onclick="openWin()">@(isAr ? "طباعة" : "Print")</a>
+
+				</div>
+				<div class="col-12 d-flex justify-content-end mb-3">
+					<div id="InfoData" class="table-responsive">
+						<table class="table mb-0 table-bordered">
+							<tbody>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الخدمة الاساسية":"Main Service")</th>
+									<td id="ST">@(Request.QueryString["ST"]=="null"?(isAr?"الكل":"All"): Request.QueryString["ST"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"أنواع الطلبات":"Request Type")</th>
+									<td id="RT">@(Request.QueryString["RT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["RT"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"منسوب للجامعة":"IAU Affliate")</th>
+									<td id="MT">@(Request.QueryString["MT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["MT"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الموقع":"Location")</th>
+									<td id="location">@(Request.QueryString["location"] =="null"?(isAr?"الكل":"All"): Request.QueryString["location"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"الفئة الادارية":"Unit")</th>
+									<td id="Unit">@(Request.QueryString["Unit"] =="null"?(isAr?"الكل":"All"): Request.QueryString["Unit"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"حالة الطلب":"Request Status")</th>
+									<td id="ReqStatus">@(Request.QueryString["ReqStatus"] =="null"?(isAr?"الكل":"All"): Request.QueryString["ReqStatus"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"المصدر":"Source")</th>
+									<td id="ReqSource">@(Request.QueryString["ReqSource"] =="null"?(isAr?"الكل":"All"): Request.QueryString["ReqSource"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"التاريخ من":"Date From")</th>
+									<td>@(Request.QueryString["DF"] =="null"?(isAr?"الكل":"All"): Request.QueryString["DF"])</td>
+								</tr>
+								<tr>
+									<th scope="row" style="width: 400px;">@(isAr?"التاريخ الي":"Date To")</th>
+									<td>@(Request.QueryString["DT"] =="null"?(isAr?"الكل":"All"): Request.QueryString["DT"])</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+					<thead>
+						<tr>
+							<th>#</th>
+							@{
+								if (data.Contains("First_Name"))
+								{
+									<th>@(isAr ? "الأسم الاول" : "First Name")</th>
+								}
+								if (data.Contains("Middle_Name"))
+								{
+									<th>@(isAr ? "الأسم الاوسط" : "Middle Name")</th>
+								}
+								if (data.Contains("Last_Name"))
+								{
+									<th>@(isAr ? "الاسم الاخير" : "Last Name")</th>
+								}
+								if (data.Contains("Mobile"))
+								{
+									<th>@(isAr ? "الهاتف" : "Mobile")</th>
+								}
+								if (data.Contains("Email"))
+								{
+									<th>@(isAr ? "البريد الالكتروني" : "Email")</th>
+								}
+								if (data.Contains("Nationality"))
+								{
+									<th>@(isAr ? "الجنسية" : "Nationalty")</th>
+								}
+								if (data.Contains("Country"))
+								{
+									<th>@(isAr ? "الدولة" : "Country")</th>
+								}
+								if (data.Contains("Region"))
+								{
+									<th>@(isAr ? "المنطقة" : "Region")</th>
+								}
+								if (data.Contains("City"))
+								{
+									<th>@(isAr ? "المدينة" : "City")</th>
+								}
+								if (data.Contains("Postal_Code"))
+								{
+									<th>@(isAr ? "رقم البريد" : "Postal")</th>
+								}
+								if (data.Contains("ID_Number"))
+								{
+									<th>@(isAr ? "رقم الهوية" : "ID Number")</th>
+								}
+								if (data.Contains("IAU_ID_Number"))
+								{
+									<th>@(isAr ? "منسوب للجامعة" : "IAU Affilate")</th>
+								}
+								if (data.Contains("ServiceType"))
+								{
+									<th>@(isAr ? "الخدمة الرئيسية" : "Service Type")</th>
+								}
+								if (data.Contains("RequestType"))
+								{
+									<th>@(isAr ? "نوع الطلب" : "Request Type")</th>
+								}
+								if (data.Contains("Code_Generate"))
+								{
+									<th>@(isAr ? "كود الطلب" : "Request Code")</th>
+								}
+								if (data.Contains("CreatedDate"))
+								{
+									<th>@(isAr ? "تاريخ الانشاء" : "Creation Date")</th>
+								}
+								if (data.Contains("ApplicantType"))
+								{
+									<th>@(isAr ? "نوع مقدم الطلب" : "Applicant Type")</th>
+								}
+								if (data.Contains("RequestStatus"))
+								{
+									<th>@(isAr ? "حالة الطلب" : "Status")</th>
+								}
+							}
+						</tr>
+					</thead>
+					<tbody id="MailList">
+						@{
+							var count = 1;
+
+							foreach (var i in Model)
+							{
+								<tr>
+									<td>@count</td>
+									@{
+										if (data.Contains("First_Name"))
+										{
+											<td>@i.First_Name</td>
+										}
+										if (data.Contains("Middle_Name"))
+										{
+											<td>@i.Middle_Name</td>
+										}
+										if (data.Contains("Last_Name"))
+										{
+											<td>@i.Last_Name</td>
+										}
+										if (data.Contains("Mobile"))
+										{
+											<td class="en-font">@i.Mobile</td>
+										}
+										if (data.Contains("Email"))
+										{
+											<td class="en-font">@i.Email</td>
+										}
+										if (data.Contains("Nationality"))
+										{
+											<td>@(isAr ? i.Country.Country_Name_AR : i.Country.Country_Name_EN)</td>
+										}
+										if (data.Contains("Country"))
+										{
+											<td>@(isAr ? i.Country2.Country_Name_AR : i.Country2.Country_Name_EN)</td>
+										}
+										if (data.Contains("Region"))
+										{
+											if (i.Region == null)
+											{
+												<td>@i.Adress_Region</td>
+											}
+											else
+											{
+												<td>@(isAr ? i.Region.Region_Name_AR : i.Region.Region_Name_EN)</td>
+											}
+										}
+										if (data.Contains("City"))
+										{
+											if (i.City == null)
+											{
+												<td>@i.Address_City</td>
+											}
+											else
+											{
+												<td>@(isAr ? i.City.City_Name_AR : i.City.City_Name_EN)</td>
+											}
+										}
+										if (data.Contains("Postal"))
+										{
+											<td class="en-font">@i.Postal_Code</td>
+										}
+										if (data.Contains("ID_Number"))
+										{
+											<td class="en-font">@i.ID_Number</td>
+										}
+										if (data.Contains("IAU_ID_Number"))
+										{
+											<td class="en-font">@i.IAU_ID_Number</td>
+										}
+										if (data.Contains("ServiceType"))
+										{
+											<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+										}
+										if (data.Contains("RequestType"))
+										{
+											<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+										}
+										if (data.Contains("Code_Generate"))
+										{
+											<td class="en-font">@i.Code_Generate</td>
+										}
+										if (data.Contains("CreatedDate"))
+										{
+											<td class="en-font">@i.CreatedDate</td>
+										}
+										if (data.Contains("ApplicantType"))
+										{
+											<td>@(isAr ? i.Applicant_Type.Applicant_Type_Name_AR : i.Applicant_Type.Applicant_Type_Name_EN)</td>
+										}
+										if (data.Contains("RequestStatus"))
+										{
+											<td>@(isAr ? i.Request_State.StateName_AR : i.Request_State.StateName_EN)</td>
+										}
+									}
+
+								</tr>
+								count++;
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div> <!-- end col -->
+</div> <!-- end row -->
+<div id="VIEwTemP__dsdm" style="opacity:0;height:0 !important;overflow-y: auto;">
+
+</div>
+
+
+
+
+
+
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Required datatable js -->
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/libs/jszip/jszip.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<!-- Datatable init js -->
+<script src="~/assets/js/pages/datatables.init.js"></script>
+<script src="~/assets/js/app.js"></script>
+<script type="text/javascript">
+	const max_contentSize = 753;
+	function GetNewPage() {
+		document.getElementById('VIEwTemP__dsdm').innerHTML = ``;
+		var page_div = document.createElement("div")
+		page_div.className = "page"
+		page_div.innerHTML = `
+					<div class="watermark">
+						<img src="/assets/images/repo/iaubackgroud.jpeg" height="205px">
+					</div>
+					<div class="header" style="height: 210px;">
+						<img src="/assets/images/repo/iauHeader.jpeg" height="180px">
+					</div>
+					<div class="content">
+
+					</div>
+					 <div class="footer" style="height: 210px;">
+						<img src="/assets/images/repo/iaufooter.jpeg" height="90px">
+					</div>`
+		return page_div;
+	}
+	function GetInfoPage() {
+		var page_div = document.createElement("div")
+		page_div.className = "table-responsive"
+		page_div.innerHTML = document.getElementById('InfoData').innerHTML
+		return page_div;
+	}
+	function GetHTML() {
+		thead = document.createElement("thead");
+		thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
+		var tbody_data = [];
+		let length = document.getElementsByClassName("page-link").length;
+		for (var i = 0; i < length; i++) {
+			([...document.querySelectorAll('#MailList tr')]).forEach(s => {
+				tbody_data.push(s);
+			})
+			if ($('#datatable-buttons_next').hasClass("disabled"))
+				break;
+			else
+				$('#datatable-buttons_next').click();
+		}
+		var html = document.createElement("html");
+		var head = document.createElement("head");
+		head.innerHTML = `<meta charset="UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Document</title>
+				<style>
+
+					body{
+						direction: @(isAr?"rtl":"ltr");
+					}
+					.page {
+						border: 1px solid black;
+						width: 794px;
+						height: 1123px;
+						position: relative;
+					}
+
+					table {
+						margin: 12px 28px;
+						width: auto !important;
+					}
+
+					tr {
+						border: 1px solid;
+					}
+
+					th {
+						border: 1px solid;
+					}
+
+					td {
+						text-align: center;
+						border: 1px solid;
+					}
+
+					.watermark {
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						right: 0;
+						width: 810px !important;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						z-index: 15;
+					}
+
+					.watermark img {
+						z-index: 15;
+
+					}
+
+					.header {
+						padding: 6px;
+					}
+					.header img {
+						height: 180px !important;
+					}
+
+					.content,
+					table,
+					.header {
+						z-index: 25;
+						position: relative;
+					}
+
+					.footer {
+						position: absolute;
+						right: 0px;
+						bottom: 1px;
+						width: 794px;
+						height: 99px !important;
+						text-align: center;
+					}
+
+					 .footer img {
+						height: 90px !important;
+					 }
+					.table tbody tr th,
+					.table tbody tr td {
+						padding: 7px;
+					}
+
+					.table tbody tr th {
+						width: 200px !important;
+					}
+
+					.table tbody tr td {
+						width: auto !important;
+					}
+
+					.table {
+						width: 93% !important;
+					}
+
+					div.content.infopage {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						height: 776px;
+					}
+
+					div.content.infopage div table {
+						width: 734px !important;
+					}
+				</style>`
+		html.appendChild(head);
+		var body = document.createElement("body");
+		html.appendChild(body);
+
+		var page = GetNewPage();
+		var Info_PG = GetInfoPage();
+		var content = page.getElementsByClassName('content')[0];
+		content.className += " infopage";
+		content.appendChild(Info_PG);
+		body.appendChild(page);
+
+		page = GetNewPage();
+		var table = document.createElement("table");
+		table.appendChild(thead)
+		var tbody = document.createElement("tbody");
+		table.appendChild(tbody)
+		var content = page.getElementsByClassName('content')[0];
+		content.appendChild(table);
+		body.appendChild(page);
+		document.getElementById('VIEwTemP__dsdm').appendChild(html);
+
+		tbody_data.forEach(i => {
+			if (content.clientHeight > max_contentSize) {
+				page = GetNewPage();
+				table = document.createElement("table");
+				thead = document.createElement("thead");
+				thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
+				table.appendChild(thead)
+				tbody = document.createElement("tbody");
+				table.appendChild(tbody)
+				content = page.getElementsByClassName('content')[0];
+				content.appendChild(table);
+				body.appendChild(page);
+				document.getElementById('VIEwTemP__dsdm').appendChild(html);
+			}
+			tbody.appendChild(i);
+		});
+		var myWindow = window.open('', '', 'width=800,height=700');
+		myWindow.document.write(html.innerHTML);
+		myWindow.focus();
+		myWindow.addEventListener('load', (event) => {
+			myWindow.print();
+			myWindow.close();
+		});
+		myWindow.document.close();
+		$('.page-link[data-dt-idx="1"]').click()
+	}
+	function openWin() {
+		GetHTML()
+	}
+	$(document).ready(() => {
+		$('input[aria-controls="datatable-buttons"]').css({ 'display': 'none' });
+		var data = JSON.parse(localStorage.getItem('PP_sdat_rep'))
+		var keys = Object.keys(data);
+		keys.forEach(i => {
+			$("#" + i).text(data[i])
+		})
+	})
+</script>

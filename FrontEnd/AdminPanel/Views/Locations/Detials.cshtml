@@ -1,0 +1,49 @@
+﻿@model IAUAdmin.DTO.Entity.LocationsDTO
+@{
+	ViewBag.Title = "Location Detail";
+	ViewBag.pTitle = "Location Detail";
+	ViewBag.pageTitle = "Locations";
+	ViewBag.arTitle = "معلومات الموقع";
+	ViewBag.arpageTitle = "معلومات الموقع";
+	ViewBag.arpTitle = "المواقع";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 key="t-detials">Detials</h2>
+
+<div class="mt-5">
+
+	<div class="table-responsive">
+		<table class="table mb-0 table-bordered">
+			<tbody>
+				<tr>
+					<th key="t-name" scope="row" style="width: 400px;">User Name</th>
+					<td>@Model.Location_Name_AR</td>
+				</tr>
+				<tr>
+					<th key="t-enname" scope="row">Mobile</th>
+					<td>@Model.Location_Name_EN</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="mt-5">
+	@Html.ActionLink("Edit", "Edit", new { Id = Model.Location_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+
+	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "Locations", new { Id = Model.Location_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+
+</div>
+
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
