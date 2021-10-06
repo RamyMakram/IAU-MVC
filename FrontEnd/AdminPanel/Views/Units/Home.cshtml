@@ -367,7 +367,6 @@
 		$('.Main').css({ 'display': 'none' });
 		if (eve != "") {
 			var data = MainServices.filter(q => q.Main_Services_Name_AR.startsWith(eve) || q.Main_Services_Name_EN.startsWith(eve))
-			console.log(data)
 			data.forEach(i => {
 				$('.M-' + i.Main_Services_ID).css({ 'display': 'table-row' });
 			})
@@ -484,4 +483,14 @@
 		})
 	}
 
+</script>
+<script>
+	$(document).ready(function () {
+		let interval = setInterval(e => {
+			if ($('#datatable-buttons_filter label input').length != 0) {
+				clearInterval(interval)
+				$('#datatable-buttons_filter label input').on('keydown', function () { getLanguage() })
+			}
+		}, 300)
+	});
 </script>

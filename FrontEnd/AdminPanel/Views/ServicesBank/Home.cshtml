@@ -151,3 +151,13 @@
 	}
 	</script>
 }
+<script>
+	$(document).ready(function () {
+		let interval = setInterval(e => {
+			if ($('#datatable-buttons_filter label input').length != 0) {
+				clearInterval(interval)
+				$('#datatable-buttons_filter label input').on('keydown', function () { getLanguage()  })
+			}
+		}, 300)
+	});
+</script>
