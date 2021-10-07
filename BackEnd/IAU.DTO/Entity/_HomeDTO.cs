@@ -12,6 +12,8 @@ namespace IAU.DTO.Entity
 		public ICollection<RequestTypeDTO> Request_Type { get; set; }
 		public ICollection<TitlesDTO> Titles { get; set; }
 		public ICollection<CountryDTO> Country { get; set; }
+		public ICollection<CountryDTO> Region { get; set; }
+		public ICollection<CountryDTO> City { get; set; }
 		public ICollection<IDDocDTO> IDS { get; set; }
 	}
 }

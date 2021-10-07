@@ -181,37 +181,37 @@
 		@if (ViewBag.CookieLang == "ar")
 		{
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">نوع الخدمة</a>
+				<a class="nav-link active" data-slide-to="Service_Type_Id" data-counter="1">نوع الخدمة</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">نوع الطلب</a>
+				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="2">نوع الطلب</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="personel-data-m" data-counter="4">البيانات الشخصية</a>
+				<a class="nav-link" data-slide-to="personel-data-m" data-counter="3">البيانات الشخصية</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link">بيانات الطلب</a>
+				<a class="nav-link" data-slide-to="" data-counter="4">بيانات الطلب</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">التأكيد</a>
+				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="5">التأكيد</a>
 			</li>
 		}
 		else
 		{
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="Service_Type_Id" data-counter="2">Service Type</a>
+				<a class="nav-link active" data-slide-to="Service_Type_Id" data-counter="1">Service Type</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="3">Request Type</a>
+				<a class="nav-link" data-slide-to="Request_Type_Id" data-counter="2">Request Type</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="personel-data-m" data-counter="4">Personel Data</a>
+				<a class="nav-link" data-slide-to="personel-data-m" data-counter="3">Personel Data</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link">Request Data</a>
+				<a class="nav-link" data-slide-to="" data-counter="4">Request Data</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="7">Confirmation</a>
+				<a class="nav-link" data-slide-to="Confirmation-m" data-counter="5">Confirmation</a>
 			</li>
 		}
 	</ul>
@@ -234,7 +234,7 @@
 		}
 
 		<div class="col-md-8 containt" id="MainBody">
-			<div class="row" id="start-request">
+			<div class="row" id="start-request" data-PageIndex="0">
 				<div class="col-md-12 main-title">
 					<p>iau - bsc</p>
 					@if (ViewBag.CookieLang == "ar")
@@ -282,7 +282,7 @@
 				var isar = ViewBag.CookieLang == "ar";
 			}
 			<span style="display:none !important" id="serverpath">@serverpath</span>
-			<div class="row" id="Service_Type_Id" style="display: none;">
+			<div class="row" id="Service_Type_Id" style="display: none;" data-PageIndex="1">
 				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; margin-top: 45px; padding-right: 31px;">
 					@if (ViewBag.CookieLang == "ar")
 					{
@@ -323,10 +323,10 @@
 
 			</div>
 			@{ counter = 0;}
-			<div class="row" id="Request_Type_Id" style="display: none; ">
+			<div class="row" id="Request_Type_Id" style="display: none; " data-PageIndex="2">
 
 			</div>
-			<div class="row" id="personel-data-m" style="display: none;">
+			<div class="row" id="personel-data-m" style="display: none;" data-PageIndex="3">
 				@if (ViewBag.CookieLang == "ar")
 				{
 					<p>يرجى تعبئة جميع الحقول المطلوبة</p>
@@ -876,7 +876,7 @@
 					}
 				</div>
 			</div>
-			<div class="row" id="Documents-Inquery" style="display:none;">
+			<div class="row" id="Documents-Inquery" style="display:none;" data-PageIndex="4">
 				@if (ViewBag.CookieLang == "ar")
 				{
 					<p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
@@ -1079,7 +1079,7 @@
 				}
 
 			</div>
-			<div class="row" id="Documents-Other" style="display:none;">
+			<div class="row" id="Documents-Other" style="display:none;" data-PageIndex="4">
 				@if (ViewBag.CookieLang == "ar")
 				{
 					<p>يرجى ملء الحقول الخاصة بالخدمة المطلوبة</p>
@@ -1187,7 +1187,7 @@
 				}
 
 			</div>
-			<div class="row" id="Confirmation-m" style="display: none;">
+			<div class="row" id="Confirmation-m" style="display: none;" data-PageIndex="5">
 				@if (ViewBag.CookieLang == "ar")
 				{
 					<p>لم يتم تقديم طلبك حتى الآن!</p>

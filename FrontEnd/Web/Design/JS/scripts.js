@@ -20,7 +20,7 @@ function GetCookie() {
 }
 $('img').on('dragstart', function (event) { event.preventDefault(); });
 ////////////////////////////////////////////////////get cookie of lang /////////////////////////////////
-let incrementValue = 1;
+let CurrentPage = 1;
 let enterPersonnel = false,
 	enterDocuments = false,
 	enterDocumentOther = false;
@@ -116,14 +116,18 @@ $(document).ready(function () {
 function reIntializeReType() {
 	$('.requesttype').click(function () {
 		let ID = $('.mainservice.active').attr('data-mainserviceid');
+		$(".requesttype").removeClass("active");
+		$(this).addClass("active");
 		$(".loading").addClass("active");
+
 		$.ajax({
 			url: "/Home/GetApplicantData?ServiceID=" + ID + "&RequestType=" + $(this).attr("data-requesttypeid"), method: "Get", success: function (data) {
 				$("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
-				console.log(JSON.parse(data))
+				//console.log(JSON.parse(data))
 				JSON.parse(data).forEach(i => {
 					$("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
 				})
+				$("#right-arrow").click();
 				setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 			}
 		})
@@ -141,65 +145,101 @@ function reIntializeReType() {
 		}
 	})
 	$(".stick").click(function (event) {
-		let value = $(event.currentTarget.parentNode.parentNode).attr("id");
-		$("#" + value + " .stick").removeClass("active");
-		$(event.currentTarget).addClass("active");
 		if ($(event.currentTarget).hasClass("follow")) {
 			window.location.href = "/Follow/Index";
 			return;
 		}
-		$("#right-arrow").click();
+		else if ($(event.currentTarget).hasClass("submit")) {
+			let value = $(event.currentTarget.parentNode.parentNode).attr("id");
+			$("#" + value + " .stick").removeClass("active");
+			$(event.currentTarget).addClass("active");
+			CurrentPage = 1;
+
+			$(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
+			$(".nav-fill").attr("style", "");
+			$(`.containt > .row`).attr("style", "display:none;");
+			$(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
+		}
 	});
 }
 $("#right-arrow").click(function () {
-	if (incrementValue == 4) {
-		if ($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "personel-data-m"
-			&& enterPersonnel == true) {
-			////////validate PersonalData//////////////
-			let controls = $('.required-field div:nth-of-type(2)').children('select,input');
-			let affilte = document.getElementById('Affiliated');
-			let error = false;
-			controls.push(affilte);
-			([...controls]).forEach(e => {
-				if (e.value == "" || e.value == null || e.value == "null") {
-					$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
-					if (e.id == "IAUID" && affilte.value == 0) {
-						$(e).css({ 'border': 'none', 'background': '#646e85' })
-					}
-					else
-						error = true;
-				}
-				else {
-					$(e).css({ 'border': 'none', 'background': 'white' })
-				}
+	debugger
+	if (CurrentPage == 1) {//Will Enter Reqtype
+		CurrentPage++;
+		$(".nav-fill .nav-link").removeClass("active");
+		$(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
+		$('.containt > .row').attr("style", "display:none;");
+		$(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
+	}
+	else if (CurrentPage == 2) {//Will Enter Personal Data
+		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال") {
+			$("#Documents-Inquery").attr("data-PageIndex", "4");
+			$("#Documents-Other").attr("data-PageIndex", "");
+			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
+				"data-slide-to": "Documents-Inquery"
 			});
-			let e = $('#spanMobile'), z = $("#Mobile");
-			if (z.val() == "" || z.val() == null || z.val() == "null" || z.val().length != 9) {
-				$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
-				z.css({ 'background': '#ffafaf' });
-				error = true;
-				return;
-			}
-			else {
-				$(e).css({ 'border': 'none', 'background': 'white' })
-			}
-			e = $('#idNumber')
-			if (e.val() == "" || e.val() == null || e.val() == "null" || e.val().length != 10) {
-				$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
-				error = true;
-				return;
-			}
-			else {
-				$(e).css({ 'border': 'none', 'background': 'white' })
-			}
-			if (!error) {
-				$(".nav-fill .nav-link").removeClass("active");
-				$(".nav-fill .nav-item:nth-of-type(" + incrementValue + ") .nav-link").addClass("active")
-				incrementValue++;
-				LoadApiDocumentsData()
-			}
+
+		} else {
+			$("#Documents-Inquery").attr("data-PageIndex", "");
+			$("#Documents-Other").attr("data-PageIndex", "4");
+			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
+				"data-slide-to": "Documents-Other"
+			});
 		}
-	} else if (incrementValue == 6) {
+		CurrentPage++;
+		$(".nav-fill .nav-link").removeClass("active");
+		$(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
+		$('.containt > .row').attr("style", "display:none;");
+		$(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
+	}
+	else if (CurrentPage == 3) {//Will Enter ReqInfo
+		////////validate PersonalData//////////////
+		let controls = $('.required-field div:nth-of-type(2)').children('select,input');
+		let affilte = document.getElementById('Affiliated');
+		let error = false;
+		controls.push(affilte);
+		([...controls]).forEach(e => {
+			if (e.value == "" || e.value == null || e.value == "null") {
+				$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
+				if (e.id == "IAUID" && affilte.value == 0) {
+					$(e).css({ 'border': 'none', 'background': '#646e85' })
+				}
+				else
+					error = true;
+			}
+			else {
+				$(e).css({ 'border': 'none', 'background': 'white' })
+			}
+		});
+		let e = $('#spanMobile'), z = $("#Mobile");
+		if (z.val() == "" || z.val() == null || z.val() == "null" || z.val().length != 9) {
+			$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
+			z.css({ 'background': '#ffafaf' });
+			error = true;
+			return;
+		}
+		else {
+			$(e).css({ 'border': 'none', 'background': 'white' })
+		}
+		e = $('#idNumber')
+		if (e.val() == "" || e.val() == null || e.val() == "null" || e.val().length != 10) {
+			$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
+			error = true;
+			return;
+		}
+		else {
+			$(e).css({ 'border': 'none', 'background': 'white' })
+		}
+		if (!error) {
+			CurrentPage++;
+			$(".nav-fill .nav-link").removeClass("active");
+			$(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
+			$('.containt > .row').attr("style", "display:none;");
+			$(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
+			LoadApiDocumentsData()
+		}
+	}
+	else if (CurrentPage == 4) {//Enter Confirmation
 		let error = false;
 		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال") {
 			let controls = $('#provider,#Sub_Services_ID,#Main_Services_ID');
@@ -239,81 +279,48 @@ $("#right-arrow").click(function () {
 		if (error)
 			return;
 		else {
+			CurrentPage++;
 			$(".nav-fill .nav-link").removeClass("active");
-			$(".nav-fill .nav-item:nth-of-type(" + incrementValue + ") .nav-link").addClass("active")
-			incrementValue++;
+			$(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
+			$('.containt > .row').attr("style", "display:none;");
+			$(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
 		}
 
 
-	} else {
-		$(".nav-fill .nav-link").removeClass("active");
-		$(".nav-fill .nav-item:nth-of-type(" + incrementValue + ") .nav-link").addClass("active")
-		incrementValue++;
 	}
-	console.log(incrementValue);
-	if (incrementValue >= 6) {
-		$(".nav-fill .nav-item:nth-of-type(" + 5 + ") .nav-link").addClass("active")
+	else {
+		return;
 	}
-	$(".containt > .row").attr("style", "display:none;");
-	if (incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال") {
-			$(".containt > .row:nth-of-type(" + incrementValue + ")").attr("style", "display:flex;");
-			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
-				"data-slide-to": "Documents-Inquery",
-				"data-counter": incrementValue
-			});
-
-		} else {
-			$(".containt > .row:nth-of-type(" + ++incrementValue + ")").attr("style", "display:flex;");
-			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
-				"data-slide-to": "Documents-Other",
-				"data-counter": incrementValue
-			});
-		}
-
-	} else {
-		if (incrementValue == 6 && ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال")) {
-			$(".containt > .row:nth-of-type(" + ++incrementValue + ")").attr("style", "display:flex;");
-			$(".nav-fill .nav-item:nth-of-type(" + 4 + ") .nav-link").attr({
-				"data-slide-to": "Documents-Inquery",
-				"data-counter": incrementValue
-			});
-
-		} else {
-
-			$(".containt > .row:nth-of-type(" + incrementValue + ")").attr("style", "display:flex;");
-		}
-	}
-	if (incrementValue >= 0) {
+	if (CurrentPage > 0) {
 		$("#left-arrow").attr("style", "visibility:visiable");
 		$(".nav-fill").removeAttr("style");
 	}
 
-	if (incrementValue >= $(".containt > .row").length) {
+	if (CurrentPage >= $(".containt > .row").length) {
 		$("#right-arrow").attr("style", "visibility:hidden");
 	} else {
-		if (incrementValue > 3) {
+		if (CurrentPage > 2) {
 			$("#right-arrow").attr("style", "visibility:visiable");
 		}
 	}
-	if ($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "personel-data-m"
+	if ($(".containt > .row:nth-of-type(" + CurrentPage + ")").attr("id") == "personel-data-m"
 	) {
 		enterPersonnel = true
 	}
-	else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Inquery"
+	else if (($(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("id") == "Documents-Inquery"
 		&& enterDocuments == false)) {
 		enterDocuments = true;
-		incrementValue++;
+		CurrentPage++;
 
-	} else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Inquery"
+	} else if (($(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("id") == "Documents-Inquery"
 		&& enterDocuments == true)) {
-		incrementValue++;
+		CurrentPage++;
 
-	} else if (($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Documents-Other"
+	} else if (($(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("id") == "Documents-Other"
 		&& enterDocumentOther == false)) {
 		enterDocumentOther = true;
 	}
-	else if ($(".containt > .row:nth-of-type(" + incrementValue + ")").attr("id") == "Confirmation-m") {
+	else if ($(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("id") == "Confirmation-m") {
 		GeneratePdfData();
 		// enterpdfpreview = true;
 	}
@@ -323,72 +330,82 @@ $("#Mobile").change(function () {
 	$("#spanMobile").css({ 'border': 'none', 'background': 'white' })
 })
 $("#left-arrow").click(function () {
-	incrementValue--;
-	if (incrementValue == 6 || incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
-			incrementValue = incrementValue - 1;
-		}
-	}
-	if (incrementValue == 5) {
-		if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() != "inquiry") {
-			if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "سؤال") {
-				incrementValue = incrementValue - 1;
-			}
-		}
-	}
-	if (incrementValue == 6 /*request data Not inquery == 6*/) {
-		$(".nav-fill .nav-link").removeClass("active");
-		$(".nav-fill .nav-item:nth-of-type(" + (incrementValue - 2) + ") .nav-link").addClass("active");
-	} else {
-		$(".nav-fill .nav-link").removeClass("active");
-		$(".nav-fill .nav-item:nth-of-type(" + (incrementValue - 1) + ") .nav-link").addClass("active");
-	}
-	$(".containt > .row").attr("style", "display:none;");
-	$(".containt > .row:nth-of-type(" + incrementValue + ")").attr("style", "display:flex;");
-	if (incrementValue <= 1) {
+	//if (CurrentPage == 6 || CurrentPage == 5) {
+	//	if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() == "سؤال") {
+	//		CurrentPage = CurrentPage - 1;
+	//	}
+	//}
+	//if (CurrentPage == 5) {
+	//	if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() != "inquiry") {
+	//		if ($("#Request_Type_Id .active ").attr("data-requesttypename").toLowerCase() != "سؤال") {
+	//			CurrentPage = CurrentPage - 1;
+	//		}
+	//	}
+	//}
+	//if (CurrentPage == 6 /*request data Not inquery == 6*/) {
+	//	$(".nav-fill .nav-link").removeClass("active");
+	//	$(".nav-fill .nav-item:nth-of-type(" + (CurrentPage - 2) + ") .nav-link").addClass("active");
+	//} else {
+	//	$(".nav-fill .nav-link").removeClass("active");
+	//	$(".nav-fill .nav-item:nth-of-type(" + (CurrentPage - 1) + ") .nav-link").addClass("active");
+	//}
+	CurrentPage--;
+	$(".nav-fill .nav-link").removeClass("active");
+	$(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
+	$('.containt > .row').attr("style", "display:none;");
+	$(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
+	if (CurrentPage <= 1) {
 		$("#left-arrow").attr("style", "visibility:hidden");
-		$(".nav-fill").attr("style", "display:none");
+		if (CurrentPage == 0)
+			$(".nav-fill").attr("style", "display:none");
 	}
-	if (incrementValue > 4) {
+
+	if (CurrentPage > 2) {
 		$("#right-arrow").attr("style", "visibility:visiable");
 	}
-	if (incrementValue <= 3) {
+	if (CurrentPage <= 2) {
 		$("#right-arrow").attr("style", "visibility:hidden");
 	}
 
 });
 $(".stick").click(function (event) {
-	let value = $(event.currentTarget.parentNode.parentNode).attr("id");
-	$("#" + value + " .stick").removeClass("active");
-	$(event.currentTarget).addClass("active");
 	if ($(event.currentTarget).hasClass("follow")) {
 		window.location.href = "/Follow/Index";
 		return;
 	}
-	$("#right-arrow").click();
+	else if ($(event.currentTarget).hasClass("submit")) {
+		let value = $(event.currentTarget.parentNode.parentNode).attr("id");
+		$("#" + value + " .stick").removeClass("active");
+		$(event.currentTarget).addClass("active");
+		CurrentPage = 1;
+
+		$(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
+		$(".nav-fill").attr("style", "");
+		$(`.containt > .row`).attr("style", "display:none;");
+		$(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
+	}
 });
-$(".nav-fill .nav-link").click(function () {
-	console.log($(this).attr("data-counter"));
-	if ($(this).attr("data-counter") > incrementValue) {
+$(".nav-fill .nav-link").click(function () {////navbar btn click
+	let index = $(this).attr("data-counter");
+	if (index > CurrentPage) {
 		alert("you can't select step that you don't reach yet but you can select previous steps");
-	} else if ($(this).attr("data-counter") < incrementValue) {
-		incrementValue = $(this).attr("data-counter");
+	} else {
+		CurrentPage = index;
 		$(".containt > .row").attr("style", "display:none;");
 		$("#" + $(this).attr("data-slide-to")).attr("style", "display:flex;")
 		$(".nav-fill .nav-link").removeClass("active");
 		$(this).addClass("active");
-		if (incrementValue <= 2) {
+		if (CurrentPage <= 2) {
 			$("#right-arrow").attr("style", "visibility:hidden");
-		} else if (incrementValue > 2) {
+		} else if (CurrentPage > 2) {
 			$("#right-arrow").attr("style", "visibility:visable");
 		}
 	}
 });
 ///////////////////////////////////ServiceType////////////////////////////////////////////
-$('.mainservice').click(function (e) {
+$('.mainservice').click(function (e) {//service type
 	let ID = $(this).attr('data-mainserviceid');
 	$(".loading").addClass("active");
-
 	$.ajax({
 		url: "/Home/GetRequest?ServiceID=" + ID, method: "Get", success: function (data) {
 			$("#Request_Type_Id").html(`
@@ -413,6 +430,7 @@ $('.mainservice').click(function (e) {
 			reIntializeReType();
 			if (Redirect)
 				$(`[data-requesttypeid='${RedirectReqType}']`).addClass("active").click()
+			$("#right-arrow").click();
 			setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 		}
 	})
@@ -493,7 +511,7 @@ function HandelDragAndDrop(files) {
 				$('#filesNameDropOther').append("<div class='col-md-6 fileshow' id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' onclick='deleteFileSupport(\"support-doc" + counter + "\")'></i></div>")
 			});
 		}
-		console.log(DropedFile)
+		//console.log(DropedFile)
 	}
 }
 function deleteFileSupport(id) {
@@ -541,7 +559,7 @@ function PrepareFiles() {
 		for (var j = 0; j < lengthupload; j++) {
 			if (supporteddocs[i].ID == uploadfiles[j].ID) {
 				fileData.append(uploadfiles[j].File.name, uploadfiles[j].File)
-				console.log(uploadfiles[j].File.name)
+				//console.log(uploadfiles[j].File.name)
 				break;
 			}
 		}
@@ -611,7 +629,7 @@ function saveRequest() {
 
 				},
 				error: function (err) {
-					console.log(err)
+					//console.log(err)
 					saverequest_Clicked = false
 					setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 
@@ -886,7 +904,7 @@ function serialiazeForm() {
 		Address: "",
 		file_names: FileNames
 	}
-	console.log(Data);
+	//console.log(Data);
 	return Data;
 }
 
