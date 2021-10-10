@@ -39,7 +39,6 @@ let type = []
 let titles = []
 let doctype = []
 $(document).ready(function () {
-
 	let data = null;
 	let cook = document.cookie.split(';');
 	cook.forEach(i => {

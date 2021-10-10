@@ -16,7 +16,7 @@ namespace IAU_BackEnd
 		{
 			AreaRegistration.RegisterAllAreas();
 			GlobalConfiguration.Configure(WebApiConfig.Register);
-
+			MvcHandler.DisableMvcResponseHeader = true;
 			//Mapper.Initialize(c =>
 			//{
 			//    c.AddProfile<ApplicationProfile>();

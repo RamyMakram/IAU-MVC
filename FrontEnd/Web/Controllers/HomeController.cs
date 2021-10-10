@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http.Cors;
 using System.Web.Mvc;
 using Web.App_Start;
 
@@ -54,6 +55,8 @@ namespace Web.Controllers
 		[HttpGet]
 		public JsonResult SendVerification(string to)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			try
 			{
 				int code = new Random().Next(1000, 9999);
@@ -74,6 +77,8 @@ namespace Web.Controllers
 		[HttpPost]
 		public async Task<object> saveApplicantDataAndRequest(string request_Data, string code)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			try
 			{
 				if (request_Data == null || code == "")
@@ -147,6 +152,8 @@ namespace Web.Controllers
 		[HttpGet]
 		public JsonResult GetRequest(int ServiceID)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			var res = APIHandeling.getData("/RequestType/GetActive?SID=" + ServiceID);
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -155,15 +162,18 @@ namespace Web.Controllers
 		[HttpGet]
 		public JsonResult GetApplicantData(int ServiceID, int RequestType)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			var res = APIHandeling.getData("/AppType/GetActive?SID=" + ServiceID + "&ReqType=" + RequestType);
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
-
 		[HttpPost]
 		public JsonResult GetCityRegion(int CID)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			if (CID != 24)
 				return Json(JsonConvert.SerializeObject(new CountryAndRegion() { Regions = new List<RegionDTO>(), City = new List<CityDTO>() }), JsonRequestBehavior.AllowGet);
 
@@ -180,6 +190,8 @@ namespace Web.Controllers
 		[HttpGet]
 		public JsonResult GetProviders(int RID, int SID, int AID)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			var res = APIHandeling.getData($"/Units/GetActive?ReqID={RID}&SerID={SID}&AppType={AID}");
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -189,6 +201,8 @@ namespace Web.Controllers
 		[HttpGet]
 		public JsonResult GetMainServices(int ID, int SID, int AID)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			var res = APIHandeling.getData($"/MainService/GetActive?UID={ID}&ServiceID={SID}&AppType={AID}");
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -198,6 +212,8 @@ namespace Web.Controllers
 		[HttpGet]
 		public JsonResult GetSub(int ID)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
 			var res = APIHandeling.getData($"/SubServices/GetActive?MainService={ID}");
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -207,10 +223,21 @@ namespace Web.Controllers
 		[HttpGet]
 		public JsonResult GetEforms(int ID)
 		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
+
 			var res = APIHandeling.getData($"/Eforms/GetActive?SubService={ID}");
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+		}
+		[EnableCors("*", "*", "*")]
+		[HttpGet]
+		public JsonResult TEST()
+		{
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
+			return Json(Request.Headers.Get("Origin"), JsonRequestBehavior.AllowGet);
 		}
 	}
 }
