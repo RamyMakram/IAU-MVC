@@ -161,13 +161,20 @@ namespace Web.Controllers
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 
-		[HttpGet]
+		[HttpPost]
 		public JsonResult GetCityRegion(int CID)
 		{
+			if (CID != 24)
+				return Json(JsonConvert.SerializeObject(new CountryAndRegion() { Regions = new List<RegionDTO>(), City = new List<CityDTO>() }), JsonRequestBehavior.AllowGet);
+
 			var res = APIHandeling.getData("/Region_City/GetActive?CountryID=" + CID);
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+			var isar = Request.Cookies["lang"].Value == "ar";
+			var data = JsonConvert.DeserializeObject<CountryAndRegion>(response.result.ToString());
+			data.City = data.City.OrderBy(q => isar ? q.City_Name_AR : q.City_Name_EN).ToList();
+			data.Regions = data.Regions.OrderBy(q => isar ? q.Region_Name_AR : q.Region_Name_EN).ToList();
+			return Json(JsonConvert.SerializeObject(data), JsonRequestBehavior.DenyGet);
 		}
 
 		[HttpGet]

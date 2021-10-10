@@ -1173,7 +1173,7 @@ function CountryState() {
 
 	let ID = $("#City_Country_2 option:selected").val()
 	$.ajax({
-		url: "/Home/GetCityRegion?CID=" + ID, method: "Get", success: function (datxa) {
+		url: "/Home/GetCityRegion?CID=" + ID, method: "POST", success: function (datxa) {
 			let data = JSON.parse(datxa)
 			if (data.Regions.length != 0) {
 				isSaudi = 1;

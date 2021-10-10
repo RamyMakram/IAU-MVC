@@ -62,6 +62,29 @@
 			direction: ltr !important;
 		}
 
+		td.TH-ar, td.TH-en {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 343px;
+		}
+
+		li.paginate_button.page-item:not(.next):not(.previous) a {
+			color: white !important;
+		}
+
+		a[aria-controls="datatable-buttons"]:last-child, a[aria-controls="datatable-buttons"]:first-child {
+			color: black !important;
+		}
+
+		li.paginate_button.page-item > a {
+			background: white !important;
+		}
+
+		li.paginate_button.page-item.active:not(.next):not(.previous) a {
+			background: green !important;
+		}
+
 		.ar-font, .TH-ar {
 			font-family: 'DroidArabicKufiRegular' !important;
 		}
@@ -111,6 +134,15 @@
 			overflow: auto;
 		}
 	</style>
+	<script>
+		function Go(elem, url) {
+			var e = $(elem).find(">:first-child").get(0);
+			var c = window.getComputedStyle(e, "before").getPropertyValue("content");
+			if (c == "none")
+				window.location.href = url
+		}
+		
+	</script>
 	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
 	@RenderSection("styles", false)
 	@Html.Partial("~/Views/Shared/_head_css.cshtml")
@@ -165,9 +197,22 @@
 			$('.btn.btn-circle:has(i.fas.fa-plus-circle)').addClass("createNew-link")
 			$('.HeaderOfPage .card-title-desc').attr('key','').text("");
 		})
-			$(document).ready(function () {
+		$(document).ready(function () {
+			$('table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td.dtr-control').click(w => {
+				console.log("clck")
+
+
+			})
+			//$("td").click(e => {
+			//	console.log(e.currentTarget)
+			//	var c = window.getComputedStyle(e.currentTarget, "before").getPropertyValue("content");
+			//	if (c == "none" && this.getAttribute('onclick') != "") {
+			//		console.log(this.getAttribute('onclick'))
+			//		//window.location.href = url
+			//	}
+			//})
 		IntialListener()
-	})
+		})
 	function IntialListener() {
 		$('.paginate_button').on('click', function () {
 			console.log("Cloick")

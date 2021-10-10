@@ -45,7 +45,7 @@
 						@{ var url = ConfigurationManager.AppSettings["DomainName"].ToString();}
 						@foreach (var i in Model)
 						{
-							<tr onclick="Go('@Url.Action("Detials", "EForms", new { Id = i.ID })')">
+							<tr onclick="Go(this,'@Url.Action("Detials", "EForms", new { Id = i.ID })')">
 								<td class="TH-ar ar-font">@i.Name</td>
 								<td class="TH-en en-font">@i.Name_EN</td>
 								<td class="en-font"><a href="@(url+"/"+i.Path)">@(url + "/" + i.Path) </a></td>
@@ -70,11 +70,7 @@
 	</div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
-<script>
-	function Go(url) {
-		window.location.href = url
-	}
-</script>
+
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>

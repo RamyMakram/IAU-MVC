@@ -84,7 +84,7 @@
 
 						@foreach (var i in Model)
 						{
-							<tr onclick="Go('@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
+							<tr onclick="Go(this,'@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
 								<td id="MainServiceImages">
 									@foreach (var s in i.UnitServiceTypes)
 									{
@@ -360,9 +360,7 @@
 		$('.ST-' + ID).css({ 'display': 'table-row' });
 		$('#searchTXT').val("");
 	}
-	function Go(url) {
-		window.location.href = url
-	}
+
 	function Search(eve) {
 		$('.Main').css({ 'display': 'none' });
 		if (eve != "") {
@@ -467,7 +465,7 @@
 				var ItemsRow = ""
 				data.forEach(i => {
 					ItemsRow += `
-						<tr onclick="Go('/User/Detials/${i["User_ID"]}')">
+						<tr onclick="Go(this,'/User/Detials/${i["User_ID"]}')">
 							<td>${i["User_Name"]}</td>
 							<td class="TH-en">${i["User_Email"]}</td>
 							<td >${$('#lang').text() == "ar" ? i["Job"]["User_Permissions_Type_Name_AR"] : i["Job"]["User_Permissions_Type_Name_EN"]}</td>

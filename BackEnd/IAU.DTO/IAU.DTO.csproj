@@ -69,11 +69,14 @@
   <ItemGroup>
     <Compile Include="Entity\ApplicantRequest_Data_DTO.cs" />
     <Compile Include="Entity\ApplicantTypeDTO.cs" />
+    <Compile Include="Entity\CityDTO.cs" />
+    <Compile Include="Entity\CountryAndRegion.cs" />
     <Compile Include="Entity\CountryDTO.cs" />
     <Compile Include="Entity\CustomeFile.cs" />
     <Compile Include="Entity\IDDocDTO.cs" />
     <Compile Include="Entity\MainServiceDTO.cs" />
     <Compile Include="Entity\PersonalDataDTO.cs" />
+    <Compile Include="Entity\RegionDTO.cs" />
     <Compile Include="Entity\RequestDTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
     <Compile Include="Entity\RequiredDocsDTO.cs" />

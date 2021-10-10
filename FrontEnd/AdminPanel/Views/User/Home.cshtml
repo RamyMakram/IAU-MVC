@@ -47,7 +47,7 @@
 					<tbody>
 						@foreach (var i in Model)
 						{
-							<tr onclick="Go('@Url.Action("Detials", "User", new { Id = i.User_ID })')">
+							<tr onclick="Go(this,'@Url.Action("Detials", "User", new { Id = i.User_ID })')">
 								<td>@i.User_Name</td>
 								<td class="en-font">@i.User_Mobile</td>
 								<td class="en-font">@i.User_Email</td>
@@ -74,11 +74,7 @@
 	</div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
-<script>
-	function Go(url) {
-		window.location.href = url
-	}
-</script>
+
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>

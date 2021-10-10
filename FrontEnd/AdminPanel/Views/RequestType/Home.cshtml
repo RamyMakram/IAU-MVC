@@ -46,7 +46,7 @@
 						@{ var url = ConfigurationManager.AppSettings["DomainName"].ToString();}
 						@foreach (var i in Model)
 						{
-							<tr onclick="Go('@Url.Action("Detials", "RequestType", new { Id = i.Request_Type_ID })')">
+							<tr onclick="Go(this,'@Url.Action("Detials", "RequestType", new { Id = i.Request_Type_ID })')">
 								<td class="TH-ar">@i.Request_Type_Name_AR</td>
 								<td class="TH-en">@i.Request_Type_Name_EN</td>
 								<td><img src=@(url+"/"+i.Image_Path) height="36px" /></td>
@@ -71,11 +71,6 @@
 	</div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
-<script>
-	function Go(url) {
-		window.location.href = url
-	}
-</script>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
