@@ -12,18 +12,24 @@ namespace IAU_BackEnd
 {
 	public class WebApiApplication : System.Web.HttpApplication
 	{
-        protected void Application_Start()
-        {
-            AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+		protected void Application_Start()
+		{
+			AreaRegistration.RegisterAllAreas();
+			GlobalConfiguration.Configure(WebApiConfig.Register);
 
-            //Mapper.Initialize(c =>
-            //{
-            //    c.AddProfile<ApplicationProfile>();
-            //});
-            //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            //RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
-        }
-    }
+			//Mapper.Initialize(c =>
+			//{
+			//    c.AddProfile<ApplicationProfile>();
+			//});
+			//FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+			//RouteConfig.RegisterRoutes(RouteTable.Routes);
+			//BundleConfig.RegisterBundles(BundleTable.Bundles);
+		}
+		protected void Application_BeginRequest(object Sender, EventArgs eventE)
+		{
+			var cridantl = HttpContext.Current.Request.Headers["crd"];
+			if (cridantl == null || cridantl == "" || cridantl != "dkvkk45523g25dedks44w7ee7@k309m$.f,dkks")
+				HttpContext.Current.Response.StatusCode = 401;
+		}
+	}
 }
