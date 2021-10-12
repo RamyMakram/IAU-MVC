@@ -52,7 +52,8 @@ namespace Web.Controllers
 		}
 
 
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult SendVerification(string to)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -62,7 +63,7 @@ namespace Web.Controllers
 				int code = new Random().Next(1000, 9999);
 				Debug.WriteLine(code);
 				string message = $@"Use this code {code} to complete your request.";
-				var res = APIHandeling.GetDataAdmin("/Request/SendSMS?Mobile=" + to + "&message=" + message);
+				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message);
 				var resJson = res.Content.ReadAsStringAsync().Result;
 				string HashedCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())));
 				Response.Cookies.Add(new HttpCookie("n", HashedCode));
@@ -75,6 +76,7 @@ namespace Web.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public async Task<object> saveApplicantDataAndRequest(string request_Data, string code)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -91,6 +93,7 @@ namespace Web.Controllers
 					HttpClientHandler handler = new HttpClientHandler();
 					using (var client = new HttpClient(handler, false))
 					{
+						client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
 						using (var content = new MultipartFormDataContent())
 						{
 							int length = Request.Files.Count;
@@ -149,7 +152,8 @@ namespace Web.Controllers
 			Response.Cookies.Set(new HttpCookie("lang", lang == "ar" ? lang : "en"));
 			return RedirectToAction("Index", "Home");
 		}
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult GetRequest(int ServiceID)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -159,7 +163,8 @@ namespace Web.Controllers
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult GetApplicantData(int ServiceID, int RequestType)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -170,6 +175,7 @@ namespace Web.Controllers
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult GetCityRegion(int CID)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -187,7 +193,8 @@ namespace Web.Controllers
 			return Json(JsonConvert.SerializeObject(data), JsonRequestBehavior.DenyGet);
 		}
 
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult GetProviders(int RID, int SID, int AID)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -198,7 +205,8 @@ namespace Web.Controllers
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult GetMainServices(int ID, int SID, int AID)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -209,7 +217,8 @@ namespace Web.Controllers
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult GetSub(int ID)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -220,7 +229,8 @@ namespace Web.Controllers
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken()]
 		public JsonResult GetEforms(int ID)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
@@ -230,14 +240,6 @@ namespace Web.Controllers
 			var resJson = res.Content.ReadAsStringAsync();
 			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
-		}
-		[EnableCors("*", "*", "*")]
-		[HttpGet]
-		public JsonResult TEST()
-		{
-			if (!HttpContext.Request.IsAjaxRequest())
-				return Json("401", JsonRequestBehavior.AllowGet);
-			return Json(Request.Headers.Get("Origin"), JsonRequestBehavior.AllowGet);
 		}
 	}
 }

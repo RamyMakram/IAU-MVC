@@ -23,7 +23,7 @@ namespace AdminPanel
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
-
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             var res = h.GetAsync("/api/" + apiName).Result;
             return res;
         }
@@ -34,7 +34,7 @@ namespace AdminPanel
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
-
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             var res = h.GetAsync(apiName).Result;
             return res;
         }
@@ -50,7 +50,8 @@ namespace AdminPanel
 
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
-            h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+            h.DefaultRequestHeaders.Add("IsTwasul_OC", "true"); 
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             dynamic res = new HttpResponseMessage();
 
             int pageSize = 0; int index = 0;
@@ -92,7 +93,7 @@ namespace AdminPanel
 
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
-
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             dynamic res = new HttpResponseMessage();
 
             int pageSize = 0; int index = 0; Int64 FarmId = 0;
@@ -142,6 +143,7 @@ namespace AdminPanel
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
 
             var res = h.PostAsJsonAsync("/api/" + apiName, obj).Result;
@@ -160,6 +162,7 @@ namespace AdminPanel
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
 
             var res = h.PutAsJsonAsync("/api/" + apiName, obj).Result;
@@ -179,6 +182,7 @@ namespace AdminPanel
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
 
             var res = h.PutAsJsonAsync("/api/" + apiName + "?delete=1", obj).Result;
@@ -197,6 +201,7 @@ namespace AdminPanel
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
 
             var res = h.PutAsJsonAsync("/api/" + apiName + "?editCheck=1", obj).Result;
@@ -208,6 +213,7 @@ namespace AdminPanel
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
             Dictionary<string, string> dic_data = new Dictionary<string, string>();
             dic_data.Add("PageName", pageName);
@@ -244,6 +250,7 @@ namespace AdminPanel
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
 
@@ -255,7 +262,7 @@ namespace AdminPanel
         {
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
-
+            h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
 
             var res = h.GetAsync("/Rpc/" + apiName + "/" + action + obj).Result;

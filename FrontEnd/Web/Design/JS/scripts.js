@@ -120,7 +120,9 @@ function reIntializeReType() {
 		$(".loading").addClass("active");
 
 		$.ajax({
-			url: "/Home/GetApplicantData?ServiceID=" + ID + "&RequestType=" + $(this).attr("data-requesttypeid"), method: "Get", success: function (data) {
+			url: "/Home/GetApplicantData?ServiceID=" + ID + "&RequestType=" + $(this).attr("data-requesttypeid"), method: "Post", data: {
+				__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+			}, success: function (data) {
 				$("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
 				//console.log(JSON.parse(data))
 				JSON.parse(data).forEach(i => {
@@ -162,7 +164,6 @@ function reIntializeReType() {
 	});
 }
 $("#right-arrow").click(function () {
-	debugger
 	if (CurrentPage == 1) {//Will Enter Reqtype
 		CurrentPage++;
 		$(".nav-fill .nav-link").removeClass("active");
@@ -406,7 +407,9 @@ $('.mainservice').click(function (e) {//service type
 	let ID = $(this).attr('data-mainserviceid');
 	$(".loading").addClass("active");
 	$.ajax({
-		url: "/Home/GetRequest?ServiceID=" + ID, method: "Get", success: function (data) {
+		url: "/Home/GetRequest?ServiceID=" + ID, method: "Post", data: {
+			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+		}, success: function (data) {
 			$("#Request_Type_Id").html(`
 				<div class="col-md-4 col-lg-3 icon-text-logo" style="padding-left: 23px; margin-top:45px">
 					${(language == "ar" ? '<img src="/Design/img/ArServiceType.png" style="width:100%" />'
@@ -529,7 +532,9 @@ function sendSMS() {
 
 	$.ajax({
 		url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}`,
-		type: "GET",
+		type: "Post", data: {
+			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+		},
 		success: function (result) {
 			var myModal = new bootstrap.Modal(document.getElementById('FourMessage'), {
 				keyboard: false,
@@ -584,6 +589,7 @@ function saveRequest() {
 			fileData.append('request_Data', JSON.stringify(data));
 			fileData.append('base64File', document.getElementById('SignaturePDF').innerHTML);
 			fileData.append('code', requestCode);
+			fileData.append('__RequestVerificationToken', $('input[name="__RequestVerificationToken"]').val());
 			$.ajax({
 				url: "/Home/saveApplicantDataAndRequest",
 				type: "POST",
@@ -686,7 +692,10 @@ function LoadApiDocumentsData() {
 	let APPID = $('#Applicant_Type_ID  option:selected').val();
 	$.ajax({
 		url: `/Home/GetProviders?RID=${RID}&SID=${SID}&AID=${APPID}`,
-		method: "Get",
+		method: "Post",
+		data: {
+			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+		},
 		success: function (result) {
 			if (result != null) {
 				let data = JSON.parse(result)
@@ -714,7 +723,9 @@ function GetMainServices(ID) {
 
 	$.ajax({
 		url: `/Home/GetMainServices?ID=${ID}&SID=${SID}&AID=${APPID}`,
-		method: "Get",
+		method: "Post", data: {
+			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+		},
 		success: function (result) {
 			if (result != null) {
 				$("#Main_Services_ID").removeAttr("disabled");
@@ -740,7 +751,9 @@ function GetSubServices(ID) {
 
 	$.ajax({
 		url: `/Home/GetSub?ID=${ID}`,
-		method: "Get",
+		method: "Post", data: {
+			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+		},
 		success: function (result) {
 			if (result != null) {
 				let data = JSON.parse(result)
@@ -831,7 +844,9 @@ function GetEfroms(ID) {
 
 	$.ajax({
 		url: `/Home/GetEforms?ID=${ID}`,
-		method: "Get",
+		method: "Post", data: {
+			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+		},
 		success: function (result) {
 			$("#EFormsView").html("");
 			if (result != null) {
@@ -1172,7 +1187,9 @@ function CountryState() {
 
 	let ID = $("#City_Country_2 option:selected").val()
 	$.ajax({
-		url: "/Home/GetCityRegion?CID=" + ID, method: "POST", success: function (datxa) {
+		url: "/Home/GetCityRegion?CID=" + ID, method: "POST", data: {
+			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+		}, success: function (datxa) {
 			let data = JSON.parse(datxa)
 			if (data.Regions.length != 0) {
 				isSaudi = 1;
@@ -1305,7 +1322,9 @@ $("#ResendVerificationCode").click(function () {
 
 		$.ajax({
 			url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}`,
-			type: "GET",
+			type: "Post", data: {
+				__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+			},
 			success: function (result) {
 				setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 			},

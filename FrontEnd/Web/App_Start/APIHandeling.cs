@@ -146,7 +146,7 @@ namespace Web.App_Start
 			h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
 			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
 			h.BaseAddress = new Uri(AdminURL);
-			h.DefaultRequestHeaders.Add("crd", "dkvkk45523g25dedks44w7ee7@k309m$.f,dkks");
+			h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
 			var res = h.PostAsJsonAsync("/api/" + apiName, obj).Result;
 			return res;
 		}
@@ -156,24 +156,25 @@ namespace Web.App_Start
 			//Insert
 			HttpClient h = new HttpClient();
 			h.BaseAddress = new Uri(AdminURL);
+			h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
 			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
 			System.Net.ServicePointManager.SecurityProtocol |=
 	SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 			var res = await h.GetAsync("/api/" + apiName);
 			return res;
 		}
-		public static HttpResponseMessage GetDataAdmin(string apiName)
-		{
-			HttpClient h = new HttpClient();
+	//	public static HttpResponseMessage GetDataAdmin(string apiName)
+	//	{
+	//		HttpClient h = new HttpClient();
 
-			h.BaseAddress = new Uri(AdminURL);
+	//		h.BaseAddress = new Uri(AdminURL);
 
-			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
-			System.Net.ServicePointManager.SecurityProtocol |=
-	SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-			var res = h.GetAsync("/api/" + apiName);
-			return res.Result; ;
-		}
+	//		h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+	//		System.Net.ServicePointManager.SecurityProtocol |=
+	//SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+	//		var res = h.GetAsync("/api/" + apiName);
+	//		return res.Result; ;
+	//	}
 		/// <summary>
 		/// INSERT using API
 		/// </summary>

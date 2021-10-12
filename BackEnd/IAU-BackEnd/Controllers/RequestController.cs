@@ -27,5 +27,33 @@ namespace IAU_BackEnd.Controllers
 				return Ok(new ResponseClass() { success = false, result = ee });
 			}
 		}
+		[HttpGet]
+		[Route("api/Request/SendSMS")]
+		public async Task<IHttpActionResult> SendSMS(string Mobile, string message)
+		{
+			try
+			{
+				HttpClient h = new HttpClient();
+
+				string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid=f9iRotRBsanfAB0xcE4NzJtgMYf5Bk&msg={message}&to={Mobile}&sender=IAU-BSC&baseEncode=False&encoding=UCS2";
+				h.BaseAddress = new Uri(url);
+
+				var res = h.GetAsync("").Result.Content.ReadAsStringAsync().Result;
+				return Ok(new ResponseClass()
+				{
+					result = res,
+					success = true
+				});
+			}
+			catch (Exception ee)
+			{
+				return Ok(new ResponseClass()
+				{
+					result = ee,
+					success = false
+				});
+			}
+		}
+
 	}
 }

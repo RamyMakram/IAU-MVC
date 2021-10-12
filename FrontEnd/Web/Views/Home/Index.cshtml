@@ -118,6 +118,7 @@
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
 					aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon">
+					@Html.AntiForgeryToken()
 					<i class="fas fa-bars" style="color: #b6a1a1;font-size: 30px;"></i>
 				</span>
 			</button>
@@ -132,7 +133,7 @@
 							<a class="nav-link active" aria-current="page" href="~/Home/Index">تقديم/متابعة طلب</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="~/Coordinator/index">المنسقين</a>
+							<a class="nav-link" href="~/Coordinator">المنسقين</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">المساعدة والدعم الفنى</a>
@@ -147,7 +148,7 @@
 							<a class="nav-link active" aria-current="page" href="~/Home/Index">Submit/Follow-up</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="~/Coordinator/index">Coordinator</a>
+							<a class="nav-link" href="~/Coordinator">Coordinator</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">help and support</a>

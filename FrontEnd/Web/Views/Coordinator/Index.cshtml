@@ -67,7 +67,7 @@
 							<a class="nav-link " href="~/Home/Index">Submit/Follow-up</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="~/Coordinator/index">Coordinator</a>
+							<a class="nav-link active" aria-current="page" href="~/Coordinator">Coordinator</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">help and support</a>
@@ -123,6 +123,7 @@
 			<div class="master-login">
 				@using (Html.BeginForm("Index", "Coordinator"))
 				{
+					@Html.AntiForgeryToken()
 					<div class="logo">
 						<img src="~/Design/img/MousLogo2.png" />
 						@if (ViewBag.CookieLang == "ar")
@@ -141,14 +142,14 @@
 							<label>البريد الالكترونى</label>
 							<input autocomplete="off" name="email" placeholder="ادخل البريد الالكترونى" />
 							<label>كلمة المرور</label>
-							<input autocomplete="off"  name="pass" type="password" placeholder="ادخل كلمة المرور" />
+							<input autocomplete="off" name="pass" type="password" placeholder="ادخل كلمة المرور" />
 						}
 						else
 						{
 							<label>Email</label>
-							<input autocomplete="off"  name="email" placeholder="Enter Your Email" />
+							<input autocomplete="off" name="email" placeholder="Enter Your Email" />
 							<label>password</label>
-							<input  autocomplete="off" name="pass" type="password" placeholder="Enter Your Password" />
+							<input autocomplete="off" name="pass" type="password" placeholder="Enter Your Password" />
 						}
 
 					</div>

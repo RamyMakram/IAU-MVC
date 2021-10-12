@@ -319,8 +319,10 @@ namespace IAUBackEnd.Admin.Controllers
 				{
 					p.Personel_Data.Add(model);
 					await p.SaveChangesAsync();
+					request_Data.Personel_Data_ID = model.Personel_Data_ID;
 				}
-				request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
+				else
+					request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
 				request_Data.CreatedDate = Helper.GetDate();
 				request_Data.Request_State_ID = 1;
 				request_Data.IsTwasul_OC = false;
@@ -459,7 +461,7 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IHttpActionResult> Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected, [FromBody]string comment)
+		public async Task<IHttpActionResult> Forward(int RequestIID, int Unit_ID, Nullable<DateTime> Expected, [FromBody] string comment)
 		{
 			try
 			{
@@ -595,7 +597,7 @@ namespace IAUBackEnd.Admin.Controllers
 			return Code;
 		}
 		[HttpPost]
-		public async Task<IHttpActionResult> FollowRequest([FromBody]string Code)
+		public async Task<IHttpActionResult> FollowRequest([FromBody] string Code)
 		{
 			try
 			{
