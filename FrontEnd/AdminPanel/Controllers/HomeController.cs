@@ -26,10 +26,10 @@ namespace AdminPanel.Controllers
 			ViewBag.Locations = JsonConvert.DeserializeObject<ICollection<GlobalCount>>(data["Locations"].ToString());
 			return View();
 		}
-		public ActionResult ChangeLanguage(string lang)
+		public ActionResult ChangeLanguage(string lang,string redirect)
 		{
 			Response.Cookies.Add(new HttpCookie("lang", lang ?? "ar"));
-			return RedirectToAction("Home");
+			return Redirect(redirect);
 		}
 		public JsonResult GetOrderCount(int ID)
 		{

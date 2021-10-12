@@ -2966,6 +2966,8 @@
     <Content Include="assets\fonts\Droid.Arabic.Kufi_.Bold_.ttf" />
     <Content Include="assets\fonts\Droid-Arabic-Kufi.ttf" />
     <Content Include="assets\fonts\FrutigerLTArabic55Roman.woff" />
+    <Content Include="assets\DataTableTrans\ar.json" />
+    <Content Include="assets\DataTableTrans\en.json" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Email\Home.cshtml" />

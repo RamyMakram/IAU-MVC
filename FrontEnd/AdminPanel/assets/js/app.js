@@ -264,7 +264,6 @@ var User = "";
 
 	init();
 
-	console.log("User IS " + User)
 	function init() {
 		try {
 			let cook = document.cookie.split(';');
@@ -320,9 +319,9 @@ var User = "";
 		});
 		$.ajax({
 			url: "/Home/GetOrderCount?ID=" + User, method: "Get", success: function (x) {
-				console.log(x)
+				//console.log(x)
 				let data = JSON.parse(x)
-				console.log(x, data["result"])
+				//console.log(x, data["result"])
 				var count = document.getElementById('NotficationsCount')
 				if (data["result"] != 0)
 					count.innerText = data["result"];

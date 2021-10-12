@@ -71,13 +71,13 @@
 			<div class="dropdown d-inline-block">
 				@if (Request.Cookies["lang"].Value == "ar")
 				{
-					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "en" }) class="btn header-item waves-effect text-center en-font language" data-lang="en" style=" display: flex; align-items: center; font-weight: 600;">
+					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "en",redirect=Request.Url.ToString() }) class="btn header-item waves-effect text-center en-font language" data-lang="en" style=" display: flex; align-items: center; font-weight: 600;">
 						EN
 					</a>
 				}
 				else
 				{
-					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "ar" }) class="btn header-item waves-effect text-center en-font language" data-lang="ar" style=" display: flex; align-items: center; font-weight: 600;">
+					<a href=@Url.Action("ChangeLanguage", "Home", new { lang = "ar",redirect=Request.Url.ToString() }) class="btn header-item waves-effect text-center en-font language" data-lang="ar" style=" display: flex; align-items: center; font-weight: 600;">
 						AR
 					</a>
 				}
