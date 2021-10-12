@@ -15,6 +15,7 @@ namespace Web.Controllers
 			return View(new object());
 		}
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public JsonResult FollowRequest(string requestCode)
 		{
 			var res = APIHandeling.Post("/Request/FollowRequest", requestCode);

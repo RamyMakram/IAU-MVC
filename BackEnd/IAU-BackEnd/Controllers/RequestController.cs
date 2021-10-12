@@ -14,12 +14,16 @@ namespace IAU_BackEnd.Controllers
 	{
 		private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
 		[HttpPost]
-		public async Task<IHttpActionResult> FollowRequest([FromBody]string Code)
+		public async Task<IHttpActionResult> FollowRequest([FromBody] string Code)
 		{
 			try
 			{
+				Code = Code.ToUpper();
 				var data = p.Request_Data.Include(q => q.Units).Include(q => q.Request_State).Where(q => q.Code_Generate == Code)
 					.Select(q => new { q.IsTwasul_OC, q.Request_State, q.Request_Data_ID, q.Request_State_ID }).FirstOrDefault();
+				if (data == null)
+					return Ok(new ResponseClass() { success = false, result = null });
+
 				return Ok(new ResponseClass() { success = true, result = new { Request = data, State = p.RequestTransaction.Where(q => q.Request_ID == data.Request_Data_ID).Include(q => q.Units).OrderByDescending(w => w.ID).FirstOrDefault() } });
 			}
 			catch (Exception ee)
