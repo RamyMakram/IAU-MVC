@@ -302,7 +302,7 @@
 			}
 		})
 		$.ajax({
-			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&LevelID=null`, success: function (dd) {
+			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&Unit_Code=${$('#unitCode').val()}&t_code=${$('#TypeCode').text()}&lvl=${$('#LEVEID').val()}`, success: function (dd) {
 				//console.log(dd);
 				let Code = JSON.parse(dd)["Code"].split('');
 				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {

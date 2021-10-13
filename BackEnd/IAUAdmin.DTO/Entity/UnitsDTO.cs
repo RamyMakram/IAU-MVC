@@ -17,6 +17,7 @@ namespace IAUAdmin.DTO.Entity
 		public string Building_Number { get; set; }
 		public Nullable<bool> IS_Action { get; set; }
 		public bool IS_Mostafid { get; set; }
+		public bool CanChangeLevel { get; set; }
 		public Nullable<int> LevelID { get; set; }
 		public Nullable<int> SubID { get; set; }
 		public Nullable<int> ServiceTypeID { get; set; }

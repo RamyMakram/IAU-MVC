@@ -16,7 +16,8 @@
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <style>
 	label.control-label::after {
 		content: ":";
@@ -118,7 +119,23 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-title-unitlevel" class="control-label">Types</label>
-								@Html.DropDownListFor(q => q.LevelID, ViewBag.Levels as IEnumerable<SelectListItem>, new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEID" })
+								@if (Model.CanChangeLevel)
+								{
+									@Html.DropDownListFor(q => q.LevelID, ViewBag.Levels as IEnumerable<SelectListItem>, new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEID" });
+								}
+								else
+								{
+									@*<label class="form-control" disabled id="LEVEID">@((Request.Cookies["lang"].Value=="ar"? Model.UnitLevel.Name_AR:Model.UnitLevel.Name_EN)+ " - " + Model.UnitLevel.Code)</label>*@
+									<select class="form-control select2" id="LEVEID">
+										@foreach (var i in ViewBag.Levels as IEnumerable<SelectListItem>)
+										{
+											<option @(i.Value == Model.LevelID.ToString() ? "selected" : "") value="@i.Value" disabled>@i.Text</option>
+										}
+
+									</select>
+								}
+
+
 							</div>
 							<div class="form-group">
 								<label key="t-subunits" class="control-label">Types</label>
@@ -195,19 +212,19 @@
 									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
 										@foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
 										{
-											<option value="@i" @(i.ToString()[0]==Model.Building_Number[2]? "selected":"")>@i</option>
+											<option value="@i" @(i.ToString()[0] == Model.Building_Number[2] ? "selected" : "")>@i</option>
 										}
 									</select>
 									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
 										@foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
 										{
-											<option value="@i" @(i.ToString()[0]==Model.Building_Number[1]? "selected":"")>@i</option>
+											<option value="@i" @(i.ToString()[0] == Model.Building_Number[1] ? "selected" : "")>@i</option>
 										}
 									</select>
 									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
 										@foreach (var i in new List<string> { "A", "D", "M", "F", "S", "R", "H" })
 										{
-											<option value="@i" @(i[0]==Model.Building_Number[0]? "selected":"")>@i</option>
+											<option value="@i" @(i[0] == Model.Building_Number[0] ? "selected" : "")>@i</option>
 										}
 									</select>
 								</div>
@@ -221,15 +238,20 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" key="t-title-Unitcode" for="Ename">UnitCode</label>
-								<input class="form-control" value="@Model.Code" id="unitCode" disabled readonly @*onkeyup="UnitCodeChange(false, event.target.value==''?'0':event.target.value)"*@ />
+
+								<!--<input class="form-control" value="@Model.Code" id="unitCode" disabled readonly--> @*onkeyup="UnitCodeChange(false, event.target.value==''?'0':event.target.value)"*@ <!--/>-->
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control en-font", @name = "unitCode", @maxlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q=>q.Value==Model.LevelID.ToString()).Value.Split('-')[0]=="1"? "1":"2", @id = "unitCode", @onkeyup = "UnitCodeChange(false, event.target.value==''?'0':event.target.value,true)" })
+								@*<label class="valid-feedback" id="UnitCodeFeedback" style="color:red;">@(Request.Cookies["lang"]?.Value=="ar"?"عذرا،هذا الرقم مستخدم":"Sorry,this code is Used")</label>*@
 							</div>
 
 							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID" })
+							@Html.HiddenFor(q => q.Code, new { @id = "defCode" })
 							@Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum" })
 							@Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum" })
 						</div>
 					</div>
-					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+					<button key="t-save" id="submitUnit" type="button" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+					<button type="submit" style="display:none !important" id="saveUnit" class="btn btn-primary mr-1 waves-effect waves-light"></button>
 					@Html.ActionLink("Cancel", "Home", "Units", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 				}
 			</div>
@@ -238,7 +260,8 @@
 </div>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script>
 	let UnitTypes = [];
 	let count = 0;
@@ -268,12 +291,12 @@
 				$('#SubTypeLevel').text(lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]);
 				$('#SubTypeCode').text(d["Code"]);
 			}, error: function (ee) {
-				console.log("error", ee)
+				//console.log("error", ee)
 			}
 		})
 	function getUnitTypes(ID) {
 		$.ajax({
-			url: `/Units/getUnitTypes?id=${ID}`, success: function (e) {
+			url: `/Units/getUnitTypes?id=${$('#LEVEID option:selected').val()}`, success: function (e) {
 				UnitTypes = e;
 				var select = document.getElementById('UnitType');
 				select.innerHTML = ``;
@@ -303,7 +326,7 @@
 					UnitCodeChange(true)
 				}
 			}, error: function (ee) {
-				console.log("error", ee)
+				//console.log("error", ee)
 			}
 		})
 	}
@@ -320,6 +343,7 @@
 		$('#BuildNum').val(BuildNumber)
 	}
 	function LevelChange(eve) {
+		ValidateCode();
 		getUnitTypes(eve)
 		$.ajax({
 			url: `/Units/getUnits?id=${eve}&uID=${$('#UnitID').val()}`, success: function (e) {
@@ -345,12 +369,12 @@
 				}
 			}, error: function (ee) {
 				event.stopPropagation();
-				console.log("error", ee)
+				//console.log("error", ee)
 			}
 		})
 	}
 	function UnitTypeChange(ID) {
-		if (count != 0) {
+		/*if (count != 0) {*/
 			let CodeView = UnitTypes.find(q => q.Units_Type_ID == ID)
 
 			if (CodeView != null) {
@@ -359,10 +383,10 @@
 				$('#TypeCode').text(CodeView.Code);
 			}
 			UnitCodeChange(false);
-		}
+		/*}*/
 	}
 	function SubUnitChange(val) {
-		console.log("SubUnitChange", val)
+		//console.log("SubUnitChange", val)
 		$('#SubID').val(val);
 		if (val == null) {
 			$('#SubTypeLevel').text("0");
@@ -375,18 +399,30 @@
 				$('#SubTypeLevel').text(lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]);
 				$('#SubTypeCode').text(d["Code"]);
 			}, error: function (ee) {
-				console.log("error", ee)
+				//console.log("error", ee)
 			}
 		})
 		UnitCodeChange(true);
-		console.log("Local:" + $('#RefNum').val())
+		//console.log("Local:" + $('#RefNum').val())
 		$.ajax({
-			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&LevelID=${$('#LEVEID').val()}`, success: function (dd) {
-				console.log(dd, JSON.parse(dd)["Code"], JSON.parse(dd)["Code"].split(''));
+			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&Unit_Code=${$('#unitCode').val()}&t_code=${$('#TypeCode').text()}&lvl=${$('#LEVEID option:selected').val()}`, success: function (dd) {
+				//console.log(dd, JSON.parse(dd)["Code"], JSON.parse(dd)["Code"].split(''));
 				let Code = JSON.parse(dd)["Code"].split('');
 				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
 					le.value = Code[i]
 				})
+				@{ /*"Assign Retruned code if faild to genrate code 'index outside'"*/}
+				let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1;
+				if (isNaN(index))
+					index = $("#LEVEID").text().split(' - ')[1] - 1;
+					let startIn = 3 + (index == 0 ? 1 : index * 3);
+					//startIn += 1;
+				if (index == 0) {
+					$('#unitCode').val("0")
+				}
+				else {
+					$('#unitCode').val("00")
+				}
 				$('#RefNum').val(JSON.parse(dd)["Code"])
 			}
 		})
@@ -396,11 +432,13 @@
 	}
 	function UnitCodeChange(ISLevelChange, change = "", Intit = false) {
 		let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1
+		if (isNaN(index))
+			index = $("#LEVEID").text().split(' - ')[1] - 1;
 		//debugger
 		let startIn = 3 + (index == 0 ? 1 : index * 3);
 		startIn += 1;
-		console.log("levelChange=" + ISLevelChange, " INIT=" + Intit)
-		console.log(startIn, index, $('#TypeCode').text(), $('#unitCode').val() == "" ? "0" : $('#unitCode').val(),change)
+		//console.log("levelChange=" + ISLevelChange, " INIT=" + Intit)
+		//console.log(startIn, index, $('#TypeCode').text(), $('#unitCode').val() == "" ? "0" : $('#unitCode').val(),change)
 		if (index == 0) {
 			$(`#CodeGenrateDiv input:nth-of-type(${startIn})`).val($('#TypeCode').text())
 			if (Intit)
@@ -414,17 +452,17 @@
 			startIn += 2
 		}
 		else {
-			if (ISLevelChange) {
+			if (ISLevelChange)
 				for (var i = 5; i < startIn; i++)
 					document.querySelector(`#CodeGenrateDiv input:nth-of-type(${i})`).value = "0"
-				console.log("LevelChange")
-				let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
-				if (UnitCode.length == 1)
-					UnitCode = "0" + UnitCode
-				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = UnitCode.charAt(0)
-				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).value = UnitCode.charAt(1)
-			}
+				//console.log("LevelChange")
+			let UnitCode = $('#unitCode').val() == "" ? "00" : $('#unitCode').val()
+			if (UnitCode.length == 1)
+				UnitCode = "0" + UnitCode
 			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = $('#TypeCode').text()
+			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).value = UnitCode.charAt(0)
+			document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).value = UnitCode.charAt(1)
+
 			@{
 				//if (change != "") {
 				//	if (change.length == 1)
@@ -437,9 +475,9 @@
 			startIn += 3
 		}
 		if (ISLevelChange) {
-			console.log("Delete From:" + startIn)
+			//console.log("Delete From:" + startIn)
 			for (startIn; startIn <= 15; startIn++) {
-				console.log(startIn)
+				//console.log(startIn)
 				document.querySelector(`#CodeGenrateDiv input:nth-of-type(${startIn})`).value = "0"
 			}
 		}
@@ -453,6 +491,57 @@
 				return c.value + a.value
 		})
 		$('#RefNum').val(BuildNumber)
+		ValidateCode()
+	}
+	$(document).ready(ssss => {
+		$.ajax({
+			url: `/Units/getUnitTypes?id=${$('#LEVEID option:selected').val()}`, success: function (e) {
+				UnitTypes = e;
+			}, error: function (ee) {
+				//console.log("error", ee)
+			}
+		})
+		$('#submitUnit').click(e => {
+			Swal.fire({
+			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حفظ هذه الفئة؟" : "Are you sure To Save this unit?")",
+			text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق , احفظ الفئة" : "Yes, Save it!")",
+			cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+		}).then(function (result) {
+			if (result.value)
+				$('#saveUnit').click();
+		});
+		})
+	})
+</script>
+<script>
+	function ValidateCode() {
+		$.ajax({
+			url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}`, method: "POST", success: function (data) {
+				if (!data['success'])
+					LaunchErrorHandelare();
+			}, error: function () {
+				LaunchErrorHandelare();
+			}
+		})
+	}
+	//$('#unitCode').on('change', e => ValidateCode());
+
+	function LaunchErrorHandelare() {
+		$('#unitCode').val($('#defCode').val())
+		Swal.fire({
+			title: "@( Request.Cookies["lang"].Value == "ar" ? "لا يمكن استخدام هذا الرقم" : "You Can't Use this Code.")",
+			icon: "warning",
+			focusConfirm: true,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق" : "Ok")",
+		});
 	}
 </script>
 <!-- end row -->

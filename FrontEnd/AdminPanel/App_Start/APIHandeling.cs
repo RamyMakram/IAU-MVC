@@ -145,7 +145,7 @@ namespace AdminPanel
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
             h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.BaseAddress = new Uri(domainName);
-
+            h.Timeout= TimeSpan.FromMinutes(10);
             var res = h.PostAsJsonAsync("/api/" + apiName, obj).Result;
             return res;
         }

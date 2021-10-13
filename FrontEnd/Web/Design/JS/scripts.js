@@ -254,7 +254,7 @@ $("#right-arrow").click(function () {
 				}
 			});
 			///required files
-			if (supporteddocs.length != uploadfiles.length) {
+			if (supporteddocs.length > uploadfiles.length) {
 				let e = $('#upload-area');
 				e.css({ 'border': '2px solid red', 'background': '#ffafaf' });
 				error = true;
@@ -757,6 +757,7 @@ function GetSubServices(ID) {
 		success: function (result) {
 			if (result != null) {
 				let data = JSON.parse(result)
+				uploadfiles = [];
 				SubServices = data;
 				$("#Sub_Services_ID").removeAttr("disabled");
 				$("#Sub_Services_ID").html(language == "ar" ? "<option disabled selected value='null'>اختر-----------------</option>" : "<option disabled selected value='null'>Select-----------------</option>")
@@ -1019,7 +1020,7 @@ function GeneratePdfData() {
 		't-region': 'Region',
 		't-country': 'Country',
 		't-postal': 'Postal Code',
-		't-contactinfo': 'Conatct Information',
+		't-contactinfo': 'Contact Information',
 		't-email': 'Email',
 		't-phone': 'Mobile Phone',
 		't-attachment': 'Attachments',

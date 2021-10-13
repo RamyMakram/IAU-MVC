@@ -10,6 +10,25 @@
 	<link rel="stylesheet" href="~/Design/CSS/style.css" />
 	<meta name="description" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
 	<meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
+	@if (ViewBag.CookieLang == "ar")
+	{
+		<style>
+			.containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
+				letter-spacing: normal !important;
+			}
+
+			a.nav-link {
+				font-weight: bold;
+				font-size: 19px;
+			}
+
+			.mainservice p, .requesttype p {
+				font-size: 18px !important;
+				font-weight: bold !important;
+			}
+		</style>
+		<link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
+	}
 </head>
 
 <body class="@ViewBag.CookieLang">
@@ -25,64 +44,118 @@
 				</span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    @if (ViewBag.CookieLang == "ar")
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "IAU-BSC | Main"? "active" : "")" href="~/Main">الرئيسية</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home">تقديم/متابعة طلب</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Coordinator">المنسقين</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">المساعدة والدعم الفنى</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "IAU-BSC | Main"? "active" : "")" href="~/Main/Index">Main</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home/Index">Submit/Follow-up</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="~/Coordinator">Coordinator</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">help and support</a>
-                        </li>
-                    }
-                    <li id="nav-contact" style="display:none;">
-                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
-                    </li>
-                    <li id="nav-lang" style="display:none;">
-                        <a class="nav-link"
-                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
-													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
-                            @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
-                        </a>
-                    </li>
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					@if (ViewBag.CookieLang == "ar")
+					{
+						<li class="nav-item">
+							<a class="nav-link @(Request.Url.ToString().Contains("Main")?"active":"")" href="~/Main/Index">الرئيسية</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link @(Request.Url.ToString().Contains("Home") ||Request.Url.ToString().Contains("Follow")?"active":"")" aria-current="page" href="~/Home/Index">تقديم/متابعة طلب</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link @(Request.Url.ToString().Contains("Coordinator")?"active":"")" href="~/Coordinator">المنسقين</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">المساعدة والدعم الفنى</a>
+						</li>
+					}
+					else
+					{
+						<li class="nav-item">
+							<a class="nav-link @(Request.Url.ToString().Contains("Main")?"active":"")" href="~/Main/Index">Main</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link @(Request.Url.ToString().Contains("Home")||Request.Url.ToString().Contains("Follow")?"active":"")" aria-current="page" href="~/Home/Index">Submit/Follow-up</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link @(Request.Url.ToString().Contains("Coordinator")?"active":"")" href="~/Coordinator">Coordinator</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">help and support</a>
+						</li>
 
-                </ul>
+					}
+					<li id="nav-contact" style="display:none;">
+						<a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+					</li>
+					<li id="nav-lang" style="display:none;">
+						<a class="nav-link"
+						   href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
+													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
+							@(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+						</a>
+					</li>
+
+				</ul>
 				<div class="vision">
-                    <div>
-                        @if (ViewBag.CookieLang == "ar")
-                        {
-                            <button>اتصل بنا</button>
-                        }
-                        else
-                        {
-                            <button>Contact</button>
-                        }
-                        @Html.Partial("~/Views/Shared/_Language.cshtml")
-                    </div>
+					<div>
+						<button>@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</button>
+						@Html.Partial("~/Views/Shared/_Language.cshtml")
+					</div>
 					<img src="~/Design/img/VisionLogo2.png">
 				</div>
 			</div>
+			@*<div class="collapse navbar-collapse" id="navbarText">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						@if (ViewBag.CookieLang == "ar")
+						{
+							<li class="nav-item">
+								<a class="nav-link @(ViewBag.title == "IAU-BSC | Main"? "active" : "")" href="~/Main">الرئيسية</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home">تقديم/متابعة طلب</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="~/Coordinator">المنسقين</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">المساعدة والدعم الفنى</a>
+							</li>
+						}
+						else
+						{
+							<li class="nav-item">
+								<a class="nav-link @(ViewBag.title == "IAU-BSC | Main"? "active" : "")" href="~/Main/Index">Main</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link @(ViewBag.title == "Request"?"active":"")" aria-current="page" href="~/Home/Index">Submit/Follow-up</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="~/Coordinator">Coordinator</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">help and support</a>
+							</li>
+						}
+						<li id="nav-contact" style="display:none;">
+							<a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+						</li>
+						<li id="nav-lang" style="display:none;">
+							<a class="nav-link"
+							   href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
+														: Url.Action("ChangeLang","Home",new { lang="ar"}))>
+								@(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+							</a>
+						</li>
+
+					</ul>
+					<div class="vision">
+						<div>
+							@if (ViewBag.CookieLang == "ar")
+							{
+								<button>اتصل بنا</button>
+							}
+							else
+							{
+								<button>Contact</button>
+							}
+							@Html.Partial("~/Views/Shared/_Language.cshtml")
+						</div>
+						<img src="~/Design/img/VisionLogo2.png">
+					</div>
+				</div>*@
+
 		</div>
 	</nav>
 	<div class="container body-content">

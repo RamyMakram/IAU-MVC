@@ -1,6 +1,8 @@
 ﻿@font-face {
-	font-family: "Frutiger";
-	src: url("../webfonts/fru/frutiger-normal-5871d13e09363.ttf");
+	font-family: 'Frutiger LT Arabic 55 Roman';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Frutiger LT Arabic 55 Roman'), url('../webfonts/FrutigerLTArabic55Roman.woff') format('woff');
 }
 
 @font-face {
@@ -18,6 +20,7 @@ html,
 body {
 	height: 100%;
 	background-color: #0a1332;
+	font-family: 'Frutiger LT Arabic 55 Roman';
 }
 
 .navbar-brand {
@@ -394,7 +397,7 @@ nav {
 			color: #fff;
 			padding: 5px 10px;
 			text-transform: uppercase;
-			font-size: 15.5px;
+			font-size: 14.5px;
 		}
 
 .ar #Documents-Inquery #Documents .row > .col-md-3:nth-of-type(1),
