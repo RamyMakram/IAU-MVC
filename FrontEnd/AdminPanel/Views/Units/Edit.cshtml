@@ -240,7 +240,7 @@
 								<label class="control-label" key="t-title-Unitcode" for="Ename">UnitCode</label>
 
 								<!--<input class="form-control" value="@Model.Code" id="unitCode" disabled readonly--> @*onkeyup="UnitCodeChange(false, event.target.value==''?'0':event.target.value)"*@ <!--/>-->
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control en-font", @name = "unitCode", @maxlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q=>q.Value==Model.LevelID.ToString()).Value.Split('-')[0]=="1"? "1":"2", @id = "unitCode", @onkeyup = "UnitCodeChange(false, event.target.value==''?'0':event.target.value,true)" })
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control en-font", @name = "unitCode", @maxlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q => q.Value == Model.LevelID.ToString()).Value.Split('-')[0] == "1" ? "1" : "2", @id = "unitCode", @onkeyup = "UnitCodeChange(false, event.target.value==''?'0':event.target.value,true)" })
 								@*<label class="valid-feedback" id="UnitCodeFeedback" style="color:red;">@(Request.Cookies["lang"]?.Value=="ar"?"عذرا،هذا الرقم مستخدم":"Sorry,this code is Used")</label>*@
 							</div>
 
@@ -405,7 +405,7 @@
 		UnitCodeChange(true);
 		//console.log("Local:" + $('#RefNum').val())
 		$.ajax({
-			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&Unit_Code=${$('#unitCode').val()}&t_code=${$('#TypeCode').text()}&lvl=${$('#LEVEID option:selected').val()}`, success: function (dd) {
+			url: `/Units/GetCode?code=${$('#RefNum').val()}&id=${val}&Unit_Code=${$('#unitCode').val()}&t_code=${$('#TypeCode').text()}&lvl=${$('#LEVEID option:selected').val()}&locationID=${$('#LocationIDSelect').val()}`, success: function (dd) {
 				//console.log(dd, JSON.parse(dd)["Code"], JSON.parse(dd)["Code"].split(''));
 				let Code = JSON.parse(dd)["Code"].split('');
 				([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
@@ -415,13 +415,13 @@
 				let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1;
 				if (isNaN(index))
 					index = $("#LEVEID").text().split(' - ')[1] - 1;
-					let startIn = 3 + (index == 0 ? 1 : index * 3);
+				let startIn = 3 + (index == 0 ? 1 : index * 3);
 					//startIn += 1;
 				if (index == 0) {
-					$('#unitCode').val("0")
+					$('#unitCode').val(Code[startIn + 1])
 				}
 				else {
-					$('#unitCode').val("00")
+					$('#unitCode').val(Code[startIn + 1] + Code[startIn + 2])
 				}
 				$('#RefNum').val(JSON.parse(dd)["Code"])
 			}

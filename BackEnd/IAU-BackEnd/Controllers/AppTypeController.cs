@@ -14,7 +14,20 @@ namespace IAU_BackEnd.Controllers
 		private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
 		public IHttpActionResult GetActive(int SID, int ReqType)
 		{
-			return Ok(new ResponseClass() { success = true, result = p.ValidTo.Where(q => q.Main_Services.IS_Action.Value && q.Main_Services.ServiceTypeID == SID && q.Applicant_Type.IS_Action.Value && q.Main_Services.UnitMainServices.Count(w => w.Units.Units_Request_Type.Count(s => s.Request_Type_ID == ReqType) != 0 && w.Units.IS_Action.Value) != 0).Select(q => q.Applicant_Type).Distinct() });
+			var req = p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == ReqType && q.Request_Type_Name_EN.ToLower().Contains("inq"));
+			var data = p.ValidTo.Where(q =>
+			q.Main_Services.IS_Action.Value &&
+			q.Main_Services.ServiceTypeID == SID &&//get main service
+			q.Applicant_Type.IS_Action.Value &&
+			(req == null ? true : q.Main_Services.Sub_Services.Any(g => g.IS_Action.Value)) &&//check inquiry for sub service
+			q.Main_Services.UnitMainServices.Count(w =>//check if main service exist in unit main service
+				w.Units.IS_Action.Value &&//check if unit is active
+				w.Units.Units_Request_Type.Count(s =>//check request type
+					s.Request_Type_ID == ReqType
+					) != 0
+				) != 0
+			).Select(q => q.Applicant_Type).Distinct();
+			return Ok(new ResponseClass() { success = true, result = data });
 		}
 	}
 }

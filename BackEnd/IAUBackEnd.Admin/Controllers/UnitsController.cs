@@ -85,7 +85,7 @@ namespace IAUBackEnd.Admin.Controllers
 		public async Task<IHttpActionResult> Update(Units units)
 		{
 			var db = new MostafidDBEntities();
-			var data = db.Units.Include(q => q.Units_Type).Include(q => q.Units_Request_Type).Include(q => q.UnitServiceTypes).FirstOrDefault(q => q.Units_ID == units.Units_ID);
+			var data = db.Units.Include(q => q.Units_Type).Include(q => q.Units_Location).Include(q => q.Units_Request_Type).Include(q => q.UnitServiceTypes).FirstOrDefault(q => q.Units_ID == units.Units_ID);
 			if (!ModelState.IsValid || data == null)
 				return Ok(new ResponseClass() { success = false, result = ModelState });
 			var trans = db.Database.BeginTransaction();
@@ -93,7 +93,7 @@ namespace IAUBackEnd.Admin.Controllers
 			{
 				data.Units_Name_AR = units.Units_Name_AR;
 				data.Units_Name_EN = units.Units_Name_EN;
-				data.Units_Location_ID = units.Units_Location_ID;
+
 				data.Building_Number = units.Building_Number;
 				data.Ref_Number = units.Ref_Number;
 				if (data.LevelID != units.LevelID && CanChangeLevel(data.Units_ID))
@@ -107,25 +107,41 @@ namespace IAUBackEnd.Admin.Controllers
 				data.ServiceTypeID = units.ServiceTypeID;
 				bool reArrange = units.Code != data.Code;
 				await db.SaveChangesAsync();
-				if (reArrange && CheckCodeAvab(units.Code, data.Units_ID, data.LevelID.Value))
+				if (reArrange || data.Units_Type_ID != units.Units_Type_ID || data.SubID != units.SubID || data.Units_Location_ID != units.Units_Location_ID)
 				{
 					data.Code = units.Code;
+					string UnitTypeCode = "";
+					int? ParentUnit = null;
+					int? LocationID = null;
+					if (data.Units_Type_ID != units.Units_Type_ID)
+					{
+						data.Units_Type_ID = units.Units_Type_ID;
+						UnitTypeCode = db.Units_Type.First(q => q.Units_Type_ID == units.Units_Type_ID).Code;
+					}
+					else
+						UnitTypeCode = data.Units_Type.Code;
+					if (data.SubID != units.SubID)
+					{
+						data.SubID = units.SubID;
+						ParentUnit = units.SubID;
+					}
+					else
+						ParentUnit = data.SubID;
+
+					if (data.Units_Location_ID != units.Units_Location_ID)
+					{
+						data.Units_Location_ID = units.Units_Location_ID;
+						LocationID = units.Units_Location_ID;
+					}
+					else
+						LocationID = data.Units_Location_ID;
 					char[] GenrateCode = units.Ref_Number.ToCharArray();
-					GetCodeInternal(ref GenrateCode, data.SubID, units.Code, data.Units_Type.Code[0], data.LevelID.Value, data.Units_ID);
+					GetCodeInternal(ref GenrateCode, ParentUnit, units.Code, UnitTypeCode[0], data.LevelID.Value, LocationID.Value, data.Units_ID);
 					var code = string.Join("", GenrateCode).Replace('x', '0');
 					data.Ref_Number = code;
 					await db.SaveChangesAsync();
-					if (!ReArrange(data.Units_ID))
+					if (CheckCodeAvab(units.Code, data.Units_ID, data.LevelID.Value, db) && !ReArrange(data.Units_ID))
 						throw new Exception("REA");
-				}
-				if ((units.SubID != 0 && units.SubID != null && data.SubID != units.SubID) || data.Units_Type_ID != units.Units_Type_ID)
-				{
-					data.SubID = units.SubID;
-					data.Units_Type_ID = units.Units_Type_ID;
-					var UnitType = db.Units_Type.First(q => q.Units_Type_ID == units.Units_Type_ID).Code;
-					char[] GenrateCode = units.Ref_Number.ToCharArray();
-					GetCodeInternal(ref GenrateCode, units.SubID.Value, units.Code, UnitType[0], units.LevelID.Value);
-					data.Ref_Number = string.Join("", GenrateCode).Replace('x', '0'); ;
 				}
 				await db.SaveChangesAsync();
 
@@ -168,13 +184,13 @@ namespace IAUBackEnd.Admin.Controllers
 				}
 				return true;
 			}
-			void GetCodeInternal(ref char[] _code, int? SubUnitID, string unitCode, char UnittypeCode, int Level, int? unitID = null)
+			void GetCodeInternal(ref char[] _code, int? SubUnitID, string unitCode, char UnittypeCode, int Level, int LocationID, int? unitID = null)
 			{
 				var queryID = (SubUnitID ?? unitID).Value;
 				Units Unit = db.Units.Include(q => q.Units_Location).FirstOrDefault(q => q.Units_ID == queryID);
 				if (SubUnitID == null)
 				{
-					var firstpart = "043" + Unit.Units_Location.Units_Location_Name_AR.Split('-')[0].Replace(" ", "") + UnittypeCode + unitCode;
+					var firstpart = "043" + LocationID.ToString() + UnittypeCode + unitCode;
 					_code = (firstpart + string.Join("", Enumerable.Range(0, 15 - firstpart.Length).Select(q => "0").ToArray())).ToCharArray();
 					return;
 				}
@@ -194,6 +210,7 @@ namespace IAUBackEnd.Admin.Controllers
 				{
 					if (unitCode.Length < 2)
 						unitCode = "00";
+					_code[3] = LocationID.ToString()[0];
 					_code[index] = UnittypeCode;
 					_code[index + 1] = unitCode[0];
 					_code[index + 2] = unitCode[1];
@@ -223,33 +240,44 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> Create(Units units)
 		{
-			if (!ModelState.IsValid)
-				return Ok(new ResponseClass() { success = false, result = ModelState });
-			units.IS_Action = true;
+			var db = new MostafidDBEntities();
+			var trans = db.Database.BeginTransaction(IsolationLevel.ReadUncommitted);
+			try
+			{
+				if (!ModelState.IsValid)
+					return Ok(new ResponseClass() { success = false, result = ModelState });
+				units.IS_Action = true;
+				db.Units.Add(units);
+				await db.SaveChangesAsync();
+				char[] GenrateCode = units.Ref_Number.ToCharArray();
+				//if (units.SubID != 0 && units.SubID != null)
+				var UnitTypecode = db.Units_Type.First(q => q.Units_Type_ID == units.Units_Type_ID).Code;
+				GetCode(ref GenrateCode, units.SubID, units.Code, UnitTypecode[0], units.LevelID.Value, units.Units_Location_ID.Value, units.Units_ID, db);
+				units.Ref_Number = string.Join("", GenrateCode).Replace('x', '0');
 
-			char[] GenrateCode = units.Ref_Number.ToCharArray();
-			if (units.SubID != 0 && units.SubID != null)
-				GetCode(ref GenrateCode, units.SubID.Value, units.Code, units.Units_Type.Code[0], units.LevelID.Value);
-			units.Ref_Number = string.Join("", GenrateCode).Replace('x', '0');
-
-			p.Units.Add(units);
-			await p.SaveChangesAsync();
-
-			return Ok(new ResponseClass() { success = true });
+				await db.SaveChangesAsync();
+				trans.Commit();
+				return Ok(new ResponseClass() { success = true });
+			}
+			catch (Exception ee)
+			{
+				trans.Rollback();
+				return Ok(new ResponseClass() { success = false });
+			}
 		}
 
 		[HttpGet]
-		public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID, string UCode, string typecode, int Level)
+		public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID, string UCode, string typecode, int loc, int Level)
 		{
 			char[] GenrateCode = Ref_Number.ToCharArray();
 			if (SubID != 0 && SubID != null)
-				GetCode(ref GenrateCode, SubID.Value, UCode, typecode[0], Level);
+				GetCode(ref GenrateCode, SubID.Value, UCode, typecode[0], Level, loc);
 			var code = string.Join("", GenrateCode);
 			return Ok(new ResponseClass() { success = true, result = new { Code = code } });
 		}
-		private bool CheckCodeAvab(string code, int unitid, int level)
+		private bool CheckCodeAvab(string code, int? unitid, int level, MostafidDBEntities db = null)
 		{
-			var data = p.Units.Count(q => q.Units_ID != unitid && q.Code == code && q.LevelID == level);
+			var data = (db ?? new MostafidDBEntities()).Units.Count(q => q.Units_ID != (unitid ?? 0) && q.Code == code && q.LevelID == level);
 			return data == 0;
 		}
 		private bool CanChangeLevel(int unitid)
@@ -259,46 +287,41 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IHttpActionResult> _CheckEnteredCode(string code, int unitid, int level) => Ok(new ResponseClass() { success = CheckCodeAvab(code, unitid, level) });
+		public async Task<IHttpActionResult> _CheckEnteredCode(string code, int? unitid, int level) => Ok(new ResponseClass() { success = CheckCodeAvab(code, unitid, level) });
 
-		private void GetCode(ref char[] _code, int? SubUnitID, string unitCode, char UnittypeCode, int Level, int? unitID = null)
+		private void GetCode(ref char[] _code, int? SubUnitID, string unitCode, char UnittypeCode, int Level, int LocationID, int? unitID = null, MostafidDBEntities p = null)
 		{
-			try
+			if (p == null)
+				p = new MostafidDBEntities();
+			var queryID = (SubUnitID ?? unitID).Value;
+			Units Unit = p.Units.Include(q => q.Units_Location).FirstOrDefault(q => q.Units_ID == queryID);
+			if (SubUnitID == null)
 			{
-				var db = new MostafidDBEntities();
-				var queryID = (SubUnitID ?? unitID).Value;
-				Units Unit = db.Units.Include(q => q.Units_Location).FirstOrDefault(q => q.Units_ID == queryID);
-				if (SubUnitID == null)
-				{
-					var firstpart = "043" + Unit.Units_Location.Units_Location_Name_AR.Split('-')[0].Replace(" ", "") + UnittypeCode + unitCode;
-					_code = (firstpart + string.Join("", Enumerable.Range(0, 15 - firstpart.Length).Select(q => "0").ToArray())).ToCharArray();
-					return;
-				}
-				var UnitLevel = db.UnitLevel.FirstOrDefault(q => q.ID == Level);
-				_code = Unit.Ref_Number.ToCharArray();
-				int levelCode = Convert.ToInt32(UnitLevel.Code) - 1;
-				var index = 3 + (levelCode == 0 ? 1 : levelCode * 3);
-				if (levelCode == 0)
-				{
-					if (unitCode.Length > 1)
-						unitCode = "0";
-					_code[index] = UnittypeCode;
-					_code[index + 1] = unitCode[0];
-					return;
-				}
-				else
-				{
-					if (unitCode.Length < 2)
-						unitCode = "00";
-					_code[index] = UnittypeCode;
-					_code[index + 1] = unitCode[0];
-					_code[index + 2] = unitCode[1];
-					return;
-				}
+				var firstpart = "043" + LocationID.ToString()[0] + UnittypeCode + unitCode;
+				_code = (firstpart + string.Join("", Enumerable.Range(0, 15 - firstpart.Length).Select(q => "0").ToArray())).ToCharArray();
+				return;
 			}
-			catch (Exception ee)
+			var UnitLevel = p.UnitLevel.FirstOrDefault(q => q.ID == Level);
+			_code = Unit.Ref_Number.ToCharArray();
+			int levelCode = Convert.ToInt32(UnitLevel.Code) - 1;
+			var index = 3 + (levelCode == 0 ? 1 : levelCode * 3);
+			if (levelCode == 0)
 			{
-				_code = "".ToCharArray();
+				if (unitCode.Length > 1)
+					unitCode = "0";
+				_code[index] = UnittypeCode;
+				_code[index + 1] = unitCode[0];
+				return;
+			}
+			else
+			{
+				if (unitCode.Length < 2)
+					unitCode = "00";
+				_code[3] = LocationID.ToString()[0];
+				_code[index] = UnittypeCode;
+				_code[index + 1] = unitCode[0];
+				_code[index + 2] = unitCode[1];
+				return;
 			}
 		}
 

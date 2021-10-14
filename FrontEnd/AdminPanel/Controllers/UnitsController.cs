@@ -297,17 +297,17 @@ namespace AdminPanel.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetCode(string code, int id, string Unit_Code, string t_code,int lvl)
+		public JsonResult GetCode(string code, int id, string Unit_Code, string t_code,int lvl,int locationID)
 		{
 			Console.WriteLine(code + "  " + id);
-			var Data = APIHandeling.getData($"Units/GenrateCode?Ref_Number={code}&SubID={id}&UCode={Unit_Code}&typecode={t_code}&Level={lvl}");
+			var Data = APIHandeling.getData($"Units/GenrateCode?Ref_Number={code}&SubID={id}&UCode={Unit_Code}&typecode={t_code}&Level={lvl}&loc={locationID}");
 			var resJson = Data.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			Console.WriteLine(res.result + "  ");
 			return Json(res.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 		[HttpPost]
-		public JsonResult CheckCode(string code,int uID, int levelID)
+		public JsonResult CheckCode(string code,int? uID, int levelID)
 		{
 			var Data = APIHandeling.Post($"Units/_CheckEnteredCode?code={code}&unitid={uID}&level={levelID}", new { });
 			var resJson = Data.Content.ReadAsStringAsync();

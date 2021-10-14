@@ -311,7 +311,7 @@
 								 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
 							<p>
 								@{
-									var names = (isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN).Replace(" ","\n");
+									var names = (isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN).Replace(" ", "\n");
 									@Html.Raw(names);
 								}
 
@@ -421,7 +421,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row required-field">
+								<div class="row">
 									<div class="col-md-5">
 										<label>الاسم الأوسط</label>
 									</div>
@@ -690,7 +690,7 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-lg-4">
-								<div class="row required-field">
+								<div class="row">
 									<div class="col-md-5">
 										<label>Middle name</label>
 									</div>
@@ -833,7 +833,7 @@
 										<input type="text" id="City_Country_1" name="City_Country_1">
 									</div>
 								</div>
-								<div class="row required-field">
+								<div class="row">
 									<div class="col-md-5">
 										<label>Postal Code</label>
 									</div>
@@ -1197,7 +1197,7 @@
 							<div class="col-md-12">
 								<ol style="margin:10px 0px">
 									<li>
-										يرجى <span> مراجعة الطلب</span>  إذا كان معرف الطلب الخاص بك غير مكتمل و / أو كنت بحاجة إلى تصحيح أي أخطاء ، يرجى النقر فوق
+										يرجى <span> مراجعة الطلب</span>  إذا كان الطلب الخاص بك غير مكتمل أو كنت بحاجة إلى تصحيح أي أخطاء ، يرجى النقر فوق
 										<span> السابق</span> وإكمال ما هو ضروري. إذا كنت راضيًا عن المعلومات التي أدخلتها ، فيرجى النقر فوق <span>إرسال</span>
 
 										<div id="padf" class="pdfnotloaded">
@@ -1217,21 +1217,21 @@
 				}
 				else
 				{
-					<p> !Your Request Has Not Submited Yet</p>
+					<p>Your Request Has Not Submitted Yet!</p>
 					<div id="Confirmation">
 						<div class="row" id="pdfpreview">
 							<div class="col-md-12">
 								<ol style="margin:10px 0px">
 									<li>
-										Please <span>review request</span>  If your request id incomplete and/or you need to correct any errors, please click
-										<span>previous</span> and complete what is necessary. If you are satisfied with the information you entered, please click <span>SUBMIT</span>
+										Please <span>review request</span>  If your request is incomplete or you need to correct any errors, please click
+										<span>previous</span> and complete what is necessary. If you are satisfied with the information you entered, please click <span>SUBMIT</span>.
 
 										<div id="padf" class="pdfnotloaded">
 
 										</div>
 									</li>
 									<li>
-										click the <span>submit</span> button wher you're ready to submit
+										Click the <span>submit</span> button where you're ready to submit.
 										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
 											<button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
 										</div>

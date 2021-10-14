@@ -1006,12 +1006,12 @@ function GeneratePdfData() {
 		't-reqtype': 'Request Type',
 		't-personalData': 'Personal Data',
 		't-genralInfo': 'General Information',
-		't-IAUAff': 'IAU Affliated',
+		't-IAUAff': 'IAU Affiliated',
 		't-applicanttype': 'Applicant Type',
 		't-firstname': 'First Name',
 		't-middlename': 'Middle Name',
 		't-lastname': 'Last Name',
-		't-nationalty': 'Nationalty',
+		't-nationalty': 'Nationality',
 		't-country': 'Country',
 		't-iddoc': 'ID Document',
 		't-idnumber': 'ID Number',
@@ -1121,12 +1121,14 @@ function GeneratePdfData() {
 					<th class="col-6" key="t-phone"></th>
 					<th class="col-6">${Form["Mobile"]}</th>
 				</tr>
-				<tr>
+                ${(Form["file_names"].splice(',').length == 0) ? "" :
+				`<tr>
 					<th class="boldtitle" key="t-attachment"></th>
 				</tr>
 				<tr class="row" style="display:inline-flex">
 					<th class="col-12 FilesINPDF">${FilesDiv}</th>
-				</tr>
+				</tr>`
+				}
 			</tbody>
 		</table>
 
