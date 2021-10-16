@@ -5,14 +5,24 @@
 	@{
 		if (Request.Cookies["lang"].Value == "ar")
 		{
+			@*<style>
+					body {
+						font-family: 'DroidArabicKufiRegular' !important;
+						font-weight: bolder !important;
+					}
+
+					.select2-selection__rendered, .select2-results__option {
+						direction: rtl;
+					}
+				</style>*@
 			<style>
 				body {
-					font-family: 'DroidArabicKufiRegular' !important;
+					font-family: 'Frutiger LT Arabic 55 Roman' !important;
 					font-weight: bolder !important;
 				}
 
 				.select2-selection__rendered, .select2-results__option {
-					direction: rtl;
+					direction: ltr;
 				}
 			</style>
 		}
@@ -141,7 +151,7 @@
 			if (c == "none")
 				window.location.href = url
 		}
-		
+
 	</script>
 	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
 	@RenderSection("styles", false)

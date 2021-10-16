@@ -112,7 +112,7 @@ namespace AdminPanel.Controllers
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			var Levels = JsonConvert.DeserializeObject<ICollection<UnitLevelDTO>>(res.result.ToString());
-			ViewBag.Levels = Levels.ToList().ConvertAll(q => { return new SelectListItem() { Value = q.ID.ToString(), Text = (isar ? q.Name_AR : q.Name_EN) + " - " + q.Code, Selected = false }; });
+			ViewBag.Levels = Levels.ToList().ConvertAll(q => { return new SelectListItem() { Value = q.ID.ToString(), Text = q.Code + " - " + (isar ? q.Name_AR : q.Name_EN), Selected = false }; });
 			Data = APIHandeling.getData("Service_Type/GetActiveService_TypeCharList");
 			resJson = Data.Content.ReadAsStringAsync();
 			res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -297,7 +297,7 @@ namespace AdminPanel.Controllers
 		}
 
 		[HttpGet]
-		public JsonResult GetCode(string code, int id, string Unit_Code, string t_code,int lvl,int locationID)
+		public JsonResult GetCode(string code, int id, string Unit_Code, string t_code, int lvl, int locationID)
 		{
 			Console.WriteLine(code + "  " + id);
 			var Data = APIHandeling.getData($"Units/GenrateCode?Ref_Number={code}&SubID={id}&UCode={Unit_Code}&typecode={t_code}&Level={lvl}&loc={locationID}");
@@ -307,7 +307,7 @@ namespace AdminPanel.Controllers
 			return Json(res.result.ToString(), JsonRequestBehavior.AllowGet);
 		}
 		[HttpPost]
-		public JsonResult CheckCode(string code,int? uID, int levelID)
+		public JsonResult CheckCode(string code, int? uID, int levelID)
 		{
 			var Data = APIHandeling.Post($"Units/_CheckEnteredCode?code={code}&unitid={uID}&level={levelID}", new { });
 			var resJson = Data.Content.ReadAsStringAsync();

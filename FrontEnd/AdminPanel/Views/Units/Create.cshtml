@@ -326,7 +326,7 @@
 				if (!data['success'])
 					LaunchErrorHandelare();
 				else {
-					let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1
+					let index = $("#LEVEID option:selected").text().split(' - ')[0] - 1
 					//debugger
 					let startIn = 3 + (index == 0 ? 1 : index * 3);
 					startIn += 1;

@@ -60,7 +60,7 @@
 								</td>
 								<td>@Html.ActionLink("Home", "Home", "SubServices", new { MainService = i.Main_Services_ID, SharedVal = (Request.Cookies["lang"].Value == "ar" ? i.Main_Services_Name_AR : i.Main_Services_Name_EN) }, new { @class = "btn btn-primary", @key = "t-subservices" })</td>
 								<td>
-									@Html.ActionLink("Edit", "Edit", new { Id = i.Main_Services_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+									@Html.ActionLink((Request.Cookies["lang"].Value == "ar" ? "تعديل" : "Edit"), "Edit", new { Id = i.Main_Services_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 									@{
 										if (ShowDelete)
 										{
