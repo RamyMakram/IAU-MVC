@@ -224,8 +224,10 @@
     <Content Include="Design\img\Picture7.jpg" />
     <Content Include="Design\img\Picture8.png" />
     <Content Include="Design\img\Picture9.png" />
+    <Content Include="Design\img\PROCESS.png" />
     <Content Include="Design\img\reader.png" />
     <Content Include="Design\img\spinner1.gif" />
+    <Content Include="Design\img\stage 2 administrative level.png" />
     <Content Include="Design\img\VisionLogo.png" />
     <Content Include="Design\img\VisionLogo2.png" />
     <Content Include="Design\JS\AraTranslate.js" />

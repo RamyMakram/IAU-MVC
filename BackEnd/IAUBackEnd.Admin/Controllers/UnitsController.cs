@@ -105,10 +105,10 @@ namespace IAUBackEnd.Admin.Controllers
 				db.UnitServiceTypes.RemoveRange(data.UnitServiceTypes);
 				data.UnitServiceTypes = units.UnitServiceTypes;
 				data.ServiceTypeID = units.ServiceTypeID;
-				bool reArrange = units.Code != data.Code;
 				await db.SaveChangesAsync();
-				if (reArrange || data.Units_Type_ID != units.Units_Type_ID || data.SubID != units.SubID || data.Units_Location_ID != units.Units_Location_ID)
+				if (units.Code != data.Code || data.Units_Type_ID != units.Units_Type_ID || data.SubID != units.SubID || data.Units_Location_ID != units.Units_Location_ID)
 				{
+					//if code,unittype,subuint,location change
 					data.Code = units.Code;
 					string UnitTypeCode = "";
 					int? ParentUnit = null;
