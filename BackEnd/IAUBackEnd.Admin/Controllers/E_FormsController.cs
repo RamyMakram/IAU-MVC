@@ -68,11 +68,11 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass() { success = false, result = ModelState });
 			try
 			{
-				var path = HttpContext.Current.Server.MapPath("~");
-				var FilePath = Path.Combine("E-Forms", e_Forms.Name_EN + "_" + e_Forms.FileName);
-				p.E_Forms.Add(new E_Forms() { IS_Action = true, Name = e_Forms.Name, Name_EN = e_Forms.Name_EN, SubServiceID = e_Forms.SubServiceID, Path = FilePath.Replace('\\', '/') });
-				File.WriteAllBytes(Path.Combine(path, FilePath), Convert.FromBase64String(e_Forms.Base64));
-				await p.SaveChangesAsync();
+				//var path = HttpContext.Current.Server.MapPath("~");
+				//var FilePath = Path.Combine("E-Forms", e_Forms.Name_EN + "_" + e_Forms.FileName);
+				//p.E_Forms.Add(new E_Forms() { IS_Action = true, Name = e_Forms.Name, Name_EN = e_Forms.Name_EN, SubServiceID = e_Forms.SubServiceID });
+				//File.WriteAllBytes(Path.Combine(path, FilePath), Convert.FromBase64String(e_Forms.Base64));
+				//await p.SaveChangesAsync();
 				return Ok(new ResponseClass() { success = true });
 			}
 			catch (Exception ee)

@@ -22,6 +22,15 @@
           <Property Name="Authority_Holder_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="Authority_Holder_Name_EN" Type="nvarchar" MaxLength="250" />
         </EntityType>
+        <EntityType Name="CheckBox_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_EN" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="City_ID" />
@@ -80,9 +89,19 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Path" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="SubServiceID" Type="int" Nullable="false" />
           <Property Name="IS_Action" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E-Forms_Answer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Person_ID" Type="int" Nullable="false" />
+          <Property Name="Question_ID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FillDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -125,6 +144,17 @@
           <Property Name="Document_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Document_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+        </EntityType>
+        <EntityType Name="Input_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Question_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question_ID" Type="int" Nullable="false" />
+          <Property Name="IsNumber" Type="bit" Nullable="false" />
+          <Property Name="Placeholder" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Placeholder_EN" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -255,6 +285,28 @@
           <Property Name="Purchase_Order_Form_ID" Type="int" />
           <Property Name="IS_Action" Type="bit" />
         </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EForm_ID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="LableName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LableName_EN" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Requird" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Radio_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_EN" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Region">
           <Key>
             <PropertyRef Name="Region_ID" />
@@ -366,7 +418,7 @@
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_File_Sent_Them' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Statement_Department_File_Sent_Them">
           <Key>
             <PropertyRef Name="Statement_Department_File_Sent_Them_ID" />
@@ -517,6 +569,18 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="MainServiceID" Type="int" Nullable="false" />
           <Property Name="ApplicantTypeID" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_CheckBox_Type_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="CheckBox_Type" Type="Self.CheckBox_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CheckBox_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_City_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -565,6 +629,30 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_E-Forms_Answer_Personel_Data">
+          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="1" />
+          <End Role="E-Forms_Answer" Type="Self.E-Forms_Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel_Data">
+              <PropertyRef Name="Personel_Data_ID" />
+            </Principal>
+            <Dependent Role="E-Forms_Answer">
+              <PropertyRef Name="Person_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_E-Forms_Answer_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="E-Forms_Answer" Type="Self.E-Forms_Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="E-Forms_Answer">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_E-Forms_Sub_Services">
           <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="1" />
           <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="*" />
@@ -574,6 +662,18 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="E-Forms">
               <PropertyRef Name="SubServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Input_Type_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="Input_Type" Type="Self.Input_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Input_Type">
+              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -802,6 +902,30 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Purchase_Order_Form">
               <PropertyRef Name="Type_Support_Project_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_E-Forms">
+          <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E-Forms">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="EForm_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Radio_Type_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="Radio_Type" Type="Self.Radio_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Radio_Type">
+              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1240,17 +1364,20 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
         <EntityContainer Name="MostafidDBModelStoreContainer">
           <EntitySet Name="Applicant_Type" EntityType="Self.Applicant_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Authority_Holder" EntityType="Self.Authority_Holder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CheckBox_Type" EntityType="Self.CheckBox_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="College_Administration" EntityType="Self.College_Administration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DelayedTransaction" EntityType="Self.DelayedTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E-Forms" EntityType="Self.E-Forms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E-Forms_Answer" EntityType="Self.E-Forms_Answer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Engagements_Department" EntityType="Self.Engagements_Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event_Publication_Violation" EntityType="Self.Event_Publication_Violation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FollowUp_Publication_Violations" EntityType="Self.FollowUp_Publication_Violations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ID_Document" EntityType="Self.ID_Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Input_Type" EntityType="Self.Input_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Job_Permissions" EntityType="Self.Job_Permissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
@@ -1259,6 +1386,8 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Purchase_Order_Form" EntityType="Self.Purchase_Order_Form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Purchase_Order_Form_Required" EntityType="Self.Purchase_Order_Form_Required" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Radio_Type" EntityType="Self.Radio_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request_Data" EntityType="Self.Request_Data" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request_File" EntityType="Self.Request_File" Schema="dbo" store:Type="Tables" />
@@ -1289,6 +1418,10 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
     [Statement_Department_File_Sent_Them].[Statement_Department_File_Sent_Them_Name_EN] AS [Statement_Department_File_Sent_Them_Name_EN]
     FROM [dbo].[Statement_Department_File_Sent_Them] AS [Statement_Department_File_Sent_Them]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_CheckBox_Type_Question" Association="Self.FK_CheckBox_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="CheckBox_Type" EntitySet="CheckBox_Type" />
+          </AssociationSet>
           <AssociationSet Name="FK_City_Region" Association="Self.FK_City_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="City" EntitySet="City" />
@@ -1305,9 +1438,21 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             <End Role="College_Administration" EntitySet="College_Administration" />
             <End Role="Department" EntitySet="Department" />
           </AssociationSet>
+          <AssociationSet Name="FK_E-Forms_Answer_Personel_Data" Association="Self.FK_E-Forms_Answer_Personel_Data">
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+            <End Role="E-Forms_Answer" EntitySet="E-Forms_Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_E-Forms_Answer_Question" Association="Self.FK_E-Forms_Answer_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="E-Forms_Answer" EntitySet="E-Forms_Answer" />
+          </AssociationSet>
           <AssociationSet Name="FK_E-Forms_Sub_Services" Association="Self.FK_E-Forms_Sub_Services">
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="E-Forms" EntitySet="E-Forms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Input_Type_Question" Association="Self.FK_Input_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Input_Type" EntitySet="Input_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_Main_Services_Service_Type" Association="Self.FK_Main_Services_Service_Type">
             <End Role="Service_Type" EntitySet="Service_Type" />
@@ -1384,6 +1529,14 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_Purchase_Order_Form_Type_Support_Project" Association="Self.FK_Purchase_Order_Form_Type_Support_Project">
             <End Role="Type_Support_Project" EntitySet="Type_Support_Project" />
             <End Role="Purchase_Order_Form" EntitySet="Purchase_Order_Form" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_E-Forms" Association="Self.FK_Question_E-Forms">
+            <End Role="E-Forms" EntitySet="E-Forms" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Radio_Type_Question" Association="Self.FK_Radio_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Radio_Type" EntitySet="Radio_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_Region_Country" Association="Self.FK_Region_Country">
             <End Role="Country" EntitySet="Country" />
@@ -1541,7 +1694,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <EntitySet Name="College_Administration" EntityType="MostafidDBModel.College_Administration" />
           <EntitySet Name="Country" EntityType="MostafidDBModel.Country" />
           <EntitySet Name="Department" EntityType="MostafidDBModel.Department" />
-          <EntitySet Name="E_Forms" EntityType="MostafidDBModel.E_Forms" />
           <EntitySet Name="Employee" EntityType="MostafidDBModel.Employee" />
           <EntitySet Name="Engagements_Department" EntityType="MostafidDBModel.Engagements_Department" />
           <EntitySet Name="Event_Publication_Violation" EntityType="MostafidDBModel.Event_Publication_Violation" />
@@ -1620,10 +1772,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <AssociationSet Name="FK_Purchase_Order_Form_Department" Association="MostafidDBModel.FK_Purchase_Order_Form_Department">
             <End EntitySet="Department" Role="Department" />
             <End EntitySet="Purchase_Order_Form" Role="Purchase_Order_Form" />
-          </AssociationSet>
-          <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
-            <End EntitySet="Sub_Services" Role="Sub_Services" />
-            <End EntitySet="E_Forms" Role="E_Forms" />
           </AssociationSet>
           <AssociationSet Name="FK_Request_Log_Employee" Association="MostafidDBModel.FK_Request_Log_Employee">
             <End EntitySet="Employee" Role="Employee" />
@@ -1820,6 +1968,40 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
+          <EntitySet Name="CheckBox_Type" EntityType="MostafidDBModel.CheckBox_Type" />
+          <EntitySet Name="E_Forms_Answer" EntityType="MostafidDBModel.E_Forms_Answer" />
+          <EntitySet Name="Input_Type" EntityType="MostafidDBModel.Input_Type" />
+          <EntitySet Name="Question" EntityType="MostafidDBModel.Question" />
+          <EntitySet Name="Radio_Type" EntityType="MostafidDBModel.Radio_Type" />
+          <AssociationSet Name="FK_CheckBox_Type_Question" Association="MostafidDBModel.FK_CheckBox_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="CheckBox_Type" EntitySet="CheckBox_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_E_Forms_Answer_Personel_Data" Association="MostafidDBModel.FK_E_Forms_Answer_Personel_Data">
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+            <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_E_Forms_Answer_Question" Association="MostafidDBModel.FK_E_Forms_Answer_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Input_Type_Question" Association="MostafidDBModel.FK_Input_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Input_Type" EntitySet="Input_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Radio_Type_Question" Association="MostafidDBModel.FK_Radio_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Radio_Type" EntitySet="Radio_Type" />
+          </AssociationSet>
+          <EntitySet Name="E_Forms" EntityType="MostafidDBModel.E_Forms" />
+          <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
+            <End Role="Sub_Services" EntitySet="Sub_Services" />
+            <End Role="E_Forms" EntitySet="E_Forms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_E_Forms" Association="MostafidDBModel.FK_Question_E_Forms">
+            <End Role="E_Forms" EntitySet="E_Forms" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -1887,18 +2069,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="IS_Action" Type="Boolean" />
           <NavigationProperty Name="College_Administration" Relationship="MostafidDBModel.FK_Department_College_Administration" FromRole="Department" ToRole="College_Administration" />
           <NavigationProperty Name="Purchase_Order_Form" Relationship="MostafidDBModel.FK_Purchase_Order_Form_Department" FromRole="Department" ToRole="Purchase_Order_Form" />
-        </EntityType>
-        <EntityType Name="E_Forms">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Name_EN" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Path" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="SubServiceID" Nullable="false" Type="Int32" />
-          <Property Name="IS_Action" Nullable="false" Type="Boolean" />
-          <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -2024,6 +2194,7 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <NavigationProperty Name="Region" Relationship="MostafidDBModel.FK_Personel_Data_Region" FromRole="Personel_Data" ToRole="Region" />
           <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Personel_Data" ToRole="Request_Data" />
+          <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Personel_Data" FromRole="Personel_Data" ToRole="E_Forms_Answer" />
         </EntityType>
         <EntityType Name="Privilage">
           <Key>
@@ -2216,10 +2387,10 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
           <Property Name="Sub_Services_Name_AR" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="Main_Services_ID" Type="Int32" />
           <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="Sub_Services" ToRole="E_Forms" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Sub_Services" ToRole="Main_Services" />
           <NavigationProperty Name="Required_Documents" Relationship="MostafidDBModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="Sub_Services" ToRole="E_Forms" />
         </EntityType>
         <EntityType Name="Supplier_Names">
           <Key>
@@ -2522,18 +2693,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Purchase_Order_Form">
               <PropertyRef Name="Department_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_E_Forms_Sub_Services">
-          <End Type="MostafidDBModel.Sub_Services" Multiplicity="1" Role="Sub_Services" />
-          <End Type="MostafidDBModel.E_Forms" Multiplicity="*" Role="E_Forms" />
-          <ReferentialConstraint>
-            <Principal Role="Sub_Services">
-              <PropertyRef Name="Sub_Services_ID" />
-            </Principal>
-            <Dependent Role="E_Forms">
-              <PropertyRef Name="SubServiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3171,6 +3330,165 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CheckBox_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_CheckBox_Type_Question" FromRole="CheckBox_Type" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="E_Forms_Answer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Person_ID" Type="Int32" Nullable="false" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FillDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_E_Forms_Answer_Personel_Data" FromRole="E_Forms_Answer" ToRole="Personel_Data" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Input_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Question_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="IsNumber" Type="Boolean" Nullable="false" />
+          <Property Name="Placeholder" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Placeholder_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Input_Type" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EForm_ID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="LableName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LableName_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Requird" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CheckBox_Type" Relationship="MostafidDBModel.FK_CheckBox_Type_Question" FromRole="Question" ToRole="CheckBox_Type" />
+          <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="Question" ToRole="E_Forms_Answer" />
+          <NavigationProperty Name="Input_Type" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Question" ToRole="Input_Type" />
+          <NavigationProperty Name="Radio_Type" Relationship="MostafidDBModel.FK_Radio_Type_Question" FromRole="Question" ToRole="Radio_Type" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
+        </EntityType>
+        <EntityType Name="Radio_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Radio_Type_Question" FromRole="Radio_Type" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK_CheckBox_Type_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.CheckBox_Type" Role="CheckBox_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CheckBox_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_E_Forms_Answer_Personel_Data">
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="1" />
+          <End Type="MostafidDBModel.E_Forms_Answer" Role="E_Forms_Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personel_Data">
+              <PropertyRef Name="Personel_Data_ID" />
+            </Principal>
+            <Dependent Role="E_Forms_Answer">
+              <PropertyRef Name="Person_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_E_Forms_Answer_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.E_Forms_Answer" Role="E_Forms_Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="E_Forms_Answer">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Input_Type_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.Input_Type" Role="Input_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Input_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Radio_Type_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.Radio_Type" Role="Radio_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Radio_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="E_Forms">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SubServiceID" Type="Int32" Nullable="false" />
+          <Property Name="IS_Action" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="E_Forms" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK_E_Forms_Sub_Services">
+          <End Type="MostafidDBModel.Sub_Services" Role="Sub_Services" Multiplicity="1" />
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sub_Services">
+              <PropertyRef Name="Sub_Services_ID" />
+            </Principal>
+            <Dependent Role="E_Forms">
+              <PropertyRef Name="SubServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_E_Forms">
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="1" />
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E_Forms">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="EForm_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3235,18 +3553,6 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
                 <ScalarProperty Name="Department_Name_EN" ColumnName="Department_Name_EN" />
                 <ScalarProperty Name="Department_Name_AR" ColumnName="Department_Name_AR" />
                 <ScalarProperty Name="Department_ID" ColumnName="Department_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="E_Forms">
-            <EntityTypeMapping TypeName="MostafidDBModel.E_Forms">
-              <MappingFragment StoreEntitySet="E-Forms">
-                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-                <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
-                <ScalarProperty Name="Path" ColumnName="Path" />
-                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3728,6 +4034,74 @@ warning 6002: The table/view 'MostafidDatabase27052021.dbo.Statement_Department_
                 <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
                 <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CheckBox_Type">
+            <EntityTypeMapping TypeName="MostafidDBModel.CheckBox_Type">
+              <MappingFragment StoreEntitySet="CheckBox_Type">
+                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E_Forms_Answer">
+            <EntityTypeMapping TypeName="MostafidDBModel.E_Forms_Answer">
+              <MappingFragment StoreEntitySet="E-Forms_Answer">
+                <ScalarProperty Name="FillDate" ColumnName="FillDate" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
+                <ScalarProperty Name="Person_ID" ColumnName="Person_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Input_Type">
+            <EntityTypeMapping TypeName="MostafidDBModel.Input_Type">
+              <MappingFragment StoreEntitySet="Input_Type">
+                <ScalarProperty Name="Placeholder_EN" ColumnName="Placeholder_EN" />
+                <ScalarProperty Name="Placeholder" ColumnName="Placeholder" />
+                <ScalarProperty Name="IsNumber" ColumnName="IsNumber" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Question">
+            <EntityTypeMapping TypeName="MostafidDBModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Requird" ColumnName="Requird" />
+                <ScalarProperty Name="LableName_EN" ColumnName="LableName_EN" />
+                <ScalarProperty Name="LableName" ColumnName="LableName" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EForm_ID" ColumnName="EForm_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Radio_Type">
+            <EntityTypeMapping TypeName="MostafidDBModel.Radio_Type">
+              <MappingFragment StoreEntitySet="Radio_Type">
+                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E_Forms">
+            <EntityTypeMapping TypeName="MostafidDBModel.E_Forms">
+              <MappingFragment StoreEntitySet="E-Forms">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+                <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
+                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

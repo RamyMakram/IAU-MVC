@@ -281,6 +281,9 @@
     <Compile Include="Models\Authority_Holder.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckBox_Type.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\City.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -308,10 +311,16 @@
     <Compile Include="Models\E_Forms.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\E_Forms_Answer.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FollowUp_Publication_Violations.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ID_Document.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Input_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Job.cs">
@@ -351,6 +360,12 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Purchase_Order_Form_Required.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Question.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Radio_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Region.cs">

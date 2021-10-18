@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="MostafidDBModel.College_Administration" PointX="8.75" PointY="5.75" Width="1.5" />
         <EntityTypeShape EntityType="MostafidDBModel.Country" PointX="1.5" PointY="47.25" Width="1.5" />
         <EntityTypeShape EntityType="MostafidDBModel.Department" PointX="11" PointY="5.625" Width="1.5" />
-        <EntityTypeShape EntityType="MostafidDBModel.E_Forms" PointX="7.5" PointY="34.25" Width="1.5" />
         <EntityTypeShape EntityType="MostafidDBModel.Employee" PointX="8.25" PointY="30.875" Width="1.5" />
         <EntityTypeShape EntityType="MostafidDBModel.Engagements_Department" PointX="11" PointY="2.875" Width="1.5" />
         <EntityTypeShape EntityType="MostafidDBModel.Event_Publication_Violation" PointX="11" PointY="11.875" Width="1.5" />
@@ -58,7 +57,6 @@
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Country2" />
         <AssociationConnector Association="MostafidDBModel.FK_Region_Country" />
         <AssociationConnector Association="MostafidDBModel.FK_Purchase_Order_Form_Department" />
-        <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Sub_Services" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Log_Employee" />
         <AssociationConnector Association="MostafidDBModel.FK_Purchase_Order_Form_Engagements_Department" />
         <AssociationConnector Association="MostafidDBModel.FK_Purchase_Order_Form_Event_Publication_Violation" />
@@ -110,6 +108,19 @@
         <EntityTypeShape EntityType="MostafidDBModel.DelayedTransaction" Width="1.5" PointX="13.5" PointY="14.25" />
         <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_Data" />
         <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_State" />
+        <EntityTypeShape EntityType="MostafidDBModel.CheckBox_Type" Width="1.5" PointX="12" PointY="40.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.E_Forms_Answer" Width="1.5" PointX="15" PointY="46.125" />
+        <EntityTypeShape EntityType="MostafidDBModel.Input_Type" Width="1.5" PointX="12" PointY="49.375" />
+        <EntityTypeShape EntityType="MostafidDBModel.Question" Width="1.5" PointX="9.75" PointY="42.875" />
+        <EntityTypeShape EntityType="MostafidDBModel.Radio_Type" Width="1.5" PointX="12" PointY="43.5" />
+        <AssociationConnector Association="MostafidDBModel.FK_CheckBox_Type_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Personel_Data" />
+        <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_Input_Type_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_Radio_Type_Question" />
+        <EntityTypeShape EntityType="MostafidDBModel.E_Forms" Width="1.5" PointX="7.5" PointY="33.75" />
+        <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Sub_Services" />
+        <AssociationConnector Association="MostafidDBModel.FK_Question_E_Forms" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

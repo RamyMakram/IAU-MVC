@@ -29,7 +29,9 @@
 		font-weight: bold;
 	}
 </style>
-
+@{
+	var isar = Request.Cookies["lang"].Value == "ar";
+}
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -44,13 +46,6 @@
 							<div class="form-group">
 								<label class="control-label" key="t-name" for="name">Name</label>
 								@Html.TextBoxFor(q => q.Name, new { @class = "form-control ar-font", @name = "name", @id = "name" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-path" for="name">Image</label>
-								<div class="custom-file">
-									@Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input en-font", @type = "file", @name = "name", @id = "customFile" })
-									<label class="custom-file-label en-font" id="fileRaplace" for="customFile">Choose file</label>
-								</div>
 							</div>
 						</div>
 
@@ -67,6 +62,49 @@
 								</div>
 							}
 						</div>
+						<div class="col-12">
+							<div class="row" style="display:flex;justify-content:center;align-items:center">
+								<div class="control col-6" style="display:inline-flex;justify-content:center;align-items:center">
+									<select class="form-control select2" id="ComponetType">
+										<option value="1">@(isar?"حقل ادخال":"Input")</option>
+										<option value="2">@(isar? "اختيار من متعدد":"Select from Multi")</option>
+										<option value="3">@(isar?"اختيار متعدد":"Select Multi")</option>
+									</select>
+									<button class="btn btn-circle" style="top:0!important;color:green" id="addComponent" type="button"><i class="fas fa-plus-circle"></i></button>
+								</div>
+							</div>
+							<div class='repeater'>
+								<div data-repeater-list="group-a">
+									<div data-repeater-item>
+										<input type="text" name="text-input" value="G" />
+										<div class="form-group">
+											<label key="t-subservice" class="control-label">units</label>
+										</div>
+										<button data-repeater-delete type="button" class="btn btn-danger">@(isar?"حذف":"Delete")</button>
+									</div>
+								</div>
+								<input data-repeater-create type="button" value="Add" />
+							</div>
+							<div class='repeater'>
+								<div data-repeater-list="group-b">
+									<div data-repeater-item>
+										<input type="text" name="text-input" value="B" />
+										<button data-repeater-delete type="button" class="btn btn-danger">@(isar?"حذف":"Delete")</button>
+									</div>
+								</div>
+								<input data-repeater-create type="button" value="Add" />
+							</div>
+							<div class='repeater'>
+								<div data-repeater-list="group-c">
+									<div data-repeater-item>
+										<input type="text" name="text-input" value="B" />
+										<button data-repeater-delete type="button" class="btn btn-danger">@(isar?"حذف":"Delete")</button>
+									</div>
+								</div>
+								<input data-repeater-create type="button" value="Add" />
+							</div>
+						</div>
+
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
 					@Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
@@ -98,14 +136,10 @@
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
 <script>
-	document.getElementById("customFile").addEventListener('change',
+	document.getElementById("addComponent").addEventListener('click',
 		function (e) {
-			if (this.files.length != 0) {
-				$('#fileRaplace').text(this.files[0].name)
-			}
-			else {
-				$('#fileRaplace').text("")
-			}
+			let ComponetType = $('#ComponetType').val()
+			$(`[data-repeater-create]:nth-child(${ComponetType})`).click()
 		},
 		false
 	);

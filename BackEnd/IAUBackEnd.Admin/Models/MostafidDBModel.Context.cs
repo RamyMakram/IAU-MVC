@@ -18,9 +18,9 @@ namespace IAUBackEnd.Admin.Models
         public MostafidDBEntities()
             : base("name=MostafidDBEntities")
         {
-			this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.LazyLoadingEnabled = false;
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -32,7 +32,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<College_Administration> College_Administration { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Department> Department { get; set; }
-        public virtual DbSet<E_Forms> E_Forms { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Engagements_Department> Engagements_Department { get; set; }
         public virtual DbSet<Event_Publication_Violation> Event_Publication_Violation { get; set; }
@@ -71,5 +70,11 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Request_Data> Request_Data { get; set; }
         public virtual DbSet<Request_State> Request_State { get; set; }
         public virtual DbSet<DelayedTransaction> DelayedTransaction { get; set; }
+        public virtual DbSet<CheckBox_Type> CheckBox_Type { get; set; }
+        public virtual DbSet<E_Forms_Answer> E_Forms_Answer { get; set; }
+        public virtual DbSet<Input_Type> Input_Type { get; set; }
+        public virtual DbSet<Question> Question { get; set; }
+        public virtual DbSet<Radio_Type> Radio_Type { get; set; }
+        public virtual DbSet<E_Forms> E_Forms { get; set; }
     }
 }

@@ -69,23 +69,24 @@ namespace AdminPanel.Controllers
 		[HttpPost]
 		public ActionResult Create(E_FormsDTO loc)
 		{
-			int subSe = Convert.ToInt32(Request.QueryString["SubService"] ?? "-1");
-			if (subSe != -1)
-				loc.SubServiceID = subSe;
-			HttpPostedFileBase file = loc.Files[0];
-			loc.FileName = file.FileName;
-			byte[] Bytes = new byte[file.InputStream.Length + 1];
-			file.InputStream.Read(Bytes, 0, Bytes.Length);
-			loc.Base64 = Convert.ToBase64String(Bytes);
-			loc.Files = null;
-			var Req = APIHandeling.Post("E_Forms/Create", loc);
-			var resJson = Req.Content.ReadAsStringAsync();
-			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			//int subSe = Convert.ToInt32(Request.QueryString["SubService"] ?? "-1");
+			//if (subSe != -1)
+			//	loc.SubServiceID = subSe;
+			//HttpPostedFileBase file = loc.Files[0];
+			//loc.FileName = file.FileName;
+			//byte[] Bytes = new byte[file.InputStream.Length + 1];
+			//file.InputStream.Read(Bytes, 0, Bytes.Length);
+			//loc.Base64 = Convert.ToBase64String(Bytes);
+			//loc.Files = null;
+			//var Req = APIHandeling.Post("E_Forms/Create", loc);
+			//var resJson = Req.Content.ReadAsStringAsync();
+			//var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
-			if (res.success)
-				return subSe == -1 ? RedirectToAction("Home") : RedirectToAction("Home", new { SubService = subSe });
-			else
-				return RedirectToAction("NotFound", "Error");
+			//if (res.success)
+			//	return subSe == -1 ? RedirectToAction("Home") : RedirectToAction("Home", new { SubService = subSe });
+			//else
+			//	return RedirectToAction("NotFound", "Error");
+			return RedirectToAction("Home");
 		}
 		[HttpPost]
 		public ActionResult Edit(int Id, E_FormsDTO loc)

@@ -194,8 +194,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="RequestFiles\" />
-    <Folder Include="Views\ServiceType\" />
-    <Folder Include="Views\Token\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

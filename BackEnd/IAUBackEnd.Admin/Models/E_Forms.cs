@@ -14,13 +14,21 @@ namespace IAUBackEnd.Admin.Models
     
     public partial class E_Forms
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public E_Forms()
+        {
+            this.Question = new HashSet<Question>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string Name_EN { get; set; }
-        public string Path { get; set; }
         public int SubServiceID { get; set; }
         public bool IS_Action { get; set; }
+        public Nullable<System.DateTime> CreatedOn { get; set; }
     
         public virtual Sub_Services Sub_Services { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Question> Question { get; set; }
     }
 }
