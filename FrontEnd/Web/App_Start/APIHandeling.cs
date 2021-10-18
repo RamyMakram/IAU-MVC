@@ -29,6 +29,18 @@ namespace Web.App_Start
 			var res = h.GetAsync("/api/" + apiName);
 			return res.Result;
 		}
+		public static HttpResponseMessage getDataAdmin(string apiName)
+		{
+			HttpClient h = new HttpClient();
+
+			h.BaseAddress = new Uri(AdminURL);
+
+			h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+			h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
+
+			var res = h.GetAsync("/api/" + apiName);
+			return res.Result;
+		}
 		/// <summary>
 		/// Get Data From API with paramter
 		/// </summary>
@@ -163,18 +175,18 @@ namespace Web.App_Start
 			var res = await h.GetAsync("/api/" + apiName);
 			return res;
 		}
-	//	public static HttpResponseMessage GetDataAdmin(string apiName)
-	//	{
-	//		HttpClient h = new HttpClient();
+		//	public static HttpResponseMessage GetDataAdmin(string apiName)
+		//	{
+		//		HttpClient h = new HttpClient();
 
-	//		h.BaseAddress = new Uri(AdminURL);
+		//		h.BaseAddress = new Uri(AdminURL);
 
-	//		h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
-	//		System.Net.ServicePointManager.SecurityProtocol |=
-	//SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-	//		var res = h.GetAsync("/api/" + apiName);
-	//		return res.Result; ;
-	//	}
+		//		h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
+		//		System.Net.ServicePointManager.SecurityProtocol |=
+		//SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+		//		var res = h.GetAsync("/api/" + apiName);
+		//		return res.Result; ;
+		//	}
 		/// <summary>
 		/// INSERT using API
 		/// </summary>

@@ -18,6 +18,7 @@ using IAUBackEnd.Admin.Models;
 using LinqKit;
 using Newtonsoft.Json;
 using System.Linq.Dynamic;
+using System.Net.Mail;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -383,7 +384,7 @@ namespace IAUBackEnd.Admin.Controllers
 				string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 				WebSocketManager.SendToMulti(MostafidUsers, message);
 				message = @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعه";
-				SendSMS(model.Mobile, message);
+				_ = NotifyUser(model.Mobile, model.Email, message);
 				transaction.Commit();
 				return Ok(new
 				{
@@ -401,20 +402,35 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 
 		[HttpGet]
-		[Route("api/Request/SendSMS")]
-		public async Task<IHttpActionResult> SendSMS(string Mobile, string message)
+		[Route("api/Request/NotifyUser")]
+		public async Task<IHttpActionResult> NotifyUser(string Mobile, string Email, string message)
 		{
 			try
 			{
-				HttpClient h = new HttpClient();
+				if (WebApiApplication.Setting_UseMessage)
+				{
+					HttpClient h = new HttpClient();
 
-				string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid=f9iRotRBsanfAB0xcE4NzJtgMYf5Bk&msg={message}&to={Mobile}&sender=IAU-BSC&baseEncode=False&encoding=UCS2";
-				h.BaseAddress = new Uri(url);
+					string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid=f9iRotRBsanfAB0xcE4NzJtgMYf5Bk&msg={message}&to={Mobile}&sender=IAU-BSC&baseEncode=False&encoding=UCS2";
+					h.BaseAddress = new Uri(url);
 
-				var res = h.GetAsync("").Result.Content.ReadAsStringAsync().Result;
+					var res = h.GetAsync("").Result.Content.ReadAsStringAsync().Result;
+				}
+				SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
+
+				smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "myIDPassword");
+				// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+				smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+				smtpClient.EnableSsl = true;
+				MailMessage mail = new MailMessage();
+
+				//Setting From , To and CC
+				mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
+				mail.To.Add(new MailAddress(Email));
+
+				smtpClient.Send(mail);
 				return Ok(new ResponseClass()
 				{
-					result = res,
 					success = true
 				});
 			}
@@ -445,7 +461,7 @@ namespace IAUBackEnd.Admin.Controllers
 					req.GenratedDate = Helper.GetDate();
 					p.SaveChanges();
 					string message = $@"عزيزي المستفيد, :نفيدكم بأن كود الطلب الخاص بكم هو {Code} برجاء استخدامة في حالة الاستعلام";
-					_ = SendSMS(req.Personel_Data.Mobile, message);
+					_ = NotifyUser(req.Personel_Data.Mobile, req.Personel_Data.Email, message);
 				}
 				else
 				{
@@ -576,7 +592,7 @@ namespace IAUBackEnd.Admin.Controllers
 				p.SaveChanges();
 				string message = $@"عزيزي المستفيد , تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate}";
 				if (sendeddata.RequestTransaction.Count != 0)
-					_ = SendSMS(sendeddata.Personel_Data.Mobile, message);
+					_ = NotifyUser(sendeddata.Personel_Data.Mobile, sendeddata.Personel_Data.Email, message);
 				return Ok(new ResponseClass() { success = true });
 			}
 			return Ok(new ResponseClass() { success = false });
