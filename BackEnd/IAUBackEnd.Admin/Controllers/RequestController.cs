@@ -418,7 +418,7 @@ namespace IAUBackEnd.Admin.Controllers
 				}
 				SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
 
-				smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "myIDPassword");
+				smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Iau@30800");
 				// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
 				smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 				smtpClient.EnableSsl = true;
@@ -427,7 +427,8 @@ namespace IAUBackEnd.Admin.Controllers
 				//Setting From , To and CC
 				mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
 				mail.To.Add(new MailAddress(Email));
-
+				mail.Subject = "IAU Notify";
+				mail.Body = message;
 				smtpClient.Send(mail);
 				return Ok(new ResponseClass()
 				{
