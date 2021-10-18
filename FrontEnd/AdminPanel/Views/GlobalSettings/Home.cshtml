@@ -32,11 +32,11 @@
 		border-radius: 10px;
 	}
 
-	.card-body .row {
+	.card-body .view-genral-order {
 		position: relative;
 	}
 
-		.card-body .row:before {
+		.card-body .view-genral-order:before {
 			content: '';
 			position: absolute;
 			right: 40vw;
@@ -53,14 +53,14 @@
 @{
 	var isAr = Request.Cookies["lang"].Value == "ar";
 }
-<div class="row">
+<div class="row view-genral-order">
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
 
 				<p class="card-title-desc">@(isAr ? "مراحل الطلب" : "Request Status")</p>
 
-				<div class="row">
+				<div class="row view-genral-order">
 					@{
 						var cou = 0;
 						foreach (var i in Model)
@@ -84,6 +84,29 @@
 				<button type="submit" key="t-save" id="SaveDataOFDelayed" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
 				@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
 
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+
+				<p class="card-title-desc">@(isAr ? "الرسائل النصية" : "Sms")</p>
+				@using (Html.BeginForm("Home", "GlobalSettings", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+				{
+					<div class="row">
+						<div class="form-group" style=" display: flex; align-items: center;">
+							<input type="checkbox" @(ViewBag.SMS_Status ? "checked" : "") onchange="$('#val-items').val(this.checked);" />
+							<label class="form-check-label mx-1" for="value">@(isAr ? "استخدم الرسائل النصية" : "Use SMS")</label>
+						</div>
+						<input style="display:none" name="value" id="val-items"/>
+					</div>
+					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+					@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
+				}
 			</div>
 		</div>
 
@@ -126,7 +149,6 @@
 		})
 		let form = new FormData();
 		form.append("data", JSON.stringify(data));
-		console.log(data)
 		$.ajax({
 			url: "/GlobalSettings/SaveData", processData: false,
 			contentType: false, enctype: 'multipart/form-data', data: form, type: "POST", success: function () {

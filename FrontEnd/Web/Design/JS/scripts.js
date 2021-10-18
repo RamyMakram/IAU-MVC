@@ -531,7 +531,7 @@ function sendSMS() {
 	$(".loading").addClass("active");
 
 	$.ajax({
-		url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}`,
+		url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}&email=${data.Personel_Data.Email}`,
 		type: "Post", data: {
 			__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
 		},
@@ -1122,13 +1122,13 @@ function GeneratePdfData() {
 					<th class="col-6">${Form["Mobile"]}</th>
 				</tr>
                 ${(Form["file_names"].splice(',').length == 0) ? "" :
-				`<tr>
+			`<tr>
 					<th class="boldtitle" key="t-attachment"></th>
 				</tr>
 				<tr class="row" style="display:inline-flex">
 					<th class="col-12 FilesINPDF">${FilesDiv}</th>
 				</tr>`
-				}
+		}
 			</tbody>
 		</table>
 
