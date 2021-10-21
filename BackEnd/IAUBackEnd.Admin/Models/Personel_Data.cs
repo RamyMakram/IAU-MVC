@@ -18,6 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public Personel_Data()
         {
             this.Request_Data = new HashSet<Request_Data>();
+            this.E_Forms_Answer = new HashSet<E_Forms_Answer>();
         }
     
         public int Personel_Data_ID { get; set; }
@@ -51,6 +52,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual Title_Middle_Names Title_Middle_Names { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
     }
 }

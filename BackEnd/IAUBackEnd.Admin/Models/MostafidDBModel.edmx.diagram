@@ -110,17 +110,17 @@
         <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_State" />
         <EntityTypeShape EntityType="MostafidDBModel.CheckBox_Type" Width="1.5" PointX="12" PointY="40.75" />
         <EntityTypeShape EntityType="MostafidDBModel.E_Forms_Answer" Width="1.5" PointX="15" PointY="46.125" />
-        <EntityTypeShape EntityType="MostafidDBModel.Input_Type" Width="1.5" PointX="12" PointY="49.375" />
         <EntityTypeShape EntityType="MostafidDBModel.Question" Width="1.5" PointX="9.75" PointY="42.875" />
         <EntityTypeShape EntityType="MostafidDBModel.Radio_Type" Width="1.5" PointX="12" PointY="43.5" />
         <AssociationConnector Association="MostafidDBModel.FK_CheckBox_Type_Question" />
         <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Personel_Data" />
         <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Question" />
-        <AssociationConnector Association="MostafidDBModel.FK_Input_Type_Question" />
         <AssociationConnector Association="MostafidDBModel.FK_Radio_Type_Question" />
         <EntityTypeShape EntityType="MostafidDBModel.E_Forms" Width="1.5" PointX="7.5" PointY="33.75" />
         <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Sub_Services" />
         <AssociationConnector Association="MostafidDBModel.FK_Question_E_Forms" />
+        <EntityTypeShape EntityType="MostafidDBModel.Input_Type" Width="1.5" PointX="12" PointY="46.5" />
+        <AssociationConnector Association="MostafidDBModel.FK_Input_Type_Question" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

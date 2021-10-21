@@ -20,7 +20,7 @@ namespace IAUBackEnd.Admin.Models
         {
             this.Configuration.LazyLoadingEnabled = false;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -72,9 +72,9 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<DelayedTransaction> DelayedTransaction { get; set; }
         public virtual DbSet<CheckBox_Type> CheckBox_Type { get; set; }
         public virtual DbSet<E_Forms_Answer> E_Forms_Answer { get; set; }
-        public virtual DbSet<Input_Type> Input_Type { get; set; }
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Radio_Type> Radio_Type { get; set; }
         public virtual DbSet<E_Forms> E_Forms { get; set; }
+        public virtual DbSet<Input_Type> Input_Type { get; set; }
     }
 }

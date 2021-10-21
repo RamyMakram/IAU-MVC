@@ -14,8 +14,8 @@ namespace IAUAdmin.DTO.Entity
         public string Name_EN { get; set; }
         public int SubServiceID { get; set; }
         public bool IS_Action { get; set; }
-
-        public virtual SubServicesDTO Sub_Services { get; set; }
+		public string QTY { get; set; }
+		public virtual SubServicesDTO Sub_Services { get; set; }
         public virtual ICollection<Question> Question { get; set; }
 
     }

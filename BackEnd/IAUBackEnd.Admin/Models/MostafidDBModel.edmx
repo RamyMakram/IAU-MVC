@@ -147,7 +147,6 @@
         </EntityType>
         <EntityType Name="Input_Type">
           <Key>
-            <PropertyRef Name="ID" />
             <PropertyRef Name="Question_ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
@@ -667,7 +666,7 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
         </Association>
         <Association Name="FK_Input_Type_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1" />
-          <End Role="Input_Type" Type="Self.Input_Type" Multiplicity="*" />
+          <End Role="Input_Type" Type="Self.Input_Type" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Question">
               <PropertyRef Name="ID" />
@@ -1970,7 +1969,6 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
           </AssociationSet>
           <EntitySet Name="CheckBox_Type" EntityType="MostafidDBModel.CheckBox_Type" />
           <EntitySet Name="E_Forms_Answer" EntityType="MostafidDBModel.E_Forms_Answer" />
-          <EntitySet Name="Input_Type" EntityType="MostafidDBModel.Input_Type" />
           <EntitySet Name="Question" EntityType="MostafidDBModel.Question" />
           <EntitySet Name="Radio_Type" EntityType="MostafidDBModel.Radio_Type" />
           <AssociationSet Name="FK_CheckBox_Type_Question" Association="MostafidDBModel.FK_CheckBox_Type_Question">
@@ -1985,10 +1983,6 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
             <End Role="Question" EntitySet="Question" />
             <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
           </AssociationSet>
-          <AssociationSet Name="FK_Input_Type_Question" Association="MostafidDBModel.FK_Input_Type_Question">
-            <End Role="Question" EntitySet="Question" />
-            <End Role="Input_Type" EntitySet="Input_Type" />
-          </AssociationSet>
           <AssociationSet Name="FK_Radio_Type_Question" Association="MostafidDBModel.FK_Radio_Type_Question">
             <End Role="Question" EntitySet="Question" />
             <End Role="Radio_Type" EntitySet="Radio_Type" />
@@ -2001,6 +1995,11 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
           <AssociationSet Name="FK_Question_E_Forms" Association="MostafidDBModel.FK_Question_E_Forms">
             <End Role="E_Forms" EntitySet="E_Forms" />
             <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <EntitySet Name="Input_Type" EntityType="MostafidDBModel.Input_Type" />
+          <AssociationSet Name="FK_Input_Type_Question" Association="MostafidDBModel.FK_Input_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Input_Type" EntitySet="Input_Type" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
@@ -3352,18 +3351,6 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_E_Forms_Answer_Personel_Data" FromRole="E_Forms_Answer" ToRole="Personel_Data" />
           <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
         </EntityType>
-        <EntityType Name="Input_Type">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="Question_ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Question_ID" Type="Int32" Nullable="false" />
-          <Property Name="IsNumber" Type="Boolean" Nullable="false" />
-          <Property Name="Placeholder" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Placeholder_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Input_Type" ToRole="Question" />
-        </EntityType>
         <EntityType Name="Question">
           <Key>
             <PropertyRef Name="ID" />
@@ -3378,9 +3365,9 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CheckBox_Type" Relationship="MostafidDBModel.FK_CheckBox_Type_Question" FromRole="Question" ToRole="CheckBox_Type" />
           <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="Question" ToRole="E_Forms_Answer" />
-          <NavigationProperty Name="Input_Type" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Question" ToRole="Input_Type" />
           <NavigationProperty Name="Radio_Type" Relationship="MostafidDBModel.FK_Radio_Type_Question" FromRole="Question" ToRole="Radio_Type" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
+          <NavigationProperty Name="Input_Type" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Question" ToRole="Input_Type" />
         </EntityType>
         <EntityType Name="Radio_Type">
           <Key>
@@ -3424,18 +3411,6 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="E_Forms_Answer">
-              <PropertyRef Name="Question_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Input_Type_Question">
-          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
-          <End Type="MostafidDBModel.Input_Type" Role="Input_Type" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Input_Type">
               <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -3486,6 +3461,29 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
             </Principal>
             <Dependent Role="Question">
               <PropertyRef Name="EForm_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Input_Type">
+          <Key>
+            <PropertyRef Name="Question_ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="IsNumber" Type="Boolean" Nullable="false" />
+          <Property Name="Placeholder" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Placeholder_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Input_Type" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK_Input_Type_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.Input_Type" Role="Input_Type" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Input_Type">
+              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4059,17 +4057,6 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Input_Type">
-            <EntityTypeMapping TypeName="MostafidDBModel.Input_Type">
-              <MappingFragment StoreEntitySet="Input_Type">
-                <ScalarProperty Name="Placeholder_EN" ColumnName="Placeholder_EN" />
-                <ScalarProperty Name="Placeholder" ColumnName="Placeholder" />
-                <ScalarProperty Name="IsNumber" ColumnName="IsNumber" />
-                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Question">
             <EntityTypeMapping TypeName="MostafidDBModel.Question">
               <MappingFragment StoreEntitySet="Question">
@@ -4102,6 +4089,17 @@ warning 6002: The table/view 'MostafidDatabase18102021.dbo.Statement_Department_
                 <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
                 <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Input_Type">
+            <EntityTypeMapping TypeName="MostafidDBModel.Input_Type">
+              <MappingFragment StoreEntitySet="Input_Type">
+                <ScalarProperty Name="Placeholder_EN" ColumnName="Placeholder_EN" />
+                <ScalarProperty Name="Placeholder" ColumnName="Placeholder" />
+                <ScalarProperty Name="IsNumber" ColumnName="IsNumber" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

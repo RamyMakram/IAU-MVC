@@ -19,7 +19,6 @@ namespace IAUBackEnd.Admin.Models
         {
             this.CheckBox_Type = new HashSet<CheckBox_Type>();
             this.E_Forms_Answer = new HashSet<E_Forms_Answer>();
-            this.Input_Type = new HashSet<Input_Type>();
             this.Radio_Type = new HashSet<Radio_Type>();
         }
     
@@ -37,9 +36,8 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Input_Type> Input_Type { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Radio_Type> Radio_Type { get; set; }
         public virtual E_Forms E_Forms { get; set; }
+        public virtual Input_Type Input_Type { get; set; }
     }
 }

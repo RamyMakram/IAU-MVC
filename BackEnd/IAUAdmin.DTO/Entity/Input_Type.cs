@@ -16,9 +16,9 @@ namespace IAUAdmin.DTO.Entity
     {
         public int ID { get; set; }
         public int Question_ID { get; set; }
-        public bool IsNumber { get; set; }
-        public string Placeholder { get; set; }
-        public string Placeholder_EN { get; set; }
+        public bool ISNum { get; set; }
+        public string PlaceHolder { get; set; }
+        public string PlaceholderEN { get; set; }
     
         public virtual Question Question { get; set; }
     }

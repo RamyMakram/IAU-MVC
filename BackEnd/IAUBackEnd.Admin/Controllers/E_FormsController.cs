@@ -23,7 +23,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 		public async Task<IHttpActionResult> GetE_Forms()
 		{
-			return Ok(new ResponseClass() { success = true, result = p.E_Forms });
+			return Ok(new ResponseClass() { success = true, result = p.E_Forms.ToList() });
 		}
 
 		public async Task<IHttpActionResult> GetE_Forms(int id)
@@ -68,11 +68,28 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass() { success = false, result = ModelState });
 			try
 			{
-				//var path = HttpContext.Current.Server.MapPath("~");
-				//var FilePath = Path.Combine("E-Forms", e_Forms.Name_EN + "_" + e_Forms.FileName);
-				//p.E_Forms.Add(new E_Forms() { IS_Action = true, Name = e_Forms.Name, Name_EN = e_Forms.Name_EN, SubServiceID = e_Forms.SubServiceID });
-				//File.WriteAllBytes(Path.Combine(path, FilePath), Convert.FromBase64String(e_Forms.Base64));
-				//await p.SaveChangesAsync();
+				var eform = new E_Forms() { SubServiceID = e_Forms.SubServiceID, Name_EN = e_Forms.Name_EN, Name = e_Forms.Name, IS_Action = true, CreatedOn = Helper.GetDate() };
+				foreach (var i in e_Forms.Question)
+				{
+					var quest = new Models.Question { Type = i.T, LableName = i.Name, LableName_EN = i.Name_EN, CreatedOn = Helper.GetDate(), Active = true, Requird = true };
+					switch (i.T)
+					{
+						case "I":
+							quest.Input_Type = new Models.Input_Type { IsNumber = i.Input.ISNum, Placeholder = i.Input.PlaceHolder, Placeholder_EN = i.Input.PlaceholderEN };
+							break;
+						case "R":
+							foreach (var r in i.Radio)
+								quest.Radio_Type.Add(new Models.Radio_Type { Name = r.Name, Name_EN = r.Name_EN });
+							break;
+						case "C":
+							foreach (var c in i.Check)
+								quest.CheckBox_Type.Add(new Models.CheckBox_Type { Name = c.Name, Name_EN = c.Name_EN });
+							break;
+					}
+					eform.Question.Add(quest);
+				}
+				p.E_Forms.Add(eform);
+				await p.SaveChangesAsync();
 				return Ok(new ResponseClass() { success = true });
 			}
 			catch (Exception ee)

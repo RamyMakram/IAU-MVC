@@ -16,16 +16,16 @@ namespace IAUAdmin.DTO.Entity
 	{
 		public int ID { get; set; }
 		public int EForm_ID { get; set; }
-		public string Type { get; set; }
-		public string LableName { get; set; }
-		public string LableName_EN { get; set; }
+		public string T { get; set; }
+		public string Name { get; set; }
+		public string Name_EN { get; set; }
 		public bool Requird { get; set; }
 		public System.DateTime CreatedOn { get; set; }
 		public bool Active { get; set; }
-		public virtual ICollection<CheckBox_Type> CheckBox_Type { get; set; }
+		public virtual ICollection<CheckBox_Type> Check { get; set; }
 		public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
-		public virtual ICollection<Input_Type> Input_Type { get; set; }
-		public virtual ICollection<Radio_Type> Radio_Type { get; set; }
+		public virtual Input_Type Input { get; set; }
+		public virtual ICollection<Radio_Type> Radio { get; set; }
 		public virtual E_FormsDTO E_Forms { get; set; }
 	}
 }
