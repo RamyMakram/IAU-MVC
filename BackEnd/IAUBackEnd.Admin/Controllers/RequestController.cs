@@ -421,7 +421,7 @@ namespace IAUBackEnd.Admin.Controllers
 				smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Iau@30800");
 				// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
 				smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-				smtpClient.EnableSsl = true;
+				//smtpClient.EnableSsl = true;
 				MailMessage mail = new MailMessage();
 
 				//Setting From , To and CC

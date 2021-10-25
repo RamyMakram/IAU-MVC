@@ -5,7 +5,10 @@
 	@{
 		if (Request.Cookies["lang"].Value == "ar")
 		{
-			@*<style>
+			@*
+				<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css" />
+
+				<style>
 					body {
 						font-family: 'DroidArabicKufiRegular' !important;
 						font-weight: bolder !important;
@@ -14,7 +17,8 @@
 					.select2-selection__rendered, .select2-results__option {
 						direction: rtl;
 					}
-				</style>*@
+				</style>
+			*@
 			<style>
 				body {
 					font-family: 'Frutiger LT Arabic 55 Roman' !important;
@@ -231,7 +235,6 @@
 		})
 	}
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js">
-	</script>
+	<script src="~/assets/libs/howler/howler.core.min.js"></script>
 </body>
 </html>

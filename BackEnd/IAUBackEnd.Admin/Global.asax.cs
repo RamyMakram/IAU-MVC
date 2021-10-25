@@ -11,7 +11,7 @@ namespace IAUBackEnd.Admin
 {
 	public class WebApiApplication : System.Web.HttpApplication
 	{
-		public static bool Setting_UseMessage { get; private set; }
+		public static bool Setting_UseMessage { get; set; }
 
 		protected void Application_Start()
 		{

@@ -413,6 +413,10 @@
     <Content Include="assets\libs\flot-charts\jquery.flot.time.js" />
     <Content Include="assets\libs\flot.curvedLines\curvedLines.html" />
     <Content Include="assets\libs\gmaps\gmaps.min.js" />
+    <Content Include="assets\libs\howler\howler.core.min.js" />
+    <Content Include="assets\libs\howler\howler.js" />
+    <Content Include="assets\libs\howler\howler.min.js" />
+    <Content Include="assets\libs\howler\howler.spatial.min.js" />
     <Content Include="assets\libs\inputmask\min\jquery.inputmask.bundle.min.js" />
     <Content Include="assets\libs\ion-rangeslider\css\ion.rangeSlider.min.css" />
     <Content Include="assets\libs\ion-rangeslider\js\ion.rangeSlider.min.js" />
@@ -2968,6 +2972,7 @@
     <Content Include="assets\fonts\FrutigerLTArabic55Roman.woff" />
     <Content Include="assets\DataTableTrans\ar.json" />
     <Content Include="assets\DataTableTrans\en.json" />
+    <Content Include="libman.json" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Email\Home.cshtml" />

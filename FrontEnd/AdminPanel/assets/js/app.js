@@ -329,10 +329,10 @@ var User = "";
 				}
 				else
 					count.style.display = "none";
+				WebSocketTest();
 				setTimeout(function () {
 					document.getElementById('LoadingDiv').style.display = 'none';
-					WebSocketTest();
-				}, 1500)
+				}, 1000)
 			}
 		})
 
