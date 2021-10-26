@@ -197,7 +197,6 @@ $("#right-arrow").click(function () {
 		let controls = $('.required-field div:nth-of-type(2)').children('select,input');
 		let affilte = document.getElementById('Affiliated');
 		let error = false;
-		controls.push(affilte);
 		([...controls]).forEach(e => {
 			if (e.value == "" || e.value == null || e.value == "null") {
 				$(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
@@ -296,10 +295,10 @@ $("#right-arrow").click(function () {
 		$(".nav-fill").removeAttr("style");
 	}
 
-	if (CurrentPage >= $(".containt > .row").length) {
+	if (CurrentPage >= $(".containt > .row").length || CurrentPage == 5) {
 		$("#right-arrow").attr("style", "visibility:hidden");
 	} else {
-		if (CurrentPage > 2) {
+		if (CurrentPage > 2 && CurrentPage < 5) {
 			$("#right-arrow").attr("style", "visibility:visiable");
 		}
 	}
