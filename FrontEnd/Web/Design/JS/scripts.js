@@ -1324,7 +1324,7 @@ $("#ResendVerificationCode").click(function () {
 		$(".loading").addClass("active");
 
 		$.ajax({
-			url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}`,
+			url: `/Home/SendVerification?to=${data.Personel_Data.Mobile}&email=${data.Personel_Data.Mobile}`,
 			type: "Post", data: {
 				__RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
 			},

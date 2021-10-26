@@ -54,7 +54,7 @@ namespace Web.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken()]
-		public JsonResult SendVerification(string to)
+		public JsonResult SendVerification(string to, string email)
 		{
 			if (!HttpContext.Request.IsAjaxRequest())
 				return Json("401", JsonRequestBehavior.AllowGet);
@@ -63,7 +63,7 @@ namespace Web.Controllers
 				int code = new Random().Next(1000, 9999);
 				Debug.WriteLine(code);
 				string message = $@"Use this code {code} to complete your request.";
-				var res = APIHandeling.getData("/Request/SendSMS?Mobile=" + to + "&message=" + message);
+				var res = APIHandeling.getDataAdmin($"/Request/NotifyUser?Mobile={to}&message={message}&Email={email}");
 				var resJson = res.Content.ReadAsStringAsync().Result;
 				string HashedCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())));
 				Response.Cookies.Add(new HttpCookie("n", HashedCode));

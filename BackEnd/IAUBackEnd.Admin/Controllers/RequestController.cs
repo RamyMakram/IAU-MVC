@@ -418,7 +418,7 @@ namespace IAUBackEnd.Admin.Controllers
 				}
 				SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
 
-				smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Iau@30800");
+				smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
 				// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
 				smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 				//smtpClient.EnableSsl = true;
