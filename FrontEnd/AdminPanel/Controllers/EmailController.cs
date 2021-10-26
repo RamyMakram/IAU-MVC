@@ -54,15 +54,13 @@ namespace AdminPanel.Controllers
 				ViewBag.RequestTransaction = JsonConvert.DeserializeObject<ICollection<Request_TransactionDTO>>(res.result.ToString());
 				var Req = JObject.Parse(Request_res.result.ToString());
 				var RequestData = JsonConvert.DeserializeObject<ReqestDTO>(Req["request_Data"].ToString());
-				RequestData.Units = new UnitsDTO() { Building_Number = Req["Building_Number"].Value<string>(), Units_Location_ID = Req["Units_Location_ID"].Value<int>() };
-				Data = APIHandeling.getData("Units/GetActive");
+				//RequestData.Units = new UnitsDTO() { Building_Number = Req["Building_Number"].Value<string>(), Units_Location_ID = Req["Units_Location_ID"].Value<int>() };
+				Data = APIHandeling.getData("Units/GetActiveForEmail");
 				resJson = Data.Content.ReadAsStringAsync();
 				res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 				var Units = JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString());
-				if (isar)
-					ViewBag.Units = Units;
-				else
-					ViewBag.Units = Units;
+				ViewBag.Units = Units;
+
 				if (IsMostafid.HasValue && IsMostafid.Value)
 				{
 					if ((RequestData.TempCode == "" || RequestData.TempCode == null))

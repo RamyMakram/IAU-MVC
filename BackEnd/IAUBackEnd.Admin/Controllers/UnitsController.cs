@@ -30,13 +30,17 @@ namespace IAUBackEnd.Admin.Controllers
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true) });
 		}
+		public async Task<IHttpActionResult> GetActiveForEmail()
+		{
+			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.Users.Any(s => s.IS_Active == "1" && (!q.IS_Mostafid))) });
+		}
 		public async Task<IHttpActionResult> GetUniqueBuildingByLoca(int id)
 		{
 			return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.Units_Location_ID == id).Select(q => q.Building_Number).Distinct() });
 		}
 		public async Task<IHttpActionResult> GetActiveUnits_by(int serviceType, int Req, int? locid, string Build)
 		{
-			var publider = PredicateBuilder.New<Units>(q => (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Count(w => w.ServiceTypeID == serviceType) != 0) && q.Units_Request_Type.Count(w => w.Request_Type_ID == Req) != 0);
+			var publider = PredicateBuilder.New<Units>(q => (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType)) && q.Units_Request_Type.Any(w => w.Request_Type_ID == Req) && q.Users.Any(s => s.IS_Active == "1")&&(!q.IS_Mostafid));
 			if (Build != "" && Build != "null" && Build != null)
 				publider.And(q => q.Building_Number.Equals(Build));
 			if (locid != null)
@@ -315,7 +319,7 @@ namespace IAUBackEnd.Admin.Controllers
 			}
 			else
 			{
-				if (unitCode.Length < 2)
+				if (unitCode == null || unitCode.Length < 2)
 					unitCode = "00";
 				_code[3] = LocationID.ToString()[0];
 				_code[index] = UnittypeCode;

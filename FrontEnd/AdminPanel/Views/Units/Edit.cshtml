@@ -64,6 +64,10 @@
 
 	.select2-selection__rendered {
 		font-weight: normal;
+		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
+	}
+	.select2-results__option{
+		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
 	}
 
 	.select2-selection__rendered, .select2-selection__arrow {
@@ -431,9 +435,9 @@
 		$('#CodeGenrateDiv input:nth-of-type(4)').val(ID)
 	}
 	function UnitCodeChange(ISLevelChange, change = "", Intit = false) {
-		let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1
+		let index = $("#LEVEID option:selected").text().split(' - ')[0] - 1
 		if (isNaN(index))
-			index = $("#LEVEID").text().split(' - ')[1] - 1;
+			index = $("#LEVEID").text().split(' - ')[0] - 1;
 		//debugger
 		let startIn = 3 + (index == 0 ? 1 : index * 3);
 		startIn += 1;

@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
 	@{
 		if (Request.Cookies["lang"].Value == "ar")
 		{
@@ -46,6 +47,13 @@
 	}
 
 	<style>
+			.select2-selection__rendered {
+		font-weight: normal;
+		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
+	}
+	.select2-results__option{
+		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
+	}
 		.actionForm {
 			padding: 30px;
 		}
