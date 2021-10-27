@@ -440,10 +440,10 @@ $('.mainservice').click(function (e) {//service type
 ///////////////////////////////////////////////////////////////////////////////
 let dropArea = document.getElementById('drop-area');
 let Supportedfilename = "";
-$("#drop-area-other").click(function () {
+$("#drop-area-other p").click(function () {
 	$("#filelistOther").click();
 });
-$("#drop-area").click(function () {
+$("#drop-area p").click(function () {
 	$("#filelistSupportive").click();
 });
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -496,7 +496,7 @@ function HandelDragAndDrop(files) {
 				DropedFile.push(file)
 				counter++;
 				FileNames.push(file.name);
-				$('#filesNameDrop').append("<div class='col-md-6 fileshow' id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' onclick='deleteFileSupport(\"support-doc" + counter + "\")'></i></div>")
+				$('#filesNameDrop').append("<div class='col-md-6 fileshow' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
 			});
 		}
 	}
@@ -508,15 +508,23 @@ function HandelDragAndDrop(files) {
 		} else {
 			([...files]).forEach(function (file) {
 				DropedFile.push(file)
+				counter++;
 				FileNames.push(file.name)
-				$('#filesNameDropOther').append("<div class='col-md-6 fileshow' id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' onclick='deleteFileSupport(\"support-doc" + counter + "\")'></i></div>")
+				$('#filesNameDropOther').append("<div class='col-md-6 fileshow' data-filename='" + file.name + "' id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle'" + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
 			});
 		}
 		//console.log(DropedFile)
 	}
 }
-function deleteFileSupport(id) {
-	$('#filesNameDropOther ' + id).remove();
+function deleteFileSupport(id, _this) {
+	event.stopPropagation();
+	event.preventDefault();
+	let filename = $(_this).parent().data("filename")
+	console.log(filename)
+	$('#filesNameDropOther #' + id).remove();
+	$('#filesNameDrop #' + id).remove();
+	FileNames.pop(filename)
+	DropedFile.pop(DropedFile.find(q => q.name == filename))
 }
 var saverequest_Clicked = false;
 let data = null;
@@ -601,11 +609,13 @@ function saveRequest() {
 					if (result.success) {
 						$('#FourMessage').modal('hide');
 						$("#MainBody").addClass("mainbody");
+						$("#right-arrow").attr("style", "visibility:hidden");
+						$("#left-arrow").attr("style", "visibility:hidden");
 						document.getElementById('MainBody').innerHTML = language == "ar" ?
 							`<div class= "row" >
 										<div class="success">
 											<span>لقد تم ارسال طلبك بنجاح، </span><br />
-											<span> وسيتم إرسال كود الطلب الخاص بكم لمتابعة طلبكم عن طريق الرسائل النصيه</span>
+											<span> وسيتم إرسال كود الطلب الخاص بكم لمتابعة طلبكم عن طريق الرسائل النصيه او البريد الالكتروني</span>
 										</div>
 										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
 											<a href="" class="btn" id="Okaybutton">موافق</a>
@@ -614,7 +624,7 @@ function saveRequest() {
 							: `<div class= "row" >
 										<div class="success">
 											<span>Your request has been sent successfully. You will soon receive the </span><br />
-											<span>TRACKING NUMBER and the related link to follow your request via SMS </span>
+											<span>TRACKING NUMBER and the related link to follow your request via SMS or Email </span>
 										</div>
 										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
 											<a href="" class="btn" id="Okaybutton">Ok</a>
@@ -767,15 +777,16 @@ function GetSubServices(ID) {
 				$("#filesName").html("")
 				supporteddocs = SubServices[0].Docs
 				SubServices[0].Docs.forEach(function (element) {
-					let Name = language == "ar" ? element.Name_AR : element.Name_EN
+					let Name = language == "ar" ? element.Name_AR : element.Name_EN;
+					console.log(element.Name_EN)
 					$("#filesName").append(`
 										<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:10px;padding:0px;4px;" >
 												<div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
 													<span style="font-size:14px;display:inline-block;width:70%" title="${Name}" id="FileDefault${element.ID}">${Name.length > 17 ? Name.substring(0, 13) + "..." : Name}</span>
 													<span style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
 													<input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
-													<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
-													<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+													<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name_EN}"></i>
+													<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name_EN}"></i>
 												</div>
                                         </div >
 				`)
@@ -819,8 +830,8 @@ function GetEfroms(ID) {
 												<span style="font-size:14px;display:inline-block;width:70%" title="${Name}" id="FileDefault${element.ID}">${Name.length > 17 ? Name.substring(0, 13) + "..." : Name}</span>
 												<span style="display:none padding:2px 0px" id="FileName${element.ID}"></span>
 												<input type="file" style="display: none;" id="uploadFileDialog${element.ID}" onchange="handleFiles(this.files)" />
-												<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name}"></i>
-												<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name}"></i>
+												<i class="fa fa-upload" id="fileUpload${element.ID}" style="padding:0px 2px;color:gray" name="${element.ID}" data-RequiredName="${element.Name_EN}"></i>
+												<i class="fa fa-trash" id="fileRemove${element.ID}" style="display:none" name="${element.ID}" data-RequiredName="${element.Name_EN}"></i>
 											</div>
                                         </div>
 					`)
@@ -880,7 +891,7 @@ function serialiazeForm() {
 	let Data = {
 		Unit_ID: $((inquiry ? "#provider" : "#providerOther") + '  option:selected').val() == "null" ? null : $((inquiry ? "#provider" : "#providerOther") + '  option:selected').val(),
 		Sub_Services_ID: $('#Sub_Services_ID  option:selected').val() == "null" ? null : $('#Sub_Services_ID  option:selected').val(),
-		Required_Fields_Notes: $('#Required_Fields_Notes').val() == "null" ? null : $('#Required_Fields_Notes').val(),
+		Required_Fields_Notes: inquiry ? ($('#Required_Fields_Notes').val() == "null" ? null : $('#Required_Fields_Notes').val()) : ($('#Required_Fields_Notes_Other').val() == "null" ? null : $('#Required_Fields_Notes_Other').val()),
 		Service_Type_ID: document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid'),
 		Request_Type_ID: document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'),
 		Personel_Data: {
@@ -944,7 +955,7 @@ function SerializeGenratePDF() {
 		postal: $('#Region_Postal_Code_2').val(),
 		Email: $('#Email').val(),
 		Mobile: "966" + $('#Mobile').val(),
-
+		Required_Fields_Notes: inquiry ? ($('#Required_Fields_Notes').val() == "null" ? null : $('#Required_Fields_Notes').val()) : ($('#Required_Fields_Notes_Other').val() == "null" ? null : $('#Required_Fields_Notes_Other').val()),
 
 		Personel_Data: {
 			IAU_ID_Number: $('#IAUID').val(),
@@ -968,7 +979,7 @@ function SerializeGenratePDF() {
 		Main_Services_Name: $('#Main_Services_ID  option:selected').text(),
 		Name: `${($("#title  option:selected").text())} ${$("#FirstName").val()} ${$("#MiddelName").val()} ${$("#FamilyName").val()}`,
 		Address: "",
-		file_names: Object.create(FileNames)
+		file_names: [...FileNames]
 	}
 	return Data;
 }
@@ -998,6 +1009,7 @@ function GeneratePdfData() {
 		't-email': '   البريد الالكتروني   ',
 		't-phone': '   رقم الهاتف   ',
 		't-attachment': '    المرفقات    ',
+		't-pdf-note': '    البريد الالكتروني    ',
 	}
 	var en = {
 		't-summary': 'Summary Of Request',
@@ -1023,10 +1035,11 @@ function GeneratePdfData() {
 		't-email': 'Email',
 		't-phone': 'Mobile Phone',
 		't-attachment': 'Attachments',
+		't-pdf-note': 'Request Notes',
 	}
 	let Form = SerializeGenratePDF();
 	let FilesDiv = ""
-	Form["file_names"].splice(',').forEach(e => { FilesDiv += e == "," ? "" : "<p style='margin:0 6px;direction:ltr;text-align:center;color:green !important'>" + e + "</p>" })
+	Form["file_names"].forEach(e => { FilesDiv += e == "," ? "" : "<p style='margin:0 6px;direction:ltr;text-align:center;color:green !important'>" + e + "</p>" })
 	document.getElementById('padf').innerHTML = `
 	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
 	<img src="../Design/img/MousLogo2.png">
@@ -1120,7 +1133,11 @@ function GeneratePdfData() {
 					<th class="col-6" key="t-phone"></th>
 					<th class="col-6">${Form["Mobile"]}</th>
 				</tr>
-                ${(Form["file_names"].splice(',').length == 0) ? "" :
+				<tr class="row">
+					<th class="col-6" key="t-pdf-note"></th>
+					<th class="col-6">${Form["Required_Fields_Notes"]}</th>
+				</tr>
+                ${(Form["file_names"].length == 0) ? "" :
 			`<tr>
 					<th class="boldtitle" key="t-attachment"></th>
 				</tr>
