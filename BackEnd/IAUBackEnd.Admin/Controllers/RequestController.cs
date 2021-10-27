@@ -19,6 +19,7 @@ using LinqKit;
 using Newtonsoft.Json;
 using System.Linq.Dynamic;
 using System.Net.Mail;
+using System.Threading;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -383,7 +384,10 @@ namespace IAUBackEnd.Admin.Controllers
 				var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
 				string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 				WebSocketManager.SendToMulti(MostafidUsers, message);
-				_ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعة", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 48 hours");
+				new Thread(() =>
+				{
+					_ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعة", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 48 hours");
+				}).Start(); 
 				transaction.Commit();
 				return Ok(new
 				{
@@ -479,8 +483,12 @@ namespace IAUBackEnd.Admin.Controllers
 					req.TempCode = Code;
 					req.GenratedDate = Helper.GetDate();
 					p.SaveChanges();
-					string message = $@"عزيزي المستفيد, :نفيدكم بأن كود الطلب الخاص بكم هو {Code} برجاء استخدامة في حالة الاستعلام";
-					_ = NotifyUser(req.Personel_Data.Mobile, req.Personel_Data.Email, $@"برجاء استخدامة في حالة الاستعلام ، '{Code}' : عزيزي المستفيد،نفيدكم بأن كود الطلب الخاص بكم هو", $@"Dear Mostafid, we inform you that your request code is: '{Code}' Please use it in case of query");
+					var ssss = $@"عزيزي المستفيد، نفيدكم علما بأن كود الطلب الخاص بكم هو: '{Code}' برجاء اسخدامه في حالة الإستعلام";
+					new Thread(() =>
+					{
+						_ = NotifyUser(req.Personel_Data.Mobile, req.Personel_Data.Email, ssss, $@"Dear Mostafid, we inform you that your request code is: '{Code}' Please use it in case of query");
+					}).Start();
+
 				}
 				else
 				{
@@ -609,9 +617,12 @@ namespace IAUBackEnd.Admin.Controllers
 				sendeddata.Request_State_ID = 5;
 				sendeddata.Is_Archived = true;
 				p.SaveChanges();
-				string message = $@"عزيزي المستفيد , تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate}";
+				string message = $@"عزيزي المستفيد , تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate} . ";
 				if (sendeddata.RequestTransaction.Count != 0)
-					_ = NotifyUser(sendeddata.Personel_Data.Mobile, sendeddata.Personel_Data.Email, $@"'{sendeddata.Code_Generate}' عزيزي المستفيد، تم الانتهاء من الطلب رقم", $"Dear Mostafid, Request number '{sendeddata.Code_Generate}' has been completed");
+					new Thread(() =>
+					{
+						_ = NotifyUser(sendeddata.Personel_Data.Mobile, sendeddata.Personel_Data.Email, $@"عزيزي المستفيد، تم الانتهاء من الطلب رقم '{sendeddata.Code_Generate}'.", $"Dear Mostafid, Request number '{sendeddata.Code_Generate}' has been completed");
+					}).Start();
 				return Ok(new ResponseClass() { success = true });
 			}
 			return Ok(new ResponseClass() { success = false });

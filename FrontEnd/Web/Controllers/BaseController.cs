@@ -12,7 +12,7 @@ namespace Web.Controllers
 		{
 			base.OnActionExecuting(Context);
 			if (Request.Cookies["lang"] == null)
-				Response.Cookies.Set(new HttpCookie("lang", "en"));
+				Response.Cookies.Set(new HttpCookie("lang", "ar"));
 		}
 	}
 }

@@ -27,6 +27,7 @@ namespace AdminPanel.Controllers
 				Response.Cookies.Add(new HttpCookie("ar_top_name", HttpUtility.UrlEncode(data["AR_Top"].Value<string>())));
 				Response.Cookies.Add(new HttpCookie("u", data["User_ID"].Value<string>()));
 				Response.Cookies.Add(new HttpCookie("token", t));
+				Response.Cookies.Add(new HttpCookie("lang", "ar"));
 				return RedirectToAction("Home", "Home");
 			}
 			else

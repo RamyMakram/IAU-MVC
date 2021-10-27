@@ -18,6 +18,7 @@ namespace IAU_BackEnd.Controllers
 			var data = p.Units.Where(q =>
 			q.IS_Action.Value &&
 			q.UnitMainServices.Count(w =>
+				w.Main_Services.ServiceTypeID == SerID &&
 				w.Main_Services.IS_Action.Value &&
 				(req ? true : w.Main_Services.Sub_Services.Count(t => t.IS_Action.Value) != 0) &&//validated if inquiry then it's not required sub service
 				w.Main_Services.ValidTo.Count(e => e.ApplicantTypeID == AppType) != 0)//Check Applicant Type in main service

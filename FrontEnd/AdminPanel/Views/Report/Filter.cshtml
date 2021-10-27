@@ -316,7 +316,7 @@
 					<div class="content">
 
 					</div>
-					 <div class="footer" style="height: 210px;">
+					 <div class="footer-pdf" style="height: 210px;">
 						<img src="/assets/images/repo/iaufooter.jpeg" height="90px">
 					</div>`
 		return page_div;
@@ -408,7 +408,7 @@
 						position: relative;
 					}
 
-					.footer {
+					.footer-pdf {
 						position: absolute;
 						right: 0px;
 						bottom: 1px;
@@ -417,7 +417,7 @@
 						text-align: center;
 					}
 
-					 .footer img {
+					 .footer-pdf img {
 						height: 90px !important;
 					 }
 					.table tbody tr th,
@@ -486,13 +486,18 @@
 			tbody.appendChild(i);
 		});
 		var myWindow = window.open('', '', 'width=800,height=700');
+		console.log(html.innerHTML)
 		myWindow.document.write(html.innerHTML);
-		myWindow.focus();
+		//myWindow.document.body. = function () { myWindow.print(); }
 		myWindow.addEventListener('load', (event) => {
 			myWindow.print();
-			myWindow.close();
+			setTimeout(() => { myWindow.close();},500)
 		});
 		myWindow.document.close();
+		document.getElementById('VIEwTemP__dsdm').innerHTML = ""
+		tbody_data.forEach(s => {
+			document.getElementById('MailList').appendChild(s)
+		})
 		$('.page-link[data-dt-idx="1"]').click()
 	}
 	function openWin() {

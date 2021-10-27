@@ -125,13 +125,13 @@
 								<label key="t-title-unitlevel" class="control-label">Types</label>
 								@if (Model.CanChangeLevel)
 								{
-									@Html.DropDownListFor(q => q.LevelID, ViewBag.Levels as IEnumerable<SelectListItem>, new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEID" });
+									@Html.DropDownListFor(q => q.LevelID, (ViewBag.Levels as IEnumerable<SelectListItem>).Where(q => int.Parse(q.Value) >= Model.LevelID), new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEID" });
 								}
 								else
 								{
 									@*<label class="form-control" disabled id="LEVEID">@((Request.Cookies["lang"].Value=="ar"? Model.UnitLevel.Name_AR:Model.UnitLevel.Name_EN)+ " - " + Model.UnitLevel.Code)</label>*@
 									<select class="form-control select2" id="LEVEID">
-										@foreach (var i in ViewBag.Levels as IEnumerable<SelectListItem>)
+										@foreach (var i in (ViewBag.Levels as IEnumerable<SelectListItem>).Where(q => int.Parse(q.Value) >= Model.LevelID))
 										{
 											<option @(i.Value == Model.LevelID.ToString() ? "selected" : "") value="@i.Value" disabled>@i.Text</option>
 										}

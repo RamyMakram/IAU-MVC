@@ -112,6 +112,7 @@ namespace IAUBackEnd.Admin.Controllers
 			{
 				var data = p.Users
 					.Include(q => q.Job)
+					.Include(q => q.Units)
 					.Select(q => new
 					{
 						q.User_ID,
@@ -123,6 +124,7 @@ namespace IAUBackEnd.Admin.Controllers
 						q.Job_ID,
 						q.Job.User_Permissions_Type_Name_AR,
 						q.Job.User_Permissions_Type_Name_EN,
+						Unit = q.Units
 					});
 				return Ok(new ResponseClass
 				{

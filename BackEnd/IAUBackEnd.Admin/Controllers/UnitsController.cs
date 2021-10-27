@@ -40,7 +40,7 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		public async Task<IHttpActionResult> GetActiveUnits_by(int serviceType, int Req, int? locid, string Build)
 		{
-			var publider = PredicateBuilder.New<Units>(q => (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType)) && q.Units_Request_Type.Any(w => w.Request_Type_ID == Req) && q.Users.Any(s => s.IS_Active == "1")&&(!q.IS_Mostafid));
+			var publider = PredicateBuilder.New<Units>(q => (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType)) && q.Units_Request_Type.Any(w => w.Request_Type_ID == Req) && q.Users.Any(s => s.IS_Active == "1") && (!q.IS_Mostafid));
 			if (Build != "" && Build != "null" && Build != null)
 				publider.And(q => q.Building_Number.Equals(Build));
 			if (locid != null)
@@ -100,7 +100,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 				data.Building_Number = units.Building_Number;
 				data.Ref_Number = units.Ref_Number;
-				if (data.LevelID != units.LevelID && CanChangeLevel(data.Units_ID))
+				if (data.LevelID != units.LevelID && CanChangeLevel(data.Units_ID, units.LevelID.Value))
 					data.LevelID = units.LevelID;
 
 				data.IS_Mostafid = units.IS_Mostafid;
@@ -284,9 +284,9 @@ namespace IAUBackEnd.Admin.Controllers
 			var data = (db ?? new MostafidDBEntities()).Units.Count(q => q.Units_ID != (unitid ?? 0) && q.Code == code && q.LevelID == level);
 			return data == 0;
 		}
-		private bool CanChangeLevel(int unitid)
+		private bool CanChangeLevel(int unitid, int newLevel)
 		{
-			var data = p.Units.Count(q => q.SubID == unitid);//if dont have any sub units
+			var data = p.Units.Count(q => q.SubID == unitid && q.LevelID < newLevel);//if dont have any sub units and can increase yount ex. from level 1 to level 2
 			return data == 0;
 		}
 

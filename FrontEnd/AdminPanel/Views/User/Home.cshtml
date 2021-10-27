@@ -37,6 +37,7 @@
 							<th key="t-mobile">Mobile</th>
 							<th key="t-email">Email</th>
 							<th key="t-job">Department</th>
+							<th key="t-units-short">Department</th>
 							<th key="t-activeTitle">Active</th>
 							<th></th>
 						</tr>
@@ -52,6 +53,7 @@
 								<td class="en-font">@i.User_Mobile</td>
 								<td class="en-font">@i.User_Email</td>
 								<td>@(lang == "ar" ? i.User_Permissions_Type_Name_AR : i.User_Permissions_Type_Name_EN)</td>
+								<td>@(lang == "ar" ? i.Unit.Units_Name_AR : i.Unit.Units_Name_EN)</td>
 								@*<td>@i.User_Permissions_Type_Name_EN</td>*@
 								<td>
 									@Html.ActionLink("Active", i.IS_Active == "1" ? "Deactive" : "Active", new { Id = i.User_ID }, new { @class = i.IS_Active == "1" ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Active == "1" ? "t-active-Home" : "t-deactive-Home" })

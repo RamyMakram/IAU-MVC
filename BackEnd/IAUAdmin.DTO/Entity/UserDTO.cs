@@ -18,6 +18,7 @@ namespace IAUAdmin.DTO.Entity
 		public string IS_Active { get; set; }
 		public string User_Permissions_Type_Name_AR { get; set; }
 		public string User_Permissions_Type_Name_EN { get; set; }
+		public UnitsDTO Unit { get; set; }
 		public virtual JobDTO Job { get; set; }
 	}
 }
