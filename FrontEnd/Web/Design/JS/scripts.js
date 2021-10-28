@@ -53,7 +53,7 @@ $(document).ready(function () {
 	let ret = localStorage.getItem("ret");
 	if (data != null && data != "" && mst != null && mst != "" && ret != null && ret != "") {
 		$.ajax({
-			url: `https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName=${encodeURIComponent(data)}&lang=en`,
+			url: `https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName=${encodeURIComponent(data)}&lang=${language}`,
 			type: "GET",
 			crossDomain: false,
 			dataType: 'json',
@@ -870,7 +870,7 @@ function GetEfroms(ID) {
 												<img src="/Design/img/reader.png" style="width:25px" />
 											</div>
 											<div class="col-sm-8">
-												<a style="padding:0px" href="https://mm.iau-bsc.com/${element.Url}">${(language == 'ar' ? element.Name_AR : element.Name_EN)}</a>
+												<a style="padding:0px" target="_blank" href="https://mm.iau-bsc.com/${element.Url}">${(language == 'ar' ? element.Name_AR : element.Name_EN)}</a>
 											</div>
 										</div>
 									</div >

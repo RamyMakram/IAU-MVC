@@ -10,6 +10,9 @@
 	<link rel="stylesheet" href="~/Design/CSS/style.css" />
 	<meta name="description" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
 	<meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
+	@{
+		ViewBag.CookieLang = ViewBag.CookieLang ?? "ar";
+	}
 	@if (ViewBag.CookieLang == "ar")
 	{
 		<style>

@@ -88,6 +88,7 @@ namespace AdminPanel.Controllers
 		public ActionResult Edit(int Id, UserDTO user)
 		{
 			user.User_ID = Id;
+			user.User_Name = user.User_Name_En + "|" + user.User_Name_Ar;
 			var Req = APIHandeling.Post("User/UpdateData", user);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -134,6 +135,7 @@ namespace AdminPanel.Controllers
 		[HttpPost]
 		public ActionResult Create(UserDTO user)
 		{
+			user.User_Name = user.User_Name_En + "|" + user.User_Name_Ar;
 			var Req = APIHandeling.Post("User/Create", user);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);

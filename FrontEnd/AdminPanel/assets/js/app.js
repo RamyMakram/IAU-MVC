@@ -1,4 +1,4 @@
-/*
+﻿/*
 Template Name: Skote - Responsive Bootstrap 4 Admin Dashboard
 Author: Themesbrand
 Version: 2.0
@@ -260,6 +260,15 @@ function initLanguage() {
 	//});
 }
 var User = "";
+$(document).ajaxSend(function (event, jqxhr, settings) {
+	if (settings.url != "/assets/lang/ar.json")
+		document.getElementById('LoadingDiv').style.display = 'flex';
+});
+$(document).ajaxComplete(function () {
+	setTimeout(function () {
+		document.getElementById('LoadingDiv').style.display = 'none';
+	}, 1000)
+});
 (function ($) {
 
 	init();
@@ -283,6 +292,8 @@ var User = "";
 		} catch (e) {
 			location.href = "/Home/ChangeLanguage?lang=ar"
 		}
+		$('[required]').attr('oninvalid', `this.setCustomValidity('${language == "ar" ? "هذا الحقل الزامي" : "This Field Required"}')`).attr("oninput", "setCustomValidity('')");
+
 		initLanguage();
 		initLeftMenuCollapse();
 		initActiveMenu();

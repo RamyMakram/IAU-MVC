@@ -317,8 +317,8 @@
 										<th key="t-Provider"></th>
 										<th>
 											@*@{
-												var data = (ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>).First(q => q.Units_ID == Model.Unit_ID);
-											}*@
+					var data = (ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>).First(q => q.Units_ID == Model.Unit_ID);
+				}*@
 											@(isAr ? Model.Units.Units_Name_AR : Model.Units.Units_Name_EN)
 										</th>
 									</tr>
@@ -397,7 +397,10 @@
 										<th key="t-phone"></th>
 										<th class="en-font" style="direction:ltr;text-align:start;@(isAr ? "text-align: end !important;" : "")">@Model.Personel_Data.Mobile</th>
 									</tr>
-
+									<tr>
+										<th key="t-comment"></th>
+										<th>@Model.Required_Fields_Notes</th>
+									</tr>
 								</tbody>
 							</table>
 						</div>

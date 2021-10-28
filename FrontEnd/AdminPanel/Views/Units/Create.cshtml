@@ -106,7 +106,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-title-unitlevel" class="control-label">Types</label>
-								@Html.DropDownListFor(q => q.LevelID, (IEnumerable<SelectListItem>)ViewBag.Levels, new { @class = "form-control select2", @onchange = "LevelChange(event)", @id = "LEVEID" })
+								@Html.DropDownListFor(q => q.LevelID, (IEnumerable<SelectListItem>)ViewBag.Levels, new { @class = "form-control select2", @required = "true", @onchange = "LevelChange(event)", @id = "LEVEID" })
 							</div>
 							<div class="form-group">
 								<label key="t-subunits" class="control-label">Types</label>
@@ -115,23 +115,23 @@
 							</div>
 							<div class="form-group">
 								<label key="t-name" class="control-label" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control  ar-font", @name = "name", @id = "name" })
+								@Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control  ar-font", @required = "true", @name = "name", @id = "name" })
 							</div>
 							<div class="form-group">
 								<label key="t-location" class="control-label">Loactions</label>
-								@Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2", @id = "LocationIDSelect", @onchange = "LocationChange(event.target.value)" })
+								@Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2", @required = "true", @id = "LocationIDSelect", @onchange = "LocationChange(event.target.value)" })
 							</div>
 							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
 									<label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
-									@Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+									@Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @required = "true", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
 
 							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
 									<label class="control-label" key="t-requesttype" for="customCheck1">ReqTypes</label>
-									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @required = "true", @id = "customCheck1", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
 							@if ((bool)ViewBag.ViewMostafid)
@@ -171,7 +171,7 @@
 							</div>
 							<div class="form-group">
 								<label key="t-enname" class="control-label" for="Ename">ENNAME</label>
-								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control en-font", @name = "Ename", @id = "Ename" })
+								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control en-font", @required = "true", @name = "Ename", @id = "Ename" })
 							</div>
 
 							<div class="form-group">
@@ -186,17 +186,17 @@
 							<div class="form-group">
 								<div class="custom-control custom-checkbox mb-3 p-0">
 									<label class="control-label" key="t-title-subservice" for="servicetype">Sub servicetype</label>
-									@Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+									@Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @required = "true", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 								</div>
 							</div>
 							<div class="form-group">
 								<label key="t-title-Unitcode" class="control-label" for="Ename">UnitCode</label>
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "unitCode", @id = "unitCode", @maxlength = "1", @onkeyup = "UnitCodeChange()" })
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "unitCode", @required = "true", @id = "unitCode", @maxlength = "1", @onkeyup = "UnitCodeChange()" })
 							</div>
 
-							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID" })
-							@Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum" })
-							@Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum" })
+							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID", @required = "true" })
+							@Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum", @required = "true" })
+							@Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum", @required = "true" })
 						</div>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>

@@ -49,7 +49,9 @@
 						@foreach (var i in Model)
 						{
 							<tr onclick="Go(this,'@Url.Action("Detials", "User", new { Id = i.User_ID })')">
-								<td>@i.User_Name</td>
+								<td>
+									@(lang == "ar" ?i.User_Name_Ar:i.User_Name_En)
+								</td>
 								<td class="en-font">@i.User_Mobile</td>
 								<td class="en-font">@i.User_Email</td>
 								<td>@(lang == "ar" ? i.User_Permissions_Type_Name_AR : i.User_Permissions_Type_Name_EN)</td>
@@ -127,8 +129,12 @@
 			cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
 		}).then(function (result) {
 			if (result.value) {
+				document.getElementById('LoadingDiv').style.display = 'none';
 				$.ajax({
 					url: '/User/Delete?id=' + id,method: "POST",  success: function (res) {
+						setTimeout(function () {
+							document.getElementById('LoadingDiv').style.display = 'none';
+						}, 1000)
 						if (res["success"] == true)
 							location.href = location.href;
 						else {

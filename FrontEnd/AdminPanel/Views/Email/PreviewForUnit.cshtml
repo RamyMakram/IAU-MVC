@@ -386,7 +386,10 @@
 										<th key="t-phone"></th>
 										<th class="en-font" style="direction:ltr;text-align:start;@(isAr ? "text-align: end !important;" : "")">@Model.Personel_Data.Mobile</th>
 									</tr>
-
+									<tr>
+										<th key="t-comment"></th>
+										<th>@Model.Required_Fields_Notes</th>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -427,18 +430,24 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="container">
-							<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment"></span><span class="marker"></span></a>
-
-								</li>
-								@if (ViewBag.RequestTransaction.Count != 0)
-								{
+							<div style="display:inline-flex;justify-content:space-between;width:100%">
+								<ul class="nav nav-tabs tabs-marker tabs-dark" style="margin-bottom:21px" id="myTab" role="tablist">
 									<li class="nav-item">
-										<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
+										<a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment"></span><span class="marker"></span></a>
+
 									</li>
-								}
-							</ul>
+									@if (ViewBag.RequestTransaction.Count != 0)
+									{
+										<li class="nav-item">
+											<a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
+										</li>
+									}
+								</ul>
+								<div style="display: inline-flex; justify-content: center; align-items: baseline;">
+									<label key="t-ExpectedTime" style=" white-space: nowrap;" class="control-label mx-1">الوقت المتوقع</label>
+									<input name="ExpectedDate" style="text-align:center !important" disabled dir="@(isAr ? "rtl" : "ltr")" class="form-control en-font" value="@(MostafidComment.ExpireDays?.ToString("yyy-MM-dd"))" />
+								</div>
+							</div>
 							<div class="tab-content" id="myTabContent">
 								<div class="tab-pane fade show active" id="home-tab2" role="tabpanel" aria-labelledby="home-tab">
 									<div class="col">

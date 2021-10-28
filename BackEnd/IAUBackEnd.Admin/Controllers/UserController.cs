@@ -60,7 +60,7 @@ namespace IAUBackEnd.Admin.Controllers
 				return Ok(new ResponseClass
 				{
 					success = true,
-					result = new { data.User_ID, EN_Top = "Hello " + data.Units.Units_Name_EN + " ،" + data.User_Name, AR_Top = "مرحبا " + data.Units.Units_Name_AR + " ،" + data.User_Name }
+					result = new { data.User_ID, EN_Top = "Hello " + data.Units.Units_Name_EN + " ،" + data.User_Name.Split('|')[0], AR_Top = "مرحبا " + data.Units.Units_Name_AR + " ،" + data.User_Name.Split('|')[1] }
 				});
 			}
 			catch (Exception ee)

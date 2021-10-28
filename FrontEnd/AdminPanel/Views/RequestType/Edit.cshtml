@@ -41,13 +41,13 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label" key="t-name" for="name">User Name</label>
-								@Html.TextBoxFor(q => q.Request_Type_Name_AR, new { @id = "name", @class = "form-control ar-font" })
+								@Html.TextBoxFor(q => q.Request_Type_Name_AR, new { @id = "name", @class = "form-control ar-font", @required = "true" })
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label" key="t-enname" for="enname">EnName</label>
-								@Html.TextBoxFor(q => q.Request_Type_Name_EN, new { @id = "enna,e", @class = "form-control en-font" })
+								@Html.TextBoxFor(q => q.Request_Type_Name_EN, new { @id = "enna,e", @class = "form-control en-font", @required = "true" })
 							</div>
 						</div>
 					</div>
