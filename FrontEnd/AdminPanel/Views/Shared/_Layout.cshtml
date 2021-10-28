@@ -49,10 +49,10 @@
 	<style>
 			.select2-selection__rendered {
 		font-weight: normal;
-		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
+		direction:@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")
 	}
 	.select2-results__option{
-		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
+		direction:@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")
 	}
 		.actionForm {
 			padding: 30px;
@@ -209,6 +209,9 @@
 	@*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
 
 	@RenderSection("scripts", required: false)
+	@Html.Partial("~/Views/Shared/PrivilgesControls.cshtml")
+
+
 	<script>
 		$(document).ready(w => {
 			var data = document.querySelectorAll('#datatable-buttons_filter label input , #searchTXT')
