@@ -244,7 +244,7 @@
 								<label class="control-label" key="t-title-Unitcode" for="Ename">UnitCode</label>
 
 								<!--<input class="form-control" value="@Model.Code" id="unitCode" disabled readonly--> @*onkeyup="UnitCodeChange(false, event.target.value==''?'0':event.target.value)"*@ <!--/>-->
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @required = "true", @name = "unitCode", @maxlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q => q.Value == Model.LevelID.ToString()).Value.Split('-')[0] == "1" ? "1" : "2", @id = "unitCode", @onkeyup = "UnitCodeChange(false, event.target.value==''?'0':event.target.value,true)" })
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @required = "true", @name = "unitCode", @maxlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q => q.Value == Model.LevelID.ToString()).Value.Split('-')[0] == "1" ? "1" : "2", @minlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q => q.Value == Model.LevelID.ToString()).Value.Split('-')[0] == "1" ? "1" : "2", @id = "unitCode" })
 								@*<label class="valid-feedback" id="UnitCodeFeedback" style="color:red;">@(Request.Cookies["lang"]?.Value=="ar"?"عذرا،هذا الرقم مستخدم":"Sorry,this code is Used")</label>*@
 							</div>
 
@@ -269,26 +269,6 @@
 <script>
 	let UnitTypes = [];
 	let count = 0;
-	//$(document).ready(function () {
-	//	LevelChange(document.getElementById('LEVEID').value)
-	//	let BuildN = $('#BuildNum').val().split('')
-	//	if (BuildN.length != 0) {
-	//		let BuildngsControls = document.getElementsByClassName('BuldingNumber');
-
-	//		([...BuildngsControls]).reverse().map(function (a, index) {
-	//			return a.value = BuildN[index]
-	//		})
-	//	}
-	//	else
-	//		BuildChange();
-	//	let Code = $('#RefNum').val().split('');
-	//	([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
-	//		le.value = Code[i]
-	//	})
-	//	LocationChange($('#LocationIDSelect').val())
-	//	//UnitCodeChange(false,"", true)
-
-	//})
 	$.ajax({
 			url: "/Units/getTypeOFUnit?id=" +$('#SubUnits').val() , success: function (d) {
 				var lang = document.getElementById("lang").value
@@ -355,10 +335,12 @@
 				select.innerHTML = ``;
 				if (e.length == 0) {
 					$('#unitCode').attr('maxlength', "1");
+					$('#unitCode').attr('minlength', "1");
 					SubUnitChange(null)
 				}
 				else {
 					$('#unitCode').attr('maxlength', "2");
+					$('#unitCode').attr('minlength', "2");
 
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
@@ -495,7 +477,6 @@
 				return c.value + a.value
 		})
 		$('#RefNum').val(BuildNumber)
-		ValidateCode()
 	}
 	$(document).ready(ssss => {
 		$.ajax({
@@ -505,6 +486,10 @@
 				//console.log("error", ee)
 			}
 		})
+		$(document).on("focusout", "#unitCode", i => {
+            $('#unitCode').val($('#unitCode').val() == '' ? $("#defCode").val() : $('#unitCode').val());
+            ValidateCode();
+		});
 		$('#submitUnit').click(e => {
 			Swal.fire({
 			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حفظ هذه الفئة؟" : "Are you sure To Save this unit?")",
@@ -522,6 +507,12 @@
 		});
 		})
 	})
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 </script>
 <script>
 	function ValidateCode() {

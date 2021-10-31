@@ -2,36 +2,36 @@
 <html>
 
 <head>
-	<meta charset="utf-8" />
-	<title>@ViewBag.Title</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/Design/CSS/all.min.css" />
-	<link rel="stylesheet" href="~/Design/CSS/style.css" />
-	<meta name="description" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
-	<meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
-	@{
-		ViewBag.CookieLang = ViewBag.CookieLang ?? "ar";
-	}
-	@if (ViewBag.CookieLang == "ar")
-	{
-		<style>
-			.containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
-				letter-spacing: normal !important;
-			}
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
+    <link rel="stylesheet" href="~/Design/CSS/style.css" />
+    <meta name="description" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
+    <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
+    @{
+        ViewBag.CookieLang = ViewBag.CookieLang ?? "ar";
+    }
+    @if (ViewBag.CookieLang == "ar")
+    {
+        <style>
+            .containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
+                letter-spacing: normal !important;
+            }
 
-			a.nav-link {
-				font-weight: bold;
-				font-size: 19px;
-			}
+            a.nav-link {
+                font-weight: bold;
+                font-size: 19px;
+            }
 
-			.mainservice p, .requesttype p {
-				font-size: 18px !important;
-				font-weight: bold !important;
-			}
-		</style>
-		<link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
-	}
+            .mainservice p, .requesttype p {
+                font-size: 18px !important;
+                font-weight: bold !important;
+            }
+        </style>
+        <link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
+    }
 </head>
 
 <body class="@ViewBag.CookieLang">

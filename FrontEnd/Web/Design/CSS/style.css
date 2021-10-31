@@ -1716,7 +1716,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 	.main-page .New-Idea .Objective,
 	.main-page .New-Idea .vision,
 	.main-page .operation-System .Scope-of-Services,
-	.main-page .operation-System .Reference-Points {
+	.main-page .operation-System .Reference-Points, .main-page .operation-System .Service-Delivery {
 		margin-bottom: 80px;
 		padding: 0px 20px;
 	}
