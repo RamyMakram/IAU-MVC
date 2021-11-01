@@ -1,21 +1,24 @@
 ﻿
 @{
-	var Perm = (TempData["Permissions"] as string[]);
+    var Perm = (TempData["Permissions"] as string[]);
 }
 @{
-	string Js = "";
-	if (!Perm.Contains("Active or Deactive Item"))
-	{
-		Js += "\n" + @"$(`a[key='t-deactive-Home'],a[key='t-deactive'],a[key='t-active-Home'],a[key='t-active']`).attr('href', '#');";
-	}
-	if (!Perm.Contains("Add New Item"))
-	{
-		Js += "\n" + @"$(`a.createNew-link`).attr('href', '#');";
-	}
-	if (!Perm.Contains("Edit Item"))
-	{
-		Js += "\n" + @"$(`a[key='t-edit']`).attr('href', '#');";
-	}
+    string Js = "";
+    if (Perm != null)
+    {
+        if (!Perm.Contains("Active or Deactive Item"))
+        {
+            Js += "\n" + @"$(`a[key='t-deactive-Home'],a[key='t-deactive'],a[key='t-active-Home'],a[key='t-active']`).attr('href', '#');";
+        }
+        if (!Perm.Contains("Add New Item"))
+        {
+            Js += "\n" + @"$(`a.createNew-link`).attr('href', '#');";
+        }
+        if (!Perm.Contains("Edit Item"))
+        {
+            Js += "\n" + @"$(`a[key='t-edit']`).attr('href', '#');";
+        }
+    }
 }
 <script>
 		@Html.Raw(@"

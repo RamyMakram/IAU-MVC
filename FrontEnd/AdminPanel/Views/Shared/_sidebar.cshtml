@@ -1,119 +1,121 @@
 ﻿<!-- ========== Left Sidebar Start ========== -->
 @using IAUAdmin.DTO.Entity
 <style>
-	.vertical-menu {
-		background: #0a1332 !important;
-	}
+    .vertical-menu {
+        background: #0a1332 !important;
+    }
 
-	.waves-effect span {
-		font-size: 14px;
-	}
+    .waves-effect span {
+        font-size: 14px;
+    }
 </style>
 <div class="vertical-menu">
 
-	<div data-simplebar class="h-100">
+    <div data-simplebar class="h-100">
 
-		<!--- Sidemenu -->
-		<div id="sidebar-menu">
-			<!-- Left Menu Start -->
-			<ul class="metismenu list-unstyled" id="side-menu">
-				@{
-					var data = TempData["Permissions"] as string[];
-					<li>
-						<a href="/" id="" class="waves-effect">
-							<i class="fas fa-layer-group"></i>
-							<span key="t-menu">الرئيسية</span>
-						</a>
-					</li>
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                @{
+                    var data = TempData["Permissions"] as string[];
+                    <li>
+                        <a href="/" id="" class="waves-effect">
+                            <i class="fas fa-layer-group"></i>
+                            <span key="t-menu">الرئيسية</span>
+                        </a>
+                    </li>
 
-					<li>
-						<a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
-							<i class="fas fa-inbox"></i>
-							<span key="t-InBox">الطلبات الوارده</span>
-							<span class="badge badge-danger badge-pill" style="padding: 3px 6px; margin: 0px 7px; " id="NotficationsCount">0</span>
-						</a>
-					</li>
+                    <li>
+                        <a href=@Url.Action("Home", "Email") id="Email" class="waves-effect">
+                            <i class="fas fa-inbox"></i>
+                            <span key="t-InBox">الطلبات الوارده</span>
+                            <span class="badge badge-danger badge-pill" style="padding: 3px 6px; margin: 0px 7px; " id="NotficationsCount">0</span>
+                        </a>
+                    </li>
 
-					<li>
-						<a href=@Url.Action("Home", "SendedRequests") id="SendedRequests" class="waves-effect">
-							<i class="fas fa-paper-plane"></i>
-							<span key="t-forwarded">الطلبات المرسلة</span>
-						</a>
-					</li>
+                    <li>
+                        <a href=@Url.Action("Home", "SendedRequests") id="SendedRequests" class="waves-effect">
+                            <i class="fas fa-paper-plane"></i>
+                            <span key="t-forwarded">الطلبات المرسلة</span>
+                        </a>
+                    </li>
 
-					if ((bool)TempData["IsMostafid"])
-					{
-						<li>
-							<a href=@Url.Action("Home", "ArchivedRequests") class="waves-effect" id="ArchivedRequests">
-								<i class="fas fa-server"></i>
-								<span key="t-ArchivedOrders">ادارة خدمات المستفيدين</span>
-							</a>
-						</li>
-					}
+                    if (TempData["IsMostafid"] != null && (bool)TempData["IsMostafid"])
+                    {
+                        <li>
+                            <a href=@Url.Action("Home", "ArchivedRequests") class="waves-effect" id="ArchivedRequests">
+                                <i class="fas fa-server"></i>
+                                <span key="t-ArchivedOrders">ادارة خدمات المستفيدين</span>
+                            </a>
+                        </li>
+                    }
+                    if (data != null)
+                    {
+                        if (data.Contains("Statistics"))
+                        {
+                            <li>
+                                <a href=@Url.Action("Home", "Report") class="waves-effect" id="Report">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span key="t-statistics">التقارير والاحصائيات</span>
+                                </a>
+                            </li>
+                        }
 
-					if (data.Contains("Statistics"))
-					{
-						<li>
-							<a href=@Url.Action("Home", "Report") class="waves-effect" id="Report">
-								<i class="fas fa-chart-pie"></i>
-								<span key="t-statistics">التقارير والاحصائيات</span>
-							</a>
-						</li>
-					}
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="bx bx-store"></i>
+                                <span key="t-control-panel">لوحة التحكم </span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false" style="z-index:9999">
+                                @{
+                                    if (data.Contains("Adminstrative Units"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "Units") id="Units" key="t-uints-settings">اعدادات الوحدات</a></li>
+                                    }
+                                    if (data.Contains("Service Bank"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "ServicesBank") id="ServicesBank,SubServices,EForms" key="t-SevicesBank">اعدادات الخدمات الاساسية</a></li>
+                                    }
+                                    if (data.Contains("Administrative Levels Settings"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "Levels") id="Levels" key="t-levels">المستويات الادراية</a></li>
+                                    }
+                                    if (data.Contains("Site encoding settings"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "UnitLocation") id="UnitLocation" key="t-Unit-LocationSide"> اعدادات ترميز الموقع</a></li>
+                                    }
+                                    if (data.Contains("Main Services Settings"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "ServiceTypes") id="ServiceTypes" key="t-services-type">اعدادات أنواع الخدمات الاساسية</a></li>
+                                    }
+                                    if (data.Contains("Request Types"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "RequestType") id="RequestType" key="t-request-type">اعدادات أنواع الطلبات</a></li>
+                                    }
+                                    if (data.Contains("Users"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "User") id="User" key="t-users">اعدادات المستخدمين</a></li>
+                                    }
+                                    if (data.Contains("Permissions"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "Jobs") id="Jobs" key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
+                                    }
 
-					<li>
-						<a href="javascript: void(0);" class="has-arrow waves-effect">
-							<i class="bx bx-store"></i>
-							<span key="t-control-panel">لوحة التحكم </span>
-						</a>
-						<ul class="sub-menu" aria-expanded="false" style="z-index:9999">
-							@{
-								if (data.Contains("Adminstrative Units"))
-								{
-									<li><a href=@Url.Action("Home", "Units") id="Units" key="t-uints-settings">اعدادات الوحدات</a></li>
-								}
-								if (data.Contains("Service Bank"))
-								{
-									<li><a href=@Url.Action("Home", "ServicesBank") id="ServicesBank,SubServices,EForms" key="t-SevicesBank">اعدادات الخدمات الاساسية</a></li>
-								}
-								if (data.Contains("Administrative Levels Settings"))
-								{
-									<li><a href=@Url.Action("Home", "Levels") id="Levels" key="t-levels">المستويات الادراية</a></li>
-								}
-								if (data.Contains("Site encoding settings"))
-								{
-									<li><a href=@Url.Action("Home", "UnitLocation") id="UnitLocation" key="t-Unit-LocationSide"> اعدادات ترميز الموقع</a></li>
-								}
-								if (data.Contains("Main Services Settings"))
-								{
-									<li><a href=@Url.Action("Home", "ServiceTypes") id="ServiceTypes" key="t-services-type">اعدادات أنواع الخدمات الاساسية</a></li>
-								}
-								if (data.Contains("Request Types"))
-								{
-									<li><a href=@Url.Action("Home", "RequestType") id="RequestType" key="t-request-type">اعدادات أنواع الطلبات</a></li>
-								}
-								if (data.Contains("Users"))
-								{
-									<li><a href=@Url.Action("Home", "User") id="User" key="t-users">اعدادات المستخدمين</a></li>
-								}
-								if (data.Contains("Permissions"))
-								{
-									<li><a href=@Url.Action("Home", "Jobs") id="Jobs" key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
-								}
+                                    if (data.Contains("General Settings"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "GlobalSettings") id="GlobalSettings" key="t-mainsettings">الإعدادات العامة</a></li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <!-- Sidebar -->
 
-								if (data.Contains("General Settings"))
-								{
-									<li><a href=@Url.Action("Home", "GlobalSettings") id="GlobalSettings" key="t-mainsettings">الإعدادات العامة</a></li>
-								}
-							}
-						</ul>
-					</li>
-				}
-			</ul>
-		</div>
-		<!-- Sidebar -->
-
-	</div>
+    </div>
 </div>
 <!-- Left Sidebar End -->
 <style>

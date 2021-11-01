@@ -186,6 +186,7 @@
     <Compile Include="Controllers\UnitLocationController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3056,6 +3057,8 @@
     <Content Include="Views\Report\Home.cshtml" />
     <Content Include="Views\Report\Filter.cshtml" />
     <Content Include="Views\Shared\PrivilgesControls.cshtml" />
+    <Content Include="Views\Error\Home.cshtml" />
+    <Content Include="Views\Error\NotPermited.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
