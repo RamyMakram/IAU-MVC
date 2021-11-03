@@ -1009,7 +1009,7 @@ function GeneratePdfData() {
 		't-email': '   البريد الالكتروني   ',
 		't-phone': '   رقم الهاتف   ',
 		't-attachment': '    المرفقات    ',
-		't-pdf-note': '    البريد الالكتروني    ',
+		't-pdf-note': '    ملاحظات    ',
 	}
 	var en = {
 		't-summary': 'Summary Of Request',
