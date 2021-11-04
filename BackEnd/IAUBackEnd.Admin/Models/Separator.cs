@@ -12,10 +12,12 @@ namespace IAUBackEnd.Admin.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Statement_Department_File_Sent_Them
+    public partial class Separator
     {
-        public int Statement_Department_File_Sent_Them_ID { get; set; }
-        public string Statement_Department_File_Sent_Them_Name_AR { get; set; }
-        public string Statement_Department_File_Sent_Them_Name_EN { get; set; }
+        public int ID { get; set; }
+        public int QuestionID { get; set; }
+        public bool IsEmpty { get; set; }
+    
+        public virtual Question Question { get; set; }
     }
 }

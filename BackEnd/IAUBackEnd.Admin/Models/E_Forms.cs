@@ -26,6 +26,7 @@ namespace IAUBackEnd.Admin.Models
         public int SubServiceID { get; set; }
         public bool IS_Action { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
+        public string Code { get; set; }
     
         public virtual Sub_Services Sub_Services { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

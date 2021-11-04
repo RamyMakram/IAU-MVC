@@ -17,6 +17,7 @@ namespace IAUAdmin.DTO.Entity
         public int ID { get; set; }
         public int Question_ID { get; set; }
         public bool ISNum { get; set; }
+        public bool Date { get; set; }
         public string PlaceHolder { get; set; }
         public string PlaceholderEN { get; set; }
     

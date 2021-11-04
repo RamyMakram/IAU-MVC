@@ -16,9 +16,11 @@ namespace IAUBackEnd.Admin.Models
     {
         public int ID { get; set; }
         public int Person_ID { get; set; }
-        public int Question_ID { get; set; }
+        public Nullable<int> Question_ID { get; set; }
         public string Value { get; set; }
         public System.DateTime FillDate { get; set; }
+        public string Name { get; set; }
+        public string Name_En { get; set; }
     
         public virtual Personel_Data Personel_Data { get; set; }
         public virtual Question Question { get; set; }

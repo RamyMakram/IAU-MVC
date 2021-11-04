@@ -9,23 +9,28 @@
 
 namespace IAUAdmin.DTO.Entity
 {
-	using System;
-	using System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
 
-	public partial class Question
-	{
-		public int ID { get; set; }
-		public int EForm_ID { get; set; }
-		public string T { get; set; }
-		public string Name { get; set; }
-		public string Name_EN { get; set; }
-		public bool Requird { get; set; }
-		public System.DateTime CreatedOn { get; set; }
-		public bool Active { get; set; }
-		public virtual ICollection<CheckBox_Type> Check { get; set; }
-		public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
-		public virtual Input_Type Input { get; set; }
-		public virtual ICollection<Radio_Type> Radio { get; set; }
-		public virtual E_FormsDTO E_Forms { get; set; }
-	}
+    public partial class Question
+    {
+        public int ID { get; set; }
+        public int Index_Order { get; set; }
+        public int EForm_ID { get; set; }
+        public string T { get; set; }//I Input,C Check,R Radio,P Paragraph,S Spera,T Title
+        public string Name { get; set; }
+        public string Name_EN { get; set; }
+        public bool Requird { get; set; }
+        public string Ref { get; set; }
+
+        public System.DateTime CreatedOn { get; set; }
+        public bool Active { get; set; }
+
+        public virtual ICollection<CheckBox_Type> Check { get; set; }
+        public virtual E_FormsDTO E_Forms { get; set; }
+        public virtual Input_Type Input { get; set; }
+        public virtual ParagraphDTO Para { get; set; }
+        public virtual ICollection<Radio_Type> Radio { get; set; }
+        public virtual SeparatorDTO Sepa { get; set; }
+    }
 }

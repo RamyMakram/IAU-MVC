@@ -23,21 +23,25 @@ namespace IAUBackEnd.Admin.Models
         }
     
         public int ID { get; set; }
+        public int Index_Order { get; set; }
         public int EForm_ID { get; set; }
         public string Type { get; set; }
         public string LableName { get; set; }
         public string LableName_EN { get; set; }
         public bool Requird { get; set; }
         public System.DateTime CreatedOn { get; set; }
+        public string RefTo { get; set; }
         public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CheckBox_Type> CheckBox_Type { get; set; }
+        public virtual E_Forms E_Forms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
+        public virtual Input_Type Input_Type { get; set; }
+        public virtual Paragraph Paragraph { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Radio_Type> Radio_Type { get; set; }
-        public virtual E_Forms E_Forms { get; set; }
-        public virtual Input_Type Input_Type { get; set; }
+        public virtual Separator Separator { get; set; }
     }
 }

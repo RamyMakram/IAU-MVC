@@ -3043,6 +3043,7 @@
     <Content Include="Views\DelayedTrasaction\Preview.cshtml" />
     <Content Include="Views\Report\Home.cshtml" />
     <Content Include="Views\Report\Filter.cshtml" />
+    <Content Include="Views\EForms\script.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

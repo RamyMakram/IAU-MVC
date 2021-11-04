@@ -12,14 +12,13 @@ namespace IAUBackEnd.Admin.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Purchase_Order_Form_Required
+    public partial class Paragraph
     {
-        public int Purchase_Order_Form_Required_ID { get; set; }
-        public string Required_Specifications_Name { get; set; }
-        public Nullable<double> Quantity { get; set; }
-        public Nullable<int> Purchase_Order_Form_ID { get; set; }
-        public Nullable<bool> IS_Action { get; set; }
+        public int ID { get; set; }
+        public int QuestionID { get; set; }
+        public string Name { get; set; }
+        public string Name_En { get; set; }
     
-        public virtual Purchase_Order_Form Purchase_Order_Form { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

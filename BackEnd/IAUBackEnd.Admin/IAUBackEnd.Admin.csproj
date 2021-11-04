@@ -278,16 +278,10 @@
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Authority_Holder.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CheckBox_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\City.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\College_Administration.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Country.cs">
@@ -296,25 +290,13 @@
     <Compile Include="Models\DelayedTransaction.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Department.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Employee.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Engagements_Department.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Event_Publication_Violation.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\E_Forms.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\E_Forms_Answer.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\FollowUp_Publication_Violations.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ID_Document.cs">
@@ -350,16 +332,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MostafidDBModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Paragraph.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Personel_Data.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Privilage.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Purchase_Order_Form.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Purchase_Order_Form_Required.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Question.cs">
@@ -392,25 +371,19 @@
     <Compile Include="Models\Required_Documents.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Separator.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Service_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Statement_Department_File_Sent_Them.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Sub_Services.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Supplier_Names.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Title_Middle_Names.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Type_Support_Project.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UnitLevel.cs">
@@ -446,10 +419,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Models\MostafidDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -468,27 +437,13 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="E-Forms\" />
     <Folder Include="Images\Main_Services\" />
     <Folder Include="Images\Request_Type\" />
     <Folder Include="Images\Service_Types\" />
     <Folder Include="RequestFiles\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap.min.css.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap.css.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css.map" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\MostafidDBModel.edmx">
