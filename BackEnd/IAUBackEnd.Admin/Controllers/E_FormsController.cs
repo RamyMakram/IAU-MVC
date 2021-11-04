@@ -28,51 +28,61 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetE_Forms(int id)
         {
-            var e_Forms = p.E_Forms.Select(q =>
-            new
+            try
             {
-                q.ID,
-                Question = q.Question.Select(s =>
-                new
-                {
-                    s.ID,
-                    Name = s.LableName,
-                    Name_EN = s.LableName_EN,
-                    T = s.Type,
-                    s.Requird,
-                    Ref = s.RefTo,
-                    s.Index_Order,
-                    s.Active,
-                    Sepa = s.Separator,
-                    Radio = s.Radio_Type.Select(e =>
-                       new
-                       {
-                           e.ID,
-                           e.Name_EN,
-                           e.Name
-                       }),
-                    Check = s.CheckBox_Type.Select(e =>
+                var e_Forms = p.E_Forms.Select(q =>
+                  new
+                  {
+                      q.ID,
+                      q.Name,
+                      q.Name_EN,
+                      q.Code,
+                      Question = q.Question.OrderBy(d => d.Index_Order).Select(s =>
                         new
                         {
-                            e.ID,
-                            e.Name_EN,
-                            e.Name
-                        }),
-                    Input =
-                        new IAUAdmin.DTO.Entity.Input_Type
-                        {
-                            ID = s.Input_Type.ID,
-                            Date = s.Input_Type.IsDate,
-                            ISNum = s.Input_Type.IsNumber,
-                            PlaceHolder = s.Input_Type.Placeholder,
-                            PlaceholderEN = s.Input_Type.Placeholder_EN
-                        }
-                })
-            }).FirstOrDefault(q => q.ID == id);
-            if (e_Forms == null)
-                return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+                            s.ID,
+                            Name = s.LableName,
+                            Name_EN = s.LableName_EN,
+                            T = s.Type,
+                            s.Requird,
+                            Ref = s.RefTo,
+                            s.Index_Order,
+                            s.Active,
+                            Sepa = s.Separator,
+                            Radio = s.Radio_Type.Select(e =>
+                               new
+                               {
+                                   e.ID,
+                                   e.Name_EN,
+                                   e.Name
+                               }),
+                            Check = s.CheckBox_Type.Select(e =>
+                                new
+                                {
+                                    e.ID,
+                                    e.Name_EN,
+                                    e.Name
+                                }),
+                            Input = s.Input_Type == null ? null :
+                                new IAUAdmin.DTO.Entity.Input_Type
+                                {
+                                    ID = s.Input_Type.ID,
+                                    Date = s.Input_Type.IsDate,
+                                    ISNum = s.Input_Type.IsNumber,
+                                    PlaceHolder = s.Input_Type.Placeholder,
+                                    PlaceholderEN = s.Input_Type.Placeholder_EN
+                                }
+                        })
+                  }).FirstOrDefault(q => q.ID == id);
+                if (e_Forms == null)
+                    return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+                return Ok(new ResponseClass() { success = true, result = e_Forms });
+            }
+            catch (Exception eee)
+            {
+                return Ok(new ResponseClass() { success = false });
+            }
 
-            return Ok(new ResponseClass() { success = true, result = e_Forms });
         }
         public async Task<IHttpActionResult> GetE_FormsWithSubService(int id)
         {

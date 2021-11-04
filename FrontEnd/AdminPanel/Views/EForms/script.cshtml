@@ -1,12 +1,35 @@
-﻿@{
+﻿@model bool
+@{
     var isar = Request.Cookies["lang"].Value == "ar";
 }
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+<script src="~/assets/libs/jquery.repeater/jquery.repeater.min.js"></script>
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
 <script>
     function getView(id) {
 		_id++;
 		switch (id) {
 			case 0:
-				return `<div data-id="${_id}" data-type='I'>
+				return `<div data-id="${_id}"class="created" data-type='I'>
 								<div>
 									<div>
 										<fieldset class="row">
@@ -48,7 +71,7 @@
 								</div>
 							</div>`
 			case 1:
-				return `<div data-id="${_id}" data-type="C">
+				return `<div data-id="${_id}"class="created" data-type="C">
 								<div>
 									<div>
 										<fieldset class="row">
@@ -95,7 +118,7 @@
 							</div>
 `
 			case 2:
-				return `<div data-id="${_id}"  data-type="R">
+				return `<div data-id="${_id}" class="created" data-type="R">
 								<div>
 									<div>
 										<fieldset class="row">
@@ -142,7 +165,7 @@
 							</div>
 `
 			case 3:
-				return `<div data-id="${_id}" data-type='D'>
+				return `<div data-id="${_id}"class="created" data-type='D'>
 								<div>
 									<div>
 										<fieldset class="row">
@@ -168,7 +191,7 @@
 								</div>
 							</div>`
 			case 4:
-				return `<div data-id="${_id}" data-type='S'>
+				return `<div data-id="${_id}"class="created" data-type='S'>
 								<div>
 									<div>
 										<fieldset class="row">
@@ -184,7 +207,7 @@
 								</div>
 							</div>`
 			case 5:
-				return `<div data-id="${_id}" data-type='T'>
+				return `<div data-id="${_id}"class="created" data-type='T'>
 								<div>
 									<div>
 										<fieldset class="row">
@@ -207,7 +230,7 @@
 							</div>`
 			case 6:
 				return `
-						<div data-id="${_id}" data-type='E'>
+						<div data-id="${_id}"class="created" data-type='E'>
 								<div>
 									<div>
 										<fieldset class="row" >
@@ -249,7 +272,7 @@
 								</div>
 							</div>`
 			case 7:
-				return `<div data-id="${_id}" data-type='P'>
+				return `<div data-id="${_id}"class="created" data-type='P'>
 								<div>
 									<div>
 										<fieldset class="row">
@@ -276,7 +299,7 @@
 		function (e) {
 			let ComponetType = $('#ComponetType').val()
 			let com = getView(parseInt(ComponetType));
-			document.getElementById('ListQuestion').innerHTML += com
+            document.getElementById('ListQuestion').insertAdjacentHTML('beforeend',com)
 			reStartHandelr();
 			restartSelect2();
 		},
@@ -301,7 +324,7 @@
 	function reStartHandelr() {
 		let setting = {
 
-	initEmpty: false,
+			initEmpty: false,
 
 			defaultValues: {
 				/*'text-input': 'foo'*/
@@ -336,83 +359,6 @@
 	$(document).ready(function () {
 		reStartHandelr();
 	});
-	let QTY = [];
-	$("button[key='t-save']").click(() => {
-		QTY = []
-		let data = $('div[data-id]');
-        ([...data]).sort(function (a, b) {
-            var contentA = parseInt($("#order", $(a)).val());
-            var contentB = parseInt($("#order", $(b)).val());
-            return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-        }).forEach(i => {
-			let type = $(i).attr('data-type')
-			switch (type) {
-				case "I":
-					var PlaceHolder = $('input.form-control[name="PlaceHolder"]', $(i)).val()
-					var PlaceHolderEN = $('input.form-control[name="PlaceHolderEN"]', $(i)).val()
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val()
-					var En = $('input.form-control[name="ENName"]', $(i)).val()
-                    var ISNum = ($('#InputType', $(i)).val() === 'true')
-                    var Requird = $('#Required', $(i)).is(":checked")
-                    QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Input: { ISNum, PlaceHolder, PlaceHolderEN } })
-					break;
-				case "R":
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-					var En = $('input.form-control[name="ENName"]', $(i)).val();
-					var Requird = $('#Required', $(i)).is(":checked")
-					var Radio = [];
-					var rows = $('[data-repeater-item]', $(i));
-					([...rows]).forEach(e => {
-						let Name = $('.ar-item', $(e)).val();
-						let Name_EN = $('.en-item', $(e)).val();
-						Radio.push({ Name, Name_EN })
-					})
-                    QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Radio })
-					break;
-				case "C":
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-					var En = $('input.form-control[name="ENName"]', $(i)).val();
-                    var Requird = $('#Required', $(i)).is(":checked")
-					var Check = [];
-					rows = $('[data-repeater-item]', $(i));
-					([...rows]).forEach(e => {
-						let Name = $('.ar-item', $(e)).val();
-						let Name_EN = $('.en-item', $(e)).val();
-						Check.push({ Name, Name_EN })
-					})
-                    QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Check })
-					break;
-				case "D":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-					var En = $('input.form-control[name="ENName"]', $(i)).val();
-					var Requird = $('#Required', $(i)).is(":checked")
-					QTY.push({ Name: Ar, Name_EN: En, Requird, T: type})
-					break;
-				case "S":
-                    QTY.push({ T: type, Sepa:{ Empty:$('#Seprator', $(i)).is(":checked")}})
-					break;
-				case "T":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-                    var En = $('input.form-control[name="ENName"]', $(i)).val();
-                    QTY.push({ Name: Ar, Name_EN: En, T: type })
-					break;
-				case "P":
-                    var Ar = $('textarea.form-control[name="ARName"]', $(i)).val();
-                    var En = $('textarea.form-control[name="ENName"]', $(i)).val();
-                    QTY.push({ T: type, Para:{ Name: Ar, Name_EN: En }})
-                    break;
-				case "E":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val()
-                    var En = $('input.form-control[name="ENName"]', $(i)).val()
-                    var Ref = $('#ReferenceToField', $(i)).val()
-                    QTY.push({ Name: Ar, Name_EN: En, T: type, Ref})
-                    break;
-			}
-		})
-		$('#QQTR').val(JSON.stringify(QTY))
-		console.log(QTY)
-		$("button[type='submit']").click()
-	})
 	function restartSelect2() {
         $('select.select2').each(function (i, obj) {
 			if ((!$(obj).hasClass("select2-hidden-accessible"))) {

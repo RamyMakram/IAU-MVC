@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MostafidDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MostafidDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Applicant_Type">
           <Key>
             <PropertyRef Name="Applicant_Type_ID" />
@@ -200,6 +200,7 @@
           <Property Name="LableName_EN" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Requird" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="RefTo" Type="nvarchar" MaxLength="50" />
           <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Radio_Type">
@@ -1441,8 +1442,7 @@
             <End Role="ValidTo" EntitySet="ValidTo" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MostafidDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1465,7 +1465,7 @@
           <Property Name="Question_ID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name_EN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Question" Relationship="Self.FK_CheckBox_Type_Question" FromRole="CheckBox_Type" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_CheckBox_Type_Question" FromRole="CheckBox_Type" ToRole="Question" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -1519,7 +1519,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Sub_Services" Relationship="Self.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
-          <NavigationProperty Name="Question" Relationship="Self.FK_Question_E_Forms" FromRole="E_Forms" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="E_Forms" ToRole="Question" />
         </EntityType>
         <EntityType Name="E_Forms_Answer">
           <Key>
@@ -1533,7 +1533,7 @@
           <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name_En" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Personel_Data" Relationship="Self.FK_E_Forms_Answer_Personel_Data" FromRole="E_Forms_Answer" ToRole="Personel_Data" />
-          <NavigationProperty Name="Question" Relationship="Self.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -1565,7 +1565,7 @@
           <Property Name="Placeholder_EN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsNumber" Type="Boolean" Nullable="false" />
           <Property Name="IsDate" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Question" Relationship="Self.FK_Input_Type_Question" FromRole="Input_Type" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Input_Type" ToRole="Question" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -1619,7 +1619,7 @@
           <Property Name="QuestionID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name_En" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Question" Relationship="Self.FK_Paragraph_Question" FromRole="Paragraph" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Paragraph_Question" FromRole="Paragraph" ToRole="Question" />
         </EntityType>
         <EntityType Name="Personel_Data">
           <Key>
@@ -1672,27 +1672,6 @@
           <NavigationProperty Name="Privilage11" Relationship="Self.FK_Privilage_Privilage1" FromRole="Privilage" ToRole="Privilage1" />
           <NavigationProperty Name="Privilage3" Relationship="Self.FK_Privilage_Privilage1" FromRole="Privilage1" ToRole="Privilage" />
         </EntityType>
-        <EntityType Name="Question">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Index_Order" Type="Int32" Nullable="false" />
-          <Property Name="EForm_ID" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="LableName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LableName_EN" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Requird" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CheckBox_Type" Relationship="Self.FK_CheckBox_Type_Question" FromRole="Question" ToRole="CheckBox_Type" />
-          <NavigationProperty Name="E_Forms" Relationship="Self.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
-          <NavigationProperty Name="E_Forms_Answer" Relationship="Self.FK_E_Forms_Answer_Question" FromRole="Question" ToRole="E_Forms_Answer" />
-          <NavigationProperty Name="Input_Type" Relationship="Self.FK_Input_Type_Question" FromRole="Question" ToRole="Input_Type" />
-          <NavigationProperty Name="Paragraph" Relationship="Self.FK_Paragraph_Question" FromRole="Question" ToRole="Paragraph" />
-          <NavigationProperty Name="Radio_Type" Relationship="Self.FK_Radio_Type_Question" FromRole="Question" ToRole="Radio_Type" />
-          <NavigationProperty Name="Separator" Relationship="Self.FK_Separator_Question" FromRole="Question" ToRole="Separator" />
-        </EntityType>
         <EntityType Name="Radio_Type">
           <Key>
             <PropertyRef Name="ID" />
@@ -1701,7 +1680,7 @@
           <Property Name="Question_ID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name_EN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Question" Relationship="Self.FK_Radio_Type_Question" FromRole="Radio_Type" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Radio_Type_Question" FromRole="Radio_Type" ToRole="Question" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -1838,7 +1817,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="QuestionID" Type="Int32" Nullable="false" />
           <Property Name="IsEmpty" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Question" Relationship="Self.FK_Separator_Question" FromRole="Separator" ToRole="Question" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Separator_Question" FromRole="Separator" ToRole="Question" />
         </EntityType>
         <EntityType Name="Service_Type">
           <Key>
@@ -2037,18 +2016,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CheckBox_Type_Question">
-          <End Role="Question" Type="Self.Question" Multiplicity="1" />
-          <End Role="CheckBox_Type" Type="Self.CheckBox_Type" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CheckBox_Type">
-              <PropertyRef Name="Question_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_City_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -2157,18 +2124,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Question_E_Forms">
-          <End Role="E_Forms" Type="Self.E_Forms" Multiplicity="1" />
-          <End Role="Question" Type="Self.Question" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="E_Forms">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Question">
-              <PropertyRef Name="EForm_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_E_Forms_Answer_Personel_Data">
           <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="1" />
           <End Role="E_Forms_Answer" Type="Self.E_Forms_Answer" Multiplicity="*" />
@@ -2178,18 +2133,6 @@
             </Principal>
             <Dependent Role="E_Forms_Answer">
               <PropertyRef Name="Person_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_E_Forms_Answer_Question">
-          <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
-          <End Role="E_Forms_Answer" Type="Self.E_Forms_Answer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="E_Forms_Answer">
-              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2214,18 +2157,6 @@
             </Principal>
             <Dependent Role="Personel_Data">
               <PropertyRef Name="ID_Document" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Input_Type_Question">
-          <End Role="Question" Type="Self.Question" Multiplicity="1" />
-          <End Role="Input_Type" Type="Self.Input_Type" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Input_Type">
-              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2325,18 +2256,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Paragraph_Question">
-          <End Role="Question" Type="Self.Question" Multiplicity="1" />
-          <End Role="Paragraph" Type="Self.Paragraph" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Paragraph">
-              <PropertyRef Name="QuestionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Personel_Data_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="*" />
@@ -2394,30 +2313,6 @@
             </Principal>
             <Dependent Role="Privilage1">
               <PropertyRef Name="DetailedFrom" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Radio_Type_Question">
-          <End Role="Question" Type="Self.Question" Multiplicity="1" />
-          <End Role="Radio_Type" Type="Self.Radio_Type" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Radio_Type">
-              <PropertyRef Name="Question_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Separator_Question">
-          <End Role="Question" Type="Self.Question" Multiplicity="1" />
-          <End Role="Separator" Type="Self.Separator" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Separator">
-              <PropertyRef Name="QuestionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2739,7 +2634,6 @@
           <EntitySet Name="Paragraph" EntityType="Self.Paragraph" />
           <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" />
           <EntitySet Name="Privilage" EntityType="Self.Privilage" />
-          <EntitySet Name="Question" EntityType="Self.Question" />
           <EntitySet Name="Radio_Type" EntityType="Self.Radio_Type" />
           <EntitySet Name="Region" EntityType="Self.Region" />
           <EntitySet Name="Request_Data" EntityType="Self.Request_Data" />
@@ -2770,10 +2664,6 @@
           <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="Self.FK_ValidTo_Applicant_Type">
             <End Role="Applicant_Type" EntitySet="Applicant_Type" />
             <End Role="ValidTo" EntitySet="ValidTo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CheckBox_Type_Question" Association="Self.FK_CheckBox_Type_Question">
-            <End Role="Question" EntitySet="Question" />
-            <End Role="CheckBox_Type" EntitySet="CheckBox_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_City_Region" Association="Self.FK_City_Region">
             <End Role="Region" EntitySet="Region" />
@@ -2811,16 +2701,8 @@
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="E_Forms" EntitySet="E_Forms" />
           </AssociationSet>
-          <AssociationSet Name="FK_Question_E_Forms" Association="Self.FK_Question_E_Forms">
-            <End Role="E_Forms" EntitySet="E_Forms" />
-            <End Role="Question" EntitySet="Question" />
-          </AssociationSet>
           <AssociationSet Name="FK_E_Forms_Answer_Personel_Data" Association="Self.FK_E_Forms_Answer_Personel_Data">
             <End Role="Personel_Data" EntitySet="Personel_Data" />
-            <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_E_Forms_Answer_Question" Association="Self.FK_E_Forms_Answer_Question">
-            <End Role="Question" EntitySet="Question" />
             <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
           </AssociationSet>
           <AssociationSet Name="FK_Request_Log_Employee" Association="Self.FK_Request_Log_Employee">
@@ -2830,10 +2712,6 @@
           <AssociationSet Name="FK_Personel_Data_ID_Document" Association="Self.FK_Personel_Data_ID_Document">
             <End Role="ID_Document" EntitySet="ID_Document" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Input_Type_Question" Association="Self.FK_Input_Type_Question">
-            <End Role="Question" EntitySet="Question" />
-            <End Role="Input_Type" EntitySet="Input_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Permissions_Job" Association="Self.FK_User_Permissions_Job">
             <End Role="Job" EntitySet="Job" />
@@ -2867,10 +2745,6 @@
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="ValidTo" EntitySet="ValidTo" />
           </AssociationSet>
-          <AssociationSet Name="FK_Paragraph_Question" Association="Self.FK_Paragraph_Question">
-            <End Role="Question" EntitySet="Question" />
-            <End Role="Paragraph" EntitySet="Paragraph" />
-          </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Region" Association="Self.FK_Personel_Data_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
@@ -2890,14 +2764,6 @@
           <AssociationSet Name="FK_Privilage_Privilage1" Association="Self.FK_Privilage_Privilage1">
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Privilage1" EntitySet="Privilage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Radio_Type_Question" Association="Self.FK_Radio_Type_Question">
-            <End Role="Question" EntitySet="Question" />
-            <End Role="Radio_Type" EntitySet="Radio_Type" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Separator_Question" Association="Self.FK_Separator_Question">
-            <End Role="Question" EntitySet="Question" />
-            <End Role="Separator" EntitySet="Separator" />
           </AssociationSet>
           <AssociationSet Name="FK_Request_Data_Request_State" Association="Self.FK_Request_Data_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
@@ -2999,7 +2865,142 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Question" EntityType="MostafidDBModel.Question" />
+          <AssociationSet Name="FK_CheckBox_Type_Question" Association="MostafidDBModel.FK_CheckBox_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="CheckBox_Type" EntitySet="CheckBox_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_E_Forms" Association="MostafidDBModel.FK_Question_E_Forms">
+            <End Role="E_Forms" EntitySet="E_Forms" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_E_Forms_Answer_Question" Association="MostafidDBModel.FK_E_Forms_Answer_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Input_Type_Question" Association="MostafidDBModel.FK_Input_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Input_Type" EntitySet="Input_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paragraph_Question" Association="MostafidDBModel.FK_Paragraph_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Paragraph" EntitySet="Paragraph" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Radio_Type_Question" Association="MostafidDBModel.FK_Radio_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Radio_Type" EntitySet="Radio_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Separator_Question" Association="MostafidDBModel.FK_Separator_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Separator" EntitySet="Separator" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Index_Order" Type="Int32" Nullable="false" />
+          <Property Name="EForm_ID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="LableName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LableName_EN" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Requird" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RefTo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CheckBox_Type" Relationship="MostafidDBModel.FK_CheckBox_Type_Question" FromRole="Question" ToRole="CheckBox_Type" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
+          <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="Question" ToRole="E_Forms_Answer" />
+          <NavigationProperty Name="Input_Type" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Question" ToRole="Input_Type" />
+          <NavigationProperty Name="Paragraph" Relationship="MostafidDBModel.FK_Paragraph_Question" FromRole="Question" ToRole="Paragraph" />
+          <NavigationProperty Name="Radio_Type" Relationship="MostafidDBModel.FK_Radio_Type_Question" FromRole="Question" ToRole="Radio_Type" />
+          <NavigationProperty Name="Separator" Relationship="MostafidDBModel.FK_Separator_Question" FromRole="Question" ToRole="Separator" />
+        </EntityType>
+        <Association Name="FK_CheckBox_Type_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.CheckBox_Type" Role="CheckBox_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CheckBox_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_E_Forms">
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="1" />
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E_Forms">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="EForm_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_E_Forms_Answer_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.E_Forms_Answer" Role="E_Forms_Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="E_Forms_Answer">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Input_Type_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.Input_Type" Role="Input_Type" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Input_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paragraph_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.Paragraph" Role="Paragraph" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paragraph">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Radio_Type_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.Radio_Type" Role="Radio_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Radio_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Separator_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1" />
+          <End Type="MostafidDBModel.Separator" Role="Separator" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Separator">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3203,21 +3204,6 @@
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="SubOF" ColumnName="SubOF" />
                 <ScalarProperty Name="DetailedFrom" ColumnName="DetailedFrom" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Question">
-            <EntityTypeMapping TypeName="MostafidDBModel.Question">
-              <MappingFragment StoreEntitySet="Question">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Index_Order" ColumnName="Index_Order" />
-                <ScalarProperty Name="EForm_ID" ColumnName="EForm_ID" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="LableName" ColumnName="LableName" />
-                <ScalarProperty Name="LableName_EN" ColumnName="LableName_EN" />
-                <ScalarProperty Name="Requird" ColumnName="Requird" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3493,6 +3479,22 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
                 <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Question">
+            <EntityTypeMapping TypeName="MostafidDBModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="RefTo" ColumnName="RefTo" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Requird" ColumnName="Requird" />
+                <ScalarProperty Name="LableName_EN" ColumnName="LableName_EN" />
+                <ScalarProperty Name="LableName" ColumnName="LableName" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EForm_ID" ColumnName="EForm_ID" />
+                <ScalarProperty Name="Index_Order" ColumnName="Index_Order" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -22,7 +22,6 @@
         <EntityTypeShape EntityType="MostafidDBModel.Paragraph" Width="1.5" PointX="12" PointY="29.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MostafidDBModel.Personel_Data" Width="1.5" PointX="12.75" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MostafidDBModel.Privilage" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MostafidDBModel.Question" Width="1.5" PointX="9.75" PointY="24.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MostafidDBModel.Radio_Type" Width="1.5" PointX="12" PointY="32.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MostafidDBModel.Region" Width="1.5" PointX="8.25" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MostafidDBModel.Request_Data" Width="1.5" PointX="7.5" PointY="29.375" IsExpanded="true" />
@@ -48,7 +47,6 @@
         <EntityTypeShape EntityType="MostafidDBModel.ValidTo" Width="1.5" PointX="5.25" PointY="31.375" IsExpanded="true" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Applicant_Type" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_ValidTo_Applicant_Type" ManuallyRouted="false" />
-        <AssociationConnector Association="MostafidDBModel.FK_CheckBox_Type_Question" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_City_Region" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_City" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Country" ManuallyRouted="false" />
@@ -58,12 +56,9 @@
         <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_Data" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_DelayedTransaction_Request_State" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Sub_Services" ManuallyRouted="false" />
-        <AssociationConnector Association="MostafidDBModel.FK_Question_E_Forms" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Personel_Data" ManuallyRouted="false" />
-        <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Question" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Log_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_ID_Document" ManuallyRouted="false" />
-        <AssociationConnector Association="MostafidDBModel.FK_Input_Type_Question" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Job" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_User_Permissions_Type" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Privilage" ManuallyRouted="false" />
@@ -72,14 +67,11 @@
         <AssociationConnector Association="MostafidDBModel.FK_Sub_Services_Main_Services" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_UnitMainServices_Main_Services" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_ValidTo_Main_Services" ManuallyRouted="false" />
-        <AssociationConnector Association="MostafidDBModel.FK_Paragraph_Question" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Region" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Personel_Data" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Privilage_Privilage" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Privilage_Privilage1" ManuallyRouted="false" />
-        <AssociationConnector Association="MostafidDBModel.FK_Radio_Type_Question" ManuallyRouted="false" />
-        <AssociationConnector Association="MostafidDBModel.FK_Separator_Question" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Request_State" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Request_Type" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Data_Service_Type" ManuallyRouted="false" />
@@ -105,6 +97,14 @@
         <AssociationConnector Association="MostafidDBModel.FK_Units_Units_Type" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_UnitServiceTypes_Units" ManuallyRouted="false" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_Units" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MostafidDBModel.Question" Width="1.5" PointX="9.75" PointY="24.625" />
+        <AssociationConnector Association="MostafidDBModel.FK_CheckBox_Type_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_Question_E_Forms" />
+        <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_Input_Type_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_Paragraph_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_Radio_Type_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_Separator_Question" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

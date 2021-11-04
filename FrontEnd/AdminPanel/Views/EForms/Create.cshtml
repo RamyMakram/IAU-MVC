@@ -58,6 +58,7 @@
 </style>
 @{
     var isar = Request.Cookies["lang"].Value == "ar";
+    var count = 1;
 }
 <div class="row">
     <div class="col-12">
@@ -76,7 +77,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label" key="t-code" for="name">Name</label>
-                                @Html.TextBoxFor(q => q.Code, new { @class = "form-control"})
+                                @Html.TextBoxFor(q => q.Code, new { @class = "form-control" })
                             </div>
                         </div>
 
@@ -115,7 +116,6 @@
                                 </div>
                             </div>
                             <div id="ListQuestion">
-
                             </div>
                         </div>
 
@@ -131,30 +131,98 @@
 
     </div>
 </div>
-<!-- end row -->
-<!-- JAVASCRIPT -->
-<script src="~/assets/libs/jquery/jquery.min.js"></script>
-<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
-<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
-<script src="~/assets/libs/node-waves/waves.min.js"></script>
-<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
 
-<!-- select 2 plugin -->
-<script src="~/assets/libs/select2/js/select2.min.js"></script>
-
-<!-- dropzone plugin -->
-<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
-
-<!-- init js -->
-<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
-<script src="~/assets/libs/jquery.repeater/jquery.repeater.min.js"></script>
-<!-- Sweet Alerts js -->
-<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
-<!-- App js -->
-<script src="~/assets/js/app.js"></script>
 <script>
     let _id = 0;
+    let QTY = [];
+    $("button[key='t-save']").click(() => {
+        QTY = []
+        let data = $('div[data-id]');
+        ([...data]).sort(function (a, b) {
+            var contentA = parseInt($("#order", $(a)).val());
+            var contentB = parseInt($("#order", $(b)).val());
+            return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+        }).forEach(i => {
+            let type = $(i).attr('data-type')
+            switch (type) {
+                case "I":
+                    var PlaceHolder = $('input.form-control[name="PlaceHolder"]', $(i)).val()
+                    var PlaceHolderEN = $('input.form-control[name="PlaceHolderEN"]', $(i)).val()
+                    var Ar = $('input.form-control[name="ARName"]', $(i)).val()
+                    var En = $('input.form-control[name="ENName"]', $(i)).val()
+                    var ISNum = ($('#InputType', $(i)).val() === 'true')
+                    var Requird = $('#Required', $(i)).is(":checked")
+                    var index = $("#order", $(i)).val();
+                    QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Input: { ISNum, PlaceHolder, PlaceHolderEN }, Index_Order: index })
+                    break;
+                case "R":
+                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                    var En = $('input.form-control[name="ENName"]', $(i)).val();
+                    var Requird = $('#Required', $(i)).is(":checked")
+                    var index = $("#order", $(i)).val();
+                    var Radio = [];
+                    var rows = $('[data-repeater-item]', $(i));
+                    ([...rows]).forEach(e => {
+                        let Name = $('.ar-item', $(e)).val();
+                        let Name_EN = $('.en-item', $(e)).val();
+                        if (Name != "" && Name_EN != "")
+                            Radio.push({ Name, Name_EN })
+                    })
+                    if (Radio.length != 0)
+                        QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Radio, Index_Order: index })
+                    break;
+                case "C":
+                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                    var En = $('input.form-control[name="ENName"]', $(i)).val();
+                    var index = $("#order", $(i)).val();
+                    var Requird = $('#Required', $(i)).is(":checked")
+                    var Check = [];
+                    rows = $('[data-repeater-item]', $(i));
+                    ([...rows]).forEach(e => {
+                        let Name = $('.ar-item', $(e)).val();
+                        let Name_EN = $('.en-item', $(e)).val();
+                        if (Name != "" && Name_EN != "")
+                            Check.push({ Name, Name_EN })
+                    })
+                    if (Check.length != 0)
+                        QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Check, Index_Order: index })
+                    break;
+                case "D":
+                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                    var En = $('input.form-control[name="ENName"]', $(i)).val();
+                    var index = $("#order", $(i)).val();
+                    var Requird = $('#Required', $(i)).is(":checked")
+                    QTY.push({ Name: Ar, Name_EN: En, Requird, T: type })
+                    break;
+                case "S":
+                    var index = $("#order", $(i)).val();
+                    QTY.push({ T: type, Sepa: { Empty: $('#Seprator', $(i)).is(":checked") }, Index_Order: index })
+                    break;
+                case "T":
+                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                    var En = $('input.form-control[name="ENName"]', $(i)).val();
+                    var index = $("#order", $(i)).val();
+                    QTY.push({ Name: Ar, Name_EN: En, T: type, Index_Order: index })
+                    break;
+                case "P":
+                    var Ar = $('textarea.form-control[name="ARName"]', $(i)).val();
+                    var En = $('textarea.form-control[name="ENName"]', $(i)).val();
+                    var index = $("#order", $(i)).val();
+                    QTY.push({ T: type, Para: { Name: Ar, Name_EN: En }, Index_Order: index })
+                    break;
+                case "E":
+                    var Ar = $('input.form-control[name="ARName"]', $(i)).val()
+                    var En = $('input.form-control[name="ENName"]', $(i)).val()
+                    var Ref = $('#ReferenceToField', $(i)).val()
+                    var index = $("#order", $(i)).val();
+                    QTY.push({ Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
+                    break;
+            }
+        })
+        $('#QQTR').val(JSON.stringify(QTY))
+        console.log(QTY)
+        $("button[type='submit']").click()
+    })
 
 </script>
-@Html.Partial("~/Views/Eforms/script.cshtml")
+@Html.Partial("~/Views/Eforms/script.cshtml", false)

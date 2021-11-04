@@ -43,7 +43,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Paragraph> Paragraph { get; set; }
         public virtual DbSet<Personel_Data> Personel_Data { get; set; }
         public virtual DbSet<Privilage> Privilage { get; set; }
-        public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Radio_Type> Radio_Type { get; set; }
         public virtual DbSet<Region> Region { get; set; }
         public virtual DbSet<Request_Data> Request_Data { get; set; }
@@ -67,5 +66,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
+        public virtual DbSet<Question> Question { get; set; }
     }
 }
