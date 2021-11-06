@@ -48,7 +48,7 @@
 							<tr onclick="Go(this,'@Url.Action("Detials", "EForms", new { Id = i.ID })')">
 								<td class="TH-ar ar-font">@i.Name</td>
 								<td class="TH-en en-font">@i.Name_EN</td>
-								<td class="en-font"><a href="@(url+"/"+i.Path)">@(url + "/" + i.Path) </a></td>
+								<td class="en-font">@*<a href="@(url+"/"+i.Path)">@(url + "/" + i.Path) </a>*@</td>
 								<td>
 									@Html.ActionLink("Active", i.IS_Action ? "Deactive" : "Active", "EForms", new { Id = i.ID, SubService = Request.QueryString["SubService"] }, new { @class = i.IS_Action ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action ? "t-active-Home" : "t-deactive-Home" })
 								</td>

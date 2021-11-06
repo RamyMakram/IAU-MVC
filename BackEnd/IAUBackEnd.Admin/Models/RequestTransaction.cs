@@ -21,16 +21,16 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<System.DateTime> ForwardDate { get; set; }
         public Nullable<System.DateTime> ExpireDays { get; set; }
         public string Comment { get; set; }
+        public Nullable<int> CommentType { get; set; }
         public bool Readed { get; set; }
         public Nullable<System.DateTime> ReadedDate { get; set; }
         public string MostafidComment { get; set; }
-        public Nullable<int> CommentType { get; set; }
         public Nullable<System.DateTime> CommentDate { get; set; }
         public string Code { get; set; }
         public bool Is_Reminder { get; set; }
     
+        public virtual Request_Data Request_Data { get; set; }
         public virtual Units Units { get; set; }
         public virtual Units Units1 { get; set; }
-        public virtual Request_Data Request_Data { get; set; }
     }
 }

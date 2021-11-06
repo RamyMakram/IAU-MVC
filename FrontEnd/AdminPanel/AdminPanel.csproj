@@ -3056,6 +3056,7 @@
     <Content Include="Views\DelayedTrasaction\Preview.cshtml" />
     <Content Include="Views\Report\Home.cshtml" />
     <Content Include="Views\Report\Filter.cshtml" />
+    <Content Include="Views\EForms\script.cshtml" />
     <Content Include="Views\Shared\PrivilgesControls.cshtml" />
     <Content Include="Views\Error\Home.cshtml" />
     <Content Include="Views\Error\NotPermited.cshtml" />

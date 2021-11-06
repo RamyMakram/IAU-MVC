@@ -1,0 +1,373 @@
+﻿@model bool
+@{
+    var isar = Request.Cookies["lang"].Value == "ar";
+}
+<!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+<script src="~/assets/libs/jquery.repeater/jquery.repeater.min.js"></script>
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
+<script>
+    function getView(id) {
+		_id++;
+		switch (id) {
+			case 0:
+				return `<div data-id="${_id}"class="created" data-type='I'>
+								<div>
+									<div>
+										<fieldset class="row">
+											<legend><button onclick="delte(${_id})" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"حقل ادخال":"Input")</legend>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+													<input class="form-control" type="text" name="ARName" />
+												</div>
+
+												<div class="form-group">
+													<label for="PlaceHolder" class="control-label">@(isar? "PlaceHolder" : "PlaceHolder")</label>
+													<input class="form-control" type="text" name="PlaceHolder" />
+												</div>
+												<div class="form-group">
+														<label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
+														<select class="form-control select2" id="InputType-${_id}" name="InputType">
+															<option value="false">@(isar?"نص":"Text")</option>
+															<option value="true">@(isar? "رقم":"Number")</option>
+														</select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+													<input class="form-control" type="text" name="ENName" />
+												</div>
+												<div class="form-group">
+													<label for="PlaceHolderEN" class="control-label">@(isar? "EN PlaceHolder" : "EN PlaceHolder")</label>
+													<input class="form-control" type="text" name="PlaceHolderEN" />
+												</div>
+												<div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب؟":"Required?")</label>
+													@Html.CheckBox("Required", new { @class = "form-control", @name = "Required", @id = "Required",@style= "width: 19px;", @type = "checkbox" })
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>`
+			case 1:
+				return `<div data-id="${_id}"class="created" data-type="C">
+								<div>
+									<div>
+										<fieldset class="row">
+											<legend><button onclick="delte(${_id})" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "اختيار من متعدد":"Select from Multi")</legend>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
+													<input class="form-control" type="text" name="ARName" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+													<input class="form-control" type="text" name="ENName" />
+												</div>
+											</div>
+											<div class="col-12">
+												<div class='repeater-check'>
+													<h2 class="card-title-desc" style="display: inline-flex; align-items: center;">@(isar? "الاختيارات" : "Choices") <button class="btn btn-circle mx-1" data-repeater-create style="top:0!important;color:green" type="button"><i class="fas fa-plus-circle"></i></button></h2>
+													<div data-repeater-list="group-7">
+														<div data-repeater-item class="row">
+															<div class="col-md-6"  style="display: inline-flex; align-items: center;">
+																<div>
+																	<button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+																</div>
+																<div class="form-group" style="width: 100%;">
+																	<label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+																	<input class="form-control ar-item" type="text" name="ARName" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+																	<input class="form-control en-item" type="text" name="ENName" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+`
+			case 2:
+				return `<div data-id="${_id}" class="created" data-type="R">
+								<div>
+									<div>
+										<fieldset class="row">
+											<legend><button  onclick="delte(${_id})" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "اختيار متعدد": "Multi Select")</legend>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
+													<input class="form-control" type="text" name="ARName" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+													<input class="form-control" type="text" name="ENName" />
+												</div>
+											</div>
+											<div class="col-12">
+												<div class='repeater-radio'>
+													<h2 class="card-title-desc" style="display: inline-flex; align-items: center;">@(isar? "الاختيارات" : "Choices") <button class="btn btn-circle mx-1" data-repeater-create style="top:0!important;color:green" type="button"><i class="fas fa-plus-circle"></i></button></h2>
+													<div data-repeater-list="group-7">
+														<div data-repeater-item class="row">
+															<div class="col-md-6" style="display: inline-flex; align-items: center;">
+																<div>
+																	<button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+																</div>
+																<div class="form-group" style="width: 100%;">
+																	<label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+																	<input class="form-control ar-item" type="text" name="ARName" />
+																</div>
+															</div>
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+																	<input class="form-control en-item" type="text" name="ENName" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+`
+			case 3:
+				return `<div data-id="${_id}"class="created" data-type='D'>
+								<div>
+									<div>
+										<fieldset class="row">
+											<legend><button onclick="delte(${_id})" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"تاريخ ووقت":"Date Time")</legend>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+													<input class="form-control" type="text" name="ARName" />
+												</div>
+												<div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب؟":"Required?")</label>
+													@Html.CheckBox("Required", new { @class = "form-control", @name = "Required", @id = "Required",@style= "width: 19px;", @type = "checkbox" })
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+													<input class="form-control" type="text" name="ENName" />
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>`
+			case 4:
+				return `<div data-id="${_id}"class="created" data-type='S'>
+								<div>
+									<div>
+										<fieldset class="row">
+											<legend><button onclick="delte(${_id})" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"فاصل":"Sperator")</legend>
+											<div class="col-md-6">
+												<div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"فاصل فارغ؟":"Empty Seprator?")</label>
+													@Html.CheckBox("Seprator", new { @class = "form-control", @name = "Seprator", @id = "Seprator", @style= "width: 19px;", @type = "checkbox" })
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>`
+			case 5:
+				return `<div data-id="${_id}"class="created" data-type='T'>
+								<div>
+									<div>
+										<fieldset class="row">
+											<legend><button onclick="delte(${_id})" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"عنوان":"Title")</legend>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+													<input class="form-control" type="text" name="ARName" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+													<input class="form-control" type="text" name="ENName" />
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>`
+			case 6:
+				return `
+						<div data-id="${_id}"class="created" data-type='E'>
+								<div>
+									<div>
+										<fieldset class="row" >
+											<legend><button onclick="delte(${_id})" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "حقل موجود": "Exist Field")</legend>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+													<input class="form-control" type="text" name="ARName" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+													<input class="form-control" type="text" name="ENName" />
+												</div>
+											</div>
+
+											<div class="col-12" style="display: flex;justify-content: center;">
+												<div class="col-md-6">
+													<div class="form-group" id="J-ReferenceToField">
+														<label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
+														<select class="form-control select2" id="ReferenceToField-${_id}" name="ReferenceToField">
+															<option value="IAUID">@(isar?"الرقم الاكاديمي":"IAU ID Number")</option>
+															<option value="FirstName">@(isar? "الاسم الاول":"First name")</option>
+															<option value="MiddelName">@(isar?"الاسم الأوسط":"Middle name")</option>
+															<option value="FamilyName">@(isar?"اسم العائلة":"Family name")</option>
+															<option value="idNumber">@(isar?"رقم الهوية":"ID Number")</option>
+															<option value="City_Country_2">@(isar?"الدولة":"Country")</option>
+															<option value="City_Country_1">@(isar?"المنطقة":"City")</option>
+															<option value="Region_Postal_Code_1">@(isar?"المدينة":"Region")</option>
+															<option value="Email">@(isar?"البريد الالكتروني":"Email")</option>
+															<option value="Mobile">@(isar?"رقم الهاتف":"Phone")</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>`
+			case 7:
+				return `<div data-id="${_id}"class="created" data-type="P">
+								<div>
+									<div>
+										<fieldset class="row">
+											<legend><button onclick="delte(${_id})" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"نص":"Text")</legend>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+													<textarea class="form-control" name="ARName"></textarea>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+													<textarea class="form-control" name="ENName" ></textarea>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>`
+		}
+	}
+	document.getElementById("addComponent").addEventListener('click',
+		function (e) {
+			let ComponetType = $('#ComponetType').val()
+			let com = getView(parseInt(ComponetType));
+            document.getElementById('ListQuestion').insertAdjacentHTML('beforeend',com)
+			reStartHandelr();
+			restartSelect2();
+		},
+		false
+	);
+	let del=[]
+	function delte(dd) {
+		Swal.fire({
+					title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حذف السؤال؟" : "Are you sure To Delete this Question?")",
+					text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+					icon: "warning",
+					showCancelButton: true,
+					focusConfirm: false,
+					confirmButtonColor: "#34c38f",
+					cancelButtonColor: "#f46a6a",
+					confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق ،احذف" : "Yes, Delte it!")",
+					cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+				}).then(function (result) {
+					if (result.value) {
+						if (!$(`div[data-id="${dd}"]`).hasClass("created"))
+							del.push(dd);
+						$(`div[data-id="${dd}"]`).slideUp().remove();
+                    }
+				});
+	}
+	function reStartHandelr() {
+		let setting = {
+
+			initEmpty: false,
+
+			defaultValues: {
+				/*'text-input': 'foo'*/
+			},
+
+			show: function () {
+				$(this).slideDown();
+			},
+			hide: function (deleteElement) {
+				Swal.fire({
+					title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حذف السؤال؟" : "Are you sure To Delete this Question?")",
+					text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+					icon: "warning",
+					showCancelButton: true,
+					focusConfirm: false,
+					confirmButtonColor: "#34c38f",
+					cancelButtonColor: "#f46a6a",
+					confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق ،احذف" : "Yes, Delte it!")",
+					cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+				}).then(function (result) {
+					if (result.value)
+						$(this).slideUp(deleteElement);
+				});
+			},
+
+			ready: function (setIndexes) {
+			},
+	isFirstItemUndeletable: false
+		};
+		$('.repeater-radio,.repeater-check').repeater(setting)
+	}
+	$(document).ready(function () {
+		reStartHandelr();
+	});
+	function restartSelect2() {
+        $('select.select2').each(function (i, obj) {
+			if ((!$(obj).hasClass("select2-hidden-accessible"))) {
+	                $(obj).select2();
+            }
+        });
+    }
+</script>

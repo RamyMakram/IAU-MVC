@@ -12,13 +12,13 @@ namespace IAUAdmin.DTO.Entity
         public int ID { get; set; }
         public string Name { get; set; }
         public string Name_EN { get; set; }
-        public string Path { get; set; }
-        public string FileName { get; set; }
-        public string Base64 { get; set; }
         public int SubServiceID { get; set; }
         public bool IS_Action { get; set; }
-        public List<HttpPostedFileBase> Files { get; set; }
+		public string QTY { get; set; }
+		public string Del_QTY { get; set; }
+        public string Code { get; set; }
+		public virtual SubServicesDTO Sub_Services { get; set; }
+        public virtual ICollection<Question> Question { get; set; }
 
-        public virtual SubServicesDTO Sub_Services { get; set; }
     }
 }

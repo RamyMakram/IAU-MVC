@@ -17,9 +17,9 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Request_State()
         {
+            this.DelayedTransaction = new HashSet<DelayedTransaction>();
             this.Request_Data = new HashSet<Request_Data>();
             this.Request_Log = new HashSet<Request_Log>();
-            this.DelayedTransaction = new HashSet<DelayedTransaction>();
         }
     
         public byte State_ID { get; set; }
@@ -28,10 +28,10 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<byte> AllowedDelay { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DelayedTransaction> DelayedTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Log> Request_Log { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DelayedTransaction> DelayedTransaction { get; set; }
     }
 }
