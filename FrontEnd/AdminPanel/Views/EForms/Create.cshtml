@@ -150,7 +150,7 @@
                     var PlaceHolderEN = $('input.form-control[name="PlaceHolderEN"]', $(i)).val()
                     var Ar = $('input.form-control[name="ARName"]', $(i)).val()
                     var En = $('input.form-control[name="ENName"]', $(i)).val()
-                    var ISNum = ($('#InputType', $(i)).val() === 'true')
+                    var ISNum = ($('[name="InputType"]', $(i)).val() === 'true')
                     var Requird = $('#Required', $(i)).is(":checked")
                     var index = $("#order", $(i)).val();
                     QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Input: { ISNum, PlaceHolder, PlaceHolderEN }, Index_Order: index })
@@ -192,7 +192,7 @@
                     var En = $('input.form-control[name="ENName"]', $(i)).val();
                     var index = $("#order", $(i)).val();
                     var Requird = $('#Required', $(i)).is(":checked")
-                    QTY.push({ Name: Ar, Name_EN: En, Requird, T: type })
+                    QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Index_Order: index })
                     break;
                 case "S":
                     var index = $("#order", $(i)).val();
@@ -213,7 +213,7 @@
                 case "E":
                     var Ar = $('input.form-control[name="ARName"]', $(i)).val()
                     var En = $('input.form-control[name="ENName"]', $(i)).val()
-                    var Ref = $('#ReferenceToField', $(i)).val()
+                    var Ref = $('[name="ReferenceToField"]', $(i)).val()
                     var index = $("#order", $(i)).val();
                     QTY.push({ Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
                     break;

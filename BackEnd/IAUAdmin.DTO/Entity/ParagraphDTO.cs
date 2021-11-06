@@ -11,7 +11,7 @@ namespace IAUAdmin.DTO.Entity
 {
     public class ParagraphDTO
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
         public int QuestionID { get; set; }
         public string Name { get; set; }
         public string Name_En { get; set; }

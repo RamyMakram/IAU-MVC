@@ -14,7 +14,7 @@ namespace IAUAdmin.DTO.Entity
     
     public partial class Radio_Type
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
         public int Question_ID { get; set; }
         public string Name { get; set; }
         public string Name_EN { get; set; }

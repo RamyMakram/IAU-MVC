@@ -14,7 +14,7 @@ namespace IAUAdmin.DTO.Entity
     
     public partial class Input_Type
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
         public int Question_ID { get; set; }
         public bool ISNum { get; set; }
         public bool Date { get; set; }

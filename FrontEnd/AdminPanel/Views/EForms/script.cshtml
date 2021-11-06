@@ -46,7 +46,7 @@
 												</div>
 												<div class="form-group">
 														<label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
-														<select class="form-control select2" id="InputType">
+														<select class="form-control select2" id="InputType-${_id}" name="InputType">
 															<option value="false">@(isar?"نص":"Text")</option>
 															<option value="true">@(isar? "رقم":"Number")</option>
 														</select>
@@ -252,7 +252,7 @@
 												<div class="col-md-6">
 													<div class="form-group" id="J-ReferenceToField">
 														<label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
-														<select class="form-control select2" id="ReferenceToField" name="ReferenceToField">
+														<select class="form-control select2" id="ReferenceToField-${_id}" name="ReferenceToField">
 															<option value="IAUID">@(isar?"الرقم الاكاديمي":"IAU ID Number")</option>
 															<option value="FirstName">@(isar? "الاسم الاول":"First name")</option>
 															<option value="MiddelName">@(isar?"الاسم الأوسط":"Middle name")</option>
@@ -272,7 +272,7 @@
 								</div>
 							</div>`
 			case 7:
-				return `<div data-id="${_id}"class="created" data-type='P'>
+				return `<div data-id="${_id}"class="created" data-type="P">
 								<div>
 									<div>
 										<fieldset class="row">
@@ -305,6 +305,7 @@
 		},
 		false
 	);
+	let del=[]
 	function delte(dd) {
 		Swal.fire({
 					title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حذف السؤال؟" : "Are you sure To Delete this Question?")",
@@ -317,8 +318,11 @@
 					confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق ،احذف" : "Yes, Delte it!")",
 					cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
 				}).then(function (result) {
-					if (result.value)
+					if (result.value) {
+						if (!$(`div[data-id="${dd}"]`).hasClass("created"))
+							del.push(dd);
 						$(`div[data-id="${dd}"]`).slideUp().remove();
+                    }
 				});
 	}
 	function reStartHandelr() {

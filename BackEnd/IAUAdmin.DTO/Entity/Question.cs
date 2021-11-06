@@ -14,7 +14,7 @@ namespace IAUAdmin.DTO.Entity
 
     public partial class Question
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
         public int Index_Order { get; set; }
         public int EForm_ID { get; set; }
         public string T { get; set; }//I Input,C Check,R Radio,P Paragraph,S Spera,T Title

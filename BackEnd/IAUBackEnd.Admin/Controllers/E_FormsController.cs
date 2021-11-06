@@ -14,6 +14,7 @@ using System.Web.Http.Description;
 using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
+using Newtonsoft.Json;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -37,6 +38,7 @@ namespace IAUBackEnd.Admin.Controllers
                       q.Name,
                       q.Name_EN,
                       q.Code,
+                      q.SubServiceID,
                       Question = q.Question.OrderBy(d => d.Index_Order).Select(s =>
                         new
                         {
@@ -49,6 +51,7 @@ namespace IAUBackEnd.Admin.Controllers
                             s.Index_Order,
                             s.Active,
                             Sepa = s.Separator,
+                            Para = s.Paragraph,
                             Radio = s.Radio_Type.Select(e =>
                                new
                                {
@@ -93,20 +96,129 @@ namespace IAUBackEnd.Admin.Controllers
             return Ok(new ResponseClass() { success = true, result = e_Forms });
         }
 
-        public async Task<IHttpActionResult> Update(E_Forms e_Forms)
+        public async Task<IHttpActionResult> Update(E_FormsDTO e_Forms)
         {
-            var data = p.E_Forms.FirstOrDefault(q => q.ID == e_Forms.ID);
-            if (!ModelState.IsValid || data == null)
+            var eform = p.E_Forms.Include(q => q.Question).FirstOrDefault(q => q.ID == e_Forms.ID);
+            if (!ModelState.IsValid || eform == null)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             try
             {
-                data.Name = e_Forms.Name;
-                data.Name_EN = e_Forms.Name_EN;
-                data.SubServiceID = e_Forms.SubServiceID;
+                eform.Name = e_Forms.Name;
+                eform.Name_EN = e_Forms.Name_EN;
+                eform.SubServiceID = e_Forms.SubServiceID;
+                eform.Code = e_Forms.Code;
+                var Deleted_IDs = JsonConvert.DeserializeObject<List<int>>(e_Forms.Del_QTY);
+                foreach (var i in Deleted_IDs)
+                {
+                    var item = p.Question.Find(i);
+                    if (item != null)
+                        p.Question.Remove(item);
+                }
+                e_Forms.Question = JsonConvert.DeserializeObject<List<IAUAdmin.DTO.Entity.Question>>(e_Forms.QTY);
+                foreach (var i in e_Forms.Question)
+                {
+                    var newItem = true;
+                    var quest = new Models.Question();
+                    if (i.ID == null)
+                        quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
+                    else
+                    {
+                        quest = p.Question.Include(q => q.Paragraph).Include(q => q.Separator).Include(q => q.Input_Type).Include(q => q.Radio_Type).Include(q => q.CheckBox_Type).FirstOrDefault(q => q.ID == i.ID);
+                        if (quest == null)
+                            quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
+                        else
+                        {
+                            newItem = false;
+                            quest.LableName = i.Name ?? "";
+                            quest.LableName_EN = i.Name_EN ?? "";
+                            quest.Requird = i.Requird;
+                            quest.Index_Order = i.Index_Order;
+                        }
+                    }
+                    switch (i.T)
+                    {
+                        case "I":
+                            if (newItem)
+                                quest.Input_Type = new Models.Input_Type { IsNumber = i.Input.ISNum, IsDate = i.Input.Date, Placeholder = i.Input.PlaceHolder, Placeholder_EN = i.Input.PlaceholderEN };
+                            else
+                            {
+                                quest.Input_Type.IsNumber = i.Input.ISNum;
+                                quest.Input_Type.IsDate = i.Input.Date;
+                                quest.Input_Type.Placeholder = i.Input.PlaceHolder;
+                                quest.Input_Type.Placeholder_EN = i.Input.PlaceholderEN;
+                            }
+                            break;
+                        case "D":
+                            break;
+                        case "R":
+                            if (!newItem)
+                                p.Radio_Type.RemoveRange(quest.Radio_Type.ToList());
+                            foreach (var r in i.Radio)//If New Insert All
+                            {
+                                //if (newItem || r.ID == null)
+                                quest.Radio_Type.Add(new Models.Radio_Type { Name = r.Name, Name_EN = r.Name_EN });
+                                //else
+                                //{
+                                //    var rad = p.Radio_Type.FirstOrDefault(q => q.ID == r.ID);
+                                //    if (rad == null)
+                                //        quest.Radio_Type.Add(new Models.Radio_Type { Name = r.Name, Name_EN = r.Name_EN });
+                                //    else
+                                //    {
+                                //        rad.Name = r.Name;
+                                //        rad.Name_EN = r.Name_EN;
+                                //    }
+                                //}
+                            }
+                            break;
+                        case "C":
+                            if (!newItem)
+                                p.CheckBox_Type.RemoveRange(quest.CheckBox_Type.ToList());
+                            foreach (var c in i.Check)
+                            {
+                                //if (newItem || c.ID == null)
+                                quest.CheckBox_Type.Add(new Models.CheckBox_Type { Name = c.Name, Name_EN = c.Name_EN });
+                                //else
+                                //{
+                                //    var check = p.CheckBox_Type.FirstOrDefault(q => q.ID == c.ID);
+                                //    if (check == null)
+                                //        quest.CheckBox_Type.Add(new Models.CheckBox_Type { Name = c.Name, Name_EN = c.Name_EN });
+                                //    else
+                                //    {
+                                //        check.Name = c.Name;
+                                //        check.Name_EN = c.Name_EN;
+                                //    }
+                                //}
+                            }
+                            break;
+                        case "P":
+                            if (newItem)
+                                quest.Paragraph = new Paragraph { Name = i.Para.Name, Name_En = i.Para.Name_En };
+                            else
+                            {
+                                quest.Paragraph.Name = i.Para.Name;
+                                quest.Paragraph.Name_En = i.Para.Name_En;
+                            }
+                            break;
+                        case "S":
+                            if (newItem)
+                                quest.Separator = new Separator { IsEmpty = i.Sepa.Empty };
+                            else
+                                quest.Separator.IsEmpty = i.Sepa.Empty;
+                            break;
+                        case "T":
+                            break;
+                        case "E":
+                            quest.RefTo = i.Ref;
+                            break;
+
+                    }
+                    if (newItem)
+                        eform.Question.Add(quest);
+                }
                 await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ee)
             {
                 return Ok(new ResponseClass() { success = false });
             }
@@ -118,15 +230,17 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             try
             {
-                var eform = new E_Forms() { SubServiceID = e_Forms.SubServiceID, Name_EN = e_Forms.Name_EN, Name = e_Forms.Name, IS_Action = true, CreatedOn = Helper.GetDate() };
+                var eform = new E_Forms() { SubServiceID = e_Forms.SubServiceID, Name_EN = e_Forms.Name_EN, Name = e_Forms.Name, IS_Action = true, CreatedOn = Helper.GetDate(), Code = e_Forms.Code };
                 foreach (var i in e_Forms.Question)
                 {
-                    var quest = new Models.Question { Type = i.T, LableName = i.Name, LableName_EN = i.Name_EN, CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird };
+                    var quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
                     switch (i.T)
                     {
                         case "I":
-                        case "D":
                             quest.Input_Type = new Models.Input_Type { IsNumber = i.Input.ISNum, IsDate = i.Input.Date, Placeholder = i.Input.PlaceHolder, Placeholder_EN = i.Input.PlaceholderEN };
+                            break;
+                        case "D":
+                            quest.Input_Type = new Models.Input_Type { IsDate = true, Placeholder_EN = "", Placeholder = "" };
                             break;
                         case "R":
                             foreach (var r in i.Radio)
