@@ -186,6 +186,7 @@
     <Compile Include="Controllers\UnitLocationController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -413,12 +414,22 @@
     <Content Include="assets\libs\flot-charts\jquery.flot.time.js" />
     <Content Include="assets\libs\flot.curvedLines\curvedLines.html" />
     <Content Include="assets\libs\gmaps\gmaps.min.js" />
+    <Content Include="assets\libs\howler\howler.core.min.js" />
+    <Content Include="assets\libs\howler\howler.js" />
+    <Content Include="assets\libs\howler\howler.min.js" />
+    <Content Include="assets\libs\howler\howler.spatial.min.js" />
     <Content Include="assets\libs\inputmask\min\jquery.inputmask.bundle.min.js" />
     <Content Include="assets\libs\ion-rangeslider\css\ion.rangeSlider.min.css" />
     <Content Include="assets\libs\ion-rangeslider\js\ion.rangeSlider.min.js" />
     <Content Include="assets\libs\jquery-countdown\jquery.countdown.min.js" />
     <Content Include="assets\libs\jquery-knob\jquery.knob.min.js" />
     <Content Include="assets\libs\jquery-sparkline\jquery.sparkline.min.js" />
+    <Content Include="assets\libs\jquery-validate\additional-methods.js" />
+    <Content Include="assets\libs\jquery-validate\additional-methods.min.js" />
+    <Content Include="assets\libs\jquery-validate\jquery.validate.js" />
+    <Content Include="assets\libs\jquery-validate\jquery.validate.min.js" />
+    <Content Include="assets\libs\jquery-validate\localization\messages_ar.js" />
+    <Content Include="assets\libs\jquery-validate\localization\messages_ar.min.js" />
     <Content Include="assets\libs\jquery.easing\jquery.easing.min.js" />
     <Content Include="assets\libs\jquery.flot.tooltip\js\jquery.flot.tooltip.min.js" />
     <Content Include="assets\libs\jquery.repeater\jquery.repeater.min.js" />
@@ -2968,6 +2979,8 @@
     <Content Include="assets\fonts\FrutigerLTArabic55Roman.woff" />
     <Content Include="assets\DataTableTrans\ar.json" />
     <Content Include="assets\DataTableTrans\en.json" />
+    <Content Include="libman.json" />
+    <Content Include="assets\libs\jquery-validate\jquery-validation-sri.json" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Email\Home.cshtml" />
@@ -3044,6 +3057,9 @@
     <Content Include="Views\Report\Home.cshtml" />
     <Content Include="Views\Report\Filter.cshtml" />
     <Content Include="Views\EForms\script.cshtml" />
+    <Content Include="Views\Shared\PrivilgesControls.cshtml" />
+    <Content Include="Views\Error\Home.cshtml" />
+    <Content Include="Views\Error\NotPermited.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

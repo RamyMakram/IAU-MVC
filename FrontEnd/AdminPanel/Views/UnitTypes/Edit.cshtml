@@ -31,12 +31,12 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-name" for="name">User Name</label>
-								@Html.TextBoxFor(q => q.Units_Type_Name_AR, new { @id = "name", @class = "form-control" })
+								@Html.TextBoxFor(q => q.Units_Type_Name_AR, new { @id = "name", @class = "form-control", @required = "true" })
 							</div>
 						</div><div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-enname" for="enname">EnName</label>
-								@Html.TextBoxFor(q => q.Units_Type_Name_EN, new { @id = "enna,e", @class = "form-control" })
+								@Html.TextBoxFor(q => q.Units_Type_Name_EN, new { @id = "enna,e", @class = "form-control", @required = "true" })
 							</div>
 						</div>
 					</div>

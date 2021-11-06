@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "IAU-BSC | Contact Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Design/CSS/contactus.css" rel="stylesheet" />
+<style>
+    th, td {
+        color: white;
+        text-align: center;
+    }
+</style>
+@{
+    var isar = Request.Cookies["lang"]?.Value == "ar";
+}
+<div style="justify-content: center; align-items: center; display: flex; height: 84vh;">
+    <table class="table">
+        <tr>
+            <th>
+                @(
+                isar?
+                "":
+                ""
+                )
+            </th>
+            <td></td>
+        </tr>
+    </table>
+</div>

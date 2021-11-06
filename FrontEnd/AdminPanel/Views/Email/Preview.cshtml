@@ -316,10 +316,10 @@
 									<tr>
 										<th key="t-Provider"></th>
 										<th>
-											@{
-												var data = (ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>).First(q => q.Units_ID == Model.Unit_ID);
-											}
-											@(isAr ? data.Units_Name_AR : data.Units_Name_EN)
+											@*@{
+					var data = (ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>).First(q => q.Units_ID == Model.Unit_ID);
+				}*@
+											@(isAr ? Model.Units.Units_Name_AR : Model.Units.Units_Name_EN)
 										</th>
 									</tr>
 									<tr>
@@ -397,7 +397,10 @@
 										<th key="t-phone"></th>
 										<th class="en-font" style="direction:ltr;text-align:start;@(isAr ? "text-align: end !important;" : "")">@Model.Personel_Data.Mobile</th>
 									</tr>
-
+									<tr>
+										<th key="t-comment"></th>
+										<th>@Model.Required_Fields_Notes</th>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -502,7 +505,10 @@
 												<select class="select2 form-control" onchange="GetCode()" name="Unit_ID" id="UnitsDataSelect" dir="@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")">
 													@foreach (var i in ViewBag.Units as ICollection<IAUAdmin.DTO.Entity.UnitsDTO>)
 													{
-														<option value="@i.Units_ID" @(i.Units_ID == Model.Unit_ID ? "selected" : "")>@(isAr ? i.Units_Name_AR : i.Units_Name_EN)</option>
+														if (!i.IS_Mostafid)
+														{
+															<option value="@i.Units_ID" @(i.Units_ID == Model.Unit_ID ? "selected" : "")>@(isAr ? i.Units_Name_AR : i.Units_Name_EN)</option>
+														}
 													}
 												</select>
 											</div>
@@ -675,7 +681,7 @@
 								<span key="t-SupportiedDocs">الاوراق الداعمة</span>
 								@*<i class="fas fa-upload" style="color:green;margin:0 38px;">
 
-								</i>*@
+									</i>*@
 							</p>
 							<div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
 								@{
@@ -695,13 +701,13 @@
 									}
 								}
 								@*<div class="col-3" style="border: 2px dashed green;width:100%;display:flex;align-items:center;justify-content:center">
-									<div class="card w-100">
-										<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green;text-align: center;justify-self: center;font-size: 48px;margin-bottom: 20px;"></i>
-										<div class="py-2 text-center">
-											<a class="font-weight-medium" key="t-AttachFile">Attach File</a>
+										<div class="card w-100">
+											<i class="fas fa-file-upload card-img-top img-fluid" style="font-size:30px;color:green;text-align: center;justify-self: center;font-size: 48px;margin-bottom: 20px;"></i>
+											<div class="py-2 text-center">
+												<a class="font-weight-medium" key="t-AttachFile">Attach File</a>
+											</div>
 										</div>
-									</div>
-								</div>*@
+									</div>*@
 							</div>
 						</div>
 						<div class="col-4">
@@ -769,8 +775,6 @@
 <script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
-<script src="~/assets/js/pdf.js"></script>
-<script src="~/assets/js/pdf.worker.js"></script>
 <script>
 	let toal = parseInt($('#total-comment').text());
 	let activeComment = parseInt($('#total-comment').text());

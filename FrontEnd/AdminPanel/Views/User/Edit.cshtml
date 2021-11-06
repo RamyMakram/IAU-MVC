@@ -50,32 +50,37 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label" key="t-name" for="name">User Name</label>
-								@Html.TextBoxFor(q => q.User_Name, new { @id = "name", @class = "form-control ar-font" })
+								@Html.TextBoxFor(q => q.User_Name_Ar, new { @id = "name", @class = "form-control ar-font", @required = "true" })
 							</div>
 							<div class="form-group">
 								<label class="control-label" key="t-email" for="email">Email</label>
-								@Html.TextBoxFor(q => q.User_Email, new { @id = "email", @class = "form-control en-font" })
+								@Html.TextBoxFor(q => q.User_Email, new { @id = "email", @class = "form-control en-font", @required = "true" })
 							</div>
 							<div class="form-group">
 								<label class="control-label" key="t-job" for="department">Department</label>
-								@Html.DropDownListFor(x => x.Job_ID, ViewBag.Jobs as SelectList, new { @class = "form-control" })
+								@Html.DropDownListFor(x => x.Job_ID, ViewBag.Jobs as SelectList, new { @class = "form-control", @required = "true" })
+							</div>
+							<div class="form-group">
+								<label class="control-label" key="t-units-short">Job</label>
+								@Html.DropDownListFor(q => q.UnitID, ViewBag.Units as SelectList, new { @class = "form-control select2", @required = "true" })
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
+								<label class="control-label" key="t-enname" for="name">Name</label>
+								@Html.TextBoxFor(q => q.User_Name_En, new { @class = "form-control en-font", @name = "name", @id = "name", @required = "true" })
+							</div>
+
+							<div class="form-group">
 								<label class="control-label" key="t-password" for="pass">Password</label>
-								@Html.TextBoxFor(q => q.User_Password, new { @id = "pass", @class = "form-control en-font" })
+								@Html.TextBoxFor(q => q.User_Password, new { @id = "pass", @class = "form-control en-font", @required = "true" })
 							</div>
 
 							<div class="form-group">
 								<label class="control-label" key="t-mobile" for="mobile">Mobile</label>
-								@Html.TextBoxFor(q => q.User_Mobile, new { @id = "mobile", @class = "form-control en-font" })
+								@Html.TextBoxFor(q => q.User_Mobile, new { @id = "mobile", @class = "form-control en-font", @required = "true" })
 							</div>
 
-							<div class="form-group">
-								<label class="control-label" key="t-units-short">Job</label>
-								@Html.DropDownListFor(q => q.UnitID, ViewBag.Units as SelectList, new { @class = "form-control select2" })
-							</div>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>

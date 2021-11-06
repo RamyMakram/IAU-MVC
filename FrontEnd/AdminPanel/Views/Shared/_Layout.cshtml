@@ -2,10 +2,14 @@
 <html lang="en">
 
 <head>
+
 	@{
 		if (Request.Cookies["lang"].Value == "ar")
 		{
-			@*<style>
+			@*
+				<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css" />
+
+				<style>
 					body {
 						font-family: 'DroidArabicKufiRegular' !important;
 						font-weight: bolder !important;
@@ -14,7 +18,8 @@
 					.select2-selection__rendered, .select2-results__option {
 						direction: rtl;
 					}
-				</style>*@
+				</style>
+			*@
 			<style>
 				body {
 					font-family: 'Frutiger LT Arabic 55 Roman' !important;
@@ -42,6 +47,13 @@
 	}
 
 	<style>
+			.select2-selection__rendered {
+		font-weight: normal;
+		direction:@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")
+	}
+	.select2-results__option{
+		direction:@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")
+	}
 		.actionForm {
 			padding: 30px;
 		}
@@ -98,6 +110,7 @@
 		.ar-font, .TH-ar {
 			font-family: 'Frutiger LT Arabic 55 Roman' !important;
 		}
+
 
 		/* The container <div> - needed to position the dropdown content */
 		.dropdown {
@@ -197,6 +210,9 @@
 	@*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
 
 	@RenderSection("scripts", required: false)
+	@Html.Partial("~/Views/Shared/PrivilgesControls.cshtml")
+
+
 	<script>
 		$(document).ready(w => {
 			var data = document.querySelectorAll('#datatable-buttons_filter label input , #searchTXT')
@@ -231,7 +247,6 @@
 		})
 	}
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js">
-	</script>
+	<script src="~/assets/libs/howler/howler.core.min.js"></script>
 </body>
 </html>

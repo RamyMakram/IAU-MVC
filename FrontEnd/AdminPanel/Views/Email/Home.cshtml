@@ -1,12 +1,12 @@
 ﻿@model ICollection<IAUAdmin.DTO.Entity.ReqestDTO>
 @{
-	ViewBag.Title = "Requests";
-	ViewBag.pTitle = "Requests";
-	ViewBag.pageTitle = "All Requests";
-	ViewBag.arTitle = "الطلبات";
-	ViewBag.arpageTitle = "الطلبات";
-	ViewBag.arpTitle = "كل الطلبات";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Requests";
+    ViewBag.pTitle = "Requests";
+    ViewBag.pageTitle = "All Requests";
+    ViewBag.arTitle = "الطلبات";
+    ViewBag.arpageTitle = "الطلبات";
+    ViewBag.arpTitle = "كل الطلبات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!-- DataTables -->
@@ -18,210 +18,210 @@
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <style>
 
-	table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after {
-		opacity: 1 !important;
-		color: red;
-	}
+    table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after {
+        opacity: 1 !important;
+        color: red;
+    }
 
-	table.dataTable thead th:before, table.dataTable thead th:after {
-		opacity: 1 !important;
-		color: black;
-	}
+    table.dataTable thead th:before, table.dataTable thead th:after {
+        opacity: 1 !important;
+        color: black;
+    }
 
-	#MailList tr.noreaded {
-		background-color: #eae0ca;
-		color: white;
-	}
+    #MailList tr.noreaded {
+        background-color: #eae0ca;
+        color: white;
+    }
 
-		#MailList tr.noreaded td {
-			border: 0;
-			color: black;
-		}
+        #MailList tr.noreaded td {
+            border: 0;
+            color: black;
+        }
 
-	#MailList tr td {
-		border-bottom: 1px solid #0000005c !important;
-	}
+    #MailList tr td {
+        border-bottom: 1px solid #0000005c !important;
+    }
 </style>
 
 @{
-	var isAr = Request.Cookies["lang"].Value == "ar";
+    var isAr = Request.Cookies["lang"].Value == "ar";
 }
 
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
-				<div class="col-12 justify-content-between mb-3">
-					<button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center" style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
-						<span key="t-filters"></span><i class="fas fa-caret-down"></i>
-					</button>
-					<button type="button" class="btn btn-primary" id="sa-archive">
-						<span key="t-ArchiveSelected">Archive Selected</span>
-					</button>
-				</div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12 justify-content-between mb-3">
+                    <button type="button" class="btn btn-primary d-inline-flex justify-content-around align-items-center" style="width: 85px;" data-toggle="modal" data-target="#FilterModal">
+                        <span key="t-filters"></span><i class="fas fa-caret-down"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" id="sa-archive">
+                        <span key="t-ArchiveSelected">Archive Selected</span>
+                    </button>
+                </div>
 
-				<table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-					<thead>
-						<tr>
-							<th style="padding: 9px;"><input type="checkbox" id="mainCheck" /></th>
-							<th>#</th>
-							<th key="t-mainservice">ServiceType</th>
-							<th key="t-request-type">RequestType</th>
-							<th key="t-IAUAff">IS IAU</th>
-							<th key="t-mostafidname">Name</th>
-							<th key="t-date">Date</th>
-							<th key="t-comment">Comment</th>
-						</tr>
-					</thead>
-					<tbody id="MailList">
-						@{
-							var count = 1;
-							foreach (var i in Model)
-							{
-								<tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
-									<td class="for-Checkbox"><input type="checkbox" class="selectbox-request check-@i.Request_Data_ID" id="@i.Request_Data_ID" /></td>
-									<td>@count</td>
-									<td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
-									<td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
-									<td>
-										@if (i.Personel_Data.IAU_ID_Number != "")
-										{
-											<span key="t-yes"></span>
-										}
-										else
-										{
-											<span key="t-no"></span>
-										}
+                <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 9px;"><input type="checkbox" id="mainCheck" /></th>
+                            <th>#</th>
+                            <th key="t-mainservice">ServiceType</th>
+                            <th key="t-request-type">RequestType</th>
+                            <th key="t-IAUAff">IS IAU</th>
+                            <th key="t-mostafidname">Name</th>
+                            <th key="t-date">Date</th>
+                            <th key="t-comment">Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="MailList">
+                        @{
+                            var count = 1;
+                            foreach (var i in Model)
+                            {
+                                <tr onclick="Preview('@Url.Action("Preview", new { Id = i.Request_Data_ID })')" class="@(i.Readed.Value?"":"noreaded")">
+                                    <td class="for-Checkbox"><input type="checkbox" class="selectbox-request check-@i.Request_Data_ID" id="@i.Request_Data_ID" /></td>
+                                    <td>@count</td>
+                                    <td>@(isAr ? i.Service_Type.Service_Type_Name_AR : i.Service_Type.Service_Type_Name_EN)</td>
+                                    <td>@(isAr ? i.Request_Type.Request_Type_Name_AR : i.Request_Type.Request_Type_Name_EN)</td>
+                                    <td>
+                                        @if (i.Personel_Data.IAU_ID_Number != "")
+                                        {
+                                            <span key="t-yes"></span>
+                                        }
+                                        else
+                                        {
+                                            <span key="t-no"></span>
+                                        }
 
-									</td>
-									<td class="en-font">@(i.Personel_Data.First_Name)</td>
-									<td class="en-font">
-										@(i.CreatedDate.ToString("MM/dd - HH:mm"))
-									</td>
+                                    </td>
+                                    <td class="en-font">@(i.Personel_Data.First_Name)</td>
+                                    <td class="en-font">
+                                        @(i.CreatedDate.ToString("MM/dd - HH:mm"))
+                                    </td>
 
-									<td>
-										<div class="dropdown dropbtn">
-											@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
-											<div class="dropdown-content">
-												<div class="p-10">
-													@(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.ToArray()))
-												</div>
-											</div>
-										</div>
-									</td>
-								</tr>
-								count++;
-							}
-						}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div> <!-- end col -->
+                                    <td>
+                                        <div class="dropdown dropbtn">
+                                            @(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
+                                            <div class="dropdown-content">
+                                                <div class="p-10">
+                                                    @(i.Required_Fields_Notes == null ? "" : i.Required_Fields_Notes)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
 </div> <!-- end row -->
 
 <div class="modal fade" id="FilterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document" @*style="max-width:97vw"*@>
-		<div class="modal-content">
-			<div class="modal-body m-0">
-				<div class="row w-100 h-100 m-0">
-					<div class="col-12 form-group">
-						<label key="t-mainservice" class="control-label"></label>
-						<select id="Filter-ST" class="form-control select2">
-							<option selected value="null" key="t-all">All</option>
-							@foreach (var i in ViewBag.ServiceType)
-							{
-								<option value="@i.Service_Type_ID">@(isAr ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
-							}
-						</select>
-					</div>
-					<div class="col-12 form-group">
-						<label key="t-request-type" class="control-label"></label>
-						<select id="Filter-RT" class="form-control select2">
-							<option selected value="null" key="t-all">All</option>
-							@foreach (var i in ViewBag.ReqTypes)
-							{
-								<option value="@i.Request_Type_ID">@(isAr ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
-							}
-						</select>
-					</div>
-					<div class="col-12 form-group">
-						<label key="t-IAUAff" class="control-label"></label>
-						<select id="Filter-MT" class="form-control select2">
-							<option selected value="0" key="t-no"></option>
-							<option value="1" key="t-yes"></option>
-						</select>
-					</div>
-					<div class="col-12 d-inline-flex justify-content-around">
-						<div class="form-group">
-							<label class="control-label" key="t-date-from">From</label>
-							<input id="Filter-DF" type="date" class="form-group en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
-						</div>
-						<div class="form-group">
-							<label class="control-label" key="t-date-to">To</label>
-							<input id="Filter-DT" type="date" class="form-group en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal" key="t-cancel">Close</button>
-				<button type="button" class="btn btn-primary" key="t-filter" id="btn-filter">Filter</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered" role="document" @*style="max-width:97vw"*@>
+        <div class="modal-content">
+            <div class="modal-body m-0">
+                <div class="row w-100 h-100 m-0">
+                    <div class="col-12 form-group">
+                        <label key="t-mainservice" class="control-label"></label>
+                        <select id="Filter-ST" class="form-control select2">
+                            <option selected value="null" key="t-all">All</option>
+                            @foreach (var i in ViewBag.ServiceType)
+                            {
+                                <option value="@i.Service_Type_ID">@(isAr ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label key="t-request-type" class="control-label"></label>
+                        <select id="Filter-RT" class="form-control select2">
+                            <option selected value="null" key="t-all">All</option>
+                            @foreach (var i in ViewBag.ReqTypes)
+                            {
+                                <option value="@i.Request_Type_ID">@(isAr ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label key="t-IAUAff" class="control-label"></label>
+                        <select id="Filter-MT" class="form-control select2">
+                            <option selected value="0" key="t-no"></option>
+                            <option value="1" key="t-yes"></option>
+                        </select>
+                    </div>
+                    <div class="col-12 d-inline-flex justify-content-around">
+                        <div class="form-group">
+                            <label class="control-label" key="t-date-from">From</label>
+                            <input id="Filter-DF" type="date" class="form-group en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" key="t-date-to">To</label>
+                            <input id="Filter-DT" type="date" class="form-group en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" key="t-cancel">Close</button>
+                <button type="button" class="btn btn-primary" key="t-filter" id="btn-filter">Filter</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script>
-	$("#btn-filter").click(function () {
-		var dateOptions = { month: '2-digit', day: '2-digit' };
-		var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
-		$.ajax({
-			url: `/Email/Filter?ST=${$('#Filter-ST').val()}&RT=${$('#Filter-RT').val()}&MT=${$('#Filter-MT').val()}&DF=${$('#Filter-DF').val()}&DT=${$('#Filter-DT').val()}`, processData: false, method: "POST", success: function (d) {
-				let Data = JSON.parse(d);
-				let html = document.getElementsByTagName("tbody")[0]
-				html.innerHTML = "";
-				let count = 1;
-				Data.forEach(received_msg => {
-					html.innerHTML += `
-						<tr onclick="Preview('/Email/Preview/${received_msg["Request_Data_ID"]}')" class="${received_msg["Readed"] ? '' : 'noreaded'}">
-								<td class="sorting_1 dtr-control"><input type="checkbox" class="selectbox-request" id="${received_msg["Request_Data_ID"]}"></td>
-								<td>${count}</td>
-								<td>${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : received_msg["Service_Type"]["Service_Type_Name_EN"])}</td>
-								<td>${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</td>
-								<td><span>${document.querySelector(`option[key='${(received_msg["Personel_Data"]["IAU_ID_Number"] == "" ? "t-no" : "t-yes")}']`).innerText}</span></td>
-								<td class="en-font">${received_msg["Personel_Data"]["First_Name"]}</td>
-								<td class="en-font">${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</td>
-								<td>${(received_msg["Required_Fields_Notes"] == null ? "" : received_msg["Required_Fields_Notes"].substr(0, 400))}</td>
-							</tr>
-						`
-					count++;
-				})
+    $("#btn-filter").click(function () {
+        var dateOptions = { month: '2-digit', day: '2-digit' };
+        var timeOptions = { hour12: false, hour: '2-digit', minute: '2-digit' };
+        $.ajax({
+            url: `/Email/Filter?ST=${$('#Filter-ST').val()}&RT=${$('#Filter-RT').val()}&MT=${$('#Filter-MT').val()}&DF=${$('#Filter-DF').val()}&DT=${$('#Filter-DT').val()}`, processData: false, method: "POST", success: function (d) {
+                let Data = JSON.parse(d);
+                let html = document.getElementsByTagName("tbody")[0]
+                html.innerHTML = "";
+                let count = 1;
+                Data.forEach(received_msg => {
+                    html.innerHTML += `
+                        <tr onclick="Preview('/Email/Preview/${received_msg["Request_Data_ID"]}')" class="${received_msg["Readed"] ? '' : 'noreaded'}">
+                                <td class="sorting_1 dtr-control"><input type="checkbox" class="selectbox-request" id="${received_msg["Request_Data_ID"]}"></td>
+                                <td>${count}</td>
+                                <td>${(language == "ar" ? received_msg["Service_Type"]["Service_Type_Name_AR"] : received_msg["Service_Type"]["Service_Type_Name_EN"])}</td>
+                                <td>${(language == "ar" ? received_msg["Request_Type"]["Request_Type_Name_AR"] : received_msg["Request_Type"]["Request_Type_Name_EN"])}</td>
+                                <td><span>${document.querySelector(`option[key='${(received_msg["Personel_Data"]["IAU_ID_Number"] == "" ? "t-no" : "t-yes")}']`).innerText}</span></td>
+                                <td class="en-font">${received_msg["Personel_Data"]["First_Name"]}</td>
+                                <td class="en-font">${(new Date(received_msg["CreatedDate"]).toLocaleDateString([], dateOptions) + " - " + new Date(received_msg["CreatedDate"]).toLocaleTimeString([], timeOptions))}</td>
+                                <td>${(received_msg["Required_Fields_Notes"] == null ? "" : received_msg["Required_Fields_Notes"].substr(0, 400))}</td>
+                            </tr>
+                        `
+                    count++;
+                })
 
-			}
-		})
-	})
+            }
+        })
+    })
 </script>
 
 <script>
-	function Preview(url) {
-		window.location.href = url;
-	}
-	$('#mainCheck').on('click', function () {
-		this.checked ? $('.selectbox-request').prop('checked', true) : $('.selectbox-request').prop('checked', false);
+    function Preview(url) {
+        window.location.href = url;
+    }
+    $('#mainCheck').on('click', function () {
+        this.checked ? $('.selectbox-request').prop('checked', true) : $('.selectbox-request').prop('checked', false);
 
-	})
-	$('.for-Checkbox').click(function () {
-		$(this).children("input")[0].click();
-	})
-	$('.selectbox-request,.for-Checkbox').on('click', function () {
-		event.stopPropagation()
-	});
+    })
+    $('.for-Checkbox').click(function () {
+        $(this).children("input")[0].click();
+    })
+    $('.selectbox-request,.for-Checkbox').on('click', function () {
+        event.stopPropagation()
+    });
 </script>
 @using (Html.BeginForm("Archive", "Email", FormMethod.Post, new { @style = "display:none!important" }))
 {
-	<input type="text" name="requests" id="selected-request" />
-	<button id="xx-confirmRequest" type="submit"></button>
+    <input type="text" name="requests" id="selected-request" />
+    <button id="xx-confirmRequest" type="submit"></button>
 }
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>

@@ -136,7 +136,7 @@
 							<a class="nav-link" href="~/Coordinator">المنسقين</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">المساعدة والدعم الفنى</a>
+							<a class="nav-link" href="/Contactus">المساعدة والدعم الفنى</a>
 						</li>
 					}
 					else
@@ -151,7 +151,7 @@
 							<a class="nav-link" href="~/Coordinator">Coordinator</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">help and support</a>
+							<a class="nav-link" href="/Contactus">help and support</a>
 						</li>
 
 					}
@@ -1160,7 +1160,7 @@
 							</div>
 							<div class="col-md-8" id="drop-area-other">
 								<p>Drop file Here Or Click to upload(Maximum load size 20 MB) <i class="fas fa-upload"></i></p>
-								<div class="row" id="filesNameDropOther" name="filesNameDropOther" class="row">
+								<div class="row" id="filesNameDropOther" name="filesNameDropOther">
 								</div>
 							</div>
 						</div>
@@ -1332,11 +1332,11 @@
 						<div class="mb-3 text-center">
 							@if (ViewBag.CookieLang == "ar")
 							{
-								<label for="verficationCode" class="col-form-label">أدخل 4 أرقام تلقيتها لإكمال الطلب</label>
+								<label for="verficationCode" class="col-form-label">سيصلك 4 أرقام من خلال رسالة نصية او بريد الكتروني ،قم بإدخالهم لإستكمال طلبك.</label>
 							}
 							else
 							{
-								<label for="verficationCode" class="col-form-label">Enter 4 Digits You Received to Complete Request</label>
+                        <label for="verficationCode" class="col-form-label">You will receive 4 numbers through a text message or e-mail, enter them to complete your request.</label>
 							}
 							<div class=" verification-input" style="direction:ltr !important">
 								<input type="text" class="form-control" maxlength="1" autocomplete="off">
@@ -1356,16 +1356,16 @@
 
 					}
 				</div>
-				<div class="modal-footer text-center">
-					@if (ViewBag.CookieLang == "ar")
-					{
-						<button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">تاكيد</button>
-					}
-					else
-					{
-						<button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">Confirm</button>
-					}
-				</div>
+                <div class="modal-footer text-center">
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">تاكيد</button>
+                    }
+                    else
+                    {
+                        <button type="button" onclick="saveRequest()" class="btn btn-success" id="Comfirm-Digits">Confirm</button>
+                    }
+                </div>
 			</div>
 		</div>
 	</div>

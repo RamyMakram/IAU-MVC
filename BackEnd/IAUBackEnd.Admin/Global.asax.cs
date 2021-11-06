@@ -11,7 +11,8 @@ namespace IAUBackEnd.Admin
 {
 	public class WebApiApplication : System.Web.HttpApplication
 	{
-		public static bool Setting_UseMessage;
+		public static bool Setting_UseMessage { get; set; }
+
 		protected void Application_Start()
 		{
 			var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
@@ -37,15 +38,15 @@ namespace IAUBackEnd.Admin
 		}
 		protected void Application_BeginRequest(object Sender, EventArgs eventE)
 		{
-			//string[] WS_AllowedSites = { "https://localhost:44346", "https://adminpanel.iau-bsc.com", "https://dashb-mustafid.iau.edu.sa" };
-			//var contexURl = HttpContext.Current.Request.Headers.Get("Origin");
-			//var cridantl = HttpContext.Current.Request.Headers["crd"];
-			//if (WS_AllowedSites.Contains(contexURl) && HttpContext.Current.Request.Path == "/WSHandler.ashx")
-			//{
+			string[] WS_AllowedSites = { "https://localhost:44346", "https://adminpanel.iau-bsc.com", "https://dashb-mustafid.iau.edu.sa" };
+			var contexURl = HttpContext.Current.Request.Headers.Get("Origin");
+			var cridantl = HttpContext.Current.Request.Headers["crd"];
+			if (WS_AllowedSites.Contains(contexURl) && HttpContext.Current.Request.Path == "/WSHandler.ashx")
+			{
 
-			//}
-			//else if ((cridantl == null || cridantl == "" || cridantl != "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks"))
-			//	HttpContext.Current.Response.StatusCode = 401;
+			}
+			else if ((cridantl == null || cridantl == "" || cridantl != "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks"))
+				HttpContext.Current.Response.StatusCode = 401;
 		}
 	}
 }

@@ -44,20 +44,20 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label" key="t-name" for="name">Name</label>
-                                @Html.TextBoxFor(q => q.Sub_Services_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name" })
+                                @Html.TextBoxFor(q => q.Sub_Services_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name", @required = "true" })
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label" key="t-enname" for="enname">enname</label>
-                                @Html.TextBoxFor(q => q.Sub_Services_Name_EN, new { @class = "form-control en-font", @name = "enname", @id = "enname" })
+                                @Html.TextBoxFor(q => q.Sub_Services_Name_EN, new { @class = "form-control en-font", @name = "enname", @id = "enname", @required = "true" })
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label" key="t-mainservice" for="email">Main Service</label>
-                                @Html.DropDownListFor(q => q.Main_Services_ID, ViewBag.MainServices as SelectList, new { @class = "form-control select2", })
+                                @Html.DropDownListFor(q => q.Main_Services_ID, ViewBag.MainServices as SelectList, new { @class = "form-control select2", @required = "true" })
                             </div>
                         </div>
                         <div style="display:inline-flex;justify-content:space-between;width: 100%;padding: 0 11px;">
@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                         </div>
-                        @Html.EditorFor(q => q.Required, new { htmlAttributes = new { @class = "form-control", @disable = "true", @style = "display:none !important" } })
+                        @Html.EditorFor(q => q.Required, new { htmlAttributes = new { @class = "form-control", @disable = "true", @style = "display:none !important", @required = "true" } })
 
                     </div>
                     <button id="submir" type="submit" class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>

@@ -2,13 +2,13 @@
 @using AdminPanel.Controllers;
 @using System.Configuration;
 @{
-	ViewBag.Title = "Create Category";
-	ViewBag.pTitle = "Create Category";
-	ViewBag.pageTitle = "Categories";
-	ViewBag.arTitle = "اضافة فئة";
-	ViewBag.arpTitle = "اضافة فئة";
-	ViewBag.arpageTitle = "الفئات الادارية";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Create Category";
+    ViewBag.pTitle = "Create Category";
+    ViewBag.pageTitle = "Categories";
+    ViewBag.arTitle = "اضافة فئة";
+    ViewBag.arpTitle = "اضافة فئة";
+    ViewBag.arpageTitle = "الفئات الادارية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -21,194 +21,192 @@
 <!-- Sweet Alert-->
 <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <style>
-	label.control-label::after {
-		content: ":";
-	}
+    label.control-label::after {
+        content: ":";
+    }
 
-	span.select2 {
-		width: 100% !important
-	}
+    span.select2 {
+        width: 100% !important
+    }
 
-	#CodeGenrateDiv input {
-		border: 1px solid;
-	}
+    #CodeGenrateDiv input {
+        border: 1px solid;
+    }
 
-	label#TypeCode, #SubTypeCode, #SubTypeLevel {
-		width: 100% !important;
-		padding: 4px 16px !important;
-		border: 1px solid #aaa !important;
-		border-radius: 6px !important;
-		/* font-size: 11px; */
-		/*font-weight: bold;*/
-		font-size: 16px;
-		margin: 1px 0 !important;
-	}
+    label#TypeCode, #SubTypeCode, #SubTypeLevel {
+        width: 100% !important;
+        padding: 4px 16px !important;
+        border: 1px solid #aaa !important;
+        border-radius: 6px !important;
+        /* font-size: 11px; */
+        /*font-weight: bold;*/
+        font-size: 16px;
+        margin: 1px 0 !important;
+    }
 
-	span.select2-selection.select2-selection {
-		height: 36px !important;
-	}
+    span.select2-selection.select2-selection {
+        height: 36px !important;
+    }
 
-	#CodeGenrateDiv {
-		display: inline-flex;
-		width: 100%;
-		align-items: center;
-		justify-content: center;
-		direction: ltr !important;
-	}
+    #CodeGenrateDiv {
+        display: inline-flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        direction: ltr !important;
+    }
 
-		#CodeGenrateDiv input {
-			margin: 0 5px;
-			width: 33px;
-		}
+        #CodeGenrateDiv input {
+            margin: 0 5px;
+            width: 33px;
+        }
 
-	label.control-label {
-		font-weight: bold;
-	}
+    label.control-label {
+        font-weight: bold;
+    }
 
-	.select2-selection__rendered {
-		font-weight: normal;
-	}
 
-	.select2-selection__rendered, .select2-selection__arrow {
-		margin-top: 3px;
-	}
+
+    .select2-selection__rendered, .select2-selection__arrow {
+        margin-top: 3px;
+    }
 </style>
 
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
-				<div class="row justify-content-center">
-					<div class="form-group">
-						<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
-						<div style="display:inline-flex" id="CodeGenrateDiv">
-							@foreach (var i in new string[15])
-							{
-								<input class="form-control Genratedcode en-font" disabled />
-							}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
-				@{
-					var lang = Request.Cookies["lang"].Value;
-					@Html.Hidden("ss", lang, new { @id = "lang" })
-				}
-				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
-				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
+                        <div style="display:inline-flex" id="CodeGenrateDiv">
+                            @foreach (var i in new string[15])
+                            {
+                                <input class="form-control Genratedcode en-font" disabled />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @{
+                    var lang = Request.Cookies["lang"].Value;
+                    @Html.Hidden("ss", lang, new { @id = "lang" })
+                }
+                <h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+                <p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
 
-				@using (Html.BeginForm("Create", "Units", FormMethod.Post, new { encType = "multipart/form-data" }))
-				{
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label key="t-title-unitlevel" class="control-label">Types</label>
-								@Html.DropDownListFor(q => q.LevelID, (IEnumerable<SelectListItem>)ViewBag.Levels, new { @class = "form-control select2", @onchange = "LevelChange(event)", @id = "LEVEID" })
-							</div>
-							<div class="form-group">
-								<label key="t-subunits" class="control-label">Types</label>
-								<select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
-								</select>
-							</div>
-							<div class="form-group">
-								<label key="t-name" class="control-label" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control  ar-font", @name = "name", @id = "name" })
-							</div>
-							<div class="form-group">
-								<label key="t-location" class="control-label">Loactions</label>
-								@Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2", @id = "LocationIDSelect", @onchange = "LocationChange(event.target.value)" })
-							</div>
-							<div class="form-group">
-								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
-									@Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-							</div>
+                @using (Html.BeginForm("Create", "Units", FormMethod.Post, new { encType = "multipart/form-data" }))
+                {
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label key="t-title-unitlevel" class="control-label">Types</label>
+                                @Html.DropDownListFor(q => q.LevelID, (IEnumerable<SelectListItem>)ViewBag.Levels, new { @class = "form-control select2", @required = "true", @onchange = "LevelChange(event)", @id = "LEVEID" })
+                            </div>
+                            <div class="form-group">
+                                <label key="t-subunits" class="control-label">Types</label>
+                                <select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label key="t-name" class="control-label" for="name">Name</label>
+                                @Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control  ar-font", @required = "true", @name = "name", @id = "name" })
+                            </div>
+                            <div class="form-group">
+                                <label key="t-location" class="control-label">Loactions</label>
+                                @Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2", @required = "true", @id = "LocationIDSelect", @onchange = "LocationChange(event.target.value)" })
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox mb-3 p-0">
+                                    <label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
+                                    @Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @required = "true", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                                </div>
+                            </div>
 
-							<div class="form-group">
-								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-requesttype" for="customCheck1">ReqTypes</label>
-									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "customCheck1", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-							</div>
-							@if ((bool)ViewBag.ViewMostafid)
-							{
-								<div class="form-group">
-									<div class="custom-control custom-checkbox mb-3">
-										@Html.CheckBoxFor(q => q.IS_Mostafid, new { @class = "custom-control-input", @name = "Ename", @id = "customCheck1", @type = "checkbox" })
-										<label class="custom-control-label" key="t-ismostafid" for="customCheck1">ISMostafid</label>
-									</div>
-								</div>
-							}
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox mb-3 p-0">
+                                    <label class="control-label" key="t-requesttype" for="customCheck1">ReqTypes</label>
+                                    @Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @required = "true", @id = "customCheck1", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                                </div>
+                            </div>
+                            @if ((bool)ViewBag.ViewMostafid)
+                            {
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox mb-3">
+                                        @Html.CheckBoxFor(q => q.IS_Mostafid, new { @class = "custom-control-input", @name = "Ename", @id = "customCheck1", @type = "checkbox" })
+                                        <label class="custom-control-label" key="t-ismostafid" for="customCheck1">ISMostafid</label>
+                                    </div>
+                                </div>
+                            }
 
-							@Html.HiddenFor(q => q.SubID, new { @id = "SubID" })
-						</div>
+                            @Html.HiddenFor(q => q.SubID, new { @id = "SubID" })
+                        </div>
 
-						<div class="col-sm-6">
-							<div class="form-group" style="display:inline-flex;width: 100%;margin:1px;">
-								<div style="width: 65%; padding: 0 3px;">
-									<label key="t-unittypes" class="control-label">Unit Type</label>
-									<select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
-									</select>
-								</div>
-								<div class="form-group" style="width: 35%; padding: 0 3px;margin:0">
-									<label key="t-title-type-code" class="control-label">Code</label>
-									<label id="TypeCode" style="width: 100%;  padding:0 5px; margin:0;height: 36px;"></label>
-								</div>
-							</div>
-							<div class="form-group" style="display:inline-flex;width: 100%;height:70px;margin: 9px 0 11px 0;">
-								<div style="width: 65%; padding: 0 3px;">
-									<label key="t-title-subunittypes" class="control-label"></label>
-									<label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
-								</div>
-								<div style="width: 35%; padding: 0 3px">
-									<label key="t-title-sub-code" class="control-label">SubTypeCode</label>
-									<label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label key="t-enname" class="control-label" for="Ename">ENNAME</label>
-								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control en-font", @name = "Ename", @id = "Ename" })
-							</div>
+                        <div class="col-sm-6">
+                            <div class="form-group" style="display:inline-flex;width: 100%;margin:1px;">
+                                <div style="width: 65%; padding: 0 3px;">
+                                    <label key="t-unittypes" class="control-label">Unit Type</label>
+                                    <select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
+                                    </select>
+                                </div>
+                                <div class="form-group" style="width: 35%; padding: 0 3px;margin:0">
+                                    <label key="t-title-type-code" class="control-label">Code</label>
+                                    <label id="TypeCode" style="width: 100%;  padding:0 5px; margin:0;height: 36px;"></label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:inline-flex;width: 100%;height:70px;margin: 9px 0 11px 0;">
+                                <div style="width: 65%; padding: 0 3px;">
+                                    <label key="t-title-subunittypes" class="control-label"></label>
+                                    <label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
+                                </div>
+                                <div style="width: 35%; padding: 0 3px">
+                                    <label key="t-title-sub-code" class="control-label">SubTypeCode</label>
+                                    <label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label key="t-enname" class="control-label" for="Ename">ENNAME</label>
+                                @Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control en-font", @required = "true", @name = "Ename", @id = "Ename" })
+                            </div>
 
-							<div class="form-group">
-								<label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
-								<div style="display:inline-flex;width:100%;">
-									@Html.DropDownList(" ", (new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
-									@Html.DropDownList(" ", (new List<string> { "A", "D", "M", "F", "S", "R", "H" }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @style = "padding:0 5px" })
-								</div>
-							</div>
+                            <div class="form-group">
+                                <label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
+                                <div style="display:inline-flex;width:100%;">
+                                    @Html.DropDownList(" ", (new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+                                    @Html.DropDownList(" ", (new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @id = "Ename", @style = "padding:0 5px" })
+                                    @Html.DropDownList(" ", (new List<string> { "A", "D", "M", "F", "S", "R", "H" }.ConvertAll(a => { return new SelectListItem() { Value = a.ToString(), Text = a.ToString(), Selected = false }; })), new { @onchange = "BuildChange()", @class = "form-control BuldingNumber  en-font", @name = "Ename", @style = "padding:0 5px" })
+                                </div>
+                            </div>
 
-							<div class="form-group">
-								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-title-subservice" for="servicetype">Sub servicetype</label>
-									@Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-							</div>
-							<div class="form-group">
-								<label key="t-title-Unitcode" class="control-label" for="Ename">UnitCode</label>
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "unitCode", @id = "unitCode", @maxlength = "1", @onkeyup = "UnitCodeChange()" })
-							</div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox mb-3 p-0">
+                                    <label class="control-label" key="t-title-subservice" for="servicetype">Sub servicetype</label>
+                                    @Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label key="t-title-Unitcode" class="control-label" for="Ename">UnitCode</label>
+                                @Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "unitCode", @required = "true", @id = "unitCode", @maxlength = "1", @minlength = "1" })
+                            </div>
 
-							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID" })
-							@Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum" })
-							@Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum" })
-						</div>
-					</div>
-					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					@Html.ActionLink("Cancel", "Home", "Units", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
-				}
+                            @Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID", @required = "true" })
+                            @Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum", @required = "true" })
+                            @Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum", @required = "true" })
+                        </div>
+                    </div>
+                    <button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    @Html.ActionLink("Cancel", "Home", "Units", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+                }
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 <!-- end row -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
@@ -268,6 +266,7 @@
 				select.innerHTML = ``;
 				if (e.length != 0) {
 					$('#unitCode').attr('maxlength', "2");
+					$('#unitCode').attr('minlength', "2");
 					SubUnitChange(e[0]["Units_ID"]);
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
@@ -276,6 +275,7 @@
 				}
 				else {
 					$('#unitCode').attr('maxlength', "1");
+					$('#unitCode').attr('minlength', "1");
 					if ($('#unitCode').val().length > 1)
 						$('#unitCode').val("")
 				}
@@ -366,10 +366,8 @@
 				LaunchErrorHandelare();
 			}
 		})
-
 	}
 	function LaunchErrorHandelare() {
-		$('#unitCode').focus()
 		Swal.fire({
 			title: "@( Request.Cookies["lang"].Value == "ar" ? "لا يمكن استخدام هذا الرقم" : "You Can't Use this Code.")",
 			icon: "warning",
@@ -377,8 +375,28 @@
 			confirmButtonColor: "#34c38f",
 			cancelButtonColor: "#f46a6a",
 			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق" : "Ok")",
-		});
-	}
+        }).then((result) => {
+		$('#unitCode').focus()
+        });
+    }
+    var entered_Code = false;
+	$(document).ready(i => {
+        $(document).on("focusout", "#unitCode", i => {
+            if (entered_Code) {
+                $('#unitCode').val($('#unitCode').val() == '' ? $('#LEVEID option:selected').val() == "1" ? "0" : "00" : $('#unitCode').val());
+                UnitCodeChange(false)
+            }
+        });
+        $(document).on("focus", "#unitCode", i => {
+            entered_Code = true;
+        });
+	})
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 </script>
 <!-- JAVASCRIPT -->
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

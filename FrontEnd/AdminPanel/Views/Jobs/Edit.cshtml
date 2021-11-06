@@ -41,13 +41,13 @@
 							<span style="display:none" id="hit">@Model.User_Permissions_Type_ID</span>
 							<div class="form-group">
 								<label class="control-label" for="Name_AR" key="t-name">Job Name</label>
-								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_AR, new { @class = "form-control ar-font", @id = "Name_AR" })
+								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_AR, new { @class = "form-control ar-font", @id = "Name_AR", @required = "true" })
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label" for="Name_EN" key="t-enname">Job English Name</label>
-								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_EN, new { @class = "form-control en-font", @id = "Name_EN" })
+								@Html.TextBoxFor(q => q.User_Permissions_Type_Name_EN, new { @class = "form-control en-font", @id = "Name_EN", @required = "true" })
 							</div>
 						</div>
 					</div>

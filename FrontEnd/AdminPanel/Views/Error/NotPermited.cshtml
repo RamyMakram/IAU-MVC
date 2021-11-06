@@ -1,0 +1,52 @@
+﻿
+
+@{
+    ViewBag.Title = "Error";
+    ViewBag.pTitle = "Error";
+    ViewBag.pageTitle = "Users";
+    ViewBag.arTitle = "خطاء";
+    ViewBag.arpageTitle = "خطاء";
+    ViewBag.arpTitle = "خطاء";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="justify-content: center; align-items: center; display: flex; height: 70vh;">
+    <div>
+        <h2 style="text-align:center;font-size:70px">😥</h2>
+        <h1 style="text-align:center; color: #4f693a;">
+            @(
+                (Request.Cookies["lang"]?.Value == "ar")?
+                "عفوا غير مسموح لك بالدخول هنا!" :
+                "Sorry You Dont Have Permision To Access This Page"
+        )
+        </h1>
+        <div class="text-center" style="margin-top:25px">
+            <a href="/Home" class="m-auto btn btn-primary">
+                @(
+                (Request.Cookies["lang"]?.Value == "ar")?
+                "الرجوع للرئيسية" :
+                "Back To Home Page"
+        )
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>

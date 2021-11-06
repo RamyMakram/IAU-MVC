@@ -1,13 +1,13 @@
 ﻿@model IAUAdmin.DTO.Entity.UnitsDTO
 @using System.Configuration;
 @{
-	ViewBag.Title = "Unit Category";
-	ViewBag.pTitle = "Unit Category";
-	ViewBag.pageTitle = "Categories";
-	ViewBag.arTitle = "معلومات فئة";
-	ViewBag.arpageTitle = "معلومات فئة";
-	ViewBag.arpTitle = "الفئات الادارية";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Unit Category";
+    ViewBag.pTitle = "Unit Category";
+    ViewBag.pageTitle = "Categories";
+    ViewBag.arTitle = "معلومات فئة";
+    ViewBag.arpageTitle = "معلومات فئة";
+    ViewBag.arpTitle = "الفئات الادارية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -15,75 +15,82 @@
 
 <div class="mt-5">
 
-	<div class="table-responsive">
-		<table class="table mb-0 table-bordered">
-			<tbody>
-				@{
-					var lang = Request.Cookies["lang"].Value;
-					var url = ConfigurationManager.AppSettings["DomainName"].ToString();
-				}
-				<tr>
-					<th key="t-name" scope="row" style="width: 400px;">User Name</th>
-					<td class="ar-font">@Model.Units_Name_AR</td>
-				</tr>
-				<tr>
-					<th key="t-enname" scope="row">Mobile</th>
-					<td class="en-font">@Model.Units_Name_EN</td>
-				</tr>
-				<tr>
-					<th key="t-location" scope="row">location</th>
-					<td>@(lang=="ar"? Model.Units_Location.Units_Location_Name_AR: Model.Units_Location.Units_Location_Name_EN)</td>
-				</tr>
-				@*<tr>
-					<th key="t-servicetype" scope="row">servicetype</th>
-					<td>@(lang=="ar"? Model.Service_Type.Service_Type_Name_AR: Model.Service_Type.Service_Type_Name_EN)<img src=@(url+"/"+Model.Service_Type.Image_Path) height="36px" /></td>
-				</tr>*@
-				<tr>
-					<th key="t-requesttype" scope="row">requesttype</th>
-					<td class="row" style="margin:0 !important">
-						@foreach (var i in Model.Request_Type)
-						{
-							<span style="padding:0 15px;margin:5px 0;display:inline-flex;justify-content:center;align-items:center" class="col-3">@(lang=="ar"? i.Request_Type_Name_AR: i.Request_Type_Name_EN)<img src=@(url+"/"+i.Image_Path) height="36px" /></span>
-						}
-					</td>
-				</tr>
-				<tr>
-					<th key="t-unittypes" scope="row">unittypes</th>
-					<td>@(lang=="ar"? Model.Units_Type.Units_Type_Name_AR: Model.Service_Type.Service_Type_Name_EN)</td>
-				</tr>
-				<tr>
-					<th key="t-ismostafid" scope="row">ismostafid</th>
-					<td>
-						@if (Model.IS_Mostafid)
-						{
-							<input type="checkbox" onclick="change(event)" checked />
-						}
-						else
-						{
-							<input type="checkbox"  onclick="change(event)"/>
-						}
-					</td>
-				</tr>
-				<tr>
-					<th key="t-activeTitle" scope="row">Mobile</th>
-					<td><i class="fas fa-circle" style=@("color:"+(Model.IS_Action.Value?"green":"red"))></i></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+    <div class="table-responsive">
+        <table class="table mb-0 table-bordered">
+            <tbody>
+                @{
+                    var lang = Request.Cookies["lang"].Value;
+                    var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+                }
+                <tr>
+                    <th key="t-name" scope="row" style="width: 400px;">User Name</th>
+                    <td class="ar-font">@Model.Units_Name_AR</td>
+                </tr>
+                <tr>
+                    <th key="t-enname" scope="row">Mobile</th>
+                    <td class="en-font">@Model.Units_Name_EN</td>
+                </tr>
+                <tr>
+                    <th key="t-location" scope="row">location</th>
+                    <td>@(lang=="ar"? Model.Units_Location.Units_Location_Name_AR: Model.Units_Location.Units_Location_Name_EN)</td>
+                </tr>
+                @*<tr>
+                        <th key="t-servicetype" scope="row">servicetype</th>
+                        <td>@(lang=="ar"? Model.Service_Type.Service_Type_Name_AR: Model.Service_Type.Service_Type_Name_EN)<img src=@(url+"/"+Model.Service_Type.Image_Path) height="36px" /></td>
+                    </tr>*@
+                <tr>
+                    <th key="t-requesttype" scope="row">requesttype</th>
+                    <td class="row" style="margin:0 !important">
+                        @foreach (var i in Model.Request_Type)
+                        {
+                            <div style="width:120px" class=" d-flex flex-column">
+                                <div class="text-center row w-100">
+                                    <img class=" m-auto" src=@(url+"/"+i.Image_Path) height="36px" />
+                                </div>
+                                <div class="row w-100">
+                                    <p class="text-center" style="width: inherit;">@(lang=="ar"? i.Request_Type_Name_AR: i.Request_Type_Name_EN)</p>
+                                </div>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th key="t-unittypes" scope="row">unittypes</th>
+                    <td>@(lang=="ar"? Model.Units_Type.Units_Type_Name_AR: Model.Service_Type.Service_Type_Name_EN)</td>
+                </tr>
+                <tr>
+                    <th key="t-ismostafid" scope="row">ismostafid</th>
+                    <td>
+                        @if (Model.IS_Mostafid)
+                        {
+                            <input type="checkbox" onclick="change(event)" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" onclick="change(event)" />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th key="t-activeTitle" scope="row">Mobile</th>
+                    <td><i class="fas fa-circle" style=@("color:"+(Model.IS_Action.Value?"green":"red"))></i></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script>
-	function change (event) {
-		event.preventDefault();
-		event.stopPropagation();
+    function change(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-		return false;
-	};
+        return false;
+    };
 </script>
 <div class="mt-5">
-	@Html.ActionLink("Edit", "Edit", new { Id = Model.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+    @Html.ActionLink("Edit", "Edit", new { Id = Model.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = Model.Units_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
+    @Html.ActionLink(Model.IS_Action.Value ? "Deactive" : "Active", Model.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = Model.Units_ID }, new { @class = Model.IS_Action.Value ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Action.Value ? "t-deactive" : "t-active" })
 
 </div>
 

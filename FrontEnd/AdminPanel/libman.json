@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "howler@2.2.3",
+      "destination": "assets/libs/howler/"
+    },
+    {
+      "library": "jquery-validate@1.19.3",
+      "destination": "assets/libs/jquery-validate/"
+    }
+  ]
+}

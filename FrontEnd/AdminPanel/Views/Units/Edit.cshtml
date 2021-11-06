@@ -1,12 +1,12 @@
 ﻿@model IAUAdmin.DTO.Entity.UnitsDTO
 @{
-	ViewBag.Title = "Edit Category";
-	ViewBag.pTitle = "Edit Category";
-	ViewBag.pageTitle = "Categories";
-	ViewBag.arTitle = "تعديل فئة";
-	ViewBag.arpageTitle = "تعديل فئة";
-	ViewBag.arpTitle = "الفئات الادارية";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Edit Category";
+    ViewBag.pTitle = "Edit Category";
+    ViewBag.pageTitle = "Categories";
+    ViewBag.arTitle = "تعديل فئة";
+    ViewBag.arpageTitle = "تعديل فئة";
+    ViewBag.arpTitle = "الفئات الادارية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -64,6 +64,10 @@
 
 	.select2-selection__rendered {
 		font-weight: normal;
+		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
+	}
+	.select2-results__option{
+		direction:@(Request.Cookies["lang"].Value=="ar"?"rtl":"ltr")
 	}
 
 	.select2-selection__rendered, .select2-selection__arrow {
@@ -72,191 +76,191 @@
 </style>
 
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
-				<div class="row justify-content-center">
-					<div class="form-group">
-						<label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
-						<div style="display:inline-flex" id="CodeGenrateDiv">
-							<span>@Model.Ref_Number</span>
-							@{
-								var Codes = Model.Ref_Number.ToCharArray();
-								for (int i = 0; i < 15; i++)
-								{
-									if (Codes.Length - 1 < i)
-									{
-										<input class="form-control Genratedcode en-font" value="@(Codes[i])" disabled />
-									}
-									else
-									{
-										<input class="form-control Genratedcode en-font" value="@(Codes[i])" disabled />
-									}
-								}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <label class="control-label" key="t-title-unitrefnum" for="servicetype">Code</label>
+                        <div style="display:inline-flex" id="CodeGenrateDiv">
+                            <span>@Model.Ref_Number</span>
+                            @{
+                                var Codes = Model.Ref_Number.ToCharArray();
+                                for (int i = 0; i < 15; i++)
+                                {
+                                    if (Codes.Length - 1 < i)
+                                    {
+                                        <input class="form-control Genratedcode en-font" value="@(Codes[i])" disabled />
+                                    }
+                                    else
+                                    {
+                                        <input class="form-control Genratedcode en-font" value="@(Codes[i])" disabled />
+                                    }
+                                }
 
-							}
+                            }
 
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
-				@{
-					var lang = Request.Cookies["lang"].Value;
-					@Html.Hidden("ss", lang, new { @id = "lang" })
-					@Html.Hidden("UnitID", Model.Units_ID, new { @id = "UnitID" })
-				}
-				<h4 class="card-title" key="t-basicInfo">Basic Information</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @{
+                    var lang = Request.Cookies["lang"].Value;
+                    @Html.Hidden("ss", lang, new { @id = "lang" })
+                    @Html.Hidden("UnitID", Model.Units_ID, new { @id = "UnitID" })
+                }
+                <h4 class="card-title" key="t-basicInfo">Basic Information</h4>
 
-				@using (Html.BeginForm("Edit", "Units", new { Id = Model.Units_ID }, FormMethod.Post))
-				{
+                @using (Html.BeginForm("Edit", "Units", new { Id = Model.Units_ID }, FormMethod.Post))
+                {
 
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label key="t-title-unitlevel" class="control-label">Types</label>
-								@if (Model.CanChangeLevel)
-								{
-									@Html.DropDownListFor(q => q.LevelID, ViewBag.Levels as IEnumerable<SelectListItem>, new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEID" });
-								}
-								else
-								{
-									@*<label class="form-control" disabled id="LEVEID">@((Request.Cookies["lang"].Value=="ar"? Model.UnitLevel.Name_AR:Model.UnitLevel.Name_EN)+ " - " + Model.UnitLevel.Code)</label>*@
-									<select class="form-control select2" id="LEVEID">
-										@foreach (var i in ViewBag.Levels as IEnumerable<SelectListItem>)
-										{
-											<option @(i.Value == Model.LevelID.ToString() ? "selected" : "") value="@i.Value" disabled>@i.Text</option>
-										}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label key="t-title-unitlevel" class="control-label">Types</label>
+                                @if (Model.CanChangeLevel)
+                                {
+                                    @Html.DropDownListFor(q => q.LevelID, (ViewBag.Levels as IEnumerable<SelectListItem>).Where(q => int.Parse(q.Value) >= Model.LevelID), new { @class = "form-control select2", @onchange = "LevelChange(event.target.value)", @id = "LEVEID" });
+                                }
+                                else
+                                {
+                                    @*<label class="form-control" disabled id="LEVEID">@((Request.Cookies["lang"].Value=="ar"? Model.UnitLevel.Name_AR:Model.UnitLevel.Name_EN)+ " - " + Model.UnitLevel.Code)</label>*@
+                                    <select class="form-control select2" id="LEVEID">
+                                        @foreach (var i in (ViewBag.Levels as IEnumerable<SelectListItem>).Where(q => int.Parse(q.Value) >= Model.LevelID))
+                                        {
+                                            <option @(i.Value == Model.LevelID.ToString() ? "selected" : "") value="@i.Value" disabled>@i.Text</option>
+                                        }
 
-									</select>
-								}
+                                    </select>
+                                }
 
 
-							</div>
-							<div class="form-group">
-								<label key="t-subunits" class="control-label">Types</label>
-								@*<select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
-									</select>*@
-								@Html.DropDownListFor(model => model.SubID, ViewBag.SubUnits as SelectList, new { @onchange = "SubUnitChange(event.target.value)", @id = "SubUnits", @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
-							</div>
-							<div class="form-group">
-								<label key="t-location" class="control-label">Loactions</label>
-								@Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2", @id = "LocationIDSelect", @onchange = "LocationChange(event.target.value)" })
-							</div>
-							<div class="form-group">
-								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
-									@Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-							</div>
+                            </div>
+                            <div class="form-group">
+                                <label key="t-subunits" class="control-label">Types</label>
+                                @*<select id="SubUnits" class="form-control select2" onchange="SubUnitChange(event.target.value)">
+                                    </select>*@
+                                @Html.DropDownListFor(model => model.SubID, ViewBag.SubUnits as SelectList, new { @onchange = "SubUnitChange(event.target.value)", @id = "SubUnits", @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-name" for="name">Name</label>
+                                @Html.TextBoxFor(q => q.Units_Name_AR, new { @class = "form-control", @name = "name", @id = "name", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label key="t-location" class="control-label">Loactions</label>
+                                @Html.DropDownListFor(q => q.Units_Location_ID, ViewBag.Locations as SelectList, new { @class = "form-control select2", @id = "LocationIDSelect", @onchange = "LocationChange(event.target.value)", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox mb-3 p-0">
+                                    <label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
+                                    @Html.DropDownListFor(model => model.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr", @required = "true" })
+                                </div>
+                            </div>
 
-							<div class="form-group">
-								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-requesttype" for="Units_ReqType">ReqTypes</label>
-									@Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @id = "Units_ReqType", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-							</div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox mb-3 p-0">
+                                    <label class="control-label" key="t-requesttype" for="Units_ReqType">ReqTypes</label>
+                                    @Html.ListBoxFor(model => model.Units_ReqType, ViewBag.ReqTypes as SelectList, new { @class = "select2 form-control select2-multiple", @required = "true", @id = "Units_ReqType", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                                </div>
+                            </div>
 
-							@if (Model.IS_Mostafid || (bool)ViewBag.ViewMostafid)
-							{
-								<div class="form-group">
-									<div class="custom-control custom-checkbox mb-3">
-										@Html.CheckBoxFor(q => q.IS_Mostafid, new { @class = "custom-control-input", @name = "Ename", @id = "customCheck1", @type = "checkbox" })
-										<label class="custom-control-label" key="t-ismostafid" for="customCheck1">ISMostafid</label>
-									</div>
-								</div>
-							}
-							@Html.HiddenFor(q => q.SubID, new { @id = "SubID" })
-						</div>
+                            @if (Model.IS_Mostafid || (bool)ViewBag.ViewMostafid)
+                            {
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox mb-3">
+                                        @Html.CheckBoxFor(q => q.IS_Mostafid, new { @class = "custom-control-input", @name = "Ename", @id = "customCheck1", @type = "checkbox" })
+                                        <label class="custom-control-label" key="t-ismostafid" for="customCheck1">ISMostafid</label>
+                                    </div>
+                                </div>
+                            }
+                            @Html.HiddenFor(q => q.SubID, new { @id = "SubID" })
+                        </div>
 
-						<div class="col-sm-6">
-							<div class="form-group" style="display:inline-flex;width: 100%;margin:0">
-								<div style="width: 65%; padding: 0 3px;">
-									<label key="t-unittypes" class="control-label">Unit Type</label>
-									@*<select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
-										</select>*@
-									@Html.DropDownListFor(model => model.Units_Type_ID, ViewBag.Units_Types as SelectList, new { @onchange = "UnitTypeChange(event.target.value)", @id = "UnitType", @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                        <div class="col-sm-6">
+                            <div class="form-group" style="display:inline-flex;width: 100%;margin:0">
+                                <div style="width: 65%; padding: 0 3px;">
+                                    <label key="t-unittypes" class="control-label">Unit Type</label>
+                                    @*<select id="UnitType" class="form-control select2" onchange="UnitTypeChange(event.target.value)">
+                                        </select>*@
+                                    @Html.DropDownListFor(model => model.Units_Type_ID, ViewBag.Units_Types as SelectList, new { @onchange = "UnitTypeChange(event.target.value)", @required = "true", @id = "UnitType", @class = "select2 form-control", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
 
-								</div>
-								<div class="form-group" style="width: 35%; padding: 0 3px;margin: 0;">
-									<label key="t-title-code" class="control-label">@(lang == "ar" ? Model.Units_Type.Units_Type_Name_AR : Model.Units_Type.Units_Type_Name_EN)</label>
-									<label id="TypeCode" style="width: 100%; padding: 5px;">@Model.Units_Type.Code</label>
-								</div>
-							</div>
-							<div class="form-group" style="display:inline-flex;width: 100%;height:70px;margin: 9px 0 11px 0;">
-								<div style="width: 65%; padding: 0 3px;">
-									<label key="t-title-subunittypes" class="control-label"></label>
-									<label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
-								</div>
-								<div style="width: 35%; padding: 0 3px">
-									<label key="t-title-sub-code" class="control-label">SubTypeCode</label>
-									<label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-enname" for="Ename">ENNAME</label>
-								@Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control en-font", @name = "Ename", @id = "Ename" })
-							</div>
+                                </div>
+                                <div class="form-group" style="width: 35%; padding: 0 3px;margin: 0;">
+                                    <label key="t-title-code" class="control-label">@(lang == "ar" ? Model.Units_Type.Units_Type_Name_AR : Model.Units_Type.Units_Type_Name_EN)</label>
+                                    <label id="TypeCode" style="width: 100%; padding: 5px;">@Model.Units_Type.Code</label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="display:inline-flex;width: 100%;height:70px;margin: 9px 0 11px 0;">
+                                <div style="width: 65%; padding: 0 3px;">
+                                    <label key="t-title-subunittypes" class="control-label"></label>
+                                    <label id="SubTypeLevel" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
+                                </div>
+                                <div style="width: 35%; padding: 0 3px">
+                                    <label key="t-title-sub-code" class="control-label">SubTypeCode</label>
+                                    <label id="SubTypeCode" style="width: 100%; padding:0 5px; margin:0;height: 36px;"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-enname" for="Ename">ENNAME</label>
+                                @Html.TextBoxFor(q => q.Units_Name_EN, new { @class = "form-control en-font", @name = "Ename", @id = "Ename", @required = "true" })
+                            </div>
 
-							<div class="form-group">
-								<label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
-								<div style="display:inline-flex;width:100%;">
-									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
-										@foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-										{
-											<option value="@i" @(i.ToString()[0] == Model.Building_Number[2] ? "selected" : "")>@i</option>
-										}
-									</select>
-									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
-										@foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
-										{
-											<option value="@i" @(i.ToString()[0] == Model.Building_Number[1] ? "selected" : "")>@i</option>
-										}
-									</select>
-									<select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
-										@foreach (var i in new List<string> { "A", "D", "M", "F", "S", "R", "H" })
-										{
-											<option value="@i" @(i[0] == Model.Building_Number[0] ? "selected" : "")>@i</option>
-										}
-									</select>
-								</div>
-							</div>
+                            <div class="form-group">
+                                <label key="t-title-buildnum" for="Ename" class="control-label">Building</label>
+                                <div style="display:inline-flex;width:100%;">
+                                    <select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
+                                        @foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+                                        {
+                                            <option value="@i" @(i.ToString()[0] == Model.Building_Number[2] ? "selected" : "")>@i</option>
+                                        }
+                                    </select>
+                                    <select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
+                                        @foreach (var i in new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })
+                                        {
+                                            <option value="@i" @(i.ToString()[0] == Model.Building_Number[1] ? "selected" : "")>@i</option>
+                                        }
+                                    </select>
+                                    <select onchange="BuildChange()" class="form-control  en-font BuldingNumber" name="Ename" id="Ename" style="padding:0 5px">
+                                        @foreach (var i in new List<string> { "A", "D", "M", "F", "S", "R", "H" })
+                                        {
+                                            <option value="@i" @(i[0] == Model.Building_Number[0] ? "selected" : "")>@i</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
 
-							<div class="form-group">
-								<div class="custom-control custom-checkbox mb-3 p-0">
-									<label class="control-label" key="t-title-subservice" for="servicetype">Sub servicetype</label>
-									@Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-title-Unitcode" for="Ename">UnitCode</label>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox mb-3 p-0">
+                                    <label class="control-label" key="t-title-subservice" for="servicetype">Sub servicetype</label>
+                                    @Html.ListBoxFor(model => model.Units_ServiceType, ViewBag.ServiceType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-title-Unitcode" for="Ename">UnitCode</label>
 
-								<!--<input class="form-control" value="@Model.Code" id="unitCode" disabled readonly--> @*onkeyup="UnitCodeChange(false, event.target.value==''?'0':event.target.value)"*@ <!--/>-->
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @name = "unitCode", @maxlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q => q.Value == Model.LevelID.ToString()).Value.Split('-')[0] == "1" ? "1" : "2", @id = "unitCode", @onkeyup = "UnitCodeChange(false, event.target.value==''?'0':event.target.value,true)" })
-								@*<label class="valid-feedback" id="UnitCodeFeedback" style="color:red;">@(Request.Cookies["lang"]?.Value=="ar"?"عذرا،هذا الرقم مستخدم":"Sorry,this code is Used")</label>*@
-							</div>
+                                <!--<input class="form-control" value="@Model.Code" id="unitCode" disabled readonly--> @*onkeyup="UnitCodeChange(false, event.target.value==''?'0':event.target.value)"*@ <!--/>-->
+                                @Html.TextBoxFor(q => q.Code, new { @class = "form-control", @required = "true", @name = "unitCode", @maxlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q => q.Value == Model.LevelID.ToString()).Value.Split('-')[0] == "1" ? "1" : "2", @minlength = (ViewBag.Levels as IEnumerable<SelectListItem>).First(q => q.Value == Model.LevelID.ToString()).Value.Split('-')[0] == "1" ? "1" : "2", @id = "unitCode" })
+                                @*<label class="valid-feedback" id="UnitCodeFeedback" style="color:red;">@(Request.Cookies["lang"]?.Value=="ar"?"عذرا،هذا الرقم مستخدم":"Sorry,this code is Used")</label>*@
+                            </div>
 
-							@Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID" })
-							@Html.HiddenFor(q => q.Code, new { @id = "defCode" })
-							@Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum" })
-							@Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum" })
-						</div>
-					</div>
-					<button key="t-save" id="submitUnit" type="button" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					<button type="submit" style="display:none !important" id="saveUnit" class="btn btn-primary mr-1 waves-effect waves-light"></button>
-					@Html.ActionLink("Cancel", "Home", "Units", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
-				}
-			</div>
-		</div>
-	</div>
+                            @Html.HiddenFor(q => q.Units_Type_ID, new { @id = "TypeID", @required = "true" })
+                            @Html.HiddenFor(q => q.Code, new { @id = "defCode", @required = "true" })
+                            @Html.HiddenFor(q => q.Building_Number, new { @id = "BuildNum", @required = "true" })
+                            @Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum", @required = "true" })
+                        </div>
+                    </div>
+                    <button key="t-save" id="submitUnit" type="button" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    <button type="submit" style="display:none !important" id="saveUnit" class="btn btn-primary mr-1 waves-effect waves-light"></button>
+                    @Html.ActionLink("Cancel", "Home", "Units", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+                }
+            </div>
+        </div>
+    </div>
 </div>
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -265,26 +269,6 @@
 <script>
 	let UnitTypes = [];
 	let count = 0;
-	//$(document).ready(function () {
-	//	LevelChange(document.getElementById('LEVEID').value)
-	//	let BuildN = $('#BuildNum').val().split('')
-	//	if (BuildN.length != 0) {
-	//		let BuildngsControls = document.getElementsByClassName('BuldingNumber');
-
-	//		([...BuildngsControls]).reverse().map(function (a, index) {
-	//			return a.value = BuildN[index]
-	//		})
-	//	}
-	//	else
-	//		BuildChange();
-	//	let Code = $('#RefNum').val().split('');
-	//	([...document.getElementsByClassName('Genratedcode')]).map((le, i) => {
-	//		le.value = Code[i]
-	//	})
-	//	LocationChange($('#LocationIDSelect').val())
-	//	//UnitCodeChange(false,"", true)
-
-	//})
 	$.ajax({
 			url: "/Units/getTypeOFUnit?id=" +$('#SubUnits').val() , success: function (d) {
 				var lang = document.getElementById("lang").value
@@ -351,10 +335,12 @@
 				select.innerHTML = ``;
 				if (e.length == 0) {
 					$('#unitCode').attr('maxlength', "1");
+					$('#unitCode').attr('minlength', "1");
 					SubUnitChange(null)
 				}
 				else {
 					$('#unitCode').attr('maxlength', "2");
+					$('#unitCode').attr('minlength', "2");
 
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
@@ -431,9 +417,9 @@
 		$('#CodeGenrateDiv input:nth-of-type(4)').val(ID)
 	}
 	function UnitCodeChange(ISLevelChange, change = "", Intit = false) {
-		let index = $("#LEVEID option:selected").text().split(' - ')[1] - 1
+		let index = $("#LEVEID option:selected").text().split(' - ')[0] - 1
 		if (isNaN(index))
-			index = $("#LEVEID").text().split(' - ')[1] - 1;
+			index = $("#LEVEID").text().split(' - ')[0] - 1;
 		//debugger
 		let startIn = 3 + (index == 0 ? 1 : index * 3);
 		startIn += 1;
@@ -491,7 +477,6 @@
 				return c.value + a.value
 		})
 		$('#RefNum').val(BuildNumber)
-		ValidateCode()
 	}
 	$(document).ready(ssss => {
 		$.ajax({
@@ -501,6 +486,10 @@
 				//console.log("error", ee)
 			}
 		})
+		$(document).on("focusout", "#unitCode", i => {
+            $('#unitCode').val($('#unitCode').val() == '' ? $("#defCode").val() : $('#unitCode').val());
+            ValidateCode();
+		});
 		$('#submitUnit').click(e => {
 			Swal.fire({
 			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حفظ هذه الفئة؟" : "Are you sure To Save this unit?")",
@@ -518,6 +507,12 @@
 		});
 		})
 	})
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
 </script>
 <script>
 	function ValidateCode() {
@@ -525,6 +520,22 @@
 			url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}`, method: "POST", success: function (data) {
 				if (!data['success'])
 					LaunchErrorHandelare();
+				else {
+                    let index = $("#LEVEID option:selected").text().split(' - ')[0] - 1
+                    if (isNaN(index))
+                        index = $("#LEVEID").text().split(' - ')[0] - 1;
+                    //debugger
+                    let startIn = 3 + (index == 0 ? 1 : index * 3);
+					startIn += 1;
+					var code_val = $('#unitCode').val();
+					if (index == 0)
+                        $(`#CodeGenrateDiv input:nth-of-type(${startIn})`).val(code_val[0])
+					else {
+                        $(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).val(code_val[0])
+                        $(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).val(code_val[1])
+                    }
+                }
+
 			}, error: function () {
 				LaunchErrorHandelare();
 			}

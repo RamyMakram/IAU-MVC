@@ -55,7 +55,7 @@
 							<a class="nav-link active" aria-current="page" href="~/Coordinator">المنسقين</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">المساعدة والدعم الفنى</a>
+							<a class="nav-link" href="/Contactus">المساعدة والدعم الفنى</a>
 						</li>
 					}
 					else
@@ -70,7 +70,7 @@
 							<a class="nav-link active" aria-current="page" href="~/Coordinator">Coordinator</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">help and support</a>
+							<a class="nav-link" href="/Contactus">help and support</a>
 						</li>
 					}
 					<li id="nav-contact" style="display:none;">
@@ -135,8 +135,13 @@
 							<p>Please Insert <br />Email And Password</p>
 						}
 
-					</div>
-					<div class="body">
+					</div><div class="body">
+						@if ((bool)(ViewBag.Error ?? false))
+						{
+							<div class="alert alert-danger">
+								@(ViewBag.CookieLang == "ar"?"خطاء في كلمة السر او البريد الالكتروني":"Invalid Email Or Password")
+							</div>
+						}
 						@if (ViewBag.CookieLang == "ar")
 						{
 							<label>البريد الالكترونى</label>

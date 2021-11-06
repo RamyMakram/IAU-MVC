@@ -10,6 +10,28 @@ namespace IAUAdmin.DTO.Entity
 	{
 		public int User_ID { get; set; }
 		public string User_Name { get; set; }
+		public string User_Name_En
+		{
+			get
+			{
+				return User_Name?.Split('|')[0];
+			}
+			set
+			{
+				User_Name = value + "|" + User_Name_Ar;
+			}
+		}
+		public string User_Name_Ar
+		{
+			get
+			{
+				return User_Name?.Split('|')[1];
+			}
+			set
+			{
+				User_Name = User_Name_En + "|" + value;
+			}
+		}
 		public string User_Mobile { get; set; }
 		public string User_Email { get; set; }
 		public string User_Password { get; set; }
@@ -18,6 +40,7 @@ namespace IAUAdmin.DTO.Entity
 		public string IS_Active { get; set; }
 		public string User_Permissions_Type_Name_AR { get; set; }
 		public string User_Permissions_Type_Name_EN { get; set; }
+		public UnitsDTO Unit { get; set; }
 		public virtual JobDTO Job { get; set; }
 	}
 }

@@ -420,6 +420,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Images\Main_Services\A.png" />
+    <Content Include="Images\Main_Services\D.png" />
+    <Content Include="Images\Main_Services\F.png" />
+    <Content Include="Images\Main_Services\H.png" />
+    <Content Include="Images\Main_Services\M.png" />
+    <Content Include="Images\Main_Services\R.png" />
+    <Content Include="Images\Main_Services\S.png" />
+    <Content Include="Images\Request_Type\Appointment.png" />
+    <Content Include="Images\Request_Type\Complaint.png" />
+    <Content Include="Images\Request_Type\Consultation.png" />
+    <Content Include="Images\Request_Type\Incident.png" />
+    <Content Include="Images\Request_Type\Inquiry.png" />
+    <Content Include="Images\Request_Type\Meeting.png" />
+    <Content Include="Images\Request_Type\Suggestion.png" />
+    <Content Include="Images\Service_Types\A.png" />
+    <Content Include="Images\Service_Types\D.png" />
+    <Content Include="Images\Service_Types\F.png" />
+    <Content Include="Images\Service_Types\H.png" />
+    <Content Include="Images\Service_Types\M.png" />
+    <Content Include="Images\Service_Types\R.png" />
+    <Content Include="Images\Service_Types\S.png" />
     <Content Include="Models\MostafidDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MostafidDBModel.edmx</DependentUpon>

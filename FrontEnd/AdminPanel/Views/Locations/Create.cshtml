@@ -36,14 +36,14 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Location_Name_AR, new { @class = "form-control", @name = "name", @id = "name" })
+								@Html.TextBoxFor(q => q.Location_Name_AR, new { @class = "form-control", @name = "name", @id = "name", @required = "true" })
 							</div>
 						</div>
 
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label key="t-enname" for="enname">Mobile</label>
-								@Html.TextBoxFor(q => q.Location_Name_EN, new { @class = "form-control", @name = "enname", @id = "enname" })
+								@Html.TextBoxFor(q => q.Location_Name_EN, new { @class = "form-control", @name = "enname", @id = "enname", @required = "true" })
 							</div>
 						</div>
 					</div>
