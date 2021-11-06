@@ -65,6 +65,7 @@ namespace Web.Controllers
 				string message_en = $@"Use this code {code} to complete your request.";
 				string message_ar = $@"برجاء استخدام هذا الكود {code} لاتمام طلبك";
 				var res = APIHandeling.getDataAdmin($"/Request/NotifyUser?Mobile={to}&message_en={message_en}&message_ar={message_ar}&Email={email}");
+
 				var resJson = res.Content.ReadAsStringAsync().Result;
 				string HashedCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())));
 				Response.Cookies.Add(new HttpCookie("n", HashedCode));

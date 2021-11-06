@@ -17,6 +17,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Units()
         {
+            this.Request_Data = new HashSet<Request_Data>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
             this.RequestTransaction1 = new HashSet<RequestTransaction>();
             this.UnitMainServices = new HashSet<UnitMainServices>();
@@ -24,7 +25,6 @@ namespace IAUBackEnd.Admin.Models
             this.Units1 = new HashSet<Units>();
             this.UnitServiceTypes = new HashSet<UnitServiceTypes>();
             this.Users = new HashSet<Users>();
-            this.Request_Data = new HashSet<Request_Data>();
         }
     
         public int Units_ID { get; set; }
@@ -41,6 +41,8 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<bool> IS_Action { get; set; }
         public bool IS_Mostafid { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Request_Data> Request_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestTransaction> RequestTransaction { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -60,7 +62,5 @@ namespace IAUBackEnd.Admin.Models
         public virtual ICollection<UnitServiceTypes> UnitServiceTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Request_Data> Request_Data { get; set; }
     }
 }
