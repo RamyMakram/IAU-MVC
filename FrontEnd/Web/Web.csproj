@@ -236,6 +236,7 @@
     <Content Include="Design\JS\AraTranslate.js" />
     <Content Include="Design\JS\bootstrap.bundle.min.js" />
     <Content Include="Design\JS\bootstrap.min.js" />
+    <Content Include="Design\JS\eform.js" />
     <Content Include="Design\JS\follow.js" />
     <Content Include="Design\JS\IFrameChanges.js" />
     <Content Include="Design\JS\jquery.js" />

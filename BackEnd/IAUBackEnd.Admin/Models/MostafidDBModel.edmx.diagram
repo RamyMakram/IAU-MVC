@@ -105,6 +105,7 @@
         <AssociationConnector Association="MostafidDBModel.FK_Paragraph_Question" />
         <AssociationConnector Association="MostafidDBModel.FK_Radio_Type_Question" />
         <AssociationConnector Association="MostafidDBModel.FK_Separator_Question" />
+        <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_E_Forms" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

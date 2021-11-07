@@ -13,6 +13,8 @@ namespace IAU_BackEnd.Controllers
     public class EformsController : ApiController
     {
         private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
+        [HttpGet]
+        [Route("api/Eforms/GetE_Form/{id}")]
         public async Task<IHttpActionResult> GetE_Forms(int id)
         {
             try
@@ -73,9 +75,11 @@ namespace IAU_BackEnd.Controllers
             }
 
         }
-        public IHttpActionResult GetActive(int SubService)
+        [HttpGet]
+        [Route("api/Eforms/E_Forms/{SubService}")]
+        public async Task<IHttpActionResult> E_Forms(int SubService)
         {
-            return Ok(new ResponseClass() { success = true, result = p.E_Forms.Where(q => q.IS_Action && q.SubServiceID == SubService).Select(q => new { q.Name_EN, Name_AR = q.Name }) });
+            return Ok(new ResponseClass() { success = true, result = p.E_Forms.Where(q => q.IS_Action && q.SubServiceID == SubService).Select(q => new { q.ID, q.Name, q.Name_EN })});
         }
     }
 }

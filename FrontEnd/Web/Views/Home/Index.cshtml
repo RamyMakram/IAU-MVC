@@ -1259,8 +1259,7 @@
             </div>
         }
     </div>
-    <button class="btn btn-primary" style="width:250px !important" id="openForm">Open Eform</button>
-    <div class="modal fade" id="Eform" dir="@(isar?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="Eform" dir="@(isar?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
     </div>
     <div class="modal fade" id="FourMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -1337,23 +1336,11 @@
         </div>
     </div>
 
-    <span style="display:none !important" id="SignaturePDF"></span>
     <script src="~/Design/JS/popper.js"></script>
     <script src="~/Design/JS/bootstrap.min.js"></script>
     <script src="~/Design/JS/jquery.js"></script>
+    <script src="~/Design/JS/eform.js"></script>
     <script src="~/Design/JS/scripts.js?ver=1.0" charset="utf-8" type="text/javascript"></script>
-    <script>
-        $('#openForm').click(i => {
-            $.ajax({
-                url: "/Home/Eform", method: "Get", success: function (dd) {
-                    console.log(dd)
-                    $('#Eform').html(dd)
-                    $('#Eform').modal('toggle')
-                }
-            })
-
-        })
-    </script>
 </body>
 
 </html>

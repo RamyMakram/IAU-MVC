@@ -83,6 +83,9 @@
     <Compile Include="Models\E_Forms.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\E_Forms_Answer.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ID_Document.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>

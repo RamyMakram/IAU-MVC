@@ -36,13 +36,6 @@ namespace Web.Controllers
 
             return RedirectToAction("Error");
         }
-        public ActionResult Eform()
-        {
-            var res = APIHandeling.getData("/Eforms/GetE_Forms?id=15");
-            var resJson = res.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-            return PartialView("~/Views/Home/_Eform.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(response.result.ToString()));
-        }
 
         [HttpGet]
         public ActionResult RedirectTo()
@@ -244,10 +237,23 @@ namespace Web.Controllers
             if (!HttpContext.Request.IsAjaxRequest())
                 return Json("401", JsonRequestBehavior.AllowGet);
 
-            var res = APIHandeling.getData($"/Eforms/GetActive?SubService={ID}");
+            var res = APIHandeling.getData($"/Eforms/E_Forms/{ID}");
             var resJson = res.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult GetEform(int ID)
+        {
+            if (!HttpContext.Request.IsAjaxRequest())
+                return Json("401", JsonRequestBehavior.AllowGet);
+
+            var res = APIHandeling.getData($"/Eforms/GetE_Form/{ID}");
+            var resJson = res.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            return PartialView("~/Views/Home/_Eform.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(response.result.ToString()));
         }
     }
 }

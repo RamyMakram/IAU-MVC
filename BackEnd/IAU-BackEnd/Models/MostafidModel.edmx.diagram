@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="MostafidDatabaseModel.Job_Permissions" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Main_Services" Width="1.5" PointX="3" PointY="24" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Paragraph" Width="1.5" PointX="12" PointY="37.625" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Personel_Data" Width="1.5" PointX="5.25" PointY="30.625" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Question" Width="1.5" PointX="9.75" PointY="34.125" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Radio_Type" Width="1.5" PointX="12" PointY="29.625" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Region" Width="1.5" PointX="0.75" PointY="33.875" />
@@ -34,14 +33,9 @@
         <EntityTypeShape EntityType="MostafidDatabaseModel.Units_Request_Type" Width="1.5" PointX="5.25" PointY="12.875" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.UnitServiceTypes" Width="1.5" PointX="5.25" PointY="16.5" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.ValidTo" Width="1.5" PointX="5.25" PointY="23.375" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_CheckBox_Type_Question" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_City_Region" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_City" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Country" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Country1" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Country2" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Region_Country" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_E_Forms_Sub_Services" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Question_E_Forms" />
@@ -51,9 +45,6 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitMainServices_Main_Services" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Main_Services" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Paragraph_Question" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Region" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Title_Middle_Names" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Personel_Data" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Radio_Type_Question" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Separator_Question" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Request_State" />
@@ -77,7 +68,20 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Units" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.ID_Document" Width="1.5" PointX="3.375" PointY="0.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.E_Forms_Answer" Width="1.5" PointX="14.875" PointY="28.125" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Personel_Data" Width="1.5" PointX="12.625" PointY="21.25" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_City" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Country" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Country1" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Country2" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_E_Forms_Answer_E_Forms" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_E_Forms_Answer_Personel_Data" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_E_Forms_Answer_Question" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_ID_Document" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Region" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Title_Middle_Names" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Personel_Data" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

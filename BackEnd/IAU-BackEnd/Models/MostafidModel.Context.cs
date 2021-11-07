@@ -12,20 +12,20 @@ namespace IAU_BackEnd.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class MostafidDatabaseEntities : DbContext
     {
         public MostafidDatabaseEntities()
             : base("name=MostafidDatabaseEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.LazyLoadingEnabled = false;  
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-
+    
         public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
         public virtual DbSet<CheckBox_Type> CheckBox_Type { get; set; }
         public virtual DbSet<City> City { get; set; }
@@ -35,7 +35,6 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Job_Permissions> Job_Permissions { get; set; }
         public virtual DbSet<Main_Services> Main_Services { get; set; }
         public virtual DbSet<Paragraph> Paragraph { get; set; }
-        public virtual DbSet<Personel_Data> Personel_Data { get; set; }
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Radio_Type> Radio_Type { get; set; }
         public virtual DbSet<Region> Region { get; set; }
@@ -56,5 +55,7 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<ID_Document> ID_Document { get; set; }
+        public virtual DbSet<E_Forms_Answer> E_Forms_Answer { get; set; }
+        public virtual DbSet<Personel_Data> Personel_Data { get; set; }
     }
 }

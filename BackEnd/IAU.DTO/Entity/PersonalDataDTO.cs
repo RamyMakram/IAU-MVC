@@ -28,5 +28,7 @@ namespace IAU.DTO.Entity
 		public string Email { get; set; }
 		public string Mobile { get; set; }
 		public string IS_Action { get; set; }
+		public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
+
 	}
 }

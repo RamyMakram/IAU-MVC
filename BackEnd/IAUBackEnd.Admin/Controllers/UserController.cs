@@ -62,6 +62,11 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 var date = Helper.GetDate();
                 var data = p.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate > date);
+                if (data == null)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                    });
                 return Ok(new ResponseClass
                 {
                     success = true,

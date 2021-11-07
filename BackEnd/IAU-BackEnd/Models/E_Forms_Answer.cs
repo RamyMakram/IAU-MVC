@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IAU.DTO.Entity
+namespace IAU_BackEnd.Models
 {
     using System;
     using System.Collections.Generic;
@@ -16,13 +16,16 @@ namespace IAU.DTO.Entity
     {
         public int ID { get; set; }
         public int Person_ID { get; set; }
-        public int Question_ID { get; set; }
-        public int EFromID { get; set; }
-
+        public Nullable<int> Question_ID { get; set; }
+        public Nullable<int> EFromID { get; set; }
         public string Value { get; set; }
+        public string Value_En { get; set; }
         public System.DateTime FillDate { get; set; }
+        public string Name { get; set; }
+        public string Name_En { get; set; }
     
-        public virtual PersonalDataDTO Personel_Data { get; set; }
+        public virtual E_Forms E_Forms { get; set; }
+        public virtual Personel_Data Personel_Data { get; set; }
         public virtual Question Question { get; set; }
     }
 }

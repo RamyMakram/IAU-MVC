@@ -145,8 +145,8 @@
                                                                 <div class="form-group">
                                                                     <label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
                                                                     <select class="form-control select2" id="InputType-@i.ID" name="InputType">
-                                                                        <option value="false" @(i.Input.ISNum ? "selected" : "")>@(isar?"نص":"Text")</option>
-                                                                        <option value="true" @(!i.Input.ISNum ? "selected" : "")>@(isar? "رقم":"Number")</option>
+                                                                        <option value="false" @(i.Input.ISNum ? "" : "selected")>@(isar?"نص":"Text")</option>
+                                                                        <option value="true" @(i.Input.ISNum ? "selected" : "")>@(isar? "رقم":"Number")</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

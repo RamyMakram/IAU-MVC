@@ -4,6 +4,14 @@
         --main-btn-color: #0a1332 !important;
     }
 
+    @@media(max-width:770px) {
+
+        tr {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
     td {
         width: 100%;
     }
@@ -50,7 +58,11 @@
     td input[type='text'] {
         /*width: 250px !important*/
     }
-
+    tr[data-required="True"] th label::after{
+        content:"*";
+        color:red;
+        margin:0 5px
+    }
     .checkbox {
         margin: 2px 15px;
     }
@@ -87,14 +99,14 @@
     }
 </style>
 @*<link href="~/Design/CSS/all.min.css" rel="stylesheet" />
-<link href="~/Design/CSS/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Design/CSS/bootstrap.min.css" rel="stylesheet" />*@
 @{
     var isar = Request.Cookies["lang"]?.Value == "ar";
 }
 <div class="modal-dialog" style=" max-width: 80vw !important;" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">@(isar?Model.Name:Model.Name_EN)</h5>
+            <h5 class="modal-title" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h5>
         </div>
         <div class="modal-body">
 
@@ -105,7 +117,7 @@
                         switch (qty.T)
                         {
                             case "I":
-                                <tr data-id="@qty.T-@qty.ID">
+                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                     <th>
                                         <label>
                                             @(isar?qty.Name:qty.Name_EN)
@@ -117,7 +129,7 @@
                                 </tr>
                                 break;
                             case "C":
-                                <tr data-id="@qty.T-@qty.ID">
+                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                     <th>
                                         <label>@(isar?qty.Name:qty.Name_EN)</label>
                                     </th>
@@ -125,7 +137,7 @@
                                         @foreach (var c in qty.Check)
                                         {
                                             <label class="checkbox col-4">
-                                                <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" name="@qty.Name_EN-@qty.ID">
+                                                <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
                                                 @(isar?c.Name:c.Name_EN)
                                             </label>
                                         }
@@ -133,7 +145,7 @@
                                 </tr>
                                 break;
                             case "R":
-                                <tr data-id="@qty.T-@qty.ID">
+                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                     <th>
                                         <label>@(isar?qty.Name:qty.Name_EN)</label>
                                     </th>
@@ -141,7 +153,7 @@
                                         @foreach (var c in qty.Radio)
                                         {
                                             <label class="checkbox col-4">
-                                                <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" name="@qty.Name_EN-@qty.ID">
+                                                <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
                                                 @(isar?c.Name:c.Name_EN)
                                             </label>
                                         }
@@ -149,7 +161,7 @@
                                 </tr>
                                 break;
                             case "D":
-                                <tr data-id="@qty.T-@qty.ID">
+                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                     <th>
                                         <label>
                                             @(isar?qty.Name:qty.Name_EN)
@@ -177,7 +189,7 @@
                                 </tr>
                                 break;
                             case "E":
-                                <tr data-id="@qty.T-@qty.ID">
+                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN">
                                     <th>
                                         <label>
                                             @(isar?qty.Name:qty.Name_EN)
@@ -203,9 +215,20 @@
                 </tbody>
             </table>
         </div>
-        <div class="modal-footer" style="display: flex;justify-content: center;">
-            <button type="button" class="btn btn-primary w-40 mx-3" style="background-color: var(--main-btn-color); width: 22vw; ">@(isar?"حفظ":"Save")</button>
-            <button type="button" class="btn btn-secondary w-40" data-bs-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+        <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
+            <p class="row text-center" style="color:red">
+                @(
+                isar?
+
+                @"برجاء التأكد من كل البيانات قبل الضغط علي حفظ،لانه لايمكنك التعديل عليها فيما بعد.":
+
+                @"Please make sure of all the data before pressing Save, because you cannot modify them later."
+                )
+            </p>
+            <div>
+                <button type="button" class="btn btn-primary w-40 mx-3 saveeform" style="background-color: var(--main-btn-color); width: 22vw; ">@(isar?"حفظ":"Save")</button>
+                <button type="button" class="btn btn-secondary w-40" data-bs-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+            </div>
         </div>
     </div>
 </div>
@@ -483,13 +506,13 @@
     </div>*@
 @*<script src="~/Design/JS/jquery.js"></script>
 
-<script src="~/Design/JS/popper.js"></script>
-<script src="~/Design/JS/bootstrap.min.js"></script>*@
+    <script src="~/Design/JS/popper.js"></script>
+    <script src="~/Design/JS/bootstrap.min.js"></script>*@
 <script>
     //$(document).ready(i => {
     //    $('#myModal').modal('toggle')
     //    $('button[data-toggle="modal"]').click(s => {
-           
+
     //    })
     //})
 </script>
