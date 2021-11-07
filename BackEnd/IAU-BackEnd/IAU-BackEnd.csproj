@@ -71,6 +71,9 @@
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckBox_Type.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\City.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -81,6 +84,12 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ID_Document.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Input_Type.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Job_Permissions.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Main_Services.cs">
@@ -101,7 +110,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MostafidModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Paragraph.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Personel_Data.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Question.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Radio_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Region.cs">
@@ -126,6 +144,9 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Required_Documents.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Separator.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Service_Type.cs">

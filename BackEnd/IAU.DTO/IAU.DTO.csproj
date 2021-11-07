@@ -69,17 +69,25 @@
   <ItemGroup>
     <Compile Include="Entity\ApplicantRequest_Data_DTO.cs" />
     <Compile Include="Entity\ApplicantTypeDTO.cs" />
+    <Compile Include="Entity\CheckBox_Type.cs" />
     <Compile Include="Entity\CityDTO.cs" />
     <Compile Include="Entity\CountryAndRegion.cs" />
     <Compile Include="Entity\CountryDTO.cs" />
     <Compile Include="Entity\CustomeFile.cs" />
+    <Compile Include="Entity\E_FormsDTO.cs" />
+    <Compile Include="Entity\E_Forms_Answer.cs" />
     <Compile Include="Entity\IDDocDTO.cs" />
+    <Compile Include="Entity\Input_Type.cs" />
     <Compile Include="Entity\MainServiceDTO.cs" />
+    <Compile Include="Entity\ParagraphDTO.cs" />
     <Compile Include="Entity\PersonalDataDTO.cs" />
+    <Compile Include="Entity\Question.cs" />
+    <Compile Include="Entity\Radio_Type.cs" />
     <Compile Include="Entity\RegionDTO.cs" />
     <Compile Include="Entity\RequestDTO.cs" />
     <Compile Include="Entity\RequestTypeDTO.cs" />
     <Compile Include="Entity\RequiredDocsDTO.cs" />
+    <Compile Include="Entity\SeparatorDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
     <Compile Include="Entity\SubServicesDTO.cs" />
     <Compile Include="Entity\TitlesDTO.cs" />

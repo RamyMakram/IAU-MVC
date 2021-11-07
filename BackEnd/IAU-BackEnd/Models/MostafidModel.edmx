@@ -14,6 +14,15 @@
           <Property Name="Applicant_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
         </EntityType>
+        <EntityType Name="CheckBox_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_EN" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="City_ID" />
@@ -40,9 +49,10 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Path" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="SubServiceID" Type="int" Nullable="false" />
           <Property Name="IS_Action" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ID_Document">
           <Key>
@@ -53,6 +63,25 @@
           <Property Name="Document_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
         </EntityType>
+        <EntityType Name="Input_Type">
+          <Key>
+            <PropertyRef Name="Question_ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question_ID" Type="int" Nullable="false" />
+          <Property Name="Placeholder" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Placeholder_EN" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsNumber" Type="bit" Nullable="false" />
+          <Property Name="IsDate" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Job_Permissions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PrivilageID" Type="int" />
+          <Property Name="Job_ID" Type="int" />
+        </EntityType>
         <EntityType Name="Main_Services">
           <Key>
             <PropertyRef Name="Main_Services_ID" />
@@ -62,6 +91,15 @@
           <Property Name="Main_Services_Name_AR" Type="nvarchar(max)" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="ServiceTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="Paragraph">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name_En" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Personel_Data">
           <Key>
@@ -87,6 +125,30 @@
           <Property Name="Email" Type="nvarchar" MaxLength="200" />
           <Property Name="Mobile" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="IS_Action" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Index_Order" Type="int" Nullable="false" />
+          <Property Name="EForm_ID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="LableName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="LableName_EN" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Requird" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="RefTo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Radio_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_EN" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -117,6 +179,7 @@
           <Property Name="Readed" Type="bit" />
           <Property Name="ReadedDate" Type="datetime" />
           <Property Name="GenratedDate" Type="datetime" />
+          <Property Name="Is_Archived" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Request_File">
           <Key>
@@ -146,6 +209,7 @@
           <Property Name="State_ID" Type="tinyint" Nullable="false" />
           <Property Name="StateName_AR" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="StateName_EN" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AllowedDelay" Type="tinyint" />
         </EntityType>
         <EntityType Name="Request_Type">
           <Key>
@@ -174,6 +238,7 @@
           <Property Name="MostafidComment" Type="nvarchar(max)" />
           <Property Name="CommentDate" Type="datetime" />
           <Property Name="Code" Type="nvarchar" MaxLength="13" />
+          <Property Name="Is_Reminder" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Required_Documents">
           <Key>
@@ -184,6 +249,14 @@
           <Property Name="Name_AR" Type="nvarchar(max)" />
           <Property Name="SubServiceID" Type="int" />
           <Property Name="IS_Action" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Separator">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionID" Type="int" Nullable="false" />
+          <Property Name="IsEmpty" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Service_Type">
           <Key>
@@ -264,6 +337,20 @@
           <Property Name="MainServiceID" Type="int" Nullable="false" />
           <Property Name="ApplicantTypeID" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_CheckBox_Type_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CheckBox_Type" Type="Self.CheckBox_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CheckBox_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_City_Region">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="City" Type="Self.City" Multiplicity="*" />
@@ -288,6 +375,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Input_Type_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Input_Type" Type="Self.Input_Type" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Input_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Main_Services_Service_Type">
           <End Role="Service_Type" Type="Self.Service_Type" Multiplicity="0..1" />
           <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="*" />
@@ -297,6 +398,20 @@
             </Principal>
             <Dependent Role="Main_Services">
               <PropertyRef Name="ServiceTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paragraph_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Paragraph" Type="Self.Paragraph" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paragraph">
+              <PropertyRef Name="QuestionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -393,6 +508,32 @@
             </Principal>
             <Dependent Role="Personel_Data">
               <PropertyRef Name="Title_Middle_Names_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_E-Forms">
+          <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E-Forms">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="EForm_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Radio_Type_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Radio_Type" Type="Self.Radio_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Radio_Type">
+              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -576,6 +717,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Separator_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Separator" Type="Self.Separator" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Separator">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Sub_Services_Main_Services">
           <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="0..1" />
           <End Role="Sub_Services" Type="Self.Sub_Services" Multiplicity="*" />
@@ -710,12 +865,18 @@
         </Association>
         <EntityContainer Name="MostafidDatabaseModelStoreContainer">
           <EntitySet Name="Applicant_Type" EntityType="Self.Applicant_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CheckBox_Type" EntityType="Self.CheckBox_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E-Forms" EntityType="Self.E-Forms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ID_Document" EntityType="Self.ID_Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Input_Type" EntityType="Self.Input_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job_Permissions" EntityType="Self.Job_Permissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Main_Services" EntityType="Self.Main_Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paragraph" EntityType="Self.Paragraph" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Radio_Type" EntityType="Self.Radio_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request_Data" EntityType="Self.Request_Data" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request_File" EntityType="Self.Request_File" Schema="dbo" store:Type="Tables" />
@@ -724,6 +885,7 @@
           <EntitySet Name="Request_Type" EntityType="Self.Request_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequestTransaction" EntityType="Self.RequestTransaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Required_Documents" EntityType="Self.Required_Documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Separator" EntityType="Self.Separator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
@@ -732,6 +894,10 @@
           <EntitySet Name="Units_Request_Type" EntityType="Self.Units_Request_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitServiceTypes" EntityType="Self.UnitServiceTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ValidTo" EntityType="Self.ValidTo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CheckBox_Type_Question" Association="Self.FK_CheckBox_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="CheckBox_Type" EntitySet="CheckBox_Type" />
+          </AssociationSet>
           <AssociationSet Name="FK_City_Region" Association="Self.FK_City_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="City" EntitySet="City" />
@@ -740,9 +906,17 @@
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="E-Forms" EntitySet="E-Forms" />
           </AssociationSet>
+          <AssociationSet Name="FK_Input_Type_Question" Association="Self.FK_Input_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Input_Type" EntitySet="Input_Type" />
+          </AssociationSet>
           <AssociationSet Name="FK_Main_Services_Service_Type" Association="Self.FK_Main_Services_Service_Type">
             <End Role="Service_Type" EntitySet="Service_Type" />
             <End Role="Main_Services" EntitySet="Main_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paragraph_Question" Association="Self.FK_Paragraph_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Paragraph" EntitySet="Paragraph" />
           </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="Self.FK_Personel_Data_Applicant_Type">
             <End Role="Applicant_Type" EntitySet="Applicant_Type" />
@@ -775,6 +949,14 @@
           <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="Self.FK_Personel_Data_Title_Middle_Names">
             <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_E-Forms" Association="Self.FK_Question_E-Forms">
+            <End Role="E-Forms" EntitySet="E-Forms" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Radio_Type_Question" Association="Self.FK_Radio_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Radio_Type" EntitySet="Radio_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_Region_Country" Association="Self.FK_Region_Country">
             <End Role="Country" EntitySet="Country" />
@@ -836,6 +1018,10 @@
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="Required_Documents" EntitySet="Required_Documents" />
           </AssociationSet>
+          <AssociationSet Name="FK_Separator_Question" Association="Self.FK_Separator_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Separator" EntitySet="Separator" />
+          </AssociationSet>
           <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
@@ -887,18 +1073,26 @@
       <Schema Namespace="MostafidDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MostafidDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Applicant_Type" EntityType="MostafidDatabaseModel.Applicant_Type" />
+          <EntitySet Name="CheckBox_Type" EntityType="MostafidDatabaseModel.CheckBox_Type" />
           <EntitySet Name="City" EntityType="MostafidDatabaseModel.City" />
           <EntitySet Name="Country" EntityType="MostafidDatabaseModel.Country" />
           <EntitySet Name="E_Forms" EntityType="MostafidDatabaseModel.E_Forms" />
-          <EntitySet Name="ID_Document" EntityType="MostafidDatabaseModel.ID_Document" />
+          <EntitySet Name="Input_Type" EntityType="MostafidDatabaseModel.Input_Type" />
+          <EntitySet Name="Job_Permissions" EntityType="MostafidDatabaseModel.Job_Permissions" />
           <EntitySet Name="Main_Services" EntityType="MostafidDatabaseModel.Main_Services" />
+          <EntitySet Name="Paragraph" EntityType="MostafidDatabaseModel.Paragraph" />
           <EntitySet Name="Personel_Data" EntityType="MostafidDatabaseModel.Personel_Data" />
+          <EntitySet Name="Question" EntityType="MostafidDatabaseModel.Question" />
+          <EntitySet Name="Radio_Type" EntityType="MostafidDatabaseModel.Radio_Type" />
           <EntitySet Name="Region" EntityType="MostafidDatabaseModel.Region" />
+          <EntitySet Name="Request_Data" EntityType="MostafidDatabaseModel.Request_Data" />
           <EntitySet Name="Request_File" EntityType="MostafidDatabaseModel.Request_File" />
           <EntitySet Name="Request_Log" EntityType="MostafidDatabaseModel.Request_Log" />
           <EntitySet Name="Request_State" EntityType="MostafidDatabaseModel.Request_State" />
           <EntitySet Name="Request_Type" EntityType="MostafidDatabaseModel.Request_Type" />
+          <EntitySet Name="RequestTransaction" EntityType="MostafidDatabaseModel.RequestTransaction" />
           <EntitySet Name="Required_Documents" EntityType="MostafidDatabaseModel.Required_Documents" />
+          <EntitySet Name="Separator" EntityType="MostafidDatabaseModel.Separator" />
           <EntitySet Name="Service_Type" EntityType="MostafidDatabaseModel.Service_Type" />
           <EntitySet Name="Sub_Services" EntityType="MostafidDatabaseModel.Sub_Services" />
           <EntitySet Name="Title_Middle_Names" EntityType="MostafidDatabaseModel.Title_Middle_Names" />
@@ -914,6 +1108,10 @@
           <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type">
             <End Role="Applicant_Type" EntitySet="Applicant_Type" />
             <End Role="ValidTo" EntitySet="ValidTo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CheckBox_Type_Question" Association="MostafidDatabaseModel.FK_CheckBox_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="CheckBox_Type" EntitySet="CheckBox_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_City_Region" Association="MostafidDatabaseModel.FK_City_Region">
             <End Role="Region" EntitySet="Region" />
@@ -943,9 +1141,13 @@
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="E_Forms" EntitySet="E_Forms" />
           </AssociationSet>
-          <AssociationSet Name="FK_Personel_Data_ID_Document" Association="MostafidDatabaseModel.FK_Personel_Data_ID_Document">
-            <End Role="ID_Document" EntitySet="ID_Document" />
-            <End Role="Personel_Data" EntitySet="Personel_Data" />
+          <AssociationSet Name="FK_Question_E_Forms" Association="MostafidDatabaseModel.FK_Question_E_Forms">
+            <End Role="E_Forms" EntitySet="E_Forms" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Input_Type_Question" Association="MostafidDatabaseModel.FK_Input_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Input_Type" EntitySet="Input_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_Main_Services_Service_Type" Association="MostafidDatabaseModel.FK_Main_Services_Service_Type">
             <End Role="Service_Type" EntitySet="Service_Type" />
@@ -963,6 +1165,10 @@
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="ValidTo" EntitySet="ValidTo" />
           </AssociationSet>
+          <AssociationSet Name="FK_Paragraph_Question" Association="MostafidDatabaseModel.FK_Paragraph_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Paragraph" EntitySet="Paragraph" />
+          </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Region" Association="MostafidDatabaseModel.FK_Personel_Data_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
@@ -971,50 +1177,17 @@
             <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
           </AssociationSet>
-          <AssociationSet Name="FK_Request_File_Required_Documents" Association="MostafidDatabaseModel.FK_Request_File_Required_Documents">
-            <End Role="Required_Documents" EntitySet="Required_Documents" />
-            <End Role="Request_File" EntitySet="Request_File" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Request_Log_Request_State" Association="MostafidDatabaseModel.FK_Request_Log_Request_State">
-            <End Role="Request_State" EntitySet="Request_State" />
-            <End Role="Request_Log" EntitySet="Request_Log" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type">
-            <End Role="Request_Type" EntitySet="Request_Type" />
-            <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Required_Documents_Sub_Services" Association="MostafidDatabaseModel.FK_Required_Documents_Sub_Services">
-            <End Role="Sub_Services" EntitySet="Sub_Services" />
-            <End Role="Required_Documents" EntitySet="Required_Documents" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Units_Service_Type" Association="MostafidDatabaseModel.FK_Units_Service_Type">
-            <End Role="Service_Type" EntitySet="Service_Type" />
-            <End Role="Units" EntitySet="Units" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnitServiceTypes_Service_Type" Association="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type">
-            <End Role="Service_Type" EntitySet="Service_Type" />
-            <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnitMainServices_Units" Association="MostafidDatabaseModel.FK_UnitMainServices_Units">
-            <End Role="Units" EntitySet="Units" />
-            <End Role="UnitMainServices" EntitySet="UnitMainServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Units_Request_Type_Units" Association="MostafidDatabaseModel.FK_Units_Request_Type_Units">
-            <End Role="Units" EntitySet="Units" />
-            <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Units_Units" Association="MostafidDatabaseModel.FK_Units_Units">
-            <End Role="Units" EntitySet="Units" />
-            <End Role="Units1" EntitySet="Units" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnitServiceTypes_Units" Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units">
-            <End Role="Units" EntitySet="Units" />
-            <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
-          </AssociationSet>
-          <EntitySet Name="Request_Data" EntityType="MostafidDatabaseModel.Request_Data" />
           <AssociationSet Name="FK_Request_Data_Personel_Data" Association="MostafidDatabaseModel.FK_Request_Data_Personel_Data">
             <End Role="Personel_Data" EntitySet="Personel_Data" />
             <End Role="Request_Data" EntitySet="Request_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Radio_Type_Question" Association="MostafidDatabaseModel.FK_Radio_Type_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Radio_Type" EntitySet="Radio_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Separator_Question" Association="MostafidDatabaseModel.FK_Separator_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Separator" EntitySet="Separator" />
           </AssociationSet>
           <AssociationSet Name="FK_Request_Data_Request_State" Association="MostafidDatabaseModel.FK_Request_Data_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
@@ -1044,10 +1217,21 @@
             <End Role="Request_Data" EntitySet="Request_Data" />
             <End Role="Request_Log" EntitySet="Request_Log" />
           </AssociationSet>
-          <EntitySet Name="RequestTransaction" EntityType="MostafidDatabaseModel.RequestTransaction" />
           <AssociationSet Name="FK_RequestTransaction_Request_Data" Association="MostafidDatabaseModel.FK_RequestTransaction_Request_Data">
             <End Role="Request_Data" EntitySet="Request_Data" />
             <End Role="RequestTransaction" EntitySet="RequestTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_File_Required_Documents" Association="MostafidDatabaseModel.FK_Request_File_Required_Documents">
+            <End Role="Required_Documents" EntitySet="Required_Documents" />
+            <End Role="Request_File" EntitySet="Request_File" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_Log_Request_State" Association="MostafidDatabaseModel.FK_Request_Log_Request_State">
+            <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="Request_Log" EntitySet="Request_Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type">
+            <End Role="Request_Type" EntitySet="Request_Type" />
+            <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_RequestTransaction_Units" Association="MostafidDatabaseModel.FK_RequestTransaction_Units">
             <End Role="Units" EntitySet="Units" />
@@ -1056,6 +1240,39 @@
           <AssociationSet Name="FK_RequestTransaction_Units1" Association="MostafidDatabaseModel.FK_RequestTransaction_Units1">
             <End Role="Units" EntitySet="Units" />
             <End Role="RequestTransaction" EntitySet="RequestTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Required_Documents_Sub_Services" Association="MostafidDatabaseModel.FK_Required_Documents_Sub_Services">
+            <End Role="Sub_Services" EntitySet="Sub_Services" />
+            <End Role="Required_Documents" EntitySet="Required_Documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Service_Type" Association="MostafidDatabaseModel.FK_Units_Service_Type">
+            <End Role="Service_Type" EntitySet="Service_Type" />
+            <End Role="Units" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitServiceTypes_Service_Type" Association="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type">
+            <End Role="Service_Type" EntitySet="Service_Type" />
+            <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitMainServices_Units" Association="MostafidDatabaseModel.FK_UnitMainServices_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="UnitMainServices" EntitySet="UnitMainServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Request_Type_Units" Association="MostafidDatabaseModel.FK_Units_Request_Type_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Units" Association="MostafidDatabaseModel.FK_Units_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Units1" EntitySet="Units" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitServiceTypes_Units" Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
+          </AssociationSet>
+          <EntitySet Name="ID_Document" EntityType="MostafidDatabaseModel.ID_Document" />
+          <AssociationSet Name="FK_Personel_Data_ID_Document" Association="MostafidDatabaseModel.FK_Personel_Data_ID_Document">
+            <End Role="ID_Document" EntitySet="ID_Document" />
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
@@ -1068,6 +1285,16 @@
           <Property Name="IS_Action" Type="Boolean" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" FromRole="Applicant_Type" ToRole="Personel_Data" />
           <NavigationProperty Name="ValidTo" Relationship="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
+        </EntityType>
+        <EntityType Name="CheckBox_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_CheckBox_Type_Question" FromRole="CheckBox_Type" ToRole="Question" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -1101,20 +1328,32 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Path" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="SubServiceID" Type="Int32" Nullable="false" />
           <Property Name="IS_Action" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDatabaseModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
+          <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_Question_E_Forms" FromRole="E_Forms" ToRole="Question" />
         </EntityType>
-        <EntityType Name="ID_Document">
+        <EntityType Name="Input_Type">
           <Key>
-            <PropertyRef Name="ID_Document1" />
+            <PropertyRef Name="Question_ID" />
           </Key>
-          <Property Name="ID_Document1" Type="Int32" Nullable="false" />
-          <Property Name="Document_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Document_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_ID_Document" FromRole="ID_Document" ToRole="Personel_Data" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="Placeholder" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Placeholder_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsNumber" Type="Boolean" Nullable="false" />
+          <Property Name="IsDate" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_Input_Type_Question" FromRole="Input_Type" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Job_Permissions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrivilageID" Type="Int32" />
+          <Property Name="Job_ID" Type="Int32" />
         </EntityType>
         <EntityType Name="Main_Services">
           <Key>
@@ -1129,6 +1368,16 @@
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDatabaseModel.FK_Sub_Services_Main_Services" FromRole="Main_Services" ToRole="Sub_Services" />
           <NavigationProperty Name="UnitMainServices" Relationship="MostafidDatabaseModel.FK_UnitMainServices_Main_Services" FromRole="Main_Services" ToRole="UnitMainServices" />
           <NavigationProperty Name="ValidTo" Relationship="MostafidDatabaseModel.FK_ValidTo_Main_Services" FromRole="Main_Services" ToRole="ValidTo" />
+        </EntityType>
+        <EntityType Name="Paragraph">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name_En" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_Paragraph_Question" FromRole="Paragraph" ToRole="Question" />
         </EntityType>
         <EntityType Name="Personel_Data">
           <Key>
@@ -1159,10 +1408,41 @@
           <NavigationProperty Name="Country" Relationship="MostafidDatabaseModel.FK_Personel_Data_Country" FromRole="Personel_Data" ToRole="Country" />
           <NavigationProperty Name="Country1" Relationship="MostafidDatabaseModel.FK_Personel_Data_Country1" FromRole="Personel_Data" ToRole="Country" />
           <NavigationProperty Name="Country2" Relationship="MostafidDatabaseModel.FK_Personel_Data_Country2" FromRole="Personel_Data" ToRole="Country" />
-          <NavigationProperty Name="ID_Document1" Relationship="MostafidDatabaseModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
           <NavigationProperty Name="Region" Relationship="MostafidDatabaseModel.FK_Personel_Data_Region" FromRole="Personel_Data" ToRole="Region" />
           <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDatabaseModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Personel_Data" FromRole="Personel_Data" ToRole="Request_Data" />
+          <NavigationProperty Name="ID_Document1" Relationship="MostafidDatabaseModel.FK_Personel_Data_ID_Document" FromRole="Personel_Data" ToRole="ID_Document" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Index_Order" Type="Int32" Nullable="false" />
+          <Property Name="EForm_ID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="LableName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LableName_EN" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Requird" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RefTo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CheckBox_Type" Relationship="MostafidDatabaseModel.FK_CheckBox_Type_Question" FromRole="Question" ToRole="CheckBox_Type" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDatabaseModel.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
+          <NavigationProperty Name="Input_Type" Relationship="MostafidDatabaseModel.FK_Input_Type_Question" FromRole="Question" ToRole="Input_Type" />
+          <NavigationProperty Name="Paragraph" Relationship="MostafidDatabaseModel.FK_Paragraph_Question" FromRole="Question" ToRole="Paragraph" />
+          <NavigationProperty Name="Radio_Type" Relationship="MostafidDatabaseModel.FK_Radio_Type_Question" FromRole="Question" ToRole="Radio_Type" />
+          <NavigationProperty Name="Separator" Relationship="MostafidDatabaseModel.FK_Separator_Question" FromRole="Question" ToRole="Separator" />
+        </EntityType>
+        <EntityType Name="Radio_Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_Radio_Type_Question" FromRole="Radio_Type" ToRole="Question" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -1177,6 +1457,36 @@
           <NavigationProperty Name="Country" Relationship="MostafidDatabaseModel.FK_Region_Country" FromRole="Region" ToRole="Country" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_Region" FromRole="Region" ToRole="Personel_Data" />
         </EntityType>
+        <EntityType Name="Request_Data">
+          <Key>
+            <PropertyRef Name="Request_Data_ID" />
+          </Key>
+          <Property Name="Request_Data_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Personel_Data_ID" Type="Int32" />
+          <Property Name="Unit_ID" Type="Int32" />
+          <Property Name="Sub_Services_ID" Type="Int32" />
+          <Property Name="Required_Fields_Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Service_Type_ID" Type="Int32" />
+          <Property Name="Request_Type_ID" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Code_Generate" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="TempCode" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Request_State_ID" Type="Byte" Nullable="false" />
+          <Property Name="IsTwasul_OC" Type="Boolean" />
+          <Property Name="Readed" Type="Boolean" />
+          <Property Name="ReadedDate" Type="DateTime" Precision="3" />
+          <Property Name="GenratedDate" Type="DateTime" Precision="3" />
+          <Property Name="Is_Archived" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
+          <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
+          <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
+          <NavigationProperty Name="Service_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
+          <NavigationProperty Name="Sub_Services" Relationship="MostafidDatabaseModel.FK_Request_Data_Sub_Services" FromRole="Request_Data" ToRole="Sub_Services" />
+          <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Request_Data_Units" FromRole="Request_Data" ToRole="Units" />
+          <NavigationProperty Name="Request_File" Relationship="MostafidDatabaseModel.FK_Request_File_Request_Data" FromRole="Request_Data" ToRole="Request_File" />
+          <NavigationProperty Name="Request_Log" Relationship="MostafidDatabaseModel.FK_Request_State_Request_Data" FromRole="Request_Data" ToRole="Request_Log" />
+          <NavigationProperty Name="RequestTransaction" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Request_Data" FromRole="Request_Data" ToRole="RequestTransaction" />
+        </EntityType>
         <EntityType Name="Request_File">
           <Key>
             <PropertyRef Name="ID" />
@@ -1187,8 +1497,8 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="Request_ID" Type="Int32" Nullable="false" />
           <Property Name="RequiredDoc_ID" Type="Int32" />
-          <NavigationProperty Name="Required_Documents" Relationship="MostafidDatabaseModel.FK_Request_File_Required_Documents" FromRole="Request_File" ToRole="Required_Documents" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_File_Request_Data" FromRole="Request_File" ToRole="Request_Data" />
+          <NavigationProperty Name="Required_Documents" Relationship="MostafidDatabaseModel.FK_Request_File_Required_Documents" FromRole="Request_File" ToRole="Required_Documents" />
         </EntityType>
         <EntityType Name="Request_Log">
           <Key>
@@ -1199,8 +1509,8 @@
           <Property Name="Request_ID" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Employee_ID" Type="Int32" />
-          <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_Request_Log_Request_State" FromRole="Request_Log" ToRole="Request_State" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_State_Request_Data" FromRole="Request_Log" ToRole="Request_Data" />
+          <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_Request_Log_Request_State" FromRole="Request_Log" ToRole="Request_State" />
         </EntityType>
         <EntityType Name="Request_State">
           <Key>
@@ -1209,8 +1519,9 @@
           <Property Name="State_ID" Type="Byte" Nullable="false" />
           <Property Name="StateName_AR" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="StateName_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Request_Log" Relationship="MostafidDatabaseModel.FK_Request_Log_Request_State" FromRole="Request_State" ToRole="Request_Log" />
+          <Property Name="AllowedDelay" Type="Byte" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_State" FromRole="Request_State" ToRole="Request_Data" />
+          <NavigationProperty Name="Request_Log" Relationship="MostafidDatabaseModel.FK_Request_Log_Request_State" FromRole="Request_State" ToRole="Request_Log" />
         </EntityType>
         <EntityType Name="Request_Type">
           <Key>
@@ -1221,8 +1532,30 @@
           <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" FromRole="Request_Type" ToRole="Units_Request_Type" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Type" ToRole="Request_Data" />
+          <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" FromRole="Request_Type" ToRole="Units_Request_Type" />
+        </EntityType>
+        <EntityType Name="RequestTransaction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Request_ID" Type="Int32" Nullable="false" />
+          <Property Name="FromUnitID" Type="Int32" Nullable="false" />
+          <Property Name="ToUnitID" Type="Int32" />
+          <Property Name="ForwardDate" Type="DateTime" Precision="3" />
+          <Property Name="ExpireDays" Type="DateTime" Precision="3" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CommentType" Type="Int32" />
+          <Property Name="Readed" Type="Boolean" Nullable="false" />
+          <Property Name="ReadedDate" Type="DateTime" Precision="3" />
+          <Property Name="MostafidComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CommentDate" Type="DateTime" Precision="3" />
+          <Property Name="Code" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Is_Reminder" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Request_Data" FromRole="RequestTransaction" ToRole="Request_Data" />
+          <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units" FromRole="RequestTransaction" ToRole="Units" />
+          <NavigationProperty Name="Units1" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units1" FromRole="RequestTransaction" ToRole="Units" />
         </EntityType>
         <EntityType Name="Required_Documents">
           <Key>
@@ -1236,6 +1569,15 @@
           <NavigationProperty Name="Request_File" Relationship="MostafidDatabaseModel.FK_Request_File_Required_Documents" FromRole="Required_Documents" ToRole="Request_File" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDatabaseModel.FK_Required_Documents_Sub_Services" FromRole="Required_Documents" ToRole="Sub_Services" />
         </EntityType>
+        <EntityType Name="Separator">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <Property Name="IsEmpty" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_Separator_Question" FromRole="Separator" ToRole="Question" />
+        </EntityType>
         <EntityType Name="Service_Type">
           <Key>
             <PropertyRef Name="Service_Type_ID" />
@@ -1246,9 +1588,9 @@
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDatabaseModel.FK_Main_Services_Service_Type" FromRole="Service_Type" ToRole="Main_Services" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Service_Type" FromRole="Service_Type" ToRole="Request_Data" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Units_Service_Type" FromRole="Service_Type" ToRole="Units" />
           <NavigationProperty Name="UnitServiceTypes" Relationship="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type" FromRole="Service_Type" ToRole="UnitServiceTypes" />
-          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Service_Type" FromRole="Service_Type" ToRole="Request_Data" />
         </EntityType>
         <EntityType Name="Sub_Services">
           <Key>
@@ -1261,8 +1603,8 @@
           <Property Name="IS_Action" Type="Boolean" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDatabaseModel.FK_E_Forms_Sub_Services" FromRole="Sub_Services" ToRole="E_Forms" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDatabaseModel.FK_Sub_Services_Main_Services" FromRole="Sub_Services" ToRole="Main_Services" />
-          <NavigationProperty Name="Required_Documents" Relationship="MostafidDatabaseModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
+          <NavigationProperty Name="Required_Documents" Relationship="MostafidDatabaseModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
         </EntityType>
         <EntityType Name="Title_Middle_Names">
           <Key>
@@ -1301,15 +1643,15 @@
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
+          <NavigationProperty Name="RequestTransaction" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units" FromRole="Units" ToRole="RequestTransaction" />
+          <NavigationProperty Name="RequestTransaction1" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units1" FromRole="Units" ToRole="RequestTransaction" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDatabaseModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
           <NavigationProperty Name="UnitMainServices" Relationship="MostafidDatabaseModel.FK_UnitMainServices_Units" FromRole="Units" ToRole="UnitMainServices" />
           <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />
           <NavigationProperty Name="Units1" Relationship="MostafidDatabaseModel.FK_Units_Units" FromRole="Units" ToRole="Units1" />
           <NavigationProperty Name="Units2" Relationship="MostafidDatabaseModel.FK_Units_Units" FromRole="Units1" ToRole="Units" />
           <NavigationProperty Name="UnitServiceTypes" Relationship="MostafidDatabaseModel.FK_UnitServiceTypes_Units" FromRole="Units" ToRole="UnitServiceTypes" />
-          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
-          <NavigationProperty Name="RequestTransaction" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units" FromRole="Units" ToRole="RequestTransaction" />
-          <NavigationProperty Name="RequestTransaction1" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units1" FromRole="Units" ToRole="RequestTransaction" />
         </EntityType>
         <EntityType Name="Units_Request_Type">
           <Key>
@@ -1362,6 +1704,20 @@
             </Principal>
             <Dependent Role="ValidTo">
               <PropertyRef Name="ApplicantTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CheckBox_Type_Question">
+          <End Type="MostafidDatabaseModel.Question" Role="Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDatabaseModel.CheckBox_Type" Role="CheckBox_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CheckBox_Type">
+              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1449,15 +1805,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Personel_Data_ID_Document">
-          <End Type="MostafidDatabaseModel.ID_Document" Role="ID_Document" Multiplicity="1" />
-          <End Type="MostafidDatabaseModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+        <Association Name="FK_Question_E_Forms">
+          <End Type="MostafidDatabaseModel.E_Forms" Role="E_Forms" Multiplicity="1" />
+          <End Type="MostafidDatabaseModel.Question" Role="Question" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ID_Document">
-              <PropertyRef Name="ID_Document1" />
+            <Principal Role="E_Forms">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Personel_Data">
-              <PropertyRef Name="ID_Document" />
+            <Dependent Role="Question">
+              <PropertyRef Name="EForm_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Input_Type_Question">
+          <End Type="MostafidDatabaseModel.Question" Role="Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDatabaseModel.Input_Type" Role="Input_Type" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Input_Type">
+              <PropertyRef Name="Question_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1509,6 +1879,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Paragraph_Question">
+          <End Type="MostafidDatabaseModel.Question" Role="Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDatabaseModel.Paragraph" Role="Paragraph" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paragraph">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Personel_Data_Region">
           <End Type="MostafidDatabaseModel.Region" Role="Region" Multiplicity="0..1" />
           <End Type="MostafidDatabaseModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
@@ -1533,155 +1917,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Request_File_Required_Documents">
-          <End Type="MostafidDatabaseModel.Required_Documents" Role="Required_Documents" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Request_File" Role="Request_File" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Required_Documents">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Request_File">
-              <PropertyRef Name="RequiredDoc_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Request_Log_Request_State">
-          <End Type="MostafidDatabaseModel.Request_State" Role="Request_State" Multiplicity="1" />
-          <End Type="MostafidDatabaseModel.Request_Log" Role="Request_Log" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Request_State">
-              <PropertyRef Name="State_ID" />
-            </Principal>
-            <Dependent Role="Request_Log">
-              <PropertyRef Name="Request_State_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Units_Request_Type_Request_Type">
-          <End Type="MostafidDatabaseModel.Request_Type" Role="Request_Type" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Units_Request_Type" Role="Units_Request_Type" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Request_Type">
-              <PropertyRef Name="Request_Type_ID" />
-            </Principal>
-            <Dependent Role="Units_Request_Type">
-              <PropertyRef Name="Request_Type_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Required_Documents_Sub_Services">
-          <End Type="MostafidDatabaseModel.Sub_Services" Role="Sub_Services" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Required_Documents" Role="Required_Documents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sub_Services">
-              <PropertyRef Name="Sub_Services_ID" />
-            </Principal>
-            <Dependent Role="Required_Documents">
-              <PropertyRef Name="SubServiceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Units_Service_Type">
-          <End Type="MostafidDatabaseModel.Service_Type" Role="Service_Type" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Service_Type">
-              <PropertyRef Name="Service_Type_ID" />
-            </Principal>
-            <Dependent Role="Units">
-              <PropertyRef Name="ServiceTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UnitServiceTypes_Service_Type">
-          <End Type="MostafidDatabaseModel.Service_Type" Role="Service_Type" Multiplicity="1" />
-          <End Type="MostafidDatabaseModel.UnitServiceTypes" Role="UnitServiceTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Service_Type">
-              <PropertyRef Name="Service_Type_ID" />
-            </Principal>
-            <Dependent Role="UnitServiceTypes">
-              <PropertyRef Name="ServiceTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UnitMainServices_Units">
-          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="1" />
-          <End Type="MostafidDatabaseModel.UnitMainServices" Role="UnitMainServices" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Units">
-              <PropertyRef Name="Units_ID" />
-            </Principal>
-            <Dependent Role="UnitMainServices">
-              <PropertyRef Name="UnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Units_Request_Type_Units">
-          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Units_Request_Type" Role="Units_Request_Type" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Units">
-              <PropertyRef Name="Units_ID" />
-            </Principal>
-            <Dependent Role="Units_Request_Type">
-              <PropertyRef Name="Units_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Units_Units">
-          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Units" Role="Units1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Units">
-              <PropertyRef Name="Units_ID" />
-            </Principal>
-            <Dependent Role="Units1">
-              <PropertyRef Name="SubID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UnitServiceTypes_Units">
-          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="1" />
-          <End Type="MostafidDatabaseModel.UnitServiceTypes" Role="UnitServiceTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Units">
-              <PropertyRef Name="Units_ID" />
-            </Principal>
-            <Dependent Role="UnitServiceTypes">
-              <PropertyRef Name="UnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Request_Data">
-          <Key>
-            <PropertyRef Name="Request_Data_ID" />
-          </Key>
-          <Property Name="Request_Data_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Personel_Data_ID" Type="Int32" />
-          <Property Name="Unit_ID" Type="Int32" />
-          <Property Name="Sub_Services_ID" Type="Int32" />
-          <Property Name="Required_Fields_Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Service_Type_ID" Type="Int32" />
-          <Property Name="Request_Type_ID" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Code_Generate" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="TempCode" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Request_State_ID" Type="Byte" Nullable="false" />
-          <Property Name="IsTwasul_OC" Type="Boolean" />
-          <Property Name="Readed" Type="Boolean" />
-          <Property Name="ReadedDate" Type="DateTime" Precision="3" />
-          <Property Name="GenratedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
-          <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
-          <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
-          <NavigationProperty Name="Service_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
-          <NavigationProperty Name="Sub_Services" Relationship="MostafidDatabaseModel.FK_Request_Data_Sub_Services" FromRole="Request_Data" ToRole="Sub_Services" />
-          <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Request_Data_Units" FromRole="Request_Data" ToRole="Units" />
-          <NavigationProperty Name="Request_File" Relationship="MostafidDatabaseModel.FK_Request_File_Request_Data" FromRole="Request_Data" ToRole="Request_File" />
-          <NavigationProperty Name="Request_Log" Relationship="MostafidDatabaseModel.FK_Request_State_Request_Data" FromRole="Request_Data" ToRole="Request_Log" />
-          <NavigationProperty Name="RequestTransaction" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Request_Data" FromRole="Request_Data" ToRole="RequestTransaction" />
-        </EntityType>
         <Association Name="FK_Request_Data_Personel_Data">
           <End Type="MostafidDatabaseModel.Personel_Data" Role="Personel_Data" Multiplicity="0..1" />
           <End Type="MostafidDatabaseModel.Request_Data" Role="Request_Data" Multiplicity="*" />
@@ -1691,6 +1926,34 @@
             </Principal>
             <Dependent Role="Request_Data">
               <PropertyRef Name="Personel_Data_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Radio_Type_Question">
+          <End Type="MostafidDatabaseModel.Question" Role="Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDatabaseModel.Radio_Type" Role="Radio_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Radio_Type">
+              <PropertyRef Name="Question_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Separator_Question">
+          <End Type="MostafidDatabaseModel.Question" Role="Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDatabaseModel.Separator" Role="Separator" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Separator">
+              <PropertyRef Name="QuestionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1778,27 +2041,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="RequestTransaction">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Request_ID" Type="Int32" Nullable="false" />
-          <Property Name="FromUnitID" Type="Int32" Nullable="false" />
-          <Property Name="ToUnitID" Type="Int32" />
-          <Property Name="ForwardDate" Type="DateTime" Precision="3" />
-          <Property Name="ExpireDays" Type="DateTime" Precision="3" />
-          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CommentType" Type="Int32" />
-          <Property Name="Readed" Type="Boolean" Nullable="false" />
-          <Property Name="ReadedDate" Type="DateTime" Precision="3" />
-          <Property Name="MostafidComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CommentDate" Type="DateTime" Precision="3" />
-          <Property Name="Code" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Request_Data" FromRole="RequestTransaction" ToRole="Request_Data" />
-          <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units" FromRole="RequestTransaction" ToRole="Units" />
-          <NavigationProperty Name="Units1" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Units1" FromRole="RequestTransaction" ToRole="Units" />
-        </EntityType>
         <Association Name="FK_RequestTransaction_Request_Data">
           <End Type="MostafidDatabaseModel.Request_Data" Role="Request_Data" Multiplicity="1" />
           <End Type="MostafidDatabaseModel.RequestTransaction" Role="RequestTransaction" Multiplicity="*" />
@@ -1808,6 +2050,42 @@
             </Principal>
             <Dependent Role="RequestTransaction">
               <PropertyRef Name="Request_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_File_Required_Documents">
+          <End Type="MostafidDatabaseModel.Required_Documents" Role="Required_Documents" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Request_File" Role="Request_File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Required_Documents">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request_File">
+              <PropertyRef Name="RequiredDoc_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_Log_Request_State">
+          <End Type="MostafidDatabaseModel.Request_State" Role="Request_State" Multiplicity="1" />
+          <End Type="MostafidDatabaseModel.Request_Log" Role="Request_Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_State">
+              <PropertyRef Name="State_ID" />
+            </Principal>
+            <Dependent Role="Request_Log">
+              <PropertyRef Name="Request_State_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Request_Type_Request_Type">
+          <End Type="MostafidDatabaseModel.Request_Type" Role="Request_Type" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Units_Request_Type" Role="Units_Request_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Type">
+              <PropertyRef Name="Request_Type_ID" />
+            </Principal>
+            <Dependent Role="Units_Request_Type">
+              <PropertyRef Name="Request_Type_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1835,6 +2113,112 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Required_Documents_Sub_Services">
+          <End Type="MostafidDatabaseModel.Sub_Services" Role="Sub_Services" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Required_Documents" Role="Required_Documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sub_Services">
+              <PropertyRef Name="Sub_Services_ID" />
+            </Principal>
+            <Dependent Role="Required_Documents">
+              <PropertyRef Name="SubServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Service_Type">
+          <End Type="MostafidDatabaseModel.Service_Type" Role="Service_Type" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service_Type">
+              <PropertyRef Name="Service_Type_ID" />
+            </Principal>
+            <Dependent Role="Units">
+              <PropertyRef Name="ServiceTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitServiceTypes_Service_Type">
+          <End Type="MostafidDatabaseModel.Service_Type" Role="Service_Type" Multiplicity="1" />
+          <End Type="MostafidDatabaseModel.UnitServiceTypes" Role="UnitServiceTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service_Type">
+              <PropertyRef Name="Service_Type_ID" />
+            </Principal>
+            <Dependent Role="UnitServiceTypes">
+              <PropertyRef Name="ServiceTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitMainServices_Units">
+          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="1" />
+          <End Type="MostafidDatabaseModel.UnitMainServices" Role="UnitMainServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="UnitMainServices">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Request_Type_Units">
+          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Units_Request_Type" Role="Units_Request_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Units_Request_Type">
+              <PropertyRef Name="Units_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Units">
+          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Units" Role="Units1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Units1">
+              <PropertyRef Name="SubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitServiceTypes_Units">
+          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="1" />
+          <End Type="MostafidDatabaseModel.UnitServiceTypes" Role="UnitServiceTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="UnitServiceTypes">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ID_Document">
+          <Key>
+            <PropertyRef Name="ID_Document1" />
+          </Key>
+          <Property Name="ID_Document1" Type="Int32" Nullable="false" />
+          <Property Name="Document_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Document_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IS_Action" Type="Boolean" />
+          <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_ID_Document" FromRole="ID_Document" ToRole="Personel_Data" />
+        </EntityType>
+        <Association Name="FK_Personel_Data_ID_Document">
+          <End Type="MostafidDatabaseModel.ID_Document" Role="ID_Document" Multiplicity="1" />
+          <End Type="MostafidDatabaseModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ID_Document">
+              <PropertyRef Name="ID_Document1" />
+            </Principal>
+            <Dependent Role="Personel_Data">
+              <PropertyRef Name="ID_Document" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1848,6 +2232,16 @@
                 <ScalarProperty Name="Applicant_Type_Name_AR" ColumnName="Applicant_Type_Name_AR" />
                 <ScalarProperty Name="Applicant_Type_Name_EN" ColumnName="Applicant_Type_Name_EN" />
                 <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CheckBox_Type">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.CheckBox_Type">
+              <MappingFragment StoreEntitySet="CheckBox_Type">
+                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1875,22 +2269,34 @@
           <EntitySetMapping Name="E_Forms">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.E_Forms">
               <MappingFragment StoreEntitySet="E-Forms">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
-                <ScalarProperty Name="Path" ColumnName="Path" />
                 <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ID_Document">
-            <EntityTypeMapping TypeName="MostafidDatabaseModel.ID_Document">
-              <MappingFragment StoreEntitySet="ID_Document">
-                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-                <ScalarProperty Name="Document_Name_AR" ColumnName="Document_Name_AR" />
-                <ScalarProperty Name="Document_Name_EN" ColumnName="Document_Name_EN" />
-                <ScalarProperty Name="ID_Document1" ColumnName="ID_Document" />
+          <EntitySetMapping Name="Input_Type">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Input_Type">
+              <MappingFragment StoreEntitySet="Input_Type">
+                <ScalarProperty Name="IsDate" ColumnName="IsDate" />
+                <ScalarProperty Name="IsNumber" ColumnName="IsNumber" />
+                <ScalarProperty Name="Placeholder_EN" ColumnName="Placeholder_EN" />
+                <ScalarProperty Name="Placeholder" ColumnName="Placeholder" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Job_Permissions">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Job_Permissions">
+              <MappingFragment StoreEntitySet="Job_Permissions">
+                <ScalarProperty Name="Job_ID" ColumnName="Job_ID" />
+                <ScalarProperty Name="PrivilageID" ColumnName="PrivilageID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1902,6 +2308,16 @@
                 <ScalarProperty Name="Main_Services_Name_AR" ColumnName="Main_Services_Name_AR" />
                 <ScalarProperty Name="Main_Services_Name_EN" ColumnName="Main_Services_Name_EN" />
                 <ScalarProperty Name="Main_Services_ID" ColumnName="Main_Services_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paragraph">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Paragraph">
+              <MappingFragment StoreEntitySet="Paragraph">
+                <ScalarProperty Name="Name_En" ColumnName="Name_En" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1931,6 +2347,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Question">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="RefTo" ColumnName="RefTo" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Requird" ColumnName="Requird" />
+                <ScalarProperty Name="LableName_EN" ColumnName="LableName_EN" />
+                <ScalarProperty Name="LableName" ColumnName="LableName" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EForm_ID" ColumnName="EForm_ID" />
+                <ScalarProperty Name="Index_Order" ColumnName="Index_Order" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Radio_Type">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Radio_Type">
+              <MappingFragment StoreEntitySet="Radio_Type">
+                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Question_ID" ColumnName="Question_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Region">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Region">
               <MappingFragment StoreEntitySet="Region">
@@ -1939,6 +2381,28 @@
                 <ScalarProperty Name="Region_Name_EN" ColumnName="Region_Name_EN" />
                 <ScalarProperty Name="Region_Name_AR" ColumnName="Region_Name_AR" />
                 <ScalarProperty Name="Region_ID" ColumnName="Region_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Request_Data">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_Data">
+              <MappingFragment StoreEntitySet="Request_Data">
+                <ScalarProperty Name="Is_Archived" ColumnName="Is_Archived" />
+                <ScalarProperty Name="GenratedDate" ColumnName="GenratedDate" />
+                <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
+                <ScalarProperty Name="Readed" ColumnName="Readed" />
+                <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
+                <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
+                <ScalarProperty Name="TempCode" ColumnName="TempCode" />
+                <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
+                <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
+                <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
+                <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
+                <ScalarProperty Name="Unit_ID" ColumnName="Unit_ID" />
+                <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
+                <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1968,6 +2432,7 @@
           <EntitySetMapping Name="Request_State">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_State">
               <MappingFragment StoreEntitySet="Request_State">
+                <ScalarProperty Name="AllowedDelay" ColumnName="AllowedDelay" />
                 <ScalarProperty Name="StateName_EN" ColumnName="StateName_EN" />
                 <ScalarProperty Name="StateName_AR" ColumnName="StateName_AR" />
                 <ScalarProperty Name="State_ID" ColumnName="State_ID" />
@@ -1985,6 +2450,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RequestTransaction">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.RequestTransaction">
+              <MappingFragment StoreEntitySet="RequestTransaction">
+                <ScalarProperty Name="Is_Reminder" ColumnName="Is_Reminder" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="MostafidComment" ColumnName="MostafidComment" />
+                <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
+                <ScalarProperty Name="Readed" ColumnName="Readed" />
+                <ScalarProperty Name="CommentType" ColumnName="CommentType" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ExpireDays" ColumnName="ExpireDays" />
+                <ScalarProperty Name="ForwardDate" ColumnName="ForwardDate" />
+                <ScalarProperty Name="ToUnitID" ColumnName="ToUnitID" />
+                <ScalarProperty Name="FromUnitID" ColumnName="FromUnitID" />
+                <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Required_Documents">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Required_Documents">
               <MappingFragment StoreEntitySet="Required_Documents">
@@ -1992,6 +2477,15 @@
                 <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
                 <ScalarProperty Name="Name_AR" ColumnName="Name_AR" />
                 <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Separator">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Separator">
+              <MappingFragment StoreEntitySet="Separator">
+                <ScalarProperty Name="IsEmpty" ColumnName="IsEmpty" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2083,43 +2577,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Request_Data">
-            <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_Data">
-              <MappingFragment StoreEntitySet="Request_Data">
-                <ScalarProperty Name="GenratedDate" ColumnName="GenratedDate" />
-                <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
-                <ScalarProperty Name="Readed" ColumnName="Readed" />
-                <ScalarProperty Name="IsTwasul_OC" ColumnName="IsTwasul_OC" />
-                <ScalarProperty Name="Request_State_ID" ColumnName="Request_State_ID" />
-                <ScalarProperty Name="TempCode" ColumnName="TempCode" />
-                <ScalarProperty Name="Code_Generate" ColumnName="Code_Generate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
-                <ScalarProperty Name="Service_Type_ID" ColumnName="Service_Type_ID" />
-                <ScalarProperty Name="Required_Fields_Notes" ColumnName="Required_Fields_Notes" />
-                <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
-                <ScalarProperty Name="Unit_ID" ColumnName="Unit_ID" />
-                <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
-                <ScalarProperty Name="Request_Data_ID" ColumnName="Request_Data_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RequestTransaction">
-            <EntityTypeMapping TypeName="MostafidDatabaseModel.RequestTransaction">
-              <MappingFragment StoreEntitySet="RequestTransaction">
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
-                <ScalarProperty Name="MostafidComment" ColumnName="MostafidComment" />
-                <ScalarProperty Name="ReadedDate" ColumnName="ReadedDate" />
-                <ScalarProperty Name="Readed" ColumnName="Readed" />
-                <ScalarProperty Name="CommentType" ColumnName="CommentType" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="ExpireDays" ColumnName="ExpireDays" />
-                <ScalarProperty Name="ForwardDate" ColumnName="ForwardDate" />
-                <ScalarProperty Name="ToUnitID" ColumnName="ToUnitID" />
-                <ScalarProperty Name="FromUnitID" ColumnName="FromUnitID" />
-                <ScalarProperty Name="Request_ID" ColumnName="Request_ID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
+          <EntitySetMapping Name="ID_Document">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.ID_Document">
+              <MappingFragment StoreEntitySet="ID_Document">
+                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+                <ScalarProperty Name="Document_Name_AR" ColumnName="Document_Name_AR" />
+                <ScalarProperty Name="Document_Name_EN" ColumnName="Document_Name_EN" />
+                <ScalarProperty Name="ID_Document1" ColumnName="ID_Document" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

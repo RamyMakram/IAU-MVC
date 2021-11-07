@@ -7,21 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IAU_BackEnd.Models
+namespace IAU.DTO.Entity
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Request_File
+    public partial class E_Forms_Answer
     {
         public int ID { get; set; }
-        public string File_Name { get; set; }
-        public string File_Path { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public int Request_ID { get; set; }
-        public Nullable<int> RequiredDoc_ID { get; set; }
+        public int Person_ID { get; set; }
+        public int Question_ID { get; set; }
+        public string Value { get; set; }
+        public System.DateTime FillDate { get; set; }
     
-        public virtual Request_Data Request_Data { get; set; }
-        public virtual Required_Documents Required_Documents { get; set; }
+        public virtual PersonalDataDTO Personel_Data { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

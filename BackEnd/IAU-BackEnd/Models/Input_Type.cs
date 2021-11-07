@@ -12,16 +12,15 @@ namespace IAU_BackEnd.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Request_File
+    public partial class Input_Type
     {
         public int ID { get; set; }
-        public string File_Name { get; set; }
-        public string File_Path { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public int Request_ID { get; set; }
-        public Nullable<int> RequiredDoc_ID { get; set; }
+        public int Question_ID { get; set; }
+        public string Placeholder { get; set; }
+        public string Placeholder_EN { get; set; }
+        public bool IsNumber { get; set; }
+        public bool IsDate { get; set; }
     
-        public virtual Request_Data Request_Data { get; set; }
-        public virtual Required_Documents Required_Documents { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

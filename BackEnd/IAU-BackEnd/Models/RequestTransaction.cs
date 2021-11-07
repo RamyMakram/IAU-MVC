@@ -27,6 +27,7 @@ namespace IAU_BackEnd.Models
         public string MostafidComment { get; set; }
         public Nullable<System.DateTime> CommentDate { get; set; }
         public string Code { get; set; }
+        public bool Is_Reminder { get; set; }
     
         public virtual Request_Data Request_Data { get; set; }
         public virtual Units Units { get; set; }

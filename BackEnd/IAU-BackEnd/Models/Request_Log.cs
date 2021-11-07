@@ -20,7 +20,7 @@ namespace IAU_BackEnd.Models
         public System.DateTime CreatedDate { get; set; }
         public Nullable<int> Employee_ID { get; set; }
     
-        public virtual Request_State Request_State { get; set; }
         public virtual Request_Data Request_Data { get; set; }
+        public virtual Request_State Request_State { get; set; }
     }
 }
