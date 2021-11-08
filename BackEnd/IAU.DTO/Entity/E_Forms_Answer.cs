@@ -20,6 +20,7 @@ namespace IAU.DTO.Entity
         public int EFromID { get; set; }
 
         public string Value { get; set; }
+        public string Value_En { get; set; }
         public System.DateTime FillDate { get; set; }
     
         public virtual PersonalDataDTO Personel_Data { get; set; }

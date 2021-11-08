@@ -18,7 +18,6 @@ namespace IAUBackEnd.Admin.Models
         public E_Forms()
         {
             this.Question = new HashSet<Question>();
-            this.E_Forms_Answer = new HashSet<E_Forms_Answer>();
         }
     
         public int ID { get; set; }
@@ -32,7 +31,5 @@ namespace IAUBackEnd.Admin.Models
         public virtual Sub_Services Sub_Services { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Question { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
     }
 }

@@ -224,10 +224,10 @@ namespace IAUBackEnd.Admin.Controllers
                 var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
                 Request_Data request_Data;
                 if (Unit.IS_Mostafid)
-                    request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
-                else
-                    request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
-                        .FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
+                    request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
+
+                request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
+                    .FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
                 if (request_Data == null)
                     return Ok(new ResponseClass() { success = false });
                 if (Unit.IS_Mostafid)
@@ -316,11 +316,11 @@ namespace IAUBackEnd.Admin.Controllers
                 request_Data = JsonConvert.DeserializeObject<Request_Data>(buffer);
 
                 var model = request_Data.Personel_Data;
-                var E_Forms_Answer = model.E_Forms_Answer;
+                buffer = await provider.Contents[provider.Contents.Count - 2].ReadAsStringAsync();
+                var E_Forms_Answer = JsonConvert.DeserializeObject<List<Models.E_Forms_Answer>>(buffer);
                 Personel_Data personel_Data = p.Personel_Data.FirstOrDefault(q => (q.ID_Document == model.ID_Document && q.ID_Number == model.ID_Number) || q.Mobile == model.Mobile);
                 if (personel_Data == null)
                 {
-                    model.E_Forms_Answer = new List<Models.E_Forms_Answer>();
                     p.Personel_Data.Add(model);
                     await p.SaveChangesAsync();
                     request_Data.Personel_Data_ID = model.Personel_Data_ID;
@@ -339,25 +339,31 @@ namespace IAUBackEnd.Admin.Controllers
                 if (ISInquiry.Value)
                 {
                     var Types = "IEDCR";
-                    var qet_eforms = p.Question.Where(q => q.E_Forms.IS_Action && q.E_Forms.SubServiceID == request_Data.Sub_Services_ID && Types.Contains(q.Type)).OrderBy(q => q.EForm_ID).ThenBy(q => q.Index_Order);
-                    foreach (var i in qet_eforms)
+                    var Eforms = p.E_Forms.Include(q => q.Question).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID && q.Question.Any(s => Types.Contains(s.Type))).Select(q => new { q.Name, q.Name_EN, Question = q.Question.Where(s => Types.Contains(s.Type)).ToList() });
+                    foreach (var eform in Eforms)
                     {
-                        var Inser_Qty = E_Forms_Answer.FirstOrDefault(q => q.Question_ID == i.ID);
-                        if (Inser_Qty != null || (Inser_Qty == null && !i.Requird))
+                        var Eform_Person = new Person_Eform { Name = eform.Name, Name_EN = eform.Name_EN, Person_ID = request_Data.Personel_Data_ID, FillDate = request_Data.CreatedDate.Value };
+                        foreach (var i in eform.Question)
                         {
-                            Inser_Qty.Person_ID = request_Data.Personel_Data_ID.Value;
-                            Inser_Qty.FillDate = Helper.GetDate();
-                            p.E_Forms_Answer.Add(Inser_Qty);
+                            var Inser_Qty = E_Forms_Answer.FirstOrDefault(q => q.Question_ID == i.ID);
+                            if (Inser_Qty != null || (Inser_Qty == null && !i.Requird))
+                            {
+                                Inser_Qty.Name = i.LableName;
+                                Inser_Qty.Name_En = i.LableName_EN;
+                                Inser_Qty.FillDate = Helper.GetDate();
+                                Eform_Person.E_Forms_Answer.Add(Inser_Qty);
+                            }
+                            else
+                                throw new Exception("Eform Error");
                         }
-                        else
-                            throw new Exception("Eform Error");
+                        p.Person_Eform.Add(Eform_Person);
                     }
                 }
                 await p.SaveChangesAsync();
                 var path = HttpContext.Current.Server.MapPath("~");
                 var requestpath = Path.Combine("RequestFiles", request_Data.Request_Data_ID.ToString());
                 Directory.CreateDirectory(Path.Combine(path, requestpath));
-                if (provider.Contents.Count > 1)
+                if (provider.Contents.Count > 2)
                 {
                     var count = 0;
                     if (p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID).Request_Type_Name_EN.ToLower().Contains("inquiry"))
@@ -381,7 +387,7 @@ namespace IAUBackEnd.Admin.Controllers
                             count++;
                         }
                     }
-                    int length = provider.Contents.Count - 1;
+                    int length = provider.Contents.Count - 2;
                     for (; count < length; count++)
                     {
                         var file = provider.Contents[count];

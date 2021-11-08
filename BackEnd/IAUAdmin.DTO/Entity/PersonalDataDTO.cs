@@ -31,6 +31,7 @@ namespace IAUAdmin.DTO.Entity
 		public ApplicantTypeDTO Applicant_Type { get; set; }
 		public virtual IDDocDTO ID_Document1 { get; set; }
 		public virtual ICollection<E_Forms_Answer> Answer { get; set; }
+		public virtual ICollection<PersonEfDTO> Person_Eform { get; set; }
 		public virtual CityDTO City { get; set; }
 		public virtual RegionDTO Region { get; set; }
 		public virtual CountryDTO Country { get; set; }

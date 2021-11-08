@@ -72,18 +72,18 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label" key="t-name" for="name">Name</label>
+                                <label class="control-label" for="name">@(isar?"اسم النموذج بالعربي":"Eform Name")</label>
                                 @Html.TextBoxFor(q => q.Name, new { @class = "form-control ar-font", @name = "name", @id = "name" })
                             </div>
                             <div class="form-group">
-                                <label class="control-label" key="t-code" for="name">Name</label>
+                                <label class="control-label" for="name">@(isar?"كود النموذج":"Eform Code")</label>
                                 @Html.TextBoxFor(q => q.Code, new { @class = "form-control" })
                             </div>
                         </div>
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label" key="t-enname" for="enname">Mobile</label>
+                                <label class="control-label" for="enname">@(isar?"اسم النموذج بالانجليزي":"Eform Name English")</label>
                                 @Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control en-font", @name = "enname", @id = "enname" })
                             </div>
                             @if (Request.QueryString["SubService"] == null)

@@ -26,7 +26,21 @@ namespace IAUBackEnd.Admin.Controllers
         {
             return Ok(new ResponseClass() { success = true, result = p.E_Forms.ToList() });
         }
+        public async Task<IHttpActionResult> GetE_FormsFoRequest(int id, int RequestID)
+        {
+            try
+            {
+                var data = p.Person_Eform.Include(q => q.E_Forms_Answer).FirstOrDefault(q => q.ID == id && q.Personel_Data.Request_Data.Any(s => s.Request_Data_ID == RequestID));
+                if (data == null)
+                    return Ok(new ResponseClass() { success = false });
 
+                return Ok(new ResponseClass() { success = true, result = data });
+            }
+            catch (Exception eee)
+            {
+                return Ok(new ResponseClass() { success = false });
+            }
+        }
         public async Task<IHttpActionResult> GetE_Forms(int id)
         {
             try

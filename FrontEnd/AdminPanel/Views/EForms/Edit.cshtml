@@ -112,7 +112,7 @@
                                             <option value="0">@(isar?"حقول الادخال":"Input")</option>
                                             <option value="1">@(isar? "اختيار من متعدد":"Select from Multi")</option>
                                             <option value="2">@(isar?"اختيار متعدد":"Select Multi")</option>
-                                            <option value="3">@(isar?"تاريخ ووقت":"Date Time")</option>
+                                            <option value="3">@(isar?"تاريخ":"Date Time")</option>
                                             <option value="4">@(isar?"فاصل":"Separator")</option>
                                             <option value="5">@(isar?"عنوان":"Title")</option>
                                             <option value="7">@(isar?"نص":"Text")</option>
@@ -134,7 +134,7 @@
                                                             <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"حقل ادخال":"Input")</legend>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
                                                                     <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
                                                                 </div>
 
@@ -311,7 +311,7 @@
                                                             <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"حقل ادخال":"Input")</legend>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
                                                                     <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
                                                                 </div>
                                                                 <div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
@@ -355,7 +355,7 @@
                                                             <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"عنوان":"Title")</legend>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
                                                                     <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
                                                                 </div>
                                                             </div>
@@ -378,7 +378,7 @@
                                                             <legend><button onclick="delte(@i.ID)" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "حقل موجود": "Exist Field")</legend>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
                                                                     <input class="form-control" type="text" name="ARName" value="@i.Name" />
                                                                 </div>
                                                             </div>
@@ -421,7 +421,7 @@
                                                             <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"نص":"Text")</legend>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="ARName" class="control-label">@(isar? "النص" : "Text")</label>
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
                                                                     <textarea class="form-control" name="ARName"> @i.Para.Name</textarea>
                                                                 </div>
                                                             </div>

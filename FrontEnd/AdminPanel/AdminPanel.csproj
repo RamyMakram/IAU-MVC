@@ -3060,6 +3060,7 @@
     <Content Include="Views\Shared\PrivilgesControls.cshtml" />
     <Content Include="Views\Error\Home.cshtml" />
     <Content Include="Views\Error\NotPermited.cshtml" />
+    <Content Include="Views\Email\_Eform.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

@@ -855,16 +855,11 @@ function GetEfroms(ID) {
                 let data = JSON.parse(result)
                 data.forEach(function (element) {
                     $("#EFormsView").append(`
-									<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:5px" >
+									<div class="col-lg-6 col-md-6 col-sm-6" style = "margin-bottom:5px" >
 										<div class="row icon-container" style="padding:0px;margin:0px">
-											<div class="col-sm-4" style="padding:0px">
-												<img src="/Design/img/reader.png" style="width:25px" />
-											</div>
-											<div class="col-sm-8">
-												<button style="padding:0px" class="btn btn-outline eform-btn" data-id="${element.ID}">${(language == 'ar' ? element.Name : element.Name_EN)}</button>
-											</div>
+												<a style="padding:0px" class="btn btn-outline eform-btn" data-id="${element.ID}"><i class="fas fa-passport" style="font-size: 31px;color: #4f693a;padding:0 5px"></i>${(language == 'ar' ? element.Name : element.Name_EN)}</a>
 										</div>
-									</div >
+									</div>
 				`
                     )
                 });

@@ -53,6 +53,7 @@
     <Compile Include="Entity\GlobalCount.cs" />
     <Compile Include="Entity\Input_Type.cs" />
     <Compile Include="Entity\ParagraphDTO.cs" />
+    <Compile Include="Entity\PersonEfDTO.cs" />
     <Compile Include="Entity\Question.cs" />
     <Compile Include="Entity\Radio_Type.cs" />
     <Compile Include="Entity\RegionDTO.cs" />

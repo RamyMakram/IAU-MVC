@@ -1,0 +1,154 @@
+﻿@model IAUAdmin.DTO.Entity.PersonEfDTO
+@using Newtonsoft.Json;
+<style>
+    :root {
+        --main-btn-color: #0a1332 !important;
+    }
+
+    @@media(max-width:770px) {
+
+        tr {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    td {
+        width: 100%;
+    }
+
+        td div {
+            margin: 0 20px;
+        }
+
+    tr th {
+        min-width: 150px;
+    }
+
+    td {
+        justify-content: start;
+        display: flex;
+    }
+
+    /*th {
+        justify-content: center;
+    }*/
+    th label {
+        font-weight: bolder;
+    }
+
+    tr th,
+    tr td {
+        vertical-align: middle !important;
+        border-top: 0px !important;
+    }
+
+    tr.border {
+        border: none !important;
+    }
+
+        tr.border th,
+        tr.border td {
+            border-top: 0px !important;
+            border: 0px !important;
+            border-bottom: 1px solid #dee2e6 !important;
+        }
+
+        tr.border td {
+            padding: 0;
+        }
+
+    td input[type='date'],
+    td input[type='text'] {
+        /*width: 250px !important*/
+    }
+
+    tr[data-required="True"] th label::after {
+        content: "*";
+        color: red;
+        margin: 0 5px
+    }
+
+    .checkbox {
+        margin: 2px 15px;
+    }
+
+    .EmptySpace {
+        height: 25px;
+    }
+
+    .contanier {
+        box-shadow: 0px 0px 20px 4px #888888;
+        padding: 25px;
+    }
+
+    .alert {
+        margin: 0;
+        width: 250px !important;
+    }
+
+    .btn-primary {
+        background-color: var(--main-btn-color);
+    }
+
+    h2 {
+        color: var(--main-btn-color) !important;
+    }
+
+    .table > :not(caption) > * > * {
+        border-bottom-width: 0px !important;
+    }
+
+    .Space {
+        border-bottom: 1px solid #dee2e6;
+        margin: 30px 0;
+    }
+</style>
+@*<link href="~/Design/CSS/all.min.css" rel="stylesheet" />
+    <link href="~/Design/CSS/bootstrap.min.css" rel="stylesheet" />*@
+@{
+    var isar = Request.Cookies["lang"]?.Value == "ar";
+}
+
+<div class="modal-dialog" @*style=" max-width: 80vw !important;"*@ role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">@(isar?Model.Name:Model.Name_EN)</h5>
+        </div>
+        <div class="modal-body">
+
+            <table class="table m-0">
+                <tbody>
+                    @foreach (var qty in Model.E_Forms_Answer)
+                    {
+                        <tr>
+                            <th class="text-left">
+                                <label>
+                                    @(isar?qty.Name:qty.Name_En)
+                                </label>
+                            </th>
+                            <td>
+                                @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
+                                {
+                                    var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
+                                    foreach (var i in values)
+                                    {
+                                        <p style="text-align:center">@i</p>
+                                    }
+                                }
+                                else
+                                {
+                                    <label>@(isar ? qty.Value : qty.Value_En)</label>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
+            <button type="button" class="btn btn-secondary w-40" data-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+        </div>
+    </div>
+</div>
+

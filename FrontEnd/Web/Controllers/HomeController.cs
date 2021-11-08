@@ -108,7 +108,10 @@ namespace Web.Controllers
                                 fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
                                 content.Add(fileContent);
                             }
-                            var stringContent = new StringContent(request_Data);
+                            var stringContent = new StringContent(JsonConvert.SerializeObject(JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data).Personel_Data.E_Forms_Answer));
+                            stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
+                            content.Add(stringContent, "json");
+                            stringContent = new StringContent(request_Data);
                             stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
                             content.Add(stringContent, "json");
 
@@ -242,7 +245,7 @@ namespace Web.Controllers
             var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             return Json(response.result.ToString(), JsonRequestBehavior.AllowGet);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult GetEform(int ID)

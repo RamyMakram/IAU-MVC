@@ -338,6 +338,9 @@
     <Compile Include="Models\Personel_Data.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Person_Eform.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Privilage.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -461,9 +464,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\Main_Services\" />
-    <Folder Include="Images\Request_Type\" />
-    <Folder Include="Images\Service_Types\" />
     <Folder Include="RequestFiles\" />
   </ItemGroup>
   <ItemGroup>
