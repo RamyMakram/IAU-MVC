@@ -180,6 +180,11 @@
                                                                     <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
                                                                     <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
                                                                 </div>
+                                                                <div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+                                                                    <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب؟":"Required?")</label>
+                                                                    @Html.CheckBoxFor(s => i.Requird, new { @class = "form-control", @name = "Required", @id = "Required", @style = "width: 19px;", @type = "checkbox" })
+                                                                </div>
+
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
@@ -247,6 +252,11 @@
                                                                     <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
                                                                     <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
                                                                 </div>
+                                                                <div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+                                                                    <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب؟":"Required?")</label>
+                                                                    @Html.CheckBoxFor(s => i.Requird, new { @class = "form-control", @name = "Required", @id = "Required", @style = "width: 19px;", @type = "checkbox" })
+                                                                </div>
+
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group">

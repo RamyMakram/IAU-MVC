@@ -2,6 +2,14 @@
 @{
     var isar = Request.Cookies["lang"].Value == "ar";
 }
+<style>
+    input.en-item, [name="ENName"] {
+        text-align: left;
+    }
+    input.ar-item, [name="ARName"] {
+        text-align: right;
+    }
+</style>
 <!-- end row -->
 <!-- JAVASCRIPT -->
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
@@ -81,6 +89,10 @@
 													<label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
 													<input class="form-control" type="text" name="ARName" />
 												</div>
+												<div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب؟":"Required?")</label>
+													@Html.CheckBox("Required", new { @class = "form-control", @name = "Required", @id = "Required",@style= "width: 19px;", @type = "checkbox" })
+												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
@@ -127,6 +139,10 @@
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
 													<input class="form-control" type="text" name="ARName" />
+												</div>
+												<div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب؟":"Required?")</label>
+													@Html.CheckBox("Required", new { @class = "form-control", @name = "Required", @id = "Required",@style= "width: 19px;", @type = "checkbox" })
 												</div>
 											</div>
 											<div class="col-md-6">

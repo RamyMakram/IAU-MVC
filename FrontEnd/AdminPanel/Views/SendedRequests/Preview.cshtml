@@ -596,11 +596,29 @@
 
 							</div>
 						</div>
-						<div class="col-4">
-							<p class="card-title-desc" key="t-eforms">
-								النماذج
-							</p>
-						</div>
+                        <div class="col-4">
+                            <p class="card-title-desc" key="t-eforms">
+                                النماذج
+                            </p>
+                            <div class="row constainDocs" dir="@(isAr?"rtl": "ltr")">
+                                @{
+                                    foreach (var form in Model.Personel_Data.Person_Eform)
+                                    {
+                                        <div class="col-3">
+                                            <div class="card w-100">
+                                                <i class="fas fa-file" data-toggle="tooltip" title="@(isAr?form.Name:form.Name_EN)" style="text-align: center;justify-self: center;font-size: 48px;margin-bottom: 24px;"></i>
+                                                <div class="FileTitle row">
+                                                    <p class="row">@(new string((isAr ? form.Name : form.Name_EN).Take(12).ToArray()))</p>
+                                                </div>
+                                                <div class="py-2 text-center">
+                                                    <a href="#" data-id="@form.ID" class="font-weight-medium eform-btn" key="t-preview">Preview</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
 
 					</div>
 				</div>
@@ -704,5 +722,17 @@
 	$(document).ready(function () {
 		$('[data-toggle="tooltip"]').tooltip();
 		$('.data-Comment:last').addClass('active')
+        $(document).on("click", ".eform-btn", function () {
+            $.ajax({
+                url: `/Email/GetEformRequest?efid=${$(this).data("id")}&req=${$('[name="RequestIID"]').val()}`, method: "GET"
+                , success: function (dd) {
+                    $('#EformModel').html(dd)
+                    new bootstrap.Modal(document.getElementById('EformModel'), {
+                        keyboard: false,
+                        backdrop: 'static'
+                    }).show()
+                }
+            })
+        });
 	});
 </script>

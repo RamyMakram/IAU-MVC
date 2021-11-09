@@ -39,6 +39,7 @@ namespace IAUBackEnd.Admin.Controllers
                 data.TEMP_Login = Datetime;
                 data.LoginDate = date.AddDays(1);
                 p.SaveChanges();
+                WebSocketManager.SendLogout(data.User_ID.ToString());
                 return Ok(new ResponseClass
                 {
                     success = true,

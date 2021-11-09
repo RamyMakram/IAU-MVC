@@ -26,17 +26,17 @@ namespace AdminPanel.Controllers
             else
                 return RedirectToAction("NotFound", "Error");
         }
-        public ActionResult Detials(int id)
-        {
-            var Data = APIHandeling.getData("E_Forms/GetE_Forms?id=" + id);
-            var resJson = Data.Content.ReadAsStringAsync();
-            var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+        //public ActionResult Detials(int id)
+        //{
+        //    var Data = APIHandeling.getData("E_Forms/GetE_Forms?id=" + id);
+        //    var resJson = Data.Content.ReadAsStringAsync();
+        //    var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
-            if (res.success)
-                return View(JsonConvert.DeserializeObject<E_FormsDTO>(res.result.ToString()));
-            else
-                return RedirectToAction("NotFound", "Error");
-        }
+        //    if (res.success)
+        //        return View(JsonConvert.DeserializeObject<E_FormsDTO>(res.result.ToString()));
+        //    else
+        //        return RedirectToAction("NotFound", "Error");
+        //}
         public void LoadCreateOrEdit()
         {
             if (Request.QueryString["SubService"] == null)
@@ -135,7 +135,7 @@ namespace AdminPanel.Controllers
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            var Data = APIHandeling.Post("E_Forms/_Delete?id=" + id, new { });
+            var Data = APIHandeling.Post("E_Forms/Delete?id=" + id, new { });
             var resJson = Data.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             return Json(res);

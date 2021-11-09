@@ -3,50 +3,50 @@
 
 <head>
 
-	@{
-		if (Request.Cookies["lang"].Value == "ar")
-		{
-			@*
-				<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css" />
+    @{
+        if (Request.Cookies["lang"].Value == "ar")
+        {
+            @*
+                <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/droid-arabic-kufi" type="text/css" />
 
-				<style>
-					body {
-						font-family: 'DroidArabicKufiRegular' !important;
-						font-weight: bolder !important;
-					}
+                <style>
+                    body {
+                        font-family: 'DroidArabicKufiRegular' !important;
+                        font-weight: bolder !important;
+                    }
 
-					.select2-selection__rendered, .select2-results__option {
-						direction: rtl;
-					}
-				</style>
-			*@
-			<style>
-				body {
-					font-family: 'Frutiger LT Arabic 55 Roman' !important;
-					font-weight: bolder !important;
-				}
+                    .select2-selection__rendered, .select2-results__option {
+                        direction: rtl;
+                    }
+                </style>
+            *@
+            <style>
+                body {
+                    font-family: 'Frutiger LT Arabic 55 Roman' !important;
+                    font-weight: bolder !important;
+                }
 
-				.select2-selection__rendered, .select2-results__option {
-					direction: ltr;
-				}
-			</style>
-		}
-		else
-		{
-			<style>
-				body {
-					font-family: 'Frutiger LT Arabic 55 Roman' !important;
-					font-weight: bolder !important;
-				}
+                .select2-selection__rendered, .select2-results__option {
+                    direction: ltr;
+                }
+            </style>
+        }
+        else
+        {
+            <style>
+                body {
+                    font-family: 'Frutiger LT Arabic 55 Roman' !important;
+                    font-weight: bolder !important;
+                }
 
-				.select2-selection__rendered, .select2-results__option {
-					direction: ltr;
-				}
-			</style>
-		}
-	}
+                .select2-selection__rendered, .select2-results__option {
+                    direction: ltr;
+                }
+            </style>
+        }
+    }
 
-	<style>
+    <style>
 			.select2-selection__rendered {
 		font-weight: normal;
 		direction:@(Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr")
@@ -156,64 +156,64 @@
 		.modal-body {
 			overflow: auto;
 		}
-	</style>
-	<script>
-		function Go(elem, url) {
-			var e = $(elem).find(">:first-child").get(0);
-			var c = window.getComputedStyle(e, "before").getPropertyValue("content");
-			if (c == "none")
-				window.location.href = url
-		}
+    </style>
+    <script>
+        function Go(elem, url) {
+            var e = $(elem).find(">:first-child").get(0);
+            var c = window.getComputedStyle(e, "before").getPropertyValue("content");
+            if (c == "none")
+                window.location.href = url
+        }
 
-	</script>
-	@Html.Partial("~/Views/Shared/_title_meta.cshtml")
-	@RenderSection("styles", false)
-	@Html.Partial("~/Views/Shared/_head_css.cshtml")
+    </script>
+    @Html.Partial("~/Views/Shared/_title_meta.cshtml")
+    @RenderSection("styles", false)
+    @Html.Partial("~/Views/Shared/_head_css.cshtml")
 </head>
 
 <body data-sidebar="dark">
-	<!-- Begin page -->
-	<div id="layout-wrapper">
-		<div class="loadinger" id="LoadingDiv">
-			@*<div style="width:100vw;height:100vh">*@
-			<img src='~/assets/images/loading.gif' />
-			@*<p>Loading Please Be Patient</p>*@
-			@*</div>*@
-		</div>
-		@Html.Partial("~/Views/Shared/_topbar.cshtml")
-		@Html.Partial("~/Views/Shared/_sidebar.cshtml")
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <div class="loadinger" id="LoadingDiv">
+            @*<div style="width:100vw;height:100vh">*@
+            <img src='~/assets/images/loading.gif' />
+            @*<p>Loading Please Be Patient</p>*@
+            @*</div>*@
+        </div>
+        @Html.Partial("~/Views/Shared/_topbar.cshtml")
+        @Html.Partial("~/Views/Shared/_sidebar.cshtml")
 
-		<!-- ============================================================== -->
-		<!-- Start right Content here -->
-		<!-- ============================================================== -->
-		<div class="main-content">
-			<div class="page-content">
-				<div class="container-fluid">
-					@Html.Partial("~/Views/Shared/_page_title.cshtml")
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @Html.Partial("~/Views/Shared/_page_title.cshtml")
 
-					@RenderBody()
-				</div> <!-- container-fluid -->
-			</div>
-			<!-- End Page-content -->
+                    @RenderBody()
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
 
-			@Html.Partial("~/Views/Shared/_footer.cshtml")
-		</div>
-		<!-- end main content-->
+            @Html.Partial("~/Views/Shared/_footer.cshtml")
+        </div>
+        <!-- end main content-->
 
-	</div>
+    </div>
 
-	@RenderSection("externalhtml", required: false)
+    @RenderSection("externalhtml", required: false)
 
-	<!-- END layout-wrapper -->
-	@Html.Partial("~/Views/Shared/_right_sidebar.cshtml")
+    <!-- END layout-wrapper -->
+    @Html.Partial("~/Views/Shared/_right_sidebar.cshtml")
 
-	@*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
+    @*@Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")*@
 
-	@RenderSection("scripts", required: false)
-	@Html.Partial("~/Views/Shared/PrivilgesControls.cshtml")
+    @RenderSection("scripts", required: false)
+    @Html.Partial("~/Views/Shared/PrivilgesControls.cshtml")
 
 
-	<script>
+    <script>
 		$(document).ready(w => {
 			var data = document.querySelectorAll('#datatable-buttons_filter label input , #searchTXT')
 			if (data != null && data.length != 0)
@@ -246,7 +246,20 @@
 			IntialListener()
 		})
 	}
-	</script>
-	<script src="~/assets/libs/howler/howler.core.min.js"></script>
+    </script>
+    <script src="~/assets/libs/howler/howler.core.min.js"></script>
+    <script>
+		@*setInterval(i => {
+			$.ajax({
+				url: "/Home/GetDate", method: "Get",
+				success: function (dd) {
+					console.log(dd)
+					console.log('@ViewBag.WWSSDD')
+
+				}
+			})
+		}, 1000)*@
+
+    </script>
 </body>
 </html>

@@ -315,13 +315,20 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id);
-            if (e_Forms == null)
-                return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
-            p.E_Forms.Remove(e_Forms);
-            await p.SaveChangesAsync();
+            try
+            {
+                E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id);
+                if (e_Forms == null)
+                    return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+                p.E_Forms.Remove(e_Forms);
+                await p.SaveChangesAsync();
 
-            return Ok(new ResponseClass() { success = true });
+                return Ok(new ResponseClass() { success = true });
+            }
+            catch (Exception ee)
+            {   
+                return Ok(new ResponseClass() { success = false });
+            }
         }
         protected override void Dispose(bool disposing)
         {

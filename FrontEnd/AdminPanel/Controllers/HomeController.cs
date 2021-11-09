@@ -53,5 +53,11 @@ namespace AdminPanel.Controllers
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			return Json(res.success ? res.result.ToString() : "[]");
 		}
+		[HttpGet]
+		public ActionResult GetDate()
+        {
+			ViewBag.WWSSDD = DateTime.Now.ToString();
+			return Json("[]", JsonRequestBehavior.AllowGet);
+		}
 	}
 }
