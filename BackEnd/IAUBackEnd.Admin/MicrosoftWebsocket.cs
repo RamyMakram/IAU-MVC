@@ -22,9 +22,12 @@ namespace IAUBackEnd.Admin
         }
         public static void SendLogout(string Name)
         {
-            Mapped[Name].Broadcast("Out");
-            var ws_User = Mapped[Name];
-            Mapped.Remove(Name);
+            if (Mapped.ContainsKey(Name))
+            {
+                Mapped[Name].Broadcast("Out");
+                var ws_User = Mapped[Name];
+                Mapped.Remove(Name);
+            }
         }
         public static void SendToMulti(int[] Names, string Message)
         {

@@ -13,7 +13,7 @@ SET NUMERIC_ROUNDABORT OFF;
 
 
 GO
-:setvar DatabaseName "MostafidDatabase17082021TESTunitEdit"
+:setvar DatabaseName "db_a6fef1_mostafidadmindb"
 :setvar DefaultFilePrefix "MostafidDatabase17082021TESTunitEdit"
 :setvar DefaultDataPath "C:\Program Files\Microsoft SQL Server\MSSQL15.SQL19\MSSQL\DATA\"
 :setvar DefaultLogPath "C:\Program Files\Microsoft SQL Server\MSSQL15.SQL19\MSSQL\DATA\"

@@ -97,6 +97,7 @@ function ReIntalizeEformListener() {
                             AddOrUpdateMain(i)
                         })
                         $('#Eform').modal('toggle');
+                        $('.modal-backdrop').remove()
                     }
                 })
             }
