@@ -196,13 +196,9 @@
     </Compile>
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="MicrosoftWebsocket.cs" />
     <Compile Include="Models\PagesPriviliges.cs" />
     <Compile Include="Models\Privilges.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WSHandler.ashx.cs">
-      <DependentUpon>WSHandler.ashx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\images\attachment.png" />
@@ -3069,7 +3065,6 @@
     <Content Include="Views\Error\Home.cshtml" />
     <Content Include="Views\Error\NotPermited.cshtml" />
     <Content Include="Views\Email\_Eform.cshtml" />
-    <Content Include="WSHandler.ashx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
