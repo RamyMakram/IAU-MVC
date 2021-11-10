@@ -61,14 +61,15 @@
     var count = 1;
 }
 <div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+    @using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data", @class = "w-100" }))
+    {
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
 
-                <h4 key="t-basicInfo" class="card-title">Basic Information</h4>
-                <p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
-                @using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data" }))
-                {
+                    <h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+                    <p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -95,43 +96,49 @@
                             }
 
                         </div>
-                        <div class="col-12">
-                            <p class="card-title">@(isar?"الاسئلة":"Questions")</p>
-                            <div class="row" style="display:flex;justify-content:center;align-items:center">
-                                <div class="control col-6" style="display:inline-flex;justify-content:center;align-items:center">
-                                    <select class="form-control select2" id="ComponetType">
-                                        <option value="null" disabled selected>@(isar?"-----اختر":"Choose-----")</option>
-                                        <option value="6">@(isar? "حقل موجود" : "Exist Field")</option>
-                                        <optgroup label="@(isar?"حقل جديد":"New Field")">
-                                            <option value="0">@(isar?"حقول الادخال":"Input")</option>
-                                            <option value="1">@(isar? "اختيار من متعدد":"Select from Multi")</option>
-                                            <option value="2">@(isar?"اختيار متعدد":"Select Multi")</option>
-                                            <option value="3">@(isar?"تاريخ ووقت":"Date Time")</option>
-                                            <option value="4">@(isar?"فاصل":"Separator")</option>
-                                            <option value="5">@(isar?"عنوان":"Title")</option>
-                                            <option value="7">@(isar?"نص":"Text")</option>
-                                        </optgroup>
-                                    </select>
-                                    <button class="btn btn-circle mx-1" style="top:0!important;color:green" id="addComponent" type="button"><i class="fas fa-plus-circle"></i></button>
-                                </div>
-                            </div>
-                            <div id="ListQuestion">
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-12">
+                        <p class="card-title">@(isar?"عناصر النموذج":"Eform Elements")</p>
+                        <div id="ListQuestion">
+                        </div>
+                        <div class="row" style="display:flex;justify-content:center;align-items:center">
+                            <div class="control col-6" style="display:inline-flex;justify-content:center;align-items:center">
+                                <select class="form-control select2" id="ComponetType">
+                                    <option value="null" disabled selected>@(isar?"-----اختر":"Choose-----")</option>
+                                    <option value="6">@(isar? "حقل موجود" : "Exist Field")</option>
+                                    <optgroup label="@(isar?"حقل جديد":"New Field")">
+                                        <option value="0">@(isar?"حقول الادخال":"Input")</option>
+                                        <option value="1">@(isar? "اختيار من متعدد":"Select from Multi")</option>
+                                        <option value="2">@(isar?"اختيار متعدد":"Select Multi")</option>
+                                        <option value="3">@(isar?"تاريخ ووقت":"Date Time")</option>
+                                        <option value="4">@(isar?"فاصل":"Separator")</option>
+                                        <option value="5">@(isar?"عنوان":"Title")</option>
+                                        <option value="7">@(isar?"نص":"Text")</option>
+                                    </optgroup>
+                                </select>
+                                <button class="btn btn-circle mx-1" style="top:0!important;color:green" id="addComponent" type="button"><i class="fas fa-plus-circle"></i></button>
                             </div>
                         </div>
-
                     </div>
                     @Html.HiddenFor(q => q.QTY, new { @id = "QQTR", @requird = "true" })
                     <button key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
                     <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>
                     @Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
-                }
 
+                </div>
             </div>
         </div>
-
-    </div>
+    }
 </div>
-
 <script>
     let _id = 0;
     let QTY = [];

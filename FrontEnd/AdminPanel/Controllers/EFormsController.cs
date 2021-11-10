@@ -89,6 +89,9 @@ namespace AdminPanel.Controllers
         public ActionResult Edit(int Id, E_FormsDTO loc)
         {
             loc.ID = Id;
+            int subSe = Convert.ToInt32(Request.QueryString["SubService"] ?? "-1");
+            if (subSe != -1)
+                loc.SubServiceID = subSe;
             var Req = APIHandeling.Post("E_Forms/Update", loc);
             var resJson = Req.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
