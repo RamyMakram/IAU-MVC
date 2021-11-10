@@ -15,7 +15,7 @@
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <h2 key="t-deactive">Deactive</h2>
 
-<div class="row">
+<div class="row container">
 	@using (Html.BeginForm("Active", "EForms", new { Id = Model.ID, x = "", SubService = Request.QueryString["SubService"] }, FormMethod.Post))
 	{
 		<div class="alert alert-success dt-center p-14" style="text-align:center;width:100%" key="t-active-eforms">

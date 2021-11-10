@@ -266,7 +266,7 @@ $("#right-arrow").click(function () {
 
             //eforms
             let formscount = $('.eform-btn').length;
-            if (formscount == 0 || $('.eform-btn.filled').length != formscount || (formscount != 0 && Answer.length == 0)) {
+            if ((formscount != 0 && $('.eform-btn.filled').length != formscount) || (formscount != 0 && Answer.length == 0)) {
                 let e = $('#EFormsView').parent();
                 e.css({ 'border': '2px solid red', 'background': '#ffafaf' });
                 error = true;
