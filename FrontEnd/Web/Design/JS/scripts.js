@@ -1187,7 +1187,9 @@ function AffiliatedState() {
         $("#IAUID").attr("disabled", "disabled");
     }
 }
-
+$('#Nationality_ID').change(i => {
+    $("#__IDNUMBind").text(language=="ar" ? "رقم الهوية الوطنية" : "National ID Number")
+})
 function CountryState() {
     $(".loading").addClass("active");
 
@@ -1200,14 +1202,14 @@ function CountryState() {
             if (data.Regions.length != 0) {
                 isSaudi = 1;
                 Cities = data.City;
-                let id = data.Regions[0].ID;
+                let id = data.Regions[0].Region_ID;
                 CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
                 RegionComponentSelect = `<select id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
                 data.Regions.forEach(function (element) {
                     RegionComponentSelect += "<option value=" + element.Region_ID + ">" + (language == "ar" ? element.Region_Name_AR : element.Region_Name_EN) + "</option>"
                 });
                 RegionComponentSelect += "</select>"
-                AssignCity(Cities.filter(q => q.SubID == id));
+                AssignCity(Cities.filter(q => q.Region_ID == id));
                 var CityAttr = document.getElementById('City');
                 if (CityComponentSelect != "") {
                     CityAttr.innerHTML = `

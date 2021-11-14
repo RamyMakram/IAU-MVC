@@ -6,7 +6,7 @@
 
     @@media(max-width:770px) {
 
-        tr {
+        .eform-body tr {
             display: flex;
             flex-direction: column;
         }
@@ -14,13 +14,15 @@
         .form-control {
             width: 100%;
         }
+
         .modal-dialog-eform {
             max-width: 80vw !important;
-            width:100%
+            width: 100%
         }
-        .modal-header{
-            display:none
-        }
+
+            .modal-dialog-eform > .modal-content > .modal-header {
+                display: none
+            }
     }
 
     .modal-dialog-eform {
@@ -58,20 +60,20 @@
         border-top: 0px !important;
     }
 
-    tr.border {
+    .eform-body tr.border {
         border: none !important;
     }
 
-        tr.border th,
-        tr.border td {
+        .eform-body tr.border th,
+        .eform-body tr.border td {
             border-top: 0px !important;
             border: 0px !important;
             border-bottom: 1px solid #dee2e6 !important;
         }
 
-        tr.border td {
-            padding: 0;
-        }
+    tr.border td {
+        padding: 0;
+    }
 
     td input[type='date'],
     td input[type='text'] {
@@ -133,7 +135,7 @@
         <div class="modal-body">
 
             <table class="table m-0">
-                <tbody>
+                <tbody class="eform-body">
                     @foreach (var qty in Model.Question)
                     {
                         switch (qty.T)
