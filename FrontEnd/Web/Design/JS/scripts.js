@@ -607,7 +607,7 @@ function saveRequest() {
                         `<div class= "row" >
 										<div class="success">
 											<span>لقد تم ارسال طلبك بنجاح، </span><br />
-											<span> وسيتم إرسال كود الطلب الخاص بكم لمتابعة طلبكم عن طريق الرسائل النصيه او البريد الالكتروني</span>
+											<span> وسيتم إرسال كود الطلب الخاص بكم لمتابعة طلبكم عن طريق الرسائل النصيه او البريد الإلكتروني</span>
 										</div>
 										<div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
 											<a href="" class="btn" id="Okaybutton">موافق</a>
@@ -992,8 +992,8 @@ function GeneratePdfData() {
         't-region': '   المنطقة   ',
         't-country': '   الدولة   ',
         't-postal': '   الرقم البريدي   ',
-        't-contactinfo': '   معلومات الاتصال   ',
-        't-email': '   البريد الالكتروني   ',
+        't-contactinfo': '   معلومات الإتصال   ',
+        't-email': '   البريد الإلكتروني   ',
         't-phone': '   رقم الهاتف   ',
         't-attachment': '    المرفقات    ',
         't-pdf-note': '    ملاحظات    ',

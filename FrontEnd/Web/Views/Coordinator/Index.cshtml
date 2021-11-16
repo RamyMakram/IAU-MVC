@@ -55,7 +55,7 @@
 							<a class="nav-link active" aria-current="page" href="~/Coordinator">المنسقين</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/Contactus">المساعدة والدعم الفنى</a>
+							<a class="nav-link" href="/Contactus">المساعدة والدعم الفني</a>
 						</li>
 					}
 					else
@@ -139,7 +139,7 @@
 						@if ((bool)(ViewBag.Error ?? false))
 						{
 							<div class="alert alert-danger">
-								@(ViewBag.CookieLang == "ar"?"خطاء في كلمة السر او البريد الالكتروني":"Invalid Email Or Password")
+								@(ViewBag.CookieLang == "ar"?"خطاء في كلمة السر او البريد الإلكتروني":"Invalid Email Or Password")
 							</div>
 						}
 						@if (ViewBag.CookieLang == "ar")
