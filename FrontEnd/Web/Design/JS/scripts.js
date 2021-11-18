@@ -242,7 +242,7 @@ $("#right-arrow").click(function () {
     else if (CurrentPage == 4) {//Enter Confirmation
         let error = false;
         if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال") {
-            let controls = $('#provider,#Sub_Services_ID,#Main_Services_ID');
+            let controls = $('#provider,#Sub_Services_ID,#Main_Services_ID,#Required_Fields_Notes');
             ([...controls]).forEach(e => {
                 if (e.value == "" || e.value == null || e.value == "null") {
                     $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
@@ -278,7 +278,7 @@ $("#right-arrow").click(function () {
 
         }
         else {
-            let e = $('#providerOther')
+            let e = $('#providerOther,#Required_Fields_Notes_Other')
             if (e.val() == "" || e.val() == null || e.val() == "null") {
                 $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
                 error = true;
