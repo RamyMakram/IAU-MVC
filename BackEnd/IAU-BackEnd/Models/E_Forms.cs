@@ -17,8 +17,8 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public E_Forms()
         {
+            this.Eform_Approval = new HashSet<Eform_Approval>();
             this.Question = new HashSet<Question>();
-            this.E_Forms_Answer = new HashSet<E_Forms_Answer>();
         }
     
         public int ID { get; set; }
@@ -29,10 +29,10 @@ namespace IAU_BackEnd.Models
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public string Code { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Eform_Approval> Eform_Approval { get; set; }
         public virtual Sub_Services Sub_Services { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Question { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
     }
 }

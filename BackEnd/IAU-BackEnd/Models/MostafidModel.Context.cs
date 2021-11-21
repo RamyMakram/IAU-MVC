@@ -18,9 +18,9 @@ namespace IAU_BackEnd.Models
         public MostafidDatabaseEntities()
             : base("name=MostafidDatabaseEntities")
         {
-            this.Configuration.LazyLoadingEnabled = false;  
+            this.Configuration.LazyLoadingEnabled = false;
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -30,11 +30,15 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<CheckBox_Type> CheckBox_Type { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
+        public virtual DbSet<Eform_Approval> Eform_Approval { get; set; }
         public virtual DbSet<E_Forms> E_Forms { get; set; }
+        public virtual DbSet<E_Forms_Answer> E_Forms_Answer { get; set; }
+        public virtual DbSet<ID_Document> ID_Document { get; set; }
         public virtual DbSet<Input_Type> Input_Type { get; set; }
         public virtual DbSet<Job_Permissions> Job_Permissions { get; set; }
         public virtual DbSet<Main_Services> Main_Services { get; set; }
         public virtual DbSet<Paragraph> Paragraph { get; set; }
+        public virtual DbSet<Personel_Data> Personel_Data { get; set; }
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Radio_Type> Radio_Type { get; set; }
         public virtual DbSet<Region> Region { get; set; }
@@ -52,10 +56,8 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
         public virtual DbSet<Units> Units { get; set; }
         public virtual DbSet<Units_Request_Type> Units_Request_Type { get; set; }
-        public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
+        public virtual DbSet<Units_Type> Units_Type { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
-        public virtual DbSet<ID_Document> ID_Document { get; set; }
-        public virtual DbSet<E_Forms_Answer> E_Forms_Answer { get; set; }
-        public virtual DbSet<Personel_Data> Personel_Data { get; set; }
+        public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace IAU_BackEnd.Models
         public Nullable<System.DateTime> GenratedDate { get; set; }
         public bool Is_Archived { get; set; }
     
+        public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
         public virtual Request_Type Request_Type { get; set; }
         public virtual Service_Type Service_Type { get; set; }
@@ -50,6 +51,5 @@ namespace IAU_BackEnd.Models
         public virtual ICollection<Request_Log> Request_Log { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestTransaction> RequestTransaction { get; set; }
-        public virtual Personel_Data Personel_Data { get; set; }
     }
 }

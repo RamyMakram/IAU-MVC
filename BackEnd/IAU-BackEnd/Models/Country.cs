@@ -17,10 +17,10 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Country()
         {
-            this.Region = new HashSet<Region>();
             this.Personel_Data = new HashSet<Personel_Data>();
             this.Personel_Data1 = new HashSet<Personel_Data>();
             this.Personel_Data2 = new HashSet<Personel_Data>();
+            this.Region = new HashSet<Region>();
         }
     
         public int Country_ID { get; set; }
@@ -29,12 +29,12 @@ namespace IAU_BackEnd.Models
         public Nullable<bool> IS_Action { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Region> Region { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personel_Data> Personel_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personel_Data> Personel_Data1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personel_Data> Personel_Data2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Region> Region { get; set; }
     }
 }

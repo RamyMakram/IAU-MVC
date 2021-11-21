@@ -251,7 +251,7 @@
             </p>
             <div>
                 <button type="button" class="btn btn-primary w-40 mx-3 saveeform" style="background-color: var(--main-btn-color); width: 22vw; ">@(isar?"حفظ":"Save")</button>
-                <button type="button" class="btn btn-secondary w-40" onclick="() => { $('.modal-backdrop').remove()}" data-bs-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+                <button type="button" class="btn btn-secondary w-40" data-bs-dismiss="modal">@(isar?"اغلاق":"Close")</button>
             </div>
         </div>
     </div>
@@ -259,11 +259,11 @@
 
 <script>
     $(document).ready(i => {
-        $('#myModal').on('hidden.bs.modal', function () {
-            $('.modal-backdrop').remove()
-        })
-        $('[data-bs-dismiss="modal"]').click(s => {
-            $('.modal-backdrop').remove()
-        })
+        //$('#myModal').on('hidden.bs.modal', function () {
+        //    $('.modal-backdrop').remove()
+        //})
+        //$('[data-bs-dismiss="modal"]').click(s => {
+        //    $('.modal-backdrop').remove()
+        //})
     })
 </script>

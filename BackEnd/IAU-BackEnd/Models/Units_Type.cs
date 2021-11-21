@@ -12,23 +12,22 @@ namespace IAU_BackEnd.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Applicant_Type
+    public partial class Units_Type
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Applicant_Type()
+        public Units_Type()
         {
-            this.Personel_Data = new HashSet<Personel_Data>();
-            this.ValidTo = new HashSet<ValidTo>();
+            this.Units = new HashSet<Units>();
         }
     
-        public int Applicant_Type_ID { get; set; }
-        public string Applicant_Type_Name_EN { get; set; }
-        public string Applicant_Type_Name_AR { get; set; }
+        public int Units_Type_ID { get; set; }
+        public string Units_Type_Name_AR { get; set; }
+        public string Units_Type_Name_EN { get; set; }
         public Nullable<bool> IS_Action { get; set; }
+        public Nullable<int> LevelID { get; set; }
+        public string Code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Personel_Data> Personel_Data { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ValidTo> ValidTo { get; set; }
+        public virtual ICollection<Units> Units { get; set; }
     }
 }

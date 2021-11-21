@@ -17,7 +17,6 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Personel_Data()
         {
-            this.E_Forms_Answer = new HashSet<E_Forms_Answer>();
             this.Request_Data = new HashSet<Request_Data>();
         }
     
@@ -47,8 +46,6 @@ namespace IAU_BackEnd.Models
         public virtual Country Country { get; set; }
         public virtual Country Country1 { get; set; }
         public virtual Country Country2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
         public virtual ID_Document ID_Document1 { get; set; }
         public virtual Region Region { get; set; }
         public virtual Title_Middle_Names Title_Middle_Names { get; set; }

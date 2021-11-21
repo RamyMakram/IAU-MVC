@@ -80,6 +80,9 @@
     <Compile Include="Models\Country.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Eform_Approval.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\E_Forms.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -171,6 +174,9 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Units_Request_Type.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Units_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValidTo.cs">

@@ -74,6 +74,7 @@
     <Compile Include="Entity\CountryAndRegion.cs" />
     <Compile Include="Entity\CountryDTO.cs" />
     <Compile Include="Entity\CustomeFile.cs" />
+    <Compile Include="Entity\EformApproval.cs" />
     <Compile Include="Entity\E_FormsDTO.cs" />
     <Compile Include="Entity\E_Forms_Answer.cs" />
     <Compile Include="Entity\IDDocDTO.cs" />

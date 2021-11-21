@@ -258,5 +258,18 @@ namespace Web.Controllers
             var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             return PartialView("~/Views/Home/_Eform.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(response.result.ToString()));
         }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult GetEformSummary(int ID)
+        {
+            if (!HttpContext.Request.IsAjaxRequest())
+                return Json("401", JsonRequestBehavior.AllowGet);
+
+            var res = APIHandeling.getData($"/Eforms/GetE_FormsReadOnly/{ID}");
+            var resJson = res.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            return PartialView("~/Views/Home/_EformReadOnly.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(response.result.ToString()));
+        }
     }
 }

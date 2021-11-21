@@ -1,0 +1,280 @@
+﻿@model IAU.DTO.Entity.E_FormsDTO
+<style>
+	:root {
+		--main-btn-color: #0a1332 !important;
+	}
+
+	@@media(max-width:770px) {
+
+		.eform-body tr {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.form-control {
+			width: 100%;
+		}
+
+		.modal-dialog-eform {
+			max-width: 80vw !important;
+			width: 100%
+		}
+
+			.modal-dialog-eform > .modal-content > .modal-header {
+				display: none
+			}
+	}
+
+	.modal-dialog-eform {
+		max-width: 46vw !important;
+	}
+
+	td {
+		width: 100%;
+	}
+
+		td div {
+			margin: 0 20px;
+		}
+
+	tr th {
+		/*min-width: 150px;*/
+	}
+
+	.form-control {
+		/*width: 50%;*/
+	}
+
+	td {
+		justify-content: start;
+		display: flex;
+	}
+
+	th {
+		justify-content: center;
+	}
+
+	tr th,
+	tr td {
+		vertical-align: middle !important;
+		border-top: 0px !important;
+	}
+
+	.eform-body tr.border {
+		border: none !important;
+	}
+
+		.eform-body tr.border th,
+		.eform-body tr.border td {
+			border-top: 0px !important;
+			border: 0px !important;
+			border-bottom: 1px solid #dee2e6 !important;
+		}
+
+	tr.border td {
+		padding: 0;
+	}
+
+	td input[type='date'],
+	td input[type='text'] {
+		/*width: 250px !important*/
+	}
+
+	tr[data-required="True"] th label::after {
+		content: "*";
+		color: red;
+		margin: 0 5px
+	}
+
+	.checkbox {
+		margin: 2px 15px;
+	}
+
+	.EmptySpace {
+		height: 25px;
+	}
+
+	.contanier {
+		box-shadow: 0px 0px 20px 4px #888888;
+		padding: 25px;
+	}
+
+	.alert {
+		margin: 0;
+		width: 250px !important;
+	}
+
+	.btn-primary {
+		background-color: var(--main-btn-color);
+	}
+
+	h2 {
+		color: var(--main-btn-color) !important;
+	}
+
+	.table > :not(caption) > * > * {
+		border-bottom-width: 0px !important;
+	}
+
+	.Space {
+		border-bottom: 1px solid #dee2e6;
+		margin: 30px 0;
+	}
+</style>
+@*<link href="~/Design/CSS/all.min.css" rel="stylesheet" />
+	<link href="~/Design/CSS/bootstrap.min.css" rel="stylesheet" />*@
+@{
+	var isar = Request.Cookies["lang"]?.Value == "ar";
+}
+<div class="modal-dialog modal-dialog-eform" role="document">
+	<div class="modal-content">
+		<div class="modal-header d-flex flex-column ">
+			<div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
+				<label class="pt-1 mb-md-2">
+					@(isar?
+					"المملكة العربية السعودية":
+					"Kingdom of Saudi Arabia")
+				</label>
+				<img class="pt-1 mb-md-2" src="~/Design/img/VisionLogo.png" style="width: 106px " />
+				<label class="pt-1 mb-md-2">
+					@(isar?
+							"وزارة التعليم":
+					"Ministry of Education") <br />043
+				</label>
+			</div>
+			<div style="display:inline-flex;justify-content:space-between;flex-direction:row;width:100%">
+				<h4 class="modal-title text-center" data-id="@Model.ID">@(isar?"اسم الجهة":"UnitName"):</h4>
+				<span id="Eform-UnitName"></span>
+			</div>
+			<div style="display: inline-flex; justify-content: space-between; flex-direction: row; width: 100%; align-items: baseline;">
+				<h3 class="modal-title w-100  text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h3>
+				<span>@Model.Code</span>
+			</div>
+		</div>
+		<div class="modal-body">
+			<table class="table m-0">
+				<tbody class="eform-body">
+					@if (Model.Question.Where(q => q.T == "E").Count() != 0)
+					{
+						<tr class="border">
+							<th style="width: 100% !important;" colspan="4">
+								<h2 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h2>
+							</th>
+							<td></td>
+						</tr>
+					}
+					@foreach (var qty in Model.Question.Where(q => q.T == "E"))
+					{
+						<tr data-id="@qty.T-@qty.ID">
+							<th style="max-width: 100px !important;">
+								<label>
+									@(isar?qty.Name:qty.Name_EN)
+								</label>
+							</th>
+							<td>
+								<label data-ref="@qty.Ref" style="white-space: pre-wrap;">  </label>
+							</td>
+						</tr>
+					}
+					@if (Model.Question.Where(q => q.T != "E").Count() != 0)
+					{
+						<tr class="border">
+							<th style="width: 100% !important;" colspan="4">
+								<h2 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h2>
+							</th>
+							<td></td>
+						</tr>
+					}
+					@foreach (var qty in Model.Question.Where(q => q.T != "E"))
+					{
+						switch (qty.T)
+						{
+							case "D":
+							case "I":
+								<tr data-id="@qty.T-@qty.ID">
+									<th style="max-width: 100px !important;">
+										<label>
+											@(isar?qty.Name:qty.Name_EN)
+										</label>
+									</th>
+									<td>
+									</td>
+								</tr>
+								break;
+							case "C":
+							case "R":
+								<tr data-id="@qty.T-@qty.ID">
+									<th style="max-width: 100px !important;">
+										<label>@(isar?qty.Name:qty.Name_EN)</label>
+									</th>
+									<td class="row">
+										<label class="form-control d-flex flex-column flex-wrap"></label>
+									</td>
+								</tr>
+								break;
+						}
+					}
+
+					<tr class="border">
+						<th style="width: 100% !important;" colspan="4">
+							<h2 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar? "بيانات الطلب" : "Request Information")</h2>
+						</th>
+						<td></td>
+					</tr>
+					<tr>
+						<th>@(isar? "نوع الطلب" : "Request Type")</th>
+						<td id="eform-reqType"></td>
+					</tr>
+					<tr>
+						<th>@(isar? "نوع الخدمة" : "Service Type")</th>
+						<td id="eform-ServType"></td>
+					</tr>
+					@if (Model.Eform_Approval.Count != 0)
+					{
+						<tr class="border">
+							<th style="width: 100% !important;" colspan="4">
+								<h2 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h2>
+							</th>
+							<td></td>
+						</tr>
+					}
+					@foreach (var i in Model.Eform_Approval)
+					{
+						<tr class="border">
+							<th style="width: 100% !important;" colspan="4">
+								<h4 style="margin-bottom: 0px; text-align: start;">@(isar?i.AR: i.EN)</h4>
+							</th>
+							<td></td>
+						</tr>
+						<tr class="EmptySpace">
+							<th>
+							</th>
+							<td>
+							</td>
+						</tr>
+						<tr class="EmptySpace">
+							<th>
+							</th>
+							<td>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+		<div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
+			<div>
+				<button type="button" class="btn btn-secondary w-40" data-bs-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(i => {
+		//$('#EformReadOnly').on('hidden.bs.modal', function () {
+		//	$('.modal-backdrop').remove()
+		//	$('body').css({ 'overflow-y': 'auto !important', 'padding': "0" })
+		//})
+	})
+</script>

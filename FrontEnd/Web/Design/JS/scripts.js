@@ -297,7 +297,7 @@ $("#right-arrow").click(function () {
             $('.containt > .row').attr("style", "display:none;");
             $(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
         }
-
+        $('body').css({ 'overflow-y':'auto !important'})
 
     }
     else {
@@ -851,6 +851,7 @@ function GetEfroms(ID) {
         },
         success: function (result) {
             $("#EFormsView").html("");
+            $('#Eform-read-summary').html("");
             if (result != null) {
                 let data = JSON.parse(result)
                 data.forEach(function (element) {
@@ -862,9 +863,15 @@ function GetEfroms(ID) {
 									</div>
 				`
                     )
+
+                    $('#Eform-read-summary').append(
+                        `
+                            <a class="btn eform-readonly-btn" style="color:white" data-id="${element.ID}">${(language == 'ar' ? element.Name : element.Name_EN)}</button>
+                        `
+                    )
                 });
                 ReIntalizeEformListener();
-
+                ReIntalizeEformReadOnlyListener()
             }
             setTimeout(e => { $(".loading").removeClass("active"); }, 500)
 

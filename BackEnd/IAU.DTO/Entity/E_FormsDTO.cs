@@ -19,6 +19,7 @@ namespace IAU.DTO.Entity
         public string Code { get; set; }
 		public virtual SubServicesDTO Sub_Services { get; set; }
         public virtual ICollection<Question> Question { get; set; }
+        public virtual ICollection<EformApproval> Eform_Approval { get; set; }
 
     }
 }

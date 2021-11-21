@@ -14,10 +14,7 @@ function ReIntalizeEformListener() {
                     let ref = $('td label', $(i))
                     ref.text($('#' + ref.data('ref')).val())
                 })
-                new bootstrap.Modal(document.getElementById('Eform'), {
-                    keyboard: false,
-                    backdrop: 'static'
-                }).show()
+                $('#Eform').modal('toggle');
                 if (filled) {
                     let formid = $('.modal-title', $('#Eform')).data('id');
                     var data = Answer.filter(q => q.EFromID == formid);
@@ -97,7 +94,6 @@ function ReIntalizeEformListener() {
                             AddOrUpdateMain(i)
                         })
                         $('#Eform').modal('toggle');
-                        $('.modal-backdrop').remove()
                     }
                 })
             }

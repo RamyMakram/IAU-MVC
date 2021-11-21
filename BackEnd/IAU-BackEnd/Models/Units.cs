@@ -17,6 +17,7 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Units()
         {
+            this.Eform_Approval = new HashSet<Eform_Approval>();
             this.Request_Data = new HashSet<Request_Data>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
             this.RequestTransaction1 = new HashSet<RequestTransaction>();
@@ -41,6 +42,8 @@ namespace IAU_BackEnd.Models
         public bool IS_Mostafid { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Eform_Approval> Eform_Approval { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestTransaction> RequestTransaction { get; set; }
@@ -54,6 +57,7 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Units> Units1 { get; set; }
         public virtual Units Units2 { get; set; }
+        public virtual Units_Type Units_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UnitServiceTypes> UnitServiceTypes { get; set; }
     }

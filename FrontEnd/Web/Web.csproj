@@ -236,6 +236,7 @@
     <Content Include="Design\JS\AraTranslate.js" />
     <Content Include="Design\JS\bootstrap.bundle.min.js" />
     <Content Include="Design\JS\bootstrap.min.js" />
+    <Content Include="Design\JS\eformReadOnly.js" />
     <Content Include="Design\JS\eform.js" />
     <Content Include="Design\JS\follow.js" />
     <Content Include="Design\JS\IFrameChanges.js" />
@@ -299,6 +300,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\ContactUs\Index.cshtml" />
     <Content Include="Views\Home\_Eform.cshtml" />
+    <Content Include="Views\Home\_EformReadOnly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAU.DTO\IAU.DTO.csproj">
