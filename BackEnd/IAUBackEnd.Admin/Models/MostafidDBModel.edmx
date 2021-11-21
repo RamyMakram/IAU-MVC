@@ -55,6 +55,14 @@
           <Property Name="AddedDate" Type="datetime" Nullable="false" />
           <Property Name="Readed" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Eform_Approval">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UnitID" Type="int" Nullable="false" />
+          <Property Name="EformID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="E-Forms">
           <Key>
             <PropertyRef Name="ID" />
@@ -516,6 +524,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Eform_Approval_E-Forms">
+          <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Eform_Approval" Type="Self.Eform_Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E-Forms">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Eform_Approval">
+              <PropertyRef Name="EformID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Eform_Approval_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Eform_Approval" Type="Self.Eform_Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Eform_Approval">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_E-Forms_Answer_Person_Eform">
           <End Role="Person_Eform" Type="Self.Person_Eform" Multiplicity="0..1" />
           <End Role="E-Forms_Answer" Type="Self.E-Forms_Answer" Multiplicity="*" />
@@ -725,7 +761,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Question_E-Forms">
-          <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="1" />
+          <End Role="E-Forms" Type="Self.E-Forms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Question" Type="Self.Question" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="E-Forms">
@@ -1202,6 +1240,7 @@
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DelayedTransaction" EntityType="Self.DelayedTransaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Eform_Approval" EntityType="Self.Eform_Approval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E-Forms" EntityType="Self.E-Forms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="E-Forms_Answer" EntityType="Self.E-Forms_Answer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
@@ -1254,6 +1293,14 @@
           <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="Self.FK_DelayedTransaction_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eform_Approval_E-Forms" Association="Self.FK_Eform_Approval_E-Forms">
+            <End Role="E-Forms" EntitySet="E-Forms" />
+            <End Role="Eform_Approval" EntitySet="Eform_Approval" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eform_Approval_Units" Association="Self.FK_Eform_Approval_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Eform_Approval" EntitySet="Eform_Approval" />
           </AssociationSet>
           <AssociationSet Name="FK_E-Forms_Answer_Person_Eform" Association="Self.FK_E-Forms_Answer_Person_Eform">
             <End Role="Person_Eform" EntitySet="Person_Eform" />
@@ -1490,6 +1537,7 @@
           <EntitySet Name="City" EntityType="MostafidDBModel.City" />
           <EntitySet Name="Country" EntityType="MostafidDBModel.Country" />
           <EntitySet Name="DelayedTransaction" EntityType="MostafidDBModel.DelayedTransaction" />
+          <EntitySet Name="Eform_Approval" EntityType="MostafidDBModel.Eform_Approval" />
           <EntitySet Name="E_Forms" EntityType="MostafidDBModel.E_Forms" />
           <EntitySet Name="E_Forms_Answer" EntityType="MostafidDBModel.E_Forms_Answer" />
           <EntitySet Name="Employee" EntityType="MostafidDBModel.Employee" />
@@ -1570,6 +1618,14 @@
           <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="MostafidDBModel.FK_DelayedTransaction_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eform_Approval_E_Forms" Association="MostafidDBModel.FK_Eform_Approval_E_Forms">
+            <End Role="E_Forms" EntitySet="E_Forms" />
+            <End Role="Eform_Approval" EntitySet="Eform_Approval" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Eform_Approval_Units" Association="MostafidDBModel.FK_Eform_Approval_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Eform_Approval" EntitySet="Eform_Approval" />
           </AssociationSet>
           <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
             <End Role="Sub_Services" EntitySet="Sub_Services" />
@@ -1829,6 +1885,16 @@
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_Data" FromRole="DelayedTransaction" ToRole="Request_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_State" FromRole="DelayedTransaction" ToRole="Request_State" />
         </EntityType>
+        <EntityType Name="Eform_Approval">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitID" Type="Int32" Nullable="false" />
+          <Property Name="EformID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_Eform_Approval_E_Forms" FromRole="Eform_Approval" ToRole="E_Forms" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Eform_Approval_Units" FromRole="Eform_Approval" ToRole="Units" />
+        </EntityType>
         <EntityType Name="E_Forms">
           <Key>
             <PropertyRef Name="ID" />
@@ -1840,6 +1906,7 @@
           <Property Name="IS_Action" Type="Boolean" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Eform_Approval" Relationship="MostafidDBModel.FK_Eform_Approval_E_Forms" FromRole="E_Forms" ToRole="Eform_Approval" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
           <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="E_Forms" ToRole="Question" />
         </EntityType>
@@ -2262,6 +2329,7 @@
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Eform_Approval" Relationship="MostafidDBModel.FK_Eform_Approval_Units" FromRole="Units" ToRole="Eform_Approval" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
           <NavigationProperty Name="RequestTransaction" Relationship="MostafidDBModel.FK_RequestTransaction_Units" FromRole="Units" ToRole="RequestTransaction" />
           <NavigationProperty Name="RequestTransaction1" Relationship="MostafidDBModel.FK_RequestTransaction_Units1" FromRole="Units" ToRole="RequestTransaction" />
@@ -2483,6 +2551,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Eform_Approval_E_Forms">
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDBModel.Eform_Approval" Role="Eform_Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E_Forms">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Eform_Approval">
+              <PropertyRef Name="EformID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Eform_Approval_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDBModel.Eform_Approval" Role="Eform_Approval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Eform_Approval">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_E_Forms_Sub_Services">
           <End Type="MostafidDBModel.Sub_Services" Role="Sub_Services" Multiplicity="1" />
           <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="*" />
@@ -2496,7 +2592,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Question_E_Forms">
-          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="1" />
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="E_Forms">
@@ -3136,6 +3234,15 @@
                 <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
                 <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Eform_Approval">
+            <EntityTypeMapping TypeName="MostafidDBModel.Eform_Approval">
+              <MappingFragment StoreEntitySet="Eform_Approval">
+                <ScalarProperty Name="EformID" ColumnName="EformID" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,57 +1,57 @@
-﻿@model bool
+﻿@model Nullable<bool>
 @{
-    var isar = Request.Cookies["lang"].Value == "ar";
+	var isar = Request.Cookies["lang"].Value == "ar";
 }
 <style>
-    input.en-item, [name="ENName"] {
-        text-align: left;
-    }
+	input.en-item, [name="ENName"] {
+		text-align: left;
+	}
 
-    input.ar-item, [name="ARName"] {
-        text-align: right;
-    }
+	input.ar-item, [name="ARName"] {
+		text-align: right;
+	}
 
-    #ListQuestion {
-        background: #f5f5f8;
-        border-radius: 4px;
-        margin-bottom: 20px
-    }
+	#ListQuestion {
+		background: #f5f5f8;
+		border-radius: 4px;
+		margin-bottom: 20px
+	}
 
-    div[data-id], [data-repeater-item] {
-        padding: 15px 38px 15px 38px;
-    }
+	div[data-id], [data-repeater-item] {
+		padding: 15px 38px 15px 38px;
+	}
 
-        div[data-id] > div {
-            background: white;
-            border-radius: 6px;
-        }
+		div[data-id] > div {
+			background: white;
+			border-radius: 6px;
+		}
 
-    fieldset.row {
-        margin-right: 0;
-        margin-left: 0;
-    }
+	fieldset.row {
+		margin-right: 0;
+		margin-left: 0;
+	}
 
-    span.select2-selection.select2-selection {
-        height: 36px !important;
-    }
+	span.select2-selection.select2-selection {
+		height: 36px !important;
+	}
 
-    span.select2 {
-        width: 100% !important
-    }
+	span.select2 {
+		width: 100% !important
+	}
 
-    .select2-selection__rendered, .select2-selection__arrow {
-        margin-top: 3px;
-    }
+	.select2-selection__rendered, .select2-selection__arrow {
+		margin-top: 3px;
+	}
 
-    .requird-ckeck label::after {
-        content: '*' !important;
-		margin:0 5px
-    }
+	.requird-ckeck label::after {
+		content: '*' !important;
+		margin: 0 5px
+	}
 
-    .requird-ckeck {
-        flex-direction: row-reverse !important;
-        margin: 23px 0;
-    }
+	.requird-ckeck {
+		flex-direction: row-reverse !important;
+		margin: 23px 0;
+	}
 </style>
 <!-- end row -->
 <!-- JAVASCRIPT -->
@@ -422,6 +422,23 @@
 	isFirstItemUndeletable: false
 		};
 		$('.repeater-radio,.repeater-check').repeater(setting)
+		$('.repeater-approve').repeater({
+			//initEmpty: location.pathname.toLowerCase().search("edit")!=-1,
+			show: function () {
+				$(this).slideDown();
+				$('.select2-container', $(this)).remove();
+				$('[data-name="UnitID"]').select2();
+				//$('.select2-container').css('width', '100%');
+			},
+			hide: function (remove) {
+				if (confirm('Confirm Question')) {
+					$(this).slideUp(remove);
+				}
+			}
+		});
+		if (location.pathname.toLowerCase().search("edit") != -1) {
+			$('.repeater-approve').find("[data-repeater-item]:last-child").remove();
+		}
 	}
 	$(document).ready(function () {
 		reStartHandelr();

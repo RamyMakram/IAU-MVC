@@ -290,6 +290,9 @@
     <Compile Include="Models\DelayedTransaction.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Eform_Approval.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
