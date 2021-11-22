@@ -230,6 +230,24 @@ $("#right-arrow").click(function () {
         else {
             $(e).css({ 'border': 'none', 'background': 'white' })
         }
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/
+        let em = $('#Email')
+        error = !(regex.test(em.val()) && document.getElementById('Email').checkValidity())//not valid
+        if (error) {
+            em.css({ 'border': '2px solid red', 'background': '#ffafaf' });
+            return
+        }
+        else {
+            em.css({ 'border': 'none', 'background': 'white' })
+        }
+        error = !(document.getElementById('Mobile').checkValidity() && /^\d*$/.test($('#Mobile').val()));
+        if (error) {
+            $('#Mobile').css({ 'border': '2px solid red', 'background': '#ffafaf' });
+            return
+        }
+        else {
+            $('#Mobile').css({ 'border': 'none', 'background': 'white' })
+        }
         if (!error) {
             CurrentPage++;
             $(".nav-fill .nav-link").removeClass("active");
@@ -297,7 +315,7 @@ $("#right-arrow").click(function () {
             $('.containt > .row').attr("style", "display:none;");
             $(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
         }
-        $('body').css({ 'overflow-y':'auto !important'})
+        $('body').css({ 'overflow-y': 'auto !important' })
 
     }
     else {
@@ -1195,7 +1213,7 @@ function AffiliatedState() {
     }
 }
 $('#Nationality_ID').change(i => {
-    $("#__IDNUMBind").text(language=="ar" ? "رقم الهوية الوطنية" : "National ID Number")
+    $("#__IDNUMBind").text(language == "ar" ? "رقم الهوية الوطنية" : "National ID Number")
 })
 function CountryState() {
     $(".loading").addClass("active");
