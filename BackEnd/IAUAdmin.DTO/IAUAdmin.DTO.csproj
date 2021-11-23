@@ -50,6 +50,7 @@
     <Compile Include="Entity\CityDTO.cs" />
     <Compile Include="Entity\DelayedTrans.cs" />
     <Compile Include="Entity\EformApproval.cs" />
+    <Compile Include="Entity\EformApprovalDTON.cs" />
     <Compile Include="Entity\E_Forms_Answer.cs" />
     <Compile Include="Entity\GlobalCount.cs" />
     <Compile Include="Entity\Input_Type.cs" />

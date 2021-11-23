@@ -102,7 +102,7 @@
 							<input type="checkbox" @(ViewBag.SMS_Status ? "checked" : "") onchange="$('#val-items').val(this.checked);" />
 							<label class="form-check-label mx-1" for="value">@(isAr ? "استخدم الرسائل النصية" : "Use SMS")</label>
 						</div>
-						<input style="display:none" name="value" id="val-items"/>
+						<input style="display:none" name="value" value="@(ViewBag.SMS_Status?"true":"false")" id="val-items"/>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
 					@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })

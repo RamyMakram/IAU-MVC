@@ -18,6 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public Person_Eform()
         {
             this.E_Forms_Answer = new HashSet<E_Forms_Answer>();
+            this.Preview_EformApproval = new HashSet<Preview_EformApproval>();
         }
     
         public int ID { get; set; }
@@ -29,5 +30,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
         public virtual Personel_Data Personel_Data { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Preview_EformApproval> Preview_EformApproval { get; set; }
     }
 }

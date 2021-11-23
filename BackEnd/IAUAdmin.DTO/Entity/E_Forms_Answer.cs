@@ -14,15 +14,16 @@ namespace IAUAdmin.DTO.Entity
 
     public partial class E_Forms_Answer
     {
-        public int ID { get; set; }
-        public int Person_ID { get; set; }
-        public int Question_ID { get; set; }
-        public int EFromID { get; set; }
+        public int? ID { get; set; }
+        public int? Person_ID { get; set; }
+        public int? Question_ID { get; set; }
+        public int? EFromID { get; set; }
         public string Value_En { get; set; }
+        public string T { get; set; }
         public string Value { get; set; }
         public string Name { get; set; }
         public string Name_En { get; set; }
-        public System.DateTime FillDate { get; set; }
+        public System.DateTime? FillDate { get; set; }
 
         public virtual PersonalDataDTO Personel_Data { get; set; }
         public virtual Question Question { get; set; }

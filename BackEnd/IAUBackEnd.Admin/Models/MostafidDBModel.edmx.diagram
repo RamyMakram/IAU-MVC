@@ -110,6 +110,8 @@
         <AssociationConnector Association="MostafidDBModel.FK_Units_Units_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_UnitServiceTypes_Units" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_Units" />
+        <EntityTypeShape EntityType="MostafidDBModel.Preview_EformApproval" Width="1.5" PointX="15" PointY="37.625" />
+        <AssociationConnector Association="MostafidDBModel.FK_Preview_EformApproval_Person_Eform" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

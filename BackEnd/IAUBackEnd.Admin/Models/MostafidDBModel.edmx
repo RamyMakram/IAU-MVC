@@ -86,6 +86,7 @@
           <Property Name="Value_En" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FillDate" Type="datetime" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Type" Type="nchar" MaxLength="1" />
           <Property Name="Name_En" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="Employee">
@@ -195,6 +196,15 @@
           <Property Name="Email" Type="nvarchar" MaxLength="200" />
           <Property Name="Mobile" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="IS_Action" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Preview_EformApproval">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Name_En" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="PersonEform" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Privilage">
           <Key>
@@ -736,6 +746,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Preview_EformApproval_Person_Eform">
+          <End Role="Person_Eform" Type="Self.Person_Eform" Multiplicity="1" />
+          <End Role="Preview_EformApproval" Type="Self.Preview_EformApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person_Eform">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Preview_EformApproval">
+              <PropertyRef Name="PersonEform" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Privilage_Privilage">
           <End Role="Privilage" Type="Self.Privilage" Multiplicity="0..1" />
           <End Role="Privilage1" Type="Self.Privilage" Multiplicity="*" />
@@ -1253,6 +1275,7 @@
           <EntitySet Name="Paragraph" EntityType="Self.Paragraph" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person_Eform" EntityType="Self.Person_Eform" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Preview_EformApproval" EntityType="Self.Preview_EformApproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Radio_Type" EntityType="Self.Radio_Type" Schema="dbo" store:Type="Tables" />
@@ -1361,6 +1384,10 @@
           <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="Self.FK_Personel_Data_Title_Middle_Names">
             <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Preview_EformApproval_Person_Eform" Association="Self.FK_Preview_EformApproval_Person_Eform">
+            <End Role="Person_Eform" EntitySet="Person_Eform" />
+            <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
           </AssociationSet>
           <AssociationSet Name="FK_Privilage_Privilage" Association="Self.FK_Privilage_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
@@ -1823,6 +1850,11 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Preview_EformApproval" EntityType="MostafidDBModel.Preview_EformApproval" />
+          <AssociationSet Name="FK_Preview_EformApproval_Person_Eform" Association="MostafidDBModel.FK_Preview_EformApproval_Person_Eform">
+            <End Role="Person_Eform" EntitySet="Person_Eform" />
+            <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -1924,6 +1956,7 @@
           <Property Name="Name_En" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_E_Forms_Answer_Person_Eform" FromRole="E_Forms_Answer" ToRole="Person_Eform" />
           <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -2022,6 +2055,7 @@
           <Property Name="FillDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Person_Eform" FromRole="Person_Eform" ToRole="E_Forms_Answer" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Person_Eform_Personel_Data" FromRole="Person_Eform" ToRole="Personel_Data" />
+          <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDBModel.FK_Preview_EformApproval_Person_Eform" FromRole="Person_Eform" ToRole="Preview_EformApproval" />
         </EntityType>
         <EntityType Name="Personel_Data">
           <Key>
@@ -3177,6 +3211,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Preview_EformApproval">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Name_En" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="PersonEform" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_Preview_EformApproval_Person_Eform" FromRole="Preview_EformApproval" ToRole="Person_Eform" />
+        </EntityType>
+        <Association Name="FK_Preview_EformApproval_Person_Eform">
+          <End Type="MostafidDBModel.Person_Eform" Role="Person_Eform" Multiplicity="1" />
+          <End Type="MostafidDBModel.Preview_EformApproval" Role="Preview_EformApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person_Eform">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Preview_EformApproval">
+              <PropertyRef Name="PersonEform" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3263,6 +3319,7 @@
           <EntitySetMapping Name="E_Forms_Answer">
             <EntityTypeMapping TypeName="MostafidDBModel.E_Forms_Answer">
               <MappingFragment StoreEntitySet="E-Forms_Answer">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name_En" ColumnName="Name_En" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FillDate" ColumnName="FillDate" />
@@ -3691,6 +3748,16 @@
               <MappingFragment StoreEntitySet="ValidTo">
                 <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
                 <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preview_EformApproval">
+            <EntityTypeMapping TypeName="MostafidDBModel.Preview_EformApproval">
+              <MappingFragment StoreEntitySet="Preview_EformApproval">
+                <ScalarProperty Name="PersonEform" ColumnName="PersonEform" />
+                <ScalarProperty Name="Name_En" ColumnName="Name_En" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

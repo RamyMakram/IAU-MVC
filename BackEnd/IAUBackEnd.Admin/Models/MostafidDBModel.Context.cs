@@ -69,5 +69,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
+        public virtual DbSet<Preview_EformApproval> Preview_EformApproval { get; set; }
     }
 }

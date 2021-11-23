@@ -1,5 +1,110 @@
 ﻿@model IAUAdmin.DTO.Entity.PersonEfDTO
 @using Newtonsoft.Json;
+@*<style>
+        :root {
+            --main-btn-color: #0a1332 !important;
+        }
+
+        @@media(max-width:770px) {
+
+            tr {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        td {
+            width: 100%;
+        }
+
+            td div {
+                margin: 0 20px;
+            }
+
+        tr th {
+            min-width: 150px;
+        }
+
+        td {
+            justify-content: start;
+            display: flex;
+        }
+
+        /*th {
+            justify-content: center;
+        }*/
+        th label {
+            font-weight: bolder;
+        }
+
+        tr th,
+        tr td {
+            vertical-align: middle !important;
+            border-top: 0px !important;
+        }
+
+        tr.border {
+            border: none !important;
+        }
+
+            tr.border th,
+            tr.border td {
+                border-top: 0px !important;
+                border: 0px !important;
+                border-bottom: 1px solid #dee2e6 !important;
+            }
+
+            tr.border td {
+                padding: 0;
+            }
+
+        td input[type='date'],
+        td input[type='text'] {
+            /*width: 250px !important*/
+        }
+
+        tr[data-required="True"] th label::after {
+            content: "*";
+            color: red;
+            margin: 0 5px
+        }
+
+        .checkbox {
+            margin: 2px 15px;
+        }
+
+        .EmptySpace {
+            height: 25px;
+        }
+
+        .contanier {
+            box-shadow: 0px 0px 20px 4px #888888;
+            padding: 25px;
+        }
+
+        .alert {
+            margin: 0;
+            width: 250px !important;
+        }
+
+        .btn-primary {
+            background-color: var(--main-btn-color);
+        }
+
+        h2 {
+            color: var(--main-btn-color) !important;
+        }
+
+        .table > :not(caption) > * > * {
+            border-bottom-width: 0px !important;
+        }
+
+        .Space {
+            border-bottom: 1px solid #dee2e6;
+            margin: 30px 0;
+        }
+    </style>*@
+
 <style>
     :root {
         --main-btn-color: #0a1332 !important;
@@ -7,10 +112,27 @@
 
     @@media(max-width:770px) {
 
-        tr {
+        .eform-body tr {
             display: flex;
             flex-direction: column;
         }
+
+        .form-control {
+            width: 100%;
+        }
+
+        .modal-dialog-eform {
+            max-width: 80vw !important;
+            width: 100%
+        }
+
+            .modal-dialog-eform > .modal-content > .modal-header {
+                display: none
+            }
+    }
+
+    .modal-dialog-eform {
+        max-width: 46vw !important;
     }
 
     td {
@@ -22,7 +144,11 @@
         }
 
     tr th {
-        min-width: 150px;
+        /*min-width: 150px;*/
+    }
+
+    .form-control {
+        /*width: 50%;*/
     }
 
     td {
@@ -30,11 +156,8 @@
         display: flex;
     }
 
-    /*th {
+    th {
         justify-content: center;
-    }*/
-    th label {
-        font-weight: bolder;
     }
 
     tr th,
@@ -43,20 +166,20 @@
         border-top: 0px !important;
     }
 
-    tr.border {
+    .eform-body tr.border {
         border: none !important;
     }
 
-        tr.border th,
-        tr.border td {
+        .eform-body tr.border th,
+        .eform-body tr.border td {
             border-top: 0px !important;
             border: 0px !important;
             border-bottom: 1px solid #dee2e6 !important;
         }
 
-        tr.border td {
-            padding: 0;
-        }
+    tr.border td {
+        padding: 0;
+    }
 
     td input[type='date'],
     td input[type='text'] {
@@ -104,6 +227,7 @@
         margin: 30px 0;
     }
 </style>
+
 @*<link href="~/Design/CSS/all.min.css" rel="stylesheet" />
     <link href="~/Design/CSS/bootstrap.min.css" rel="stylesheet" />*@
 @{
@@ -112,14 +236,54 @@
 
 <div class="modal-dialog" @*style=" max-width: 80vw !important;"*@ role="document">
     <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">@(isar?Model.Name:Model.Name_EN)</h5>
+        <div class="modal-header flex-column">
+            <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
+                <label class="pt-1 mb-md-2 col-md-3 col-12 text-md-start text-center px-0">
+                    @(isar?
+					"المملكة العربية السعودية":
+					"Kingdom of Saudi Arabia")
+                </label>
+                <img class="pt-1 mb-md-2 col-md-6 col-12" src="~/assets/images/VisionLogo.png" style="width: 194px; " />
+                <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0">
+                    @(isar?
+							"وزارة التعليم":
+					"Ministry of Education") <br />043
+                </label>
+            </div>
+            <!--<div style="display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%">
+                <div style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+                    <span class="modal-title text-center" data-id="@Model.ID">@(isar?"اسم الجهة":"UnitName"):</span>
+                    <span id="Eform-UnitName"></span>
+                </div>-->
+                @*<div>
+                    <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
+                        <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
+                    </div>
+                </div>*@
+            <!--</div>-->
+            <div style="margin-top:25px" class="w-100">
+                <h2 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h2>
+            </div>
         </div>
         <div class="modal-body">
 
             <table class="table m-0">
                 <tbody>
-                    @foreach (var qty in Model.E_Forms_Answer)
+                    @if (Model.E_Forms_Answer.Where(q => q.T == "E").Count() != 0)
+                    {
+                        @*<tr class="border">
+                <th style="width: 100% !important;" colspan="4">
+                </th>
+                <td></td>
+            </tr>*@
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h4>
+                            </th>
+                            <td></td>
+                        </tr>
+                    }
+                    @foreach (var qty in Model.E_Forms_Answer.Where(q => q.T == "E"))
                     {
                         <tr>
                             <th class="text-left">
@@ -140,6 +304,69 @@
                                 {
                                     <label>@(isar ? qty.Value : qty.Value_En)</label>
                                 }
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.E_Forms_Answer.Where(q => q.T != "E").Count() != 0)
+                    {
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h4>
+                            </th>
+                            <td></td>
+                        </tr>
+                    }
+                    @foreach (var qty in Model.E_Forms_Answer.Where(q => q.T != "E"))
+                    {
+                        <tr>
+                            <th class="text-left">
+                                <label>
+                                    @(isar?qty.Name:qty.Name_En)
+                                </label>
+                            </th>
+                            <td>
+                                @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
+                                {
+                                    var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
+                                    foreach (var i in values)
+                                    {
+                                        <p style="text-align:center">@i</p>
+                                    }
+                                }
+                                else
+                                {
+                                    <label>@(isar ? qty.Value : qty.Value_En)</label>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.Eform_Approval.Count != 0)
+                    {
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h4>
+                            </th>
+                            <td></td>
+                        </tr>
+                    }
+                    @foreach (var i in Model.Eform_Approval)
+                    {
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                                <h5 style="margin-bottom: 0px; text-align: start;">@(isar?i.AR: i.EN)</h5>
+                            </th>
+                            <td></td>
+                        </tr>
+                        <tr class="EmptySpace">
+                            <th>
+                            </th>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="EmptySpace">
+                            <th>
+                            </th>
+                            <td>
                             </td>
                         </tr>
                     }

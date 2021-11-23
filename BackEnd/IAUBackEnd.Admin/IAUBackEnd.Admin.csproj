@@ -344,6 +344,9 @@
     <Compile Include="Models\Person_Eform.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Preview_EformApproval.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Privilage.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>

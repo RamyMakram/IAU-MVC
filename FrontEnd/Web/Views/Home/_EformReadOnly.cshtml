@@ -130,13 +130,13 @@
     <div class="modal-content">
         <div class="modal-header d-flex flex-column ">
             <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
-                <label class="pt-1 mb-md-2 col-md-3 col-12 text-md-start text-center">
+                <label class="pt-1 mb-md-2 col-md-3 col-12 text-md-start text-center px-0">
                     @(isar?
 					"المملكة العربية السعودية":
 					"Kingdom of Saudi Arabia")
                 </label>
                 <img class="pt-1 mb-md-2 col-md-6 col-12" src="~/Design/img/VisionLogo.png" style="width: 194px; " />
-                <label class="pt-1 mb-md-2 text-center col-md-3 col-12">
+                <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0">
                     @(isar?
 							"وزارة التعليم":
 					"Ministry of Education") <br />043
@@ -154,7 +154,7 @@
                 </div>
             </div>
             <div style="margin-top:25px">
-                <h3 class="modal-title w-100  text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h3>
+                <h3 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h3>
             </div>
         </div>
         <div class="modal-body">
@@ -162,6 +162,11 @@
                 <tbody class="eform-body">
                     @if (Model.Question.Where(q => q.T == "E").Count() != 0)
                     {
+                        @*<tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                            </th>
+                            <td></td>
+                        </tr>*@
                         <tr class="border">
                             <th style="width: 100% !important;" colspan="4">
                                 <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h4>
@@ -184,6 +189,11 @@
                     }
                     @if (Model.Question.Where(q => q.T != "E").Count() != 0)
                     {
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                            </th>
+                            <td></td>
+                        </tr>
                         <tr class="border">
                             <th style="width: 100% !important;" colspan="4">
                                 <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h4>
@@ -220,7 +230,11 @@
                                 break;
                         }
                     }
-
+                    <tr class="border">
+                        <th style="width: 100% !important;" colspan="4">
+                        </th>
+                        <td></td>
+                    </tr>
                     <tr class="border">
                         <th style="width: 100% !important;" colspan="4">
                             <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar? "بيانات الطلب" : "Request Information")</h4>
@@ -237,6 +251,11 @@
                     </tr>
                     @if (Model.Eform_Approval.Count != 0)
                     {
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                            </th>
+                            <td></td>
+                        </tr>
                         <tr class="border">
                             <th style="width: 100% !important;" colspan="4">
                                 <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h4>

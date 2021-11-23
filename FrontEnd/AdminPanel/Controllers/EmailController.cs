@@ -217,10 +217,19 @@ namespace AdminPanel.Controllers
         [HttpGet]
         public ActionResult GetEformRequest(int efid, int req)
         {
-            var Data = APIHandeling.getData($"E_Forms/GetE_FormsFoRequest?id={efid}&RequestID={req}");
-            var resJson = Data.Content.ReadAsStringAsync();
-            var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-            return PartialView("~/Views/Email/_Eform.cshtml", JsonConvert.DeserializeObject<PersonEfDTO>(res.result.ToString()));
+            try
+            {
+                var Data = APIHandeling.getData($"E_Forms/GetE_FormsFoRequest?id={efid}&RequestID={req}");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var model = JsonConvert.DeserializeObject<PersonEfDTO>(res.result.ToString());
+                return PartialView("~/Views/Email/_Eform.cshtml", model);
+            }
+            catch (Exception ee)
+            {
+                return PartialView("~/Views/Email/_Eform.cshtml", null);
+
+            }
         }
     }
 }

@@ -339,7 +339,7 @@ namespace IAUBackEnd.Admin.Controllers
                 if (ISInquiry.Value)
                 {
                     var Types = "IEDCR";
-                    var Eforms = p.E_Forms.Include(q => q.Question).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID && q.Question.Any(s => Types.Contains(s.Type))).Select(q => new { q.Name, q.Name_EN, Question = q.Question.Where(s => Types.Contains(s.Type)).ToList() });
+                    var Eforms = p.E_Forms.Include(q => q.Question).Include(q => q.Eform_Approval).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID && q.Question.Any(s => Types.Contains(s.Type))).Select(q => new { q.Name, q.Name_EN, Question = q.Question.Where(s => Types.Contains(s.Type)).ToList(), Eform_Approval = q.Eform_Approval.Select(sd => new { Name = sd.Units.Units_Name_AR, Name_En = sd.Units.Units_Name_EN }) });
                     foreach (var eform in Eforms)
                     {
                         var Eform_Person = new Person_Eform { Name = eform.Name, Name_EN = eform.Name_EN, Person_ID = request_Data.Personel_Data_ID, FillDate = request_Data.CreatedDate.Value };
@@ -351,11 +351,13 @@ namespace IAUBackEnd.Admin.Controllers
                                 Inser_Qty.Name = i.LableName;
                                 Inser_Qty.Name_En = i.LableName_EN;
                                 Inser_Qty.FillDate = Helper.GetDate();
+                                Inser_Qty.Type = i.Type;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
                             else
                                 throw new Exception("Eform Error");
                         }
+                        Eform_Person.Preview_EformApproval = eform.Eform_Approval.Select(q => new Preview_EformApproval { Name = q.Name, Name_En = q.Name_En }).ToList();
                         p.Person_Eform.Add(Eform_Person);
                     }
                 }
@@ -451,36 +453,36 @@ namespace IAUBackEnd.Admin.Controllers
 					<p dir='ltr'>{message_en}</p>
 					<p dir='rtl'>{message_ar}</p>
 					";
-                SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
+                //SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
 
-                smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
-                // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                //smtpClient.EnableSsl = true;
-                MailMessage mail = new MailMessage();
-
-                //Setting From , To and CC
-                mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
-                mail.To.Add(new MailAddress(Email));
-                mail.Subject = "IAU Notify";
-                mail.Body = message;
-                mail.IsBodyHtml = true;
-                smtpClient.Send(mail);
-                //SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
-
-                //smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                //smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
                 //// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
                 //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 ////smtpClient.EnableSsl = true;
                 //MailMessage mail = new MailMessage();
 
                 ////Setting From , To and CC
-                //mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                //mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
                 //mail.To.Add(new MailAddress(Email));
                 //mail.Subject = "IAU Notify";
                 //mail.Body = message;
                 //mail.IsBodyHtml = true;
                 //smtpClient.Send(mail);
+                SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
+
+                smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //smtpClient.EnableSsl = true;
+                MailMessage mail = new MailMessage();
+
+                //Setting From , To and CC
+                mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                mail.To.Add(new MailAddress(Email));
+                mail.Subject = "IAU Notify";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+                smtpClient.Send(mail);
                 return Ok(new ResponseClass()
                 {
                     success = true

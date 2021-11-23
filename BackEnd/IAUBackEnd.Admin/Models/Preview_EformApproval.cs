@@ -12,19 +12,13 @@ namespace IAUBackEnd.Admin.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class E_Forms_Answer
+    public partial class Preview_EformApproval
     {
         public int ID { get; set; }
-        public Nullable<int> Question_ID { get; set; }
-        public Nullable<int> EForm_ID { get; set; }
-        public string Value { get; set; }
-        public string Value_En { get; set; }
-        public Nullable<System.DateTime> FillDate { get; set; }
         public string Name { get; set; }
         public string Name_En { get; set; }
-        public string Type { get; set; }
+        public int PersonEform { get; set; }
     
         public virtual Person_Eform Person_Eform { get; set; }
-        public virtual Question Question { get; set; }
     }
 }

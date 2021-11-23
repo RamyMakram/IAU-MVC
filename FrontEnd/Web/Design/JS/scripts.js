@@ -888,7 +888,10 @@ function GetEfroms(ID) {
 
                     $('#Eform-read-summary').append(
                         `<div class="row icon-container" style="padding:0px;margin:0px">
-						    <a style="padding:0px" class="btn btn-outline eform-readonly-btn" data-id="${element.ID}"><i class="fas fa-passport" style="font-size: 31px;padding:0 5px;color:white"></i>${(language == 'ar' ? element.Name : element.Name_EN)}</a>
+						    <a style="padding:0px;color: #4f693a !important;" class="btn btn-outline eform-readonly-btn" data-id="${element.ID}">
+                                <i class="fas fa-passport" style="font-size: 31px;padding:0 5px;"></i>
+                                <span>${(language == 'ar' ? element.Name : element.Name_EN)}</span>
+                            </a>
 						</div>
                         `
                     )
