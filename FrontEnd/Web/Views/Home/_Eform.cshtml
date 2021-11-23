@@ -130,7 +130,7 @@
     <div class="modal-content">
         <div class="modal-header" style="display:inline-flex;justify-content:space-between;flex-direction:row;">
             <h3 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h3>
-            <span>@Model.Code</span>
+            <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
         </div>
         <div class="modal-body">
 

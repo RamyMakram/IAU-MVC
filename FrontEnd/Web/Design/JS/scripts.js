@@ -204,13 +204,17 @@ $("#right-arrow").click(function () {
                 if (e.id == "IAUID" && affilte.value == 0) {
                     $(e).css({ 'border': 'none', 'background': '#646e85' })
                 }
-                else
+                else {
                     error = true;
+                    return;
+                }
             }
             else {
                 $(e).css({ 'border': 'none', 'background': 'white' })
             }
         });
+        if (error)
+            return;
         let e = $('#spanMobile'), z = $("#Mobile");
         if (z.val() == "" || z.val() == null || z.val() == "null" || z.val().length != 9) {
             $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
@@ -222,7 +226,7 @@ $("#right-arrow").click(function () {
             $(e).css({ 'border': 'none', 'background': 'white' })
         }
         e = $('#idNumber')
-        if (e.val() == "" || e.val() == null || e.val() == "null" || e.val().length != 10) {
+        if (e.val() == "" || e.val() == null || e.val() == "null" || e.val().length != 10 || !document.getElementById('idNumber').checkValidity() || !/^\d*$/.test($('#idNumber').val())) {
             $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
             error = true;
             return;
@@ -883,8 +887,9 @@ function GetEfroms(ID) {
                     )
 
                     $('#Eform-read-summary').append(
-                        `
-                            <a class="btn eform-readonly-btn" style="color:white" data-id="${element.ID}">${(language == 'ar' ? element.Name : element.Name_EN)}</button>
+                        `<div class="row icon-container" style="padding:0px;margin:0px">
+						    <a style="padding:0px" class="btn btn-outline eform-readonly-btn" data-id="${element.ID}"><i class="fas fa-passport" style="font-size: 31px;padding:0 5px;color:white"></i>${(language == 'ar' ? element.Name : element.Name_EN)}</a>
+						</div>
                         `
                     )
                 });
