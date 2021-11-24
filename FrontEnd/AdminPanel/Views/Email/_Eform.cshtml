@@ -226,6 +226,13 @@
         border-bottom: 1px solid #dee2e6;
         margin: 30px 0;
     }
+
+    @@media (min-width: 576px) {
+        #EformModel .modal-dialog {
+            max-width: 669px;
+            margin: 1.75rem auto;
+        }
+    }
 </style>
 
 @*<link href="~/Design/CSS/all.min.css" rel="stylesheet" />
@@ -238,12 +245,14 @@
     <div class="modal-content">
         <div class="modal-header flex-column">
             <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
-                <label class="pt-1 mb-md-2 col-md-3 col-12 text-md-start text-center px-0">
+                <label class="pt-1 mb-md-3 col-md-3 col-12 text-md-start text-center px-0">
                     @(isar?
 					"المملكة العربية السعودية":
 					"Kingdom of Saudi Arabia")
                 </label>
-                <img class="pt-1 mb-md-2 col-md-6 col-12" src="~/assets/images/VisionLogo.png" style="width: 194px; " />
+                <div class="pt-1 mb-md-2 col-md-6 col-12 d-flex justify-content-center">
+                    <img src="~/assets/images/VisionLogo.png" style="width: 135px; " />
+                </div>
                 <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0">
                     @(isar?
 							"وزارة التعليم":
@@ -255,7 +264,7 @@
                     <span class="modal-title text-center" data-id="@Model.ID">@(isar?"اسم الجهة":"UnitName"):</span>
                     <span id="Eform-UnitName"></span>
                 </div>-->
-                @*<div>
+            @*<div>
                     <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
                         <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
                     </div>
@@ -272,10 +281,10 @@
                     @if (Model.E_Forms_Answer.Where(q => q.T == "E").Count() != 0)
                     {
                         @*<tr class="border">
-                <th style="width: 100% !important;" colspan="4">
-                </th>
-                <td></td>
-            </tr>*@
+                                <th style="width: 100% !important;" colspan="4">
+                                </th>
+                                <td></td>
+                            </tr>*@
                         <tr class="border">
                             <th style="width: 100% !important;" colspan="4">
                                 <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h4>
@@ -291,13 +300,14 @@
                                     @(isar?qty.Name:qty.Name_En)
                                 </label>
                             </th>
-                            <td>
+                            <td class="d-flex flex-column">
                                 @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
                                 {
                                     var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
                                     foreach (var i in values)
                                     {
                                         <p style="text-align:center">@i</p>
+                                        <br />
                                     }
                                 }
                                 else
@@ -324,13 +334,14 @@
                                     @(isar?qty.Name:qty.Name_En)
                                 </label>
                             </th>
-                            <td>
+                            <td class="d-flex flex-column">
                                 @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
                                 {
                                     var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
                                     foreach (var i in values)
                                     {
                                         <p style="text-align:center">@i</p>
+                                        <br />
                                     }
                                 }
                                 else

@@ -129,7 +129,7 @@
 <div class="modal-dialog modal-dialog-eform" role="document">
     <div class="modal-content">
         <div class="modal-header" style="display:inline-flex;justify-content:space-between;flex-direction:row;">
-            <h3 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h3>
+            <h2 class="modal-title w-100 text-end" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h2>
             <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
         </div>
         <div class="modal-body">
@@ -207,7 +207,7 @@
                             case "T":
                                 <tr class="border">
                                     <th style="width: 100% !important;" colspan="4">
-                                        <h2 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar?qty.Name:qty.Name_EN)</h2>
+                                        <h3 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar?qty.Name:qty.Name_EN)</h3>
                                     </th>
                                     <td></td>
                                 </tr>
