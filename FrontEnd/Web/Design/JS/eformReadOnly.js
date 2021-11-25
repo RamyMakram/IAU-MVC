@@ -17,7 +17,7 @@
 						let data = JSON.parse(language == "ar" ? i["Value"] : i["Value_En"])
 						let html = ''
 						data.forEach(s => {
-							html += `<label>${s}</label>`
+							html += `<label class="mx-2">${s},</label>`
 						})
 						$(`tr[data-id='${i["T"]}-${i["Question_ID"]}'] td`, $('#EformReadOnly')).html(html)
 					}

@@ -3,7 +3,9 @@
     :root {
         --main-btn-color: #0a1332 !important;
     }
-
+    #saudiArabiTitlr {
+        text-align: start !important;
+    }
     @@media(max-width:770px) {
 
         .eform-body tr {
@@ -23,6 +25,9 @@
             .modal-dialog-eform > .modal-content > .modal-header {
                 display: none
             }
+        #saudiArabiTitlr{
+            text-align:center !important;
+        }
     }
 
     .modal-dialog-eform {
@@ -130,12 +135,12 @@
     <div class="modal-content">
         <div class="modal-header d-flex flex-column ">
             <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
-                <label class="pt-1 mb-md-2 col-md-3 col-12 text-md-start text-center px-0">
+                <label class="pt-1 mb-md-2 col-md-4 col-12 px-0" id="saudiArabiTitlr">
                     @(isar?
 					"المملكة العربية السعودية":
 					"Kingdom of Saudi Arabia")
                 </label>
-                <img class="pt-1 mb-md-2 col-md-6 col-12" src="~/Design/img/VisionLogo.png" style="width: 135px; " />
+                <img class="pt-1 mb-md-2 col-md-5 col-12" src="~/Design/img/VisionLogo.png" style="width: 135px; " />
                 <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0">
                     @(isar?
 							"وزارة التعليم":
