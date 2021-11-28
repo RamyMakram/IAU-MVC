@@ -368,7 +368,8 @@
 				$('#UnitType').val(ID)
 				$('#TypeCode').text(CodeView.Code);
 			}
-			UnitCodeChange(false);
+		UnitCodeChange(false);
+        ValidateCode()
 		/*}*/
 	}
 	function SubUnitChange(val) {
@@ -517,7 +518,7 @@
 <script>
 	function ValidateCode() {
 		$.ajax({
-			url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}`, method: "POST", success: function (data) {
+			url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}&ty=${$('#UnitType').val()}`, method: "POST", success: function (data) {
 				if (!data['success'])
 					LaunchErrorHandelare();
 				else {

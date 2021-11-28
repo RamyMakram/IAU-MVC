@@ -199,7 +199,7 @@
                             @Html.HiddenFor(q => q.Ref_Number, new { @id = "RefNum", @required = "true" })
                         </div>
                     </div>
-                    <button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    <button type="submit" id="submit-btn-form" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
                     @Html.ActionLink("Cancel", "Home", "Units", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
                 }
 
@@ -321,11 +321,12 @@
 		document.querySelector('#CodeGenrateDiv input:nth-of-type(4)').value = ID
 	}
 	function UnitCodeChange(ISLevelChange) {
-		$.ajax({
-			url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}`, method: "POST", success: function (data) {
+        $.ajax({
+            url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&ty=${$('#UnitType').val()}&uID=${$('#UnitID').val() == undefined ? null : $('#UnitID').val()}`, method: "POST", success: function (data) {
 				if (!data['success'])
 					LaunchErrorHandelare();
-				else {
+                else {
+                    $('#submit-btn-form').attr('type','submit')
 					let index = $("#LEVEID option:selected").text().split(' - ')[0] - 1
 					//debugger
 					let startIn = 3 + (index == 0 ? 1 : index * 3);
@@ -366,7 +367,8 @@
 				LaunchErrorHandelare();
 			}
 		})
-	}
+    }
+    let submit = true;
 	function LaunchErrorHandelare() {
 		Swal.fire({
 			title: "@( Request.Cookies["lang"].Value == "ar" ? "لا يمكن استخدام هذا الرقم" : "You Can't Use this Code.")",
@@ -376,7 +378,9 @@
 			cancelButtonColor: "#f46a6a",
 			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق" : "Ok")",
         }).then((result) => {
-		$('#unitCode').focus()
+            //$('#unitCode').focus()
+            $('#submit-btn-form').attr('type', 'button')
+
         });
     }
     var entered_Code = false;

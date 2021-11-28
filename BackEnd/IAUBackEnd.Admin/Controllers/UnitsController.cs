@@ -144,7 +144,7 @@ namespace IAUBackEnd.Admin.Controllers
                     var code = string.Join("", GenrateCode).Replace('x', '0');
                     data.Ref_Number = code;
                     await db.SaveChangesAsync();
-                    if (CheckCodeAvab(units.Code, data.Units_ID, data.LevelID.Value, db) && !ReArrange(data.Units_ID))
+                    if (CheckCodeAvab(units.Code, data.Units_ID, units.Units_Type_ID.Value, data.LevelID.Value, db) && !ReArrange(data.Units_ID))
                         throw new Exception("REA");
                 }
                 await db.SaveChangesAsync();
@@ -279,12 +279,12 @@ namespace IAUBackEnd.Admin.Controllers
             var code = string.Join("", GenrateCode);
             return Ok(new ResponseClass() { success = true, result = new { Code = code } });
         }
-        private bool CheckCodeAvab(string code, int? unitid, int level, MostafidDBEntities db = null)
+        private bool CheckCodeAvab(string code, int? unitid, int Type, int level, MostafidDBEntities db = null)
         {
             if (level > 2)
                 return true;
 
-            var data = (db ?? new MostafidDBEntities()).Units.Any(q => q.Units_ID != (unitid ?? 0) && q.Code == code && q.LevelID == level);
+            var data = (db ?? new MostafidDBEntities()).Units.Any(q => q.Units_ID != (unitid ?? 0) && q.Code == code && q.LevelID == level && q.Units_Type_ID == Type);
             return !data;
         }
         private bool CanChangeLevel(int unitid, int newLevel)
@@ -294,7 +294,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> _CheckEnteredCode(string code, int? unitid, int level) => Ok(new ResponseClass() { success = CheckCodeAvab(code, unitid, level) });
+        public async Task<IHttpActionResult> _CheckEnteredCode(string code, int? unitid, int Type, int level) => Ok(new ResponseClass() { success = CheckCodeAvab(code, unitid, Type, level) });
 
         private void GetCode(ref char[] _code, int? SubUnitID, string unitCode, char UnittypeCode, int Level, int LocationID, int? unitID = null, MostafidDBEntities p = null)
         {
