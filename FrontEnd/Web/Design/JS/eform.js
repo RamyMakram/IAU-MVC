@@ -12,7 +12,10 @@ function ReIntalizeEformListener() {
                 var AutoFill = $("tr[data-id^='E']", $('#Eform'));
                 ([...AutoFill]).forEach(i => {
                     let ref = $('td label', $(i))
-                    ref.text($('#' + ref.data('ref')).val())
+                    if ($('#' + ref.data('ref')).prop('nodeName') == 'SELECT')
+                        ref.text($('#' + ref.data('ref') +" option:selected").text())
+                    else
+                        ref.text($('#' + ref.data('ref')).val())
                 })
                 $('#Eform').modal('toggle');
                 if (filled) {

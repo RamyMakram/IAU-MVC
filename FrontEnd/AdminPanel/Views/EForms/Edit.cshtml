@@ -193,7 +193,7 @@
 														<div class="col-md-6">
 															<div class="form-group">
 																<label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-																<input class="form-control" type="text" name="ARName" value="@(i.Name)" />
+                                                                <textarea class="form-control" type="text" name="ARName" value="@(i.Name)">@(i.Name)</textarea>
 															</div>
 
 															<div class="form-group">
@@ -211,7 +211,7 @@
 														<div class="col-md-6">
 															<div class="form-group">
 																<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-																<input class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)" />
+                                                                <textarea class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)">@(i.Name_EN)</textarea>
 															</div>
 															<div class="form-group">
 																<label for="PlaceHolderEN" class="control-label">@(isar? "الشرح بالانجليزي" : "EN PlaceHolder")</label>

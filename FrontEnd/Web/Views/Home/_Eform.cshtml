@@ -16,7 +16,7 @@
         }
 
         .modal-dialog-eform {
-            max-width: 80vw !important;
+            max-width: 56vw !important;
             width: 100%
         }
 
@@ -87,7 +87,8 @@
     }
 
     .checkbox {
-        margin: 2px 15px;
+        margin: 0 !important;
+        white-space: nowrap;
     }
 
     .EmptySpace {
@@ -160,7 +161,7 @@
                                     <td class="row">
                                         @foreach (var c in qty.Check)
                                         {
-                                            <label class="checkbox col-4">
+                                            <label class="checkbox col-md-6 col-12">
                                                 <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
                                                 @(isar?c.Name:c.Name_EN)
                                             </label>
@@ -176,7 +177,7 @@
                                     <td class="row">
                                         @foreach (var c in qty.Radio)
                                         {
-                                            <label class="checkbox col-4">
+                                            <label class="checkbox col-6">
                                                 <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
                                                 @(isar?c.Name:c.Name_EN)
                                             </label>
@@ -207,7 +208,7 @@
                             case "T":
                                 <tr class="border">
                                     <th style="width: 100% !important;" colspan="4">
-                                        <h3 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar?qty.Name:qty.Name_EN)</h3>
+                                        <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar?qty.Name:qty.Name_EN)</h4>
                                     </th>
                                     <td></td>
                                 </tr>
@@ -220,7 +221,9 @@
                                         </label>
                                     </th>
                                     <td>
-                                        <label data-ref="@qty.Ref" style="white-space: pre-wrap;">  </label>
+                                        <div class="form-control" style="background: #f4f4f4; margin:0;">
+                                            <label data-ref="@qty.Ref" style="white-space: pre-wrap;">  </label>
+                                        </div>
                                     </td>
                                 </tr>
                                 break;

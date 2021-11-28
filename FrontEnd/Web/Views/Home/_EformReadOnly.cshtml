@@ -5,9 +5,15 @@
     }
     #saudiArabiTitlr {
         text-align: start !important;
+        margin-top: 34px;
+    }
+    th {
+        font-weight: 500;
+    }
+    #MIMIS {
+        margin: 27px 0;
     }
     @@media(max-width:770px) {
-
         .eform-body tr {
             display: flex;
             flex-direction: column;
@@ -141,7 +147,7 @@
 					"Kingdom of Saudi Arabia")
                 </label>
                 <img class="pt-1 mb-md-2 col-md-5 col-12" src="~/Design/img/VisionLogo.png" style="width: 135px; " />
-                <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0">
+                <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0" id="MIMIS">
                     @(isar?
 							"وزارة التعليم":
 					"Ministry of Education") <br />043
@@ -152,14 +158,14 @@
                     <span class="modal-title text-center" data-id="@Model.ID">@(isar?"اسم الجهة":"UnitName"):</span>
                     <span id="Eform-UnitName"></span>
                 </div>
-                <div>
+                <div style="margin: 0 48px;">
                     <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
                         <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
                     </div>
                 </div>
             </div>
             <div style="margin-top:25px">
-                <h3 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h3>
+                <h5 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h5>
             </div>
         </div>
         <div class="modal-body">
@@ -174,7 +180,7 @@
                         </tr>*@
                         <tr class="border">
                             <th style="width: 100% !important;" colspan="4">
-                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h4>
+                                <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h5>
                             </th>
                             <td></td>
                         </tr>
@@ -201,7 +207,7 @@
                         </tr>
                         <tr class="border">
                             <th style="width: 100% !important;" colspan="4">
-                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h4>
+                                <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h5>
                             </th>
                             <td></td>
                         </tr>
@@ -242,7 +248,7 @@
                     </tr>
                     <tr class="border">
                         <th style="width: 100% !important;" colspan="4">
-                            <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar? "بيانات الطلب" : "Request Information")</h4>
+                            <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar? "بيانات الطلب" : "Request Information")</h5>
                         </th>
                         <td></td>
                     </tr>
@@ -263,7 +269,7 @@
                         </tr>
                         <tr class="border">
                             <th style="width: 100% !important;" colspan="4">
-                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h4>
+                                <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h5>
                             </th>
                             <td></td>
                         </tr>

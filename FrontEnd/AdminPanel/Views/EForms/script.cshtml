@@ -3,9 +3,9 @@
 	var isar = Request.Cookies["lang"].Value == "ar";
 }
 <style>
-	input.en-item, [name="ENName"] {
-		text-align: left;
-	}
+    input.en-item, [name="ENName"] {
+        direction: ltr;
+    }
 
 	input.ar-item, [name="ARName"] {
 		text-align: right;
@@ -88,7 +88,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-													<input class="form-control" type="text" name="ARName" />
+													<textarea class="form-control" type="text" name="ARName" ></textarea>
 												</div>
 
 												<div class="form-group">
@@ -106,7 +106,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-													<input class="form-control" type="text" name="ENName" />
+													<textarea class="form-control" type="text" name="ENName" ></textarea>
 												</div>
 												<div class="form-group">
 													<label for="PlaceHolderEN" class="control-label">@(isar? "الشرح بالانجليزي" : "EN PlaceHolder")</label>
@@ -232,7 +232,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-													<input class="form-control" type="text" name="ARName" />
+													<textarea class="form-control" type="text" name="ARName" ></textarea>
 												</div>
 												<div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
 													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
@@ -422,8 +422,11 @@
 	isFirstItemUndeletable: false
 		};
 		$('.repeater-radio,.repeater-check').repeater(setting)
+	}
+	$(document).ready(function () {
+		reStartHandelr();
+
 		$('.repeater-approve').repeater({
-			//initEmpty: location.pathname.toLowerCase().search("edit")!=-1,
 			show: function () {
 				$(this).slideDown();
 				$('.select2-container', $(this)).remove();
@@ -431,17 +434,25 @@
 				//$('.select2-container').css('width', '100%');
 			},
 			hide: function (remove) {
-				if (confirm('Confirm Question')) {
-					$(this).slideUp(remove);
-				}
+				Swal.fire({
+					title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حذف الاعتماد؟" : "Are you sure To Delete this Approv?")",
+					text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+					icon: "warning",
+					showCancelButton: true,
+					focusConfirm: false,
+					confirmButtonColor: "#34c38f",
+					cancelButtonColor: "#f46a6a",
+					confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق ،احذف" : "Yes, Delte it!")",
+					cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+				}).then(function (result) {
+					if (result.value)
+                        $(this).slideUp(remove);
+				});
 			}
 		});
 		if (location.pathname.toLowerCase().search("edit") != -1) {
 			$('.repeater-approve').find("[data-repeater-item]:last-child").remove();
 		}
-	}
-	$(document).ready(function () {
-		reStartHandelr();
         $('[name="ENName"],[name="ARName"]').attr('maxlength','40')
 	});
 	function restartSelect2() {

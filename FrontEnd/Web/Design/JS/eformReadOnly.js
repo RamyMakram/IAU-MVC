@@ -7,10 +7,13 @@
 			}, success: function (dd) {
 				$('#EformReadOnly').html(dd)
 				$("#Eform-UnitName", $('#EformReadOnly')).text($('#provider option:selected').text())
-				var AutoFill = $("tr[data-id^='E']", $('#EformReadOnly'));
+				var AutoFill = $("tr[data-id^='E']", $('#Eform'));
 				([...AutoFill]).forEach(i => {
 					let ref = $('td label', $(i))
-					ref.text($('#' + ref.data('ref')).val())
+					if ($('#' + ref.data('ref')).prop('nodeName') == 'SELECT')
+						ref.text($('#' + ref.data('ref') + " option:selected").text())
+					else
+						ref.text($('#' + ref.data('ref')).val())
 				})
 				Answer.forEach(i => {
 					if (i["T"] == "C" || i["T"] == "R") {
