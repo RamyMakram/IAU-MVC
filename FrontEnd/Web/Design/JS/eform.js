@@ -9,9 +9,9 @@ function ReIntalizeEformListener() {
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
             }, success: function (dd) {
                 $('#Eform').html(dd)
-                var AutoFill = $("tr[data-id^='E']", $('#Eform'));
+                var AutoFill = $("[data-id^='E']", $('#Eform'));
                 ([...AutoFill]).forEach(i => {
-                    let ref = $('td label', $(i))
+                    let ref = $('div label', $(i))
                     if ($('#' + ref.data('ref')).prop('nodeName') == 'SELECT')
                         ref.text($('#' + ref.data('ref') +" option:selected").text())
                     else
@@ -21,8 +21,8 @@ function ReIntalizeEformListener() {
                 if (filled) {
                     let formid = $('.modal-title', $('#Eform')).data('id');
                     var data = Answer.filter(q => q.EFromID == formid);
-                    var QTY = $('tr[data-id]', $('#Eform'));
-                    $('tr[data-id] th label', $('#Eform')).css({ 'color': '#212529' });
+                    var QTY = $('[data-id]', $('#Eform'));
+                    $('[data-id] label', $('#Eform')).css({ 'color': '#212529' });
                     ([...QTY]).forEach(s => {
                         var frm_qt = $(s).data('id').split('-')
                         let T = frm_qt[0];
@@ -40,7 +40,7 @@ function ReIntalizeEformListener() {
                                 break;
                             case "I":
                             case "D":
-                                $('td input', $(s)).val(data.find(q => q.Question_ID == QTyID).Value_En)
+                                $(' input', $(s)).val(data.find(q => q.Question_ID == QTyID).Value_En)
                                 break;
                             default:
                         }
@@ -49,8 +49,8 @@ function ReIntalizeEformListener() {
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
                 $('.saveeform').click(w => {
                     let formid = $('.modal-title', $('#Eform')).data('id');
-                    var QTY = $('tr[data-id]', $('#Eform'));
-                    $('tr[data-id] th label', $('#Eform')).css({ 'color': '#212529' });
+                    var QTY = $('[data-id]', $('#Eform'));
+                    $('[data-id] label', $('#Eform')).css({ 'color': '#212529' });
                     let Error = false;
                     ([...QTY]).forEach(s => {
                         var frm_qt = $(s).data('id')
@@ -59,7 +59,7 @@ function ReIntalizeEformListener() {
                         let T = frm_qt.split('-')[0];
                         switch (T) {
                             case 'E':
-                                var val = $('td label', $(s)).text()
+                                var val = $(' label', $(s)).text()
                                 AddOrUpdate({ EFromID: formid, Question_ID: frm_qt.split('-')[1], T, Value: val, Value_En: val, Name: name[0], Name_En: name[1] });
                                 break;
                             case "C":
@@ -72,7 +72,7 @@ function ReIntalizeEformListener() {
                                     values_En.push(val[1])
                                 })
                                 if (req && (values.length == 0 || values_En.length == 0)) {
-                                    $('th label', $(s)).css({ 'color': 'red' })
+                                    $('label', $(s)).css({ 'color': 'red' })
                                     Error = true;
                                     return;
                                 }
@@ -80,9 +80,9 @@ function ReIntalizeEformListener() {
                                 break;
                             case "I":
                             case "D":
-                                var val = $('td input', $(s)).val()
+                                var val = $(' input', $(s)).val()
                                 if (req && val.length == 0) {
-                                    $('th label', $(s)).css({ 'color': 'red' })
+                                    $(' label', $(s)).css({ 'color': 'red' })
                                     Error = true;
                                     return;
                                 }

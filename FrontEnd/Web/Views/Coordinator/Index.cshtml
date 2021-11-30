@@ -74,25 +74,25 @@
 						</li>
 					}
 					<li id="nav-contact" style="display:none;">
-						<a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+						<a class="nav-link" href="/Contactus">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
 					</li>
 					<li id="nav-lang" style="display:none;">
-						<a class="nav-link"
-						   href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
-													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
-							@(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
-						</a>
+                        <a class="nav-link"
+                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en",redirect=Request.Url.ToString()})
+													: Url.Action("ChangeLang","Home",new { lang="ar",redirect=Request.Url.ToString()}))>
+                            @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+                        </a>
 					</li>
 				</ul>
 				<div class="vision">
 					<div>
 						@if (ViewBag.CookieLang == "ar")
 						{
-							<button>اتصل بنا</button>
+							<button href="/Contactus"><a href="/Contactus" style="text-decoration:none;color:white">اتصل بنا</a></button>
 						}
 						else
 						{
-							<button>Contact</button>
+							<button><a href="/Contactus" style="text-decoration:none;color:white">Contact</a></button>
 						}
 						@Html.Partial("~/Views/Shared/_Language.cshtml")
 					</div>

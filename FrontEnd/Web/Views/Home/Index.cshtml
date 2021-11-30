@@ -156,12 +156,12 @@
 
                     }
                     <li id="nav-contact" style="display:none;">
-                        <a class="nav-link">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                        <a class="nav-link" href="/Contactus">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
                     </li>
                     <li id="nav-lang" style="display:none;">
                         <a class="nav-link"
-                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en"})
-													: Url.Action("ChangeLang","Home",new { lang="ar"}))>
+                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en",redirect=Request.Url.ToString()})
+													: Url.Action("ChangeLang","Home",new { lang="ar",redirect=Request.Url.ToString()}))>
                             @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
                         </a>
                     </li>
@@ -1265,9 +1265,9 @@
             </div>
         }
     </div>
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="Eform" dir="@(isar?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
+    <div class="modal fade p-0" data-backdrop="static" data-keyboard="false" id="Eform" dir="@(isar?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
     </div>
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="EformReadOnly" dir="@(isar?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
+    <div class="modal fade p-0" data-backdrop="static" data-keyboard="false" id="EformReadOnly" dir="@(isar?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
     </div>
     <div class="modal fade" id="FourMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

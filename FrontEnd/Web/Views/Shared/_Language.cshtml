@@ -2,10 +2,10 @@
 	var lang = Request.Cookies["lang"].Value ?? "en";
 	if (lang == "en")
 	{
-		<a class="btn langBTN" href=@Url.Action("ChangeLang","Home",new { lang="ar"})>AR</a>
+		<a class="btn langBTN" href=@Url.Action("ChangeLang","Home",new { lang="ar",redirect=Request.Url.ToString()})>AR</a>
 	}
 	else
 	{
-		<a class="btn langBTN" href=@Url.Action("ChangeLang","Home",new { lang="en"})>EN</a>
+		<a class="btn langBTN" href=@Url.Action("ChangeLang","Home",new { lang="en",redirect=Request.Url.ToString()})>EN</a>
 	}
 }

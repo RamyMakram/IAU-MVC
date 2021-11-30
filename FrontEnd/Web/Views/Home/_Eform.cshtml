@@ -4,7 +4,101 @@
         --main-btn-color: #0a1332 !important;
     }
 
+    #saudiArabiTitlr, #MIMIS {
+        margin-top: 36px;
+    }
+
+    .eform-section label {
+        padding: 10px;
+        height: 100%;
+        border: 1px solid #f4f4f4
+    }
+
+    .border-section {
+        border: 1px solid #f4f4f4
+    }
+
+    .modal-dialog-eform {
+        width: 68vw !important;
+        max-width: unset !important;
+    }
+
+    [data-id] {
+        margin: 10px 0;
+        align-items: center;
+    }
+
+    [data-id^="C"] div:nth-of-type(1), [data-id^="R"] div:nth-of-type(1) {
+        max-width: 250px;
+        width: 250px;
+    }
+
+    [data-id^="C"] div:nth-of-type(2), [data-id^="R"] div:nth-of-type(2) {
+        width: 48% !important;
+    }
+
+    [data-id].col-md-6 > label {
+        max-width: 292px;
+        width: 292px !important;
+        margin: 0 10px;
+    }
+
+    [data-id]:not(.col-md-6) > label {
+        margin: 10px;
+    }
+
+    [data-id]:not(.col-md-6) > div {
+        margin: 0 25px;
+    }
+
+    .form-control {
+        max-height: 37px !important;
+        color: white;
+        background: #283758;
+    }
+
+    @@media(max-width:1200px) {
+        [data-id] {
+            flex-direction: column !important;
+        }
+        [data-id^="C"] div:nth-of-type(2), [data-id^="R"] div:nth-of-type(2) {
+            width: 100% !important;
+        }
+            [data-id].col-md-6 > label {
+                max-width: unset;
+                width: 100% !important;
+            }
+
+        #uninadee {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+    }
+
     @@media(max-width:770px) {
+        #MIMIS{
+            text-align:center
+        }
+        .modal-body, .modal-header {
+            padding: 10px !important;
+        }
+        #EformNameHandelCom {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+            #EformNameHandelCom div {
+                justify-content: center !important;
+            }
+
+        #uninadee div {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        #saudiArabiTitlr, #MIMIS {
+            margin-top: 0px;
+        }
 
         .eform-body tr {
             display: flex;
@@ -23,10 +117,16 @@
             .modal-dialog-eform > .modal-content > .modal-header {
                 display: none
             }
+
+        .modal-dialog-eform {
+            max-width: 89vw !important;
+            width: 100% !important;
+        }
     }
 
     .modal-dialog-eform {
-        max-width: 46vw !important;
+        width: 68vw !important;
+        max-width: unset !important;
     }
 
     td {
@@ -129,118 +229,216 @@
 }
 <div class="modal-dialog modal-dialog-eform" role="document">
     <div class="modal-content">
-        <div class="modal-header" style="display:inline-flex;justify-content:space-between;flex-direction:row;">
-            <h2 class="modal-title w-100" style="text-align:start" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h2>
-            <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
-        </div>
-        <div class="modal-body">
+        <div class="modal-header d-flex flex-column " style="padding: 40px 40px 0 40px;">
+            <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
+                <label class="pt-1 mb-md-2 col-md col-12 px-0" id="saudiArabiTitlr">
+                    @(isar?
+					"المملكة العربية السعودية":
+					"Kingdom of Saudi Arabia")
+                </label>
+                <div class="pt-1 mb-md-2 col-md col-12 justify-content-center align-items-center d-flex">
+                    <img src="~/Design/img/VisionLogo.png" style="width: 158px !important; " />
+                </div>
+                <div class="pt-1 mb-md-2 text-md-center text-start col-md col-12 px-0 d-flex justify-content-end">
+                    <label class="" id="MIMIS">
+                        @(isar?
+							"وزارة التعليم":
+					"Ministry of Education") <br />043
+                    </label>
+                </div>
 
-            <table class="table m-0">
-                <tbody class="eform-body">
-                    @foreach (var qty in Model.Question)
-                    {
-                        switch (qty.T)
+            </div>
+            <div id="uninadee" style="display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%">
+                <div dir="rtl" style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+                    <span class="modal-title " style="direction:rtl" data-id="@Model.ID">اسم الجهة:</span>
+                    <span id="Eform-UnitName">الجهة رقم 1</span>
+                </div>
+                <div dir="ltr" style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+                    <span class="modal-title" style="direction:ltr" data-id="@Model.ID">Name of administrative level:</span>
+                    <span id="Eform-UnitNameEN">@ViewBag.UnitENName Unit Number 1</span>
+                </div>
+            </div>
+
+            <div id="EformNameHandelCom" style="display:inline-flex;justify-content:space-between;align-items:center;width:100%">
+                <h5 class="modal-title w-100 text-center" data-id="@Model.ID">@Model.Name</h5>
+                <h5 class="modal-title w-100 text-center" data-id="@Model.ID">@Model.Name_EN</h5>
+                <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
+                    <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body" style="padding: 40px 40px 0 40px;">
+            <div class="row w-100 p-0 m-0">
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width:100%;direction:rtl">
+                                1.1- البيانات الشخصية الأساسية
+                            </label>
+                            <label style="width:100%;direction:ltr">1.1- Personal Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+                        @foreach (var qty in Model.Question.Where(q => q.T == "E"))
                         {
-                            case "I":
-                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
-                                    <th>
-                                        <label>
-                                            @(isar?qty.Name:qty.Name_EN)
-                                        </label>
-                                    </th>
-                                    <td>
-                                        <input class="form-control" placeholder="@(isar?qty.Input.PlaceHolder:qty.Input.PlaceholderEN)" type="@(qty.Input.ISNum?"number":"text")" />
-                                    </td>
-                                </tr>
-                                break;
-                            case "C":
-                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
-                                    <th>
-                                        <label>@(isar?qty.Name:qty.Name_EN)</label>
-                                    </th>
-                                    <td class="row">
-                                        @foreach (var c in qty.Check)
-                                        {
-                                            <label class="checkbox col-md-6 col-12">
-                                                <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                @(isar?c.Name:c.Name_EN)
-                                            </label>
-                                        }
-                                    </td>
-                                </tr>
-                                break;
-                            case "R":
-                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
-                                    <th>
-                                        <label>@(isar?qty.Name:qty.Name_EN)</label>
-                                    </th>
-                                    <td class="row">
-                                        @foreach (var c in qty.Radio)
-                                        {
-                                            <label class="checkbox col-6">
-                                                <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                @(isar?c.Name:c.Name_EN)
-                                            </label>
-                                        }
-                                    </td>
-                                </tr>
-                                break;
-                            case "D":
-                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
-                                    <th>
-                                        <label>
-                                            @(isar?qty.Name:qty.Name_EN)
-                                        </label>
-                                    </th>
-                                    <td>
-                                        <input class="form-control" type="date" />
-                                    </td>
-                                </tr>
-                                break;
-                            case "S":
-                                <tr class="@(qty.Sepa.Empty?"EmptySpace":"Space")">
-                                    <th>
-                                    </th>
-                                    <td>
-                                    </td>
-                                </tr>
-                                break;
-                            case "T":
-                                <tr class="border">
-                                    <th style="width: 100% !important;" colspan="4">
-                                        <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar?qty.Name:qty.Name_EN)</h4>
-                                    </th>
-                                    <td></td>
-                                </tr>
-                                break;
-                            case "E":
-                                <tr data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN">
-                                    <th>
-                                        <label>
-                                            @(isar?qty.Name:qty.Name_EN)
-                                        </label>
-                                    </th>
-                                    <td>
-                                        <div class="form-control" style="background: #f4f4f4; margin:0;">
-                                            <label data-ref="@qty.Ref" style="white-space: pre-wrap;">  </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                break;
-                            case "P":
-                                <tr class="border">
-                                    <th style="width: 100% !important;" colspan="4">
-                                        <p style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar?qty.Para.Name:qty.Para.Name_En)</p>
-                                    </th>
-                                    <td></td>
-                                </tr>
-                                break;
-                            default:
-                                break;
+                            <div class="col-md-6 col-12 d-inline-flex justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN">
+                                <label>
+                                    @qty.Name <br /> @qty.Name_EN
+                                </label>
+                                <div class="form-control" style=" margin:0;">
+                                    <label data-ref="@qty.Ref" style="white-space: pre-wrap;">  </label>
+                                </div>
+                            </div>
                         }
-                    }
-                </tbody>
-            </table>
+
+                    </div>
+                </div>
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width:100%;direction:rtl">
+                                1.2- البيانات الشخصية الإضافية
+                            </label>
+                            <label style="width:100%;direction:ltr">1.2- Extra Personal Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+                        @foreach (var qty in Model.Question.Where(q => q.T != "E"))
+                        {
+                            switch (qty.T)
+                            {
+                                case "I":
+                                    <div class="col-md-6 col-12 d-inline-flex justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <label>
+                                            @qty.Name <br /> @qty.Name_EN
+                                        </label>
+                                        <input class="form-control" placeholder="@(isar?qty.Input.PlaceHolder:qty.Input.PlaceholderEN)" type="@(qty.Input.ISNum?"number":"text")" />
+                                    </div>
+                                    break;
+                                case "C":
+                                    <div class="col-md-6 col-12 flex-row d-flex align-items-center " data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <div>
+                                            @qty.Name <br /> @qty.Name_EN
+                                        </div>
+                                        <div class="row justify-content-center d-flex">
+                                            @foreach (var c in qty.Check)
+                                            {
+                                                <label class="checkbox col-12">
+                                                    <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
+                                                    @(isar?c.Name:c.Name_EN)
+                                                </label>
+                                            }
+                                        </div>
+                                    </div>
+                                    break;
+                                case "R":
+                                    <div class="col-md-6 col-12 d-inline-flex" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <label>
+                                            @qty.Name <br /> @qty.Name_EN
+                                        </label>
+                                        <div class="row w-100 flex-row flex-wrap d-inline-flex align-items-center ">
+                                            @foreach (var c in qty.Radio)
+                                            {
+                                                <label class="checkbox col">
+                                                    <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
+                                                    @(isar?c.Name:c.Name_EN)
+                                                </label>
+                                            }
+                                        </div>
+                                    </div>
+                                    break;
+                                case "D":
+                                    <div class="col-md-6 col-12 d-inline-flex justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <label>
+                                            @qty.Name <br /> @qty.Name_EN
+                                        </label>
+                                        <input class="form-control" type="date" />
+                                    </div>
+                                    break;
+                                case "S":
+                                    <div class="@(qty.Sepa.Empty?"EmptySpace":"Space") col-12">
+
+                                    </div>
+                                    break;
+                                case "T":
+                                    <div class="border col-12">
+                                        <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@qty.Name <br /> @qty.Name_EN</h4>
+                                    </div>
+                                    break;
+                                case "P":
+                                    <div class="border" style="text-align:start">
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
+                                            @qty.Para.Name
+                                        </p>
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:ltr">
+                                            @qty.Para.Name_En
+                                        </p>
+                                    </div>
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width:100%;direction:rtl">
+                                2- بيانات الطلب
+                            </label>
+                            <label style="width:100%;direction:ltr">2- Request Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width:100%;direction:rtl">
+                                نوع الطلب | Request Type
+                                <label style="border:0;margin:0 5px" id="eform-reqType"></label>
+                            </label>
+                            <label style="width: 100%; direction: rtl">
+                                نوع الخدمة | Service Type
+                                <label style="border:0;margin:0 5px" id="eform-ServType"></label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 my-3">
+                    <div class="row m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center">
+                            <label style="width:100%;direction:rtl">
+                                3- الاعتمادات
+                            </label>
+                            <label style="width:100%;direction:ltr">3- Approvals</label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+
+                    </div>
+                </div>
+                @{
+                    var count = 1;
+                }
+                @foreach (var i in Model.Eform_Approval)
+                {
+                    <div class="col-12 p-0 my-3">
+                        <div class="row m-0 w-100">
+                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                                <label style="width:100%;direction:rtl">
+                                    @(count).3 @i.AR
+                                </label>
+                                <label style="width:100%;direction:ltr">3.@count @i.EN</label>
+                            </div>
+                        </div>
+                        <div class="row border-section m-0 w-100" style="height:40px">
+
+                        </div>
+                    </div>
+                    count++;
+                }
+            </div>
+
         </div>
         <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
             <p class="row text-center" style="color:red">

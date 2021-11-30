@@ -9,12 +9,15 @@
         color: white;
         text-align: center;
     }
+    a{
+        color:white;
+    }
 </style>
 @{
     var isar = Request.Cookies["lang"]?.Value == "ar";
 }
 <div style="justify-content: center; align-items: center; display: flex; height: 84vh;">
-    <table class="table">
+    <table class="table" dir="@(isar?"rtl":"ltr")">
         <tr>
             <th>
                 @(
@@ -40,7 +43,7 @@
                 )
             </th>
             <td>
-                <a href="tel:0133333322"></a>
+                <a href="tel:0133333322">0133333322</a>
             </td>
         </tr>
         <tr>

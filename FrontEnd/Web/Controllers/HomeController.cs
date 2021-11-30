@@ -151,10 +151,10 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult ChangeLang(string lang)
+        public ActionResult ChangeLang(string lang, string redirect)
         {
-            Response.Cookies.Set(new HttpCookie("lang", lang == "ar" ? lang : "en"));
-            return RedirectToAction("Index", "Home");
+            Response.Cookies.Add(new HttpCookie("lang", lang ?? "ar"));
+            return Redirect(redirect);
         }
         [HttpPost]
         [ValidateAntiForgeryToken()]
