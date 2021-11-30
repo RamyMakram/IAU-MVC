@@ -19,10 +19,9 @@ function ReIntalizeEformListener() {
                 })
                 $('#Eform').modal('toggle');
                 if (filled) {
-                    let formid = $('.modal-title', $('#Eform')).data('id');
+                    let formid = $('[data-eformid]', $('#Eform')).data('eformid');
                     var data = Answer.filter(q => q.EFromID == formid);
                     var QTY = $('[data-id]', $('#Eform'));
-                    $('[data-id] label', $('#Eform')).css({ 'color': '#212529' });
                     ([...QTY]).forEach(s => {
                         var frm_qt = $(s).data('id').split('-')
                         let T = frm_qt[0];
@@ -48,9 +47,8 @@ function ReIntalizeEformListener() {
                 }
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
                 $('.saveeform').click(w => {
-                    let formid = $('.modal-title', $('#Eform')).data('id');
+                    let formid = $('[data-eformid]', $('#Eform')).data('eformid');
                     var QTY = $('[data-id]', $('#Eform'));
-                    $('[data-id] label', $('#Eform')).css({ 'color': '#212529' });
                     let Error = false;
                     ([...QTY]).forEach(s => {
                         var frm_qt = $(s).data('id')
