@@ -13,6 +13,7 @@
 
 <!-- select2 css -->
 <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/bootstrap-multiselect/css/bootstrap-multiselect.min.css" rel="stylesheet" />
 
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
@@ -25,7 +26,19 @@
         font-weight: bold;
     }
 </style>
+<style>
+    span.select2-selection.select2-selection {
+        height: 36px !important;
+    }
 
+    span.select2 {
+        width: 100% !important
+    }
+
+    .select2-selection__rendered, .select2-selection__arrow {
+        margin-top: 3px;
+    }
+</style>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -42,7 +55,7 @@
                                 @Html.TextBoxFor(q => q.Main_Services_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name", @required = "true" })
                             </div>
                             <div class="form-group">
-                                <label class="control-label" key="t-servicetype" class="control-label">units</label>
+                                <label class="control-label" key="t-servicetype">units</label>
                                 @Html.DropDownListFor(q => q.ServiceTypeID, ViewBag.ServiceType as SelectList, new { @class = "form-control select2", @required = "true" })
                             </div>
                         </div>
@@ -54,8 +67,25 @@
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox mb-3 p-0">
-                                    <label class="control-label" key="t-Applicanttype" for="customCheck1">Applicanttype</label>
-                                    @Html.ListBoxFor(model => model.Applicant_Types, ViewBag.ApplicantType as SelectList, new { @class = "select2 form-control select2-multiple", @multiple = "multiple", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr", @required = "true" })
+                                    <label class="control-label w-100" key="t-Applicanttype">Applicanttype</label>
+                                    @{
+                                        var isar = Request.Cookies["lang"].Value == "ar";
+                                        var ApplicantType = ViewBag.ApplicantType as List<IAUAdmin.DTO.Entity.ApplicantTypeDTO>;
+                                    }
+                                    <select multiple="multiple" required name="Applicant_Types">
+                                        <optgroup label="@(isar?"منسوبي للجامعة":"IAU Affliated")">
+                                            @foreach (var i in ApplicantType.Where(q => q.Affliated))
+                                            {
+                                                <option value="@i.Applicant_Type_ID">@(isar?i.Applicant_Type_Name_AR:i.Applicant_Type_Name_EN)</option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="@(isar?"غير منسوبي للجامعة":"Not IAU Affliated")">
+                                            @foreach (var i in ApplicantType.Where(q => !q.Affliated))
+                                            {
+                                                <option value="@i.Applicant_Type_ID">@(isar?i.Applicant_Type_Name_AR:i.Applicant_Type_Name_EN)</option>
+                                            }
+                                        </optgroup>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -84,6 +114,35 @@
 
 <!-- init js -->
 <script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
-
+<script src="~/assets/libs/bootstrap-multiselect/js/bootstrap-multiselect.min.js"></script>
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
+@if (Request.Cookies["lang"].Value == "ar")
+{
+    <script>
+        $.fn.multiselect.Constructor.prototype.defaults.selectAllText = "تحديد الكل";
+        $.fn.multiselect.Constructor.prototype.defaults.filterPlaceholder = "بحث";
+        $.fn.multiselect.Constructor.prototype.defaults.nonSelectedText = "لا يوجد عناصر";
+        $.fn.multiselect.Constructor.prototype.defaults.nSelectedText = "اختر";
+        $.fn.multiselect.Constructor.prototype.defaults.allSelectedText = "اختر الكل";
+    </script>
+    <style>
+        .form-check-input {
+            margin-right: unset !important
+        }
+
+        label.form-check-label {
+            margin-right: 29px;
+        }
+
+        .multiselect-container.dropdown-menu.show {
+            direction: rtl;
+        }
+    </style>
+}
+<script>
+    $('[name="Applicant_Types"]').multiselect({
+        includeSelectAllOption: true
+    });
+    $('[name="Applicant_Types"]').val("@(string.Join(",",Model.Applicant_Types.Select(q=>q.ToString())))".split(",")).multiselect("refresh")
+</script>

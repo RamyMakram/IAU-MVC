@@ -34,6 +34,7 @@
                             <th key="t-name">Location Name</th>
                             <th key="t-enname">Location En Name</th>
                             <th key="t-activeTitle">Status</th>
+                            <th>@(isar?"منسوبي الجامعة":"IAU Affliated")</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -44,6 +45,7 @@
                             <tr>
                                 <td class="TH-ar">@i.Applicant_Type_Name_AR</td>
                                 <td class="TH-en">@i.Applicant_Type_Name_EN</td>
+                                <td>@(i.Affliated?isar?"نعم":"Yes": isar ? "لا" : "No")</td>
                                 <td>
                                     @Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Applicanttype", new { Id = i.Applicant_Type_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
                                 </td>

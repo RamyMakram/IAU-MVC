@@ -9,6 +9,10 @@
     {
       "library": "jquery-validate@1.19.3",
       "destination": "assets/libs/jquery-validate/"
+    },
+    {
+      "library": "bootstrap-multiselect@1.1.1",
+      "destination": "assets/libs/bootstrap-multiselect/"
     }
   ]
 }
