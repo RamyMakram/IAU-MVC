@@ -5,7 +5,7 @@ function ReIntalizeEformListener() {
         $(".loading").addClass("active");
         let filled = $(this).hasClass("filled");
         $.ajax({
-            url: `/Home/GetEform/${$(this).data("id")}`, method: "Post", data: {
+            url: `/Home/GetEform?ID=${$(this).data("id")}&UnitID=${$((inquiry ? "#provider" : "#providerOther") + '  option:selected').val() == "null" ? null : $((inquiry ? "#provider" : "#providerOther") + '  option:selected').val()}`, method: "Post", data: {
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
             }, success: function (dd) {
                 $('#Eform').html(dd)
@@ -17,6 +17,8 @@ function ReIntalizeEformListener() {
                     else
                         ref.text($('#' + ref.data('ref')).val())
                 })
+                $('#eform-ServType', $('#Eform')).text($('.active.mainservice p').text())
+                $('#eform-reqType', $('#Eform')).text($('.active.requesttype p').text())
                 $('#Eform').modal('toggle');
                 if (filled) {
                     let formid = $('[data-eformid]', $('#Eform')).data('eformid');

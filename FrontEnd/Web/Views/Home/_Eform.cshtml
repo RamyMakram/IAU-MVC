@@ -251,15 +251,15 @@
             <div id="uninadee" style="display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%">
                 <div dir="rtl" style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
                     <span class="modal-title " data-eformid="@Model.ID"  style="direction:rtl">اسم الجهة:</span>
-                    <span id="Eform-UnitName">الجهة رقم 1</span>
+                    <span id="Eform-UnitName">@ViewBag.UnitARName</span>
                 </div>
                 <div dir="ltr" style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
-                    <span class="modal-title" style="direction:ltr">Name of administrative level:</span>
-                    <span id="Eform-UnitNameEN">@ViewBag.UnitENName Unit Number 1</span>
+                    <span style="direction:ltr">Name of administrative level:</span>
+                    <span id="Eform-UnitNameEN">@ViewBag.UnitENName</span>
                 </div>
             </div>
 
-            <div id="EformNameHandelCom" style="display:inline-flex;justify-content:space-between;align-items:center;width:100%">
+            <div id="EformNameHandelCom" style="display:inline-flex;justify-content:space-between;align-items:center;width:100%;margin-top:15px;padding:25px">
                 <h5 class="modal-title w-100 text-center">@Model.Name</h5>
                 <h5 class="modal-title w-100 text-center">@Model.Name_EN</h5>
                 <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
