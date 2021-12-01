@@ -77,6 +77,14 @@
                                     {
                                         <li><a href=@Url.Action("Home", "ServicesBank") id="ServicesBank,SubServices,EForms" key="t-SevicesBank">اعدادات الخدمات الاساسية</a></li>
                                     }
+                                    if (data.Contains("Applicant Types"))
+                                    {
+                                        <li>
+                                            <a href=@Url.Action("Home", "Applicanttype") id="Applicanttype">
+                                                @(Request.Cookies["lang"].Value=="ar"?"أنواع المتقدمين":"Applicant Types")
+                                            </a>
+                                        </li>
+                                    }
                                     if (data.Contains("Administrative Levels Settings"))
                                     {
                                         <li><a href=@Url.Action("Home", "Levels") id="Levels" key="t-levels">المستويات الادراية</a></li>

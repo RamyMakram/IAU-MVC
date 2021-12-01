@@ -23,6 +23,11 @@ namespace AdminPanel.Models
 			},
 			new PagesPriviliges()
 			{
+				Name = "Applicant Types",
+				path = "Applicanttype"
+			},
+			new PagesPriviliges()
+			{
 				Name = "Permissions",
 				path = "Jobs"
 			},new PagesPriviliges()

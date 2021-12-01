@@ -12,5 +12,6 @@ namespace IAUAdmin.DTO.Entity
 		public string Applicant_Type_Name_EN { get; set; }
 		public string Applicant_Type_Name_AR { get; set; }
 		public Nullable<bool> IS_Action { get; set; }
+		public bool Affliated { get; set; }
 	}
 }
