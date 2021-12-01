@@ -70,7 +70,7 @@ namespace IAU_BackEnd.Controllers
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
                 var unit = await p.Units.FirstOrDefaultAsync(q => q.Units_ID == uid);
-                return Ok(new ResponseClass() { success = true, result = new { Eform = e_Forms, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR } });
+                return Ok(new ResponseClass() { success = true, result = new { Eform = e_Forms, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR, UnitCode = unit.Ref_Number.Substring(4, 5) + e_Forms.Code } });
             }
             catch (Exception eee)
             {

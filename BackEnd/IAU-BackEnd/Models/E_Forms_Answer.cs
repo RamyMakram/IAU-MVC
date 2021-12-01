@@ -22,6 +22,7 @@ namespace IAU_BackEnd.Models
         public Nullable<System.DateTime> FillDate { get; set; }
         public string Name { get; set; }
         public string Name_En { get; set; }
+        public string Type { get; set; }
     
         public virtual Question Question { get; set; }
     }

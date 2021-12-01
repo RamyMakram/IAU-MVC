@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1af6fa459f1e42ea8a567db91ffb3604" Name="Diagram1">
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Applicant_Type" Width="1.5" PointX="3" PointY="35" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.CheckBox_Type" Width="1.5" PointX="12" PointY="37" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.City" Width="1.5" PointX="3" PointY="38.25" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Country" Width="1.5" PointX="1.5" PointY="42.125" />
@@ -37,8 +36,6 @@
         <EntityTypeShape EntityType="MostafidDatabaseModel.Units_Request_Type" Width="1.5" PointX="5.25" PointY="23.875" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Units_Type" Width="1.5" PointX="0.75" PointY="20.75" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.ValidTo" Width="1.5" PointX="5.25" PointY="30.125" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_CheckBox_Type_Question" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_City_Region" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_City" />
@@ -85,6 +82,9 @@
         <EntityTypeShape EntityType="MostafidDatabaseModel.UnitServiceTypes" Width="1.5" PointX="8.25" PointY="24" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Applicant_Type" Width="1.5" PointX="3.375" PointY="1" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

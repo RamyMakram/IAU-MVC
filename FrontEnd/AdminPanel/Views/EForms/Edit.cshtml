@@ -87,7 +87,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="name">@(isar?"كود النموذج":"Eform Code")</label>
-                                @Html.TextBoxFor(q => q.Code, new { @class = "form-control" })
+                                @Html.TextBoxFor(q => q.Code, new { @class = "form-control", @maxlength = 2 })
                             </div>
                         </div>
 
@@ -193,7 +193,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)"/>
+                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
                                                             </div>
 
                                                             <div class="form-group">
@@ -211,7 +211,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                <input class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)"/>
+                                                                <input class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="PlaceHolderEN" class="control-label">@(isar? "الشرح بالانجليزي" : "EN PlaceHolder")</label>

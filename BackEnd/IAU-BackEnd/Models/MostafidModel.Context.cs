@@ -20,13 +20,12 @@ namespace IAU_BackEnd.Models
         {
             this.Configuration.LazyLoadingEnabled = false;
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
         public virtual DbSet<CheckBox_Type> CheckBox_Type { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
@@ -59,5 +58,6 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Units_Type> Units_Type { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
+        public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
     }
 }

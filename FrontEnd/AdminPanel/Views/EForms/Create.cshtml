@@ -78,7 +78,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="name">@(isar?"كود النموذج":"Eform Code")</label>
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control" })
+								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @maxlength = 2 })
 							</div>
 						</div>
 

@@ -260,6 +260,7 @@ namespace Web.Controllers
             var Jobject = JObject.Parse(response.result.ToString());
             ViewBag.UnitENName = Jobject["UnitEN"].ToString();
             ViewBag.UnitARName = Jobject["UnitAR"].ToString();
+            ViewBag.EfCode = Jobject["UnitCode"].ToString();
             return PartialView("~/Views/Home/_Eform.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(Jobject["Eform"].ToString()));
         }
         

@@ -156,7 +156,7 @@
 
                     }
                     <li id="nav-contact" style="display:none;">
-                        <a class="nav-link" href="/Contactus">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                        <a style="text-decoration:none;color:white" href="/Contactus">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
                     </li>
                     <li id="nav-lang" style="display:none;">
                         <a class="nav-link"
@@ -169,7 +169,10 @@
                 </ul>
                 <div class="vision">
                     <div>
-                        <button>@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</button>
+                        
+                        <button>
+                            <a style="text-decoration:none;color:white" href="/Contactus">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                        </button>
                         @Html.Partial("~/Views/Shared/_Language.cshtml")
                     </div>
                     <img src="~/Design/img/VisionLogo2.png">

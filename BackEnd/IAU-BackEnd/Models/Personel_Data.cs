@@ -41,7 +41,6 @@ namespace IAU_BackEnd.Models
         public string Mobile { get; set; }
         public string IS_Action { get; set; }
     
-        public virtual Applicant_Type Applicant_Type { get; set; }
         public virtual City City { get; set; }
         public virtual Country Country { get; set; }
         public virtual Country Country1 { get; set; }
@@ -51,5 +50,6 @@ namespace IAU_BackEnd.Models
         public virtual Title_Middle_Names Title_Middle_Names { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
+        public virtual Applicant_Type Applicant_Type { get; set; }
     }
 }

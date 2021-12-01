@@ -39,6 +39,7 @@ let type = []
 let titles = []
 let doctype = []
 var Answer = [];
+let $AppType = []
 $(document).ready(function () {
     let data = null;
     let cook = document.cookie.split(';');
@@ -88,6 +89,17 @@ $(document).ready(function () {
                     $(`#Nationality_ID option:contains("${res["nationality"]}")`).attr('selected', true);
                     $("#Nationality_ID").attr("disabled", "")
                 }
+                if ($AppType.length == 0) {
+                    let timeout = setInterval(function () {
+                        if ($AppType.length != 0) {
+                            FilterAppType(true);
+                            clearInterval(timeout)
+                        }
+                    }, 500)
+                }
+                else {
+                    FilterAppType(true);
+                }
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
             },
             error: function () {
@@ -124,11 +136,8 @@ function reIntializeReType() {
             url: "/Home/GetApplicantData?ServiceID=" + ID + "&RequestType=" + $(this).attr("data-requesttypeid"), method: "Post", data: {
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
             }, success: function (data) {
-                $("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
-                //console.log(JSON.parse(data))
-                JSON.parse(data).forEach(i => {
-                    $("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
-                })
+                $AppType = JSON.parse(data)
+                $('#Affiliated').val("0").trigger("change");
                 $("#right-arrow").click();
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
             }
@@ -1205,7 +1214,13 @@ function confirm() {
 }
 
 let isAffilate = 0;
-
+function FilterAppType(aff) {
+    let $data = $AppType.filter(q => aff ? q.Affliated : !q.Affliated)
+    $("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
+    $data.filter(q => !q.Affiliated).forEach(i => {
+        $("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
+    })
+}
 function AffiliatedState() {
     isAffilate = parseInt($("#Affiliated option:selected").val());
     if (isAffilate == 1) {
@@ -1219,6 +1234,7 @@ function AffiliatedState() {
     } else if (($("#Affiliated option:selected").text()).toLowerCase()) {
         $("#IAUID").attr("disabled", "disabled");
     }
+    FilterAppType(isAffilate == 1)
 }
 $('#Nationality_ID').change(i => {
     $("#__IDNUMBind").text(language == "ar" ? "رقم الهوية الوطنية" : "National ID Number")

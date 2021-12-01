@@ -9,10 +9,11 @@
           <Key>
             <PropertyRef Name="Applicant_Type_ID" />
           </Key>
-          <Property Name="Applicant_Type_ID" Type="int" Nullable="false" />
+          <Property Name="Applicant_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Applicant_Type_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Applicant_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Affliated" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
@@ -73,6 +74,7 @@
           <Property Name="Value_En" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FillDate" Type="datetime" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Type" Type="nchar" MaxLength="1" />
           <Property Name="Name_En" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="ID_Document">
@@ -1177,7 +1179,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MostafidDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MostafidDatabaseEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Applicant_Type" EntityType="MostafidDatabaseModel.Applicant_Type" />
           <EntitySet Name="CheckBox_Type" EntityType="MostafidDatabaseModel.CheckBox_Type" />
           <EntitySet Name="City" EntityType="MostafidDatabaseModel.City" />
           <EntitySet Name="Country" EntityType="MostafidDatabaseModel.Country" />
@@ -1209,14 +1210,6 @@
           <EntitySet Name="Units_Request_Type" EntityType="MostafidDatabaseModel.Units_Request_Type" />
           <EntitySet Name="Units_Type" EntityType="MostafidDatabaseModel.Units_Type" />
           <EntitySet Name="ValidTo" EntityType="MostafidDatabaseModel.ValidTo" />
-          <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type">
-            <End Role="Applicant_Type" EntitySet="Applicant_Type" />
-            <End Role="Personel_Data" EntitySet="Personel_Data" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type">
-            <End Role="Applicant_Type" EntitySet="Applicant_Type" />
-            <End Role="ValidTo" EntitySet="ValidTo" />
-          </AssociationSet>
           <AssociationSet Name="FK_CheckBox_Type_Question" Association="MostafidDatabaseModel.FK_CheckBox_Type_Question">
             <End Role="Question" EntitySet="Question" />
             <End Role="CheckBox_Type" EntitySet="CheckBox_Type" />
@@ -1398,18 +1391,16 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
           </AssociationSet>
+          <EntitySet Name="Applicant_Type" EntityType="MostafidDatabaseModel.Applicant_Type" />
+          <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type">
+            <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+            <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="MostafidDatabaseModel.FK_ValidTo_Applicant_Type">
+            <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+            <End Role="ValidTo" EntitySet="ValidTo" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Applicant_Type">
-          <Key>
-            <PropertyRef Name="Applicant_Type_ID" />
-          </Key>
-          <Property Name="Applicant_Type_ID" Type="Int32" Nullable="false" />
-          <Property Name="Applicant_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Applicant_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" FromRole="Applicant_Type" ToRole="Personel_Data" />
-          <NavigationProperty Name="ValidTo" Relationship="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
-        </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
             <PropertyRef Name="ID" />
@@ -1483,6 +1474,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Name_En" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="ID_Document">
           <Key>
@@ -1562,7 +1554,6 @@
           <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Mobile" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Applicant_Type" Relationship="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" FromRole="Personel_Data" ToRole="Applicant_Type" />
           <NavigationProperty Name="City" Relationship="MostafidDatabaseModel.FK_Personel_Data_City" FromRole="Personel_Data" ToRole="City" />
           <NavigationProperty Name="Country" Relationship="MostafidDatabaseModel.FK_Personel_Data_Country" FromRole="Personel_Data" ToRole="Country" />
           <NavigationProperty Name="Country1" Relationship="MostafidDatabaseModel.FK_Personel_Data_Country1" FromRole="Personel_Data" ToRole="Country" />
@@ -1571,6 +1562,7 @@
           <NavigationProperty Name="Region" Relationship="MostafidDatabaseModel.FK_Personel_Data_Region" FromRole="Personel_Data" ToRole="Region" />
           <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDatabaseModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Personel_Data" FromRole="Personel_Data" ToRole="Request_Data" />
+          <NavigationProperty Name="Applicant_Type" Relationship="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" FromRole="Personel_Data" ToRole="Applicant_Type" />
         </EntityType>
         <EntityType Name="Question">
           <Key>
@@ -1844,33 +1836,9 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MainServiceID" Type="Int32" Nullable="false" />
           <Property Name="ApplicantTypeID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Applicant_Type" Relationship="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" FromRole="ValidTo" ToRole="Applicant_Type" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDatabaseModel.FK_ValidTo_Main_Services" FromRole="ValidTo" ToRole="Main_Services" />
+          <NavigationProperty Name="Applicant_Type" Relationship="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" FromRole="ValidTo" ToRole="Applicant_Type" />
         </EntityType>
-        <Association Name="FK_Personel_Data_Applicant_Type">
-          <End Type="MostafidDatabaseModel.Applicant_Type" Role="Applicant_Type" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Applicant_Type">
-              <PropertyRef Name="Applicant_Type_ID" />
-            </Principal>
-            <Dependent Role="Personel_Data">
-              <PropertyRef Name="Applicant_Type_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ValidTo_Applicant_Type">
-          <End Type="MostafidDatabaseModel.Applicant_Type" Role="Applicant_Type" Multiplicity="1" />
-          <End Type="MostafidDatabaseModel.ValidTo" Role="ValidTo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Applicant_Type">
-              <PropertyRef Name="Applicant_Type_ID" />
-            </Principal>
-            <Dependent Role="ValidTo">
-              <PropertyRef Name="ApplicantTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CheckBox_Type_Question">
           <End Type="MostafidDatabaseModel.Question" Role="Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2437,22 +2405,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Applicant_Type">
+          <Key>
+            <PropertyRef Name="Applicant_Type_ID" />
+          </Key>
+          <Property Name="Applicant_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Applicant_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Applicant_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Affliated" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" FromRole="Applicant_Type" ToRole="Personel_Data" />
+          <NavigationProperty Name="ValidTo" Relationship="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
+        </EntityType>
+        <Association Name="FK_Personel_Data_Applicant_Type">
+          <End Type="MostafidDatabaseModel.Applicant_Type" Role="Applicant_Type" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant_Type">
+              <PropertyRef Name="Applicant_Type_ID" />
+            </Principal>
+            <Dependent Role="Personel_Data">
+              <PropertyRef Name="Applicant_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValidTo_Applicant_Type">
+          <End Type="MostafidDatabaseModel.Applicant_Type" Role="Applicant_Type" Multiplicity="1" />
+          <End Type="MostafidDatabaseModel.ValidTo" Role="ValidTo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant_Type">
+              <PropertyRef Name="Applicant_Type_ID" />
+            </Principal>
+            <Dependent Role="ValidTo">
+              <PropertyRef Name="ApplicantTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MostafidDatabaseModelStoreContainer" CdmEntityContainer="MostafidDatabaseEntities">
-          <EntitySetMapping Name="Applicant_Type">
-            <EntityTypeMapping TypeName="MostafidDatabaseModel.Applicant_Type">
-              <MappingFragment StoreEntitySet="Applicant_Type">
-                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-                <ScalarProperty Name="Applicant_Type_Name_AR" ColumnName="Applicant_Type_Name_AR" />
-                <ScalarProperty Name="Applicant_Type_Name_EN" ColumnName="Applicant_Type_Name_EN" />
-                <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CheckBox_Type">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.CheckBox_Type">
               <MappingFragment StoreEntitySet="CheckBox_Type">
@@ -2509,6 +2503,7 @@
           <EntitySetMapping Name="E_Forms_Answer">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.E_Forms_Answer">
               <MappingFragment StoreEntitySet="E-Forms_Answer">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name_En" ColumnName="Name_En" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FillDate" ColumnName="FillDate" />
@@ -2837,6 +2832,17 @@
                 <ScalarProperty Name="UnitID" ColumnName="UnitID" />
                 <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applicant_Type">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Applicant_Type">
+              <MappingFragment StoreEntitySet="Applicant_Type">
+                <ScalarProperty Name="Affliated" ColumnName="Affliated" />
+                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+                <ScalarProperty Name="Applicant_Type_Name_AR" ColumnName="Applicant_Type_Name_AR" />
+                <ScalarProperty Name="Applicant_Type_Name_EN" ColumnName="Applicant_Type_Name_EN" />
+                <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
