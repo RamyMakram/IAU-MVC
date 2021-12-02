@@ -2,10 +2,10 @@
 @{
     ViewBag.Title = "Home Page";
     ViewBag.pageTitle = "Home Page";
-    ViewBag.pTitle = "Applicant Types";
+    ViewBag.pTitle = "Mustafid List";
     ViewBag.arTitle = "الرئيسية";
     ViewBag.arpageTitle = "الرئيسية";
-    ViewBag.arpTitle = "أنواع المتقدمين";
+    ViewBag.arpTitle = "قائمة المستفيدين";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var isar = Request.Cookies["lang"].Value == "ar";
 }
@@ -23,7 +23,7 @@
 
                 <div class="HeaderOfPage">
                     <p class="card-title-desc">
-                        @(isar?"أنواع المتقدمين":"Applicant Types")
+                        @(isar? "قائمة المستفيدين" : "Mustafid List")
                     </p>
 
                     <a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>

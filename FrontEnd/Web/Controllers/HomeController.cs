@@ -266,15 +266,19 @@ namespace Web.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult GetEformSummary(int ID)
+        public ActionResult GetEformSummary(int ID,int uid)
         {
             if (!HttpContext.Request.IsAjaxRequest())
                 return Json("401", JsonRequestBehavior.AllowGet);
 
-            var res = APIHandeling.getData($"/Eforms/GetE_FormsReadOnly/{ID}");
+            var res = APIHandeling.getData($"/Eforms/GetE_FormsReadOnly/{ID}/{uid}");
             var resJson = res.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-            return PartialView("~/Views/Home/_EformReadOnly.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(response.result.ToString()));
+            var Jobject = JObject.Parse(response.result.ToString());
+            ViewBag.UnitENName = Jobject["UnitEN"].ToString();
+            ViewBag.UnitARName = Jobject["UnitAR"].ToString();
+            ViewBag.EfCode = Jobject["UnitCode"].ToString();
+            return PartialView("~/Views/Home/_EformReadOnly.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(Jobject["Eform"].ToString()));
         }
     }
 }

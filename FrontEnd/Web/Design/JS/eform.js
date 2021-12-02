@@ -11,9 +11,9 @@ function ReIntalizeEformListener() {
                 $('#Eform').html(dd)
                 var AutoFill = $("[data-id^='E']", $('#Eform'));
                 ([...AutoFill]).forEach(i => {
-                    let ref = $('div label', $(i))
+                    let ref = $('div.form-control label', $(i))
                     if ($('#' + ref.data('ref')).prop('nodeName') == 'SELECT')
-                        ref.text($('#' + ref.data('ref') +" option:selected").text())
+                        ref.text($('#' + ref.data('ref') + " option:selected").text())
                     else
                         ref.text($('#' + ref.data('ref')).val())
                 })
@@ -59,7 +59,7 @@ function ReIntalizeEformListener() {
                         let T = frm_qt.split('-')[0];
                         switch (T) {
                             case 'E':
-                                var val = $(' label', $(s)).text()
+                                var val = $('div.form-control label', $(s)).text()
                                 AddOrUpdate({ EFromID: formid, Question_ID: frm_qt.split('-')[1], T, Value: val, Value_En: val, Name: name[0], Name_En: name[1] });
                                 break;
                             case "C":

@@ -3,20 +3,129 @@
     :root {
         --main-btn-color: #0a1332 !important;
     }
-    #saudiArabiTitlr {
-        text-align: start !important;
-        margin-top: 34px;
+    .data-here{
+        color:black !important;
     }
-    th {
-        font-weight: 500;
+    .eform-qty-title {
+        margin-bottom: 10px;
     }
-    #MIMIS {
-        margin: 27px 0;
+
+    #saudiArabiTitlr, #MIMIS {
+        margin-top: 36px;
     }
-    th label {
-        color: #0a1332 !important;
+
+    .ar-qty-head {
+        font-weight: bolder;
     }
+
+    .eform-section label {
+        padding: 10px;
+        height: 100%;
+        border: 1px solid #f4f4f4
+    }
+
+    .border-section {
+        border: 1px solid #f4f4f4
+    }
+
+    .modal-dialog-readonly-eform {
+        max-width: 80vw !important;
+        width: 100%
+    }
+
+        .modal-dialog-readonly-eform > .modal-content > .modal-header {
+            display: none
+        }
+
+    .modal-dialog-readonly-eform {
+        max-width: 46vw !important;
+    }
+
+    [data-id] {
+        margin: 0px 0;
+        align-items: center;
+    }
+
+    [data-id^="C"] div div:nth-of-type(1), [data-id^="R"] div div:nth-of-type(1) {
+        max-width: 250px;
+        width: 250px;
+    }
+
+    [data-id^="C"] div div:nth-of-type(2), [data-id^="R"] div div:nth-of-type(2) {
+        width: 81%;
+        padding: 0 9px;
+    }
+
+
+    [data-id].col-md-6 > div > label {
+        max-width: 194px;
+        width: 194px !important;
+        margin: 0 10px;
+    }
+
+    [data-id]:not(.col-md-6) > div > label {
+        margin: 10px;
+    }
+
+    [data-id]:not(.col-md-6) > div div {
+        margin: 0 25px;
+    }
+
+    .form-control {
+        max-height: 37px !important;
+        width: 100%;
+        color: white;
+        background: #283758;
+    }
+
+    @@media(max-width:1200px) and (min-width:771px) {
+        [data-id] {
+            flex-direction: column !important;
+        }
+
+        [data-id^="C"] div div:nth-of-type(2), [data-id^="R"] div div:nth-of-type(2) {
+            width: 100% !important;
+        }
+
+        [data-id].col-md-6 > div > label {
+            max-width: unset;
+            width: 100% !important;
+        }
+
+        #uninadee {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+    }
+
     @@media(max-width:770px) {
+
+        .modal-body, .modal-header {
+            padding: 10px !important;
+        }
+
+        #EformNameHandelCom {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+            #EformNameHandelCom div {
+                justify-content: center !important;
+            }
+
+        #uninadee div {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        #saudiArabiTitlr, #MIMIS {
+            margin-top: 0px;
+            text-align: center !important;
+            justify-content: center !important;
+            align-items: center;
+            display: flex !important;
+        }
+
         .eform-body tr {
             display: flex;
             flex-direction: column;
@@ -27,20 +136,23 @@
         }
 
         .modal-dialog-eform {
-            max-width: 80vw !important;
+            max-width: 56vw !important;
             width: 100%
         }
 
             .modal-dialog-eform > .modal-content > .modal-header {
                 display: none
             }
-        #saudiArabiTitlr{
-            text-align:center !important;
+
+        .modal-dialog-eform {
+            max-width: 89vw !important;
+            width: 100% !important;
         }
     }
 
     .modal-dialog-eform {
-        max-width: 46vw !important;
+        width: 68vw !important;
+        max-width: unset !important;
     }
 
     td {
@@ -101,7 +213,8 @@
     }
 
     .checkbox {
-        margin: 2px 15px;
+        margin: 0 !important;
+        /*white-space: nowrap;*/
     }
 
     .EmptySpace {
@@ -140,180 +253,570 @@
 @{
     var isar = Request.Cookies["lang"]?.Value == "ar";
 }
-<div class="modal-dialog modal-dialog-eform" role="document">
+<div class="modal-dialog modal-dialog-readonly-eform " role="document">
     <div class="modal-content">
-        <div class="modal-header d-flex flex-column ">
+        <div class="modal-header d-flex flex-column border-0" style="padding: 40px 40px 0 40px;">
             <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
-                <label class="pt-1 mb-md-2 col-md-4 col-12 px-0" id="saudiArabiTitlr">
-                    @(isar?
-					"المملكة العربية السعودية":
-					"Kingdom of Saudi Arabia")
+                <label class="pt-1 mb-md-2 col-md col-12 px-0" id="saudiArabiTitlr">
+
+                    المملكة العربية السعودية <br />
+                    Kingdom of Saudi Arabia
                 </label>
-                <img class="pt-1 mb-md-2 col-md-5 col-12" src="~/Design/img/VisionLogo.png" style="width: 135px; " />
-                <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0" id="MIMIS">
-                    @(isar?
-							"وزارة التعليم":
-					"Ministry of Education") <br />043
-                </label>
-            </div>
-            <div style="display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%">
-                <div style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
-                    <span class="modal-title text-center" data-id="@Model.ID">@(isar?"اسم الجهة":"UnitName"):</span>
-                    <span id="Eform-UnitName"></span>
+                <div class="pt-1 mb-md-2 col-md col-12 justify-content-center align-items-center d-flex">
+                    <img src="~/Design/img/VisionLogo.png" style="width: 158px !important; " />
                 </div>
-                <div style="margin: 0 48px;">
-                    <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
-                        <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
+                <div id="MIMIS" class="pt-1 mb-md-2 text-md-center text-start col-md col-12 px-0 d-flex justify-content-end">
+                    <label class="">
+
+                        وزارة التعليم<br />
+                        Ministry of Education<br />043
+                    </label>
+                </div>
+
+            </div>
+            <hr class="w-100" />
+            <div id="uninadee" style="padding:0;display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%;">
+                <div dir="rtl" style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+                    <span class="modal-title " data-eformid="@Model.ID" style="direction:rtl;font-weight:bolder" id="Eform-UnitName">@ViewBag.UnitARName</span>
+                </div>
+                <div dir="ltr" style="padding: 0; display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+                    <span id="Eform-UnitNameEN" style="direction: ltr; font-weight: bolder">@ViewBag.UnitENName</span>
+                </div>
+            </div>
+
+            <div id="EformNameHandelCom" style="padding:0;display:inline-flex;justify-content:space-between;align-items:center;width:100%;margin-top:15px;">
+                <h6 class="modal-title w-100" style="text-align:right;direction:rtl">
+                    اسم النموذج:
+                    <br />
+                    @Model.Name
+                </h6>
+                <h6 class="modal-title w-100" style="text-align:left;direction:ltr">
+                    E-Form Name:
+                    <br />
+                    @Model.Name_EN
+                </h6>
+                <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
+                    <span dir="ltr">@ViewBag.EfCode</span>
+                </div>
+            </div>
+            <hr class="w-100" />
+        </div>
+        <div class="modal-body" style="padding: 0px 40px 0 40px;">
+            <div class="row w-100 p-0 m-0">
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100 main-head-title">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; ">
+                                1.1- البيانات الشخصية
+                            </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder;">1.1- Personal Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100" style="padding-top: 15px;">
+                        @foreach (var qty in Model.Question.Where(q => q.T == "E"))
+                        {
+                            <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN">
+                                <div class="d-inline-flex flex-row w-100 align-items-center">
+                                    <label>
+                                        <span class="ar-qty-head">@qty.Name</span> <br /> <span class="en-qty-head">@qty.Name_EN</span>
+                                    </label>
+                                        <label class="data-here" data-ref="@qty.Ref" style="color: black !important; overflow-wrap: break-word;">  </label>
+                                </div>
+                                <div class="row w-100 mt-3 m-0">
+                                    <hr />
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </div>
-            </div>
-            <div style="margin-top:25px">
-                <h5 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h5>
-            </div>
-        </div>
-        <div class="modal-body">
-            <table class="table m-0">
-                <tbody class="eform-body">
-                    @if (Model.Question.Where(q => q.T == "E").Count() != 0)
-                    {
-                        @*<tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                            </th>
-                            <td></td>
-                        </tr>*@
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h5>
-                            </th>
-                            <td></td>
-                        </tr>
-                    }
-                    @foreach (var qty in Model.Question.Where(q => q.T == "E"))
-                    {
-                        <tr data-id="@qty.T-@qty.ID">
-                            <th style="max-width: 100px !important;">
-                                <label>
-                                    @(isar?qty.Name:qty.Name_EN)
-                                </label>
-                            </th>
-                            <td>
-                                <label data-ref="@qty.Ref" style="white-space: pre-wrap;">  </label>
-                            </td>
-                        </tr>
-                    }
-                    @if (Model.Question.Where(q => q.T != "E").Count() != 0)
-                    {
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                            </th>
-                            <td></td>
-                        </tr>
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h5>
-                            </th>
-                            <td></td>
-                        </tr>
-                    }
-                    @foreach (var qty in Model.Question.Where(q => q.T != "E"))
-                    {
-                        switch (qty.T)
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100 main-head-title">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder;">
+                                1.2- البيانات الشخصية الإضافية
+                            </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder;">1.2- Extra Personal Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100" style="padding-top: 15px;">
+                        @foreach (var qty in Model.Question.Where(q => q.T != "E"))
                         {
-                            case "D":
-                            case "I":
-                                <tr data-id="@qty.T-@qty.ID">
-                                    <th style="max-width: 100px !important;">
+                            switch (qty.T)
+                            {
+                                case "I":
+                                    <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <label>
+                                                <span class="ar-qty-head">@qty.Name</span> <br /><span class="en-qty-head"> @qty.Name_EN</span>
+                                            </label>
+                                            <label class="data-here"></label>
+                                            @*<input class="form-control" placeholder="@(isar?qty.Input.PlaceHolder:qty.Input.PlaceholderEN)" type="@(qty.Input.ISNum?"number":"text")" />*@
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    break;
+                                case "C":
+                                    <div class="col-md-6 col-12 align-items-center " data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <div>
+                                                <span class="ar-qty-head">@qty.Name</span> <br /> <span class="en-qty-head">@qty.Name_EN</span>
+                                            </div>
+                                            <div class="row justify-content-center d-flex data-here">
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    break;
+                                case "R":
+                                    <div class="col-md-6 col-12 align-items-center " data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <div>
+                                                <span class="ar-qty-head">@qty.Name</span> <br /> <span class="en-qty-head">@qty.Name_EN</span>
+                                            </div>
+                                            <div class="row justify-content-center d-flex data-here">
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    break;
+                                case "D":
+                                    <div class="col-md-6 col-12 d-inline-flex justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                         <label>
-                                            @(isar?qty.Name:qty.Name_EN)
+                                            <span class="ar-qty-head">@qty.Name</span> <br /> <span class="ar-qty-head">@qty.Name_EN</span>
                                         </label>
-                                    </th>
-                                    <td>
-                                    </td>
-                                </tr>
-                                break;
-                            case "C":
-                            case "R":
-                                <tr data-id="@qty.T-@qty.ID">
-                                    <th style="max-width: 100px !important;">
-                                        <label>@(isar?qty.Name:qty.Name_EN)</label>
-                                    </th>
-                                    <td class="row">
-                                        <label class="form-control d-flex flex-column flex-wrap"></label>
-                                    </td>
-                                </tr>
-                                break;
+                                        <label class="data-here"></label>
+                                    </div>
+                                    break;
+                                case "S":
+                                    <div class="@(qty.Sepa.Empty?"EmptySpace":"Space") col-12">
+
+                                    </div>
+                                    break;
+                                case "T":
+                                    <div class="border col-12 eform-qty-title">
+                                        <div class="d-inline-flex w-100 p-2 flex-md-row flex-column align-items-baseline">
+                                            <div class="w-100"><h4 style="text-align:end;direction:rtl;margin-bottom: 0px;color: var(--main-btn-color);">@qty.Name | </h4></div>
+                                            <div class="w-100">
+                                                <h4 style="text-align: end;direction: ltr; margin-bottom: 0px; color: var(--main-btn-color);">@qty.Name_EN</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    break;
+                                case "P":
+                                    <div class="border" style="text-align:start">
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
+                                            <span class="ar-qty-head">@qty.Para.Name</span>
+                                        </p>
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:ltr">
+                                            <span class="ar-qty-head">@qty.Para.Name_En</span>
+                                        </p>
+                                    </div>
+                                    break;
+                                default:
+                                    break;
+                            }
+
                         }
-                    }
-                    <tr class="border">
-                        <th style="width: 100% !important;" colspan="4">
-                        </th>
-                        <td></td>
-                    </tr>
-                    <tr class="border">
-                        <th style="width: 100% !important;" colspan="4">
-                            <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar? "بيانات الطلب" : "Request Information")</h5>
-                        </th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>@(isar? "نوع الطلب" : "Request Type")</th>
-                        <td id="eform-reqType"></td>
-                    </tr>
-                    <tr>
-                        <th>@(isar? "نوع الخدمة" : "Service Type")</th>
-                        <td id="eform-ServType"></td>
-                    </tr>
-                    @if (Model.Eform_Approval.Count != 0)
-                    {
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                            </th>
-                            <td></td>
-                        </tr>
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h5>
-                            </th>
-                            <td></td>
-                        </tr>
-                    }
-                    @foreach (var i in Model.Eform_Approval)
-                    {
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h5 style="margin-bottom: 0px; text-align: start;">@(isar?i.AR: i.EN)</h5>
-                            </th>
-                            <td></td>
-                        </tr>
-                        <tr class="EmptySpace">
-                            <th>
-                            </th>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr class="EmptySpace">
-                            <th>
-                            </th>
-                            <td>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
-            <div>
-                <button type="button" class="btn btn-secondary w-40" data-bs-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+
+                    </div>
+                </div>
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100 main-head-title">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder;">
+                                2- بيانات الطلب
+                            </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder;">2- Request Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section t-start">
+                            <label style="width:100%;direction:rtl">
+                                <span style=" font-weight: bolder;">
+                                    نوع الطلب | Request Type
+                                </span>
+                                <label style="border:0;margin:0 5px" id="eform-reqType"></label>
+                            </label>
+                            <label style="width: 100%; direction: rtl">
+                                <span style=" font-weight: bolder;">  نوع الخدمة | Service Type</span>
+                                <label style="border:0;margin:0 5px" id="eform-ServType"></label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 my-3">
+                    <div class="row m-0 w-100 main-head-title">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder;">
+                                3- الاعتمادات
+                            </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder;">3- Approvals</label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+
+                    </div>
+                </div>
+                @{
+                    var count = 1;
+                }
+                @foreach (var i in Model.Eform_Approval)
+                {
+                    <div class="col-12 p-0 my-3">
+                        <div class="row m-0 w-100  main-head-title">
+                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">
+                                <label style="width:100%;direction:rtl">
+                                    @(count).3 @i.AR
+                                </label>
+                                <label style="width:100%;direction:ltr">3.@count @i.EN</label>
+                            </div>
+                        </div>
+                        <div class="row border-section m-0 w-100" style="height:40px">
+
+                        </div>
+                    </div>
+                    count++;
+                }
             </div>
+
         </div>
     </div>
 </div>
 
 <script>
     $(document).ready(i => {
-        //$('#EformReadOnly').on('hidden.bs.modal', function () {
-        //	$('.modal-backdrop').remove()
-        //	$('body').css({ 'overflow-y': 'auto !important', 'padding': "0" })
+        //$('#myModal').on('hidden.bs.modal', function () {
+        //    $('.modal-backdrop').remove()
+        //})
+        //$('[data-bs-dismiss="modal"]').click(s => {
+        //    $('.modal-backdrop').remove()
         //})
     })
 </script>
+
+
+
+
+
+@*@model IAU.DTO.Entity.E_FormsDTO
+        <style>
+            :root {
+                --main-btn-color: #0a1332 !important;
+            }
+            #saudiArabiTitlr {
+                text-align: start !important;
+                margin-top: 34px;
+            }
+            th {
+                font-weight: 500;
+            }
+            #MIMIS {
+                margin: 27px 0;
+            }
+            th label {
+                color: #0a1332 !important;
+            }
+            @@media(max-width:770px) {
+                .eform-body tr {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .form-control {
+                    width: 100%;
+                }
+
+                .modal-dialog-readonly-eform {
+                    max-width: 80vw !important;
+                    width: 100%
+                }
+
+                    .modal-dialog-readonly-eform > .modal-content > .modal-header {
+                        display: none
+                    }
+                #saudiArabiTitlr{
+                    text-align:center !important;
+                }
+            }
+
+            .modal-dialog-readonly-eform {
+                max-width: 46vw !important;
+            }
+
+            td {
+                width: 100%;
+            }
+
+                td div {
+                    margin: 0 20px;
+                }
+
+            tr th {
+                /*min-width: 150px;*/
+            }
+
+            .form-control {
+                /*width: 50%;*/
+            }
+
+            td {
+                justify-content: start;
+                display: flex;
+            }
+
+            th {
+                justify-content: center;
+            }
+
+            tr th,
+            tr td {
+                vertical-align: middle !important;
+                border-top: 0px !important;
+            }
+
+            .eform-body tr.border {
+                border: none !important;
+            }
+
+                .eform-body tr.border th,
+                .eform-body tr.border td {
+                    border-top: 0px !important;
+                    border: 0px !important;
+                    border-bottom: 1px solid #dee2e6 !important;
+                }
+
+            tr.border td {
+                padding: 0;
+            }
+
+            td input[type='date'],
+            td input[type='text'] {
+                /*width: 250px !important*/
+            }
+
+            tr[data-required="True"] th label::after {
+                content: "*";
+                color: red;
+                margin: 0 5px
+            }
+
+            .checkbox {
+                margin: 2px 15px;
+            }
+
+            .EmptySpace {
+                height: 25px;
+            }
+
+            .contanier {
+                box-shadow: 0px 0px 20px 4px #888888;
+                padding: 25px;
+            }
+
+            .alert {
+                margin: 0;
+                width: 250px !important;
+            }
+
+            .btn-primary {
+                background-color: var(--main-btn-color);
+            }
+
+            h2 {
+                color: var(--main-btn-color) !important;
+            }
+
+            .table > :not(caption) > * > * {
+                border-bottom-width: 0px !important;
+            }
+
+            .Space {
+                border-bottom: 1px solid #dee2e6;
+                margin: 30px 0;
+            }
+        </style>
+        <link href="~/Design/CSS/all.min.css" rel="stylesheet" />
+            <link href="~/Design/CSS/bootstrap.min.css" rel="stylesheet" />
+    @{
+        var isar = Request.Cookies["lang"]?.Value == "ar";
+    }
+    <div class="modal-dialog modal-dialog-readonly-eform" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-flex flex-column ">
+                <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
+                    <label class="pt-1 mb-md-2 col-md-4 col-12 px-0" id="saudiArabiTitlr">
+                        @(isar?
+                        "المملكة العربية السعودية":
+                        "Kingdom of Saudi Arabia")
+                    </label>
+                    <img class="pt-1 mb-md-2 col-md-5 col-12" src="~/Design/img/VisionLogo.png" style="width: 135px; " />
+                    <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0" id="MIMIS">
+                        @(isar?
+                                "وزارة التعليم":
+                        "Ministry of Education") <br />043
+                    </label>
+                </div>
+                <div style="display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%">
+                    <div style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+                        <span class="modal-title text-center" data-id="@Model.ID">@(isar?"اسم الجهة":"UnitName"):</span>
+                        <span id="Eform-UnitName"></span>
+                    </div>
+                    <div style="margin: 0 48px;">
+                        <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
+                            <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:25px">
+                    <h5 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <table class="table m-0">
+                    <tbody class="eform-body">
+                            <tr class="border">
+                                <th style="width: 100% !important;" colspan="4">
+                                    <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h5>
+                                </th>
+                                <td></td>
+                            </tr>
+                        }
+                        @foreach (var qty in Model.Question.Where(q => q.T == "E"))
+                        {
+                            <tr data-id="@qty.T-@qty.ID">
+                                <th style="max-width: 100px !important;">
+                                    <label>
+                                        @(isar?qty.Name:qty.Name_EN)
+                                    </label>
+                                </th>
+                                <td>
+                                    <label data-ref="@qty.Ref" style="white-space: pre-wrap;">  </label>
+                                </td>
+                            </tr>
+                        }
+                        @if (Model.Question.Where(q => q.T != "E").Count() != 0)
+                        {
+                            <tr class="border">
+                                <th style="width: 100% !important;" colspan="4">
+                                </th>
+                                <td></td>
+                            </tr>
+                            <tr class="border">
+                                <th style="width: 100% !important;" colspan="4">
+                                    <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h5>
+                                </th>
+                                <td></td>
+                            </tr>
+                        }
+                        @foreach (var qty in Model.Question.Where(q => q.T != "E"))
+                        {
+                            switch (qty.T)
+                            {
+                                case "D":
+                                case "I":
+                                    <tr data-id="@qty.T-@qty.ID">
+                                        <th style="max-width: 100px !important;">
+                                            <label>
+                                                @(isar?qty.Name:qty.Name_EN)
+                                            </label>
+                                        </th>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    break;
+                                case "C":
+                                case "R":
+                                    <tr data-id="@qty.T-@qty.ID">
+                                        <th style="max-width: 100px !important;">
+                                            <label>@(isar?qty.Name:qty.Name_EN)</label>
+                                        </th>
+                                        <td class="row">
+                                            <label class="form-control d-flex flex-column flex-wrap"></label>
+                                        </td>
+                                    </tr>
+                                    break;
+                            }
+                        }
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                            </th>
+                            <td></td>
+                        </tr>
+                        <tr class="border">
+                            <th style="width: 100% !important;" colspan="4">
+                                <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar? "بيانات الطلب" : "Request Information")</h5>
+                            </th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>@(isar? "نوع الطلب" : "Request Type")</th>
+                            <td id="eform-reqType"></td>
+                        </tr>
+                        <tr>
+                            <th>@(isar? "نوع الخدمة" : "Service Type")</th>
+                            <td id="eform-ServType"></td>
+                        </tr>
+                        @if (Model.Eform_Approval.Count != 0)
+                        {
+                            <tr class="border">
+                                <th style="width: 100% !important;" colspan="4">
+                                </th>
+                                <td></td>
+                            </tr>
+                            <tr class="border">
+                                <th style="width: 100% !important;" colspan="4">
+                                    <h5 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h5>
+                                </th>
+                                <td></td>
+                            </tr>
+                        }
+                        @foreach (var i in Model.Eform_Approval)
+                        {
+                            <tr class="border">
+                                <th style="width: 100% !important;" colspan="4">
+                                    <h5 style="margin-bottom: 0px; text-align: start;">@(isar?i.AR: i.EN)</h5>
+                                </th>
+                                <td></td>
+                            </tr>
+                            <tr class="EmptySpace">
+                                <th>
+                                </th>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr class="EmptySpace">
+                                <th>
+                                </th>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
+                <div>
+                    <button type="button" class="btn btn-secondary w-40" data-bs-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(i => {
+            //$('#EformReadOnly').on('hidden.bs.modal', function () {
+            //	$('.modal-backdrop').remove()
+            //	$('body').css({ 'overflow-y': 'auto !important', 'padding': "0" })
+            //})
+        })
+    </script>*@
