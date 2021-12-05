@@ -39,13 +39,17 @@ namespace IAUBackEnd.Admin.Controllers
                         q.Name_EN,
                         q.Person_ID,
                         q.FillDate,
+                        q.Code,
                         E_Forms_Answer = q.E_Forms_Answer.Select(s => new { s.ID, s.Question_ID, s.EForm_ID, s.FillDate, s.Name, s.Name_En, T = s.Type, s.Value, s.Value_En }),
-                        Eform_Approval = q.Preview_EformApproval.Select(s => new { AR = s.Name, EN = s.Name_En }),
+                        Eform_Approval = q.Preview_EformApproval.Select(s => new { AR = s.Name, EN = s.Name_En, s.UnitID, s.OwnEform }),
                     }).FirstOrDefaultAsync();
+
                 if (data == null)
                     return Ok(new ResponseClass() { success = false });
 
-                return Ok(new ResponseClass() { success = true, result = data });
+                int uid = data.Eform_Approval.FirstOrDefault(s => s.OwnEform).UnitID.Value;
+                var unit = await p.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == uid);
+                return Ok(new ResponseClass() { success = true, result = new { Eform = data, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR, UnitCode = unit.Ref_Number.Substring(4) + " " + data.Code, Signature = unit.Unit_Signature } });
             }
             catch (Exception eee)
             {

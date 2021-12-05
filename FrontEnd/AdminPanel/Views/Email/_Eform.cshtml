@@ -1,116 +1,148 @@
 ﻿@model IAUAdmin.DTO.Entity.PersonEfDTO
 @using Newtonsoft.Json;
-@*<style>
-        :root {
-            --main-btn-color: #0a1332 !important;
-        }
-
-        @@media(max-width:770px) {
-
-            tr {
-                display: flex;
-                flex-direction: column;
-            }
-        }
-
-        td {
-            width: 100%;
-        }
-
-            td div {
-                margin: 0 20px;
-            }
-
-        tr th {
-            min-width: 150px;
-        }
-
-        td {
-            justify-content: start;
-            display: flex;
-        }
-
-        /*th {
-            justify-content: center;
-        }*/
-        th label {
-            font-weight: bolder;
-        }
-
-        tr th,
-        tr td {
-            vertical-align: middle !important;
-            border-top: 0px !important;
-        }
-
-        tr.border {
-            border: none !important;
-        }
-
-            tr.border th,
-            tr.border td {
-                border-top: 0px !important;
-                border: 0px !important;
-                border-bottom: 1px solid #dee2e6 !important;
-            }
-
-            tr.border td {
-                padding: 0;
-            }
-
-        td input[type='date'],
-        td input[type='text'] {
-            /*width: 250px !important*/
-        }
-
-        tr[data-required="True"] th label::after {
-            content: "*";
-            color: red;
-            margin: 0 5px
-        }
-
-        .checkbox {
-            margin: 2px 15px;
-        }
-
-        .EmptySpace {
-            height: 25px;
-        }
-
-        .contanier {
-            box-shadow: 0px 0px 20px 4px #888888;
-            padding: 25px;
-        }
-
-        .alert {
-            margin: 0;
-            width: 250px !important;
-        }
-
-        .btn-primary {
-            background-color: var(--main-btn-color);
-        }
-
-        h2 {
-            color: var(--main-btn-color) !important;
-        }
-
-        .table > :not(caption) > * > * {
-            border-bottom-width: 0px !important;
-        }
-
-        .Space {
-            border-bottom: 1px solid #dee2e6;
-            margin: 30px 0;
-        }
-    </style>*@
-
 <style>
     :root {
         --main-btn-color: #0a1332 !important;
     }
+    [data-id].col-md-6 > div > label:nth-of-type(2) {
+        max-width: 194px;
+        width: 194px !important;
+        margin: 0 10px;
+        font-weight: 600;
+        text-align: center;
+    }
+    .eform-qty-title {
+        margin-bottom: 10px;
+    }
+
+    [data-id] div:nth-of-type(1) label label:nth-of-type(1) {
+        font-size: 15px
+    }
+
+    label.en-qty-head {
+        text-align: left;
+        width: 100%;
+    }
+
+    label.ar-qty-head {
+        text-align: start
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+        margin: 0 9px;
+    }
+
+    #saudiArabiTitlr, #MIMIS {
+        margin-top: 36px;
+    }
+
+    .ar-qty-head {
+        font-weight: bolder;
+    }
+
+    .eform-section label {
+        padding: 10px;
+        height: 100%;
+        border: 1px solid #f4f4f4
+    }
+
+    .border-section {
+        border: 1px solid #f4f4f4
+    }
+
+    .modal-dialog-eform {
+        width: 68vw !important;
+        max-width: unset !important;
+        font-size: 13px;
+    }
+
+    [data-id] {
+        margin: 0px 0;
+        align-items: center;
+    }
+
+    [data-id^="C"] div div:nth-of-type(1), [data-id^="R"] div div:nth-of-type(1) {
+        max-width: 250px;
+        width: 250px;
+    }
+
+    [data-id^="C"] div div:nth-of-type(2), [data-id^="R"] div div:nth-of-type(2) {
+        width: 81%;
+        padding: 0 9px;
+        margin: 0 24px;
+        height: 100%;
+        max-height: 100% !important;
+    }
+
+
+    [data-id].col-md-6 > div > label:nth-of-type(1) {
+        max-width: 194px;
+        width: 194px !important;
+        margin: 0 10px;
+    }
+
+    [data-id]:not(.col-md-6) > div > label:nth-of-type(1) {
+        margin: 10px;
+    }
+
+    [data-id]:not(.col-md-6) > div div {
+        margin: 0 25px;
+    }
+
+    .form-control {
+        max-height: 37px !important;
+        width: 100%;
+        color: white;
+        background: #283758;
+    }
+
+    @@media(max-width:1200px) and (min-width:771px) {
+        [data-id] {
+            flex-direction: column !important;
+        }
+
+        [data-id^="C"] div div:nth-of-type(2), [data-id^="R"] div div:nth-of-type(2) {
+            width: 100% !important;
+        }
+
+        [data-id].col-md-6 > div > label {
+            max-width: unset;
+            width: 100% !important;
+        }
+
+        #uninadee {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+    }
 
     @@media(max-width:770px) {
+
+        .modal-body, .modal-header {
+            padding: 10px !important;
+        }
+
+        #EformNameHandelCom {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+            #EformNameHandelCom div {
+                justify-content: center !important;
+            }
+
+        #uninadee div {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        #saudiArabiTitlr, #MIMIS {
+            margin-top: 0px;
+            text-align: center !important;
+            justify-content: center !important;
+            align-items: center;
+            display: flex !important;
+        }
 
         .eform-body tr {
             display: flex;
@@ -122,17 +154,23 @@
         }
 
         .modal-dialog-eform {
-            max-width: 80vw !important;
+            max-width: 56vw !important;
             width: 100%
         }
 
             .modal-dialog-eform > .modal-content > .modal-header {
                 display: none
             }
+
+        .modal-dialog-eform {
+            max-width: 89vw !important;
+            width: 100% !important;
+        }
     }
 
     .modal-dialog-eform {
-        max-width: 46vw !important;
+        width: 68vw !important;
+        max-width: unset !important;
     }
 
     td {
@@ -193,7 +231,8 @@
     }
 
     .checkbox {
-        margin: 2px 15px;
+        margin: 0 !important;
+        /*white-space: nowrap;*/
     }
 
     .EmptySpace {
@@ -226,167 +265,596 @@
         border-bottom: 1px solid #dee2e6;
         margin: 30px 0;
     }
-
-    @@media (min-width: 576px) {
-        #EformModel .modal-dialog {
-            max-width: 669px;
-            margin: 1.75rem auto;
-        }
-    }
 </style>
-
 @*<link href="~/Design/CSS/all.min.css" rel="stylesheet" />
     <link href="~/Design/CSS/bootstrap.min.css" rel="stylesheet" />*@
 @{
     var isar = Request.Cookies["lang"]?.Value == "ar";
 }
-
-<div class="modal-dialog" @*style=" max-width: 80vw !important;"*@ role="document">
-    <div class="modal-content">
-        <div class="modal-header flex-column">
+<div class="modal-dialog modal-dialog-eform" role="document">
+    <div class="modal-content" id="content-summary-efrom">
+        <div class="modal-header d-flex flex-column border-0" style="padding: 40px 40px 0 40px;">
             <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">
-                <label class="pt-1 mb-md-3 col-md-3 col-12 text-md-start text-center px-0">
-                    @(isar?
-					"المملكة العربية السعودية":
-					"Kingdom of Saudi Arabia")
-                </label>
-                <div class="pt-1 mb-md-2 col-md-6 col-12 d-flex justify-content-center">
-                    <img src="~/assets/images/VisionLogo.png" style="width: 135px; " />
-                </div>
-                <label class="pt-1 mb-md-2 text-md-end text-center col-md-3 col-12 px-0">
-                    @(isar?
-							"وزارة التعليم":
-					"Ministry of Education") <br />043
-                </label>
-            </div>
-            <!--<div style="display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%">
-                <div style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
-                    <span class="modal-title text-center" data-id="@Model.ID">@(isar?"اسم الجهة":"UnitName"):</span>
-                    <span id="Eform-UnitName"></span>
-                </div>-->
-            @*<div>
-                    <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
-                        <span>@(isar?"كود النموذج":"Eform Code"): @Model.Code</span>
-                    </div>
-                </div>*@
-            <!--</div>-->
-            <div style="margin-top:25px" class="w-100">
-                <h2 class="modal-title w-100 text-center" data-id="@Model.ID">@(isar?Model.Name:Model.Name_EN)</h2>
-            </div>
-        </div>
-        <div class="modal-body">
+                <label class="pt-1 mb-md-2 col-md col-12 px-0" id="saudiArabiTitlr">
 
-            <table class="table m-0">
-                <tbody>
-                    @if (Model.E_Forms_Answer.Where(q => q.T == "E").Count() != 0)
-                    {
-                        @*<tr class="border">
-                                <th style="width: 100% !important;" colspan="4">
-                                </th>
-                                <td></td>
-                            </tr>*@
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الأساسية" : "Personal data")</h4>
-                            </th>
-                            <td></td>
-                        </tr>
-                    }
-                    @foreach (var qty in Model.E_Forms_Answer.Where(q => q.T == "E"))
-                    {
-                        <tr>
-                            <th class="text-left">
-                                <label>
-                                    @(isar?qty.Name:qty.Name_En)
+                    المملكة العربية السعودية <br />
+                    Kingdom of Saudi Arabia
+                </label>
+                <div class="pt-1 mb-md-2 col-md col-12 justify-content-center align-items-center d-flex" id="LOGO-IAU-Summary">
+                    <img src="~/assets/images/VisionLogo.png" style="width: 158px !important; " />
+                </div>
+                <div id="MIMIS" class="pt-1 mb-md-2 text-md-center text-start col-md col-12 px-0 d-flex justify-content-end">
+                    <label class="">
+
+                        وزارة التعليم<br />
+                        Ministry of Education<br />043
+                    </label>
+                </div>
+
+            </div>
+            <hr class="w-100" />
+            <div id="uninadee" style="padding: 0; display: inline-flex; font-size: 16px; justify-content: space-between;" class="flex-md-row flex-column w-100">
+                <div dir="rtl" style="display: flex;" class="justify-content-md-end justify-content-center w-100">
+                    <span class="modal-title " data-eformid="@Model.ID" style="direction:rtl;font-weight:bolder" id="Eform-UnitName">@ViewBag.UnitARName</span>
+                </div>
+                <div dir="ltr" style=" padding: 0 17px; display: flex;" class="justify-content-md-end justify-content-center w-100">
+                    <span id="Eform-UnitNameEN" style="direction: ltr; font-weight: bolder">@ViewBag.UnitENName</span>
+                </div>
+            </div>
+            <hr class="w-100" />
+
+            <div id="EformNameHandelCom" style="padding:0;display:inline-flex;justify-content:space-between;align-items:center;width:100%;margin-top:15px;">
+                <h6 class="modal-title w-100" style="text-align:right;direction:rtl">
+                    اسم النموذج:
+                    <br />
+                    @Model.Name
+                </h6>
+                <h6 class="modal-title w-100" style="text-align:left;direction:ltr">
+                    E-Form Name:
+                    <br />
+                    @Model.Name_EN
+                </h6>
+                <h6 class="modal-title w-100" style="text-align:center;">
+                    كود النموذج | Eforme Code
+                    <br />
+                    <label style="direction:ltr">@ViewBag.EfCode</label>
+                </h6>
+            </div>
+            <hr class="w-100" />
+        </div>
+        <div class="modal-body" style="padding: 0px 40px 0 40px;">
+            <div class="row w-100 p-0 m-0">
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align:end">
+                                1- البيانات الشخصية
+                            </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">1- Personal Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100" style="padding-top: 15px;">
+                        @foreach (var qty in Model.E_Forms_Answer)
+                        {
+                            switch (qty.T)
+                            {
+                                case "E":
+                                    <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_En">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <label>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_En</label>
+                                            </label>
+                                            <label class="data-here">@(isar? qty.Value:qty.Value_En)</label>
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr class="w-100"/>
+                                        </div>
+                                    </div>
+                                    break;
+                                case "I":
+                                    <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_En">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <label>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /><label class="en-qty-head"> @qty.Name_En</label>
+                                            </label>
+                                            <label class="data-here">@(isar? qty.Value:qty.Value_En)</label>
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr class="w-100"/>
+                                        </div>
+                                    </div>
+                                    break;
+                                case "C":
+                                    <div class="col-md-6 col-12 align-items-center " data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_En">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <div>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_En</label>
+                                            </div>
+                                            <div class="row justify-content-center d-flex data-here">
+                                                @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
+                                                {
+                                                    var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
+                                                    foreach (var i in values)
+                                                    {
+                                                        <p style="text-align:center;width:100%">@i</p>
+                                                        <br />
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr class="w-100"/>
+                                        </div>
+                                    </div>
+                                    break;
+                                case "R":
+                                    <div class="col-md-6 col-12 align-items-center " data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_En">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <div>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_En</label>
+                                            </div>
+                                            <div class="row justify-content-center d-flex data-here">
+                                                @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
+                                                {
+                                                    var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
+                                                    foreach (var i in values)
+                                                    {
+                                                        <p style="text-align:center;width:100%">@i</p>
+                                                        <br />
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr class="w-100"/>
+                                        </div>
+                                    </div>
+                                    break;
+                                case "D":
+                                    <div class="col-md-6 col-12 d-inline-flex justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_En">
+                                        <label>
+                                            <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_En</label>
+                                        </label>
+                                        <label class="data-here">@qty.Value_En</label>
+                                    </div>
+                                    break;
+                                case "S":
+                                    <div class="@(qty.Name.Contains("L")?"Space":"EmptySpace") col-12">
+
+                                    </div>
+                                    break;
+                                case "T":
+                                    <div class="border col-12 eform-qty-title">
+                                        <div class="d-inline-flex w-100 p-2 flex-md-row flex-column align-items-baseline">
+                                            <div class="w-100"><h4 style="text-align:end;direction:rtl;margin-bottom: 0px;color: var(--main-btn-color);">@qty.Name | </h4></div>
+                                            <div class="w-100">
+                                                <h4 style="text-align: end;direction: ltr; margin-bottom: 0px; color: var(--main-btn-color);">@qty.Name_En</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    break;
+                                case "P":
+                                    <div class="border" style="text-align:start">
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
+                                            <label class="ar-qty-head">@qty.Name</label>
+                                        </p>
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:ltr">
+                                            <label class="en-qty-head">@qty.Name_En</label>
+                                        </p>
+                                    </div>
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                        }
+                    </div>
+                </div>
+                <div class="col-12 p-0 my-3">
+                    <div class="row m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end">
+                                2- بيانات الطلب
+                            </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">2- Request Information </label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width:100%;direction:rtl">
+                                <span style=" font-weight: bolder;">
+                                    نوع الطلب | Request Type
+                                </span>
+                                <label style="border:0;margin:0 5px" id="eform-reqType"></label>
+                            </label>
+                            <label style="width: 100%; direction: rtl">
+                                <span style=" font-weight: bolder;">  نوع الخدمة | Service Type</span>
+                                <label style="border:0;margin:0 5px" id="eform-ServType"></label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 my-3">
+                    <div class="row m-0 w-100">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center w-100">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end; padding: 14px;">
+                                3- الاعتمادات
+                            </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder;text-align: end;">3- Approvals</label>
+                        </div>
+                    </div>
+                    <div class="row border-section m-0 w-100">
+
+                    </div>
+                </div>
+                @{
+                    var count = 1;
+                }
+                @foreach (var i in Model.Eform_Approval)
+                {
+                    <div class="col-12 p-0 my-3">
+                        <div class="row m-0 w-100">
+                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100" style=" font-weight: bolder;">
+                                <label style="width:100%;direction:rtl;text-align:start">
+                                    @(count).3 @i.AR
                                 </label>
-                            </th>
-                            <td class="d-flex flex-column">
-                                @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
-                                {
-                                    var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
-                                    foreach (var i in values)
-                                    {
-                                        <p style="text-align:center">@i</p>
-                                        <br />
-                                    }
-                                }
-                                else
-                                {
-                                    <label>@(isar ? qty.Value : qty.Value_En)</label>
-                                }
-                            </td>
-                        </tr>
-                    }
-                    @if (Model.E_Forms_Answer.Where(q => q.T != "E").Count() != 0)
-                    {
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "البيانات الشخصية الإضافية" : "Extra Personal Information")</h4>
-                            </th>
-                            <td></td>
-                        </tr>
-                    }
-                    @foreach (var qty in Model.E_Forms_Answer.Where(q => q.T != "E"))
-                    {
-                        <tr>
-                            <th class="text-left">
-                                <label>
-                                    @(isar?qty.Name:qty.Name_En)
-                                </label>
-                            </th>
-                            <td class="d-flex flex-column">
-                                @if (qty.Value.StartsWith("[") && qty.Value_En.StartsWith("["))
-                                {
-                                    var values = JsonConvert.DeserializeObject<List<string>>(isar ? qty.Value : qty.Value_En);
-                                    foreach (var i in values)
-                                    {
-                                        <p style="text-align:center">@i</p>
-                                        <br />
-                                    }
-                                }
-                                else
-                                {
-                                    <label>@(isar ? qty.Value : qty.Value_En)</label>
-                                }
-                            </td>
-                        </tr>
-                    }
-                    @if (Model.Eform_Approval.Count != 0)
-                    {
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h4 style="margin-bottom: 0px; text-align: center; color: var(--main-btn-color);">@(isar ? "الإعتمادات" : "Approvals")</h4>
-                            </th>
-                            <td></td>
-                        </tr>
-                    }
-                    @foreach (var i in Model.Eform_Approval)
-                    {
-                        <tr class="border">
-                            <th style="width: 100% !important;" colspan="4">
-                                <h5 style="margin-bottom: 0px; text-align: start;">@(isar?i.AR: i.EN)</h5>
-                            </th>
-                            <td></td>
-                        </tr>
-                        <tr class="EmptySpace">
-                            <th>
-                            </th>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr class="EmptySpace">
-                            <th>
-                            </th>
-                            <td>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                <label style="width:100%;direction:ltr;text-align:start">3.@count @i.EN</label>
+                            </div>
+                        </div>
+                        <div class="row border-section m-0 w-100" style="height:40px">
+
+                        </div>
+                    </div>
+                    count++;
+                }
+            </div>
+
         </div>
         <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
-            <button type="button" class="btn btn-secondary w-40" data-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+            <div>
+                <button type="button" class="btn btn-primary w-40 mx-3" onclick="Print()" style="background-color: var(--main-btn-color); width: 22vw; ">@(isar?"طباعة":"Print")</button>
+                <button type="button" class="btn btn-secondary w-40" data-dismiss="modal">@(isar?"اغلاق":"Close")</button>
+            </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(i => {
+        $('[data-id^="I"] .data-here,[data-id^="D"], .data-here,[data-id^="E"] .data-here').css({ color: 'black' })
+        // $('body').html(`\n    <div class="modal-content">\n        <div class="modal-header d-flex flex-column border-0" style="padding: 40px 40px 0 40px;">\n            <div class="d-flex flex-md-row flex-column align-items-center w-100 justify-content-between ">\n                <label class="pt-1 mb-md-2 col-md col-12 px-0" id="saudiArabiTitlr">\n\n                    المملكة العربية السعودية <br>\n                    Kingdom of Saudi Arabia\n                </label>\n                <div class="pt-1 mb-md-2 col-md col-12 justify-content-center align-items-center d-flex">\n                    <img src="/Design/img/VisionLogo.png" style="width: 158px !important; ">\n                </div>\n                <div id="MIMIS" class="pt-1 mb-md-2 text-md-center text-start col-md col-12 px-0 d-flex justify-content-end">\n                    <label class="">\n\n                        وزارة التعليم<br>\n                        Ministry of Education<br>043\n                    </label>\n                </div>\n\n            </div>\n            <hr class="w-100">\n            <div id="uninadee" style="padding:0;display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%;">\n                <div dir="rtl" style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">\n                    <span class="modal-title " data-eformid="16" style="direction:rtl;font-weight:bolder" id="Eform-UnitName">مركز رعاية المستفيد</span>\n                </div>\n                <div dir="ltr" style="padding: 0; display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">\n                    <span id="Eform-UnitNameEN" style="direction: ltr; font-weight: bolder">BENEFICIARY SERVICE CENTER</span>\n                </div>\n            </div>\n\n            <div id="EformNameHandelCom" style="padding:0;display:inline-flex;justify-content:space-between;align-items:center;width:100%;margin-top:15px;">\n                <h6 class="modal-title w-100" style="text-align:right;direction:rtl">\n                    اسم النموذج:\n                    <br>\n                    تأجيل القبول\n                </h6>\n                <h6 class="modal-title w-100" style="text-align:left;direction:ltr">\n                    E-Form Name:\n                    <br>\n                    Postponement of admission\n                </h6>\n                <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">\n                    <span dir="ltr">20314000000 01</span>\n                </div>\n            </div>\n            <hr class="w-100">\n        </div>\n        <div class="modal-body" style="padding: 0px 40px 0 40px;">\n            <div class="row w-100 p-0 m-0">\n                <div class="col-12 p-0 my-3">\n                    <div class="row m-0 w-100">\n                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">\n                            <label style="width: 100%; direction: rtl; font-weight: bolder; ">\n                                1.1- البيانات الشخصية\n                            </label>\n                            <label style="width: 100%; direction: ltr; font-weight: bolder;">1.1- Personal Information </label>\n                        </div>\n                    </div>\n                    <div class="row border-section m-0 w-100" style="padding-top: 15px;">\n                            <div class="col-md-6 col-12 justify-content-between" data-id="E-29" data-name="اسم الطالب -Student's name">\n                                <div class="d-inline-flex flex-row w-100 align-items-center">\n                                    <label>\n                                        <span class="ar-qty-head">اسم الطالب </span> <br> <span class="en-qty-head">Student's name</span>\n                                    </label>\n                                        <label class="data-here" data-ref="FirstName" style="color: black !important; overflow-wrap: break-word;">Ramy</label>\n                                </div>\n                                <div class="row w-100 mt-3 m-0">\n                                    <hr>\n                                </div>\n                            </div>\n                            <div class="col-md-6 col-12 justify-content-between" data-id="E-30" data-name="الجنسية-Nationality">\n                                <div class="d-inline-flex flex-row w-100 align-items-center">\n                                    <label>\n                                        <span class="ar-qty-head">الجنسية</span> <br> <span class="en-qty-head">Nationality</span>\n                                    </label>\n                                        <label class="data-here" data-ref="City_Country_2" style="color: black !important; overflow-wrap: break-word;">المغرب</label>\n                                </div>\n                                <div class="row w-100 mt-3 m-0">\n                                    <hr>\n                                </div>\n                            </div>\n                            <div class="col-md-6 col-12 justify-content-between" data-id="E-39" data-name="البريد  الإلكترونى-E-mail">\n                                <div class="d-inline-flex flex-row w-100 align-items-center">\n                                    <label>\n                                        <span class="ar-qty-head">البريد  الإلكترونى</span> <br> <span class="en-qty-head">E-mail</span>\n                                    </label>\n                                        <label class="data-here" data-ref="Email" style="color: black !important; overflow-wrap: break-word;">ramymakrameyd@outlook.com</label>\n                                </div>\n                                <div class="row w-100 mt-3 m-0">\n                                    <hr>\n                                </div>\n                            </div>\n\n                    </div>\n                </div>\n                <div class="col-12 p-0 my-3">\n                    <div class="row m-0 w-100">\n                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">\n                            <label style="width: 100%; direction: rtl; font-weight: bolder;">\n                                1.2- البيانات الشخصية الإضافية\n                            </label>\n                            <label style="width: 100%; direction: ltr; font-weight: bolder;">1.2- Extra Personal Information </label>\n                        </div>\n                    </div>\n                    <div class="row border-section m-0 w-100" style="padding-top: 15px;">\n                                    <div class="border col-12 eform-qty-title">\n                                        <div class="d-inline-flex w-100 p-2 flex-md-row flex-column align-items-baseline">\n                                            <div class="w-100"><h4 style="text-align:end;direction:rtl;margin-bottom: 0px;color: var(--main-btn-color);">أولاً – البيانات والطلب المقدم | </h4></div>\n                                            <div class="w-100">\n                                                <h4 style="text-align: end;direction: ltr; margin-bottom: 0px; color: var(--main-btn-color);">First - the data and the application sub</h4>\n                                            </div>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 justify-content-between" data-id="I-18" data-name="الرقم الجامعي-University ID" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <label>\n                                                <span class="ar-qty-head">الرقم الجامعي</span> <br><span class="en-qty-head"> University ID</span>\n                                            </label>\n                                            <label class="data-here">33</label>\n                                            \n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 justify-content-between" data-id="I-19" data-name="الكلية-College" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <label>\n                                                <span class="ar-qty-head">الكلية</span> <br><span class="en-qty-head"> College</span>\n                                            </label>\n                                            <label class="data-here">A</label>\n                                            \n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 justify-content-between" data-id="I-20" data-name="القسم-Section" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <label>\n                                                <span class="ar-qty-head">القسم</span> <br><span class="en-qty-head"> Section</span>\n                                            </label>\n
+        //                    <label class="data-here">B</label>\n                                            \n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 justify-content-between" data-id="I-21" data-name="الدرجة العلمية-Degree" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <label>\n                                                <span class="ar-qty-head">الدرجة العلمية</span> <br><span class="en-qty-head"> Degree</span>\n                                            </label>\n                                            <label class="data-here">C</label>\n                                            \n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 justify-content-between" data-id="I-22" data-name="إسم البرنامج-Program name" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <label>\n                                                <span class="ar-qty-head">إسم البرنامج</span> <br><span class="en-qty-head"> Program name</span>\n                                            </label>\n                                            <label class="data-here">D</label>\n                                            \n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 align-items-center " data-id="C-24" data-name="مسار  الدراسة في البرنامج-Study path in the program" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <div>\n                                                <span class="ar-qty-head">مسار  الدراسة في البرنامج</span> <br> <span class="en-qty-head">Study path in the program</span>\n                                            </div>\n                                            <div class="row justify-content-center d-flex data-here"><label class="mx-2">بالمقررات والرسالة</label> <label class="mx-2">,مسار  الدراسة في البرنامج</label> </div>\n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 align-items-center " data-id="C-25" data-name="تاريخ التسجيل في البرنامج مع بداية الفصل الدراسي-Date of enrollment in the program at the" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <div>\n                                                <span class="ar-qty-head">تاريخ التسجيل في البرنامج مع بداية الفصل الدراسي</span> <br> <span class="en-qty-head">Date of enrollment in the program at the</span>\n                                            </div>\n                                            <div class="row justify-content-center d-flex data-here"><label class="mx-2">الأول</label> <label class="mx-2">,الثاني</label> </div>\n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n                                    <div class="col-md-6 col-12 align-items-center " data-id="C-27" data-name="يحدد ما إذا كانت الطالب من إحدى الفئات:-Determines if a student falls into one" data-required="False">\n                                        <div class="d-inline-flex flex-row w-100 align-items-center">\n                                            <div>\n                                                <span class="ar-qty-head">يحدد ما إذا كانت الطالب من إحدى الفئات:</span> <br> <span class="en-qty-head">Determines if a student falls into one</span>\n                                            </div>\n                                            <div class="row justify-content-center d-flex data-here"><label class="mx-2">موظف </label> <label class="mx-2">,غير موظف</label> </div>\n                                        </div>\n                                        <div class="row w-100 mt-3 m-0">\n                                            <hr>\n                                        </div>\n                                    </div>\n\n                    </div>\n                </div>\n                <div class="col-12 p-0 my-3">\n                    <div class="row m-0 w-100">\n                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">\n                            <label style="width: 100%; direction: rtl; font-weight: bolder;">\n                                2- بيانات الطلب\n                            </label>\n                            <label style="width: 100%; direction: ltr; font-weight: bolder;">2- Request Information </label>\n                        </div>\n                    </div>\n                    <div class="row border-section m-0 w-100">\n                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">\n                            <label style="width:100%;direction:rtl">\n                                <span style=" font-weight: bolder;">\n                                    نوع الطلب | Request Type\n                                </span>\n                                <label style="border:0;margin:0 5px" id="eform-reqType">سؤال</label>\n                            </label>\n                            <label style="width: 100%; direction: rtl">\n                                <span style=" font-weight: bolder;">  نوع الخدمة | Service Type</span>\n                                <label style="border:0;margin:0 5px" id="eform-ServType">\nالخدمات\nالأكاديمية\n\n                            </label>\n                            </label>\n                        </div>\n                    </div>\n                </div>\n                <div class="col-12 my-3">\n                    <div class="row m-0 w-100">\n                        <div class="p-0 justify-content-between d-inline-flex align-items-center">\n                            <label style="width: 100%; direction: rtl; font-weight: bolder;">\n                                3- الاعتمادات\n                            </label>\n                            <label style="width: 100%; direction: ltr; font-weight: bolder;">3- Approvals</label>\n                        </div>\n                    </div>\n                    <div class="row border-section m-0 w-100">\n\n                    </div>\n                </div>\n\n                    <div class="col-12 p-0 my-3">\n                        <div class="row m-0 w-100">\n                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">\n                                <label style="width:100%;direction:rtl">\n                                    1.3 رئيس الجامعة\n                                </label>\n                                <label style="width:100%;direction:ltr">3.1  President the University</label>\n                            </div>\n                        </div>\n                        <div class="row border-section m-0 w-100" style="height:40px">\n\n                        </div>\n                    </div>\n                    <div class="col-12 p-0 my-3">\n                        <div class="row m-0 w-100">\n                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">\n                                <label style="width:100%;direction:rtl">\n                                    2.3 عمادة الدراسات العليا\n                                </label>\n                                <label style="width:100%;direction:ltr">3.2 Deanship of Graduate Studies</label>\n                            </div>\n                        </div>\n                        <div class="row border-section m-0 w-100" style="height:40px">\n\n                        </div>\n                    </div>\n                    <div class="col-12 p-0 my-3">\n                        <div class="row m-0 w-100">\n                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">\n                                <label style="width:100%;direction:rtl">\n                                    3.3 وحدة أمانة المجلس\n                                </label>\n                                <label style="width:100%;direction:ltr">3.3 Council Secretariat Unit</label>\n                            </div>\n                        </div>\n                        <div class="row border-section m-0 w-100" style="height:40px">\n\n                        </div>\n                    </div>\n
+        //                         </div>\n\n        </div>\n        <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">\n            <p class="row text-center" style="color:red">\n                برجاء التأكد من كل البيانات قبل الضغط علي حفظ.\n            </p>\n            <div>\n                <button type="button" class="btn btn-primary w-40 mx-3 saveeform" style="background-color: var(--main-btn-color); width: 22vw; ">حفظ</button>\n                <button type="button" class="btn btn-secondary w-40" data-bs-dismiss="modal">اغلاق</button>\n            </div>\n        </div>\n    </div>\n`)
 
+    })
+    function Print() {
+        var myWindow = window.open('', '', 'width=800,height=700');
+        let html = document.createElement('html')
+        let head = document.createElement('head')
+        head.insertAdjacentHTML('beforeEnd', `<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+.ar-qty-head,.en-qty-head{
+width:100%;
+}
+.ar-qty-head {
+    font-weight: bolder;
+    text-align: right;
+}
+.en-qty-head {
+    text-align: left;
+}
+.modal-footer{
+display:none !important;
+}
+        hr {
+            width: 100%;
+        }
+
+        [data-id]>div>label {
+            text-align: start;
+        }
+
+        .t-start label {
+            text-align: start;
+        }
+
+        .main-head-title div {
+            width: 100%;
+        }
+
+        .main-head-title div label {
+            text-align: start;
+        }
+
+        .eform-section {
+            width: 100%;
+        }
+
+        :root {
+            --main-btn-color: #0a1332 !important;
+        }
+
+        .data-here {
+            color: black !important;
+        }
+
+        .eform-qty-title {
+            margin-bottom: 10px;
+        }
+
+        #saudiArabiTitlr {
+            text-align: start;
+        }
+
+        #saudiArabiTitlr,
+        #MIMIS {
+            margin-top: 36px;
+        }
+
+        .ar-qty-head {
+            font-weight: bolder;
+        }
+
+        .eform-section label {
+            padding: 10px;
+            height: 100%;
+            border: 1px solid #f4f4f4
+        }
+
+        .border-section {
+            border: 1px solid #f4f4f4
+        }
+
+        .modal-dialog-readonly-eform {
+            max-width: 80vw !important;
+            width: 100%
+        }
+
+        .modal-dialog-readonly-eform>.modal-content>.modal-header {
+            display: none
+        }
+
+        .modal-dialog-readonly-eform {
+            max-width: 46vw !important;
+        }
+
+        [data-id] {
+            margin: 0px 0;
+            align-items: center;
+        }
+
+        .form-control {
+            max-height: 37px !important;
+            width: 100%;
+            color: white;
+            background: #283758;
+        }
+
+        [data-id^="C"] div div:nth-of-type(1),
+        [data-id^="R"] div div:nth-of-type(1) {
+            max-width: 250px;
+            width: 250px;
+        }
+
+        [data-id^="C"] div div:nth-of-type(2),
+        [data-id^="R"] div div:nth-of-type(2) {
+            width: 81%;
+            padding: 0 9px;
+            margin: 0 24px;
+            height: 100%;
+            max-height: 100% !important;
+        }
+
+
+        [data-id].col-md-6>div>label:nth-of-type(1) {
+            max-width: 194px;
+            width: 194px !important;
+            margin: 0 10px;
+        }
+
+        [data-id]:not(.col-md-6)>div>label {
+            margin: 10px;
+        }
+
+        [data-id]:not(.col-md-6)>div div {
+            margin: 0 25px;
+        }
+
+
+
+        @@media(max-width:1200px) and (min-width:771px) {
+            [data-id] {
+                flex-direction: column !important;
+            }
+
+            [data-id^="C"] div div:nth-of-type(2),
+            [data-id^="R"] div div:nth-of-type(2) {
+                width: 100% !important;
+            }
+
+            [data-id].col-md-6>div>label {
+                max-width: unset;
+                width: 100% !important;
+            }
+
+        }
+
+        @@media(max-width:770px) {
+
+            #uninadee {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            .modal-body,
+            .modal-header {
+                padding: 10px !important;
+            }
+
+            #EformNameHandelCom {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            #EformNameHandelCom div {
+                justify-content: center !important;
+            }
+
+            #uninadee div {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            #saudiArabiTitlr,
+            #MIMIS {
+                margin-top: 0px;
+                text-align: center !important;
+                justify-content: center !important;
+                align-items: center;
+                display: flex !important;
+            }
+
+            .eform-body tr {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form-control {
+                width: 100%;
+            }
+
+            .modal-dialog-eform {
+                max-width: 56vw !important;
+                width: 100%
+            }
+
+            .modal-dialog-eform>.modal-content>.modal-header {
+                display: none
+            }
+
+            .modal-dialog-eform {
+                max-width: 89vw !important;
+                width: 100% !important;
+            }
+        }
+
+        .modal-dialog-eform {
+            width: 68vw !important;
+            max-width: unset !important;
+        }
+
+        td {
+            width: 100%;
+        }
+
+        td div {
+            margin: 0 20px;
+        }
+
+        tr th {
+            /*min-width: 150px;*/
+        }
+
+        .form-control {
+            /*width: 50%;*/
+        }
+
+        td {
+            justify-content: start;
+            display: flex;
+        }
+
+        th {
+            justify-content: center;
+        }
+
+        tr th,
+        tr td {
+            vertical-align: middle !important;
+            border-top: 0px !important;
+        }
+
+        .eform-body tr.border {
+            border: none !important;
+        }
+
+        .eform-body tr.border th,
+        .eform-body tr.border td {
+            border-top: 0px !important;
+            border: 0px !important;
+            border-bottom: 1px solid #dee2e6 !important;
+        }
+
+        tr.border td {
+            padding: 0;
+        }
+
+        td input[type='date'],
+        td input[type='text'] {
+            /*width: 250px !important*/
+        }
+
+        tr[data-required="True"] th label::after {
+            content: "*";
+            color: red;
+            margin: 0 5px
+        }
+
+        .checkbox {
+            margin: 0 !important;
+            /*white-space: nowrap;*/
+        }
+
+        .EmptySpace {
+            height: 25px;
+        }
+
+        .contanier {
+            box-shadow: 0px 0px 20px 4px #888888;
+            padding: 25px;
+        }
+
+        .alert {
+            margin: 0;
+            width: 250px !important;
+        }
+
+        .btn-primary {
+            background-color: var(--main-btn-color);
+        }
+
+        h2 {
+            color: var(--main-btn-color) !important;
+        }
+
+        .table> :not(caption)>*>* {
+            border-bottom-width: 0px !important;
+        }
+
+        .Space {
+            border-bottom: 1px solid #dee2e6;
+            margin: 30px 0;
+        }
+#LOGO-IAU-Summary{
+ width: 170px !important;
+}
+    </style>`)
+        html.appendChild(head)
+
+        let body = document.createElement('body')
+        body.insertAdjacentHTML('beforeEnd', $('#content-summary-efrom').html())
+        body.dir = "rtl"
+        html.appendChild(body)
+        myWindow.document.write(html.innerHTML);
+        myWindow.addEventListener('load', (event) => {
+            //myWindow.print();
+            //setTimeout(() => { myWindow.close(); }, 500)
+        });
+        myWindow.document.close();
+
+    }
+</script>

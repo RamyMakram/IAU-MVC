@@ -44,6 +44,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Paragraph> Paragraph { get; set; }
         public virtual DbSet<Person_Eform> Person_Eform { get; set; }
         public virtual DbSet<Personel_Data> Personel_Data { get; set; }
+        public virtual DbSet<Preview_EformApproval> Preview_EformApproval { get; set; }
         public virtual DbSet<Privilage> Privilage { get; set; }
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Radio_Type> Radio_Type { get; set; }
@@ -60,6 +61,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Sub_Services> Sub_Services { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
+        public virtual DbSet<Unit_Signature> Unit_Signature { get; set; }
         public virtual DbSet<UnitLevel> UnitLevel { get; set; }
         public virtual DbSet<UnitMainServices> UnitMainServices { get; set; }
         public virtual DbSet<Units> Units { get; set; }
@@ -69,6 +71,5 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
-        public virtual DbSet<Preview_EformApproval> Preview_EformApproval { get; set; }
     }
 }

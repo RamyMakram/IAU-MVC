@@ -21,8 +21,8 @@ namespace IAUBackEnd.Admin.Models
         public string Value_En { get; set; }
         public Nullable<System.DateTime> FillDate { get; set; }
         public string Name { get; set; }
-        public string Name_En { get; set; }
         public string Type { get; set; }
+        public string Name_En { get; set; }
     
         public virtual Person_Eform Person_Eform { get; set; }
         public virtual Question Question { get; set; }

@@ -221,8 +221,13 @@ namespace AdminPanel.Controllers
             {
                 var Data = APIHandeling.getData($"E_Forms/GetE_FormsFoRequest?id={efid}&RequestID={req}");
                 var resJson = Data.Content.ReadAsStringAsync();
-                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
-                var model = JsonConvert.DeserializeObject<PersonEfDTO>(res.result.ToString());
+                var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Jobject = JObject.Parse(response.result.ToString());
+                ViewBag.UnitENName = Jobject["UnitEN"].ToString();
+                ViewBag.UnitARName = Jobject["UnitAR"].ToString();
+                ViewBag.EfCode = Jobject["UnitCode"].ToString();
+                ViewBag.Signature = Jobject["Signature"].ToString();
+                var model = JsonConvert.DeserializeObject<PersonEfDTO>(Jobject["Eform"].ToString());
                 return PartialView("~/Views/Email/_Eform.cshtml", model);
             }
             catch (Exception ee)

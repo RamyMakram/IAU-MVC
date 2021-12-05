@@ -25,6 +25,7 @@ namespace IAUBackEnd.Admin.Models
         public string Name { get; set; }
         public string Name_EN { get; set; }
         public Nullable<int> Person_ID { get; set; }
+        public string Code { get; set; }
         public System.DateTime FillDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

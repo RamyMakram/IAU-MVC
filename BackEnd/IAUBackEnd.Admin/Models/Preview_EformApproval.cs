@@ -17,8 +17,12 @@ namespace IAUBackEnd.Admin.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Name_En { get; set; }
+        public Nullable<int> UnitID { get; set; }
+        public bool OwnEform { get; set; }
+        public Nullable<System.DateTime> SignDate { get; set; }
         public int PersonEform { get; set; }
     
         public virtual Person_Eform Person_Eform { get; set; }
+        public virtual Units Units { get; set; }
     }
 }

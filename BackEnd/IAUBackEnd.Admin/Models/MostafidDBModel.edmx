@@ -171,6 +171,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Person_ID" Type="int" />
+          <Property Name="Code" Type="nchar" MaxLength="2" />
           <Property Name="FillDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Personel_Data">
@@ -205,6 +206,9 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="Name_En" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="UnitID" Type="int" />
+          <Property Name="OwnEform" Type="bit" Nullable="false" />
+          <Property Name="SignDate" Type="datetime" />
           <Property Name="PersonEform" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Privilage">
@@ -388,6 +392,15 @@
           <Property Name="Title_Middle_Names_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Title_Middle_Names_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+        </EntityType>
+        <EntityType Name="Unit_Signature">
+          <Key>
+            <PropertyRef Name="UnitID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="UnitID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UnitLevel">
           <Key>
@@ -759,6 +772,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Preview_EformApproval_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="Preview_EformApproval" Type="Self.Preview_EformApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Preview_EformApproval">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Privilage_Privilage">
           <End Role="Privilage" Type="Self.Privilage" Multiplicity="0..1" />
           <End Role="Privilage1" Type="Self.Privilage" Multiplicity="*" />
@@ -1029,6 +1054,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Unit_Signature_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="1" />
+          <End Role="Unit_Signature" Type="Self.Unit_Signature" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Unit_Signature">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UnitMainServices_Main_Services">
           <End Role="Main_Services" Type="Self.Main_Services" Multiplicity="1" />
           <End Role="UnitMainServices" Type="Self.UnitMainServices" Multiplicity="*" />
@@ -1293,6 +1330,7 @@
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unit_Signature" EntityType="Self.Unit_Signature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitLevel" EntityType="Self.UnitLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitMainServices" EntityType="Self.UnitMainServices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
@@ -1390,6 +1428,10 @@
             <End Role="Person_Eform" EntitySet="Person_Eform" />
             <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
           </AssociationSet>
+          <AssociationSet Name="FK_Preview_EformApproval_Units" Association="Self.FK_Preview_EformApproval_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
+          </AssociationSet>
           <AssociationSet Name="FK_Privilage_Privilage" Association="Self.FK_Privilage_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Privilage1" EntitySet="Privilage" />
@@ -1477,6 +1519,10 @@
           <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Unit_Signature_Units" Association="Self.FK_Unit_Signature_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Unit_Signature" EntitySet="Unit_Signature" />
           </AssociationSet>
           <AssociationSet Name="FK_UnitMainServices_Main_Services" Association="Self.FK_UnitMainServices_Main_Services">
             <End Role="Main_Services" EntitySet="Main_Services" />
@@ -1578,6 +1624,7 @@
           <EntitySet Name="Paragraph" EntityType="MostafidDBModel.Paragraph" />
           <EntitySet Name="Person_Eform" EntityType="MostafidDBModel.Person_Eform" />
           <EntitySet Name="Personel_Data" EntityType="MostafidDBModel.Personel_Data" />
+          <EntitySet Name="Preview_EformApproval" EntityType="MostafidDBModel.Preview_EformApproval" />
           <EntitySet Name="Privilage" EntityType="MostafidDBModel.Privilage" />
           <EntitySet Name="Question" EntityType="MostafidDBModel.Question" />
           <EntitySet Name="Radio_Type" EntityType="MostafidDBModel.Radio_Type" />
@@ -1594,6 +1641,7 @@
           <EntitySet Name="Sub_Services" EntityType="MostafidDBModel.Sub_Services" />
           <EntitySet Name="sysdiagrams" EntityType="MostafidDBModel.sysdiagrams" />
           <EntitySet Name="Title_Middle_Names" EntityType="MostafidDBModel.Title_Middle_Names" />
+          <EntitySet Name="Unit_Signature" EntityType="MostafidDBModel.Unit_Signature" />
           <EntitySet Name="UnitLevel" EntityType="MostafidDBModel.UnitLevel" />
           <EntitySet Name="UnitMainServices" EntityType="MostafidDBModel.UnitMainServices" />
           <EntitySet Name="Units" EntityType="MostafidDBModel.Units" />
@@ -1723,6 +1771,10 @@
             <End Role="Personel_Data" EntitySet="Personel_Data" />
             <End Role="Person_Eform" EntitySet="Person_Eform" />
           </AssociationSet>
+          <AssociationSet Name="FK_Preview_EformApproval_Person_Eform" Association="MostafidDBModel.FK_Preview_EformApproval_Person_Eform">
+            <End Role="Person_Eform" EntitySet="Person_Eform" />
+            <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
+          </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Region" Association="MostafidDBModel.FK_Personel_Data_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
@@ -1734,6 +1786,10 @@
           <AssociationSet Name="FK_Request_Data_Personel_Data" Association="MostafidDBModel.FK_Request_Data_Personel_Data">
             <End Role="Personel_Data" EntitySet="Personel_Data" />
             <End Role="Request_Data" EntitySet="Request_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Preview_EformApproval_Units" Association="MostafidDBModel.FK_Preview_EformApproval_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
           </AssociationSet>
           <AssociationSet Name="FK_Privilage_Privilage" Association="MostafidDBModel.FK_Privilage_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
@@ -1815,6 +1871,10 @@
             <End Role="Service_Type" EntitySet="Service_Type" />
             <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
           </AssociationSet>
+          <AssociationSet Name="FK_Unit_Signature_Units" Association="MostafidDBModel.FK_Unit_Signature_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Unit_Signature" EntitySet="Unit_Signature" />
+          </AssociationSet>
           <AssociationSet Name="FK_Units_Type_UnitLevel" Association="MostafidDBModel.FK_Units_Type_UnitLevel">
             <End Role="UnitLevel" EntitySet="UnitLevel" />
             <End Role="Units_Type" EntitySet="Units_Type" />
@@ -1851,23 +1911,18 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="Preview_EformApproval" EntityType="MostafidDBModel.Preview_EformApproval" />
-          <AssociationSet Name="FK_Preview_EformApproval_Person_Eform" Association="MostafidDBModel.FK_Preview_EformApproval_Person_Eform">
-            <End Role="Person_Eform" EntitySet="Person_Eform" />
-            <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
             <PropertyRef Name="Applicant_Type_ID" />
           </Key>
-          <Property Name="Applicant_Type_ID" Type="Int32" Nullable="false" />
+          <Property Name="Applicant_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Applicant_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Applicant_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Affliated" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Personel_Data_Applicant_Type" FromRole="Applicant_Type" ToRole="Personel_Data" />
           <NavigationProperty Name="ValidTo" Relationship="MostafidDBModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
-          <Property Name="Affliated" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
@@ -1955,10 +2010,10 @@
           <Property Name="Value_En" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FillDate" Type="DateTime" Precision="3" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="Name_En" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_E_Forms_Answer_Person_Eform" FromRole="E_Forms_Answer" ToRole="Person_Eform" />
           <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
-          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -2054,6 +2109,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Person_ID" Type="Int32" />
+          <Property Name="Code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="FillDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Person_Eform" FromRole="Person_Eform" ToRole="E_Forms_Answer" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Person_Eform_Personel_Data" FromRole="Person_Eform" ToRole="Personel_Data" />
@@ -2093,6 +2149,20 @@
           <NavigationProperty Name="Region" Relationship="MostafidDBModel.FK_Personel_Data_Region" FromRole="Personel_Data" ToRole="Region" />
           <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Personel_Data" ToRole="Request_Data" />
+        </EntityType>
+        <EntityType Name="Preview_EformApproval">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Name_En" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UnitID" Type="Int32" />
+          <Property Name="OwnEform" Type="Boolean" Nullable="false" />
+          <Property Name="SignDate" Type="DateTime" Precision="3" />
+          <Property Name="PersonEform" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_Preview_EformApproval_Person_Eform" FromRole="Preview_EformApproval" ToRole="Person_Eform" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Preview_EformApproval_Units" FromRole="Preview_EformApproval" ToRole="Units" />
         </EntityType>
         <EntityType Name="Privilage">
           <Key>
@@ -2327,6 +2397,16 @@
           <Property Name="IS_Action" Type="Boolean" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Personel_Data_Title_Middle_Names" FromRole="Title_Middle_Names" ToRole="Personel_Data" />
         </EntityType>
+        <EntityType Name="Unit_Signature">
+          <Key>
+            <PropertyRef Name="UnitID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UnitID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Unit_Signature_Units" FromRole="Unit_Signature" ToRole="Units" />
+        </EntityType>
         <EntityType Name="UnitLevel">
           <Key>
             <PropertyRef Name="ID" />
@@ -2366,10 +2446,12 @@
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Eform_Approval" Relationship="MostafidDBModel.FK_Eform_Approval_Units" FromRole="Units" ToRole="Eform_Approval" />
+          <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDBModel.FK_Preview_EformApproval_Units" FromRole="Units" ToRole="Preview_EformApproval" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
           <NavigationProperty Name="RequestTransaction" Relationship="MostafidDBModel.FK_RequestTransaction_Units" FromRole="Units" ToRole="RequestTransaction" />
           <NavigationProperty Name="RequestTransaction1" Relationship="MostafidDBModel.FK_RequestTransaction_Units1" FromRole="Units" ToRole="RequestTransaction" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Units_Service_Type" FromRole="Units" ToRole="Service_Type" />
+          <NavigationProperty Name="Unit_Signature" Relationship="MostafidDBModel.FK_Unit_Signature_Units" FromRole="Units" ToRole="Unit_Signature" />
           <NavigationProperty Name="UnitLevel" Relationship="MostafidDBModel.FK_Units_UnitLevel" FromRole="Units" ToRole="UnitLevel" />
           <NavigationProperty Name="UnitMainServices" Relationship="MostafidDBModel.FK_UnitMainServices_Units" FromRole="Units" ToRole="UnitMainServices" />
           <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Units" FromRole="Units" ToRole="Units_Request_Type" />
@@ -2825,6 +2907,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Preview_EformApproval_Person_Eform">
+          <End Type="MostafidDBModel.Person_Eform" Role="Person_Eform" Multiplicity="1" />
+          <End Type="MostafidDBModel.Preview_EformApproval" Role="Preview_EformApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person_Eform">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Preview_EformApproval">
+              <PropertyRef Name="PersonEform" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Personel_Data_Region">
           <End Type="MostafidDBModel.Region" Role="Region" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
@@ -2858,6 +2952,18 @@
             </Principal>
             <Dependent Role="Request_Data">
               <PropertyRef Name="Personel_Data_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Preview_EformApproval_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Preview_EformApproval" Role="Preview_EformApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Preview_EformApproval">
+              <PropertyRef Name="UnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3105,6 +3211,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Unit_Signature_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1" />
+          <End Type="MostafidDBModel.Unit_Signature" Role="Unit_Signature" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="Unit_Signature">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Units_Type_UnitLevel">
           <End Type="MostafidDBModel.UnitLevel" Role="UnitLevel" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Units_Type" Role="Units_Type" Multiplicity="*" />
@@ -3213,28 +3331,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Preview_EformApproval">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Name_En" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="PersonEform" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_Preview_EformApproval_Person_Eform" FromRole="Preview_EformApproval" ToRole="Person_Eform" />
-        </EntityType>
-        <Association Name="FK_Preview_EformApproval_Person_Eform">
-          <End Type="MostafidDBModel.Person_Eform" Role="Person_Eform" Multiplicity="1" />
-          <End Type="MostafidDBModel.Preview_EformApproval" Role="Preview_EformApproval" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person_Eform">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Preview_EformApproval">
-              <PropertyRef Name="PersonEform" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3322,8 +3418,8 @@
           <EntitySetMapping Name="E_Forms_Answer">
             <EntityTypeMapping TypeName="MostafidDBModel.E_Forms_Answer">
               <MappingFragment StoreEntitySet="E-Forms_Answer">
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name_En" ColumnName="Name_En" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FillDate" ColumnName="FillDate" />
                 <ScalarProperty Name="Value_En" ColumnName="Value_En" />
@@ -3419,6 +3515,7 @@
             <EntityTypeMapping TypeName="MostafidDBModel.Person_Eform">
               <MappingFragment StoreEntitySet="Person_Eform">
                 <ScalarProperty Name="FillDate" ColumnName="FillDate" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Person_ID" ColumnName="Person_ID" />
                 <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3449,6 +3546,19 @@
                 <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
                 <ScalarProperty Name="IAU_ID_Number" ColumnName="IAU_ID_Number" />
                 <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preview_EformApproval">
+            <EntityTypeMapping TypeName="MostafidDBModel.Preview_EformApproval">
+              <MappingFragment StoreEntitySet="Preview_EformApproval">
+                <ScalarProperty Name="PersonEform" ColumnName="PersonEform" />
+                <ScalarProperty Name="SignDate" ColumnName="SignDate" />
+                <ScalarProperty Name="OwnEform" ColumnName="OwnEform" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="Name_En" ColumnName="Name_En" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3650,6 +3760,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Unit_Signature">
+            <EntityTypeMapping TypeName="MostafidDBModel.Unit_Signature">
+              <MappingFragment StoreEntitySet="Unit_Signature">
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UnitLevel">
             <EntityTypeMapping TypeName="MostafidDBModel.UnitLevel">
               <MappingFragment StoreEntitySet="UnitLevel">
@@ -3751,16 +3871,6 @@
               <MappingFragment StoreEntitySet="ValidTo">
                 <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
                 <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Preview_EformApproval">
-            <EntityTypeMapping TypeName="MostafidDBModel.Preview_EformApproval">
-              <MappingFragment StoreEntitySet="Preview_EformApproval">
-                <ScalarProperty Name="PersonEform" ColumnName="PersonEform" />
-                <ScalarProperty Name="Name_En" ColumnName="Name_En" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

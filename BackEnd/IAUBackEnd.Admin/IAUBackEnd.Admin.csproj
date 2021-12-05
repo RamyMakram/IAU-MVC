@@ -417,6 +417,9 @@
     <Compile Include="Models\Units_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Unit_Signature.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Users.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>

@@ -324,7 +324,7 @@
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100" style="padding-top: 15px;">
-                        @foreach (var qty in Model.Question.Where(q => q.T != "E"))
+                        @foreach (var qty in Model.Question)
                         {
                             switch (qty.T)
                             {
