@@ -3,9 +3,28 @@
     :root {
         --main-btn-color: #0a1332 !important;
     }
-    .eform-qty-title{
-        margin-bottom:10px;
+
+    .eform-qty-title {
+        margin-bottom: 10px;
     }
+
+    [data-id] div:nth-of-type(1) label label:nth-of-type(1) {
+        font-size: 15px
+    }
+
+    label.en-qty-head {
+        text-align: left;
+        width: 100%;
+    }
+
+    label.ar-qty-head {
+        text-align: start
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+        margin: 0 9px;
+    }
+
     #saudiArabiTitlr, #MIMIS {
         margin-top: 36px;
     }
@@ -264,14 +283,15 @@
 
             </div>
             <hr class="w-100" />
-            <div id="uninadee" style="padding:0;display:inline-flex;justify-content:space-between;flex-wrap:wrap; flex-direction:row;width:100%;">
-                <div dir="rtl" style="display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+            <div id="uninadee" style="padding: 0; display: inline-flex; font-size: 16px; justify-content: space-between;" class="flex-md-row flex-column w-100">
+                <div dir="rtl" style="display: flex;" class="justify-content-md-end justify-content-center w-100">
                     <span class="modal-title " data-eformid="@Model.ID" style="direction:rtl;font-weight:bolder" id="Eform-UnitName">@ViewBag.UnitARName</span>
                 </div>
-                <div dir="ltr" style="padding: 0; display: inline-flex; justify-content: flex-start; flex-direction: row; align-items: baseline;">
+                <div dir="ltr" style=" padding: 0 17px; display: flex;" class="justify-content-md-end justify-content-center w-100">
                     <span id="Eform-UnitNameEN" style="direction: ltr; font-weight: bolder">@ViewBag.UnitENName</span>
                 </div>
             </div>
+            <hr class="w-100" />
 
             <div id="EformNameHandelCom" style="padding:0;display:inline-flex;justify-content:space-between;align-items:center;width:100%;margin-top:15px;">
                 <h6 class="modal-title w-100" style="text-align:right;direction:rtl">
@@ -284,9 +304,11 @@
                     <br />
                     @Model.Name_EN
                 </h6>
-                <div style="display: inline-flex; justify-content: flex-end; flex-direction: row; width: 100%; align-items: baseline;">
-                    <span dir="ltr">@ViewBag.EfCode</span>
-                </div>
+                <h6 class="modal-title w-100" style="text-align:left;">
+                    : كود النموذج - Eforme Code
+                    <br />
+                    <label style="direction:ltr">@ViewBag.EfCode</label>
+                </h6>
             </div>
             <hr class="w-100" />
         </div>
@@ -295,10 +317,10 @@
                 <div class="col-12 p-0 my-3">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
-                            <label style="width: 100%; direction: rtl; font-weight: bolder; ">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align:end">
                                 1.1- البيانات الشخصية
                             </label>
-                            <label style="width: 100%; direction: ltr; font-weight: bolder;">1.1- Personal Information </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">1.1- Personal Information </label>
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100" style="padding-top: 15px;">
@@ -307,7 +329,7 @@
                             <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN">
                                 <div class="d-inline-flex flex-row w-100 align-items-center">
                                     <label>
-                                        <span class="ar-qty-head">@qty.Name</span> <br /> <span class="en-qty-head">@qty.Name_EN</span>
+                                        <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                     </label>
                                     <div class="form-control" style=" margin:0;">
                                         <label data-ref="@qty.Ref" style="white-space: pre-wrap;color:white!important">  </label>
@@ -324,10 +346,10 @@
                 <div class="col-12 p-0 my-3">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
-                            <label style="width: 100%; direction: rtl; font-weight: bolder;">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end">
                                 1.2- البيانات الشخصية الإضافية
                             </label>
-                            <label style="width: 100%; direction: ltr; font-weight: bolder;">1.2- Extra Personal Information </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">1.2- Extra Personal Information </label>
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100" style="padding-top: 15px;">
@@ -339,7 +361,7 @@
                                     <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                         <div class="d-inline-flex flex-row w-100 align-items-center">
                                             <label>
-                                                <span class="ar-qty-head">@qty.Name</span> <br /><span class="en-qty-head"> @qty.Name_EN</span>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /><label class="en-qty-head"> @qty.Name_EN</label>
                                             </label>
                                             <input class="form-control" placeholder="@(isar?qty.Input.PlaceHolder:qty.Input.PlaceholderEN)" type="@(qty.Input.ISNum?"number":"text")" />
                                         </div>
@@ -352,14 +374,14 @@
                                     <div class="col-md-6 col-12 align-items-center " data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                         <div class="d-inline-flex flex-row w-100 align-items-center">
                                             <div>
-                                                <span class="ar-qty-head">@qty.Name</span> <br /> <span class="en-qty-head">@qty.Name_EN</span>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </div>
                                             <div class="row justify-content-center d-flex">
                                                 @foreach (var c in qty.Check)
                                                 {
                                                     <label class="checkbox col-12">
                                                         <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                        <span class="ar-qty-head">@c.Name</span> - <span class="en-qty-head">@c.Name_EN</span>
+                                                        <label class="ar-qty-head">@c.Name</label> - <label class="en-qty-head">@c.Name_EN</label>
                                                     </label>
                                                 }
                                             </div>
@@ -373,14 +395,14 @@
                                     <div class="col-md-6 col-12 align-items-center " data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                         <div class="d-inline-flex flex-row w-100 align-items-center">
                                             <div>
-                                                <span class="ar-qty-head">@qty.Name</span> <br /> <span class="en-qty-head">@qty.Name_EN</span>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </div>
                                             <div class="row justify-content-center d-flex">
                                                 @foreach (var c in qty.Radio)
                                                 {
                                                     <label class="checkbox col-12">
-                                                        <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                        <span class="ar-qty-head"> @c.Name </span>- <span class="ar-qty-head">@c.Name_EN</span>
+                                                        <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
+                                                        <label class="ar-qty-head"> @c.Name </label> - <label class="en-qty-head">@c.Name_EN</label>
                                                     </label>
                                                 }
                                             </div>
@@ -393,7 +415,7 @@
                                 case "D":
                                     <div class="col-md-6 col-12 d-inline-flex justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                         <label>
-                                            <span class="ar-qty-head">@qty.Name</span> <br /> <span class="ar-qty-head">@qty.Name_EN</span>
+                                            <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                         </label>
                                         <input class="form-control" type="date" />
                                     </div>
@@ -416,10 +438,10 @@
                                 case "P":
                                     <div class="border" style="text-align:start">
                                         <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
-                                            <span class="ar-qty-head">@qty.Para.Name</span>
+                                            <label class="ar-qty-head">@qty.Para.Name</label>
                                         </p>
                                         <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:ltr">
-                                            <span class="ar-qty-head">@qty.Para.Name_En</span>
+                                            <label class="en-qty-head">@qty.Para.Name_En</label>
                                         </p>
                                     </div>
                                     break;
@@ -434,10 +456,10 @@
                 <div class="col-12 p-0 my-3">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
-                            <label style="width: 100%; direction: rtl; font-weight: bolder;">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end">
                                 2- بيانات الطلب
                             </label>
-                            <label style="width: 100%; direction: ltr; font-weight: bolder;">2- Request Information </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">2- Request Information </label>
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100">
