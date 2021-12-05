@@ -304,8 +304,8 @@
                     <br />
                     @Model.Name_EN
                 </h6>
-                <h6 class="modal-title w-100" style="text-align:left;">
-                    : كود النموذج - Eforme Code
+                <h6 class="modal-title w-100" style="text-align:center;">
+                    كود النموذج | Eforme Code
                     <br />
                     <label style="direction:ltr">@ViewBag.EfCode</label>
                 </h6>
@@ -318,38 +318,9 @@
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
                             <label style="width: 100%; direction: rtl; font-weight: bolder; text-align:end">
-                                1.1- البيانات الشخصية
+                                1- البيانات الشخصية
                             </label>
-                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">1.1- Personal Information </label>
-                        </div>
-                    </div>
-                    <div class="row border-section m-0 w-100" style="padding-top: 15px;">
-                        @foreach (var qty in Model.Question.Where(q => q.T == "E"))
-                        {
-                            <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN">
-                                <div class="d-inline-flex flex-row w-100 align-items-center">
-                                    <label>
-                                        <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
-                                    </label>
-                                    <div class="form-control" style=" margin:0;">
-                                        <label data-ref="@qty.Ref" style="white-space: pre-wrap;color:white!important">  </label>
-                                    </div>
-                                </div>
-                                <div class="row w-100 mt-3 m-0">
-                                    <hr />
-                                </div>
-                            </div>
-                        }
-
-                    </div>
-                </div>
-                <div class="col-12 p-0 my-3">
-                    <div class="row m-0 w-100">
-                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
-                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end">
-                                1.2- البيانات الشخصية الإضافية
-                            </label>
-                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">1.2- Extra Personal Information </label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder; text-align: end">1- Personal Information </label>
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100" style="padding-top: 15px;">
@@ -357,13 +328,26 @@
                         {
                             switch (qty.T)
                             {
+                                case "E":
+                                    <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <label>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
+                                            </label>
+                                            <label class="data-here"></label>
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    break;
                                 case "I":
                                     <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
                                         <div class="d-inline-flex flex-row w-100 align-items-center">
                                             <label>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /><label class="en-qty-head"> @qty.Name_EN</label>
                                             </label>
-                                            <input class="form-control" placeholder="@(isar?qty.Input.PlaceHolder:qty.Input.PlaceholderEN)" type="@(qty.Input.ISNum?"number":"text")" />
+                                            <label class="data-here"></label>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
                                             <hr />
@@ -376,14 +360,8 @@
                                             <div>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </div>
-                                            <div class="row justify-content-center d-flex">
-                                                @foreach (var c in qty.Check)
-                                                {
-                                                    <label class="checkbox col-12">
-                                                        <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                        <label class="ar-qty-head">@c.Name</label> - <label class="en-qty-head">@c.Name_EN</label>
-                                                    </label>
-                                                }
+                                            <div class="row justify-content-center d-flex data-here">
+
                                             </div>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
@@ -397,14 +375,7 @@
                                             <div>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </div>
-                                            <div class="row justify-content-center d-flex">
-                                                @foreach (var c in qty.Radio)
-                                                {
-                                                    <label class="checkbox col-12">
-                                                        <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                        <label class="ar-qty-head"> @c.Name </label> - <label class="en-qty-head">@c.Name_EN</label>
-                                                    </label>
-                                                }
+                                            <div class="row justify-content-center d-flex data-here">
                                             </div>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
@@ -417,7 +388,7 @@
                                         <label>
                                             <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                         </label>
-                                        <input class="form-control" type="date" />
+                                        <label class="data-here"></label>
                                     </div>
                                     break;
                                 case "S":
@@ -450,6 +421,7 @@
                             }
 
                         }
+
 
                     </div>
                 </div>
