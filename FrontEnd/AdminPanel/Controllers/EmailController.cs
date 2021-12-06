@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -226,7 +227,7 @@ namespace AdminPanel.Controllers
                 ViewBag.UnitENName = Jobject["UnitEN"].ToString();
                 ViewBag.UnitARName = Jobject["UnitAR"].ToString();
                 ViewBag.EfCode = Jobject["UnitCode"].ToString();
-                ViewBag.Signature = Jobject["Signature"].ToString();
+                ViewBag.Signature = JsonConvert.DeserializeObject<Unit_Signature>(Jobject["Signature"].ToString());
                 var model = JsonConvert.DeserializeObject<PersonEfDTO>(Jobject["Eform"].ToString());
                 return PartialView("~/Views/Email/_Eform.cshtml", model);
             }
@@ -235,6 +236,15 @@ namespace AdminPanel.Controllers
                 return PartialView("~/Views/Email/_Eform.cshtml", null);
 
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SignEform(int id)
+        {
+            var Data = APIHandeling.Post($"Request/ApproveEform?UnitID={TempData.Peek("UnitID")}&EformID={id}", new { });
+            var resJson = Data.Content.ReadAsStringAsync();
+            var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            return Json(res);
         }
     }
 }

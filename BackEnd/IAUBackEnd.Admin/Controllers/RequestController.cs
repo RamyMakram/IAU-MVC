@@ -675,6 +675,26 @@ namespace IAUBackEnd.Admin.Controllers
         }
 
         [HttpPost]
+        public async Task<IHttpActionResult> ApproveEform(int UnitID, int EformID)
+        {
+            var Unit = await p.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == UnitID);
+            if (Unit.Unit_Signature == null)
+                return Ok(new ResponseClass() { success = false, result = "Signature" });
+
+            var approval = await p.Preview_EformApproval.FirstOrDefaultAsync(q => q.PersonEform == EformID && q.OwnEform);
+            if (approval == null)
+                return Ok(new ResponseClass() { success = false, result = "NotExist" });
+
+            if (Unit.Units_ID == approval.UnitID && approval.SignDate == null)
+            {
+                approval.SignDate = Helper.GetDate();
+                p.SaveChanges();
+                return Ok(new ResponseClass() { success = true });
+            }
+            return Ok(new ResponseClass() { success = false, result = "Already" });
+        }
+
+        [HttpPost]
         public async Task<IHttpActionResult> CloseRequest(int UserID, int RequestID)
         {
             Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);

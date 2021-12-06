@@ -29,7 +29,7 @@ namespace AdminPanel.Controllers
         {
             if (signature != null && signature.Files.Count != 0)
             {
-                signature.UnitID = int.Parse(Request.Cookies["u"].Value);
+                signature.UnitID = int.Parse(TempData.Peek("UnitID").ToString());
                 HttpPostedFileBase file = signature.Files[0];
                 byte[] Bytes = new byte[file.InputStream.Length + 1];
                 file.InputStream.Read(Bytes, 0, Bytes.Length);

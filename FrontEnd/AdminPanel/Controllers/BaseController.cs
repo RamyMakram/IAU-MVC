@@ -38,6 +38,7 @@ namespace AdminPanel.Controllers
 					var Permissions = data["perm"].Values<string>().ToArray<string>();
 					TempData["Permissions"] = Permissions;
 					TempData["IsMostafid"] = data["IS_Mostafid"].Value<bool>();
+					TempData["UnitID"] = data["UnitID"].Value<int>();
 					var Url = Request.Url.AbsolutePath.Split('/');
 					var RequestPage = Url[1].ToUpper();
 					if (!Models.Privilges.GlobalPrivilges.Contains(RequestPage) && !((bool)TempData["IsMostafid"] && RequestPage == "ArchivedRequests".ToUpper()))

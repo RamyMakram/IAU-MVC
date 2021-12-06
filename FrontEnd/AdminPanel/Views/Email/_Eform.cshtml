@@ -1,9 +1,15 @@
 ﻿@model IAUAdmin.DTO.Entity.PersonEfDTO
 @using Newtonsoft.Json;
+@using System.Configuration;
+@{
+    var AdminUrl = ConfigurationManager.AppSettings["DomainName"];
+    bool Signed = false;
+}
 <style>
     :root {
         --main-btn-color: #0a1332 !important;
     }
+
     [data-id].col-md-6 > div > label:nth-of-type(2) {
         max-width: 194px;
         width: 194px !important;
@@ -11,6 +17,7 @@
         font-weight: 600;
         text-align: center;
     }
+
     .eform-qty-title {
         margin-bottom: 10px;
     }
@@ -347,7 +354,7 @@
                                             <label class="data-here">@(isar? qty.Value:qty.Value_En)</label>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
-                                            <hr class="w-100"/>
+                                            <hr class="w-100" />
                                         </div>
                                     </div>
                                     break;
@@ -360,7 +367,7 @@
                                             <label class="data-here">@(isar? qty.Value:qty.Value_En)</label>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
-                                            <hr class="w-100"/>
+                                            <hr class="w-100" />
                                         </div>
                                     </div>
                                     break;
@@ -383,7 +390,7 @@
                                             </div>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
-                                            <hr class="w-100"/>
+                                            <hr class="w-100" />
                                         </div>
                                     </div>
                                     break;
@@ -406,7 +413,7 @@
                                             </div>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
-                                            <hr class="w-100"/>
+                                            <hr class="w-100" />
                                         </div>
                                     </div>
                                     break;
@@ -501,8 +508,24 @@
                                 <label style="width:100%;direction:ltr;text-align:start">3.@count @i.EN</label>
                             </div>
                         </div>
-                        <div class="row border-section m-0 w-100" style="height:40px">
-
+                        <div class="row border-section m-0 w-100" style="height:@(i.SignDate != null?"auto":"40px")">
+                            @if (i.SignDate != null)
+                            {
+                                Signed = true;
+                                var Unit_Signature = ViewBag.Signature as IAUAdmin.DTO.Entity.Unit_Signature;
+                                <div class="d-flex flex-column w-100 ">
+                                    <div class="d-flex justify-content-center align-items-center w-100">
+                                        <p class="m-0 px-5">
+                                            <label class="ar-qty-head">التاريخ</label>
+                                            <label class="en-qty-head">Date</label>
+                                        </p>
+                                        <p class="m-0">@i.SignDate.Value.ToString("f")</p>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center w-100">
+                                        <img height="159" src="@AdminUrl/@Unit_Signature.Path" />
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                     count++;
@@ -513,11 +536,64 @@
         <div class="modal-footer" style="display: flex; justify-content: center; flex-direction: column;">
             <div>
                 <button type="button" class="btn btn-primary w-40 mx-3" onclick="Print()" style="background-color: var(--main-btn-color); width: 22vw; ">@(isar?"طباعة":"Print")</button>
+                @if (!Signed && Model.Eform_Approval.Any(q => q.OwnEform && q.UnitID == int.Parse(TempData.Peek("UnitID").ToString())))
+                {
+                    <button type="button" class="btn btn-outline-primary w-40 mx-3" onclick="Sign()" style="width: 15vw; ">@(isar?"اعتماد":"Sign")</button>
+                }
                 <button type="button" class="btn btn-secondary w-40" data-dismiss="modal">@(isar?"اغلاق":"Close")</button>
             </div>
         </div>
     </div>
 </div>
+@if (!Signed && Model.Eform_Approval.Any(q => q.OwnEform && q.UnitID == int.Parse(TempData.Peek("UnitID").ToString())))
+{
+    <script>
+        function Sign() {
+            Swal.fire({
+			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من اعتماد هذا النموذج؟" : "Are you sure To Sign this Eform?")",
+			text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق" : "Yes")",
+			cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+		}).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    url: "/Email/SignEform?id=@Model.ID", method: "POST", success: function (res) {
+                        if (res.success) {
+                            Swal.fire({
+                                title: "@( Request.Cookies["lang"].Value == "ar" ? "عملية ناجحة" : "Successed Transaction")",
+                                text: "@(Request.Cookies["lang"].Value == "ar" ? "تم الاعتماد بنجاح" : "Approve Finshed")",
+                                icon: "Success"
+                            })
+                        }
+                        else {
+                            let message=""
+                            switch (res.result) {
+                                case "Signature":
+                                    message="@(isar?"برجاء اعداد الامضاء الخاصة بك":"Plz, Set Your Signature")"
+                                case "Signature":
+                                    message = "@(isar?"خطاء":"Error")"
+                                case "Already":
+                                    message="@(isar?"تم اعتماده من قبل":"Already Signined")"
+                                default:
+                            }
+                            Swal.fire({
+                                title: "@( Request.Cookies["lang"].Value == "ar" ? "عملية غير ناجحة" : "Un Successed Transaction")",
+                                text: message,
+                                icon: "error"
+                            })
+                        }
+                    }
+                })
+			}
+		});
+        }
+    </script>
+}
 <script>
     $(document).ready(i => {
         $('[data-id^="I"] .data-here,[data-id^="D"], .data-here,[data-id^="E"] .data-here').css({ color: 'black' })
@@ -531,318 +607,318 @@
         let html = document.createElement('html')
         let head = document.createElement('head')
         head.insertAdjacentHTML('beforeEnd', `<meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
 .ar-qty-head,.en-qty-head{
 width:100%;
 }
 .ar-qty-head {
-    font-weight: bolder;
-    text-align: right;
+        font-weight: bolder;
+        text-align: right;
 }
 .en-qty-head {
-    text-align: left;
+        text-align: left;
 }
 .modal-footer{
 display:none !important;
 }
-        hr {
-            width: 100%;
-        }
-
-        [data-id]>div>label {
-            text-align: start;
-        }
-
-        .t-start label {
-            text-align: start;
-        }
-
-        .main-head-title div {
-            width: 100%;
-        }
-
-        .main-head-title div label {
-            text-align: start;
-        }
-
-        .eform-section {
-            width: 100%;
-        }
-
-        :root {
-            --main-btn-color: #0a1332 !important;
-        }
-
-        .data-here {
-            color: black !important;
-        }
-
-        .eform-qty-title {
-            margin-bottom: 10px;
-        }
-
-        #saudiArabiTitlr {
-            text-align: start;
-        }
-
-        #saudiArabiTitlr,
-        #MIMIS {
-            margin-top: 36px;
-        }
-
-        .ar-qty-head {
-            font-weight: bolder;
-        }
-
-        .eform-section label {
-            padding: 10px;
-            height: 100%;
-            border: 1px solid #f4f4f4
-        }
-
-        .border-section {
-            border: 1px solid #f4f4f4
-        }
-
-        .modal-dialog-readonly-eform {
-            max-width: 80vw !important;
-            width: 100%
-        }
-
-        .modal-dialog-readonly-eform>.modal-content>.modal-header {
-            display: none
-        }
-
-        .modal-dialog-readonly-eform {
-            max-width: 46vw !important;
-        }
-
-        [data-id] {
-            margin: 0px 0;
-            align-items: center;
-        }
-
-        .form-control {
-            max-height: 37px !important;
-            width: 100%;
-            color: white;
-            background: #283758;
-        }
-
-        [data-id^="C"] div div:nth-of-type(1),
-        [data-id^="R"] div div:nth-of-type(1) {
-            max-width: 250px;
-            width: 250px;
-        }
-
-        [data-id^="C"] div div:nth-of-type(2),
-        [data-id^="R"] div div:nth-of-type(2) {
-            width: 81%;
-            padding: 0 9px;
-            margin: 0 24px;
-            height: 100%;
-            max-height: 100% !important;
-        }
-
-
-        [data-id].col-md-6>div>label:nth-of-type(1) {
-            max-width: 194px;
-            width: 194px !important;
-            margin: 0 10px;
-        }
-
-        [data-id]:not(.col-md-6)>div>label {
-            margin: 10px;
-        }
-
-        [data-id]:not(.col-md-6)>div div {
-            margin: 0 25px;
-        }
-
-
-
-        @@media(max-width:1200px) and (min-width:771px) {
-            [data-id] {
-                flex-direction: column !important;
+            hr {
+                width: 100%;
             }
 
-            [data-id^="C"] div div:nth-of-type(2),
-            [data-id^="R"] div div:nth-of-type(2) {
-                width: 100% !important;
+            [data-id]>div>label {
+                text-align: start;
             }
 
-            [data-id].col-md-6>div>label {
-                max-width: unset;
-                width: 100% !important;
+            .t-start label {
+                text-align: start;
             }
 
-        }
-
-        @@media(max-width:770px) {
-
-            #uninadee {
-                display: flex !important;
-                flex-direction: column !important;
+            .main-head-title div {
+                width: 100%;
             }
 
-            .modal-body,
-            .modal-header {
-                padding: 10px !important;
+            .main-head-title div label {
+                text-align: start;
             }
 
-            #EformNameHandelCom {
-                display: flex !important;
-                flex-direction: column !important;
+            .eform-section {
+                width: 100%;
             }
 
-            #EformNameHandelCom div {
-                justify-content: center !important;
+            :root {
+                --main-btn-color: #0a1332 !important;
             }
 
-            #uninadee div {
-                display: flex !important;
-                flex-direction: column !important;
+            .data-here {
+                color: black !important;
+            }
+
+            .eform-qty-title {
+                margin-bottom: 10px;
+            }
+
+            #saudiArabiTitlr {
+                text-align: start;
             }
 
             #saudiArabiTitlr,
             #MIMIS {
-                margin-top: 0px;
-                text-align: center !important;
-                justify-content: center !important;
-                align-items: center;
-                display: flex !important;
+                margin-top: 36px;
             }
 
-            .eform-body tr {
-                display: flex;
-                flex-direction: column;
+            .ar-qty-head {
+                font-weight: bolder;
             }
 
-            .form-control {
-                width: 100%;
+            .eform-section label {
+                padding: 10px;
+                height: 100%;
+                border: 1px solid #f4f4f4
             }
 
-            .modal-dialog-eform {
-                max-width: 56vw !important;
+            .border-section {
+                border: 1px solid #f4f4f4
+            }
+
+            .modal-dialog-readonly-eform {
+                max-width: 80vw !important;
                 width: 100%
             }
 
-            .modal-dialog-eform>.modal-content>.modal-header {
+            .modal-dialog-readonly-eform>.modal-content>.modal-header {
                 display: none
             }
 
-            .modal-dialog-eform {
-                max-width: 89vw !important;
-                width: 100% !important;
+            .modal-dialog-readonly-eform {
+                max-width: 46vw !important;
             }
-        }
 
-        .modal-dialog-eform {
-            width: 68vw !important;
-            max-width: unset !important;
-        }
+            [data-id] {
+                margin: 0px 0;
+                align-items: center;
+            }
 
-        td {
-            width: 100%;
-        }
+            .form-control {
+                max-height: 37px !important;
+                width: 100%;
+                color: white;
+                background: #283758;
+            }
 
-        td div {
-            margin: 0 20px;
-        }
+            [data-id^="C"] div div:nth-of-type(1),
+            [data-id^="R"] div div:nth-of-type(1) {
+                max-width: 250px;
+                width: 250px;
+            }
 
-        tr th {
-            /*min-width: 150px;*/
-        }
+            [data-id^="C"] div div:nth-of-type(2),
+            [data-id^="R"] div div:nth-of-type(2) {
+                width: 81%;
+                padding: 0 9px;
+                margin: 0 24px;
+                height: 100%;
+                max-height: 100% !important;
+            }
 
-        .form-control {
-            /*width: 50%;*/
-        }
 
-        td {
-            justify-content: start;
-            display: flex;
-        }
+            [data-id].col-md-6>div>label:nth-of-type(1) {
+                max-width: 194px;
+                width: 194px !important;
+                margin: 0 10px;
+            }
 
-        th {
-            justify-content: center;
-        }
+            [data-id]:not(.col-md-6)>div>label {
+                margin: 10px;
+            }
 
-        tr th,
-        tr td {
-            vertical-align: middle !important;
-            border-top: 0px !important;
-        }
+            [data-id]:not(.col-md-6)>div div {
+                margin: 0 25px;
+            }
 
-        .eform-body tr.border {
-            border: none !important;
-        }
 
-        .eform-body tr.border th,
-        .eform-body tr.border td {
-            border-top: 0px !important;
-            border: 0px !important;
-            border-bottom: 1px solid #dee2e6 !important;
-        }
 
-        tr.border td {
-            padding: 0;
-        }
+            @@media(max-width:1200px) and (min-width:771px) {
+                [data-id] {
+                    flex-direction: column !important;
+                }
 
-        td input[type='date'],
-        td input[type='text'] {
-            /*width: 250px !important*/
-        }
+                [data-id^="C"] div div:nth-of-type(2),
+                [data-id^="R"] div div:nth-of-type(2) {
+                    width: 100% !important;
+                }
 
-        tr[data-required="True"] th label::after {
-            content: "*";
-            color: red;
-            margin: 0 5px
-        }
+                [data-id].col-md-6>div>label {
+                    max-width: unset;
+                    width: 100% !important;
+                }
 
-        .checkbox {
-            margin: 0 !important;
-            /*white-space: nowrap;*/
-        }
+            }
 
-        .EmptySpace {
-            height: 25px;
-        }
+            @@media(max-width:770px) {
 
-        .contanier {
-            box-shadow: 0px 0px 20px 4px #888888;
-            padding: 25px;
-        }
+                #uninadee {
+                    display: flex !important;
+                    flex-direction: column !important;
+                }
 
-        .alert {
-            margin: 0;
-            width: 250px !important;
-        }
+                .modal-body,
+                .modal-header {
+                    padding: 10px !important;
+                }
 
-        .btn-primary {
-            background-color: var(--main-btn-color);
-        }
+                #EformNameHandelCom {
+                    display: flex !important;
+                    flex-direction: column !important;
+                }
 
-        h2 {
-            color: var(--main-btn-color) !important;
-        }
+                #EformNameHandelCom div {
+                    justify-content: center !important;
+                }
 
-        .table> :not(caption)>*>* {
-            border-bottom-width: 0px !important;
-        }
+                #uninadee div {
+                    display: flex !important;
+                    flex-direction: column !important;
+                }
 
-        .Space {
-            border-bottom: 1px solid #dee2e6;
-            margin: 30px 0;
-        }
+                #saudiArabiTitlr,
+                #MIMIS {
+                    margin-top: 0px;
+                    text-align: center !important;
+                    justify-content: center !important;
+                    align-items: center;
+                    display: flex !important;
+                }
+
+                .eform-body tr {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .form-control {
+                    width: 100%;
+                }
+
+                .modal-dialog-eform {
+                    max-width: 56vw !important;
+                    width: 100%
+                }
+
+                .modal-dialog-eform>.modal-content>.modal-header {
+                    display: none
+                }
+
+                .modal-dialog-eform {
+                    max-width: 89vw !important;
+                    width: 100% !important;
+                }
+            }
+
+            .modal-dialog-eform {
+                width: 68vw !important;
+                max-width: unset !important;
+            }
+
+            td {
+                width: 100%;
+            }
+
+            td div {
+                margin: 0 20px;
+            }
+
+            tr th {
+                /*min-width: 150px;*/
+            }
+
+            .form-control {
+                /*width: 50%;*/
+            }
+
+            td {
+                justify-content: start;
+                display: flex;
+            }
+
+            th {
+                justify-content: center;
+            }
+
+            tr th,
+            tr td {
+                vertical-align: middle !important;
+                border-top: 0px !important;
+            }
+
+            .eform-body tr.border {
+                border: none !important;
+            }
+
+            .eform-body tr.border th,
+            .eform-body tr.border td {
+                border-top: 0px !important;
+                border: 0px !important;
+                border-bottom: 1px solid #dee2e6 !important;
+            }
+
+            tr.border td {
+                padding: 0;
+            }
+
+            td input[type='date'],
+            td input[type='text'] {
+                /*width: 250px !important*/
+            }
+
+            tr[data-required="True"] th label::after {
+                content: "*";
+                color: red;
+                margin: 0 5px
+            }
+
+            .checkbox {
+                margin: 0 !important;
+                /*white-space: nowrap;*/
+            }
+
+            .EmptySpace {
+                height: 25px;
+            }
+
+            .contanier {
+                box-shadow: 0px 0px 20px 4px #888888;
+                padding: 25px;
+            }
+
+            .alert {
+                margin: 0;
+                width: 250px !important;
+            }
+
+            .btn-primary {
+                background-color: var(--main-btn-color);
+            }
+
+            h2 {
+                color: var(--main-btn-color) !important;
+            }
+
+            .table> :not(caption)>*>* {
+                border-bottom-width: 0px !important;
+            }
+
+            .Space {
+                border-bottom: 1px solid #dee2e6;
+                margin: 30px 0;
+            }
 #LOGO-IAU-Summary{
- width: 170px !important;
+     width: 170px !important;
 }
-    </style>`)
+        </style>`)
         html.appendChild(head)
 
         let body = document.createElement('body')
@@ -851,8 +927,8 @@ display:none !important;
         html.appendChild(body)
         myWindow.document.write(html.innerHTML);
         myWindow.addEventListener('load', (event) => {
-            //myWindow.print();
-            //setTimeout(() => { myWindow.close(); }, 500)
+            myWindow.print();
+            setTimeout(() => { myWindow.close(); }, 500)
         });
         myWindow.document.close();
 
