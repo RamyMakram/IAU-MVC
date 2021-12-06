@@ -47,7 +47,9 @@ namespace IAUBackEnd.Admin.Controllers
                 if (data == null)
                     return Ok(new ResponseClass() { success = false });
 
-                int uid = data.Eform_Approval.FirstOrDefault(s => s.OwnEform).UnitID.Value;
+                var OwnUnit = data.Eform_Approval.FirstOrDefault(s => s.OwnEform);
+
+                int uid = OwnUnit == null ? p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestID).Unit_ID.Value : OwnUnit.UnitID.Value;
                 var unit = await p.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == uid);
                 return Ok(new ResponseClass() { success = true, result = new { Eform = data, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR, UnitCode = unit.Ref_Number.Substring(4) + " " + data.Code, Signature = unit.Unit_Signature } });
             }
