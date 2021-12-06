@@ -1,12 +1,13 @@
 ﻿@model IAUAdmin.DTO.Entity.UserDTO
 @{
-	ViewBag.Title = "User Detail";
-	ViewBag.pTitle = "User Detail";
-	ViewBag.pageTitle = "Users";
-	ViewBag.arTitle     = "معلومات المستخدم";
-	ViewBag.arpageTitle = "معلومات المستخدم";
-	ViewBag.arpTitle = "المستخدمين";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "User Detail";
+    ViewBag.pTitle = "User Detail";
+    ViewBag.pageTitle = "Users";
+    ViewBag.arTitle = "معلومات المستخدم";
+    ViewBag.arpageTitle = "معلومات المستخدم";
+    ViewBag.arpTitle = "المستخدمين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var isar = Request.Cookies["lang"].Value == "ar";
 }
 
 
@@ -14,33 +15,33 @@
 
 <div class="mt-5">
 
-	<div class="table-responsive">
-		<table class="table mb-0 table-bordered">
-			<tbody>
-				<tr>
-					<th key="t-name" scope="row" style="width: 400px;">User Name</th>
-					<td class="ar-font">@Model.User_Name</td>
-				</tr>
-				<tr>
-					<th key="t-mobile" scope="row">Mobile</th>
-					<td class="en-font">@Model.User_Mobile</td>
-				</tr>
-				<tr>
-					<th key="t-email" scope="row">Email</th>
-					<td class="en-font">@Model.User_Email</td>
-				</tr>
-				<tr>
-					<th key="t-job" scope="row">Department</th>
-					<td>@Html.ActionLink(Model.User_Permissions_Type_Name_EN, "Detials", "Jobs", new { Id = Model.Job_ID }, null)</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+    <div class="table-responsive">
+        <table class="table mb-0 table-bordered">
+            <tbody>
+                <tr>
+                    <th key="t-name" scope="row" style="width: 400px;">User Name</th>
+                    <td class="ar-font">@(Model.User_Name.Split('|')[isar ? 1:0])</td>
+                </tr>
+                <tr>
+                    <th key="t-mobile" scope="row">Mobile</th>
+                    <td class="en-font">@Model.User_Mobile</td>
+                </tr>
+                <tr>
+                    <th key="t-email" scope="row">Email</th>
+                    <td class="en-font">@Model.User_Email</td>
+                </tr>
+                <tr>
+                    <th key="t-job" scope="row">Department</th>
+                    <td>@Html.ActionLink(Model.User_Permissions_Type_Name_EN, "Detials", "Jobs", new { Id = Model.Job_ID }, null)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <div class="mt-5">
-	@Html.ActionLink("Edit", "Edit", new { Id = Model.User_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+    @Html.ActionLink("Edit", "Edit", new { Id = Model.User_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
 
-	@Html.ActionLink(Model.IS_Active == "1" ? "Deactive" : "Active", Model.IS_Active == "1" ? "Deactive" : "Active", "User", new { Id = Model.User_ID }, new { @class = Model.IS_Active == "1" ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Active == "1" ? "t-deactive" : "t-active" })
+    @Html.ActionLink(Model.IS_Active == "1" ? "Deactive" : "Active", Model.IS_Active == "1" ? "Deactive" : "Active", "User", new { Id = Model.User_ID }, new { @class = Model.IS_Active == "1" ? "btn btn-danger deactive noraduis" : "btn btn-primary active noraduis", @key = Model.IS_Active == "1" ? "t-deactive" : "t-active" })
 
 </div>
 

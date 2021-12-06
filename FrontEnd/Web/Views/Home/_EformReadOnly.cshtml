@@ -13,7 +13,7 @@
     }
 
     label.en-qty-head {
-        text-align: left;
+        /*text-align: left;*/
         width: 100%;
     }
 
@@ -437,13 +437,13 @@
                     </div>
                     <div class="row border-section m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
-                            <label style="width:100%;direction:rtl">
+                            <label style="width:100%;direction:rtl;text-align:start;">
                                 <span style=" font-weight: bolder;">
                                     نوع الطلب | Request Type
                                 </span>
                                 <label style="border:0;margin:0 5px" id="eform-reqType"></label>
                             </label>
-                            <label style="width: 100%; direction: rtl">
+                            <label style="width: 100%; direction: rtl;text-align:start;">
                                 <span style=" font-weight: bolder;">  نوع الخدمة | Service Type</span>
                                 <label style="border:0;margin:0 5px" id="eform-ServType"></label>
                             </label>
@@ -471,10 +471,10 @@
                     <div class="col-12 p-0 my-3">
                         <div class="row m-0 w-100">
                             <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">
-                                <label style="width:100%;direction:rtl">
+                                <label style="width: 100%; direction: rtl; text-align: start; ">
                                     @(count).3 @i.AR
                                 </label>
-                                <label style="width:100%;direction:ltr">3.@count @i.EN</label>
+                                <label style="width: 100%; direction: ltr; text-align: start;">3.@count @i.EN</label>
                             </div>
                         </div>
                         <div class="row border-section m-0 w-100" style="height:40px">
@@ -521,7 +521,7 @@ width:100%;
     text-align: right;
 }
 .en-qty-head {
-    text-align: left;
+  /*text-align: left;*/
 }
 .modal-footer{
 display:none !important;
@@ -828,7 +828,7 @@ display:none !important;
         myWindow.document.write(html.innerHTML);
         myWindow.addEventListener('load', (event) => {
             myWindow.print();
-            setTimeout(() => { myWindow.close(); }, 500)
+            //setTimeout(() => { myWindow.close(); }, 500)
         });
         myWindow.document.close();
 

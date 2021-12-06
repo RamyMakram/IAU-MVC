@@ -13,11 +13,10 @@
     }
 
     label.en-qty-head {
-        text-align: left;
         width: 100%;
     }
 
-    label.ar-qty-head {
+    label .ar-qty-head {
         text-align: start
     }
 
@@ -82,8 +81,8 @@
     .form-control {
         max-height: 37px !important;
         width: 100%;
-        color: white;
-        background: #283758;
+        background-color: transparent !important;
+        color:black !important;
     }
 
     @@media(max-width:1200px) and (min-width:771px) {
@@ -334,7 +333,9 @@
                                             <label>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </label>
-                                            <label class="data-here"></label>
+                                            <div class="form-control" style=" margin:0;">
+                                                <label data-ref="@qty.Ref" style="white-space: pre-wrap;color:black!important"> </label>
+                                            </div>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
                                             <hr />
@@ -347,7 +348,7 @@
                                             <label>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /><label class="en-qty-head"> @qty.Name_EN</label>
                                             </label>
-                                            <label class="data-here"></label>
+                                            <input class="form-control" placeholder="@(isar?qty.Input.PlaceHolder:qty.Input.PlaceholderEN)" type="@(qty.Input.ISNum?"number":"text")" />
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
                                             <hr />
@@ -360,8 +361,14 @@
                                             <div>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </div>
-                                            <div class="row justify-content-center d-flex data-here">
-
+                                            <div class="row justify-content-center d-flex">
+                                                @foreach (var c in qty.Check)
+                                                {
+                                                    <label class="checkbox col-12">
+                                                        <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
+                                                        <span class="ar-qty-head">@c.Name</span> - <span class="en-qty-head">@c.Name_EN</span>
+                                                    </label>
+                                                }
                                             </div>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
@@ -378,8 +385,14 @@
                                             <div class="row justify-content-center d-flex data-here">
                                             </div>
                                         </div>
-                                        <div class="row w-100 mt-3 m-0">
-                                            <hr />
+                                        <div class="row justify-content-center d-flex">
+                                            @foreach (var c in qty.Radio)
+                                            {
+                                                <label class="checkbox col-12">
+                                                    <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
+                                                    <span class="ar-qty-head"> @c.Name </span>- <span class="ar-qty-head">@c.Name_EN</span>
+                                                </label>
+                                            }
                                         </div>
                                     </div>
                                     break;
@@ -388,7 +401,7 @@
                                         <label>
                                             <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                         </label>
-                                        <label class="data-here"></label>
+                                        <input class="form-control" type="date" />
                                     </div>
                                     break;
                                 case "S":

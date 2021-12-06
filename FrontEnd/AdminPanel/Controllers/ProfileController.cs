@@ -9,18 +9,22 @@ using System.Web.Mvc;
 
 namespace AdminPanel.Controllers
 {
-    public class SignatureController : BaseController
+    public class ProfileController : BaseController
     {
         public ActionResult Home()
         {
-            int uid = int.Parse(Request.Cookies["u"].Value);
-            var Data = APIHandeling.getData("Units/GetUnitSeginature?id=" + uid);
+            var Data = APIHandeling.getData("Units/GetUnitSeginature?id=" + int.Parse(TempData.Peek("UnitID").ToString()));
             var resJson = Data.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             if (res.result == null)
                 return View(new Unit_Signature());
 
             var data = JsonConvert.DeserializeObject<Unit_Signature>(res.result.ToString());
+            Data = APIHandeling.getData("User/GetDetails?uid=" + int.Parse(Request.Cookies["u"].Value.ToString()));
+            resJson = Data.Content.ReadAsStringAsync();
+            res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            ViewBag.User = JsonConvert.DeserializeObject<UserDTO>(res.result.ToString());
+
             return View(data);
         }
 
