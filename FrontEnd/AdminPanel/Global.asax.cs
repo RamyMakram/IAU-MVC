@@ -68,7 +68,7 @@ namespace AdminPanel
         //}
         protected void Application_Error()
         {
-            HttpContext.Current.Response.Redirect(Request.Url.ToString().Replace(Request.Url.PathAndQuery, "") + "/" + "Error");
+            //HttpContext.Current.Response.Redirect(Request.Url.ToString().Replace(Request.Url.PathAndQuery, "") + "/" + "Error");
         }
     }
 }

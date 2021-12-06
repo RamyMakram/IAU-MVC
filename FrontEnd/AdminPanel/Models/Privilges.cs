@@ -13,6 +13,7 @@ namespace AdminPanel.Models
 			"Email".ToUpper(),
 			"SendedRequests".ToUpper(),
 			"BASE",
+			"Signature".ToUpper(),
 			""
 		};
 		public static List<PagesPriviliges> PagesPriviliges = new List<PagesPriviliges>() {

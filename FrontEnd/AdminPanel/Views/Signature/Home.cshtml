@@ -1,0 +1,116 @@
+﻿@model IAUAdmin.DTO.Entity.Unit_Signature
+@using System.Configuration;
+@{
+    ViewBag.Title = "Approval";
+    ViewBag.pageTitle = "Approval";
+    ViewBag.pTitle = "Approval";
+    ViewBag.arTitle = "الاعتماد";
+    ViewBag.arpageTitle = "الاعتماد";
+    ViewBag.arpTitle = "الاعتماد";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var isar = Request.Cookies["lang"].Value == "ar";
+    var AdminUrl = ConfigurationManager.AppSettings["DomainName"].ToString();
+}
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<style>
+
+
+    label.control-label::after {
+        content: ":";
+    }
+
+    label.control-label {
+        font-weight: bold;
+    }
+</style>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title" key="t-basicInfo">Basic Information</h4>
+                @if (Model.Path != null)
+                {
+                    <div class="d-flex justify-content-center align-items-center ">
+                        <img height="118" src="@(AdminUrl+"/"+(Model==null?"":Model.Path))" />
+                    </div>
+                }
+                @using (Html.BeginForm("Home", "Signature", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-12 mt-3">
+                        <div class="form-group">
+                            <label class="control-label" for="name">@(isar?"امضاء الاعتماد":"Approval Signature")</label>
+                            <div class="custom-file">
+                                @*<button class="btn btn-primary" onclick="document.getElementById('getFile').click()">@(isar?"تغيير الامضاء":"Change Signature")</button>*@
+                                @*<input type='file' id="getFile" name="Files" style="display:none" required>*@
+                                @Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input en-font", @type = "file", @name = "Files", @id = "customFile", @required = "true", @accept = "image/*" })
+                                <label class="custom-file-label en-font" id="fileRaplace" for="customFile">@(isar?"تغيير الامضاء":"Change Signature")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="Save()" type="button" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    <button style="display:none" id="submit-signature" type="submit"></button>
+                    <button type="reset" key="t-cancel" class="btn btn-secondary waves-effect">Cancel</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<!-- App js -->
+<script src="~/assets/js/app.js"></script>
+<script>
+    document.getElementById("customFile").addEventListener('change',
+        function (e) {
+            if (this.files.length != 0) {
+                $('#fileRaplace').text(this.files[0].name)
+            }
+            else {
+                $('#fileRaplace').text("")
+            }
+        },
+        false
+    );
+    function Save() {
+        		Swal.fire({
+			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من حفظ هذه الامضاء؟" : "Are you sure To Save this Signature?")",
+			text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق" : "Yes")",
+			cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+		}).then(function (result) {
+            if (result.value) {
+                $('#submit-signature').click()
+			}
+		});
+    }
+</script>

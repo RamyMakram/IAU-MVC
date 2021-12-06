@@ -14,6 +14,8 @@ using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
 using LinqKit;
+using System.Web;
+using System.IO;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -37,6 +39,39 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> GetUniqueBuildingByLoca(int id)
         {
             return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.Units_Location_ID == id).Select(q => q.Building_Number).Distinct() });
+        }
+        public async Task<IHttpActionResult> GetUnitSeginature(int id)
+        {
+            return Ok(new ResponseClass() { success = true, result = await p.Unit_Signature.FirstOrDefaultAsync(q => q.UnitID == id) });
+        }
+        [HttpPost]
+        public async Task<IHttpActionResult> SaveUnitSeginature(IAUAdmin.DTO.Entity.Unit_Signature signature)
+        {
+            if (signature == null || signature.UnitID == 0 || signature.Base64 == "")
+                return Ok(new ResponseClass() { success = false, result = "CheckEnter" });
+
+            var path = HttpContext.Current.Server.MapPath("~");
+            var FilePath = Path.Combine("Images", "UnitSignature", signature.UnitID + ".png");
+            try
+            {
+                var Singature = await p.Unit_Signature.FirstOrDefaultAsync(q => q.UnitID == signature.UnitID);
+                File.WriteAllBytes(Path.Combine(path, FilePath), Convert.FromBase64String(signature.Base64));
+                if (Singature == null)
+                {
+                    Singature = new IAUBackEnd.Admin.Models.Unit_Signature { Date = Helper.GetDate(), Path = FilePath.Replace("\\", "/"), UnitID = signature.UnitID };
+                    p.Unit_Signature.Add(Singature);
+                }
+                else
+                    Singature.Path = FilePath.Replace("\\", "/");
+                await p.SaveChangesAsync();
+                return Ok(new ResponseClass() { success = true });
+            }
+            catch (Exception ee)
+            {
+                if (File.Exists(Path.Combine(path, FilePath)))
+                    File.Delete(Path.Combine(path, FilePath));
+                return Ok(new ResponseClass() { success = false });
+            }
         }
         public async Task<IHttpActionResult> GetActiveUnits_by(int serviceType, int Req, int? locid, string Build)
         {

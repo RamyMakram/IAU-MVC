@@ -187,6 +187,7 @@
     <Compile Include="Controllers\ServicesBankController.cs" />
     <Compile Include="Controllers\RequestTypeController.cs" />
     <Compile Include="Controllers\ServiceTypesController.cs" />
+    <Compile Include="Controllers\SignatureController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\SubServicesController.cs" />
     <Compile Include="Controllers\UnitLocationController.cs" />
@@ -3198,6 +3199,7 @@
     <Content Include="Views\Applicanttype\Deactive.cshtml" />
     <Content Include="Views\Applicanttype\Edit.cshtml" />
     <Content Include="Views\Applicanttype\Home.cshtml" />
+    <Content Include="Views\Signature\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
