@@ -80,7 +80,10 @@
     <Compile Include="Models\Country.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Eform_Approval.cs">
+    <Compile Include="Models\DelayedTransaction.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Employee.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\E_Forms.cs">
@@ -95,7 +98,13 @@
     <Compile Include="Models\Input_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Job.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Job_Permissions.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Location.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Main_Services.cs">
@@ -120,6 +129,15 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Personel_Data.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Person_Eform.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Preview_EformApproval.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Privilage.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Question.cs">
@@ -161,7 +179,13 @@
     <Compile Include="Models\Sub_Services.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Title_Middle_Names.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnitLevel.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UnitMainServices.cs">
@@ -173,10 +197,19 @@
     <Compile Include="Models\UnitServiceTypes.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Units_Location.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Units_Request_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Units_Type.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Unit_Signature.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Users.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValidTo.cs">

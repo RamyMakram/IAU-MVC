@@ -4,6 +4,10 @@
         --main-btn-color: #0a1332 !important;
     }
 
+    .section-eform > div:nth-of-type(1) label {
+        font-size:17px;
+    }
+
     .eform-qty-title {
         margin-bottom: 10px;
     }
@@ -308,7 +312,7 @@
                     @Model.Name_EN
                 </h6>
                 <h6 class="modal-title w-100" style="text-align:center;">
-                    كود النموذج | Eforme Code
+                    كود النموذج | E-form Code
                     <br />
                     <label style="direction:ltr">@ViewBag.EfCode</label>
                 </h6>
@@ -317,7 +321,7 @@
         </div>
         <div class="modal-body" style="padding: 0px 40px 0 40px;">
             <div class="row w-100 p-0 m-0">
-                <div class="col-12 p-0 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
                             <label style="width: 100%; direction: rtl; font-weight: bolder; text-align:end">
@@ -410,7 +414,7 @@
                                     </div>
                                     break;
                                 case "P":
-                                    <div class="border" style="text-align:start">
+                                    <div class="border col-12" style="text-align:start">
                                         <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
                                             <label class="ar-qty-head">@qty.Para.Name</label>
                                         </p>
@@ -419,14 +423,12 @@
                                         </p>
                                     </div>
                                     break;
-                                default:
-                                    break;
                             }
 
                         }
                     </div>
                 </div>
-                <div class="col-12 p-0 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
                             <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end">
@@ -450,39 +452,46 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
-                        <div class="p-0 justify-content-between d-inline-flex align-items-center w-100">
-                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end; padding: 14px;">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end; ">
                                 3- الاعتمادات
                             </label>
                             <label style="width: 100%; direction: ltr; font-weight: bolder;text-align: end;">3- Approvals</label>
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100">
+                        <div class="col-12 p-0">
+                            <div class="row m-0 w-100">
+                                <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">
+                                    <label style="width: 100%; direction: rtl; text-align: start; ">
+                                        1.3 @Model.Eform_Approval.Units_Name_AR
+                                    </label>
+                                    <label style="width: 100%; direction: ltr; text-align: start;">3.1 @Model.Eform_Approval.Units_Name_EN</label>
+                                </div>
+                            </div>
+                            <div class="row border-section m-0 w-100" style="height:40px">
 
-                    </div>
-                </div>
-                @{
-                    var count = 1;
-                }
-                @foreach (var i in Model.Eform_Approval)
-                {
-                    <div class="col-12 p-0 my-3">
-                        <div class="row m-0 w-100">
-                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">
-                                <label style="width: 100%; direction: rtl; text-align: start; ">
-                                    @(count).3 @i.AR
-                                </label>
-                                <label style="width: 100%; direction: ltr; text-align: start;">3.@count @i.EN</label>
                             </div>
                         </div>
-                        <div class="row border-section m-0 w-100" style="height:40px">
+                    </div>
+                </div>
+                @*<div class="col-12 my-3 section-eform">
+                        <div class="row m-0 w-100">
+                            <div class="p-0 justify-content-between d-inline-flex align-items-center w-100">
+                                <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end; padding: 14px;">
+                                    3- الاعتمادات
+                                </label>
+                                <label style="width: 100%; direction: ltr; font-weight: bolder;text-align: end;">3- Approvals</label>
+                            </div>
+                        </div>
+                        <div class="row border-section m-0 w-100">
 
                         </div>
-                    </div>
-                    count++;
-                }
+                    </div>*@
+
+
             </div>
 
         </div>
@@ -507,318 +516,322 @@
         let html = document.createElement('html')
         let head = document.createElement('head')
         head.insertAdjacentHTML('beforeEnd', `<meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+
+    .section-eform > div:nth-of-type(1) label {
+        font-size:17px;
+    }
 .ar-qty-head,.en-qty-head{
 width:100%;
 }
 .ar-qty-head {
-    font-weight: bolder;
-    text-align: right;
+        font-weight: bolder;
+        text-align: right;
 }
 .en-qty-head {
-  text-align: right;
+      text-align: right;
 }
 .modal-footer{
 display:none !important;
 }
-        hr {
-            width: 100%;
-        }
-
-        [data-id]>div>label {
-            text-align: start;
-        }
-
-        .t-start label {
-            text-align: start;
-        }
-
-        .main-head-title div {
-            width: 100%;
-        }
-
-        .main-head-title div label {
-            text-align: start;
-        }
-
-        .eform-section {
-            width: 100%;
-        }
-
-        :root {
-            --main-btn-color: #0a1332 !important;
-        }
-
-        .data-here {
-            color: black !important;
-        }
-
-        .eform-qty-title {
-            margin-bottom: 10px;
-        }
-
-        #saudiArabiTitlr {
-            text-align: start;
-        }
-
-        #saudiArabiTitlr,
-        #MIMIS {
-            margin-top: 36px;
-        }
-
-        .ar-qty-head {
-            font-weight: bolder;
-        }
-
-        .eform-section label {
-            padding: 10px;
-            height: 100%;
-            border: 1px solid #f4f4f4
-        }
-
-        .border-section {
-            border: 1px solid #f4f4f4
-        }
-
-        .modal-dialog-readonly-eform {
-            max-width: 80vw !important;
-            width: 100%
-        }
-
-        .modal-dialog-readonly-eform>.modal-content>.modal-header {
-            display: none
-        }
-
-        .modal-dialog-readonly-eform {
-            max-width: 46vw !important;
-        }
-
-        [data-id] {
-            margin: 0px 0;
-            align-items: center;
-        }
-
-        .form-control {
-            max-height: 37px !important;
-            width: 100%;
-            color: white;
-            background: #283758;
-        }
-
-        [data-id^="C"] div div:nth-of-type(1),
-        [data-id^="R"] div div:nth-of-type(1) {
-            max-width: 370px;
-            width: 353px;
-        }
-
-        [data-id^="C"] div div:nth-of-type(2),
-        [data-id^="R"] div div:nth-of-type(2) {
-            width: 81%;
-            padding: 0 9px;
-            margin: 0 24px;
-            height: 100%;
-            max-height: 100% !important;
-        }
-
-
-        [data-id].col-md-6>div>label:nth-of-type(1) {
-            max-width: 194px;
-            width: 194px !important;
-            margin: 0 10px;
-        }
-
-        [data-id]:not(.col-md-6)>div>label {
-            margin: 10px;
-        }
-
-        [data-id]:not(.col-md-6)>div div {
-            margin: 0 25px;
-        }
-
-
-
-        @@media(max-width:1200px) and (min-width:771px) {
-            [data-id] {
-                flex-direction: column !important;
+            hr {
+                width: 100%;
             }
 
-            [data-id^="C"] div div:nth-of-type(2),
-            [data-id^="R"] div div:nth-of-type(2) {
-                width: 100% !important;
+            [data-id]>div>label {
+                text-align: start;
             }
 
-            [data-id].col-md-6>div>label {
-                max-width: unset;
-                width: 100% !important;
+            .t-start label {
+                text-align: start;
             }
 
-        }
-
-        @@media(max-width:770px) {
-
-            #uninadee {
-                display: flex !important;
-                flex-direction: column !important;
+            .main-head-title div {
+                width: 100%;
             }
 
-            .modal-body,
-            .modal-header {
-                padding: 10px !important;
+            .main-head-title div label {
+                text-align: start;
             }
 
-            #EformNameHandelCom {
-                display: flex !important;
-                flex-direction: column !important;
+            .eform-section {
+                width: 100%;
             }
 
-            #EformNameHandelCom div {
-                justify-content: center !important;
+            :root {
+                --main-btn-color: #0a1332 !important;
             }
 
-            #uninadee div {
-                display: flex !important;
-                flex-direction: column !important;
+            .data-here {
+                color: black !important;
+            }
+
+            .eform-qty-title {
+                margin-bottom: 10px;
+            }
+
+            #saudiArabiTitlr {
+                text-align: start;
             }
 
             #saudiArabiTitlr,
             #MIMIS {
-                margin-top: 0px;
-                text-align: center !important;
-                justify-content: center !important;
-                align-items: center;
-                display: flex !important;
+                margin-top: 36px;
             }
 
-            .eform-body tr {
-                display: flex;
-                flex-direction: column;
+            .ar-qty-head {
+                font-weight: bolder;
             }
 
-            .form-control {
-                width: 100%;
+            .eform-section label {
+                padding: 10px;
+                height: 100%;
+                border: 1px solid #f4f4f4
             }
 
-            .modal-dialog-eform {
-                max-width: 56vw !important;
+            .border-section {
+                border: 1px solid #f4f4f4
+            }
+
+            .modal-dialog-readonly-eform {
+                max-width: 80vw !important;
                 width: 100%
             }
 
-            .modal-dialog-eform>.modal-content>.modal-header {
+            .modal-dialog-readonly-eform>.modal-content>.modal-header {
                 display: none
             }
 
-            .modal-dialog-eform {
-                max-width: 89vw !important;
-                width: 100% !important;
+            .modal-dialog-readonly-eform {
+                max-width: 46vw !important;
             }
-        }
 
-        .modal-dialog-eform {
-            width: 68vw !important;
-            max-width: unset !important;
-        }
+            [data-id] {
+                margin: 0px 0;
+                align-items: center;
+            }
 
-        td {
-            width: 100%;
-        }
+            .form-control {
+                max-height: 37px !important;
+                width: 100%;
+                color: white;
+                background: #283758;
+            }
 
-        td div {
-            margin: 0 20px;
-        }
+            [data-id^="C"] div div:nth-of-type(1),
+            [data-id^="R"] div div:nth-of-type(1) {
+                max-width: 370px;
+                width: 353px;
+            }
 
-        tr th {
-            /*min-width: 150px;*/
-        }
+            [data-id^="C"] div div:nth-of-type(2),
+            [data-id^="R"] div div:nth-of-type(2) {
+                width: 81%;
+                padding: 0 9px;
+                margin: 0 24px;
+                height: 100%;
+                max-height: 100% !important;
+            }
 
-        .form-control {
-            /*width: 50%;*/
-        }
 
-        td {
-            justify-content: start;
-            display: flex;
-        }
+            [data-id].col-md-6>div>label:nth-of-type(1) {
+                max-width: 194px;
+                width: 194px !important;
+                margin: 0 10px;
+            }
 
-        th {
-            justify-content: center;
-        }
+            [data-id]:not(.col-md-6)>div>label {
+                margin: 10px;
+            }
 
-        tr th,
-        tr td {
-            vertical-align: middle !important;
-            border-top: 0px !important;
-        }
+            [data-id]:not(.col-md-6)>div div {
+                margin: 0 25px;
+            }
 
-        .eform-body tr.border {
-            border: none !important;
-        }
 
-        .eform-body tr.border th,
-        .eform-body tr.border td {
-            border-top: 0px !important;
-            border: 0px !important;
-            border-bottom: 1px solid #dee2e6 !important;
-        }
 
-        tr.border td {
-            padding: 0;
-        }
+            @@media(max-width:1200px) and (min-width:771px) {
+                [data-id] {
+                    flex-direction: column !important;
+                }
 
-        td input[type='date'],
-        td input[type='text'] {
-            /*width: 250px !important*/
-        }
+                [data-id^="C"] div div:nth-of-type(2),
+                [data-id^="R"] div div:nth-of-type(2) {
+                    width: 100% !important;
+                }
 
-        tr[data-required="True"] th label::after {
-            content: "*";
-            color: red;
-            margin: 0 5px
-        }
+                [data-id].col-md-6>div>label {
+                    max-width: unset;
+                    width: 100% !important;
+                }
 
-        .checkbox {
-            margin: 0 !important;
-            /*white-space: nowrap;*/
-        }
+            }
 
-        .EmptySpace {
-            height: 25px;
-        }
+            @@media(max-width:770px) {
 
-        .contanier {
-            box-shadow: 0px 0px 20px 4px #888888;
-            padding: 25px;
-        }
+                #uninadee {
+                    display: flex !important;
+                    flex-direction: column !important;
+                }
 
-        .alert {
-            margin: 0;
-            width: 250px !important;
-        }
+                .modal-body,
+                .modal-header {
+                    padding: 10px !important;
+                }
 
-        .btn-primary {
-            background-color: var(--main-btn-color);
-        }
+                #EformNameHandelCom {
+                    display: flex !important;
+                    flex-direction: column !important;
+                }
 
-        h2 {
-            color: var(--main-btn-color) !important;
-        }
+                #EformNameHandelCom div {
+                    justify-content: center !important;
+                }
 
-        .table> :not(caption)>*>* {
-            border-bottom-width: 0px !important;
-        }
+                #uninadee div {
+                    display: flex !important;
+                    flex-direction: column !important;
+                }
 
-        .Space {
-            border-bottom: 1px solid #dee2e6;
-            margin: 30px 0;
-        }
+                #saudiArabiTitlr,
+                #MIMIS {
+                    margin-top: 0px;
+                    text-align: center !important;
+                    justify-content: center !important;
+                    align-items: center;
+                    display: flex !important;
+                }
+
+                .eform-body tr {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .form-control {
+                    width: 100%;
+                }
+
+                .modal-dialog-eform {
+                    max-width: 56vw !important;
+                    width: 100%
+                }
+
+                .modal-dialog-eform>.modal-content>.modal-header {
+                    display: none
+                }
+
+                .modal-dialog-eform {
+                    max-width: 89vw !important;
+                    width: 100% !important;
+                }
+            }
+
+            .modal-dialog-eform {
+                width: 68vw !important;
+                max-width: unset !important;
+            }
+
+            td {
+                width: 100%;
+            }
+
+            td div {
+                margin: 0 20px;
+            }
+
+            tr th {
+                /*min-width: 150px;*/
+            }
+
+            .form-control {
+                /*width: 50%;*/
+            }
+
+            td {
+                justify-content: start;
+                display: flex;
+            }
+
+            th {
+                justify-content: center;
+            }
+
+            tr th,
+            tr td {
+                vertical-align: middle !important;
+                border-top: 0px !important;
+            }
+
+            .eform-body tr.border {
+                border: none !important;
+            }
+
+            .eform-body tr.border th,
+            .eform-body tr.border td {
+                border-top: 0px !important;
+                border: 0px !important;
+                border-bottom: 1px solid #dee2e6 !important;
+            }
+
+            tr.border td {
+                padding: 0;
+            }
+
+            td input[type='date'],
+            td input[type='text'] {
+                /*width: 250px !important*/
+            }
+
+            tr[data-required="True"] th label::after {
+                content: "*";
+                color: red;
+                margin: 0 5px
+            }
+
+            .checkbox {
+                margin: 0 !important;
+                /*white-space: nowrap;*/
+            }
+
+            .EmptySpace {
+                height: 25px;
+            }
+
+            .contanier {
+                box-shadow: 0px 0px 20px 4px #888888;
+                padding: 25px;
+            }
+
+            .alert {
+                margin: 0;
+                width: 250px !important;
+            }
+
+            .btn-primary {
+                background-color: var(--main-btn-color);
+            }
+
+            h2 {
+                color: var(--main-btn-color) !important;
+            }
+
+            .table> :not(caption)>*>* {
+                border-bottom-width: 0px !important;
+            }
+
+            .Space {
+                border-bottom: 1px solid #dee2e6;
+                margin: 30px 0;
+            }
 #LOGO-IAU-Summary{
- width: 170px !important;
+     width: 170px !important;
 }
-    </style>`)
+        </style>`)
         html.appendChild(head)
 
         let body = document.createElement('body')
@@ -828,7 +841,7 @@ display:none !important;
         myWindow.document.write(html.innerHTML);
         myWindow.addEventListener('load', (event) => {
             myWindow.print();
-            //setTimeout(() => { myWindow.close(); }, 500)
+            setTimeout(() => { myWindow.close(); }, 500)
         });
         myWindow.document.close();
 

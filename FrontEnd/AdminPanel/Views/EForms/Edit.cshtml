@@ -114,61 +114,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body repeater-approve">
-                    <p class="card-title">@(isar?"الإعتمادات":"Eform Approval") <button class="btn btn-circle mx-1" onclick="restartSelect2()" data-repeater-create style="top:0!important;color:green" type="button"><i class="fas fa-plus-circle"></i></button></p>
+                    <p class="card-title">@(isar?"الإعتمادات":"Eform Approval") </p>
                     <div class="col-12">
-                        <div data-repeater-list="Eform_Approval" id="Approve">
-
-                            @*<div data-repeater-item class="row Required">
-                                    <div class="form-group col-10">
-                                        <label class="control-label" for="name">@(isar?"الفئة الإدارية":"Unit")</label>
-                                        <input style="display:none" name="ID" />
-                                        <select class="form-control select2" data-name="UnitID" name="UnitID">
-                                            @foreach (var i in ViewBag.UnitID as SelectList)
-                                            {
-                                                <option value="@i.Value">@i.Text</option>
-                                            }
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-2 align-self-center">
-                                        <button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>
-                                    </div>
-                                </div>*@
-                            @foreach (var app in Model.Eform_Approval)
-                            {
-                                <div data-repeater-item class="row Required">
-                                    <div class="form-group col-10">
-                                        <label class="control-label" for="name">@(isar?"الفئة الإدارية":"Unit")</label>
-                                        <input style="display:none" value="@app.ID" name="ID" />
-                                        <select class="form-control select2" data-name="UnitID" name="UnitID">
-                                            @foreach (var i in ViewBag.UnitID as SelectList)
-                                            {
-                                                <option value="@i.Value" @(int.Parse(i.Value) == app.UnitID ? "selected" : "")>@i.Text</option>
-                                            }
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-2 align-self-center">
-                                        <button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>
-                                    </div>
-                                </div>
-                            }
-                            <div data-repeater-item class="row Required">
-                                <div class="form-group col-10">
-                                    <label class="control-label" for="name">@(isar?"الفئة الإدارية":"Unit")</label>
-                                    <select class="form-control select2" data-name="UnitID" name="UnitID">
-                                        @foreach (var i in ViewBag.UnitID as SelectList)
-                                        {
-                                            <option value="@i.Value" @(i.Value == (ViewBag.UnitID as SelectList).First().Value ? "selected" : "")>@i.Text</option>
-                                        }
-                                    </select>
-                                </div>
-
-                                <div class="col-lg-2 align-self-center">
-                                    <button data-repeater-delete type="button" class="btn"><i class="fas fa-trash" style="font-size:15px;color:red"></i></button>
-                                </div>
-                            </div>
-                        </div>
+                        <label class="control-label" for="name">@(isar?"الفئة الإدارية":"Unit")</label>
+                        @Html.DropDownListFor(q => q.UnitToApprove, ViewBag.UnitID as SelectList, new { @class = "form-control select2" })
                     </div>
                 </div>
             </div>
@@ -639,7 +588,6 @@
         })
         $('#QQTR').val(JSON.stringify(QTY))
         $('#Del_QTY').val(JSON.stringify(del))
-        console.log(QTY)
         $("button[type='submit']").click()
     })
 

@@ -92,6 +92,7 @@
     <Compile Include="Entity\ServiceTypeDTO.cs" />
     <Compile Include="Entity\SubServicesDTO.cs" />
     <Compile Include="Entity\TitlesDTO.cs" />
+    <Compile Include="Entity\UnitsDTO.cs" />
     <Compile Include="Entity\_HomeDTO.cs" />
     <Compile Include="Enums\GlobalEnum.cs" />
     <Compile Include="Helper\API_HelperFunctions.cs" />

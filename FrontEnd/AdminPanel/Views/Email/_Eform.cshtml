@@ -9,7 +9,9 @@
     :root {
         --main-btn-color: #0a1332 !important;
     }
-
+    .section-eform > div:nth-of-type(1) label {
+        font-size: 17px;
+    }
     [data-id].col-md-6 > div > label:nth-of-type(2) {
         max-width: 194px;
         width: 194px !important;
@@ -331,7 +333,7 @@
         </div>
         <div class="modal-body" style="padding: 0px 40px 0 40px;">
             <div class="row w-100 p-0 m-0">
-                <div class="col-12 p-0 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100">
                             <label style="width: 100%; direction: rtl; font-weight: bolder; text-align:end">
@@ -457,7 +459,7 @@
                         }
                     </div>
                 </div>
-                <div class="col-12 p-0 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100">
                             <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end">
@@ -481,55 +483,56 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
-                        <div class="p-0 justify-content-between d-inline-flex align-items-center w-100">
-                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end; padding: 14px;">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end;">
                                 3- الاعتمادات
                             </label>
                             <label style="width: 100%; direction: ltr; font-weight: bolder;text-align: end;">3- Approvals</label>
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100">
-
-                    </div>
-                </div>
-                @{
-                    var count = 1;
-                }
-                @foreach (var i in Model.Eform_Approval)
-                {
-                    <div class="col-12 p-0 my-3">
-                        <div class="row m-0 w-100">
-                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100" style=" font-weight: bolder;">
-                                <label style="width:100%;direction:rtl;text-align:start">
-                                    @(count).3 @i.AR
-                                </label>
-                                <label style="width:100%;direction:ltr;text-align:start">3.@count @i.EN</label>
-                            </div>
-                        </div>
-                        <div class="row border-section m-0 w-100" style="height:@(i.SignDate != null?"auto":"40px")">
-                            @if (i.SignDate != null)
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100">
+                            @{
+                                var count = 1;
+                            }
+                            @foreach (var i in Model.Eform_Approval)
                             {
-                                Signed = true;
-                                var Unit_Signature = ViewBag.Signature as IAUAdmin.DTO.Entity.Unit_Signature;
-                                <div class="d-flex flex-column w-100 ">
-                                    <div class="d-flex justify-content-center align-items-center w-100">
-                                        <p class="m-0 px-5">
-                                            <label class="ar-qty-head">التاريخ</label>
-                                            <label class="en-qty-head">Date</label>
-                                        </p>
-                                        <p class="m-0">@i.SignDate.Value.ToString("f")</p>
+                                <div class="col-12 p-0">
+                                    <div class="row m-0 w-100">
+                                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section w-100" style=" font-weight: bolder;">
+                                            <label style="width:100%;direction:rtl;text-align:start">
+                                                @(count).3 @i.AR
+                                            </label>
+                                            <label style="width:100%;direction:ltr;text-align:start">3.@count @i.EN</label>
+                                        </div>
                                     </div>
-                                    <div class="d-flex justify-content-center align-items-center w-100">
-                                        <img height="159" src="@AdminUrl/@Unit_Signature.Path" />
+                                    <div class="row border-section m-0 w-100" style="height:@(i.SignDate != null?"auto":"40px")">
+                                        @if (i.SignDate != null)
+                                        {
+                                            Signed = true;
+                                            var Unit_Signature = ViewBag.Signature as IAUAdmin.DTO.Entity.Unit_Signature;
+                                            <div class="d-flex flex-column w-100 ">
+                                                <div class="d-flex justify-content-center align-items-center w-100">
+                                                    <p class="m-0 px-5">
+                                                        <label class="ar-qty-head border-0 m-0 py-1">التاريخ</label>
+                                                        <label class="en-qty-head border-0 m-0 py-0">Date</label>
+                                                    </p>
+                                                    <p class="m-0">@i.SignDate.Value.ToString("f")</p>
+                                                </div>
+                                                <div class="d-flex justify-content-center align-items-center w-100">
+                                                    <img height="159" src="@AdminUrl/@Unit_Signature.Path" />
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
+                                count++;
                             }
                         </div>
                     </div>
-                    count++;
-                }
+                </div>
             </div>
 
         </div>
@@ -614,6 +617,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <style>
+.section-eform > div:nth-of-type(1) label {
+        font-size:17px;
+    }
 .ar-qty-head,.en-qty-head{
 width:100%;
 }

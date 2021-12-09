@@ -49,7 +49,7 @@ namespace IAUBackEnd.Admin.Controllers
 
                 var OwnUnit = data.Eform_Approval.FirstOrDefault(s => s.OwnEform);
 
-                int uid = OwnUnit == null ? p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestID).Unit_ID.Value : OwnUnit.UnitID.Value;
+                int uid = OwnUnit == null ? p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestID).Unit_ID.Value : OwnUnit.UnitID;
                 var unit = await p.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == uid);
                 return Ok(new ResponseClass() { success = true, result = new { Eform = data, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR, UnitCode = unit.Ref_Number.Substring(4) + " " + data.Code, Signature = unit.Unit_Signature } });
             }
@@ -70,7 +70,8 @@ namespace IAUBackEnd.Admin.Controllers
                       q.Name_EN,
                       q.Code,
                       q.SubServiceID,
-                      Eform_Approval = q.Eform_Approval.Select(s => new { s.UnitID, s.ID }),
+                      q.UnitToApprove,
+                      Eform_Approval = q.Units,
                       Question = q.Question.OrderBy(d => d.Index_Order).Select(s =>
                         new
                         {
@@ -130,7 +131,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> Update(E_FormsDTO e_Forms)
         {
-            var eform = p.E_Forms.Include(q => q.Question).Include(q => q.Eform_Approval).FirstOrDefault(q => q.ID == e_Forms.ID);
+            var eform = p.E_Forms.Include(q => q.Question).Include(q => q.Units).FirstOrDefault(q => q.ID == e_Forms.ID);
             if (!ModelState.IsValid || eform == null)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             try
@@ -247,15 +248,7 @@ namespace IAUBackEnd.Admin.Controllers
                     if (newItem)
                         eform.Question.Add(quest);
                 }
-                foreach (var i in eform.Eform_Approval.ToList())
-                {
-                    var aapp = e_Forms.Eform_Approval.FirstOrDefault(q => q.ID == i.ID);
-                    if (aapp == null)
-                        p.Eform_Approval.Remove(i);
-                    else
-                        i.UnitID = aapp.UnitID;
-                }
-                p.Eform_Approval.AddRange(e_Forms.Eform_Approval.Where(q => q.ID == null).Select(q => new Eform_Approval { UnitID = q.UnitID, EformID = eform.ID }));
+                eform.UnitToApprove = e_Forms.UnitToApprove;
                 await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
             }
@@ -306,7 +299,7 @@ namespace IAUBackEnd.Admin.Controllers
                     }
                     eform.Question.Add(quest);
                 }
-                eform.Eform_Approval = e_Forms.Eform_Approval.Select(q => new Eform_Approval { UnitID = q.UnitID }).ToList();
+                eform.UnitToApprove = e_Forms.UnitToApprove;
                 p.E_Forms.Add(eform);
                 await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });

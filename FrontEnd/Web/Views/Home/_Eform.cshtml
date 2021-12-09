@@ -4,6 +4,10 @@
         --main-btn-color: #0a1332 !important;
     }
 
+    .section-eform > div:nth-of-type(1) label {
+        font-size: 17px;
+    }
+
     .eform-qty-title {
         margin-bottom: 10px;
     }
@@ -82,7 +86,7 @@
         max-height: 37px !important;
         width: 100%;
         background-color: transparent !important;
-        color:black !important;
+        color: black !important;
     }
 
     @@media(max-width:1200px) and (min-width:771px) {
@@ -304,7 +308,7 @@
                     @Model.Name_EN
                 </h6>
                 <h6 class="modal-title w-100" style="text-align:center;">
-                    كود النموذج | Eforme Code
+                    كود النموذج | E-form Code
                     <br />
                     <label style="direction:ltr">@ViewBag.EfCode</label>
                 </h6>
@@ -313,7 +317,7 @@
         </div>
         <div class="modal-body" style="padding: 0px 40px 0 40px;">
             <div class="row w-100 p-0 m-0">
-                <div class="col-12 p-0 my-3">
+                <div class="col-12 p-0 my-3  section-eform">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
                             <label style="width: 100%; direction: rtl; font-weight: bolder; text-align:end">
@@ -361,13 +365,13 @@
                                             <div>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </div>
-                                            <div class="row justify-content-center d-flex">
+                                            <div class="row justify-content-start d-flex w-100">
                                                 @foreach (var c in qty.Check)
                                                 {
-                                                    <label class="checkbox col-12">
-                                                        <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                        <span class="ar-qty-head">@c.Name</span> - <span class="en-qty-head">@c.Name_EN</span>
-                                                    </label>
+                                                    <div class="checkbox col-12 d-inline-flex  align-items-center w-100 p-0">
+                                                        <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID" />
+                                                        <p class="m-0"><span class="ar-qty-head">@c.Name</span> <br /> <span class="en-qty-head">@c.Name_EN</span></p>
+                                                    </div>
                                                 }
                                             </div>
                                         </div>
@@ -382,17 +386,18 @@
                                             <div>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
                                             </div>
-                                            <div class="row justify-content-center d-flex data-here">
+                                            <div class="row justify-content-start d-flex w-100">
+                                                @foreach (var c in qty.Radio)
+                                                {
+                                                    <div class="checkbox col-12 d-inline-flex  align-items-center w-100 p-0">
+                                                        <input type="radio" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID" />
+                                                        <p class="m-0"><span class="ar-qty-head">@c.Name</span> <br /> <span class="en-qty-head">@c.Name_EN</span></p>
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
                                         <div class="row justify-content-center d-flex">
-                                            @foreach (var c in qty.Radio)
-                                            {
-                                                <label class="checkbox col-12">
-                                                    <input type="checkbox" data-value="@(c.Name+"-"+c.Name_EN)" value="@c.Name_EN" name="@qty.Name_EN-@qty.ID">
-                                                    <span class="ar-qty-head"> @c.Name </span>- <span class="ar-qty-head">@c.Name_EN</span>
-                                                </label>
-                                            }
+                                            <hr />
                                         </div>
                                     </div>
                                     break;
@@ -420,7 +425,7 @@
                                     </div>
                                     break;
                                 case "P":
-                                    <div class="border" style="text-align:start">
+                                    <div class="border col-12" style="text-align:start">
                                         <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
                                             <label class="ar-qty-head">@qty.Para.Name</label>
                                         </p>
@@ -438,7 +443,7 @@
 
                     </div>
                 </div>
-                <div class="col-12 p-0 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
                         <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
                             <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end">
@@ -462,39 +467,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 my-3">
+                <div class="col-12 p-0 my-3 section-eform">
                     <div class="row m-0 w-100">
-                        <div class="p-0 justify-content-between d-inline-flex align-items-center">
-                            <label style="width: 100%; direction: rtl; font-weight: bolder;">
+                        <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section">
+                            <label style="width: 100%; direction: rtl; font-weight: bolder; text-align: end; ">
                                 3- الاعتمادات
                             </label>
-                            <label style="width: 100%; direction: ltr; font-weight: bolder;">3- Approvals</label>
+                            <label style="width: 100%; direction: ltr; font-weight: bolder;text-align: end;">3- Approvals</label>
                         </div>
                     </div>
                     <div class="row border-section m-0 w-100">
+                        <div class="col-12 p-0">
+                            <div class="row m-0 w-100">
+                                <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">
+                                    <label style="width: 100%; direction: rtl; text-align: start; ">
+                                        1.3 @Model.Eform_Approval.Units_Name_AR
+                                    </label>
+                                    <label style="width: 100%; direction: ltr; text-align: start;">3.1 @Model.Eform_Approval.Units_Name_EN</label>
+                                </div>
+                            </div>
+                            <div class="row border-section m-0 w-100" style="height:40px">
 
-                    </div>
-                </div>
-                @{
-                    var count = 1;
-                }
-                @foreach (var i in Model.Eform_Approval)
-                {
-                    <div class="col-12 p-0 my-3">
-                        <div class="row m-0 w-100">
-                            <div class="p-0 justify-content-between d-inline-flex align-items-center eform-section" style=" font-weight: bolder;">
-                                <label style="width:100%;direction:rtl">
-                                    @(count).3 @i.AR
-                                </label>
-                                <label style="width:100%;direction:ltr">3.@count @i.EN</label>
                             </div>
                         </div>
-                        <div class="row border-section m-0 w-100" style="height:40px">
-
-                        </div>
                     </div>
-                    count++;
-                }
+                </div>
+
             </div>
 
         </div>

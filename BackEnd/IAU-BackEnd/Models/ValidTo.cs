@@ -18,7 +18,7 @@ namespace IAU_BackEnd.Models
         public int MainServiceID { get; set; }
         public int ApplicantTypeID { get; set; }
     
-        public virtual Main_Services Main_Services { get; set; }
         public virtual Applicant_Type Applicant_Type { get; set; }
+        public virtual Main_Services Main_Services { get; set; }
     }
 }

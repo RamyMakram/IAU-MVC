@@ -17,5 +17,8 @@ namespace IAU_BackEnd.Models
         public int ID { get; set; }
         public Nullable<int> PrivilageID { get; set; }
         public Nullable<int> Job_ID { get; set; }
+    
+        public virtual Job Job { get; set; }
+        public virtual Privilage Privilage { get; set; }
     }
 }

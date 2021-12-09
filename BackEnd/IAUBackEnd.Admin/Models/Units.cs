@@ -17,7 +17,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Units()
         {
-            this.Eform_Approval = new HashSet<Eform_Approval>();
+            this.E_Forms = new HashSet<E_Forms>();
             this.Preview_EformApproval = new HashSet<Preview_EformApproval>();
             this.Request_Data = new HashSet<Request_Data>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
@@ -44,7 +44,7 @@ namespace IAUBackEnd.Admin.Models
         public bool IS_Mostafid { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Eform_Approval> Eform_Approval { get; set; }
+        public virtual ICollection<E_Forms> E_Forms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Preview_EformApproval> Preview_EformApproval { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

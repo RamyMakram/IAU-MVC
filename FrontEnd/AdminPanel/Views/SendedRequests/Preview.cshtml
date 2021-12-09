@@ -283,6 +283,9 @@
 <div class="row">
 	<div class="col-12">
 		<div class="mb-3">
+			@*<span name=""></span>*@
+			<input style="display:none" value="@Model.Request_Data_ID" name= "RequestIID"/>
+			@*@Html.HiddenFor(q => q.Request_Data_ID, new {  })*@
 			<span style="display:none" id="NONE">@Model.Request_Data_ID</span>
 			<div class="card">
 				<div class="card-body">
@@ -670,9 +673,8 @@
 <script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
-<script src="~/assets/js/pdf.js"></script>
-<script src="~/assets/js/pdf.worker.js"></script>
-
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="EformModel" dir="@(isAr?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
+</div>
 @if (IsMostafid)
 {
 	using (Html.BeginForm("Reminder", "SendedRequests", FormMethod.Post, new { @enctype = "multipart/form-data", @style = "display:none!important" }))

@@ -17,6 +17,7 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Request_Data()
         {
+            this.DelayedTransaction = new HashSet<DelayedTransaction>();
             this.Request_File = new HashSet<Request_File>();
             this.Request_Log = new HashSet<Request_Log>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
@@ -39,6 +40,8 @@ namespace IAU_BackEnd.Models
         public Nullable<System.DateTime> GenratedDate { get; set; }
         public bool Is_Archived { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DelayedTransaction> DelayedTransaction { get; set; }
         public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
         public virtual Request_Type Request_Type { get; set; }

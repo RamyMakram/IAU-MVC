@@ -225,7 +225,7 @@ namespace IAUBackEnd.Admin.Controllers
                 Request_Data request_Data;
                 if (Unit.IS_Mostafid)
                     request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
-
+                else
                 request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
                     .FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
                 if (request_Data == null)
@@ -338,7 +338,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var ISInquiry = p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID)?.Request_Type_Name_EN.ToLower().Contains("inq");
                 if (ISInquiry.Value)
                 {
-                    var Eforms = p.E_Forms.Include(q => q.Question).Include(q => q.Question.Select(s => s.Separator)).Include(q => q.Question.Select(s => s.Paragraph)).Include(q => q.Eform_Approval).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID).Select(q => new { q.Code, q.Name, q.Name_EN, Question = q.Question, Eform_Approval = q.Eform_Approval.Select(sd => new { Name = sd.Units.Units_Name_AR, Name_En = sd.Units.Units_Name_EN, sd.UnitID }) });
+                    var Eforms = p.E_Forms.Include(q => q.Question).Include(q => q.Question.Select(s => s.Separator)).Include(q => q.Question.Select(s => s.Paragraph)).Include(q => q.UnitToApprove).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID).Select(q => new { q.Code, q.Name, q.Name_EN, Question = q.Question, Eform_Approval = q.Units });
                     foreach (var eform in Eforms)
                     {
                         var Eform_Person = new Person_Eform { Code = eform.Code, Name = eform.Name, Name_EN = eform.Name_EN, Person_ID = request_Data.Personel_Data_ID, FillDate = request_Data.CreatedDate.Value };
@@ -389,12 +389,8 @@ namespace IAUBackEnd.Admin.Controllers
                             else
                                 throw new Exception("Ansqares");
                         }
-                        Eform_Person.Preview_EformApproval = eform.Eform_Approval.Select(q => new Preview_EformApproval { Name = q.Name, Name_En = q.Name_En, OwnEform = request_Data.Unit_ID == q.UnitID, UnitID = q.UnitID }).ToList();
-                        if (!Eform_Person.Preview_EformApproval.Any(q => q.OwnEform))
-                        {
-                            var unit = p.Units.FirstOrDefault(q => q.Units_ID == request_Data.Unit_ID);
-                            Eform_Person.Preview_EformApproval.Add(new Preview_EformApproval { OwnEform = true, Name = unit.Units_Name_AR, Name_En = unit.Units_Name_EN, UnitID = unit.Units_ID });
-                        }
+                        Eform_Person.Preview_EformApproval.Add(new Preview_EformApproval { OwnEform = true, Name = eform.Eform_Approval.Units_Name_AR, Name_En = eform.Eform_Approval.Units_Name_EN, UnitID = eform.Eform_Approval.Units_ID });
+
                         p.Person_Eform.Add(Eform_Person);
                     }
                 }

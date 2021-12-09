@@ -426,7 +426,7 @@
 	$(document).ready(function () {
 		reStartHandelr();
 
-		$('.repeater-approve').repeater({
+		@*$('.repeater-approve').repeater({
 			show: function () {
 				$(this).slideDown();
 				$('.select2-container', $(this)).remove();
@@ -452,7 +452,7 @@
 		});
 		if (location.pathname.toLowerCase().search("edit") != -1) {
 			$('.repeater-approve').find("[data-repeater-item]:last-child").remove();
-		}
+		}*@
         $('[name="ENName"],[name="ARName"]').attr('maxlength','40')
 	});
 	function restartSelect2() {
