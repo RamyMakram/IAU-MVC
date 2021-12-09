@@ -43,9 +43,9 @@ namespace AdminPanel.Controllers
                 if (res.success)
                     return RedirectToAction("Home", "Home");
 
-                return View(signature);
+                return RedirectToAction("Home", "Profile");
             }
-            return View(signature);
+            return RedirectToAction("Home", "Profile");
         }
     }
 }

@@ -72,7 +72,7 @@
                         <img height="118" src="@(AdminUrl+"/"+(Model==null?"":Model.Path))" />
                     </div>
                 }
-                @using (Html.BeginForm("Home", "Signature", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Home", "Profile", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
 
