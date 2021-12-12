@@ -452,7 +452,8 @@ $('.mainservice').click(function (e) {//service type
 							</div >
 					`)
             })
-
+            $(`.mainservice`).removeClass('active')
+            $(`.mainservice[data-mainserviceid="${ID}"]`).addClass('active');
             reIntializeReType();
             if (Redirect)
                 $(`[data-requesttypeid='${RedirectReqType}']`).addClass("active").click()

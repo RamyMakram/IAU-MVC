@@ -402,11 +402,16 @@
                                     </div>
                                     break;
                                 case "D":
-                                    <div class="col-md-6 col-12 d-inline-flex justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
-                                        <label>
-                                            <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
-                                        </label>
-                                        <input class="form-control" type="date" />
+                                    <div class="col-md-6 col-12 justify-content-between" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <div class="d-inline-flex flex-row w-100 align-items-center">
+                                            <label>
+                                                <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_EN</label>
+                                            </label>
+                                            <input class="form-control" type="date" />
+                                        </div>
+                                        <div class="row w-100 mt-3 m-0">
+                                            <hr />
+                                        </div>
                                     </div>
                                     break;
                                 case "S":
