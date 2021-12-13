@@ -15,6 +15,13 @@ namespace Web.Controllers
                 Response.Cookies["lang"].Value = "ar";
             return View();
         }
+        
+        public ActionResult NotFound()
+        {
+            if (Request.Cookies["lang"] == null)
+                Response.Cookies["lang"].Value = "ar";
+            return View();
+        }
         public ActionResult NotPermited()
         {
             if (Request.Cookies["lang"] == null)

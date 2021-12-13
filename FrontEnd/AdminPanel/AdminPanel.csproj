@@ -3191,7 +3191,7 @@
     <Content Include="Views\Report\Filter.cshtml" />
     <Content Include="Views\EForms\script.cshtml" />
     <Content Include="Views\Shared\PrivilgesControls.cshtml" />
-    <Content Include="Views\Error\Home.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\NotPermited.cshtml" />
     <Content Include="Views\Email\_Eform.cshtml" />
     <Content Include="Views\Applicanttype\Active.cshtml" />
@@ -3200,6 +3200,7 @@
     <Content Include="Views\Applicanttype\Edit.cshtml" />
     <Content Include="Views\Applicanttype\Home.cshtml" />
     <Content Include="Views\Profile\Home.cshtml" />
+    <Content Include="Views\Error\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
