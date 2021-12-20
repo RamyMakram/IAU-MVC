@@ -86,8 +86,11 @@ namespace AdminPanel.Controllers
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (res.success)
 				return subSe == -1 ? RedirectToAction("Home") : RedirectToAction("Home", new { SubService = subSe });
-			else
-				return RedirectToAction("NotFound", "Error");
+            else
+            {
+				LoadCreateOrEdit();
+				return View(loc);
+            }
 		}
 		[HttpPost]
 		public ActionResult Edit(int Id, E_FormsDTO loc)

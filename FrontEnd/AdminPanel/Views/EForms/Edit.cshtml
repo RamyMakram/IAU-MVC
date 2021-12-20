@@ -69,7 +69,7 @@
     var isar = Request.Cookies["lang"]?.Value == "ar";
 }
 <div class="row">
-    @using (Html.BeginForm("Edit", "EForms", new { Id = Model.ID, SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { @class = "w-100" }))
+    @using (Html.BeginForm("Edit", "EForms", new { Id = Model.ID, SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { @class = "w-100", @id = "Eform-change-form" }))
     {
         <div class="col-12">
             <div class="card">
@@ -147,7 +147,7 @@
 
                                                             <div class="form-group">
                                                                 <label for="PlaceHolder" class="control-label">@(isar? "الشرح" : "PlaceHolder")</label>
-                                                                <input class="form-control" type="text" name="PlaceHolder" value="@(i.Input.PlaceHolder)" />
+                                                                <input class="form-control" type="text" name="PlaceHolder" value="@(i.Input.PlaceHolder)" maxlength="50" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
@@ -164,7 +164,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="PlaceHolderEN" class="control-label">@(isar? "الشرح بالانجليزي" : "EN PlaceHolder")</label>
-                                                                <input class="form-control en-font" type="text" name="PlaceHolderEN" value="@(i.Input.PlaceholderEN)" />
+                                                                <input class="form-control en-font" type="text" name="PlaceHolderEN" value="@(i.Input.PlaceholderEN)" maxlength="50" />
                                                             </div>
                                                             <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
                                                                 <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
@@ -480,7 +480,6 @@
                     </div>
                     @Html.HiddenFor(q => q.QTY, new { @id = "QQTR", @requird = "true" })
                     @Html.HiddenFor(q => q.Del_QTY, new { @id = "Del_QTY" })
-                    <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>
                     <button type="button" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>
                     @Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 
@@ -489,107 +488,109 @@
         </div>
     }
 </div>
+@Html.Partial("~/Views/Eforms/script.cshtml", true)
 <script>
     let _id = @(Model.Question.Count!=0?Model.Question.LastOrDefault().Index_Order:0);
     let QTY = [];
     $("button[key='t-save']").click(() => {
-        QTY = []
-        let data = $('div[data-id]');
-        ([...data]).sort(function (a, b) {
-            var contentA = parseInt($("#order", $(a)).val());
-            var contentB = parseInt($("#order", $(b)).val());
-            return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-        }).forEach(i => {
-            let type = $(i).attr('data-type')
-            switch (type) {
-                case "I":
-                    var PlaceHolder = $('input.form-control[name="PlaceHolder"]', $(i)).val()
-                    var PlaceHolderEN = $('input.form-control[name="PlaceHolderEN"]', $(i)).val()
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val()
-                    var En = $('input.form-control[name="ENName"]', $(i)).val()
-                    var ISNum = ($('[name="InputType"]', $(i)).val() === 'true')
-                    var Requird = $('#Required', $(i)).is(":checked")
-                    var index = $("#order", $(i)).val();
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    QTY.push({ ID, Name: Ar, Name_EN: En, Requird, T: type, Input: { ISNum, PlaceHolder, PlaceHolderEN }, Index_Order: index })
-                    break;
-                case "R":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-                    var En = $('input.form-control[name="ENName"]', $(i)).val();
-                    var Requird = $('#Required', $(i)).is(":checked")
-                    var index = $("#order", $(i)).val();
-                    var Radio = [];
-                    var rows = $('[data-repeater-item]', $(i));
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    ([...rows]).forEach(e => {
-                        var ID_R = !$(i).hasClass('created') ? $(e).attr('data-id') : null;
-                        let Name = $('.ar-item', $(e)).val();
-                        let Name_EN = $('.en-item', $(e)).val();
-                        if (Name != "" && Name_EN!="")
-                            Radio.push({ ID: ID_R, Name, Name_EN })
-                    })
-                    if (Radio.length!=0)
-                        QTY.push({ID, Name: Ar, Name_EN: En, Requird, T: type, Radio, Index_Order: index })
-                    break;
-                case "C":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-                    var En = $('input.form-control[name="ENName"]', $(i)).val();
-                    var index = $("#order", $(i)).val();
-                    var Requird = $('#Required', $(i)).is(":checked")
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    var Check = [];
-                    rows = $('[data-repeater-item]', $(i));
-                    ([...rows]).forEach(e => {
-                        let Name = $('.ar-item', $(e)).val();
-                        let Name_EN = $('.en-item', $(e)).val();
-                        var ID_C = !$(i).hasClass('created') ? $(e).attr('data-id') : null;
-                        if (Name != "" && Name_EN != "")
-                            Check.push({ ID: ID_C,Name, Name_EN })
-                    })
-                    if (Check.length != 0)
-                        QTY.push({ ID, Name: Ar, Name_EN: En, Requird, T: type, Check, Index_Order: index })
-                    break;
-                case "D":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-                    var En = $('input.form-control[name="ENName"]', $(i)).val();
-                    var index = $("#order", $(i)).val();
-                    var Requird = $('#Required', $(i)).is(":checked")
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    QTY.push({ ID, Name: Ar, Name_EN: En, Requird, T: type, Index_Order: index})
-                    break;
-                case "S":
-                    var index = $("#order", $(i)).val();
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    QTY.push({ ID, T: type, Sepa: { Empty: $('#Seprator', $(i)).is(":checked") }, Index_Order: index })
-                    break;
-                case "T":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-                    var En = $('input.form-control[name="ENName"]', $(i)).val();
-                    var index = $("#order", $(i)).val();
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    QTY.push({ ID, Name: Ar, Name_EN: En, T: type, Index_Order: index })
-                    break;
-                case "P":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-                    var En = $('input.form-control[name="ENName"]', $(i)).val();
-                    var index = $("#order", $(i)).val();
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    QTY.push({ ID, T: type, Para: { Name: Ar, Name_EN: En }, Index_Order: index })
-                    break;
-                case "E":
-                    var Ar = $('input.form-control[name="ARName"]', $(i)).val()
-                    var En = $('input.form-control[name="ENName"]', $(i)).val()
-                    var Ref = $('[name="ReferenceToField"]', $(i)).val()
-                    var index = $("#order", $(i)).val();
-                    var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
-                    QTY.push({ ID, Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
-                    break;
-            }
-        })
-        $('#QQTR').val(JSON.stringify(QTY))
-        $('#Del_QTY').val(JSON.stringify(del))
-        $("button[type='submit']").click()
+        if ($('#Eform-change-form')[0].checkValidity()) {
+            QTY = []
+            let data = $('div[data-id]');
+            ([...data]).sort(function (a, b) {
+                var contentA = parseInt($("#order", $(a)).val());
+                var contentB = parseInt($("#order", $(b)).val());
+                return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+            }).forEach(i => {
+                let type = $(i).attr('data-type')
+                switch (type) {
+                    case "I":
+                        var PlaceHolder = $('input.form-control[name="PlaceHolder"]', $(i)).val()
+                        var PlaceHolderEN = $('input.form-control[name="PlaceHolderEN"]', $(i)).val()
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val()
+                        var En = $('input.form-control[name="ENName"]', $(i)).val()
+                        var ISNum = ($('[name="InputType"]', $(i)).val() === 'true')
+                        var Requird = $('#Required', $(i)).is(":checked")
+                        var index = $("#order", $(i)).val();
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        QTY.push({ ID, Name: Ar, Name_EN: En, Requird, T: type, Input: { ISNum, PlaceHolder, PlaceHolderEN }, Index_Order: index })
+                        break;
+                    case "R":
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                        var En = $('input.form-control[name="ENName"]', $(i)).val();
+                        var Requird = $('#Required', $(i)).is(":checked")
+                        var index = $("#order", $(i)).val();
+                        var Radio = [];
+                        var rows = $('[data-repeater-item]', $(i));
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        ([...rows]).forEach(e => {
+                            var ID_R = !$(i).hasClass('created') ? $(e).attr('data-id') : null;
+                            let Name = $('.ar-item', $(e)).val();
+                            let Name_EN = $('.en-item', $(e)).val();
+                            if (Name != "" && Name_EN != "")
+                                Radio.push({ ID: ID_R, Name, Name_EN })
+                        })
+                        if (Radio.length != 0)
+                            QTY.push({ ID, Name: Ar, Name_EN: En, Requird, T: type, Radio, Index_Order: index })
+                        break;
+                    case "C":
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                        var En = $('input.form-control[name="ENName"]', $(i)).val();
+                        var index = $("#order", $(i)).val();
+                        var Requird = $('#Required', $(i)).is(":checked")
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        var Check = [];
+                        rows = $('[data-repeater-item]', $(i));
+                        ([...rows]).forEach(e => {
+                            let Name = $('.ar-item', $(e)).val();
+                            let Name_EN = $('.en-item', $(e)).val();
+                            var ID_C = !$(i).hasClass('created') ? $(e).attr('data-id') : null;
+                            if (Name != "" && Name_EN != "")
+                                Check.push({ ID: ID_C, Name, Name_EN })
+                        })
+                        if (Check.length != 0)
+                            QTY.push({ ID, Name: Ar, Name_EN: En, Requird, T: type, Check, Index_Order: index })
+                        break;
+                    case "D":
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                        var En = $('input.form-control[name="ENName"]', $(i)).val();
+                        var index = $("#order", $(i)).val();
+                        var Requird = $('#Required', $(i)).is(":checked")
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        QTY.push({ ID, Name: Ar, Name_EN: En, Requird, T: type, Index_Order: index })
+                        break;
+                    case "S":
+                        var index = $("#order", $(i)).val();
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        QTY.push({ ID, T: type, Sepa: { Empty: $('#Seprator', $(i)).is(":checked") }, Index_Order: index })
+                        break;
+                    case "T":
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                        var En = $('input.form-control[name="ENName"]', $(i)).val();
+                        var index = $("#order", $(i)).val();
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        QTY.push({ ID, Name: Ar, Name_EN: En, T: type, Index_Order: index })
+                        break;
+                    case "P":
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                        var En = $('input.form-control[name="ENName"]', $(i)).val();
+                        var index = $("#order", $(i)).val();
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        QTY.push({ ID, T: type, Para: { Name: Ar, Name_EN: En }, Index_Order: index })
+                        break;
+                    case "E":
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val()
+                        var En = $('input.form-control[name="ENName"]', $(i)).val()
+                        var Ref = $('[name="ReferenceToField"]', $(i)).val()
+                        var index = $("#order", $(i)).val();
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+                        QTY.push({ ID, Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
+                        break;
+                }
+            })
+            $('#QQTR').val(JSON.stringify(QTY))
+            $('#Del_QTY').val(JSON.stringify(del))
+            $('[key="t-save"]').attr('type', 'submit').click()
+        }
     })
 
 </script>
-@Html.Partial("~/Views/Eforms/script.cshtml", true)

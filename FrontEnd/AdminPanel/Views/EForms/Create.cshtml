@@ -1,12 +1,13 @@
 ﻿@model IAUAdmin.DTO.Entity.E_FormsDTO
+@using Newtonsoft.Json;
 @{
-	ViewBag.Title = "E-From Type";
-	ViewBag.pTitle = "E-From Type";
-	ViewBag.pageTitle = "E-Froms" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
-	ViewBag.arTitle = "اضافة نموذج";
-	ViewBag.arpTitle = "اضافة نموذج";
-	ViewBag.arpageTitle = "النماذج الالكترونية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "E-From Type";
+    ViewBag.pTitle = "E-From Type";
+    ViewBag.pageTitle = "E-Froms" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
+    ViewBag.arTitle = "اضافة نموذج";
+    ViewBag.arpTitle = "اضافة نموذج";
+    ViewBag.arpageTitle = "النماذج الالكترونية" + (Request.QueryString["SharedVal"] != null ? "," + Request.QueryString["SharedVal"] : "");
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -19,236 +20,566 @@
 <!-- Sweet Alert-->
 <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <style>
-	span.select2 {
-		width: 100% !important
-	}
+    span.select2 {
+        width: 100% !important
+    }
 
-	label.control-label::after {
-		content: ":";
-	}
+    label.control-label::after {
+        content: ":";
+    }
 
-	label.control-label {
-		font-weight: bold;
-	}
+    label.control-label {
+        font-weight: bold;
+    }
 
-	FIELDSET {
-		margin: 8px;
-		border: 1px solid silver;
-		padding: 8px;
-		border-radius: 4px;
-	}
+    FIELDSET {
+        margin: 8px;
+        border: 1px solid silver;
+        padding: 8px;
+        border-radius: 4px;
+    }
 
-	LEGEND {
-		padding: 0px 16px !important;
-		width: unset;
-		display: inline-flex;
-	}
+    LEGEND {
+        padding: 0px 16px !important;
+        width: unset;
+        display: inline-flex;
+    }
 
-	.btn-create-component {
-		display: none !important;
-	}
+    .btn-create-component {
+        display: none !important;
+    }
 
-	.select2-results__group {
-		color: #000 !important;
-	}
+    .select2-results__group {
+        color: #000 !important;
+    }
 
-	li[role="group"] ul {
-		padding: 0 17px 0 0;
-	}
+    li[role="group"] ul {
+        padding: 0 17px 0 0;
+    }
 </style>
 @{
-	var isar = Request.Cookies["lang"].Value == "ar";
-	var count = 1;
+    var isar = Request.Cookies["lang"].Value == "ar";
+    var count = 1;
 }
 <div class="row">
-	@using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data", @class = "w-100" }))
-	{
-		<div class="col-12">
-			<div class="card">
-				<div class="card-body">
+    @using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data", @class = "w-100",id= "Eform-change-form" }))
+    {
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
 
-					<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
-					<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+                    <h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+                    <p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
 
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label" for="name">@(isar?"اسم النموذج بالعربي":"Eform Name")</label>
-								@Html.TextBoxFor(q => q.Name, new { @class = "form-control ar-font", @name = "name", @id = "name" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" for="name">@(isar?"كود النموذج":"Eform Code")</label>
-								@Html.TextBoxFor(q => q.Code, new { @class = "form-control", @maxlength = 2 })
-							</div>
-						</div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" for="name">@(isar?"اسم النموذج بالعربي":"Eform Name")</label>
+                                @Html.TextBoxFor(q => q.Name, new { @class = "form-control ar-font", @name = "name", required = "true", @id = "name" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="name">@(isar?"كود النموذج":"Eform Code")</label>
+                                @Html.TextBoxFor(q => q.Code, new { @class = "form-control", @maxlength = 2, required = "true" })
+                            </div>
+                        </div>
 
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label" for="enname">@(isar?"اسم النموذج بالانجليزي":"Eform Name English")</label>
-								@Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control en-font", @name = "enname", @id = "enname" })
-							</div>
-							@if (Request.QueryString["SubService"] == null)
-							{
-								<div class="form-group">
-									<label key="t-subservice" class="control-label">units</label>
-									@Html.DropDownListFor(q => q.SubServiceID, ViewBag.SubSrevice as SelectList, new { @class = "form-control select2" })
-								</div>
-							}
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" for="enname">@(isar?"اسم النموذج بالانجليزي":"Eform Name English")</label>
+                                @Html.TextBoxFor(q => q.Name_EN, new { @class = "form-control en-font", @name = "enname", @id = "enname", required = "true" })
+                            </div>
+                            @if (Request.QueryString["SubService"] == null)
+                            {
+                                <div class="form-group">
+                                    <label key="t-subservice" class="control-label">units</label>
+                                    @Html.DropDownListFor(q => q.SubServiceID, ViewBag.SubSrevice as SelectList, new { @class = "form-control select2", required = "true" })
+                                </div>
+                            }
 
-						</div>
+                        </div>
 
 
-					</div>
+                    </div>
 
-				</div>
-			</div>
-		</div>
-		<div class="col-12">
-			<div class="card">
-				<div class="card-body repeater-approve">
-					<p class="card-title">@(isar?"الإعتمادات":"Eform Approval")</p>
-					<div class="col-12">
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body repeater-approve">
+                    <p class="card-title">@(isar?"الإعتمادات":"Eform Approval")</p>
+                    <div class="col-12">
                         <div class="form-group col-10">
                             <label class="control-label" for="name">@(isar?"الفئة الإدارية":"Unit")</label>
-                            <select class="form-control select2" name="UnitToApprove">
-                                @foreach (var i in ViewBag.UnitID as SelectList)
-                                {
-                                    <option value="@i.Value" @(i.Value == (ViewBag.UnitID as SelectList).First().Value ? "selected" : "")>@i.Text</option>
-                                }
-                            </select>
+                            @Html.DropDownListFor(q => q.UnitToApprove, ViewBag.UnitID as SelectList, new { @class = "form-control select2", name = "UnitToApprove", required = "true" })
                         </div>
-					</div>
-				</div>
-			</div>
-		</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<div class="col-12">
-			<div class="card">
-				<div class="card-body">
-					<div class="col-12">
-						<p class="card-title">@(isar?"عناصر النموذج":"Eform Elements")</p>
-						<div id="ListQuestion">
-						</div>
-						<div class="row" style="display:flex;justify-content:center;align-items:center">
-							<div class="control col-6" style="display:inline-flex;justify-content:center;align-items:center">
-								<select class="form-control select2" id="ComponetType">
-									<option value="null" disabled selected>@(isar?"-----اختر":"Choose-----")</option>
-									<option value="6">@(isar? "حقل موجود" : "Exist Field")</option>
-									<optgroup label="@(isar?"حقل جديد":"New Field")">
-										<option value="0">@(isar?"حقول الادخال":"Input")</option>
-										<option value="1">@(isar? "اختيار من متعدد":"Select from Multi")</option>
-										<option value="2">@(isar?"اختيار متعدد":"Select Multi")</option>
-										<option value="3">@(isar?"تاريخ ووقت":"Date Time")</option>
-										<option value="4">@(isar?"فاصل":"Separator")</option>
-										<option value="5">@(isar?"عنوان":"Title")</option>
-										<option value="7">@(isar?"نص":"Text")</option>
-									</optgroup>
-								</select>
-								<button class="btn btn-circle mx-1" style="top:0!important;color:green" id="addComponent" type="button"><i class="fas fa-plus-circle"></i></button>
-							</div>
-						</div>
-					</div>
-					@Html.HiddenFor(q => q.QTY, new { @id = "QQTR", @requird = "true" })
-					<button key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					<button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>
-					@Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-12">
+                        <p class="card-title">@(isar?"عناصر النموذج":"Eform Elements")</p>
+                        <div id="ListQuestion">
+                            @if (Model != null)
+                            {
+                                foreach (var i in Model.Question)
+                                {
+                                    switch (i.T)
+                                    {
+                                        case "I":
+                                            <div data-id="@i.ID" data-type='I'>
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"حقل ادخال":"Input")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
+                                                                    <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
+                                                                </div>
 
-				</div>
-			</div>
-		</div>
-	}
+                                                                <div class="form-group">
+                                                                    <label for="PlaceHolder" class="control-label">@(isar? "الشرح" : "PlaceHolder")</label>
+                                                                    <input class="form-control" type="text" name="PlaceHolder" value="@(i.Input.PlaceHolder)" maxlength="50" />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
+                                                                    <select class="form-control select2" id="InputType-@i.ID" name="InputType">
+                                                                        <option value="false" @(i.Input.ISNum ? "" : "selected")>@(isar?"نص":"Text")</option>
+                                                                        <option value="true" @(i.Input.ISNum ? "selected" : "")>@(isar? "رقم":"Number")</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)" />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="PlaceHolderEN" class="control-label">@(isar? "الشرح بالانجليزي" : "EN PlaceHolder")</label>
+                                                                    <input class="form-control en-font" type="text" name="PlaceHolderEN" value="@(i.Input.PlaceholderEN)" maxlength="50" />
+                                                                </div>
+                                                                <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
+                                                                    <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
+                                                                    @Html.CheckBoxFor(s => i.Requird, new { @class = "form-control", @name = "Required", @id = "Required", @style = "width: 19px;", @type = "checkbox" })
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        case "C":
+                                            <div data-id="@i.ID" data-type="C">
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "اختيار من متعدد":"Select from Multi")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
+                                                                    <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
+                                                                </div>
+                                                                <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
+                                                                    <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
+                                                                    @Html.CheckBoxFor(s => i.Requird, new { @class = "form-control", @name = "Required", @id = "Required", @style = "width: 19px;", @type = "checkbox" })
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class='repeater-check'>
+                                                                    <h2 class="card-title-desc" style="display: inline-flex; align-items: center;">@(isar? "الاختيارات" : "Choices") <button class="btn btn-circle mx-1" data-repeater-create style="top:0!important;color:green" type="button"><i class="fas fa-plus-circle"></i></button></h2>
+                                                                    <div data-repeater-list="group-7">
+                                                                        @foreach (var choose in i.Check)
+                                                                        {
+                                                                            <div data-repeater-item data-id="@choose.ID" class="row">
+                                                                                <div class="col-md-6" style="display: inline-flex; align-items: center;">
+                                                                                    <div>
+                                                                                        <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+                                                                                    </div>
+                                                                                    <div class="form-group" style="width: 100%;">
+                                                                                        <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+                                                                                        <input class="form-control ar-item" type="text" name="ARName" value="@(choose.Name)" />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                                        <input class="form-control en-item" type="text" name="ENName" value="@(choose.Name_EN)" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                                        <div data-repeater-item class="row">
+                                                                            <div class="col-md-6" style="display: inline-flex; align-items: center;">
+                                                                                <div>
+                                                                                    <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+                                                                                </div>
+                                                                                <div class="form-group" style="width: 100%;">
+                                                                                    <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+                                                                                    <input class="form-control ar-item" type="text" name="ARName" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                                    <input class="form-control en-item" type="text" name="ENName" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        case "R":
+                                            <div data-id="@i.ID" data-type="R">
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "اختيار متعدد": "Multi Select")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
+                                                                    <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
+                                                                </div>
+                                                                <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
+                                                                    <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
+                                                                    @Html.CheckBoxFor(s => i.Requird, new { @class = "form-control", @name = "Required", @id = "Required", @style = "width: 19px;", @type = "checkbox" })
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class='repeater-radio'>
+                                                                    <h2 class="card-title-desc" style="display: inline-flex; align-items: center;">@(isar? "الاختيارات" : "Choices") <button class="btn btn-circle mx-1" data-repeater-create style="top:0!important;color:green" type="button"><i class="fas fa-plus-circle"></i></button></h2>
+                                                                    <div data-repeater-list="group-7">
+                                                                        @foreach (var choose in i.Radio)
+                                                                        {
+                                                                            <div data-repeater-item data-id="@choose.ID" class="row">
+                                                                                <div class="col-md-6" style="display: inline-flex; align-items: center;">
+                                                                                    <div>
+                                                                                        <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+                                                                                    </div>
+                                                                                    <div class="form-group" style="width: 100%;">
+                                                                                        <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+                                                                                        <input class="form-control ar-item" type="text" name="ARName" value="@(choose.Name)" />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                                        <input class="form-control en-item" type="text" name="ENName" value="@(choose.Name_EN)" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                                        <div data-repeater-item class="row">
+                                                                            <div class="col-md-6" style="display: inline-flex; align-items: center;">
+                                                                                <div>
+                                                                                    <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+                                                                                </div>
+                                                                                <div class="form-group" style="width: 100%;">
+                                                                                    <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+                                                                                    <input class="form-control ar-item" type="text" name="ARName" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                                    <input class="form-control en-item" type="text" name="ENName" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        case "D":
+                                            <div data-id="@i.ID" data-type='D'>
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"حقل ادخال":"Input")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
+                                                                    <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
+                                                                </div>
+                                                                <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
+                                                                    <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
+                                                                    @Html.CheckBoxFor(s => i.Requird, new { @class = "form-control", @name = "Required", @id = "Required", @style = "width: 19px;", @type = "checkbox" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)" />
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        case "S":
+                                            <div data-id="@i.ID" data-type='S'>
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"فاصل":"Sperator")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group" style="display: inline-flex;align-items: center;flex-direction: column;">
+                                                                    <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"فاصل فارغ؟":"Empty Seprator?")</label>
+                                                                    @Html.CheckBoxFor(s => i.Sepa.Empty, new { @class = "form-control", @name = "Seprator", @id = "Seprator", @style = "width: 19px;", @type = "checkbox" })
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        case "T":
+                                            <div data-id="@i.ID" data-type='T'>
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"عنوان":"Title")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
+                                                                    <input class="form-control" type="text" name="ARName" value="@(i.Name)" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)" />
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        case "E":
+                                            <div data-id="@i.ID" data-type='E'>
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "حقل موجود": "Exist Field")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
+                                                                    <input class="form-control" type="text" name="ARName" value="@i.Name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control" type="text" name="ENName" value="@i.Name_EN" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12" style="display: flex;justify-content: center;">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group" id="J-ReferenceToField">
+                                                                        <label class="control-label">@(isar?"نوع الحقل":"Field Type")</label>
+                                                                        <select class="form-control select2" id="ReferenceToField-@i.ID" name="ReferenceToField">
+                                                                            <option @(i.Ref == "IAUID" ? "selected" : "") value="IAUID">@(isar?"الرقم الاكاديمي":"IAU ID Number")</option>
+                                                                            <option @(i.Ref == "FirstName" ? "selected" : "") value="FirstName">@(isar? "الاسم الاول":"First name")</option>
+                                                                            <option @(i.Ref == "MiddelName" ? "selected" : "") value="MiddelName">@(isar?"الاسم الأوسط":"Middle name")</option>
+                                                                            <option @(i.Ref == "FamilyName" ? "selected" : "") value="FamilyName">@(isar?"اسم العائلة":"Family name")</option>
+                                                                            <option @(i.Ref == "idNumber" ? "selected" : "") value="idNumber">@(isar?"رقم الهوية":"ID Number")</option>
+                                                                            <option @(i.Ref == "City_Country_2" ? "selected" : "") value="City_Country_2">@(isar?"الدولة":"Country")</option>
+                                                                            <option @(i.Ref == "City_Country_1" ? "selected" : "") value="City_Country_1">@(isar?"المنطقة":"City")</option>
+                                                                            <option @(i.Ref == "Region_Postal_Code_1" ? "selected" : "") value="Region_Postal_Code_1">@(isar?"المدينة":"Region")</option>
+                                                                            <option @(i.Ref == "Email" ? "selected" : "") value="Email">@(isar?"البريد الالكتروني":"Email")</option>
+                                                                            <option @(i.Ref == "Mobile" ? "selected" : "") value="Mobile">@(isar?"رقم الهاتف":"Phone")</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        case "P":
+                                            <div data-id="@i.ID" data-type="P">
+                                                <div>
+                                                    <div>
+                                                        <fieldset class="row">
+                                                            <legend><button onclick="delte(@i.ID)" data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar?"نص":"Text")</legend>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
+                                                                    <input class="form-control" name="ARName" value=" @i.Para.Name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control" name="ENName" value="@i.Para.Name_En" />
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        </div>
+                        <div class="row" style="display:flex;justify-content:center;align-items:center">
+                            <div class="control col-6" style="display:inline-flex;justify-content:center;align-items:center">
+                                <select class="form-control select2" id="ComponetType">
+                                    <option value="null" disabled selected>@(isar?"-----اختر":"Choose-----")</option>
+                                    <option value="6">@(isar? "حقل موجود" : "Exist Field")</option>
+                                    <optgroup label="@(isar?"حقل جديد":"New Field")">
+                                        <option value="0">@(isar?"حقول الادخال":"Input")</option>
+                                        <option value="1">@(isar? "اختيار من متعدد":"Select from Multi")</option>
+                                        <option value="2">@(isar?"اختيار متعدد":"Select Multi")</option>
+                                        <option value="3">@(isar?"تاريخ ووقت":"Date Time")</option>
+                                        <option value="4">@(isar?"فاصل":"Separator")</option>
+                                        <option value="5">@(isar?"عنوان":"Title")</option>
+                                        <option value="7">@(isar?"نص":"Text")</option>
+                                    </optgroup>
+                                </select>
+                                <button class="btn btn-circle mx-1" style="top:0!important;color:green" id="addComponent" type="button"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(q => q.QTY, new { @id = "QQTR", @requird = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button key="t-save" type="button" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+            <button class="btn btn-primary mr-1 waves-effect waves-light" style="display:none"></button>
+            @Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
+        </div>
+    }
 </div>
+@Html.Partial("~/Views/Eforms/script.cshtml", false)
 <script>
-	let _id = 0;
-	let QTY = [];
-	$("button[key='t-save']").click(() => {
-		QTY = []
-		let data = $('div[data-id]');
-		([...data]).sort(function (a, b) {
-			var contentA = parseInt($("#order", $(a)).val());
-			var contentB = parseInt($("#order", $(b)).val());
-			return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
-		}).forEach(i => {
-			let type = $(i).attr('data-type')
-			switch (type) {
-				case "I":
-					var PlaceHolder = $('input.form-control[name="PlaceHolder"]', $(i)).val()
-					var PlaceHolderEN = $('input.form-control[name="PlaceHolderEN"]', $(i)).val()
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val()
-					var En = $('input.form-control[name="ENName"]', $(i)).val()
-					var ISNum = ($('[name="InputType"]', $(i)).val() === 'true')
-					var Requird = $('#Required', $(i)).is(":checked")
-					var index = $("#order", $(i)).val();
-					QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Input: { ISNum, PlaceHolder, PlaceHolderEN }, Index_Order: index })
-					break;
-				case "R":
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-					var En = $('input.form-control[name="ENName"]', $(i)).val();
-					var Requird = $('#Required', $(i)).is(":checked")
-					var index = $("#order", $(i)).val();
-					var Radio = [];
-					var rows = $('[data-repeater-item]', $(i));
-					([...rows]).forEach(e => {
-						let Name = $('.ar-item', $(e)).val();
-						let Name_EN = $('.en-item', $(e)).val();
-						if (Name != "" && Name_EN != "")
-							Radio.push({ Name, Name_EN })
-					})
-					if (Radio.length != 0)
-						QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Radio, Index_Order: index })
-					break;
-				case "C":
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-					var En = $('input.form-control[name="ENName"]', $(i)).val();
-					var index = $("#order", $(i)).val();
-					var Requird = $('#Required', $(i)).is(":checked")
-					var Check = [];
-					rows = $('[data-repeater-item]', $(i));
-					([...rows]).forEach(e => {
-						let Name = $('.ar-item', $(e)).val();
-						let Name_EN = $('.en-item', $(e)).val();
-						if (Name != "" && Name_EN != "")
-							Check.push({ Name, Name_EN })
-					})
-					if (Check.length != 0)
-						QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Check, Index_Order: index })
-					break;
-				case "D":
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-					var En = $('input.form-control[name="ENName"]', $(i)).val();
-					var index = $("#order", $(i)).val();
-					var Requird = $('#Required', $(i)).is(":checked")
-					QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Index_Order: index })
-					break;
-				case "S":
-					var index = $("#order", $(i)).val();
-					QTY.push({ T: type, Sepa: { Empty: $('#Seprator', $(i)).is(":checked") }, Index_Order: index })
-					break;
-				case "T":
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val();
-					var En = $('input.form-control[name="ENName"]', $(i)).val();
-					var index = $("#order", $(i)).val();
-					QTY.push({ Name: Ar, Name_EN: En, T: type, Index_Order: index })
-					break;
-				case "P":
-					var Ar = $('textarea.form-control[name="ARName"]', $(i)).val();
-					var En = $('textarea.form-control[name="ENName"]', $(i)).val();
-					var index = $("#order", $(i)).val();
-					QTY.push({ T: type, Para: { Name: Ar, Name_EN: En }, Index_Order: index })
-					break;
-				case "E":
-					var Ar = $('input.form-control[name="ARName"]', $(i)).val()
-					var En = $('input.form-control[name="ENName"]', $(i)).val()
-					var Ref = $('[name="ReferenceToField"]', $(i)).val()
-					var index = $("#order", $(i)).val();
-					QTY.push({ Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
-					break;
-			}
-		})
-		$('#QQTR').val(JSON.stringify(QTY))
-		console.log(QTY)
-		$("button[type='submit']").click()
-	})
+    let _id = 0;
+    let QTY = [];
+    $(document).ready(() => {
+        $("button[key='t-save']").click(() => {
+            if ($('#Eform-change-form')[0].checkValidity()) {
+                QTY = []
+                let data = $('div[data-id]');
+                ([...data]).sort(function (a, b) {
+                    var contentA = parseInt($("#order", $(a)).val());
+                    var contentB = parseInt($("#order", $(b)).val());
+                    return (contentA < contentB) ? -1 : (contentA > contentB) ? 1 : 0;
+                }).forEach(i => {
+                    let type = $(i).attr('data-type')
+                    switch (type) {
+                        case "I":
+                            var PlaceHolder = $('input.form-control[name="PlaceHolder"]', $(i)).val()
+                            var PlaceHolderEN = $('input.form-control[name="PlaceHolderEN"]', $(i)).val()
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val()
+                            var En = $('input.form-control[name="ENName"]', $(i)).val()
+                            var ISNum = ($('[name="InputType"]', $(i)).val() === 'true')
+                            var Requird = $('#Required', $(i)).is(":checked")
+                            var index = $("#order", $(i)).val();
+                            QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Input: { ISNum, PlaceHolder, PlaceHolderEN }, Index_Order: index })
+                            break;
+                        case "R":
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                            var En = $('input.form-control[name="ENName"]', $(i)).val();
+                            var Requird = $('#Required', $(i)).is(":checked")
+                            var index = $("#order", $(i)).val();
+                            var Radio = [];
+                            var rows = $('[data-repeater-item]', $(i));
+                            ([...rows]).forEach(e => {
+                                let Name = $('.ar-item', $(e)).val();
+                                let Name_EN = $('.en-item', $(e)).val();
+                                if (Name != "" && Name_EN != "")
+                                    Radio.push({ Name, Name_EN })
+                            })
+                            if (Radio.length != 0)
+                                QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Radio, Index_Order: index })
+                            break;
+                        case "C":
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                            var En = $('input.form-control[name="ENName"]', $(i)).val();
+                            var index = $("#order", $(i)).val();
+                            var Requird = $('#Required', $(i)).is(":checked")
+                            var Check = [];
+                            rows = $('[data-repeater-item]', $(i));
+                            ([...rows]).forEach(e => {
+                                let Name = $('.ar-item', $(e)).val();
+                                let Name_EN = $('.en-item', $(e)).val();
+                                if (Name != "" && Name_EN != "")
+                                    Check.push({ Name, Name_EN })
+                            })
+                            if (Check.length != 0)
+                                QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Check, Index_Order: index })
+                            break;
+                        case "D":
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                            var En = $('input.form-control[name="ENName"]', $(i)).val();
+                            var index = $("#order", $(i)).val();
+                            var Requird = $('#Required', $(i)).is(":checked")
+                            QTY.push({ Name: Ar, Name_EN: En, Requird, T: type, Index_Order: index })
+                            break;
+                        case "S":
+                            var index = $("#order", $(i)).val();
+                            QTY.push({ T: type, Sepa: { Empty: $('#Seprator', $(i)).is(":checked") }, Index_Order: index })
+                            break;
+                        case "T":
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                            var En = $('input.form-control[name="ENName"]', $(i)).val();
+                            var index = $("#order", $(i)).val();
+                            QTY.push({ Name: Ar, Name_EN: En, T: type, Index_Order: index })
+                            break;
+                        case "P":
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                            var En = $('input.form-control[name="ENName"]', $(i)).val();
+                            var index = $("#order", $(i)).val();
+                            QTY.push({ T: type, Para: { Name: Ar, Name_EN: En }, Index_Order: index })
+                            break;
+                        case "E":
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val()
+                            var En = $('input.form-control[name="ENName"]', $(i)).val()
+                            var Ref = $('[name="ReferenceToField"]', $(i)).val()
+                            var index = $("#order", $(i)).val();
+                            QTY.push({ Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
+                            break;
+                    }
+                })
+                $('#QQTR').val(JSON.stringify(QTY))
+                $('[key="t-save"]').attr('type', 'submit').click()
+            }
+        })
+    })
 
 </script>
-@Html.Partial("~/Views/Eforms/script.cshtml", false)
