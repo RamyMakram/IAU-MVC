@@ -199,6 +199,7 @@
     </Compile>
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Helper\Helper.cs" />
     <Compile Include="Models\PagesPriviliges.cs" />
     <Compile Include="Models\Privilges.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -3201,6 +3202,7 @@
     <Content Include="Views\Applicanttype\Home.cshtml" />
     <Content Include="Views\Profile\Home.cshtml" />
     <Content Include="Views\Error\Home.cshtml" />
+    <Content Include="Views\EForms\Eform.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
