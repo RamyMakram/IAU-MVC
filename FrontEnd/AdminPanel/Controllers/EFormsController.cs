@@ -94,11 +94,8 @@ namespace AdminPanel.Controllers
 				return View(loc);
             }
 		}
-		[HttpPost]
-		public async Task<ActionResult> GetEformPreview(int ID)
+		public async Task<ActionResult> Eform(int ID)
         {
-			if (!HttpContext.Request.IsAjaxRequest())
-				return Json("401", JsonRequestBehavior.AllowGet);
 
 			var res = APIHandeling.getData($"/E_forms/GetE_Forms/{ID}");
 			var resJson = res.Content.ReadAsStringAsync();
@@ -108,7 +105,7 @@ namespace AdminPanel.Controllers
 			ViewBag.UnitARName = "";
 			var data = JsonConvert.DeserializeObject<E_FormsDTO>(response.result.ToString());
 			ViewBag.EfCode = data.Code;
-			return PartialView("~/Views/Eforms/_Eform.cshtml", data);
+			return View(data);
 		}
 		[HttpPost]
 		public ActionResult Edit(int Id, E_FormsDTO loc)

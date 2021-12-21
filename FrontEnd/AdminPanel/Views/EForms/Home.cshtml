@@ -61,7 +61,7 @@
                                             <button class="btn btn-primary" onclick="Delete('@i.ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
                                         }
                                     }
-                                    <button class="btn btn-outline-info" onclick="PreviewEform(@i.ID)">@(isar?"عرض النموذج":"Preview E-form")</button>
+                                    <a class="btn btn-outline-info" href="/Eforms/Eform?ID=@i.ID" target="_blank">@(isar?"عرض النموذج":"Preview E-form")</a>
                                 </td>
                             </tr>
                         }
@@ -104,7 +104,7 @@
 <!-- Sweet Alerts js -->
 <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="~/assets/js/app.js"></script>
-<script>
+@*<script>
     function PreviewEform(ID) {
         $.ajax({
             url: `/Eforms/GetEformPreview?ID=${ID}`, method: "Post", data: {
@@ -115,7 +115,7 @@
             }
         })
     }
-</script>
+</script>*@
 
 
 
