@@ -1,10 +1,12 @@
 ﻿using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -91,6 +93,22 @@ namespace AdminPanel.Controllers
 				LoadCreateOrEdit();
 				return View(loc);
             }
+		}
+		[HttpPost]
+		public async Task<ActionResult> GetEformPreview(int ID)
+        {
+			if (!HttpContext.Request.IsAjaxRequest())
+				return Json("401", JsonRequestBehavior.AllowGet);
+
+			var res = APIHandeling.getData($"/E_forms/GetE_Forms/{ID}");
+			var resJson = res.Content.ReadAsStringAsync();
+			var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			//var Jobject = JObject.Parse();
+			ViewBag.UnitENName = "";
+			ViewBag.UnitARName = "";
+			var data = JsonConvert.DeserializeObject<E_FormsDTO>(response.result.ToString());
+			ViewBag.EfCode = data.Code;
+			return PartialView("~/Views/Eforms/_Eform.cshtml", data);
 		}
 		[HttpPost]
 		public ActionResult Edit(int Id, E_FormsDTO loc)

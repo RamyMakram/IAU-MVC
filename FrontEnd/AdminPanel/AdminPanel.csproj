@@ -3201,6 +3201,7 @@
     <Content Include="Views\Applicanttype\Home.cshtml" />
     <Content Include="Views\Profile\Home.cshtml" />
     <Content Include="Views\Error\Home.cshtml" />
+    <Content Include="Views\EForms\_Eform.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

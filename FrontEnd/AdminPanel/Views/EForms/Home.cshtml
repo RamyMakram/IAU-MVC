@@ -9,6 +9,7 @@
     ViewBag.arpTitle = "النماذج الالكترونية";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
+    var isar = Request.Cookies["lang"].Value.ToString() == "ar";
 }
 
 <!-- DataTables -->
@@ -26,7 +27,7 @@
                     <p class="card-title-desc" key="t-eforms">
                         Manage Users
                     </p>
-
+                    @Html.AntiForgeryToken()
                     <a class="btn btn-circle" href=@Url.Action("Create", new { SubService=Request.QueryString["SubService"]})><i class="fas fa-plus-circle"></i></a>
                 </div>
 
@@ -60,6 +61,7 @@
                                             <button class="btn btn-primary" onclick="Delete('@i.ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
                                         }
                                     }
+                                    <button class="btn btn-outline-info" onclick="PreviewEform(@i.ID)">@(isar?"عرض النموذج":"Preview E-form")</button>
                                 </td>
                             </tr>
                         }
@@ -70,6 +72,8 @@
     </div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
+<div class="modal fade p-0" data-backdrop="static" data-keyboard="false" id="Eform" dir="@(isar?"rtl":"ltr")" tabindex="-1" role="dialog" aria-labelledby="Eform" aria-hidden="true">
+</div>
 
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -100,7 +104,18 @@
 <!-- Sweet Alerts js -->
 <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="~/assets/js/app.js"></script>
-
+<script>
+    function PreviewEform(ID) {
+        $.ajax({
+            url: `/Eforms/GetEformPreview?ID=${ID}`, method: "Post", data: {
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+            }, success: function (dd) {
+                $('#Eform').html(dd)
+                $('#Eform').modal('toggle');
+            }
+        })
+    }
+</script>
 
 
 
