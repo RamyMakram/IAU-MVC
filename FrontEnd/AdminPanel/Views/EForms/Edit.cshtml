@@ -480,7 +480,7 @@
                     </div>
                     @Html.HiddenFor(q => q.QTY, new { @id = "QQTR", @requird = "true" })
                     @Html.HiddenFor(q => q.Del_QTY, new { @id = "Del_QTY" })
-                    <button type="button" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>
+                    <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light" key="t-save">Save Changes</button>
                     @Html.ActionLink("Cancel", "Home", "EForms", new { SubService = Request.QueryString["SubService"] }, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })
 
                 </div>

@@ -99,14 +99,19 @@ namespace AdminPanel.Controllers
 			int subSe = Convert.ToInt32(Request.QueryString["SubService"] ?? "-1");
 			if (subSe != -1)
 				loc.SubServiceID = subSe;
+
+			loc.Question = JsonConvert.DeserializeObject<List<Question>>(loc.QTY);
 			var Req = APIHandeling.Post("E_Forms/Update", loc);
 			var resJson = Req.Content.ReadAsStringAsync();
 			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
 			if (res.success)
-				return RedirectToAction("Home");
+				return subSe == -1 ? RedirectToAction("Home") : RedirectToAction("Home", new { SubService = subSe });
 			else
-				return RedirectToAction("NotFound", "Error");
+			{
+				LoadCreateOrEdit();
+				return View(loc);
+			}
 		}
 		public ActionResult Deactive(int id)
 		{

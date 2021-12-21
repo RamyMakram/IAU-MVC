@@ -460,6 +460,8 @@
 			if ((!$(obj).hasClass("select2-hidden-accessible"))) {
 	                $(obj).select2();
             }
-        });
+		});
+        $('[required]').attr('oninvalid', `this.setCustomValidity('${language == "ar" ? "هذا الحقل الزامي" : "This Field Required"}')`).attr("oninput", "setCustomValidity('')");
+
     }
 </script>

@@ -14,6 +14,7 @@ using System.Web.Http.Description;
 using IAUAdmin.DTO.Entity;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
+using log4net;
 using Newtonsoft.Json;
 
 namespace IAUBackEnd.Admin.Controllers
@@ -21,7 +22,6 @@ namespace IAUBackEnd.Admin.Controllers
     public class E_FormsController : ApiController
     {
         private MostafidDBEntities p = new MostafidDBEntities();
-
         public async Task<IHttpActionResult> GetE_Forms()
         {
             return Ok(new ResponseClass() { success = true, result = p.E_Forms.ToList() });
@@ -254,6 +254,15 @@ namespace IAUBackEnd.Admin.Controllers
             }
             catch (Exception ee)
             {
+                try
+                {
+                    WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(eform, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
+
+                }
+                catch (Exception eee)
+                {
+
+                }
                 return Ok(new ResponseClass() { success = false });
             }
         }
@@ -262,9 +271,9 @@ namespace IAUBackEnd.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
+            var eform = new E_Forms() { SubServiceID = e_Forms.SubServiceID, Name_EN = e_Forms.Name_EN, Name = e_Forms.Name, IS_Action = true, CreatedOn = Helper.GetDate(), Code = e_Forms.Code };
             try
             {
-                var eform = new E_Forms() { SubServiceID = e_Forms.SubServiceID, Name_EN = e_Forms.Name_EN, Name = e_Forms.Name, IS_Action = true, CreatedOn = Helper.GetDate(), Code = e_Forms.Code };
                 foreach (var i in e_Forms.Question)
                 {
                     var quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
@@ -306,6 +315,7 @@ namespace IAUBackEnd.Admin.Controllers
             }
             catch (Exception ee)
             {
+                WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(eform, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
                 return Ok(new ResponseClass() { success = false, result = ee });
             }
         }
