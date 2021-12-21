@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -129,6 +130,20 @@ namespace IAUBackEnd.Admin.Controllers
             return Ok(new ResponseClass() { success = true, result = e_Forms });
         }
 
+        public async Task<IHttpActionResult> UpdateTrack(E_Forms e_Forms)
+        {
+            try
+            {
+                p.Entry(e_Forms).State = EntityState.Modified;
+                await p.SaveChangesAsync();
+                return Ok(new ResponseClass() { success = true});
+
+            }
+            catch (Exception ee)
+            {
+                return Ok(new ResponseClass() { success = false,result=ee });
+            }
+        }
         public async Task<IHttpActionResult> Update(E_FormsDTO e_Forms)
         {
             var eform = p.E_Forms.Include(q => q.Question).Include(q => q.Units).FirstOrDefault(q => q.ID == e_Forms.ID);
@@ -256,13 +271,23 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 try
                 {
-                    WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(eform, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
 
+                    string validationErrors = "";
+                    foreach (var failure in (ee as DbEntityValidationException).EntityValidationErrors)
+                    {
+                        foreach (var error in failure.ValidationErrors)
+                            validationErrors += error.PropertyName + "  " + error.ErrorMessage;
+                        validationErrors += "\n";
+                    }
+                    WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(e_Forms, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
+                    WebApiApplication.log.Error(validationErrors);
                 }
-                catch (Exception eee)
+                catch (Exception)
                 {
+                    WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(e_Forms, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
 
                 }
+
                 return Ok(new ResponseClass() { success = false });
             }
         }
@@ -315,8 +340,26 @@ namespace IAUBackEnd.Admin.Controllers
             }
             catch (Exception ee)
             {
-                WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(eform, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
-                return Ok(new ResponseClass() { success = false, result = ee });
+                try
+                {
+
+                    string validationErrors = "";
+                    foreach (var failure in (ee as DbEntityValidationException).EntityValidationErrors)
+                    {
+                        foreach (var error in failure.ValidationErrors)
+                            validationErrors += error.PropertyName + "  " + error.ErrorMessage;
+                        validationErrors += "\n";
+                    }
+                    WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(e_Forms, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
+                    WebApiApplication.log.Error(validationErrors);
+                }
+                catch (Exception)
+                {
+                    WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(e_Forms, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
+
+                }
+                return Ok(new ResponseClass() { success = false });
+
             }
         }
 

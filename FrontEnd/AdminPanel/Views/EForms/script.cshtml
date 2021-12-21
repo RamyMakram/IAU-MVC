@@ -88,7 +88,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-													<input class="form-control" type="text" name="ARName" required />
+													<input class="form-control" type="text" name="ARName" required  maxlength="150"/>
 												</div>
 
 												<div class="form-group">
@@ -106,7 +106,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-													<input class="form-control" type="text" name="ENName" required />
+													<input class="form-control" type="text" name="ENName" required  maxlength="150"/>
 												</div>
 												<div class="form-group">
 													<label for="PlaceHolderEN" class="control-label">@(isar? "الشرح بالانجليزي" : "EN PlaceHolder")</label>
@@ -130,7 +130,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
-													<input class="form-control" type="text" name="ARName"  required />
+													<input class="form-control" type="text" name="ARName"  required  maxlength="150"/>
 												</div>
 												<div class="form-group  requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: row-reverse;margin: 23px 0;">
 													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
@@ -140,7 +140,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-													<input class="form-control" type="text" name="ENName" required  />
+													<input class="form-control" type="text" name="ENName" required  maxlength="150" />
 												</div>
 											</div>
 											<div class="col-12">
@@ -154,13 +154,13 @@
 																</div>
 																<div class="form-group" style="width: 100%;">
 																	<label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
-																	<input class="form-control ar-item" type="text" name="ARName" required  />
+																	<input class="form-control ar-item" type="text" name="ARName" required maxlength="50" />
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-																	<input class="form-control en-item" type="text" name="ENName"  required />
+																	<input class="form-control en-item" type="text" name="ENName"  required  maxlength="50"/>
 																</div>
 															</div>
 														</div>
@@ -181,7 +181,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
-													<input class="form-control" type="text" name="ARName"  required />
+													<input class="form-control" type="text" name="ARName"  required  maxlength="150"/>
 												</div>
 												<div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
 													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar? "مطلوب" : "Required")</label>
@@ -191,7 +191,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-													<input class="form-control" type="text" name="ENName"  required />
+													<input class="form-control" type="text" name="ENName"  required  maxlength="150"/>
 												</div>
 											</div>
 											<div class="col-12">
@@ -205,13 +205,13 @@
 																</div>
 																<div class="form-group" style="width: 100%;">
 																	<label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
-																	<input class="form-control ar-item" type="text" name="ARName" required  />
+																	<input class="form-control ar-item" type="text" name="ARName" required  maxlength="50" />
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-																	<input class="form-control en-item" type="text" name="ENName" required  />
+																	<input class="form-control en-item" type="text" name="ENName" required  maxlength="50" />
 																</div>
 															</div>
 														</div>
@@ -232,7 +232,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-													<input class="form-control" type="text" name="ARName" required />
+													<input class="form-control" type="text" name="ARName" required  maxlength="150"/>
 												</div>
 												<div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
 													<label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
@@ -242,7 +242,7 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-													<input class="form-control" type="text" name="ENName"  required />
+													<input class="form-control" type="text" name="ENName"  required  maxlength="150"/>
 												</div>
 											</div>
 										</fieldset>
@@ -274,13 +274,13 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-													<input class="form-control" type="text" name="ARName" required  />
+													<input class="form-control" type="text" name="ARName" required  maxlength="150" />
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-													<input class="form-control" type="text" name="ENName" required  />
+													<input class="form-control" type="text" name="ENName" required   maxlength="150"/>
 												</div>
 											</div>
 										</fieldset>
@@ -297,13 +297,13 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-													<input class="form-control" type="text" name="ARName"  required />
+													<input class="form-control" type="text" name="ARName"  required  maxlength="150"/>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-													<input class="form-control" type="text" name="ENName"  required />
+													<input class="form-control" type="text" name="ENName"  required  maxlength="150"/>
 												</div>
 											</div>
 
