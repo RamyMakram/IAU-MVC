@@ -17,6 +17,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Net.Http.Headers;
+using System.Data.Entity.Core.Objects;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -61,8 +62,8 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var date = Helper.GetDate();
-                var data = p.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate > date);
+                var date = Helper.GetDate().AddDays(1);
+                var data = p.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
@@ -89,8 +90,8 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var date = Helper.GetDate();
-                var data = p.Users.Include(q => q.Job.Job_Permissions.Select(s => s.Privilage)).Include(Q => Q.Units).FirstOrDefault(q => q.User_ID == id && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate > date);
+                var date = Helper.GetDate().AddDays(1);
+                var data = p.Users.Include(q => q.Job.Job_Permissions.Select(s => s.Privilage)).Include(Q => Q.Units).FirstOrDefault(q => q.User_ID == id && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date);
                 if (data == null)
                     return Ok(new ResponseClass
                     {

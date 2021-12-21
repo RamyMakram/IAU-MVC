@@ -199,6 +199,7 @@
     </Compile>
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Helper\Helper.cs" />
     <Compile Include="Models\PagesPriviliges.cs" />
     <Compile Include="Models\Privilges.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
