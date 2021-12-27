@@ -100,6 +100,7 @@ $(document).ready(function () {
                 else {
                     FilterAppType(true);
                 }
+                $('#Affiliated').val("1");
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
             },
             error: function () {
