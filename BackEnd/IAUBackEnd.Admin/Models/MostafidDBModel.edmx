@@ -205,6 +205,15 @@
           <Property Name="SignDate" Type="datetime" />
           <Property Name="PersonEform" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Preview_TableCols">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EFormAnswareID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_En" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Privilage">
           <Key>
             <PropertyRef Name="ID" />
@@ -229,6 +238,7 @@
           <Property Name="Requird" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="RefTo" Type="nvarchar" MaxLength="50" />
+          <Property Name="TableRowsNum" Type="int" />
           <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Radio_Type">
@@ -377,6 +387,25 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Table_Columns">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name_En" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tables_Answare">
+          <Key>
+            <PropertyRef Name="Row" />
+            <PropertyRef Name="Column" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Row" Type="int" Nullable="false" />
+          <Property Name="Column" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Title_Middle_Names">
           <Key>
@@ -762,6 +791,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Preview_TableCols_E-Forms_Answer">
+          <End Role="E-Forms_Answer" Type="Self.E-Forms_Answer" Multiplicity="1" />
+          <End Role="Preview_TableCols" Type="Self.Preview_TableCols" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E-Forms_Answer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Preview_TableCols">
+              <PropertyRef Name="EFormAnswareID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Privilage_Privilage">
           <End Role="Privilage" Type="Self.Privilage" Multiplicity="0..1" />
           <End Role="Privilage1" Type="Self.Privilage" Multiplicity="*" />
@@ -1032,6 +1073,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_Columns_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Table_Columns" Type="Self.Table_Columns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Table_Columns">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tables_Answare_Preview_TableCols">
+          <End Role="Preview_TableCols" Type="Self.Preview_TableCols" Multiplicity="1" />
+          <End Role="Tables_Answare" Type="Self.Tables_Answare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Preview_TableCols">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tables_Answare">
+              <PropertyRef Name="Column" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Unit_Signature_Units">
           <End Role="Units" Type="Self.Units" Multiplicity="1" />
           <End Role="Unit_Signature" Type="Self.Unit_Signature" Multiplicity="0..1" />
@@ -1291,6 +1358,7 @@
           <EntitySet Name="Person_Eform" EntityType="Self.Person_Eform" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preview_EformApproval" EntityType="Self.Preview_EformApproval" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Preview_TableCols" EntityType="Self.Preview_TableCols" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Radio_Type" EntityType="Self.Radio_Type" Schema="dbo" store:Type="Tables" />
@@ -1306,6 +1374,8 @@
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_Columns" EntityType="Self.Table_Columns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tables_Answare" EntityType="Self.Tables_Answare" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Unit_Signature" EntityType="Self.Unit_Signature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitLevel" EntityType="Self.UnitLevel" Schema="dbo" store:Type="Tables" />
@@ -1405,6 +1475,10 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
           </AssociationSet>
+          <AssociationSet Name="FK_Preview_TableCols_E-Forms_Answer" Association="Self.FK_Preview_TableCols_E-Forms_Answer">
+            <End Role="E-Forms_Answer" EntitySet="E-Forms_Answer" />
+            <End Role="Preview_TableCols" EntitySet="Preview_TableCols" />
+          </AssociationSet>
           <AssociationSet Name="FK_Privilage_Privilage" Association="Self.FK_Privilage_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Privilage1" EntitySet="Privilage" />
@@ -1492,6 +1566,14 @@
           <AssociationSet Name="FK_Sub_Services_Main_Services" Association="Self.FK_Sub_Services_Main_Services">
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_Columns_Question" Association="Self.FK_Table_Columns_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Table_Columns" EntitySet="Table_Columns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tables_Answare_Preview_TableCols" Association="Self.FK_Tables_Answare_Preview_TableCols">
+            <End Role="Preview_TableCols" EntitySet="Preview_TableCols" />
+            <End Role="Tables_Answare" EntitySet="Tables_Answare" />
           </AssociationSet>
           <AssociationSet Name="FK_Unit_Signature_Units" Association="Self.FK_Unit_Signature_Units">
             <End Role="Units" EntitySet="Units" />
@@ -1597,6 +1679,7 @@
           <EntitySet Name="Person_Eform" EntityType="MostafidDBModel.Person_Eform" />
           <EntitySet Name="Personel_Data" EntityType="MostafidDBModel.Personel_Data" />
           <EntitySet Name="Preview_EformApproval" EntityType="MostafidDBModel.Preview_EformApproval" />
+          <EntitySet Name="Preview_TableCols" EntityType="MostafidDBModel.Preview_TableCols" />
           <EntitySet Name="Privilage" EntityType="MostafidDBModel.Privilage" />
           <EntitySet Name="Question" EntityType="MostafidDBModel.Question" />
           <EntitySet Name="Radio_Type" EntityType="MostafidDBModel.Radio_Type" />
@@ -1612,6 +1695,8 @@
           <EntitySet Name="Service_Type" EntityType="MostafidDBModel.Service_Type" />
           <EntitySet Name="Sub_Services" EntityType="MostafidDBModel.Sub_Services" />
           <EntitySet Name="sysdiagrams" EntityType="MostafidDBModel.sysdiagrams" />
+          <EntitySet Name="Table_Columns" EntityType="MostafidDBModel.Table_Columns" />
+          <EntitySet Name="Tables_Answare" EntityType="MostafidDBModel.Tables_Answare" />
           <EntitySet Name="Title_Middle_Names" EntityType="MostafidDBModel.Title_Middle_Names" />
           <EntitySet Name="Unit_Signature" EntityType="MostafidDBModel.Unit_Signature" />
           <EntitySet Name="UnitLevel" EntityType="MostafidDBModel.UnitLevel" />
@@ -1687,6 +1772,10 @@
             <End Role="Question" EntitySet="Question" />
             <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
           </AssociationSet>
+          <AssociationSet Name="FK_Preview_TableCols_E_Forms_Answer" Association="MostafidDBModel.FK_Preview_TableCols_E_Forms_Answer">
+            <End Role="E_Forms_Answer" EntitySet="E_Forms_Answer" />
+            <End Role="Preview_TableCols" EntitySet="Preview_TableCols" />
+          </AssociationSet>
           <AssociationSet Name="FK_Request_Log_Employee" Association="MostafidDBModel.FK_Request_Log_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Request_Log" EntitySet="Request_Log" />
@@ -1759,6 +1848,10 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Preview_EformApproval" EntitySet="Preview_EformApproval" />
           </AssociationSet>
+          <AssociationSet Name="FK_Tables_Answare_Preview_TableCols" Association="MostafidDBModel.FK_Tables_Answare_Preview_TableCols">
+            <End Role="Preview_TableCols" EntitySet="Preview_TableCols" />
+            <End Role="Tables_Answare" EntitySet="Tables_Answare" />
+          </AssociationSet>
           <AssociationSet Name="FK_Privilage_Privilage" Association="MostafidDBModel.FK_Privilage_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Privilage1" EntitySet="Privilage" />
@@ -1774,6 +1867,10 @@
           <AssociationSet Name="FK_Separator_Question" Association="MostafidDBModel.FK_Separator_Question">
             <End Role="Question" EntitySet="Question" />
             <End Role="Separator" EntitySet="Separator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_Columns_Question" Association="MostafidDBModel.FK_Table_Columns_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="Table_Columns" EntitySet="Table_Columns" />
           </AssociationSet>
           <AssociationSet Name="FK_Request_Data_Request_State" Association="MostafidDBModel.FK_Request_Data_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
@@ -1973,6 +2070,7 @@
           <Property Name="Name_En" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_E_Forms_Answer_Person_Eform" FromRole="E_Forms_Answer" ToRole="Person_Eform" />
           <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
+          <NavigationProperty Name="Preview_TableCols" Relationship="MostafidDBModel.FK_Preview_TableCols_E_Forms_Answer" FromRole="E_Forms_Answer" ToRole="Preview_TableCols" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -2124,6 +2222,17 @@
           <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_Preview_EformApproval_Person_Eform" FromRole="Preview_EformApproval" ToRole="Person_Eform" />
           <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Preview_EformApproval_Units" FromRole="Preview_EformApproval" ToRole="Units" />
         </EntityType>
+        <EntityType Name="Preview_TableCols">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EFormAnswareID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_En" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_Preview_TableCols_E_Forms_Answer" FromRole="Preview_TableCols" ToRole="E_Forms_Answer" />
+          <NavigationProperty Name="Tables_Answare" Relationship="MostafidDBModel.FK_Tables_Answare_Preview_TableCols" FromRole="Preview_TableCols" ToRole="Tables_Answare" />
+        </EntityType>
         <EntityType Name="Privilage">
           <Key>
             <PropertyRef Name="ID" />
@@ -2153,6 +2262,7 @@
           <Property Name="Requird" Type="Boolean" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="RefTo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TableRowsNum" Type="Int32" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CheckBox_Type" Relationship="MostafidDBModel.FK_CheckBox_Type_Question" FromRole="Question" ToRole="CheckBox_Type" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
@@ -2161,6 +2271,7 @@
           <NavigationProperty Name="Paragraph" Relationship="MostafidDBModel.FK_Paragraph_Question" FromRole="Question" ToRole="Paragraph" />
           <NavigationProperty Name="Radio_Type" Relationship="MostafidDBModel.FK_Radio_Type_Question" FromRole="Question" ToRole="Radio_Type" />
           <NavigationProperty Name="Separator" Relationship="MostafidDBModel.FK_Separator_Question" FromRole="Question" ToRole="Separator" />
+          <NavigationProperty Name="Table_Columns" Relationship="MostafidDBModel.FK_Table_Columns_Question" FromRole="Question" ToRole="Table_Columns" />
         </EntityType>
         <EntityType Name="Radio_Type">
           <Key>
@@ -2346,6 +2457,27 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Table_Columns">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name_En" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Table_Columns_Question" FromRole="Table_Columns" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Tables_Answare">
+          <Key>
+            <PropertyRef Name="Row" />
+            <PropertyRef Name="Column" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Row" Type="Int32" Nullable="false" />
+          <Property Name="Column" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Preview_TableCols" Relationship="MostafidDBModel.FK_Tables_Answare_Preview_TableCols" FromRole="Tables_Answare" ToRole="Preview_TableCols" />
         </EntityType>
         <EntityType Name="Title_Middle_Names">
           <Key>
@@ -2691,6 +2823,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Preview_TableCols_E_Forms_Answer">
+          <End Type="MostafidDBModel.E_Forms_Answer" Role="E_Forms_Answer" Multiplicity="1" />
+          <End Type="MostafidDBModel.Preview_TableCols" Role="Preview_TableCols" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E_Forms_Answer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Preview_TableCols">
+              <PropertyRef Name="EFormAnswareID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Request_Log_Employee">
           <End Type="MostafidDBModel.Employee" Role="Employee" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Request_Log" Role="Request_Log" Multiplicity="*" />
@@ -2911,6 +3055,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tables_Answare_Preview_TableCols">
+          <End Type="MostafidDBModel.Preview_TableCols" Role="Preview_TableCols" Multiplicity="1" />
+          <End Type="MostafidDBModel.Tables_Answare" Role="Tables_Answare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Preview_TableCols">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tables_Answare">
+              <PropertyRef Name="Column" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Privilage_Privilage">
           <End Type="MostafidDBModel.Privilage" Role="Privilage" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Privilage" Role="Privilage1" Multiplicity="*" />
@@ -2959,6 +3115,20 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Separator">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_Columns_Question">
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDBModel.Table_Columns" Role="Table_Columns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Table_Columns">
               <PropertyRef Name="QuestionID" />
             </Dependent>
           </ReferentialConstraint>
@@ -3498,6 +3668,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Preview_TableCols">
+            <EntityTypeMapping TypeName="MostafidDBModel.Preview_TableCols">
+              <MappingFragment StoreEntitySet="Preview_TableCols">
+                <ScalarProperty Name="Name_En" ColumnName="Name_En" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EFormAnswareID" ColumnName="EFormAnswareID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Privilage">
             <EntityTypeMapping TypeName="MostafidDBModel.Privilage">
               <MappingFragment StoreEntitySet="Privilage">
@@ -3514,6 +3694,7 @@
             <EntityTypeMapping TypeName="MostafidDBModel.Question">
               <MappingFragment StoreEntitySet="Question">
                 <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="TableRowsNum" ColumnName="TableRowsNum" />
                 <ScalarProperty Name="RefTo" ColumnName="RefTo" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="Requird" ColumnName="Requird" />
@@ -3683,6 +3864,26 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_Columns">
+            <EntityTypeMapping TypeName="MostafidDBModel.Table_Columns">
+              <MappingFragment StoreEntitySet="Table_Columns">
+                <ScalarProperty Name="Name_En" ColumnName="Name_En" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tables_Answare">
+            <EntityTypeMapping TypeName="MostafidDBModel.Tables_Answare">
+              <MappingFragment StoreEntitySet="Tables_Answare">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Column" ColumnName="Column" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

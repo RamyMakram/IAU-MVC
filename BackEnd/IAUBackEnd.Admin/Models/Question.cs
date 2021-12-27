@@ -20,6 +20,7 @@ namespace IAUBackEnd.Admin.Models
             this.CheckBox_Type = new HashSet<CheckBox_Type>();
             this.E_Forms_Answer = new HashSet<E_Forms_Answer>();
             this.Radio_Type = new HashSet<Radio_Type>();
+            this.Table_Columns = new HashSet<Table_Columns>();
         }
     
         public int ID { get; set; }
@@ -31,6 +32,7 @@ namespace IAUBackEnd.Admin.Models
         public bool Requird { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string RefTo { get; set; }
+        public Nullable<int> TableRowsNum { get; set; }
         public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -43,5 +45,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Radio_Type> Radio_Type { get; set; }
         public virtual Separator Separator { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Table_Columns> Table_Columns { get; set; }
     }
 }
