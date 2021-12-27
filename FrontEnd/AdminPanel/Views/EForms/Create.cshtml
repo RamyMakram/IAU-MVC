@@ -62,7 +62,7 @@
     var count = 1;
 }
 <div class="row">
-    @using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data", @class = "w-100",id= "Eform-change-form" }))
+    @using (Html.BeginForm("Create", "EForms", new { SubService = Request.QueryString["SubService"] }, FormMethod.Post, new { encType = "multipart/form-data", @class = "w-100", id = "Eform-change-form" }))
     {
         <div class="col-12">
             <div class="card">
@@ -469,6 +469,7 @@
                                         <option value="4">@(isar?"فاصل":"Separator")</option>
                                         <option value="5">@(isar?"عنوان":"Title")</option>
                                         <option value="7">@(isar?"نص":"Text")</option>
+                                        <option value="8">@(isar?"جدول":"Table")</option>
                                     </optgroup>
                                 </select>
                                 <button class="btn btn-circle mx-1" style="top:0!important;color:green" id="addComponent" type="button"><i class="fas fa-plus-circle"></i></button>
@@ -573,6 +574,22 @@
                             var Ref = $('[name="ReferenceToField"]', $(i)).val()
                             var index = $("#order", $(i)).val();
                             QTY.push({ Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
+                            break;
+                        case "G":
+                            var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                            var En = $('input.form-control[name="ENName"]', $(i)).val();
+                            var index = $("#order", $(i)).val();
+                            var NRows = $('input.form-control[name="NRows"]', $(i)).val()
+                            var Columns = [];
+                            rows = $('[data-repeater-item]', $(i));
+                            ([...rows]).forEach(e => {
+                                let Name = $('.ar-item', $(e)).val();
+                                let Name_EN = $('.en-item', $(e)).val();
+                                if (Name != "" && Name_EN != "")
+                                    Columns.push({ Name, Name_EN })
+                            })
+                            if (Columns.length != 0)
+                                QTY.push({ Name: Ar, Name_En: En, NRows, T: type, Columns, Index_Order: index })
                             break;
                     }
                 })
