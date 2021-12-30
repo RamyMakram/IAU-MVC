@@ -24,6 +24,7 @@ namespace IAUAdmin.DTO.Entity
         public string Name { get; set; }
         public string Name_En { get; set; }
         public System.DateTime? FillDate { get; set; }
+        public ICollection<Preview_TableCols> Preview_TableCols { get; set; }
 
         public virtual PersonalDataDTO Personel_Data { get; set; }
         public virtual Question Question { get; set; }

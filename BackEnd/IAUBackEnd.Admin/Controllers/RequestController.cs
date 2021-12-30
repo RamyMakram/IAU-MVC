@@ -354,6 +354,7 @@ namespace IAUBackEnd.Admin.Controllers
                                 Inser_Qty.Type = i.Type;
                                 Inser_Qty.Value = "";
                                 Inser_Qty.Value_En = "";
+                                Inser_Qty.Index_Order = i.Index_Order;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
                             else if (i.Type == "P")
@@ -365,6 +366,7 @@ namespace IAUBackEnd.Admin.Controllers
                                 Inser_Qty.Type = i.Type;
                                 Inser_Qty.Value = "";
                                 Inser_Qty.Value_En = "";
+                                Inser_Qty.Index_Order = i.Index_Order;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
                             else if (i.Type == "T")
@@ -376,17 +378,19 @@ namespace IAUBackEnd.Admin.Controllers
                                 Inser_Qty.Value = "";
                                 Inser_Qty.Value_En = "";
                                 Inser_Qty.Type = i.Type;
+                                Inser_Qty.Index_Order = i.Index_Order;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
                             else if(i.Type == "G")
                             {
-                                Inser_Qty = new Models.E_Forms_Answer();
+                                //Inser_Qty = new Models.E_Forms_Answer();
                                 Inser_Qty.Name = i.LableName;
                                 Inser_Qty.Name_En = i.LableName_EN;
                                 Inser_Qty.FillDate = Helper.GetDate();
                                 Inser_Qty.Value = "";
                                 Inser_Qty.Value_En = "";
                                 Inser_Qty.Type = i.Type;
+                                Inser_Qty.Index_Order = i.Index_Order;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
                             else if (Inser_Qty != null || (Inser_Qty == null && !i.Requird))
@@ -395,6 +399,7 @@ namespace IAUBackEnd.Admin.Controllers
                                 Inser_Qty.Name_En = i.LableName_EN;
                                 Inser_Qty.FillDate = Helper.GetDate();
                                 Inser_Qty.Type = i.Type;
+                                Inser_Qty.Index_Order = i.Index_Order;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
                             else

@@ -41,7 +41,7 @@ namespace IAUBackEnd.Admin.Controllers
                         q.Person_ID,
                         q.FillDate,
                         q.Code,
-                        E_Forms_Answer = q.E_Forms_Answer.Select(s => new { s.ID, s.Question_ID, s.EForm_ID, s.FillDate, s.Name, s.Name_En, T = s.Type, s.Value, s.Value_En }),
+                        E_Forms_Answer = q.E_Forms_Answer.Select(s => new { s.ID, s.Question_ID, s.EForm_ID, s.FillDate, s.Name, s.Name_En, T = s.Type, s.Value, s.Value_En, Preview_TableCols = s.Preview_TableCols.Select(d => new { d.Name, d.Name_En, d.Tables_Answare }), s.Index_Order }).OrderBy(r => r.Index_Order),
                         Eform_Approval = q.Preview_EformApproval.Select(s => new { AR = s.Name, EN = s.Name_En, s.UnitID, s.OwnEform, s.SignDate }),
                     }).FirstOrDefaultAsync();
 
@@ -179,7 +179,7 @@ namespace IAUBackEnd.Admin.Controllers
                         quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
                     else
                     {
-                        quest = p.Question.Include(q => q.Paragraph).Include(q => q.Separator).Include(q => q.Input_Type).Include(q => q.Radio_Type).Include(q => q.CheckBox_Type).Include(q=>q.Table_Columns).FirstOrDefault(q => q.ID == i.ID);
+                        quest = p.Question.Include(q => q.Paragraph).Include(q => q.Separator).Include(q => q.Input_Type).Include(q => q.Radio_Type).Include(q => q.CheckBox_Type).Include(q => q.Table_Columns).FirstOrDefault(q => q.ID == i.ID);
                         if (quest == null)
                             quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
                         else
