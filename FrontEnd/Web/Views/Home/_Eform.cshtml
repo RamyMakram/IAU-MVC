@@ -439,6 +439,39 @@
                                         </p>
                                     </div>
                                     break;
+                                case "G":
+                                    <div class="col-12" data-id="@qty.T-@qty.ID" data-name="@qty.Name-@qty.Name_EN" data-required="@qty.Requird">
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
+                                            <label class="ar-qty-head">@qty.Name</label>
+                                        </p>
+                                        <p style="margin-bottom: 0px; width: 100%; text-align: start; color: var(--main-btn-color); direction: rtl">
+                                            <label class="en-qty-head">@qty.Name_EN</label>
+                                        </p>
+                                        <table class="w-100 table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    @foreach (var i in qty.Columns)
+                                                    {
+                                                        <th data-val="@i.Name-@i.Name_En">@i.Name <br /> @i.Name_En</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < qty.NRows; i++)
+                                                {
+                                                    <tr>
+                                                        @foreach (var col in qty.Columns)
+                                                        {
+                                                            <td style="display:table-cell !important;width:auto !important">
+                                                                <input class="form-control" />
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    break;
                                 default:
                                     break;
                             }

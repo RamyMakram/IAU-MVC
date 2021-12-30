@@ -378,6 +378,17 @@ namespace IAUBackEnd.Admin.Controllers
                                 Inser_Qty.Type = i.Type;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
+                            else if(i.Type == "G")
+                            {
+                                Inser_Qty = new Models.E_Forms_Answer();
+                                Inser_Qty.Name = i.LableName;
+                                Inser_Qty.Name_En = i.LableName_EN;
+                                Inser_Qty.FillDate = Helper.GetDate();
+                                Inser_Qty.Value = "";
+                                Inser_Qty.Value_En = "";
+                                Inser_Qty.Type = i.Type;
+                                Eform_Person.E_Forms_Answer.Add(Inser_Qty);
+                            }
                             else if (Inser_Qty != null || (Inser_Qty == null && !i.Requird))
                             {
                                 Inser_Qty.Name = i.LableName;

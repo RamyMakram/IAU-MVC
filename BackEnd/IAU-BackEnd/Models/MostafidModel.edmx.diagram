@@ -113,6 +113,12 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Units_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Users_Units" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Preview_TableCols" Width="1.5" PointX="20.25" PointY="37.625" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Table_Columns" Width="1.5" PointX="15" PointY="35.875" />
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Tables_Answare" Width="1.5" PointX="22.5" PointY="37.625" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Preview_TableCols_E_Forms_Answer" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Tables_Answare_Preview_TableCols" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Table_Columns_Question" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

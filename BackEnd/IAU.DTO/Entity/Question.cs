@@ -17,11 +17,12 @@ namespace IAU.DTO.Entity
         public int? ID { get; set; }
         public int Index_Order { get; set; }
         public int EForm_ID { get; set; }
-        public string T { get; set; }//I Input,C Check,R Radio,P Paragraph,S Spera,T Title
+        public string T { get; set; }//I Input,C Check,R Radio,P Paragraph,S Spera,T Title,G Grid
         public string Name { get; set; }
         public string Name_EN { get; set; }
         public bool Requird { get; set; }
         public string Ref { get; set; }
+        public Nullable<int> NRows { get; set; }
 
         public System.DateTime CreatedOn { get; set; }
         public bool Active { get; set; }
@@ -32,5 +33,7 @@ namespace IAU.DTO.Entity
         public virtual ParagraphDTO Para { get; set; }
         public virtual ICollection<Radio_Type> Radio { get; set; }
         public virtual SeparatorDTO Sepa { get; set; }
+        public virtual ICollection<Table_Columns> Columns { get; set; }
+
     }
 }

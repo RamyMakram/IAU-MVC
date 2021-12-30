@@ -82,6 +82,7 @@
     <Compile Include="Entity\MainServiceDTO.cs" />
     <Compile Include="Entity\ParagraphDTO.cs" />
     <Compile Include="Entity\PersonalDataDTO.cs" />
+    <Compile Include="Entity\Preview_TableCols.cs" />
     <Compile Include="Entity\Question.cs" />
     <Compile Include="Entity\Radio_Type.cs" />
     <Compile Include="Entity\RegionDTO.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="Entity\SeparatorDTO.cs" />
     <Compile Include="Entity\ServiceTypeDTO.cs" />
     <Compile Include="Entity\SubServicesDTO.cs" />
+    <Compile Include="Entity\Tables_Answare.cs" />
+    <Compile Include="Entity\Table_Columns.cs" />
     <Compile Include="Entity\TitlesDTO.cs" />
     <Compile Include="Entity\UnitsDTO.cs" />
     <Compile Include="Entity\_HomeDTO.cs" />
