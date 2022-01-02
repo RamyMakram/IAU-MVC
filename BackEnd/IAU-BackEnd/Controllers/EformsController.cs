@@ -42,6 +42,14 @@ namespace IAU_BackEnd.Controllers
                               s.Active,
                               Sepa = s.Separator,
                               Para = s.Paragraph,
+                              NRows = s.TableRowsNum,
+                              Columns = s.Table_Columns.Select(d =>
+                                  new
+                                  {
+                                      d.Name,
+                                      d.Name_En,
+                                      d.ID
+                                  }),
                               Radio = s.Radio_Type.Select(e =>
                                  new
                                  {
@@ -97,6 +105,14 @@ namespace IAU_BackEnd.Controllers
                           new
                           {
                               s.ID,
+                              NRows = s.TableRowsNum,
+                              Columns = s.Table_Columns.Select(d =>
+                                  new
+                                  {
+                                      d.Name,
+                                      d.Name_En,
+                                      d.ID
+                                  }),
                               Name = s.LableName,
                               Name_EN = s.LableName_EN,
                               T = s.Type,

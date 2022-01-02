@@ -83,7 +83,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label" for="name">@(isar?"اسم النموذج بالعربي":"Eform Name")</label>
-                                @Html.TextBoxFor(q => q.Name, new { @class = "form-control ar-font", @name = "name", @id = "name", @maxlength = 100,required="true" })
+                                @Html.TextBoxFor(q => q.Name, new { @class = "form-control ar-font", @name = "name", @id = "name", @maxlength = 100, required = "true" })
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="name">@(isar?"كود النموذج":"Eform Code")</label>
@@ -142,7 +142,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)"  maxlength="150" required/>
+                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)" maxlength="150" required />
                                                             </div>
 
                                                             <div class="form-group">
@@ -160,7 +160,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                <input class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)"  maxlength="150" required/>
+                                                                <input class="form-control en-font" type="text" name="ENName" value="@(i.Name_EN)" maxlength="150" required />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="PlaceHolderEN" class="control-label">@(isar? "الشرح بالانجليزي" : "EN PlaceHolder")</label>
@@ -185,7 +185,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
-                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)"  maxlength="150" required/>
+                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)" maxlength="150" required />
                                                             </div>
                                                             <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
                                                                 <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
@@ -196,7 +196,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)"  maxlength="150" required/>
+                                                                <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)" maxlength="150" required />
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
@@ -212,7 +212,7 @@
                                                                                 </div>
                                                                                 <div class="form-group" style="width: 100%;">
                                                                                     <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
-                                                                                    <input class="form-control ar-item" type="text" name="ARName" value="@(choose.Name)" required maxlength="50"/>
+                                                                                    <input class="form-control ar-item" type="text" name="ARName" value="@(choose.Name)" required maxlength="50" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-6">
@@ -223,23 +223,7 @@
                                                                             </div>
                                                                         </div>
                                                                     }
-                                                                    <div data-repeater-item class="row">
-                                                                        <div class="col-md-6" style="display: inline-flex; align-items: center;">
-                                                                            <div>
-                                                                                <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
-                                                                            </div>
-                                                                            <div class="form-group" style="width: 100%;">
-                                                                                <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
-                                                                                <input class="form-control ar-item" type="text" name="ARName" required maxlength="50" />
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                                <input class="form-control en-item" type="text" name="ENName" required maxlength="50" />
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -257,7 +241,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
-                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)" required maxlength="150"/>
+                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)" required maxlength="150" />
                                                             </div>
                                                             <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
                                                                 <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
@@ -268,7 +252,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)" required  maxlength="150"/>
+                                                                <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)" required maxlength="150" />
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
@@ -284,34 +268,18 @@
                                                                                 </div>
                                                                                 <div class="form-group" style="width: 100%;">
                                                                                     <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
-                                                                                    <input class="form-control ar-item" type="text" name="ARName" required value="@(choose.Name)"  maxlength="50"/>
+                                                                                    <input class="form-control ar-item" type="text" name="ARName" required value="@(choose.Name)" maxlength="50" />
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-6">
                                                                                 <div class="form-group">
                                                                                     <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                                    <input class="form-control en-item" type="text" name="ENName" required value="@(choose.Name_EN)"  maxlength="50"/>
+                                                                                    <input class="form-control en-item" type="text" name="ENName" required value="@(choose.Name_EN)" maxlength="50" />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     }
-                                                                    <div data-repeater-item class="row">
-                                                                        <div class="col-md-6" style="display: inline-flex; align-items: center;">
-                                                                            <div>
-                                                                                <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
-                                                                            </div>
-                                                                            <div class="form-group" style="width: 100%;">
-                                                                                <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
-                                                                                <input class="form-control ar-item" type="text" name="ARName"  required maxlength="50"/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            <div class="form-group">
-                                                                                <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                                <input class="form-control en-item" type="text" name="ENName"  required maxlength="50"/>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                  
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -329,7 +297,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)"  required maxlength="150"/>
+                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)" required maxlength="150" />
                                                             </div>
                                                             <div class="form-group requird-ckeck" style="display: inline-flex;align-items: center;flex-direction: column;">
                                                                 <label class="control-label mx-2 my-0" style="font-size: 16px; font-weight: unset;" for="Required">@(isar?"مطلوب":"Required")</label>
@@ -373,13 +341,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)"  required maxlength="150"/>
+                                                                <input class="form-control" type="text" name="ARName" value="@(i.Name)" required maxlength="150" />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)"  required maxlength="150"/>
+                                                                <input class="form-control" type="text" name="ENName" value="@(i.Name_EN)" required maxlength="150" />
                                                             </div>
                                                         </div>
                                                     </fieldset>
@@ -396,13 +364,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-                                                                <input class="form-control" type="text" name="ARName" value="@i.Name"  required maxlength="150"/>
+                                                                <input class="form-control" type="text" name="ARName" value="@i.Name" required maxlength="150" />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
-                                                                <input class="form-control" type="text" name="ENName" value="@i.Name_EN"  required maxlength="150"/>
+                                                                <input class="form-control" type="text" name="ENName" value="@i.Name_EN" required maxlength="150" />
                                                             </div>
                                                         </div>
 
@@ -439,7 +407,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="ARName" class="control-label">@(isar? "النص بالعربي" : "Text")</label>
-                                                                <input class="form-control" name="ARName" value=" @i.Para.Name"  required/>
+                                                                <input class="form-control" name="ARName" value=" @i.Para.Name" required />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -453,10 +421,67 @@
                                             </div>
                                         </div>
                                         break;
+                                    case "G":
+                                        <div data-id="@i.ID" data-type="G">
+                                            <div>
+                                                <div>
+                                                    <fieldset class="row">
+                                                        <legend><button onclick="delte(@i.ID)" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="@i.Index_Order" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "جدول": "Table")</legend>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
+                                                                <input class="form-control" type="text" value="@i.Name" name="ARName" required maxlength="150" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="ARName" class="control-label">@(isar?"عدد الصفوف":"Number Of Rows")</label>
+                                                                <input class="form-control" type="number" name="NRows" required value="@i.NRows" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                <input class="form-control" type="text" value="@i.Name_EN" name="ENName" required maxlength="150" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class='repeater-table'>
+                                                                <h2 class="card-title-desc" style="display: inline-flex; align-items: center;">@(isar? "الاعمدة" : "Columns") <button class="btn btn-circle mx-1" data-repeater-create style="top:0!important;color:green" type="button"><i class="fas fa-plus-circle"></i></button></h2>
+                                                                <div data-repeater-list="group-7">
+                                                                    @foreach (var col in i.Columns)
+                                                                    {
+                                                                        <div data-repeater-item class="row" data-id="@col.ID">
+                                                                            <div class="col-md-6" style="display: inline-flex; align-items: center;">
+                                                                                <div>
+                                                                                    <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+                                                                                </div>
+                                                                                <div class="form-group" style="width: 100%;">
+                                                                                    <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+                                                                                    <input class="form-control ar-item" type="text" value="@col.Name" name="ARName" required maxlength="50" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                                    <input class="form-control en-item" type="text" value="@col.Name_En" name="ENName" required maxlength="50" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        break;
                                     default:
                                         break;
                                 }
                             }
+
 
                         </div>
                         <div class="row" style="display:flex;justify-content:center;align-items:center">
@@ -472,6 +497,7 @@
                                         <option value="4">@(isar?"فاصل":"Separator")</option>
                                         <option value="5">@(isar?"عنوان":"Title")</option>
                                         <option value="7">@(isar?"نص":"Text")</option>
+                                        <option value="8">@(isar?"جدول":"Table")</option>
                                     </optgroup>
                                 </select>
                                 <button class="btn btn-circle mx-1" style="top:0!important;color:green" id="addComponent" type="button"><i class="fas fa-plus-circle"></i></button>
@@ -584,6 +610,24 @@
                         var index = $("#order", $(i)).val();
                         var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
                         QTY.push({ ID, Name: Ar, Name_EN: En, T: type, Ref, Index_Order: index })
+                        break;
+                    case "G":
+                        var Ar = $('input.form-control[name="ARName"]', $(i)).val();
+                        var En = $('input.form-control[name="ENName"]', $(i)).val();
+                        var index = $("#order", $(i)).val();
+                        var NRows = $('input.form-control[name="NRows"]', $(i)).val()
+                        var ID = !$(i).hasClass('created') ? $(i).attr('data-id') : null;
+
+                        var Columns = [];
+                        rows = $('[data-repeater-item]', $(i));
+                        ([...rows]).forEach(e => {
+                            let Name = $('.ar-item', $(e)).val();
+                            let Name_EN = $('.en-item', $(e)).val();
+                            if (Name != "" && Name_EN != "")
+                                Columns.push({ Name, Name_EN })
+                        })
+                        if (Columns.length != 0)
+                            QTY.push({ ID, Name: Ar, Name_En: En, NRows, T: type, Columns, Index_Order: index })
                         break;
                 }
             })

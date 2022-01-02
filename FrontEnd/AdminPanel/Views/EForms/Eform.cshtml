@@ -12,9 +12,11 @@
     :root {
         --main-btn-color: #0a1332 !important;
     }
-    .eform-section{
-        width:100%;
+
+    .eform-section {
+        width: 100%;
     }
+
     .section-eform > div:nth-of-type(1) label {
         font-size: 17px;
     }
@@ -454,6 +456,39 @@
                                         <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:ltr">
                                             <label class="en-qty-head">@qty.Para.Name_En</label>
                                         </p>
+                                    </div>
+                                    break;
+                                case "G":
+                                    <div class="col-12">
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
+                                            <label class="ar-qty-head">@qty.Name</label>
+                                        </p>
+                                        <p style="margin-bottom: 0px; width: 100%; text-align: start; color: var(--main-btn-color); direction: rtl">
+                                            <label class="en-qty-head">@qty.Name_EN</label>
+                                        </p>
+                                        <table class="w-100 table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    @foreach (var i in qty.Columns)
+                                                    {
+                                                        <th>@i.Name <br /> @i.Name_En</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < qty.NRows; i++)
+                                                {
+                                                    <tr>
+                                                        @foreach (var col in qty.Columns)
+                                                        {
+                                                            <td style="display:table-cell !important;width:auto !important">
+                                                                <input class="form-control"/>
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
                                     break;
                                 default:

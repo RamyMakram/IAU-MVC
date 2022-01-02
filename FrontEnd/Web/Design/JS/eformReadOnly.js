@@ -26,6 +26,19 @@
                         })
                         $(`[data-id='${i["T"]}-${i["Question_ID"]}'] div.data-here`, $('#EformReadOnly')).html(html)
                     }
+                    else if (i["T"] == "G") {
+                        let s = $(`[data-id='${i["T"]}-${i["Question_ID"]}']`, $('#EformReadOnly'));
+                        var item = i
+                        let th_arr = ([...$('thead th', $(s))]);
+                        let row = 0;
+                        let count = 0;
+                        ([...$('td', $(s))]).forEach(is => {
+                            $(is).text(item.Preview_TableCols[count % th_arr.length].Tables_Answare.find(q => q.Row == row).Value)
+                            count++;
+                            if (count % th_arr.length == 0)
+                                row++;
+                        })
+                    }
                     else
                         $(`[data-id='${i["T"]}-${i["Question_ID"]}'] label.data-here`, $('#EformReadOnly')).html(language == "ar" ? i["Value"] : i["Value_En"])
                 });

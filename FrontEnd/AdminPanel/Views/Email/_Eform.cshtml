@@ -9,9 +9,11 @@
     :root {
         --main-btn-color: #0a1332 !important;
     }
+
     .section-eform > div:nth-of-type(1) label {
         font-size: 17px;
     }
+
     [data-id].col-md-6 > div > label:nth-of-type(2) {
         max-width: 194px;
         width: 194px !important;
@@ -353,7 +355,7 @@
                                             <label>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /> <label class="en-qty-head">@qty.Name_En</label>
                                             </label>
-                                            <label class="data-here">@(isar? qty.Value:qty.Value_En)</label>
+                                            <label class="data-here">@(isar ? qty.Value : qty.Value_En)</label>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
                                             <hr class="w-100" />
@@ -366,7 +368,7 @@
                                             <label>
                                                 <label class="ar-qty-head">@qty.Name</label> <br /><label class="en-qty-head"> @qty.Name_En</label>
                                             </label>
-                                            <label class="data-here">@(isar? qty.Value:qty.Value_En)</label>
+                                            <label class="data-here">@(isar ? qty.Value : qty.Value_En)</label>
                                         </div>
                                         <div class="row w-100 mt-3 m-0">
                                             <hr class="w-100" />
@@ -428,7 +430,7 @@
                                     </div>
                                     break;
                                 case "S":
-                                    <div class="@(qty.Name.Contains("L")?"Space":"EmptySpace") col-12">
+                                    <div class="@(qty.Name.Contains("L") ? "Space" : "EmptySpace") col-12">
 
                                     </div>
                                     break;
@@ -450,6 +452,43 @@
                                         <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:ltr">
                                             <label class="en-qty-head">@qty.Name_En</label>
                                         </p>
+                                    </div>
+                                    break;
+                                case "G":
+                                    <div class="col-12" data-id="@qty.T-@qty.ID">
+                                        <p style="margin-bottom: 0px;width:100%; text-align: start; color: var(--main-btn-color);direction:rtl">
+                                            <label class="ar-qty-head">@qty.Name</label>
+                                        </p>
+                                        <p style="margin-bottom: 0px; width: 100%; text-align: start; color: var(--main-btn-color); direction: rtl">
+                                            <label class="en-qty-head">@qty.Name_En</label>
+                                        </p>
+                                        <table class="w-100 table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    @foreach (var i in qty.Preview_TableCols)
+                                                    {
+                                                        <th data-val="@i.Name-@i.Name_En">@i.Name <br /> @i.Name_En</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int row = qty.Preview_TableCols.ElementAt(0).Tables_Answare.Count, column = qty.Preview_TableCols.Count;
+
+                                                    for (int i = 0; i < row; i++)
+                                                    {
+                                                        <tr>
+                                                            @for (int h = 0; h < column; h++)
+                                                            {
+                                                                <td style="display:table-cell !important;width:auto !important">
+                                                                    @qty.Preview_TableCols.ElementAt(h).Tables_Answare.FirstOrDefault(q => q.Row == i).Value
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
                                     break;
                                 default:

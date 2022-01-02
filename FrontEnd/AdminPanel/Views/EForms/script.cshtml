@@ -352,6 +352,58 @@
 									</div>
 								</div>
 							</div>`
+			case 8:
+				return `
+						 <div data-id="${_id}"class="created" data-type="G">
+                                <div>
+                                    <div>
+                                        <fieldset class="row">
+                                            <legend><button onclick="delte(${_id})" type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button><input type="number" value="${_id}" id="order" class="form-control" style="width: 86px;margin: 0 7px"> @(isar? "جدول": "Table")</legend>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="ARName" class="control-label">@(isar?"النص المعروض":"Text")</label>
+                                                    <input class="form-control" type="text" name="ARName" required maxlength="150" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="ARName" class="control-label">@(isar?"عدد الصفوف":"Number Of Rows")</label>
+                                                    <input class="form-control" type="number" name="NRows" required value="0" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                    <input class="form-control" type="text" name="ENName"  required maxlength="150" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class='repeater-table'>
+                                                    <h2 class="card-title-desc" style="display: inline-flex; align-items: center;">@(isar? "الاعمدة" : "Columns") <button class="btn btn-circle mx-1" data-repeater-create style="top:0!important;color:green" type="button"><i class="fas fa-plus-circle"></i></button></h2>
+                                                    <div data-repeater-list="group-7">
+                                                        <div data-repeater-item class="row">
+                                                            <div class="col-md-6" style="display: inline-flex; align-items: center;">
+                                                                <div>
+                                                                    <button data-repeater-delete type="button" class="btn btn-danger mx-2"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                                <div class="form-group" style="width: 100%;">
+                                                                    <label for="ARName" class="control-label">@(isar? "النص المعروض" : "Text")</label>
+                                                                    <input class="form-control ar-item" type="text" name="ARName" required maxlength="50" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="ENName" class="control-label">@(isar? "النص بالانجليزي" : "En Text")</label>
+                                                                    <input class="form-control en-item" type="text" name="ENName" required maxlength="50" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+`
 		}
 	}
 	document.getElementById("addComponent").addEventListener('click',
@@ -421,7 +473,7 @@
 			},
 	isFirstItemUndeletable: false
 		};
-		$('.repeater-radio,.repeater-check').repeater(setting)
+        $('.repeater-radio,.repeater-check,.repeater-table').repeater(setting)
 	}
 	$(document).ready(function () {
 		reStartHandelr();

@@ -14,6 +14,12 @@ namespace IAU_BackEnd.Models
     
     public partial class E_Forms_Answer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public E_Forms_Answer()
+        {
+            this.Preview_TableCols = new HashSet<Preview_TableCols>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> Question_ID { get; set; }
         public Nullable<int> EForm_ID { get; set; }
@@ -26,5 +32,7 @@ namespace IAU_BackEnd.Models
     
         public virtual Person_Eform Person_Eform { get; set; }
         public virtual Question Question { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Preview_TableCols> Preview_TableCols { get; set; }
     }
 }

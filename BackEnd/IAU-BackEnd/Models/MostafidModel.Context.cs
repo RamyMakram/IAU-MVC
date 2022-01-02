@@ -70,5 +70,8 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
+        public virtual DbSet<Preview_TableCols> Preview_TableCols { get; set; }
+        public virtual DbSet<Table_Columns> Table_Columns { get; set; }
+        public virtual DbSet<Tables_Answare> Tables_Answare { get; set; }
     }
 }

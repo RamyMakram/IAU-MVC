@@ -41,7 +41,7 @@ namespace IAUBackEnd.Admin.Controllers
                         q.Person_ID,
                         q.FillDate,
                         q.Code,
-                        E_Forms_Answer = q.E_Forms_Answer.Select(s => new { s.ID, s.Question_ID, s.EForm_ID, s.FillDate, s.Name, s.Name_En, T = s.Type, s.Value, s.Value_En }),
+                        E_Forms_Answer = q.E_Forms_Answer.Select(s => new { s.ID, s.Question_ID, s.EForm_ID, s.FillDate, s.Name, s.Name_En, T = s.Type, s.Value, s.Value_En, Preview_TableCols = s.Preview_TableCols.Select(d => new { d.Name, d.Name_En, d.Tables_Answare }), s.Index_Order }).OrderBy(r => r.Index_Order),
                         Eform_Approval = q.Preview_EformApproval.Select(s => new { AR = s.Name, EN = s.Name_En, s.UnitID, s.OwnEform, s.SignDate }),
                     }).FirstOrDefaultAsync();
 
@@ -86,6 +86,14 @@ namespace IAUBackEnd.Admin.Controllers
                             s.Active,
                             Sepa = s.Separator,
                             Para = s.Paragraph,
+                            NRows = s.TableRowsNum,
+                            Columns = s.Table_Columns.Select(d =>
+                                new
+                                {
+                                    d.Name,
+                                    d.Name_En,
+                                    d.ID
+                                }),
                             Radio = s.Radio_Type.Select(e =>
                                new
                                {
@@ -136,12 +144,12 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 p.Entry(e_Forms).State = EntityState.Modified;
                 await p.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true});
+                return Ok(new ResponseClass() { success = true });
 
             }
             catch (Exception ee)
             {
-                return Ok(new ResponseClass() { success = false,result=ee });
+                return Ok(new ResponseClass() { success = false, result = ee });
             }
         }
         public async Task<IHttpActionResult> Update(E_FormsDTO e_Forms)
@@ -171,7 +179,7 @@ namespace IAUBackEnd.Admin.Controllers
                         quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
                     else
                     {
-                        quest = p.Question.Include(q => q.Paragraph).Include(q => q.Separator).Include(q => q.Input_Type).Include(q => q.Radio_Type).Include(q => q.CheckBox_Type).FirstOrDefault(q => q.ID == i.ID);
+                        quest = p.Question.Include(q => q.Paragraph).Include(q => q.Separator).Include(q => q.Input_Type).Include(q => q.Radio_Type).Include(q => q.CheckBox_Type).Include(q => q.Table_Columns).FirstOrDefault(q => q.ID == i.ID);
                         if (quest == null)
                             quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
                         else
@@ -202,41 +210,13 @@ namespace IAUBackEnd.Admin.Controllers
                             if (!newItem)
                                 p.Radio_Type.RemoveRange(quest.Radio_Type.ToList());
                             foreach (var r in i.Radio)//If New Insert All
-                            {
-                                //if (newItem || r.ID == null)
                                 quest.Radio_Type.Add(new Models.Radio_Type { Name = r.Name, Name_EN = r.Name_EN });
-                                //else
-                                //{
-                                //    var rad = p.Radio_Type.FirstOrDefault(q => q.ID == r.ID);
-                                //    if (rad == null)
-                                //        quest.Radio_Type.Add(new Models.Radio_Type { Name = r.Name, Name_EN = r.Name_EN });
-                                //    else
-                                //    {
-                                //        rad.Name = r.Name;
-                                //        rad.Name_EN = r.Name_EN;
-                                //    }
-                                //}
-                            }
                             break;
                         case "C":
                             if (!newItem)
                                 p.CheckBox_Type.RemoveRange(quest.CheckBox_Type.ToList());
                             foreach (var c in i.Check)
-                            {
-                                //if (newItem || c.ID == null)
                                 quest.CheckBox_Type.Add(new Models.CheckBox_Type { Name = c.Name, Name_EN = c.Name_EN });
-                                //else
-                                //{
-                                //    var check = p.CheckBox_Type.FirstOrDefault(q => q.ID == c.ID);
-                                //    if (check == null)
-                                //        quest.CheckBox_Type.Add(new Models.CheckBox_Type { Name = c.Name, Name_EN = c.Name_EN });
-                                //    else
-                                //    {
-                                //        check.Name = c.Name;
-                                //        check.Name_EN = c.Name_EN;
-                                //    }
-                                //}
-                            }
                             break;
                         case "P":
                             if (newItem)
@@ -257,6 +237,13 @@ namespace IAUBackEnd.Admin.Controllers
                             break;
                         case "E":
                             quest.RefTo = i.Ref;
+                            break;
+                        case "G":
+                            if (!newItem)
+                                p.Table_Columns.RemoveRange(quest.Table_Columns.ToList());
+                            quest.TableRowsNum = i.NRows;
+                            foreach (var r in i.Columns)//If New Insert All
+                                quest.Table_Columns.Add(new Models.Table_Columns { Name = r.Name, Name_En = r.Name_En });
                             break;
 
                     }
@@ -329,7 +316,11 @@ namespace IAUBackEnd.Admin.Controllers
                         case "E":
                             quest.RefTo = i.Ref;
                             break;
-
+                        case "G":
+                            quest.TableRowsNum = i.NRows;
+                            foreach (var col in i.Columns)
+                                quest.Table_Columns.Add(new Models.Table_Columns { Name = col.Name, Name_En = col.Name_En });
+                            break;
                     }
                     eform.Question.Add(quest);
                 }

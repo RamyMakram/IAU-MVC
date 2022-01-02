@@ -7,33 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IAUBackEnd.Admin.Models
+namespace IAU_BackEnd.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class E_Forms_Answer
+    public partial class Preview_TableCols
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public E_Forms_Answer()
+        public Preview_TableCols()
         {
-            this.Preview_TableCols = new HashSet<Preview_TableCols>();
+            this.Tables_Answare = new HashSet<Tables_Answare>();
         }
     
         public int ID { get; set; }
-        public Nullable<int> Question_ID { get; set; }
-        public Nullable<int> EForm_ID { get; set; }
-        public string Value { get; set; }
-        public string Value_En { get; set; }
-        public Nullable<System.DateTime> FillDate { get; set; }
+        public int EFormAnswareID { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
         public string Name_En { get; set; }
-        public Nullable<int> Index_Order { get; set; }
     
-        public virtual Person_Eform Person_Eform { get; set; }
-        public virtual Question Question { get; set; }
+        public virtual E_Forms_Answer E_Forms_Answer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Preview_TableCols> Preview_TableCols { get; set; }
+        public virtual ICollection<Tables_Answare> Tables_Answare { get; set; }
     }
 }

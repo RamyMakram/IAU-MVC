@@ -7,24 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IAU.DTO.Entity
+namespace IAUBackEnd.Admin.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class E_Forms_Answer
+    public partial class Tables_Answare
     {
         public int ID { get; set; }
-        public int Person_ID { get; set; }
-        public int Question_ID { get; set; }
-        public int EFromID { get; set; }
-
+        public int Row { get; set; }
+        public int Column { get; set; }
         public string Value { get; set; }
-        public string Value_En { get; set; }
-        public System.DateTime FillDate { get; set; }
-        
-        public ICollection<Preview_TableCols> Preview_TableCols { get; set; }
-        public virtual PersonalDataDTO Personel_Data { get; set; }
-        public virtual Question Question { get; set; }
+    
+        public virtual Preview_TableCols Preview_TableCols { get; set; }
     }
 }

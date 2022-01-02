@@ -43,6 +43,18 @@ function ReIntalizeEformListener() {
                             case "D":
                                 $(' input', $(s)).val(data.find(q => q.Question_ID == QTyID).Value_En)
                                 break;
+                            case "G":
+                                var item = data.find(q => q.Question_ID == QTyID)
+                                let th_arr = ([...$('thead th', $(s))]);
+                                let row = 0;
+                                let count = 0;
+                                ([...$('input', $(s))]).forEach(is => {
+                                    $(is).val(item.Preview_TableCols[count % th_arr.length].Tables_Answare.find(q => q.Row == row).Value)
+                                    count++;
+                                    if (count % th_arr.length == 0)
+                                        row++;
+                                })
+                                break;
                             default:
                         }
                     })
@@ -88,6 +100,31 @@ function ReIntalizeEformListener() {
                                 }
                                 AddOrUpdate({ EFromID: formid, Question_ID: frm_qt.split('-')[1], T, Value: val, Value_En: val, Name: name[0], Name_En: name[1] });
                                 break;
+                            case "G":
+                                var values = [];
+                                var values_En = [];
+                                var $table_cols = [];
+                                let th_arr = ([...$('thead th', $(s))]);
+                                th_arr.forEach(is => {
+                                    var val = $(is).data("val").split('-')
+                                    $table_cols.push({ Name: val[0], Name_En: val[1], Tables_Answare: [] })
+                                });
+                                let row = 0;
+                                let count = 0;
+                                ([...$('input', $(s))]).forEach(is => {
+                                    var val = $(is).val()
+                                    $table_cols[count % th_arr.length].Tables_Answare.push({ Row: row, Value: val })
+                                    count++;
+                                    if (count % th_arr.length == 0)
+                                        row++;
+                                })
+                                if (req && (values.length == 0 || values_En.length == 0)) {
+                                    $('label', $(s)).css({ 'color': 'red' })
+                                    Error = true;
+                                    return;
+                                }
+                                AddOrUpdate({ EFromID: formid, Question_ID: frm_qt.split('-')[1], T, Value: "", Value_En: "", Name: name[0], Name_En: name[1], Preview_TableCols: $table_cols });
+                                break;
                             default:
                         }
                     })
@@ -112,6 +149,7 @@ function AddOrUpdate(model) {
         Form_Answare[index].Value_En = model.Value_En
         Form_Answare[index].Name = model.Name
         Form_Answare[index].Name_En = model.Name_En
+        Form_Answare[index].Preview_TableCols = model.Preview_TableCols
     }
 }
 function AddOrUpdateMain(model) {
@@ -123,5 +161,7 @@ function AddOrUpdateMain(model) {
         Answer[index].Value_En = model.Value_En
         Answer[index].Name = model.Name
         Answer[index].Name_En = model.Name_En
+        Answer[index].Preview_TableCols = model.Preview_TableCols
+
     }
 }
