@@ -1,14 +1,14 @@
 ﻿@model ICollection<IAUAdmin.DTO.Entity.UnitsDTO>
 @using System.Configuration;
 @{
-	ViewBag.Title = "Home Page";
-	ViewBag.pageTitle = "Home Page";
-	ViewBag.pTitle = "Categories";
-	ViewBag.arTitle = "الرئيسية";
-	ViewBag.arpageTitle = "الرئيسية";
-	ViewBag.arpTitle = "الفئات الادارية";
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
+    ViewBag.Title = "Home Page";
+    ViewBag.pageTitle = "Home Page";
+    ViewBag.pTitle = "Categories";
+    ViewBag.arTitle = "الرئيسية";
+    ViewBag.arpageTitle = "الرئيسية";
+    ViewBag.arpTitle = "الفئات الادارية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
 }
 
 <!-- DataTables -->
@@ -19,221 +19,223 @@
 <!-- Sweet Alert-->
 <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <style>
-	#MainServiceImages, #hidden {
-		display: none;
-	}
+    #MainServiceImages, #hidden {
+        display: none;
+    }
 
-	#ImagesInModel {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-	}
+    #ImagesInModel {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-		#ImagesInModel img {
-			cursor: pointer;
-			padding: 10px 10px;
-			height: 43px;
-			border-radius: 13px;
-			margin: 0 3px
-		}
+        #ImagesInModel img {
+            cursor: pointer;
+            padding: 10px 10px;
+            height: 43px;
+            border-radius: 13px;
+            margin: 0 3px
+        }
 
-	.modal-header {
-		display: inline-flex;
-		align-items: center
-	}
+    .modal-header {
+        display: inline-flex;
+        align-items: center
+    }
 
-	#ImagesInModel img:hover {
-	}
+    #ImagesInModel img:hover {
+    }
 
-	#ImagesInModel img.active {
-		border: 1px solid green;
-	}
+    #ImagesInModel img.active {
+        border: 1px solid green;
+    }
 </style>
 <span id="mainsservicesTExts" style="display:none" key="t-subservices"></span>
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
 
-				<div class="HeaderOfPage">
-					<p class="card-title-desc" key="t-unitsTitle">
-						@*Manage Users*@
-					</p>
+                <div class="HeaderOfPage">
+                    <p class="card-title-desc" key="t-unitsTitle">
+                        @*Manage Users*@
+                    </p>
 
-					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
-				</div>
-				@{
-					var url = ConfigurationManager.AppSettings["DomainName"].ToString();
-					var lang = Request.Cookies["lang"].Value;
-				}
-				<span style="display:none" id="lang">@lang</span>
-				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-					<thead>
-						<tr>
-							<th key="t-name">Unit Name</th>
-							<th id="hidden" style="display:none"></th>
-							<th key="t-enname">Type En Name</th>
-							<th key="t-activeTitle">Status</th>
-							<th key="t-unit-home-mainservices">MainServices</th>
-							<th key="t-user">MainServices</th>
-							<th></th>
-						</tr>
-					</thead>
+                    <a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+                </div>
+                @{
+                    var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+                    var lang = Request.Cookies["lang"].Value;
+                }
+                <span style="display:none" id="lang">@lang</span>
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th key="t-name">Unit Name</th>
+                            <th key="t-enname">Type En Name</th>
+                            <th key="t-activeTitle">Status</th>
+                            <th key="t-unit-home-mainservices">MainServices</th>
+                            <th key="t-user">MainServices</th>
+                            <th></th>
+                        </tr>
+                    </thead>
 
-					<tbody>
+                    <tbody>
 
-						@foreach (var i in Model)
-						{
-							<tr onclick="Go(this,'@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
-								<td id="MainServiceImages">
-									@foreach (var s in i.UnitServiceTypes)
-									{
-										<img src="@(url + "/" + s.Service_Type.Image_Path)" id="img-@(s.ServiceTypeID)" onclick="FilterMain(this,@(s.ServiceTypeID))" />
-									}
-									<img src="@(url + "/" + i.Service_Type.Image_Path)" id="img-@(i.Service_Type.Service_Type_ID)" onclick="FilterMain(this,@(i.Service_Type.Service_Type_ID))" />
+                        @foreach (var i in Model)
+                        {
+                            <tr onclick="Go(this,'@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
+                                
+                                <td class="TH-ar ar-font">
+                                    <span id="MainServiceImages">
+                                        @foreach (var s in i.UnitServiceTypes)
+                                        {
+                                            <img src="@(url + "/" + s.Service_Type.Image_Path)" id="img-@(s.ServiceTypeID)" onclick="FilterMain(this,@(s.ServiceTypeID))" />
+                                        }
+                                        <img src="@(url + "/" + i.Service_Type.Image_Path)" id="img-@(i.Service_Type.Service_Type_ID)" onclick="FilterMain(this,@(i.Service_Type.Service_Type_ID))" />
+                                    </span>
+                                    <span style="color:blue;padding:0 10px;">@(i.IS_Mostafid ? "✔" : "")</span>
+                                    @(i.Units_Name_AR)
+                                </td>
+                                <td class="TH-en en-font">@(i.Units_Name_EN)</td>
+                                <td>
+                                    @Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" type="button" onclick="getMainService(event,this, '@(i.Units_ID)', '[@(string.Join(",", i.UnitServiceTypes.Select(q => q.ServiceTypeID).ToArray()))]')" key="t-unit-home-mainservices">MainService</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" type="button" onclick="getUsers(event,this, '@(i.Units_ID)')" key="t-user">Users</button>
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+                                    @{
+                                        if (ShowDelete)
+                                        {
+                                            <button class="btn btn-primary" onclick="Delete('@i.Units_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
 
-								</td>
-								<td class="TH-ar ar-font"><span style="color:blue;padding:0 10px;">@(i.IS_Mostafid ? "✔" : "")</span> @(i.Units_Name_AR)</td>
-								<td class="TH-en en-font">@(i.Units_Name_EN)</td>
-								<td>
-									@Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
-								</td>
-								<td>
-									<button class="btn btn-primary" type="button" onclick="getMainService(event,this, '@(i.Units_ID)', '[@(string.Join(",", i.UnitServiceTypes.Select(q => q.ServiceTypeID).ToArray()))]')" key="t-unit-home-mainservices">MainService</button>
-								</td>
-								<td>
-									<button class="btn btn-primary" type="button" onclick="getUsers(event,this, '@(i.Units_ID)')" key="t-user">Users</button>
-								</td>
-								<td>
-									@Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
-									@{
-										if (ShowDelete)
-										{
-											<button class="btn btn-primary" onclick="Delete('@i.Units_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
-										}
-									}
-								</td>
-							</tr>
-						}
-
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div> <!-- end col -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
 <div class="modal fade" id="Model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
-		<div class="modal-content" style="height: 83vh; width: 70vw;">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle" key="t-mainservices" style="white-space: nowrap;">Modal title</h5>
-				<div id="ImagesInModel"></div>
-			</div>
-			<div class="modal-body">
-				<div style="display:flex;justify-content:flex-end">
-					<input id="searchTXT" style="width:220px;margin-bottom:15px" onkeyup="Search(event.target.value)" />
-				</div>
-				<div id="ErrorWhenSaving" style="text-align:center;display:none" class="alert alert-danger">
-					<span key="t-ErrorSaving">ErrorSaving</span>
-				</div>
-				<table class="table table-striped table-bordered dt-responsive nowrap">
-					<thead>
-						<tr>
-							<th></th>
-							<th key="t-name"> </th>
-							<th key="t-enname"></th>
-							<th key="t-servicetype"></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody id="MainBodyServices">
-					</tbody>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" key="t-save" onclick="SaveMain()" id="SaveBTN" class="btn btn-primary">Save changes</button>
-				<button class="btn btn-primary" style="display:none" id="loadinBTN"><img src="~/assets/images/loading.gif" height="20px" /></button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
+        <div class="modal-content" style="height: 83vh; width: 70vw;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle" key="t-mainservices" style="white-space: nowrap;">Modal title</h5>
+                <div id="ImagesInModel"></div>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex;justify-content:flex-end">
+                    <input id="searchTXT" style="width:220px;margin-bottom:15px" onkeyup="Search(event.target.value)" />
+                </div>
+                <div id="ErrorWhenSaving" style="text-align:center;display:none" class="alert alert-danger">
+                    <span key="t-ErrorSaving">ErrorSaving</span>
+                </div>
+                <table class="table table-striped table-bordered dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th key="t-name"> </th>
+                            <th key="t-enname"></th>
+                            <th key="t-servicetype"></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="MainBodyServices">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" key="t-save" onclick="SaveMain()" id="SaveBTN" class="btn btn-primary">Save changes</button>
+                <button class="btn btn-primary" style="display:none" id="loadinBTN"><img src="~/assets/images/loading.gif" height="20px" /></button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="SubServices" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
-		<div class="modal-content" style="height: 83vh; width: 70vw;">
-			<div class="modal-header">
-				<span id="SubServiceTXT" key="t-subservices" style="white-space: nowrap;display:none">Modal title</span>
-				<h5 class="modal-title" id="TitleSubService" key="t-mainservices" style="white-space: nowrap;">Modal title</h5>
-			</div>
-			<div class="modal-body">
-				<table class="table table-striped table-bordered dt-responsive nowrap">
-					<thead>
-						<tr>
-							<th key="t-name"> </th>
-							<th key="t-enname"></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody id="MainBodySubServices">
-					</tbody>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
+        <div class="modal-content" style="height: 83vh; width: 70vw;">
+            <div class="modal-header">
+                <span id="SubServiceTXT" key="t-subservices" style="white-space: nowrap;display:none">Modal title</span>
+                <h5 class="modal-title" id="TitleSubService" key="t-mainservices" style="white-space: nowrap;">Modal title</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th key="t-name"> </th>
+                            <th key="t-enname"></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="MainBodySubServices">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="EForms" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
-		<div class="modal-content" style="height: 83vh; width: 70vw;">
-			<div class="modal-header">
-				<span id="t-eforms" key="t-eforms" style="display:none;white-space: nowrap;">Modal title</span>
-				<h5 class="modal-title" id="TitleEforms" style="white-space: nowrap;">Modal title</h5>
-			</div>
-			<div class="modal-body">
-				<table class="table table-striped table-bordered dt-responsive nowrap">
-					<thead>
-						<tr>
-							<th key="t-name"> </th>
-							<th key="t-enname"></th>
-						</tr>
-					</thead>
-					<tbody id="EFormsBody">
-					</tbody>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
+        <div class="modal-content" style="height: 83vh; width: 70vw;">
+            <div class="modal-header">
+                <span id="t-eforms" key="t-eforms" style="display:none;white-space: nowrap;">Modal title</span>
+                <h5 class="modal-title" id="TitleEforms" style="white-space: nowrap;">Modal title</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th key="t-name"> </th>
+                            <th key="t-enname"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="EFormsBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="Users" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
-		<div class="modal-content" style="height: 83vh; width: 70vw;">
-			<div class="modal-header">
-				<h5 class="modal-title" key="t-user" style="white-space: nowrap;">Modal title</h5>
-			</div>
-			<div class="modal-body">
-				<table class="table table-striped table-bordered dt-responsive nowrap">
-					<thead>
-						<tr>
-							<th key="t-name">User Name</th>
-							<th key="t-email">Email</th>
-							<th key="t-job">Department</th>
-						</tr>
-					</thead>
-					<tbody id="UserBody">
-					</tbody>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 70vw;">
+        <div class="modal-content" style="height: 83vh; width: 70vw;">
+            <div class="modal-header">
+                <h5 class="modal-title" key="t-user" style="white-space: nowrap;">Modal title</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th key="t-name">User Name</th>
+                            <th key="t-email">Email</th>
+                            <th key="t-job">Department</th>
+                        </tr>
+                    </thead>
+                    <tbody id="UserBody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" key="t-cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
@@ -268,7 +270,7 @@
 @if (ShowDelete)
 {
 
-	<script>
+    <script>
 	function Delete(id) {
 		event.stopPropagation()
 		event.stopImmediatePropagation()
@@ -301,194 +303,194 @@
 			}
 		});
 	}
-	</script>
+    </script>
 }
 <script>
-	let MainServices = []
-	let subserviceText = ""
-	let EformsText = ""
-	let unitID = null
-	let ServiceID = 0;
-	let Added = []
-	let Deleted = []
-	function getMainService(event, element, uID, Mainservices) {
-		event.stopPropagation();
-		unitID = uID
-		Added = []
-		Deleted = []
+    let MainServices = []
+    let subserviceText = ""
+    let EformsText = ""
+    let unitID = null
+    let ServiceID = 0;
+    let Added = []
+    let Deleted = []
+    function getMainService(event, element, uID, Mainservices) {
+        event.stopPropagation();
+        unitID = uID
+        Added = []
+        Deleted = []
 
-		document.getElementById('ImagesInModel').innerHTML = $(element).parent().parent().children('#MainServiceImages').html()
-		document.querySelector('#ImagesInModel img:nth-last-child(1)').className = "active"
+        document.getElementById('ImagesInModel').innerHTML = $('#MainServiceImages', $(element).parent().parent()).html()
+        document.querySelector('#ImagesInModel img:nth-last-child(1)').className = "active"
 
-		let Form = new FormData();
-		Form.append("id", uID)
-		Form.append("MainService", Mainservices)
-		if (subserviceText == "")
-			subserviceText = document.getElementById('mainsservicesTExts').innerText
-		$.ajax({
-			url: '/Units/GetMainServices', processData: false,
-			contentType: false, method: "POST", data: Form, success: function (data) {
-				MainServices = data;
-				var ItemsRow = ""
-				MainServices.forEach(i => {
-					ItemsRow += `
-						<tr class="Main ST-${i["ServiceTypeID"]} M-${i["Main_Services_ID"]}">
-							<td>
-								<input type="checkbox" ${i["Active"] ? "checked" : ""} style="height: 17px;width: 26px;" onchange="MainServiceChange('${i["Main_Services_ID"]}', this,'${i["Active"]}')"/>
-							</td>
-							<td class=" ar-font">${i["Main_Services_Name_AR"]}</td>
-							<td class=" en-font">${i["Main_Services_Name_EN"]}</td>
-							<td><img src="${document.getElementById('img-' + i["ServiceTypeID"]).src}" style="height: 24px; "/></td>
-							<td><button class="btn btn-primary" onclick="Sub('${i["Main_Services_ID"]}','${i["Main_Services_Name_AR"]}','${i["Main_Services_Name_EN"]}')">${subserviceText}</button></td>
-						</tr>
-					`
-				})
-				document.getElementById('MainBodyServices').innerHTML = ItemsRow
-				$('#Model').modal({
-					backdrop: 'static',
-					keyboard: false
-				})
-				$('#ImagesInModel img:nth-last-child(1)').click();
-			}
-		})
-	}
-	function FilterMain(element, ID) {
-		ServiceID = ID;
-		$('img.active').toggleClass('active');
-		$(element).toggleClass('active');
-		$('.Main').css({ 'display': 'none' });
-		$('.ST-' + ID).css({ 'display': 'table-row' });
-		$('#searchTXT').val("");
-	}
+        let Form = new FormData();
+        Form.append("id", uID)
+        Form.append("MainService", Mainservices)
+        if (subserviceText == "")
+            subserviceText = document.getElementById('mainsservicesTExts').innerText
+        $.ajax({
+            url: '/Units/GetMainServices', processData: false,
+            contentType: false, method: "POST", data: Form, success: function (data) {
+                MainServices = data;
+                var ItemsRow = ""
+                MainServices.forEach(i => {
+                    ItemsRow += `
+                        <tr class="Main ST-${i["ServiceTypeID"]} M-${i["Main_Services_ID"]}">
+                            <td>
+                                <input type="checkbox" ${i["Active"] ? "checked" : ""} style="height: 17px;width: 26px;" onchange="MainServiceChange('${i["Main_Services_ID"]}', this,'${i["Active"]}')"/>
+                            </td>
+                            <td class=" ar-font">${i["Main_Services_Name_AR"]}</td>
+                            <td class=" en-font">${i["Main_Services_Name_EN"]}</td>
+                            <td><img src="${document.getElementById('img-' + i["ServiceTypeID"]).src}" style="height: 24px; "/></td>
+                            <td><button class="btn btn-primary" onclick="Sub('${i["Main_Services_ID"]}','${i["Main_Services_Name_AR"]}','${i["Main_Services_Name_EN"]}')">${subserviceText}</button></td>
+                        </tr>
+                    `
+                })
+                document.getElementById('MainBodyServices').innerHTML = ItemsRow
+                $('#Model').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+                $('#ImagesInModel img:nth-last-child(1)').click();
+            }
+        })
+    }
+    function FilterMain(element, ID) {
+        ServiceID = ID;
+        $('img.active').toggleClass('active');
+        $(element).toggleClass('active');
+        $('.Main').css({ 'display': 'none' });
+        $('.ST-' + ID).css({ 'display': 'table-row' });
+        $('#searchTXT').val("");
+    }
 
-	function Search(eve) {
-		$('.Main').css({ 'display': 'none' });
-		if (eve != "") {
-			var data = MainServices.filter(q => q.Main_Services_Name_AR.startsWith(eve) || q.Main_Services_Name_EN.startsWith(eve))
-			data.forEach(i => {
-				$('.M-' + i.Main_Services_ID).css({ 'display': 'table-row' });
-			})
-		}
-		else
-			$('.ST-' + ServiceID).css({ 'display': 'table-row' });
-	}
-	function MainServiceChange(MainID, element, defaultVal) {
-		if (defaultVal == "false") {
-			if (element.checked)
-				Added.push({ UnitID: unitID, MainServiceID: MainID });
-			else
-				Added.splice(Added.findIndex(q => q.MainServiceID == MainID), 1)
-		}
-		else {
-			if (element.checked)
-				Deleted.splice(Deleted.findIndex(q => q.MainServiceID == MainID), 1)
-			else
-				Deleted.push({ UnitID: unitID, MainServiceID: MainID });
-		}
-	}
-	function SaveMain() {
-		if (Added.length != 0 || Deleted.length != 0) {
-			let Form = new FormData();
-			Form.append("id", unitID);
-			console.log({ Added, Deleted })
-			Form.append("mainServicesDTO", JSON.stringify({ Added, Deleted }));
-			$('#loadinBTN').css({ 'display': 'block' })
-			$('#SaveBTN').css({ 'display': 'none' })
-			$.ajax({
-				url: '/Units/AddMainService', processData: false,
-				contentType: false, method: "POST", data: Form, success: function (res) {
-					$('#loadinBTN').css({ 'display': 'none' })
-					$('#SaveBTN').css({ 'display': 'block' })
-					if (res.success) {
-						$('#Model').modal('toggle');
-						$('#ErrorWhenSaving').css({ 'display': 'none' })
-					}
-					else {
-						$('#ErrorWhenSaving').css({ 'display': 'block' })
-						console.log(res)
-					}
-				}
-			})
-		}
-	}
-	function Sub(ID, ar, en) {
-		if (EformsText == "")
-			EformsText = document.getElementById('t-eforms').innerText
-		$('#TitleSubService').text(($('#lang').text() == "ar" ? ar : en) + " > " + $('#SubServiceTXT').text())
-		$.ajax({
-			url: '/Units/getSub?id=' + ID, success: function (data) {
-				var ItemsRow = ""
-				data.forEach(i => {
-					ItemsRow += `
-						<tr>
-							<td class=" ar-font">${i["Sub_Services_Name_AR"]}</td>
-							<td class=" en-font">${i["Sub_Services_Name_EN"]}</td>
-							<td><button class="btn btn-primary" onclick="EForms('${i["Sub_Services_ID"]}','${i["Sub_Services_Name_AR"]}','${i["Sub_Services_Name_EN"]}')">${EformsText}</button></td>
-						</tr>
-					`
-				})
-				document.getElementById('MainBodySubServices').innerHTML = ItemsRow
-				$('#SubServices').modal({
-					backdrop: 'static',
-					keyboard: false
-				})
-			}
-		})
-	}
-	function EForms(ID, ar, en) {
-		$('#TitleEforms').text(($('#lang').text() == "ar" ? ar : en) + " > " + $('#t-eforms').text())
-		$.ajax({
-			url: '/Units/getEforms?id=' + ID, success: function (data) {
-				var ItemsRow = ""
-				data.forEach(i => {
-					ItemsRow += `
-						<tr>
-							<td class=" ar-font">${i["Name"]}</td>
-							<td class=" en-font">${i["Name_EN"]}</td>
-						</tr>
-					`
-				})
-				console.log(data)
-				document.getElementById('EFormsBody').innerHTML = ItemsRow
-				$('#EForms').modal({
-					backdrop: 'static',
-					keyboard: false
-				})
-			}
-		})
-	}
+    function Search(eve) {
+        $('.Main').css({ 'display': 'none' });
+        if (eve != "") {
+            var data = MainServices.filter(q => q.Main_Services_Name_AR.startsWith(eve) || q.Main_Services_Name_EN.startsWith(eve))
+            data.forEach(i => {
+                $('.M-' + i.Main_Services_ID).css({ 'display': 'table-row' });
+            })
+        }
+        else
+            $('.ST-' + ServiceID).css({ 'display': 'table-row' });
+    }
+    function MainServiceChange(MainID, element, defaultVal) {
+        if (defaultVal == "false") {
+            if (element.checked)
+                Added.push({ UnitID: unitID, MainServiceID: MainID });
+            else
+                Added.splice(Added.findIndex(q => q.MainServiceID == MainID), 1)
+        }
+        else {
+            if (element.checked)
+                Deleted.splice(Deleted.findIndex(q => q.MainServiceID == MainID), 1)
+            else
+                Deleted.push({ UnitID: unitID, MainServiceID: MainID });
+        }
+    }
+    function SaveMain() {
+        if (Added.length != 0 || Deleted.length != 0) {
+            let Form = new FormData();
+            Form.append("id", unitID);
+            console.log({ Added, Deleted })
+            Form.append("mainServicesDTO", JSON.stringify({ Added, Deleted }));
+            $('#loadinBTN').css({ 'display': 'block' })
+            $('#SaveBTN').css({ 'display': 'none' })
+            $.ajax({
+                url: '/Units/AddMainService', processData: false,
+                contentType: false, method: "POST", data: Form, success: function (res) {
+                    $('#loadinBTN').css({ 'display': 'none' })
+                    $('#SaveBTN').css({ 'display': 'block' })
+                    if (res.success) {
+                        $('#Model').modal('toggle');
+                        $('#ErrorWhenSaving').css({ 'display': 'none' })
+                    }
+                    else {
+                        $('#ErrorWhenSaving').css({ 'display': 'block' })
+                        console.log(res)
+                    }
+                }
+            })
+        }
+    }
+    function Sub(ID, ar, en) {
+        if (EformsText == "")
+            EformsText = document.getElementById('t-eforms').innerText
+        $('#TitleSubService').text(($('#lang').text() == "ar" ? ar : en) + " > " + $('#SubServiceTXT').text())
+        $.ajax({
+            url: '/Units/getSub?id=' + ID, success: function (data) {
+                var ItemsRow = ""
+                data.forEach(i => {
+                    ItemsRow += `
+                        <tr>
+                            <td class=" ar-font">${i["Sub_Services_Name_AR"]}</td>
+                            <td class=" en-font">${i["Sub_Services_Name_EN"]}</td>
+                            <td><button class="btn btn-primary" onclick="EForms('${i["Sub_Services_ID"]}','${i["Sub_Services_Name_AR"]}','${i["Sub_Services_Name_EN"]}')">${EformsText}</button></td>
+                        </tr>
+                    `
+                })
+                document.getElementById('MainBodySubServices').innerHTML = ItemsRow
+                $('#SubServices').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+            }
+        })
+    }
+    function EForms(ID, ar, en) {
+        $('#TitleEforms').text(($('#lang').text() == "ar" ? ar : en) + " > " + $('#t-eforms').text())
+        $.ajax({
+            url: '/Units/getEforms?id=' + ID, success: function (data) {
+                var ItemsRow = ""
+                data.forEach(i => {
+                    ItemsRow += `
+                        <tr>
+                            <td class=" ar-font">${i["Name"]}</td>
+                            <td class=" en-font">${i["Name_EN"]}</td>
+                        </tr>
+                    `
+                })
+                console.log(data)
+                document.getElementById('EFormsBody').innerHTML = ItemsRow
+                $('#EForms').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+            }
+        })
+    }
 
-	function getUsers(eve, _this, ID) {
-		eve.stopPropagation();
-		$.ajax({
-			url: '/Units/GetUsers?id=' + ID, success: function (data) {
-				var ItemsRow = ""
-				data.forEach(i => {
-					ItemsRow += `
-						<tr onclick="Go(this,'/User/Detials/${i["User_ID"]}')">
-							<td>${i["User_Name"]}</td>
-							<td class="TH-en">${i["User_Email"]}</td>
-							<td >${$('#lang').text() == "ar" ? i["Job"]["User_Permissions_Type_Name_AR"] : i["Job"]["User_Permissions_Type_Name_EN"]}</td>
-						</tr>
-					`
-				})
-				document.getElementById('UserBody').innerHTML = ItemsRow
-				$('#Users').modal({
-					backdrop: 'static',
-					keyboard: false
-				})
-			}
-		})
-	}
+    function getUsers(eve, _this, ID) {
+        eve.stopPropagation();
+        $.ajax({
+            url: '/Units/GetUsers?id=' + ID, success: function (data) {
+                var ItemsRow = ""
+                data.forEach(i => {
+                    ItemsRow += `
+                        <tr onclick="Go(this,'/User/Detials/${i["User_ID"]}')">
+                            <td>${i["User_Name"]}</td>
+                            <td class="TH-en">${i["User_Email"]}</td>
+                            <td >${$('#lang').text() == "ar" ? i["Job"]["User_Permissions_Type_Name_AR"] : i["Job"]["User_Permissions_Type_Name_EN"]}</td>
+                        </tr>
+                    `
+                })
+                document.getElementById('UserBody').innerHTML = ItemsRow
+                $('#Users').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+            }
+        })
+    }
 
 </script>
 <script>
-	$(document).ready(function () {
-		let interval = setInterval(e => {
-			if ($('#datatable-buttons_filter label input').length != 0) {
-				clearInterval(interval)
-				$('#datatable-buttons_filter label input').on('keydown', function () { getLanguage() })
-			}
-		}, 300)
-	});
+    $(document).ready(function () {
+        let interval = setInterval(e => {
+            if ($('#datatable-buttons_filter label input').length != 0) {
+                clearInterval(interval)
+                $('#datatable-buttons_filter label input').on('keydown', function () { getLanguage() })
+            }
+        }, 300)
+    });
 </script>

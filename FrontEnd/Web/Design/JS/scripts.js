@@ -92,15 +92,17 @@ $(document).ready(function () {
                 if ($AppType.length == 0) {
                     let timeout = setInterval(function () {
                         if ($AppType.length != 0) {
+                            $('#Affiliated').val("1");
                             FilterAppType(true);
                             clearInterval(timeout)
                         }
                     }, 500)
                 }
                 else {
+                    $('#Affiliated').val("1");
                     FilterAppType(true);
                 }
-                $('#Affiliated').val("1");
+                
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
             },
             error: function () {
