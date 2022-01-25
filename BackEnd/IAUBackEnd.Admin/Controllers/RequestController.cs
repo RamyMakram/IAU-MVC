@@ -493,7 +493,7 @@ namespace IAUBackEnd.Admin.Controllers
                 {
                     HttpClient h = new HttpClient();
 
-                    string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid=f9iRotRBsanfAB0xcE4NzJtgMYf5Bk&msg={message_ar}&to={Mobile}&sender=IAU-BSC&baseEncode=False&encoding=UCS2";
+                    string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid=su7G9tOZc6U0kPVnoeiJGHUDMKe8tp&msg={message_ar}&to={Mobile}&sender=IAU-BSC&baseEncode=False&encoding=UCS2";
                     h.BaseAddress = new Uri(url);
 
                     var res = h.GetAsync("").Result.Content.ReadAsStringAsync().Result;
