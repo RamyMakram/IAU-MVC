@@ -51,10 +51,10 @@
                     @if (ViewBag.CookieLang == "ar")
                     {
                         <li class="nav-item">
-                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("main")?"active":"")" href="~/Main/Index">الرئيسية</a>
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("main")?"active":"")" href="~/Main">الرئيسية</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("home") ||Request.Url.ToString().Contains("Follow")?"active":"")" aria-current="page" href="~/Home/Index">تقديم/متابعة طلب</a>
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("home") ||Request.Url.ToString().Contains("Follow")?"active":"")" aria-current="page" href="~/Home">تقديم/متابعة طلب</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(Request.Url.ToString().ToLower().Contains("Coordinator")?"active":"")" href="~/Coordinator">المنسقين</a>
@@ -66,10 +66,10 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("main")?"active":"")" href="~/Main/Index">Main</a>
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("main")?"active":"")" href="~/Main">Main</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("home")||Request.Url.ToString().Contains("Follow")?"active":"")" aria-current="page" href="~/Home/Index">Submit/Follow-up</a>
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("home")||Request.Url.ToString().Contains("Follow")?"active":"")" aria-current="page" href="~/Home">Submit/Follow-up</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @(Request.Url.ToString().ToLower().Contains("coordinator")?"active":"")" href="~/Coordinator">Coordinator</a>
