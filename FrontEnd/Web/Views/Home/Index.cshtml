@@ -32,7 +32,7 @@
         }
 
         #padf div img {
-            width: 120px !important;
+            width: 166px !important;
         }
 
         .boldtitle {
@@ -46,7 +46,7 @@
         table#PDFTable tbody tr th {
             text-align: start !important;
             /*font-family: 'DroidArabicKufiRegular' !important;*/
-            font-size: 19px;
+            font-size: 14px;
             padding: 6px 19px;
             overflow-wrap: break-word;
         }
@@ -65,7 +65,7 @@
             }
 
         table#PDFTable tbody tr th.boldtitle {
-            font-size: 28px;
+            font-size: 19px;
             color: #283858;
         }
     </style>
@@ -512,7 +512,7 @@
                                         <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="الرجاء إدخال رقم وثيقة الهوية المحددة." />
-                                        <input type="number" id="idNumber" max="9999999999">
+                                        <input type="text" id="idNumber" maxlength="10" min="10" onkeypress="return isNumber(event)">
                                     </div>
                                 </div>
                             </div>
@@ -781,7 +781,7 @@
                                         <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the number of the selected ID Document." />
-                                        <input type="number" id="idNumber" max="9999999999">
+                                        <input type="text" id="idNumber" maxlength="10" min="10" onkeypress="return isNumber(event)">
                                     </div>
                                 </div>
                             </div>
@@ -1206,7 +1206,7 @@
                                         <div id="padf" class="pdfnotloaded">
 
                                         </div>
-                                        <div style="margin-bottom:25px">
+                                        <div style="margin-bottom:25px;display:none">
                                             <h3>النماذج الإلكترونية</h3>
                                             <div id="Eform-read-summary" style="display: flex;flex-direction: row;flex-wrap: wrap;">
                                                 <button class="btn btn-outline-info eform-readonly-btn"></button>
@@ -1237,6 +1237,13 @@
 
                                         <div id="padf" class="pdfnotloaded">
 
+                                        </div>
+
+                                        <div style="margin-bottom: 25px; display: none">
+                                            <h3>E-Forms</h3>
+                                            <div id="Eform-read-summary" style="display: flex;flex-direction: row;flex-wrap: wrap;">
+                                                <button class="btn btn-outline-info eform-readonly-btn"></button>
+                                            </div>
                                         </div>
                                     </li>
                                     <li>

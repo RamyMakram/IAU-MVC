@@ -102,7 +102,7 @@ $(document).ready(function () {
                     $('#Affiliated').val("1");
                     FilterAppType(true);
                 }
-                
+
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
             },
             error: function () {
@@ -889,26 +889,32 @@ function GetEfroms(ID) {
             $('#Eform-read-summary').html("");
             if (result != null) {
                 let data = JSON.parse(result)
-                data.forEach(function (element) {
-                    $("#EFormsView").append(`
+                if (data.length != 0) {
+                    $('#Eform-read-summary').parent().css('display', 'block');
+
+                    data.forEach(function (element) {
+                        $("#EFormsView").append(`
 									<div class="col-lg-6 col-md-6 col-sm-6" style = "margin-bottom:5px" >
 										<div class="row icon-container" style="padding:0px;margin:0px">
 												<a style="padding:0px" class="btn btn-outline eform-btn" data-id="${element.ID}"><i class="fas fa-passport" style="font-size: 31px;color: #4f693a;padding:0 5px"></i>${(language == 'ar' ? element.Name : element.Name_EN)}</a>
 										</div>
 									</div>
 				`
-                    )
+                        )
 
-                    $('#Eform-read-summary').append(
-                        `<div class="row icon-container" style="padding:0px;margin:0px">
+                        $('#Eform-read-summary').append(
+                            `<div class="row icon-container" style="padding:0px;margin:0px">
 						    <a style="padding:0px;color: #4f693a !important;" class="btn btn-outline eform-readonly-btn" data-id="${element.ID}">
                                 <i class="fas fa-passport" style="font-size: 31px;padding:0 5px;"></i>
                                 <span>${(language == 'ar' ? element.Name : element.Name_EN)}</span>
                             </a>
 						</div>
                         `
-                    )
-                });
+                        )
+                    });
+                }
+                else
+                    $('#Eform-read-summary').parent().css('display', 'none');
                 ReIntalizeEformListener();
                 ReIntalizeEformReadOnlyListener()
             }
@@ -1037,6 +1043,7 @@ function GeneratePdfData() {
         't-city': '   المدينة   ',
         't-region': '   المنطقة   ',
         't-country': '   الدولة   ',
+        't-country2': '   مكان الاقامة   ',
         't-postal': '   الرقم البريدي   ',
         't-contactinfo': '   معلومات الإتصال   ',
         't-email': '   البريد الإلكتروني   ',
@@ -1063,6 +1070,7 @@ function GeneratePdfData() {
         't-city': 'City',
         't-region': 'Region',
         't-country': 'Country',
+        't-country2': 'Country of residence',
         't-postal': 'Postal Code',
         't-contactinfo': 'Contact Information',
         't-email': 'Email',
@@ -1125,7 +1133,7 @@ function GeneratePdfData() {
 					<th class="col-6">${Form["Nationality_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-country"></th>
+					<th class="col-6" key="t-country2"></th>
 					<th class="col-6">${Form["Country_Name"]}</th>
 				</tr>
 				<tr class="row">
@@ -1370,14 +1378,9 @@ $(".modal-body .verification-input input").keyup(function (element) {
 });
 let AllowResend = true;
 $("#ResendVerificationCode").click(function () {
-    $("#ResendVerificatio   nCode").attr("disabled", "disabled");
-    if (language == "ar") {
-        $("#ResendVerificationCode").html("يمكنك اعادة ارسال الكود بعد <span id='downConter'>(30)</span> ثانية");
-    } else {
-        $("#ResendVerificationCode").html("You Can Resend Code After <span id='downConter'>(30)</span> Second");
-    }
+
     if (AllowResend) {
-        $("#saveRequestBTN").html("<img src='././Design/img/spinner1.gif' style='width: 53px;'/>");
+        $("#saveRequestBTN").html("<img src='/Design/img/spinner1.gif' style='width: 53px;'/>");
         let data = serialiazeForm();
         $(".loading").addClass("active");
 
@@ -1388,26 +1391,50 @@ $("#ResendVerificationCode").click(function () {
             },
             success: function (result) {
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+                $("#ResendVerificationCode").attr("disabled", "disabled");
+                if (language == "ar") {
+                    $("#ResendVerificationCode").html("يمكنك اعادة ارسال الكود بعد <span id='downConter'>(30)</span> ثانية");
+                } else {
+                    $("#ResendVerificationCode").html("You Can Resend Code After <span id='downConter'>(30)</span> Second");
+                }
+                AllowResend = false;
+
+                counter = 30;
+                var x = setInterval(function () {
+                    counter--;
+                    document.getElementById("downConter").innerHTML = "(" + counter + ")";
+                    if (counter == 0) {
+                        AllowResend = true;
+                        $("#ResendVerificationCode").removeAttr("disabled");
+                        if (language == "ar") {
+                            $("#ResendVerificationCode").html("أعد ارسال كود التحقق");
+                        } else {
+                            $("#ResendVerificationCode").html("Resend Verification Code");
+                        }
+                        clearInterval(x);
+                    }
+                }, 1000);
+            }, error: function () {
+                AllowResend = true;
+
+                $("#saveRequestBTN").html(language == "ar" ? "إرسال" : "Submit")
+                setTimeout(e => { $(".loading").removeClass("active"); }, 500)
             },
             complete: function () {
+                AllowResend = true;
+
                 $("#saveRequestBTN").html(language == "ar" ? "إرسال" : "Submit")
+                setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+
             },
         })
-        AllowResend = false;
     }
-    counter = 30;
-    var x = setInterval(function () {
-        counter--;
-        document.getElementById("downConter").innerHTML = "(" + counter + ")";
-        if (counter == 0) {
-            AllowResend = true;
-            $("#ResendVerificationCode").removeAttr("disabled");
-            if (language == "ar") {
-                $("#ResendVerificationCode").html("أعد ارسال كود التحقق");
-            } else {
-                $("#ResendVerificationCode").html("Resend Verification Code");
-            }
-            clearInterval(x);
-        }
-    }, 1000);
 });
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
