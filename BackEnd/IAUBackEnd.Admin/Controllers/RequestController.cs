@@ -541,7 +541,7 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 return Ok(new ResponseClass()
                 {
-                    result = ee,
+                    //result = ee,
                     success = false
                 });
             }

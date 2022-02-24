@@ -42,6 +42,7 @@
           <Property Name="Country_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Country_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Index" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DelayedTransaction">
           <Key>
@@ -82,6 +83,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Type" Type="nchar" MaxLength="1" />
           <Property Name="Name_En" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Index_Order" Type="int" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -405,7 +407,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Row" Type="int" Nullable="false" />
           <Property Name="Column" Type="int" Nullable="false" />
-          <Property Name="Value" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Title_Middle_Names">
           <Key>
@@ -2023,6 +2025,7 @@
           <NavigationProperty Name="Personel_Data1" Relationship="MostafidDatabaseModel.FK_Personel_Data_Country1" FromRole="Country" ToRole="Personel_Data" />
           <NavigationProperty Name="Personel_Data2" Relationship="MostafidDatabaseModel.FK_Personel_Data_Country2" FromRole="Country" ToRole="Personel_Data" />
           <NavigationProperty Name="Region" Relationship="MostafidDatabaseModel.FK_Region_Country" FromRole="Country" ToRole="Region" />
+          <Property Name="Index" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DelayedTransaction">
           <Key>
@@ -2071,6 +2074,7 @@
           <NavigationProperty Name="Person_Eform" Relationship="MostafidDatabaseModel.FK_E_Forms_Answer_Person_Eform" FromRole="E_Forms_Answer" ToRole="Person_Eform" />
           <NavigationProperty Name="Question" Relationship="MostafidDatabaseModel.FK_E_Forms_Answer_Question" FromRole="E_Forms_Answer" ToRole="Question" />
           <NavigationProperty Name="Preview_TableCols" Relationship="MostafidDatabaseModel.FK_Preview_TableCols_E_Forms_Answer" FromRole="E_Forms_Answer" ToRole="Preview_TableCols" />
+          <Property Name="Index_Order" Type="Int32" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -3404,7 +3408,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Row" Type="Int32" Nullable="false" />
           <Property Name="Column" Type="Int32" Nullable="false" />
-          <Property Name="Value" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Preview_TableCols" Relationship="MostafidDatabaseModel.FK_Tables_Answare_Preview_TableCols" FromRole="Tables_Answare" ToRole="Preview_TableCols" />
         </EntityType>
         <Association Name="FK_Preview_TableCols_E_Forms_Answer">
@@ -3486,6 +3490,7 @@
           <EntitySetMapping Name="Country">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Country">
               <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Country_Name_AR" ColumnName="Country_Name_AR" />
                 <ScalarProperty Name="Country_Name_EN" ColumnName="Country_Name_EN" />
@@ -3524,6 +3529,7 @@
           <EntitySetMapping Name="E_Forms_Answer">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.E_Forms_Answer">
               <MappingFragment StoreEntitySet="E-Forms_Answer">
+                <ScalarProperty Name="Index_Order" ColumnName="Index_Order" />
                 <ScalarProperty Name="Name_En" ColumnName="Name_En" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
