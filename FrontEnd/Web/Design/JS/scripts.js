@@ -1084,7 +1084,7 @@ function GeneratePdfData() {
     Form["file_names"].forEach(e => { FilesDiv += e == "," ? "" : "<p style='margin:0 6px;direction:ltr;text-align:center;color:green !important'>" + e + "</p>" })
     document.getElementById('padf').innerHTML = `
 	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
-	<img src="../Design/img/MousLogo2.png">
+	<img src="../Design/img/mustafid (2).png">
 		<img src="../Design/img/VisionLogo.png">
 												</div>
 		<table class='container' id="PDFTable" style="width: 100%;padding: 15px;">
@@ -1093,12 +1093,12 @@ function GeneratePdfData() {
 					<th class="boldtitle" key="t-summary"></th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-serviceType"></th>
-					<th class="col-6">${Form["Service_Type_Name"]}</th>
+					<th class="col-4" key="t-serviceType"></th>
+					<td class="col-8">${Form["Service_Type_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-reqtype"></th>
-					<th class="col-6">${Form["Request_Type_Name"]}</th>
+					<th class="col-4" key="t-reqtype"></th>
+					<td class="col-8">${Form["Request_Type_Name"]}</th>
 				</tr>
 				<tr class="row">
 					<th class="boldtitle" key="t-personalData"></th>
@@ -1107,77 +1107,77 @@ function GeneratePdfData() {
 					<th class="boldtitle" key="t-genralInfo"></th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-IAUAff"></th>
-					<th class="col-6">${Form["Affiliated"]}</th>
+					<th class="col-4" key="t-IAUAff"></th>
+					<td class="col-8">${Form["Affiliated"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-applicanttype"></th>
-					<th class="col-6">${Form["Applicant_Type_Name"]}</th>
+					<th class="col-4" key="t-applicanttype"></th>
+					<td class="col-8">${Form["Applicant_Type_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-firstname"></th>
-					<th class="col-6">${Form["first_Name"]}</th>
+					<th class="col-4" key="t-firstname"></th>
+					<td class="col-8">${Form["first_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-middlename"></th>
-					<th class="col-6">${Form["middle_Name"]}</th>
+					<th class="col-4" key="t-middlename"></th>
+					<td class="col-8">${Form["middle_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-lastname"></th>
-					<th class="col-6">${Form["last_Name"]}</th>
+					<th class="col-4" key="t-lastname"></th>
+					<td class="col-8">${Form["last_Name"]}</th>
 				</tr>
 				<tr class="row">
 					<th class="boldtitle" key="t-nationalty"></th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-nationalty"></th>
-					<th class="col-6">${Form["Nationality_Name"]}</th>
+					<th class="col-4" key="t-nationalty"></th>
+					<td class="col-8">${Form["Nationality_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-country2"></th>
-					<th class="col-6">${Form["Country_Name"]}</th>
+					<th class="col-4" key="t-country2"></th>
+					<td class="col-8">${Form["Country_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-iddoc"></th>
-					<th class="col-6">${Form["ID_Document_Name"]}</th>
+					<th class="col-4" key="t-iddoc"></th>
+					<td class="col-8">${Form["ID_Document_Name"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-idnumber"></th>
-					<th class="col-6">${Form["Document_Number"]}</th>
+					<th class="col-4" key="t-idnumber"></th>
+					<td class="col-8">${Form["Document_Number"]}</th>
 				</tr>
 				<tr class="row">
 					<th class="boldtitle" key="t-address"></th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-city"></th>
-					<th class="col-6">${Form["CityAndRegion"]}</th>
+					<th class="col-4" key="t-country"></th>
+					<td class="col-8">${Form["Region_Postal_Code_1"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-region"></th>
-					<th class="col-6">${Form["Region_Postal_Code_2"]}</th>
+					<th class="col-4" key="t-region"></th>
+					<td class="col-8">${Form["Region_Postal_Code_2"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-country"></th>
-					<th class="col-6">${Form["Region_Postal_Code_1"]}</th>
+					<th class="col-4" key="t-city"></th>
+					<td class="col-8">${Form["CityAndRegion"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-postal"></th>
-					<th class="col-6">${Form["postal"]}</th>
+					<th class="col-4" key="t-postal"></th>
+					<td class="col-8">${Form["postal"]}</th>
 				</tr>
 				<tr>
 					<th class="boldtitle" key="t-contactinfo"></th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-email"></th>
-					<th class="col-6">${Form["Email"]}</th>
+					<th class="col-4" key="t-email"></th>
+					<td class="col-8">${Form["Email"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-phone"></th>
-					<th class="col-6">${Form["Mobile"]}</th>
+					<th class="col-4" key="t-phone"></th>
+					<td class="col-8">${Form["Mobile"]}</th>
 				</tr>
 				<tr class="row">
-					<th class="col-6" key="t-pdf-note"></th>
-					<th class="col-6">${Form["Required_Fields_Notes"]}</th>
+					<th class="col-4" key="t-pdf-note"></th>
+					<td class="col-8">${Form["Required_Fields_Notes"]}</th>
 				</tr>
                 ${(Form["file_names"].length == 0) ? "" :
             `<tr>
@@ -1202,7 +1202,7 @@ function GeneratePdfData() {
     }
     for (var key in data) {
         $(`th[key='${key}']`).text(data[key])
-        $(`th[key='${key}']`).css({ 'width': '50%' })
+        //$(`th[key='${key}']`).css({ 'width': '50%' })
     }
 }
 
