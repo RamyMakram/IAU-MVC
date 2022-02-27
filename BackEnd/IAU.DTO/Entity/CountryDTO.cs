@@ -12,5 +12,6 @@ namespace IAU.DTO.Entity
 		public string Country_Name_EN { get; set; }
 		public string Country_Name_AR { get; set; }
 
-	}
+        public List<RegionDTO> Regions { get; set; }
+    }
 }

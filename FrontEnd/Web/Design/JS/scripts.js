@@ -27,7 +27,7 @@ let enterPersonnel = false,
 let inquiry = false;
 let Redirect = false;
 let RedirectReqType = null;
-var isSaudi = 0
+var isSaudi = 1
 var CityComponentSelect = ""
 var Cities = []
 var RegionComponentSelect = ""
@@ -41,6 +41,7 @@ let doctype = []
 var Answer = [];
 let $AppType = []
 $(document).ready(function () {
+    CountryState()
     let data = null;
     let cook = document.cookie.split(';');
     cook.forEach(i => {

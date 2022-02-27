@@ -13,9 +13,20 @@ namespace IAU_BackEnd.Controllers
     public class CountryController : ApiController
     {
         private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
-        public async Task<ICollection<Country>> GetActive()
+        [NonAction]
+        public async Task</*ICollection<IAU.DTO.Entity.CountryDTO>*/object> GetActive()
         {
-            return p.Country.Where(q => q.IS_Action.Value).OrderBy(q => q.Index).ToList();
+            return p.Country.Where(q => q.IS_Action.Value).OrderBy(q => q.Index).Select(q => new { q.Country_ID, q.Country_Name_EN, q.Country_Name_AR, Regions = q.Region.Select(d => new { d.Region_Name_AR, d.Region_Name_EN, d.Region_ID, Cities = d.City }) }).ToList();
+        }
+        [NonAction]
+        public async Task</*ICollection<IAU.DTO.Entity.CountryDTO>*/object> GetActiveRegion()
+        {
+            return p.Region;
+        }
+        [NonAction]
+        public async Task</*ICollection<IAU.DTO.Entity.CountryDTO>*/object> GetActiveCity()
+        {
+            return p.City;
         }
     }
 }
