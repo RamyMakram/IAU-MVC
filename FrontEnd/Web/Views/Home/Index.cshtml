@@ -17,13 +17,26 @@
     <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
 
     <style>
+        #Confirmation p {
+            font-size: unset !important;
+            direction: unset !important;
+            margin: 3px 0px !important;
+            align-items: center;
+            display: flex;
+        }
+
+            #Confirmation p i.fa.fa-paperclip {
+                margin: 0 9px;
+            }
+
         .main-page ul {
             line-height: 1.8em;
         }
+
         #padf {
             background: #dee4f1e0 !important;
-            overflow:hidden;
-            height:auto !important;
+            overflow: hidden;
+            height: auto !important;
         }
 
         table#PDFTable tbody tr th:not(.boldtitle), table#PDFTable tbody tr td {
@@ -81,6 +94,9 @@
         table#PDFTable tbody tr th.boldtitle {
             font-size: 19px;
             color: #283858;
+        }
+        @@media(max-width:767px) {
+
         }
     </style>
     @if (ViewBag.CookieLang == "ar")

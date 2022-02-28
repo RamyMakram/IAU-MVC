@@ -805,7 +805,6 @@ function GetSubServices(ID) {
                 supporteddocs = SubServices[0].Docs
                 SubServices[0].Docs.forEach(function (element) {
                     let Name = language == "ar" ? element.Name_AR : element.Name_EN;
-                    console.log(element.Name_EN)
                     $("#filesName").append(`
 										<div class= "col-lg-4 col-md-6 col-sm-6" style = "margin-bottom:10px;padding:0px;4px;" >
 												<div style="background-color: #f6f6f6;display: inline; padding: 0px 3px;border-radius: 5px;">
@@ -1081,7 +1080,15 @@ function GeneratePdfData() {
     }
     let Form = SerializeGenratePDF();
     let FilesDiv = ""
-    Form["file_names"].forEach(e => { FilesDiv += e == "," ? "" : "<p style='margin:0 6px;direction:ltr;text-align:center;color:green !important'>" + e + "</p>" })
+    Form["file_names"].forEach(e => {
+        let checkif_reqdoc = uploadfiles.find(q => q.File.name == e);
+        let Name = ""
+        if (checkif_reqdoc != null) {
+            let element = supporteddocs.find(q => q.ID == checkif_reqdoc.ID)
+            Name = language == "ar" ? element.Name_AR : element.Name_EN;
+        }
+        FilesDiv += (e == "," ? "" : "<p style='margin:0 6px;color:green !important;width:200px !important'><i class='fa fa-paperclip' aria-hidden='true'></i> " + (Name != "" ? Name : e) + "</p>")
+    })
     document.getElementById('padf').innerHTML = `
 	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
 	<img src="../Design/img/mustafid (2).png">
@@ -1184,7 +1191,9 @@ function GeneratePdfData() {
 					<th class="boldtitle" key="t-attachment"></th>
 				</tr>
 				<tr class="row" style="display:inline-flex">
-					<th class="col-12 FilesINPDF">${FilesDiv}</th>
+					<th class="col-12 FilesINPDF">
+                        <div class="row" style="display:flex;flex-wrap:wrap;justify-content: center;">${FilesDiv}</div>
+                    </th>
 				</tr>`
         }
 			</tbody>

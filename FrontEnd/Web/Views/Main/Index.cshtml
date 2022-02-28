@@ -10,7 +10,7 @@
         text-align:start !important;
     }
 
-    .t-justify, p, li {
+    .t-justify, p, li, blockquote {
         text-align: justify !important;
     }
 
@@ -293,10 +293,10 @@ else
             <div class="col-md-8 content" style="background-color: #fff;">
                 <div class="col-md-12 display-1 loc1" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
                     <blockquote style="color: #0a1332; font-size: 16px; margin: 0px 0px 50px;">
-                        تم إنشاء قطاع تقديم الخدمات للمستفيدين من جامعة الإمام عبدالرحمن بن فيصل تحت اسم مركز رعاية المستفيدين (IAU-BSC)، بهدف تحويل توصيل الخدمات المقدمة من قبل الجامعة إلى كيان إداري مركزي مستقل لديه مجموعة من السلطات والصلاحيات القانونية فضلًا عن تمتعه بحق التصرف الإداري والمالي. وعليه, فقد تم تصميم مركز رعاية المستفيدين وتشغيله لتوفير جميع الخدمات المتاحة لمستخدميه المحتملين، إضافة لتعاون الجهات الادارية المختصة من أجل تحسين أنواع الخدمات وجودتها وأنظمة تقديمها وذلك لتوجيه أصول جامعة الإمام عبد الرحمن بن فيصل وتوسيع استخدامها وبناء قدرات استثمارية عالية.
+                        تم إنشاء قطاع تقديم الخدمات للمستفيدين من جامعة الإمام عبدالرحمن بن فيصل تحت اسم مركز رعاية المستفيدين (IAU-BSC)، بهدف تحويل توصيل الخدمات المقدمة من قبل الجامعة إلى كيان إداري مركزي مستقل لديه مجموعة من السلطات والصلاحيات القانونية فضلًا عن تمتعه بحق التصرف الإداري والمالي. وعليه, فقد تم تصميم مركز رعاية المستفيدين وتشغيله لتوفير جميع الخدمات المتاحة لمستخدميه المحتملين، إضافة لتعاون الجهات الادارية المختصة من أجل تحسين أنواع الخدمات وجودتها وأنظمة تقديمها وذلك لتوجيه أصول جامعة الإمام عبد الرحمن بن فيصل وتوسيع استخدامها وبناء قدرات استثمارية عالية.                        <br />
                         <br />
-                        <br />
-                        تم إنشاء قطاع تقديم الخدمات للمستفيدين من جامعة الإمام عبدالرحمن بن فيصل تحت اسم مركز رعاية المستفيدين (IAU-BSC)، بهدف تحويل توصيل الخدمات المقدمة من قبل الجامعة إلى كيان إداري مركزي مستقل لديه مجموعة من السلطات والصلاحيات القانونية فضلًا عن تمتعه بحق التصرف الإداري والمالي. وعليه, فقد تم تصميم مركز رعاية المستفيدين وتشغيله لتوفير جميع الخدمات المتاحة لمستخدميه المحتملين، إضافة لتعاون الجهات الادارية المختصة من أجل تحسين أنواع الخدمات وجودتها وأنظمة تقديمها وذلك لتوجيه أصول جامعة الإمام عبد الرحمن بن فيصل وتوسيع استخدامها وبناء قدرات استثمارية عالية.
+                        ويسعى مركز رعاية المستفيدين إلى تقديم أعلى مستويات الخدمة لمنسوبي الجامعة، فضلًا عن توسيع نطاق استخدام هذه الخدمات للمواطنين والمقيمين والزائرين وفقًا لشروط وأحكام ميسرة. وستتم جميع الإجراءات عبر مركز رعاية المستفيدين أو من خلال تطبيق مركز رعاية المستفيدين "مستفيد" والذي يمكن الوصول إليه عبر الموقع الرسمي لجامعة الإمام عبد الرحمن بن فيصل باستخدام أجهزة الحواسيب أو الهواتف الذكية.
+
                     </blockquote>
                     @*<p style="color: #0a1332; font-size: 16px; font-weight:bold; text-align:right">
                             Dr. Saleh bin Ali Al-Rashed
@@ -1414,20 +1414,20 @@ else
     $(document).ready(() => {
         if (document.body.offsetWidth < 767) {
             document.querySelector(".content .loc1").parentElement.style.display = "none"
+            return
+            //const elements = document.getElementsByClassName("smallview");
+            //while (elements.length > 0)
+            //    elements[0].parentNode.removeChild(elements[0]);
 
-            const elements = document.getElementsByClassName("smallview");
-            while (elements.length > 0)
-                elements[0].parentNode.removeChild(elements[0]);
+            //console.log(".content .loc1")
 
-            console.log(".content .loc1")
-
-            let dd = document.createElement('div')
-            dd.style = "background-color: rgb(255, 255, 255); display: block;"
-            dd.className = "col-md-8 content smallview"
-            let prevobj = document.querySelector(".content .loc1").cloneNode(true);
-            prevobj.style.display = "block"
-            dd.appendChild(prevobj)
-            document.querySelector('[location="loc1"]').parentElement.parentElement.insertAdjacentHTML('afterend', dd.outerHTML)
+            //let dd = document.createElement('div')
+            //dd.style = "background-color: rgb(255, 255, 255); display: block;"
+            //dd.className = "col-md-8 content smallview"
+            //let prevobj = document.querySelector(".content .loc1").cloneNode(true);
+            //prevobj.style.display = "block"
+            //dd.appendChild(prevobj)
+            //document.querySelector('[location="loc1"]').parentElement.parentElement.insertAdjacentHTML('afterend', dd.outerHTML)
         }
         else {
             document.querySelector(".content .loc1").parentElement.style.display = "block"
