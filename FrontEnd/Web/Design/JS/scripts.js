@@ -448,9 +448,7 @@ $('.mainservice').click(function (e) {//service type
                 $("#Request_Type_Id").append(`
 							<div class="col-md-4 col-lg-3">
 								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypenameEN="${request.Name_EN}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
-									<img src=${(serverpath + "/" + request.Image_Path)} data-bs-toggle="tooltip" data-bs-placement="top"
-										 data-bs-custom-class="beautifier"
-										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+									<img src="${(serverpath + "/" + request.Image_Path)}">
 									<p>${(language == "ar" ? request.Name_AR : request.Name_EN)}</p >
 								</div >
 							</div >

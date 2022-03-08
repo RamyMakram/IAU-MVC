@@ -339,9 +339,7 @@
 
                     <div class="col-md-4 col-lg-3">
                         <div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
-                            <img src="@(serverpath+"/"+service.Image_Path)" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="top"
-                                 data-bs-custom-class="beautifier"
-                                 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+                            <img src="@(serverpath+"/"+service.Image_Path)">
                             <p>
                                 @{
                                     var names = (isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN).Replace(" ", "\n");
