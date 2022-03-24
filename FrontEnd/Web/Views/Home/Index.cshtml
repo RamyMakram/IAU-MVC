@@ -95,8 +95,8 @@
             font-size: 19px;
             color: #283858;
         }
-        @@media(max-width:767px) {
 
+        @@media(max-width:767px) {
         }
     </style>
     @if (ViewBag.CookieLang == "ar")
@@ -123,7 +123,7 @@
             display: none;
         }
 
-            .loading.active {
+            .loading.active, .loading.callApi {
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -339,7 +339,9 @@
 
                     <div class="col-md-4 col-lg-3">
                         <div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
-                            <img src="@(serverpath+"/"+service.Image_Path)">
+                            <img src="@(serverpath+"/"+service.Image_Path)" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="top"
+                                 data-bs-custom-class="beautifier"
+                                 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
                             <p>
                                 @{
                                     var names = (isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN).Replace(" ", "\n");
@@ -388,9 +390,8 @@
                                                  data-bs-custom-class="beautifier"
                                                  title='إذا كنت طالبًا أو موظفًا مسجلًا في الجامعة (أعضاء هيئة التدريس والموظفين) ، سواء كنت سعوديًا أو متعاقدًا ، فاضغط على نعم. إذا لم تكن في أي من الحالات السابقة ، فاضغط على "لا"' />
                                             <select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
-                                                <option disabled selected value="null">اختر</option>
                                                 <option value="1">نعم</option>
-                                                <option value="0">لا</option>
+                                                <option value="0" selected>لا</option>
                                             </select>
                                             <button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
                                         }
@@ -597,7 +598,7 @@
                                     <div class="col-md-7" id="City">
                                         <img />
                                         <select id="City_Country_1" name="City_Country_1">
-                                            @foreach (var i in Model.City.Where(q => q.Region_ID == Model.Region.First().Region_ID))
+                                            @foreach (var i in Model.City.Where(q => q.Region_ID == 5))
                                             {
                                                 <option value="@i.City_ID">@(isar ? i.City_Name_AR : i.City_Name_EN)</option>
                                             }
@@ -663,9 +664,8 @@
                                                  data-bs-custom-class="beautifier"
                                                  title="If you are an IAU registered student or employee (faculty and staff), whether Saudi or contracted, click Yes. If you are not in any of the previous cases, press No" />
                                             <select id="Affiliated" class="required" name="Affiliated" onchange="AffiliatedState()">
-                                                <option disabled selected value="null">Select</option>
                                                 <option value="1">Yes</option>
-                                                <option value="0">No</option>
+                                                <option value="0" selected>No</option>
                                             </select>
                                             <button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
                                         }
@@ -840,7 +840,6 @@
                                         <img />
                                         @*Countery*@
                                         <select id="City_Country_2" name="City_Country_2" onchange="CountryState()">
-                                            <option disabled selected value="null">Select-----------------</option>
                                             @foreach (var i in Country)
                                             {
                                                 <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
@@ -854,10 +853,13 @@
                                     </div>
                                     <div class="col-md-7" id="Region">
                                         <img />
-                                        @*<select  id="Region_Postal_Code_1" name="Region_Postal_Code_1">
-                                                <option disabled selected value="null">Select-----------------</option>
-                                            </select>*@
-                                        <input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" />
+                                        <select id="Region_Postal_Code_1" name="Region_Postal_Code_1">
+                                            @foreach (var i in Model.Region)
+                                            {
+                                                <option value="@i.Region_ID">@(isar ? i.Region_Name_AR : i.Region_Name_EN)</option>
+                                            }
+                                        </select>
+                                        <input type="text" id="Region_Postal_Code_1" name="Region_Postal_Code_1" style="display:none" />
                                     </div>
                                 </div>
                             </div>
@@ -868,10 +870,13 @@
                                     </div>
                                     <div class="col-md-7" id="City">
                                         <img />
-                                        @*<select id="City_Country_1" name="City_Country_1">
-                                                <option disabled selected value="null">Select-----------------</option>
-                                            </select>*@
-                                        <input type="text" id="City_Country_1" name="City_Country_1">
+                                        <select id="City_Country_1" name="City_Country_1">
+                                            @foreach (var i in Model.City.Where(q => q.Region_ID == 5))
+                                            {
+                                                <option value="@i.City_ID">@(isar ? i.City_Name_AR : i.City_Name_EN)</option>
+                                            }
+                                        </select>
+                                        <input type="text" id="City_Country_1" name="City_Country_1" style="display:none">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -998,20 +1003,20 @@
 
                         </div>
                         <div class="row" style="margin-top:0px;margin-right:25px">
-                            <div class="col-md-3">وصف الطلب</div>
+                            <div class="col-md-3 required-lable">وصف الطلب</div>
                             <div class="col-md-1">
                                 <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
-                                     title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
+                                     title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 400 حرف." />
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
                                 <div id="textarea-container">
                                     <div class="insideTextArea">
-                                        <p class=" required-lable">وصف الطلب (300 حرف كحد أقصى)</p>
+                                        <p class="">وصف الطلب (400 حرف كحد أقصى)</p>
                                     </div>
-                                    <textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="300"></textarea>
+                                    <textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="400"></textarea>
                                     <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter">/300</span>
+                                        <span id="text-area-counter">/400</span>
                                     </div>
                                 </div>
                             </div>
@@ -1099,20 +1104,20 @@
 
                         </div>
                         <div class="row" style="margin-top:0px; margin-left: 25px; ">
-                            <div class="col-md-3">Request Description</div>
+                            <div class="col-md-3 required-lable">Request Description</div>
                             <div class="col-md-1">
                                 <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
-                                     title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
+                                     title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 400 characters." />
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
                                 <div id="textarea-container">
                                     <div class="insideTextArea">
-                                        <p class=" required-lable">Request Description (300 character max.)</p>
+                                        <p class="">Request Description (400 character max.)</p>
                                     </div>
-                                    <textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="300"></textarea>
+                                    <textarea id="Required_Fields_Notes" name="Required_Fields_Notes" maxlength="400"></textarea>
                                     <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter">/300</span>
+                                        <span id="text-area-counter">/400</span>
                                     </div>
                                 </div>
                             </div>
@@ -1154,20 +1159,20 @@
                             </div>
                         </div>
                         <div class="row" style="margin-right:20px">
-                            <div class="col-md-3">وصف الطلب</div>
+                            <div class="col-md-3 required-lable">وصف الطلب</div>
                             <div class="col-md-1">
                                 <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
-                                     title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 300 حرف." />
+                                     title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 400 حرف." />
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
                                 <div id="textarea-container">
                                     <div class="insideTextArea">
-                                        <span class=" required-lable">وصف الطلب (300 حرف كحد أقصى)</span>
+                                        <span class="">وصف الطلب (400 حرف كحد أقصى)</span>
                                     </div>
-                                    <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
+                                    <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="400"></textarea>
                                     <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter_Other">/300</span>
+                                        <span id="text-area-counter_Other">/400</span>
                                     </div>
                                 </div>
                             </div>
@@ -1206,21 +1211,21 @@
                             </div>
                         </div>
                         <div class="row" style="margin-left:20px">
-                            <div class="col-md-3">Request Description</div>
+                            <div class="col-md-3 required-lable">Request Description</div>
                             <div class="col-md-1">
                                 <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                      data-bs-custom-class="beautifier"
-                                     title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 300 characters." />
+                                     title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 400 characters." />
 
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
                                 <div id="textarea-container">
                                     <div class="insideTextArea">
-                                        <span class=" required-lable">Request Description (300 character max.)</span>
+                                        <span class="">Request Description (400 character max.)</span>
                                     </div>
-                                    <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="300"></textarea>
+                                    <textarea id="Required_Fields_Notes_Other" name="Required_Fields_Notes" maxlength="400"></textarea>
                                     <div class="insideTextAreaCounter">
-                                        <span id="text-area-counter_Other">/300</span>
+                                        <span id="text-area-counter_Other">/400</span>
                                     </div>
                                 </div>
                             </div>
@@ -1239,7 +1244,7 @@
                                 <ol style="margin:10px 0px">
                                     <li>
                                         يرجى <span> مراجعة الطلب</span>  إذا كان الطلب الخاص بك غير مكتمل أو كنت بحاجة إلى تصحيح أي أخطاء ، يرجى النقر فوق
-                                        <span> السابق</span> وإكمال ما هو ضروري. إذا كنت راضيًا عن المعلومات التي أدخلتها ، فيرجى النقر فوق <span>إرسال</span>
+                                        <span> السابق</span> وإكمال ما هو ضروري. إذا كنت راضياً عن المعلومات التي أدخلتها ، فيرجى النقر فوق <span>إرسال</span>
 
                                         <div id="padf" class="pdfnotloaded">
 
@@ -1251,13 +1256,10 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        اضغط فوق الزر <span>إرسال</span>  عندما تكون مستعدًا للإرسال
-                                        <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-                                            <button id="saveRequestBTN" onclick="sendSMS()">إرسال</button>
-                                        </div>
-                                    </li>
                                 </ol>
+                                <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+                                    <button id="saveRequestBTN" onclick="sendSMS()">إرسال</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1284,14 +1286,11 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        Click the <span>submit</span> button where you're ready to submit.
-                                        <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
-                                            <button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
-                                        </div>
-                                    </li>
 
                                 </ol>
+                                <div class="col-md-4" style="padding: 25px; text-align: center;width: 100%;">
+                                    <button id="saveRequestBTN" onclick="sendSMS()">Submit</button>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -37,7 +37,26 @@ namespace Web.Controllers
 
             return RedirectToAction("Error");
         }
+        public ActionResult Test()
+        {
+            try
+            {
+                int code = new Random().Next(1000, 9999);
+                Debug.WriteLine(code);
+                string message_en = $@"Use this code {code} to complete your request.";
+                string message_ar = $@"برجاء استخدام هذا الكود {code} لاتمام طلبك";
+                var res = APIHandeling.getDataAdmin($"/Request/NotifyUser?Mobile=01210666209&message_en={message_en}&message_ar={message_ar}&Email=ramymakrameyd@outlook.com");
 
+                var resJson = res.Content.ReadAsStringAsync().Result;
+                string HashedCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code.ToString())));
+                Response.Cookies.Add(new HttpCookie("n", HashedCode));
+                return Json(resJson, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpGet]
         public ActionResult RedirectTo()
         {
@@ -249,7 +268,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult GetEform(int ID,int UnitID)
+        public ActionResult GetEform(int ID, int UnitID)
         {
             if (!HttpContext.Request.IsAjaxRequest())
                 return Json("401", JsonRequestBehavior.AllowGet);
@@ -263,10 +282,10 @@ namespace Web.Controllers
             ViewBag.EfCode = Jobject["UnitCode"].ToString();
             return PartialView("~/Views/Home/_Eform.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(Jobject["Eform"].ToString()));
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult GetEformSummary(int ID,int uid)
+        public ActionResult GetEformSummary(int ID, int uid)
         {
             if (!HttpContext.Request.IsAjaxRequest())
                 return Json("401", JsonRequestBehavior.AllowGet);
@@ -279,6 +298,20 @@ namespace Web.Controllers
             ViewBag.UnitARName = Jobject["UnitAR"].ToString();
             ViewBag.EfCode = Jobject["UnitCode"].ToString();
             return PartialView("~/Views/Home/_EformReadOnly.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(Jobject["Eform"].ToString()));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public JsonResult GetRedirectedData(string token, string language)
+        {
+            if (!HttpContext.Request.IsAjaxRequest())
+                return Json("401", JsonRequestBehavior.AllowGet);
+            HttpClient h = new HttpClient();
+
+
+            var res = h.GetAsync($"https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName={token}&lang={language}");
+            var resJson = res.Result.Content.ReadAsStringAsync();
+            return Json(resJson.Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

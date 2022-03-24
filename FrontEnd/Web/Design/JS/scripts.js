@@ -20,6 +20,10 @@ function GetCookie() {
 }
 $('img').on('dragstart', function (event) { event.preventDefault(); });
 ////////////////////////////////////////////////////get cookie of lang /////////////////////////////////
+let isAffilate = 0;
+let uploadfiles = [];
+let FileNames = [];
+var fileData = new FormData();
 let CurrentPage = 1;
 let enterPersonnel = false,
     enterDocuments = false,
@@ -55,12 +59,17 @@ $(document).ready(function () {
     let mst = localStorage.getItem("mst");
     let ret = localStorage.getItem("ret");
     if (data != null && data != "" && mst != null && mst != "" && ret != null && ret != "") {
+        $(".loading").addClass("callApi");
         $.ajax({
-            url: `https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName=${encodeURIComponent(data)}&lang=${language}`,
-            type: "GET",
-            crossDomain: false,
-            dataType: 'json',
-            success: function (res) {
+            url: `/Home/GetRedirectedData`,
+            data: {
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                token: encodeURIComponent(data),
+                language
+            },
+            type: "POST",
+            success: function (da) {
+                var res = JSON.parse(da)
                 Redirect = true;
                 document.cookie = "";
                 window.history.pushState({}, document.title, "/");
@@ -104,7 +113,10 @@ $(document).ready(function () {
                     FilterAppType(true);
                 }
 
-                setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+                localStorage.removeItem('mst')
+                localStorage.removeItem('ret')
+
+                setTimeout(e => { $(".loading").removeClass("callApi"); }, 500)
             },
             error: function () {
                 localStorage.removeItem('mst')
@@ -119,7 +131,7 @@ $(document).ready(function () {
         document.cookie = "";
         if (data != null && data != "")
             location.href = location.href.split("?")[0]
-        setTimeout(e => { $(".loading").removeClass("active"); }, 500)
+        setTimeout(e => { $(".loading").removeClass("callApi"); }, 500)
 
     }
     if (document.body.offsetWidth < 767) {
@@ -141,7 +153,8 @@ function reIntializeReType() {
                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
             }, success: function (data) {
                 $AppType = JSON.parse(data)
-                $('#Affiliated').val("0").trigger("change");
+                if (!Redirect)
+                    $('#Affiliated').val("0").trigger("change");
                 $("#right-arrow").click();
                 setTimeout(e => { $(".loading").removeClass("active"); }, 500)
             }
@@ -271,7 +284,6 @@ $("#right-arrow").click(function () {
             $(".nav-fill .nav-item:nth-of-type(" + CurrentPage + ") .nav-link").addClass("active")
             $('.containt > .row').attr("style", "display:none;");
             $(`.containt > .row[data-PageIndex='${CurrentPage}']`).attr("style", "display:flex;");
-            LoadApiDocumentsData()
         }
     }
     else if (CurrentPage == 4) {//Enter Confirmation
@@ -313,15 +325,16 @@ $("#right-arrow").click(function () {
 
         }
         else {
-            let e = $('#providerOther,#Required_Fields_Notes_Other')
-            if (e.val() == "" || e.val() == null || e.val() == "null") {
-                $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
-                error = true;
-                return;
-            }
-            else {
-                $(e).css({ 'border': 'none', 'background': 'white' })
-            }
+            ([...$('#providerOther,#Required_Fields_Notes_Other')]).forEach(e => {
+                if (e.value == "" || e.value == null || e.value == "null") {
+                    $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
+                    error = true;
+                    return;
+                }
+                else {
+                    $(e).css({ 'border': 'none', 'background': 'white' })
+                }
+            });
         }
         if (error)
             return;
@@ -448,12 +461,15 @@ $('.mainservice').click(function (e) {//service type
                 $("#Request_Type_Id").append(`
 							<div class="col-md-4 col-lg-3">
 								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypenameEN="${request.Name_EN}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
-									<img src="${(serverpath + "/" + request.Image_Path)}">
+									<img src=${(serverpath + "/" + request.Image_Path)} data-bs-toggle="tooltip" data-bs-placement="top"
+										 data-bs-custom-class="beautifier"
+										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
 									<p>${(language == "ar" ? request.Name_AR : request.Name_EN)}</p >
 								</div >
 							</div >
 					`)
             })
+            $("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
             $(`.mainservice`).removeClass('active')
             $(`.mainservice[data-mainserviceid="${ID}"]`).addClass('active');
             reIntializeReType();
@@ -466,7 +482,7 @@ $('.mainservice').click(function (e) {//service type
 })
 
 ///////////////////////////////////////////////////////////////////////////////
-let dropArea = document.getElementById('drop-area');
+let dropArea = document.querySelectorAll('#drop-area,#drop-area-other');
 let Supportedfilename = "";
 $("#drop-area-other p").click(function () {
     $("#filelistOther").click();
@@ -475,10 +491,15 @@ $("#drop-area p").click(function () {
     $("#filelistSupportive").click();
 });
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, preventDefaults, false)
+    dropArea.forEach(i => {
+        i.addEventListener(eventName, preventDefaults, false)
+    })
 });
 
-dropArea.addEventListener('drop', handleDrop, false);
+dropArea.forEach(i => {
+    console.log(i)
+    i.addEventListener('drop', handleDrop, false);
+})
 
 function preventDefaults(e) {
     e.preventDefault()
@@ -490,10 +511,6 @@ function handleDrop(e) {
     let files = dt.files
     HandelDragAndDrop(files)
 }
-
-let uploadfiles = [];
-let FileNames = [];
-var fileData = new FormData();
 
 function handleFiles(files) {
     if (inquiry) {
@@ -513,36 +530,22 @@ function handleFiles(files) {
 let DropedFile = []
 counter = 0;
 function HandelDragAndDrop(files) {
-    if (inquiry) {
-        let sum = 0;
-        //$('#filesNameDrop').html("");
-        //DropedFile = files;
-        if (Math.floor((sum / 1024) / 1024 > 20)) {
-            alert("max files size 20MB")
-        } else {
-            ([...files]).forEach(function (file) {
+    let sum = 0;
+    if (Math.floor((sum / 1024) / 1024 > 20)) {
+        alert("max files size 20MB")
+    } else {
+        ([...files]).forEach(function (file) {
+            console.log(file)
+
+            if (FileNames.findIndex(q => q == file.name) == -1) {
                 DropedFile.push(file)
                 counter++;
                 FileNames.push(file.name);
-                $('#filesNameDrop').append("<div class='col-md-6 fileshow' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
-            });
-        }
+                $(inquiry ? '#filesNameDrop' : '#filesNameDropOther').append("<div class='col-md-6 fileshow' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
+            }
+        });
     }
-    else {
-        let sum = 0;
-        //$('#filesNameDropOther').html("");
-        if (Math.floor((sum / 1024) / 1024 > 20)) {
-            alert("max files size 20MB")
-        } else {
-            ([...files]).forEach(function (file) {
-                DropedFile.push(file)
-                counter++;
-                FileNames.push(file.name)
-                $('#filesNameDropOther').append("<div class='col-md-6 fileshow' data-filename='" + file.name + "' id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle'" + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
-            });
-        }
-        //console.log(DropedFile)
-    }
+
 }
 function deleteFileSupport(id, _this) {
     event.stopPropagation();
@@ -691,24 +694,13 @@ function saveRequest() {
 
 function AssignCity(data) {
     data.forEach(function (element) {
-        CityComponentSelect += "<option value=" + element.City_ID + ">" + (language == "ar" ? element.City_Name_AR : element.City_Name_EN) + "</option>"
+        CityComponentSelect += `<option ${(element.City_ID == 310 ? 'selected' : '')} value="${element.City_ID}">${(language == "ar" ? element.City_Name_AR : element.City_Name_EN)}</option>`
     });
     CityComponentSelect += "</select>"
 }
 
 $("#Required_Fields_Notes_Other").keyup(function () {
-    $("#text-area-counter_Other").text($(this).val().length + "/300")
-    if ($(this).val()) {
-        $(".insideTextArea").hide();
-        $(".insideTextAreaCounter").show()
-    } else if (!$(this).val()) {
-        $(".insideTextArea").show();
-        $(".insideTextAreaCounter").hide()
-    }
-});
-
-$("#Required_Fields_Notes").keyup(function () {
-    $("#text-area-counter").text($(this).val().length + "/300")
+    $("#text-area-counter_Other").text($(this).val().length + "/400")
     if ($(this).val()) {
         $(".insideTextArea").hide();
         $(".insideTextAreaCounter").show()
@@ -815,6 +807,10 @@ function GetSubServices(ID) {
                                         </div >
 				`)
                 });
+                if (SubServices[0].Docs.length == 0)
+                    $('#upload-area').css('background-color', 'rgb(239 239 239 / 57%)')
+                else
+                    $('#upload-area').css('background-color', 'white')
                 $(".fa-upload").click(function () {
                     Current_Supportedfilename = this.getAttribute("name");
                     Supportedfilename = this.getAttribute("data-RequiredName")
@@ -846,6 +842,12 @@ function GetEfroms(ID) {
     let Docs = SubServices.find(q => q.ID == ID)
     $("#filesName").html("")
     supporteddocs = Docs.Docs
+
+    if (supporteddocs.length == 0)
+        $('#upload-area').css('background-color', 'rgb(239 239 239 / 57%)')
+    else
+        $('#upload-area').css('background-color', 'white')
+
     Docs.Docs.forEach(function (element) {
         let Name = language == "ar" ? element.Name_AR : element.Name_EN
         $("#filesName").append(`
@@ -889,6 +891,7 @@ function GetEfroms(ID) {
                 let data = JSON.parse(result)
                 if (data.length != 0) {
                     $('#Eform-read-summary').parent().css('display', 'block');
+                    $('#E-forms').css('background-color', 'white')
 
                     data.forEach(function (element) {
                         $("#EFormsView").append(`
@@ -911,8 +914,10 @@ function GetEfroms(ID) {
                         )
                     });
                 }
-                else
+                else {
                     $('#Eform-read-summary').parent().css('display', 'none');
+                    $('#E-forms').css('background-color', 'rgb(239 239 239 / 57%)')
+                }
                 ReIntalizeEformListener();
                 ReIntalizeEformReadOnlyListener()
             }
@@ -1233,7 +1238,6 @@ function confirm() {
     $("#left-arrow").attr("style", "visibility:visable");
 }
 
-let isAffilate = 0;
 function FilterAppType(aff) {
     let $data = $AppType.filter(q => aff ? q.Affliated : !q.Affliated)
     $("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
@@ -1244,6 +1248,7 @@ function FilterAppType(aff) {
 function AffiliatedState() {
     isAffilate = parseInt($("#Affiliated option:selected").val());
     if (isAffilate == 1) {
+        $(".loading").addClass("active");
         $("#IAUID").removeAttr("disabled");
         if (!Redirect) {
             localStorage.setItem("ret", document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'))
@@ -1271,14 +1276,14 @@ function CountryState() {
             if (data.Regions.length != 0) {
                 isSaudi = 1;
                 Cities = data.City;
-                let id = data.Regions[0].Region_ID;
+                let id = 5;
                 CityComponentSelect = `<select id="City_Country_1" name="City_Country_1">`
                 RegionComponentSelect = `<select id="Region_Postal_Code_1" name="Region_Postal_Code_1">`
                 data.Regions.forEach(function (element) {
-                    RegionComponentSelect += "<option value=" + element.Region_ID + ">" + (language == "ar" ? element.Region_Name_AR : element.Region_Name_EN) + "</option>"
+                    RegionComponentSelect += `<option ${(element.Region_ID == 5 ? ' selected' : '')} value="${element.Region_ID}"> ${(language == "ar" ? element.Region_Name_AR : element.Region_Name_EN)}</option>`
                 });
                 RegionComponentSelect += "</select>"
-                AssignCity(Cities.filter(q => q.Region_ID == id));
+                AssignCity(Cities.filter(q => q.Region_ID == 5));
                 var CityAttr = document.getElementById('City');
                 if (CityComponentSelect != "") {
                     CityAttr.innerHTML = `
@@ -1302,7 +1307,6 @@ function CountryState() {
 			`;
                     })
                 }
-
             }
             else {
                 isSaudi = 0;
@@ -1330,7 +1334,7 @@ $("#Documents-Inquery #Documents #E-forms .icon-container").click(function () {
 });
 
 $("#Required_Fields_Notes").keyup(function () {
-    $("#Required_Fields_Notes-counter").text($(this).val().length + "/300")
+    $("#Required_Fields_Notes-counter").text($(this).val().length + "/400")
     if ($(this).val()) {
         $(".insideTextArea").hide();
         $(".insideTextAreaCounter").show()
