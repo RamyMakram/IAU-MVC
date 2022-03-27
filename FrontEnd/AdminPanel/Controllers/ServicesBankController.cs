@@ -147,6 +147,7 @@ namespace AdminPanel.Controllers
             var Data = APIHandeling.Post("Main_Services/_Delete?id=" + id, new { });
             var resJson = Data.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            res.result = JsonConvert.SerializeObject(res.result);
             return Json(res);
         }
     }

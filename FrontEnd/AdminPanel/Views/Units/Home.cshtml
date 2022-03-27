@@ -84,7 +84,7 @@
                         @foreach (var i in Model)
                         {
                             <tr onclick="Go(this,'@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
-                                
+
                                 <td class="TH-ar ar-font">
                                     <span id="MainServiceImages">
                                         @foreach (var s in i.UnitServiceTypes)
@@ -287,14 +287,15 @@
 		}).then(function (result) {
 			if (result.value) {
 				$.ajax({
-					url: '/Units/Delete?id=' + id,method: "POST",  success: function (res) {
+                    url: '/Units/Delete?id=' + id, method: "POST", success: function (res) {
 						if (res["success"] == true)
 							location.href = location.href;
-						else {
+                        else {
 							Swal.fire({
 								  icon: 'error',
 								  title: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف" : "Delete failed")",
-								  text: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . بسبب ان هناك بيانات معتمده علي هذه الفئة" : "Delete failed.Because there are data depended on this unit")",
+                                text:
+                                    "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . بسبب ان هناك بيانات معتمده علي هذه الفئة" : "Delete failed.Because there are data depended on this unit")",
 								  confirmButtonText:'@(Request.Cookies["lang"].Value == "ar" ? "حسنا" : "Okay")',
 								})
 						}
