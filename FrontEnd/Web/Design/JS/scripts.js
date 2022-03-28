@@ -1095,7 +1095,7 @@ function GeneratePdfData() {
     document.getElementById('padf').innerHTML = `
 	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
 	<img src="../Design/img/mustafid (2).png">
-		<img src="../Design/img/VisionLogo.png">
+		<img src="../Design/img/VisionLogo.png" style="padding-top: 10px;">
 												</div>
 		<table class='container' id="PDFTable" style="width: 100%;padding: 15px;">
 			<tbody>

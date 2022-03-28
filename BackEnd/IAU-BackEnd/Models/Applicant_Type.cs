@@ -26,6 +26,7 @@ namespace IAU_BackEnd.Models
         public string Applicant_Type_Name_AR { get; set; }
         public Nullable<bool> IS_Action { get; set; }
         public bool Affliated { get; set; }
+        public int Index { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Personel_Data> Personel_Data { get; set; }

@@ -115,13 +115,17 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id);
+            Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id);
             if (main_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
-            if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.Count == 0)
+            if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.All(q => q.Request_Data.Count == 0))
             {
-                db.Main_Services.Remove(main_Services);
+                var subserviceid = main_Services.Sub_Services.Select(s => s.Sub_Services_ID);
+                db.E_Forms.RemoveRange(db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID)));
+                db.Required_Documents.RemoveRange(db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value)));
+                db.Sub_Services.RemoveRange(main_Services.Sub_Services);
                 db.ValidTo.RemoveRange(db.ValidTo.Where(q => q.MainServiceID == id));
+                db.Main_Services.Remove(main_Services);
                 await db.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
             }
@@ -130,12 +134,6 @@ namespace IAUBackEnd.Admin.Controllers
                 success = false,
                 result = new
                 {
-                    Subservices = main_Services.Sub_Services.Select(q => new
-                    {
-                        ID = q.Sub_Services_ID,
-                        EN = q.Sub_Services_Name_EN,
-                        AR = q.Sub_Services_Name_AR
-                    }),
                     units = main_Services.UnitMainServices.Select(q => new
                     {
                         ID = q.UnitID,

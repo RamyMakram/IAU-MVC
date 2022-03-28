@@ -14,6 +14,7 @@
           <Property Name="Applicant_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="Affliated" Type="bit" Nullable="false" />
+          <Property Name="Index" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
@@ -1990,6 +1991,7 @@
           <Property Name="Affliated" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" FromRole="Applicant_Type" ToRole="Personel_Data" />
           <NavigationProperty Name="ValidTo" Relationship="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
+          <Property Name="Index" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
@@ -3458,6 +3460,7 @@
           <EntitySetMapping Name="Applicant_Type">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Applicant_Type">
               <MappingFragment StoreEntitySet="Applicant_Type">
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="Affliated" ColumnName="Affliated" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Applicant_Type_Name_AR" ColumnName="Applicant_Type_Name_AR" />

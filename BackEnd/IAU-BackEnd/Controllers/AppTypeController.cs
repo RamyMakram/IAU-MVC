@@ -26,8 +26,7 @@ namespace IAU_BackEnd.Controllers
                     s.Request_Type_ID == ReqType
                     ) != 0
                 ) != 0
-            ).Select(q => q.Applicant_Type).Distinct().Select(q => new { q.Applicant_Type_Name_AR, q.Applicant_Type_Name_EN, q.Affliated, q.Applicant_Type_ID });
-            var ss = data.ToList();
+            ).Select(q => q.Applicant_Type).Distinct().Select(q => new { q.Applicant_Type_Name_AR, q.Applicant_Type_Name_EN, q.Affliated, q.Applicant_Type_ID, q.Index }).OrderBy(q => q.Index).Select(q => new { q.Applicant_Type_Name_AR, q.Applicant_Type_Name_EN, q.Affliated, q.Applicant_Type_ID });
             return Ok(new ResponseClass() { success = true, result = data });
         }
     }

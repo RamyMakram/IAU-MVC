@@ -11,8 +11,8 @@
     var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
 }
 <style>
-    .t-start{
-        text-align:start;
+    .t-start {
+        text-align: start;
     }
 </style>
 <!-- DataTables -->
@@ -143,28 +143,26 @@
 							let data = JSON.parse(res["result"])
                             console.log(data)
                             let units = "";
-                            let sub = "";
-                            data.units.forEach(i => {
-                                units += `<a href="/units?uname=${encodeURIComponent(i.EN)}" target="_blank">${isar?i.AR:i.EN}</a></br>`
-                            })
-                            data.Subservices.forEach(i => {
-                                sub += `<a href="/SubServices?sname=${encodeURIComponent(i.EN)}" target="_blank">${isar ? i.AR : i.EN}</a></br>`
-                            })
+                            let msg = "";
+                            if (data!=null&&data.units != 0) {
+                                data.units.forEach(i => {
+                                    units += `<a href="/units?uname=${encodeURIComponent(i.EN)}" target="_blank">${isar ? i.AR : i.EN}</a></br>`
+                                })
+                                msg="@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . لانها مرتبطة بالفئات الإدارية التاليه:" : "Delete failed.Because it is related to the following Units:")</br>"
+                                    +
+                                    `
+                                        <div class="mx-2">${units}</div>
+                                        </hr>
+                                    `
+                            }
+                            else
+                                msg="@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . لارتباطها بطلبات سابقة" : "Delete failed.It is related to previous requests")</br>"
+
 
 							Swal.fire({
 								  icon: 'error',
 								  title: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف" : "Delete failed")",
-								html:
-									"@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . بسبب ان هناك بيانات معتمده علي هذه الخدمة" : "Delete failed.Because there are data depended on this Service")</br>"
-                                    +
-                                    `
-                                        <p class="t-start font-weight-bold">${isar ? "الفئات الإدارية" : "Levels"}</p>
-                                        <div class="mx-2">${units}</div>
-                                        </hr>
-                                        <p class="t-start font-weight-bold">${isar ? "الخدمات الفرعية" : "Sub-Services"}</p>
-                                        <div class="mx-2">${sub}</div>
-`
-								,
+                                  html: msg,
 								  confirmButtonText:'@(Request.Cookies["lang"].Value == "ar" ? "حسنا" : "Okay")',
 								})
 						}
