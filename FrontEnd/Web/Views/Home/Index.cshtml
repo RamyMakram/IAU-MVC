@@ -17,6 +17,11 @@
     <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
 
     <style>
+        .insideTextArea {
+            text-align: center;
+            width: 100%;
+            right:0!important;
+        }
         #Confirmation p {
             font-size: unset !important;
             direction: unset !important;
@@ -765,7 +770,6 @@
                                     <div class="col-md-7">
                                         <img />
                                         <select id="Nationality_ID" name="Nationality_ID">
-                                            <option disabled selected value="null">Select-----------------</option>
                                             @foreach (var i in Country)
                                             {
                                                 <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
@@ -782,7 +786,6 @@
                                              data-bs-custom-class="beautifier"
                                              title="Please insert the country you are currently living in. The address information in the tabs below will relate to the country of residence." />
                                         <select id="Country_ID" name="Country_ID">
-                                            <option disabled selected value="null">Select-----------------</option>
                                             @foreach (var i in Country)
                                             {
                                                 <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>

@@ -710,6 +710,17 @@ $("#Required_Fields_Notes_Other").keyup(function () {
     }
 });
 
+$("#Required_Fields_Notes").keyup(function () {
+    $("#text-area-counter").text($(this).val().length + "/400")
+    if ($(this).val()) {
+        $(".insideTextArea").hide();
+        $(".insideTextAreaCounter").show()
+    } else if (!$(this).val()) {
+        $(".insideTextArea").show();
+        $(".insideTextAreaCounter").hide()
+    }
+});
+
 function LoadApiDocumentsData() {
     $(".loading").addClass("active");
 
@@ -1248,7 +1259,7 @@ function FilterAppType(aff) {
 function AffiliatedState() {
     isAffilate = parseInt($("#Affiliated option:selected").val());
     if (isAffilate == 1) {
-        $(".loading").addClass("active");
+        //$(".loading").addClass("active");
         $("#IAUID").removeAttr("disabled");
         if (!Redirect) {
             localStorage.setItem("ret", document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'))

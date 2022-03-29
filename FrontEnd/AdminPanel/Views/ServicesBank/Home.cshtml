@@ -148,7 +148,7 @@
                                 data.units.forEach(i => {
                                     units += `<a href="/units?uname=${encodeURIComponent(i.EN)}" target="_blank">${isar ? i.AR : i.EN}</a></br>`
                                 })
-                                msg="@(Request.Cookies["lang"].Value == "ar" ? "فشل الحذف . لانها مرتبطة بالفئات الإدارية التاليه:" : "Delete failed.Because it is related to the following Units:")</br>"
+                                msg="@(Request.Cookies["lang"].Value == "ar" ? "لايمكن حذف هذه الخدمة لانها مرتبطة بالفئات الإدارية التالية:" : "This service cannot be deleted because it is related to the following Units:")</br>"
                                     +
                                     `
                                         <div class="mx-2">${units}</div>
