@@ -61,15 +61,14 @@ $(document).ready(function () {
     if (data != null && data != "" && mst != null && mst != "" && ret != null && ret != "") {
         $(".loading").addClass("callApi");
         $.ajax({
-            url: `/Home/GetRedirectedData`,
+            url: `https://outres.iau.edu.sa/commondata/api/v1/userinfo`,
             data: {
-                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
-                token: encodeURIComponent(data),
-                language
+                userName: data,
+                lang: language
             },
-            type: "POST",
+            type: "GET",
             success: function (da) {
-                var res = JSON.parse(da)
+                var res = da
                 Redirect = true;
                 document.cookie = "";
                 window.history.pushState({}, document.title, "/");
@@ -308,7 +307,7 @@ $("#right-arrow").click(function () {
             }
             else {
                 let e = $('#upload-area');
-                e.css({ 'border': 'none', 'background': 'white' })
+                e.css({ 'border': 'none', 'background': supporteddocs.length != 0 ? 'white' : 'rgba(239, 239, 239, 0.57)' })
             }
 
             //eforms
@@ -320,7 +319,7 @@ $("#right-arrow").click(function () {
             }
             else {
                 let e = $('#EFormsView').parent();
-                e.css({ 'border': 'none', 'background': 'white' })
+                e.css({ 'border': 'none', 'background': formscount != 0 ? 'white' : 'rgba(239, 239, 239, 0.57)' })
             }
 
         }
@@ -512,7 +511,7 @@ function handleDrop(e) {
     HandelDragAndDrop(files)
 }
 
-function handleFiles(files) {
+function handleFiles(files) {//Supportded Files
     if (inquiry) {
         let index = uploadfiles.findIndex(q => q.ID == Current_Supportedfilename);
         if (index == -1) {
@@ -541,7 +540,7 @@ function HandelDragAndDrop(files) {
                 DropedFile.push(file)
                 counter++;
                 FileNames.push(file.name);
-                $(inquiry ? '#filesNameDrop' : '#filesNameDropOther').append("<div class='col-md-6 fileshow' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
+                $(inquiry ? '#filesNameDrop' : '#filesNameDropOther').append("<div class='col-md-6 fileshow' data-toggle='tooltip' data-placement='bottom' title='" + file.name+"' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
             }
         });
     }
@@ -1101,10 +1100,10 @@ function GeneratePdfData() {
             let element = supporteddocs.find(q => q.ID == checkif_reqdoc.ID)
             Name = language == "ar" ? element.Name_AR : element.Name_EN;
         }
-        FilesDiv += (e == "," ? "" : "<p style='margin:0 6px;color:green !important;width:200px !important'><i class='fa fa-paperclip' aria-hidden='true'></i> " + (Name != "" ? Name : e) + "</p>")
+        FilesDiv += (e == "," ? "" : `<p style='margin:0 6px;color:green !important;width:200px !important;white-space: nowrap;' data-toggle='tooltip' data-placement='bottom' title='${Name != "" ? Name : e}'><i class='fa fa-paperclip' aria-hidden='true'></i> ${(Name != "" ? Name.slice(0, 20) + (Name.length > 20 ? " ..." : "") : e.slice(0, 20) + (e.length > 20 ? " ..." : ""))}</p>`)
     })
     document.getElementById('padf').innerHTML = `
-	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;" >
+	<div style = "padding: 15px;display: inline-flex;justify-content: space-between;width: 100%;flex-wrap: wrap;" class="header-of-pdf" >
 	<img src="../Design/img/mustafid (2).png">
 		<img src="../Design/img/VisionLogo.png" style="padding-top: 10px;">
 												</div>
