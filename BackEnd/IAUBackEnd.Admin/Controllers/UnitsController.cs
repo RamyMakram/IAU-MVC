@@ -175,11 +175,11 @@ namespace IAUBackEnd.Admin.Controllers
                     else
                         LocationID = data.Units_Location_ID;
                     char[] GenrateCode = units.Ref_Number.ToCharArray();
-                    GetCodeInternal(ref GenrateCode, ParentUnit, units.Code, UnitTypeCode[0], data.LevelID.Value, LocationID.Value, data.Units_ID);
+                    GetCodeInternal(ref GenrateCode, ParentUnit, units.Code, UnitTypeCode[0], data.LevelID.Value, LocationID.Value, data.Units_ID);//get unit code
                     var code = string.Join("", GenrateCode).Replace('x', '0');
                     data.Ref_Number = code;
                     await db.SaveChangesAsync();
-                    if (CheckCodeAvab(units.Code, data.Units_ID, data.LevelID.Value, db) && !ReArrange(data.Units_ID))
+                    if (CheckCodeAvab(units.Code, data.Units_ID, data.LevelID.Value, db) && !ReArrange(data.Units_ID))//reorder units by recursive
                         throw new Exception("REA");
                 }
                 await db.SaveChangesAsync();
@@ -227,7 +227,7 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 var queryID = (SubUnitID ?? unitID).Value;
                 Units Unit = db.Units.Include(q => q.Units_Location).FirstOrDefault(q => q.Units_ID == queryID);
-                if (SubUnitID == null)
+                if (SubUnitID == null)// if first level
                 {
                     var firstpart = "043" + LocationID.ToString() + UnittypeCode + unitCode;
                     _code = (firstpart + string.Join("", Enumerable.Range(0, 15 - firstpart.Length).Select(q => "0").ToArray())).ToCharArray();
@@ -237,7 +237,7 @@ namespace IAUBackEnd.Admin.Controllers
                 _code = Unit.Ref_Number.ToCharArray();
                 int levelCode = Convert.ToInt32(UnitLevel.Code) - 1;
                 var index = 3 + (levelCode == 0 ? 1 : levelCode * 3);
-                if (levelCode == 0)
+                if (levelCode == 0)// if first level
                 {
                     if (unitCode.Length > 1)
                         unitCode = "0";
@@ -248,7 +248,7 @@ namespace IAUBackEnd.Admin.Controllers
                 else
                 {
                     if (unitCode.Length < 2)
-                        unitCode = "00";
+                        unitCode = "0" + unitCode;
                     _code[3] = LocationID.ToString()[0];
                     _code[index] = UnittypeCode;
                     _code[index + 1] = unitCode[0];
@@ -357,8 +357,9 @@ namespace IAUBackEnd.Admin.Controllers
             }
             else
             {
-                if (unitCode == null || unitCode.Length < 2)
-                    unitCode = "00";
+                unitCode = unitCode ?? "00";
+                if (unitCode.Length < 2)
+                    unitCode = "0" + unitCode;
                 _code[3] = LocationID.ToString()[0];
                 _code[index] = UnittypeCode;
                 _code[index + 1] = unitCode[0];

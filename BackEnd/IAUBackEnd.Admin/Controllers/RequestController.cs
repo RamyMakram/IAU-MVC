@@ -226,8 +226,8 @@ namespace IAUBackEnd.Admin.Controllers
                 if (Unit.IS_Mostafid)
                     request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
                 else
-                request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
-                    .FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
+                    request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
+                        .FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
                 if (request_Data == null)
                     return Ok(new ResponseClass() { success = false });
                 if (Unit.IS_Mostafid)
@@ -381,7 +381,7 @@ namespace IAUBackEnd.Admin.Controllers
                                 Inser_Qty.Index_Order = i.Index_Order;
                                 Eform_Person.E_Forms_Answer.Add(Inser_Qty);
                             }
-                            else if(i.Type == "G")
+                            else if (i.Type == "G")
                             {
                                 //Inser_Qty = new Models.E_Forms_Answer();
                                 Inser_Qty.Name = i.LableName;
@@ -458,7 +458,9 @@ namespace IAUBackEnd.Admin.Controllers
                 }
 
                 p.SaveChanges();
-                Request_Data sendeddata = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == request_Data.Request_Data_ID);
+                transaction.Commit();
+
+                var sendeddata = p.Request_Data.Where(q => q.Request_Data_ID == request_Data.Request_Data_ID).Select(q => new { q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Request_Data_ID, q.Required_Fields_Notes }).First();
 
                 var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
                 string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
@@ -467,7 +469,6 @@ namespace IAUBackEnd.Admin.Controllers
                 {
                     _ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعة", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 48 hours");
                 }).Start();
-                transaction.Commit();
                 return Ok(new
                 {
                     success = true
@@ -478,6 +479,7 @@ namespace IAUBackEnd.Admin.Controllers
                 transaction.Rollback();
                 return Ok(new
                 {
+                    result = e,
                     success = false
                 });
             }
@@ -517,6 +519,8 @@ namespace IAUBackEnd.Admin.Controllers
                 mail.Body = message;
                 mail.IsBodyHtml = true;
                 smtpClient.Send(mail);
+
+
                 //SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
 
                 //smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
@@ -541,7 +545,7 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 return Ok(new ResponseClass()
                 {
-                    //result = ee,
+                    result = ee,
                     success = false
                 });
             }
