@@ -533,6 +533,8 @@
 					if (index == 0)
                         $(`#CodeGenrateDiv input:nth-of-type(${startIn})`).val(code_val[0])
 					else {
+						if (code_val.length < 2)
+                            code_val = "0" + code_val
                         $(`#CodeGenrateDiv input:nth-of-type(${startIn + 1})`).val(code_val[0])
                         $(`#CodeGenrateDiv input:nth-of-type(${startIn + 2})`).val(code_val[1])
                     }

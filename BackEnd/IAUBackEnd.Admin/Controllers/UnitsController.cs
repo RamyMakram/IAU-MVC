@@ -144,7 +144,10 @@ namespace IAUBackEnd.Admin.Controllers
                 db.UnitServiceTypes.RemoveRange(data.UnitServiceTypes);
                 data.UnitServiceTypes = units.UnitServiceTypes;
                 data.ServiceTypeID = units.ServiceTypeID;
+                if (data.LevelID != 1/*check saved level if not level one and code has two digit*/ && units.Code.Length != 2)
+                    units.Code = "0" + units.Code;
                 await db.SaveChangesAsync();
+
                 if (units.Code != data.Code || data.Units_Type_ID != units.Units_Type_ID || data.SubID != units.SubID || data.Units_Location_ID != units.Units_Location_ID)
                 {
                     //if code,unittype,subuint,location change
@@ -286,6 +289,8 @@ namespace IAUBackEnd.Admin.Controllers
                 if (!ModelState.IsValid)
                     return Ok(new ResponseClass() { success = false, result = ModelState });
                 units.IS_Action = true;
+                if (units.LevelID != 1 && units.Code.Length != 2)
+                    units.Code = "0" + units.Code;
                 db.Units.Add(units);
                 await db.SaveChangesAsync();
                 char[] GenrateCode = units.Ref_Number.ToCharArray();
@@ -316,10 +321,12 @@ namespace IAUBackEnd.Admin.Controllers
         }
         private bool CheckCodeAvab(string code, int? unitid, int level, MostafidDBEntities db = null)
         {
-            if (level > 2)
+            if (level > 2)/*code can duplicated in level 3,4*/
                 return true;
 
-            var data = (db ?? new MostafidDBEntities()).Units.Any(q => q.Units_ID != (unitid ?? 0) && q.Code == code && q.LevelID == level);
+            var there_is_only_one_digit_in_code = level == 2 && code.Length == 1;//if level equal two and code is one digit only
+
+            var data = (db ?? new MostafidDBEntities()).Units.Any(q => q.Units_ID != (unitid ?? 0) && (level == 1 ? q.Code == code : (there_is_only_one_digit_in_code ? q.Code == "0" + code/*if code has one char*/ : q.Code == code)) && q.LevelID == level);
             return !data;
         }
         private bool CanChangeLevel(int unitid, int newLevel)
