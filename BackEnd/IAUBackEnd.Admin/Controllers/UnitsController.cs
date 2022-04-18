@@ -182,7 +182,7 @@ namespace IAUBackEnd.Admin.Controllers
                     var code = string.Join("", GenrateCode).Replace('x', '0');
                     data.Ref_Number = code;
                     await db.SaveChangesAsync();
-                    if (CheckCodeAvab(units.Code, data.Units_ID, data.LevelID.Value, db) && !ReArrange(data.Units_ID))//reorder units by recursive
+                    if (!CheckCodeAvab(units.Code, data.Units_ID, data.LevelID.Value, data.Units_Type_ID.Value, db) || !ReArrange(data.Units_ID))//reorder units by recursive
                         throw new Exception("REA");
                 }
                 await db.SaveChangesAsync();
@@ -300,6 +300,8 @@ namespace IAUBackEnd.Admin.Controllers
                 units.Ref_Number = string.Join("", GenrateCode).Replace('x', '0');
 
                 await db.SaveChangesAsync();
+                if (!CheckCodeAvab(units.Code, units.Units_ID, units.LevelID.Value, units.Units_Type_ID.Value, db))
+                    throw new Exception("Code Not Avaible");
                 trans.Commit();
                 return Ok(new ResponseClass() { success = true });
             }
@@ -319,14 +321,16 @@ namespace IAUBackEnd.Admin.Controllers
             var code = string.Join("", GenrateCode);
             return Ok(new ResponseClass() { success = true, result = new { Code = code } });
         }
-        private bool CheckCodeAvab(string code, int? unitid, int level, MostafidDBEntities db = null)
+        private bool CheckCodeAvab(string code, int? unitid, int level, int unittype, MostafidDBEntities db = null)
         {
             if (level > 2)/*code can duplicated in level 3,4*/
                 return true;
-
+            /*
+             رقم الفئة ونوع الفئة مبيتكرروش في المستوي الاول والتاني
+            */
             var there_is_only_one_digit_in_code = level == 2 && code.Length == 1;//if level equal two and code is one digit only
 
-            var data = (db ?? new MostafidDBEntities()).Units.Any(q => q.Units_ID != (unitid ?? 0) && (level == 1 ? q.Code == code : (there_is_only_one_digit_in_code ? q.Code == "0" + code/*if code has one char*/ : q.Code == code)) && q.LevelID == level);
+            var data = (db ?? new MostafidDBEntities()).Units.Any(q => q.Units_ID != (unitid ?? 0) && (level == 1 /*المستوي الاول*/? q.Code == code : (there_is_only_one_digit_in_code ? q.Code == "0" + code/*if code has one char*/ : q.Code == code)) && q.LevelID == level && q.Units_Type_ID == unittype);
             return !data;
         }
         private bool CanChangeLevel(int unitid, int newLevel)
@@ -336,7 +340,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> _CheckEnteredCode(string code, int? unitid, int level) => Ok(new ResponseClass() { success = CheckCodeAvab(code, unitid, level) });
+        public async Task<IHttpActionResult> _CheckEnteredCode(string code, int? unitid, int level, int unittype) => Ok(new ResponseClass() { success = CheckCodeAvab(code, unitid, level, unittype) });
 
         private void GetCode(ref char[] _code, int? SubUnitID, string unitCode, char UnittypeCode, int Level, int LocationID, int? unitID = null, MostafidDBEntities p = null)
         {

@@ -322,7 +322,7 @@
 	}
 	function UnitCodeChange(ISLevelChange) {
 		$.ajax({
-			url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}`, method: "POST", success: function (data) {
+            url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}&ut=${$('#UnitType').val()}`, method: "POST", success: function (data) {
 				if (!data['success'])
 					LaunchErrorHandelare();
 				else {

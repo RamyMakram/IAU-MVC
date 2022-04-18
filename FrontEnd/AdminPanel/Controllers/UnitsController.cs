@@ -307,9 +307,9 @@ namespace AdminPanel.Controllers
             return Json(res.result.ToString(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult CheckCode(string code, int? uID, int levelID)
+        public JsonResult CheckCode(string code, int? uID, int levelID, int ut)
         {
-            var Data = APIHandeling.Post($"Units/_CheckEnteredCode?code={code}&unitid={uID}&level={levelID}", new { });
+            var Data = APIHandeling.Post($"Units/_CheckEnteredCode?code={code}&unitid={uID}&level={levelID}&unittype={ut}", new { });
             var resJson = Data.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             return Json(res);
