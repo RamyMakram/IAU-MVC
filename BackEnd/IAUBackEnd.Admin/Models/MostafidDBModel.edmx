@@ -14,6 +14,7 @@
           <Property Name="Applicant_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="Affliated" Type="bit" Nullable="false" />
+          <Property Name="Index" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
@@ -42,6 +43,7 @@
           <Property Name="Country_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Country_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Index" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DelayedTransaction">
           <Key>
@@ -68,6 +70,8 @@
           <Property Name="CreatedOn" Type="datetime" />
           <Property Name="Code" Type="nvarchar" MaxLength="50" />
           <Property Name="UnitToApprove" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DetetedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="E-Forms_Answer">
           <Key>
@@ -1667,7 +1671,6 @@
           <EntitySet Name="City" EntityType="MostafidDBModel.City" />
           <EntitySet Name="Country" EntityType="MostafidDBModel.Country" />
           <EntitySet Name="DelayedTransaction" EntityType="MostafidDBModel.DelayedTransaction" />
-          <EntitySet Name="E_Forms" EntityType="MostafidDBModel.E_Forms" />
           <EntitySet Name="E_Forms_Answer" EntityType="MostafidDBModel.E_Forms_Answer" />
           <EntitySet Name="Employee" EntityType="MostafidDBModel.Employee" />
           <EntitySet Name="ID_Document" EntityType="MostafidDBModel.ID_Document" />
@@ -1752,18 +1755,6 @@
           <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="MostafidDBModel.FK_DelayedTransaction_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
-          </AssociationSet>
-          <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
-            <End Role="Sub_Services" EntitySet="Sub_Services" />
-            <End Role="E_Forms" EntitySet="E_Forms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_E_Forms_Units" Association="MostafidDBModel.FK_E_Forms_Units">
-            <End Role="Units" EntitySet="Units" />
-            <End Role="E_Forms" EntitySet="E_Forms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Question_E_Forms" Association="MostafidDBModel.FK_Question_E_Forms">
-            <End Role="E_Forms" EntitySet="E_Forms" />
-            <End Role="Question" EntitySet="Question" />
           </AssociationSet>
           <AssociationSet Name="FK_E_Forms_Answer_Person_Eform" Association="MostafidDBModel.FK_E_Forms_Answer_Person_Eform">
             <End Role="Person_Eform" EntitySet="Person_Eform" />
@@ -1977,6 +1968,19 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="E_Forms" EntityType="MostafidDBModel.E_Forms" />
+          <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
+            <End Role="Sub_Services" EntitySet="Sub_Services" />
+            <End Role="E_Forms" EntitySet="E_Forms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_E_Forms_Units" Association="MostafidDBModel.FK_E_Forms_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="E_Forms" EntitySet="E_Forms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_E_Forms" Association="MostafidDBModel.FK_Question_E_Forms">
+            <End Role="E_Forms" EntitySet="E_Forms" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -1989,6 +1993,7 @@
           <Property Name="Affliated" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Personel_Data_Applicant_Type" FromRole="Applicant_Type" ToRole="Personel_Data" />
           <NavigationProperty Name="ValidTo" Relationship="MostafidDBModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
+          <Property Name="Index" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
@@ -2024,6 +2029,7 @@
           <NavigationProperty Name="Personel_Data1" Relationship="MostafidDBModel.FK_Personel_Data_Country1" FromRole="Country" ToRole="Personel_Data" />
           <NavigationProperty Name="Personel_Data2" Relationship="MostafidDBModel.FK_Personel_Data_Country2" FromRole="Country" ToRole="Personel_Data" />
           <NavigationProperty Name="Region" Relationship="MostafidDBModel.FK_Region_Country" FromRole="Country" ToRole="Region" />
+          <Property Name="Index" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DelayedTransaction">
           <Key>
@@ -2039,22 +2045,6 @@
           <Property Name="Readed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_Data" FromRole="DelayedTransaction" ToRole="Request_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_State" FromRole="DelayedTransaction" ToRole="Request_State" />
-        </EntityType>
-        <EntityType Name="E_Forms">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SubServiceID" Type="Int32" Nullable="false" />
-          <Property Name="IS_Action" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UnitToApprove" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
-          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_E_Forms_Units" FromRole="E_Forms" ToRole="Units" />
-          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="E_Forms" ToRole="Question" />
         </EntityType>
         <EntityType Name="E_Forms_Answer">
           <Key>
@@ -2267,13 +2257,13 @@
           <Property Name="TableRowsNum" Type="Int32" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CheckBox_Type" Relationship="MostafidDBModel.FK_CheckBox_Type_Question" FromRole="Question" ToRole="CheckBox_Type" />
-          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
           <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Question" FromRole="Question" ToRole="E_Forms_Answer" />
           <NavigationProperty Name="Input_Type" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Question" ToRole="Input_Type" />
           <NavigationProperty Name="Paragraph" Relationship="MostafidDBModel.FK_Paragraph_Question" FromRole="Question" ToRole="Paragraph" />
           <NavigationProperty Name="Radio_Type" Relationship="MostafidDBModel.FK_Radio_Type_Question" FromRole="Question" ToRole="Radio_Type" />
           <NavigationProperty Name="Separator" Relationship="MostafidDBModel.FK_Separator_Question" FromRole="Question" ToRole="Separator" />
           <NavigationProperty Name="Table_Columns" Relationship="MostafidDBModel.FK_Table_Columns_Question" FromRole="Question" ToRole="Table_Columns" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="Question" ToRole="E_Forms" />
         </EntityType>
         <EntityType Name="Radio_Type">
           <Key>
@@ -2445,10 +2435,10 @@
           <Property Name="Sub_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Main_Services_ID" Type="Int32" />
           <Property Name="IS_Action" Type="Boolean" />
-          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="Sub_Services" ToRole="E_Forms" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Sub_Services" ToRole="Main_Services" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
           <NavigationProperty Name="Required_Documents" Relationship="MostafidDBModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="Sub_Services" ToRole="E_Forms" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -2539,7 +2529,6 @@
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Units" FromRole="Units" ToRole="E_Forms" />
           <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDBModel.FK_Preview_EformApproval_Units" FromRole="Units" ToRole="Preview_EformApproval" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
           <NavigationProperty Name="RequestTransaction" Relationship="MostafidDBModel.FK_RequestTransaction_Units" FromRole="Units" ToRole="RequestTransaction" />
@@ -2555,6 +2544,7 @@
           <NavigationProperty Name="Units_Type" Relationship="MostafidDBModel.FK_Units_Units_Type" FromRole="Units" ToRole="Units_Type" />
           <NavigationProperty Name="UnitServiceTypes" Relationship="MostafidDBModel.FK_UnitServiceTypes_Units" FromRole="Units" ToRole="UnitServiceTypes" />
           <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Units" ToRole="Users" />
+          <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Units" FromRole="Units" ToRole="E_Forms" />
         </EntityType>
         <EntityType Name="Units_Location">
           <Key>
@@ -2760,44 +2750,6 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_E_Forms_Sub_Services">
-          <End Type="MostafidDBModel.Sub_Services" Role="Sub_Services" Multiplicity="1" />
-          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sub_Services">
-              <PropertyRef Name="Sub_Services_ID" />
-            </Principal>
-            <Dependent Role="E_Forms">
-              <PropertyRef Name="SubServiceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_E_Forms_Units">
-          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1" />
-          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Units">
-              <PropertyRef Name="Units_ID" />
-            </Principal>
-            <Dependent Role="E_Forms">
-              <PropertyRef Name="UnitToApprove" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Question_E_Forms">
-          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="E_Forms">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Question">
-              <PropertyRef Name="EForm_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3447,6 +3399,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="E_Forms">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SubServiceID" Type="Int32" Nullable="false" />
+          <Property Name="IS_Action" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnitToApprove" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DetetedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="E_Forms" ToRole="Sub_Services" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_E_Forms_Units" FromRole="E_Forms" ToRole="Units" />
+          <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Question_E_Forms" FromRole="E_Forms" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK_E_Forms_Sub_Services">
+          <End Type="MostafidDBModel.Sub_Services" Role="Sub_Services" Multiplicity="1" />
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sub_Services">
+              <PropertyRef Name="Sub_Services_ID" />
+            </Principal>
+            <Dependent Role="E_Forms">
+              <PropertyRef Name="SubServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_E_Forms_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1" />
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="E_Forms">
+              <PropertyRef Name="UnitToApprove" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_E_Forms">
+          <End Type="MostafidDBModel.E_Forms" Role="E_Forms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MostafidDBModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="E_Forms">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="EForm_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3456,6 +3464,7 @@
           <EntitySetMapping Name="Applicant_Type">
             <EntityTypeMapping TypeName="MostafidDBModel.Applicant_Type">
               <MappingFragment StoreEntitySet="Applicant_Type">
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="Affliated" ColumnName="Affliated" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Applicant_Type_Name_AR" ColumnName="Applicant_Type_Name_AR" />
@@ -3488,6 +3497,7 @@
           <EntitySetMapping Name="Country">
             <EntityTypeMapping TypeName="MostafidDBModel.Country">
               <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Index" ColumnName="Index" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Country_Name_AR" ColumnName="Country_Name_AR" />
                 <ScalarProperty Name="Country_Name_EN" ColumnName="Country_Name_EN" />
@@ -3505,20 +3515,6 @@
                 <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
                 <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="E_Forms">
-            <EntityTypeMapping TypeName="MostafidDBModel.E_Forms">
-              <MappingFragment StoreEntitySet="E-Forms">
-                <ScalarProperty Name="UnitToApprove" ColumnName="UnitToApprove" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-                <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
-                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -4011,6 +4007,22 @@
               <MappingFragment StoreEntitySet="ValidTo">
                 <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
                 <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E_Forms">
+            <EntityTypeMapping TypeName="MostafidDBModel.E_Forms">
+              <MappingFragment StoreEntitySet="E-Forms">
+                <ScalarProperty Name="DetetedAt" ColumnName="DetetedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="UnitToApprove" ColumnName="UnitToApprove" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+                <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
+                <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -31,7 +31,6 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<DelayedTransaction> DelayedTransaction { get; set; }
-        public virtual DbSet<E_Forms> E_Forms { get; set; }
         public virtual DbSet<E_Forms_Answer> E_Forms_Answer { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<ID_Document> ID_Document { get; set; }
@@ -73,5 +72,6 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Preview_TableCols> Preview_TableCols { get; set; }
         public virtual DbSet<Table_Columns> Table_Columns { get; set; }
         public virtual DbSet<Tables_Answare> Tables_Answare { get; set; }
+        public virtual DbSet<E_Forms> E_Forms { get; set; }
     }
 }

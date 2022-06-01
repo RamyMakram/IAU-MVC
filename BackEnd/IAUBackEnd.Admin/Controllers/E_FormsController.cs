@@ -63,62 +63,62 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var e_Forms = p.E_Forms.Select(q =>
-                  new
-                  {
-                      q.ID,
-                      q.Name,
-                      q.Name_EN,
-                      q.Code,
-                      q.SubServiceID,
-                      q.UnitToApprove,
-                      Eform_Approval = q.Units,
-                      Question = q.Question.OrderBy(d => d.Index_Order).Select(s =>
-                        new
-                        {
-                            s.ID,
-                            Name = s.LableName,
-                            Name_EN = s.LableName_EN,
-                            T = s.Type,
-                            s.Requird,
-                            Ref = s.RefTo,
-                            s.Index_Order,
-                            s.Active,
-                            Sepa = s.Separator,
-                            Para = s.Paragraph,
-                            NRows = s.TableRowsNum,
-                            Columns = s.Table_Columns.Select(d =>
-                                new
-                                {
-                                    d.Name,
-                                    d.Name_En,
-                                    d.ID
-                                }),
-                            Radio = s.Radio_Type.Select(e =>
-                               new
-                               {
-                                   e.ID,
-                                   e.Name_EN,
-                                   e.Name
-                               }),
-                            Check = s.CheckBox_Type.Select(e =>
-                                new
-                                {
-                                    e.ID,
-                                    e.Name_EN,
-                                    e.Name
-                                }),
-                            Input = s.Input_Type == null ? null :
-                                new IAUAdmin.DTO.Entity.Input_Type
-                                {
-                                    ID = s.Input_Type.ID,
-                                    Date = s.Input_Type.IsDate,
-                                    ISNum = s.Input_Type.IsNumber,
-                                    PlaceHolder = s.Input_Type.Placeholder,
-                                    PlaceholderEN = s.Input_Type.Placeholder_EN
-                                }
-                        })
-                  }).FirstOrDefault(q => q.ID == id);
+                var e_Forms = p.E_Forms.Where(q => !q.Deleted).Select(q =>
+                    new
+                    {
+                        q.ID,
+                        q.Name,
+                        q.Name_EN,
+                        q.Code,
+                        q.SubServiceID,
+                        q.UnitToApprove,
+                        Eform_Approval = q.Units,
+                        Question = q.Question.OrderBy(d => d.Index_Order).Select(s =>
+                          new
+                          {
+                              s.ID,
+                              Name = s.LableName,
+                              Name_EN = s.LableName_EN,
+                              T = s.Type,
+                              s.Requird,
+                              Ref = s.RefTo,
+                              s.Index_Order,
+                              s.Active,
+                              Sepa = s.Separator,
+                              Para = s.Paragraph,
+                              NRows = s.TableRowsNum,
+                              Columns = s.Table_Columns.Select(d =>
+                                  new
+                                  {
+                                      d.Name,
+                                      d.Name_En,
+                                      d.ID
+                                  }),
+                              Radio = s.Radio_Type.Select(e =>
+                                 new
+                                 {
+                                     e.ID,
+                                     e.Name_EN,
+                                     e.Name
+                                 }),
+                              Check = s.CheckBox_Type.Select(e =>
+                                  new
+                                  {
+                                      e.ID,
+                                      e.Name_EN,
+                                      e.Name
+                                  }),
+                              Input = s.Input_Type == null ? null :
+                                  new IAUAdmin.DTO.Entity.Input_Type
+                                  {
+                                      ID = s.Input_Type.ID,
+                                      Date = s.Input_Type.IsDate,
+                                      ISNum = s.Input_Type.IsNumber,
+                                      PlaceHolder = s.Input_Type.Placeholder,
+                                      PlaceholderEN = s.Input_Type.Placeholder_EN
+                                  }
+                          })
+                    }).FirstOrDefault(q => q.ID == id);
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
                 return Ok(new ResponseClass() { success = true, result = e_Forms });
@@ -131,7 +131,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetE_FormsWithSubService(int id)
         {
-            var e_Forms = p.E_Forms.Where(q => q.SubServiceID == id);
+            var e_Forms = p.E_Forms.Where(q => q.SubServiceID == id && !q.Deleted);
             if (e_Forms == null)
                 return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
 
@@ -154,7 +154,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> Update(E_FormsDTO e_Forms)
         {
-            var eform = p.E_Forms.Include(q => q.Question).Include(q => q.Units).FirstOrDefault(q => q.ID == e_Forms.ID);
+            var eform = p.E_Forms.Include(q => q.Question).Include(q => q.Units).FirstOrDefault(q => q.ID == e_Forms.ID && !q.Deleted);
             if (!ModelState.IsValid || eform == null)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             try
@@ -325,6 +325,7 @@ namespace IAUBackEnd.Admin.Controllers
                     eform.Question.Add(quest);
                 }
                 eform.UnitToApprove = e_Forms.UnitToApprove;
+                eform.Deleted = false;
                 p.E_Forms.Add(eform);
                 await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
@@ -359,7 +360,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             E_Forms e_Forms = await p.E_Forms.FindAsync(id);
             if (e_Forms == null)
-                return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+                return Ok(new ResponseClass() { success = false, result = e_Forms.Deleted ? "Deleted" : "EForm IS NULL" });
             e_Forms.IS_Action = true;
             await p.SaveChangesAsync();
 
@@ -369,8 +370,8 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Deactive(int id)
         {
             E_Forms e_Forms = await p.E_Forms.FindAsync(id);
-            if (e_Forms == null)
-                return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+            if (e_Forms == null || e_Forms.Deleted)
+                return Ok(new ResponseClass() { success = false, result = e_Forms.Deleted ? "Deleted" : "EForm IS NULL" });
             e_Forms.IS_Action = false;
             await p.SaveChangesAsync();
 
@@ -385,7 +386,8 @@ namespace IAUBackEnd.Admin.Controllers
                 E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id);
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
-                p.E_Forms.Remove(e_Forms);
+                e_Forms.Deleted = true;
+                e_Forms.DetetedAt = DateTime.Now;
                 await p.SaveChangesAsync();
 
                 return Ok(new ResponseClass() { success = true });

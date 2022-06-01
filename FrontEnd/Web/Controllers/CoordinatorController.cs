@@ -21,15 +21,15 @@ namespace Web.Controllers
 		{
 			try
 			{
-				var handler = new HttpClientHandler()
-				{
-					AllowAutoRedirect = false
-				};
-				HttpClient client = new HttpClient(handler);
-				client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AdminPanel"].ToString());
-				//client.BaseAddress = new Uri("https://dashb-mustafid.iau.edu.sa/");
-				System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-				var res = client.GetAsync("").Result.StatusCode;
+				//var handler = new HttpClientHandler()
+				//{
+				//	AllowAutoRedirect = false
+				//};
+				//HttpClient client = new HttpClient(handler);
+				//client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AdminPanel"].ToString());
+				////client.BaseAddress = new Uri("https://dashb-mustafid.iau.edu.sa/");
+				//System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+				//var res = client.GetAsync("").Result.StatusCode;
 				ViewBag.CookieLang = Request.Cookies["lang"].Value;
 				return View();
 			}

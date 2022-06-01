@@ -338,7 +338,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var ISInquiry = p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID)?.Request_Type_Name_EN.ToLower().Contains("inq");
                 if (ISInquiry.Value)
                 {
-                    var Eforms = p.E_Forms.Include(q => q.Question).Include(q => q.Question.Select(s => s.Separator)).Include(q => q.Question.Select(s => s.Paragraph)).Include(q => q.UnitToApprove).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID).Select(q => new { q.Code, q.Name, q.Name_EN, Question = q.Question, Eform_Approval = q.Units });
+                    var Eforms = p.E_Forms.Include(q => q.Question).Include(q => q.Question.Select(s => s.Separator)).Include(q => q.Question.Select(s => s.Paragraph)).Include(q => q.UnitToApprove).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID && !q.Deleted).Select(q => new { q.Code, q.Name, q.Name_EN, Question = q.Question, Eform_Approval = q.Units });
                     foreach (var eform in Eforms)
                     {
                         var Eform_Person = new Person_Eform { Code = eform.Code, Name = eform.Name, Name_EN = eform.Name_EN, Person_ID = request_Data.Personel_Data_ID, FillDate = request_Data.CreatedDate.Value };

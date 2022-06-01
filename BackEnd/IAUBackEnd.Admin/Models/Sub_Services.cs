@@ -17,9 +17,9 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Sub_Services()
         {
-            this.E_Forms = new HashSet<E_Forms>();
             this.Request_Data = new HashSet<Request_Data>();
             this.Required_Documents = new HashSet<Required_Documents>();
+            this.E_Forms = new HashSet<E_Forms>();
         }
     
         public int Sub_Services_ID { get; set; }
@@ -28,12 +28,12 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<int> Main_Services_ID { get; set; }
         public Nullable<bool> IS_Action { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<E_Forms> E_Forms { get; set; }
         public virtual Main_Services Main_Services { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Required_Documents> Required_Documents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<E_Forms> E_Forms { get; set; }
     }
 }

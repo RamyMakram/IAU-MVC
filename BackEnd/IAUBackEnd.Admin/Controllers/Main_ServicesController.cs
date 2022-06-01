@@ -121,7 +121,17 @@ namespace IAUBackEnd.Admin.Controllers
             if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.All(q => q.Request_Data.Count == 0))
             {
                 var subserviceid = main_Services.Sub_Services.Select(s => s.Sub_Services_ID);
-                db.E_Forms.RemoveRange(db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID)));
+
+                #region DeleteEforms
+                var Eforms = db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID));
+                foreach (var i in Eforms)
+                {
+                    i.Deleted = true;
+                    i.DetetedAt = DateTime.Now;
+                }
+                //db.E_Forms.RemoveRange(db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID))); 
+                #endregion
+
                 db.Required_Documents.RemoveRange(db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value)));
                 db.Sub_Services.RemoveRange(main_Services.Sub_Services);
                 db.ValidTo.RemoveRange(db.ValidTo.Where(q => q.MainServiceID == id));

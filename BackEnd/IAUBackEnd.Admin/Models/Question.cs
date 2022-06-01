@@ -37,7 +37,6 @@ namespace IAUBackEnd.Admin.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CheckBox_Type> CheckBox_Type { get; set; }
-        public virtual E_Forms E_Forms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
         public virtual Input_Type Input_Type { get; set; }
@@ -47,5 +46,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual Separator Separator { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Table_Columns> Table_Columns { get; set; }
+        public virtual E_Forms E_Forms { get; set; }
     }
 }

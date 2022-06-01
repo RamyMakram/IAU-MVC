@@ -17,7 +17,6 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Units()
         {
-            this.E_Forms = new HashSet<E_Forms>();
             this.Preview_EformApproval = new HashSet<Preview_EformApproval>();
             this.Request_Data = new HashSet<Request_Data>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
@@ -27,6 +26,7 @@ namespace IAUBackEnd.Admin.Models
             this.Units1 = new HashSet<Units>();
             this.UnitServiceTypes = new HashSet<UnitServiceTypes>();
             this.Users = new HashSet<Users>();
+            this.E_Forms = new HashSet<E_Forms>();
         }
     
         public int Units_ID { get; set; }
@@ -43,8 +43,6 @@ namespace IAUBackEnd.Admin.Models
         public Nullable<bool> IS_Action { get; set; }
         public bool IS_Mostafid { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<E_Forms> E_Forms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Preview_EformApproval> Preview_EformApproval { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -69,5 +67,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual ICollection<UnitServiceTypes> UnitServiceTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<E_Forms> E_Forms { get; set; }
     }
 }
