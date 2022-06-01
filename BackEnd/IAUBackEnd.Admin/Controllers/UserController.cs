@@ -99,7 +99,7 @@ namespace IAUBackEnd.Admin.Controllers
                     });
                 else
                 {
-                    var perm = data.Job.Job_Permissions.Select(q => q.Privilage.Name_EN).ToArray();
+                    var perm = data.Job.Job_Permissions.Where(q => !q.Deleted).Select(q => q.Privilage.Name_EN).ToArray();
                     return Ok(new ResponseClass
                     {
                         success = true,
@@ -227,6 +227,13 @@ namespace IAUBackEnd.Admin.Controllers
 
             try
             {
+                if (p.Job.Find(users.Job_ID).Deleted)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Deleted Job"
+                    });
+
                 var data = p.Users.FirstOrDefault(qt => qt.User_ID == users.User_ID);
                 data.User_Mobile = users.User_Mobile;
                 data.User_Name = users.User_Name;

@@ -17,6 +17,8 @@ namespace IAUBackEnd.Admin.Models
         public int ID { get; set; }
         public Nullable<int> PrivilageID { get; set; }
         public Nullable<int> Job_ID { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Job Job { get; set; }
         public virtual Privilage Privilage { get; set; }

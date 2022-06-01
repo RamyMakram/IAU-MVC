@@ -387,7 +387,7 @@ namespace IAUBackEnd.Admin.Controllers
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
                 e_Forms.Deleted = true;
-                e_Forms.DetetedAt = DateTime.Now;
+                e_Forms.DeletedAt = DateTime.Now;
                 await p.SaveChangesAsync();
 
                 return Ok(new ResponseClass() { success = true });
