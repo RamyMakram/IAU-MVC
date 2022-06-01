@@ -26,7 +26,8 @@ namespace IAU_BackEnd.Controllers
                     !w.Deleted
                 ) &&
                 q.Main_Services.Sub_Services.Count(r =>
-                    r.IS_Action.Value && !r.Deleted
+                    r.IS_Action.Value &&
+                    !r.Deleted
                 ) != 0
             ).Select(q => new { ID = q.Main_Services.Main_Services_ID, Name_AR = q.Main_Services.Main_Services_Name_AR, Name_EN = q.Main_Services.Main_Services_Name_EN });
             return Ok(new ResponseClass() { success = true, result = data });

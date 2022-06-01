@@ -20,30 +20,29 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetSub_Services()
         {
-            return Ok(new ResponseClass() { success = true, result = p.Sub_Services });
+            return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => !q.Deleted) });
         }
         public async Task<IHttpActionResult> GetSub_ServicesByMain(int id)
         {
-            return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => q.Main_Services_ID == id) });
+            return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => q.Main_Services_ID == id && !q.Deleted) });
         }
         public async Task<IHttpActionResult> GetActive()
         {
-            return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => q.IS_Action.Value) });
+            return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => q.IS_Action.Value && !q.Deleted) });
         }
 
         public async Task<IHttpActionResult> GetSub_Services(int id)
         {
-            Sub_Services sub_Services = p.Sub_Services.Include(q => q.Required_Documents).Include(q => q.Main_Services).Include(q => q.Main_Services.Service_Type).FirstOrDefault(q => q.Sub_Services_ID == id);
+            Sub_Services sub_Services = p.Sub_Services.Include(q => q.Required_Documents).Include(q => q.Main_Services).Include(q => q.Main_Services.Service_Type).FirstOrDefault(q => q.Sub_Services_ID == id && !q.Deleted && !q.Main_Services.Deleted && !q.Main_Services.Service_Type.Deleted);
             if (sub_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
-
             return Ok(new ResponseClass() { success = true, result = sub_Services });
         }
 
         public async Task<IHttpActionResult> Update(Sub_Services sub_Services)
         {
-            var data = p.Sub_Services.Include(q => q.Required_Documents).FirstOrDefault(q => q.Sub_Services_ID == sub_Services.Sub_Services_ID);
-            if (!ModelState.IsValid || p.Main_Services.Find(sub_Services.Main_Services_ID).Deleted)
+            var data = p.Sub_Services.Include(q => q.Required_Documents).FirstOrDefault(q => q.Sub_Services_ID == sub_Services.Sub_Services_ID && !q.Deleted);
+            if (!ModelState.IsValid || data == null || p.Main_Services.Find(sub_Services.Main_Services_ID).Deleted)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             try
             {
@@ -60,6 +59,7 @@ namespace IAUBackEnd.Admin.Controllers
                         ss.Name_AR = i.Name_AR;
                         ss.Name_EN = i.Name_EN;
                         ss.IS_Action = i.IS_Action;
+                        ss.Deleted = false;
                     }
                 }
                 await p.SaveChangesAsync();
@@ -78,6 +78,7 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 sub_Services.IS_Action = true;
+                sub_Services.Deleted = false;
                 p.Sub_Services.Add(sub_Services);
                 await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
@@ -92,7 +93,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Active(int id)
         {
             Sub_Services sub_Services = await p.Sub_Services.FindAsync(id);
-            if (sub_Services == null)
+            if (sub_Services == null || sub_Services.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
 
             sub_Services.IS_Action = true;
@@ -104,7 +105,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Deactive(int id)
         {
             Sub_Services sub_Services = await p.Sub_Services.FindAsync(id);
-            if (sub_Services == null)
+            if (sub_Services == null || sub_Services.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
 
             sub_Services.IS_Action = false;
@@ -118,10 +119,21 @@ namespace IAUBackEnd.Admin.Controllers
             Sub_Services sub_Services = p.Sub_Services.Include(q => q.Request_Data).Include(q => q.E_Forms).FirstOrDefault(q => q.Sub_Services_ID == id);
             if (sub_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
-            if (sub_Services.E_Forms.Count == 0 && sub_Services.Request_Data.Count == 0)
+            if (sub_Services.E_Forms.Count(s => !s.Deleted) == 0 && sub_Services.Request_Data.Count == 0)
             {
+                #region Delete RequiredDocs 
+                var RequiredDocs = p.Required_Documents.Where(q => q.SubServiceID == id);
+                foreach (var i in RequiredDocs)
+                {
+                    i.Deleted = true;
+                    i.DeletetAt = DateTime.Now;
+                }
                 p.Required_Documents.RemoveRange(p.Required_Documents.Where(q => q.SubServiceID == id));
-                p.Sub_Services.Remove(sub_Services);
+                #endregion
+
+                sub_Services.Deleted = true;
+                sub_Services.DeletedAt = DateTime.Now;
+                //p.Sub_Services.Remove(sub_Services);
                 await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
             }

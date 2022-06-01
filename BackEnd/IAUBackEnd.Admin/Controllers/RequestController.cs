@@ -338,6 +338,15 @@ namespace IAUBackEnd.Admin.Controllers
                         success = false
                     });
                 }
+                if (p.Sub_Services.Find(request_Data.Sub_Services_ID).Deleted)
+                {
+                    transaction.Rollback();
+                    return Ok(new
+                    {
+                        result = "Del SS",
+                        success = false
+                    });
+                }
 
                 //request_Data.Request_State_ID = 1;
                 request_Data.IsTwasul_OC = false;
