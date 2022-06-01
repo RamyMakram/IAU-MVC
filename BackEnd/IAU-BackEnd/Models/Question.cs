@@ -32,11 +32,12 @@ namespace IAU_BackEnd.Models
         public bool Requird { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string RefTo { get; set; }
-        public bool Active { get; set; }
         public Nullable<int> TableRowsNum { get; set; }
+        public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CheckBox_Type> CheckBox_Type { get; set; }
+        public virtual E_Forms E_Forms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
         public virtual Input_Type Input_Type { get; set; }
@@ -46,6 +47,5 @@ namespace IAU_BackEnd.Models
         public virtual Separator Separator { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Table_Columns> Table_Columns { get; set; }
-        public virtual E_Forms E_Forms { get; set; }
     }
 }

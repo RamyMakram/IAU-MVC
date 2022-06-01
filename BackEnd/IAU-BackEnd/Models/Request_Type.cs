@@ -26,6 +26,8 @@ namespace IAU_BackEnd.Models
         public string Request_Type_Name_AR { get; set; }
         public Nullable<bool> IS_Action { get; set; }
         public string Image_Path { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }

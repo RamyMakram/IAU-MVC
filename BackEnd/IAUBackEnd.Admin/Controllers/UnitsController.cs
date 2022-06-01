@@ -288,6 +288,16 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 if (!ModelState.IsValid)
                     return Ok(new ResponseClass() { success = false, result = ModelState });
+
+                #region Handel Deleted RequestType
+                foreach (var i in units.Units_Request_Type)
+                    if (p.Request_Type.Find(i.Request_Type_ID).Deleted)
+                    {
+                        trans.Rollback();
+                        return Ok(new ResponseClass() { success = false, result = "Del RT" });
+                    }
+                #endregion
+
                 units.IS_Action = true;
                 if (units.LevelID != 1 && units.Code.Length != 2)
                     units.Code = "0" + units.Code;

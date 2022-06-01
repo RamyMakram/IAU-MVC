@@ -14,7 +14,7 @@ namespace IAU_BackEnd.Controllers
         private MostafidDatabaseEntities p = new MostafidDatabaseEntities();
         public IHttpActionResult GetActive(int SID, int ReqType)
         {
-            var req = p.Request_Type.Any(q => q.Request_Type_ID == ReqType && q.Request_Type_Name_EN.ToLower().Contains("inq"));
+            var req = p.Request_Type.Any(q => q.Request_Type_ID == ReqType && !q.Deleted && q.Request_Type_Name_EN.ToLower().Contains("inq"));
             var data = p.ValidTo.Where(q =>
             q.Main_Services.IS_Action.Value &&
             q.Main_Services.ServiceTypeID == SID &&//get main service

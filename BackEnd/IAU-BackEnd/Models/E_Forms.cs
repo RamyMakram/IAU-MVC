@@ -29,7 +29,7 @@ namespace IAU_BackEnd.Models
         public string Code { get; set; }
         public int UnitToApprove { get; set; }
         public bool Deleted { get; set; }
-        public Nullable<System.DateTime> DetetedAt { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Sub_Services Sub_Services { get; set; }
         public virtual Units Units { get; set; }

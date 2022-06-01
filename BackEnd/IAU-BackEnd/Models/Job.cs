@@ -24,6 +24,8 @@ namespace IAU_BackEnd.Models
         public int User_Permissions_Type_ID { get; set; }
         public string User_Permissions_Type_Name_AR { get; set; }
         public string User_Permissions_Type_Name_EN { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Job_Permissions> Job_Permissions { get; set; }

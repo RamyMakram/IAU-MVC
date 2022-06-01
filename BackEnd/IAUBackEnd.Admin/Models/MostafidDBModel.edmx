@@ -329,6 +329,8 @@
           <Property Name="Request_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="RequestTransaction">
           <Key>
@@ -2392,6 +2394,8 @@
           <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Type" ToRole="Request_Data" />
           <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Request_Type" FromRole="Request_Type" ToRole="Units_Request_Type" />
         </EntityType>
@@ -3813,6 +3817,8 @@
           <EntitySetMapping Name="Request_Type">
             <EntityTypeMapping TypeName="MostafidDBModel.Request_Type">
               <MappingFragment StoreEntitySet="Request_Type">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Request_Type_Name_AR" ColumnName="Request_Type_Name_AR" />

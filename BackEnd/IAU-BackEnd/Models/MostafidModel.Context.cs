@@ -31,6 +31,7 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<DelayedTransaction> DelayedTransaction { get; set; }
+        public virtual DbSet<E_Forms> E_Forms { get; set; }
         public virtual DbSet<E_Forms_Answer> E_Forms_Answer { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<ID_Document> ID_Document { get; set; }
@@ -43,6 +44,7 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Person_Eform> Person_Eform { get; set; }
         public virtual DbSet<Personel_Data> Personel_Data { get; set; }
         public virtual DbSet<Preview_EformApproval> Preview_EformApproval { get; set; }
+        public virtual DbSet<Preview_TableCols> Preview_TableCols { get; set; }
         public virtual DbSet<Privilage> Privilage { get; set; }
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Radio_Type> Radio_Type { get; set; }
@@ -58,6 +60,8 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Service_Type> Service_Type { get; set; }
         public virtual DbSet<Sub_Services> Sub_Services { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Table_Columns> Table_Columns { get; set; }
+        public virtual DbSet<Tables_Answare> Tables_Answare { get; set; }
         public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
         public virtual DbSet<Unit_Signature> Unit_Signature { get; set; }
         public virtual DbSet<UnitLevel> UnitLevel { get; set; }
@@ -69,9 +73,5 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
-        public virtual DbSet<Preview_TableCols> Preview_TableCols { get; set; }
-        public virtual DbSet<Table_Columns> Table_Columns { get; set; }
-        public virtual DbSet<Tables_Answare> Tables_Answare { get; set; }
-        public virtual DbSet<E_Forms> E_Forms { get; set; }
     }
 }

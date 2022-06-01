@@ -328,7 +328,18 @@ namespace IAUBackEnd.Admin.Controllers
                 else
                     request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
                 request_Data.CreatedDate = Helper.GetDate();
-                request_Data.Request_State_ID = 1;
+
+                if (p.Request_Type.Find(request_Data.Request_Type_ID).Deleted)
+                {
+                    transaction.Rollback();
+                    return Ok(new
+                    {
+                        result = "Del RT",
+                        success = false
+                    });
+                }
+
+                //request_Data.Request_State_ID = 1;
                 request_Data.IsTwasul_OC = false;
                 request_Data.Readed = false;
                 request_Data.Is_Archived = false;
