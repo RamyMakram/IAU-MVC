@@ -17,6 +17,8 @@ namespace IAUBackEnd.Admin.Models
         public int ID { get; set; }
         public int MainServiceID { get; set; }
         public int ApplicantTypeID { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Applicant_Type Applicant_Type { get; set; }
         public virtual Main_Services Main_Services { get; set; }

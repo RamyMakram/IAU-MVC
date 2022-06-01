@@ -27,6 +27,8 @@ namespace IAU_BackEnd.Models
         public string Main_Services_Name_AR { get; set; }
         public Nullable<bool> IS_Action { get; set; }
         public Nullable<int> ServiceTypeID { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Service_Type Service_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

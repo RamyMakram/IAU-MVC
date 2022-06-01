@@ -16,6 +16,8 @@ namespace IAU_BackEnd.Controllers
         {
             var req = p.Request_Type.Any(q => q.Request_Type_ID == ReqType && !q.Deleted && q.Request_Type_Name_EN.ToLower().Contains("inq"));
             var data = p.ValidTo.Where(q =>
+            !q.Deleted &&
+            !q.Main_Services.Deleted &&
             q.Main_Services.IS_Action.Value &&
             q.Main_Services.ServiceTypeID == SID &&//get main service
             q.Applicant_Type.IS_Action.Value &&

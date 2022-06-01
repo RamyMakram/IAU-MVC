@@ -16,14 +16,17 @@ namespace IAU_BackEnd.Controllers
         {
             var data = p.UnitMainServices.Where(q =>
                 q.Units.IS_Action.Value &&
+                !q.Main_Services.Deleted &&
                 q.Main_Services.IS_Action.Value &&
                 q.Main_Services.ServiceTypeID == ServiceID &&
                 q.UnitID == UID &&
+                !q.Units.Deleted &&
                 q.Main_Services.ValidTo.Any(w =>
-                    w.ApplicantTypeID == AppType
+                    w.ApplicantTypeID == AppType &&
+                    !w.Deleted
                 ) &&
                 q.Main_Services.Sub_Services.Count(r =>
-                    r.IS_Action.Value
+                    r.IS_Action.Value && !r.Deleted
                 ) != 0
             ).Select(q => new { ID = q.Main_Services.Main_Services_ID, Name_AR = q.Main_Services.Main_Services_Name_AR, Name_EN = q.Main_Services.Main_Services_Name_EN });
             return Ok(new ResponseClass() { success = true, result = data });

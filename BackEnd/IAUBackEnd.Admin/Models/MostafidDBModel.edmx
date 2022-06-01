@@ -155,6 +155,8 @@
           <Property Name="Main_Services_Name_AR" Type="nvarchar(max)" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="ServiceTypeID" Type="int" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Paragraph">
           <Key>
@@ -360,6 +362,8 @@
           <Property Name="Name_AR" Type="nvarchar(max)" />
           <Property Name="SubServiceID" Type="int" />
           <Property Name="IS_Action" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletetAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Separator">
           <Key>
@@ -388,6 +392,8 @@
           <Property Name="Sub_Services_Name_AR" Type="nvarchar(max)" />
           <Property Name="Main_Services_ID" Type="int" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -531,6 +537,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MainServiceID" Type="int" Nullable="false" />
           <Property Name="ApplicantTypeID" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <Association Name="FK_CheckBox_Type_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
@@ -2163,6 +2171,8 @@
           <Property Name="Main_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="ServiceTypeID" Type="Int32" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDBModel.FK_Main_Services_Service_Type" FromRole="Main_Services" ToRole="Service_Type" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Main_Services" ToRole="Sub_Services" />
           <NavigationProperty Name="UnitMainServices" Relationship="MostafidDBModel.FK_UnitMainServices_Main_Services" FromRole="Main_Services" ToRole="UnitMainServices" />
@@ -2430,6 +2440,8 @@
           <Property Name="Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SubServiceID" Type="Int32" />
           <Property Name="IS_Action" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletetAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Request_File" Relationship="MostafidDBModel.FK_Request_File_Required_Documents" FromRole="Required_Documents" ToRole="Request_File" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDBModel.FK_Required_Documents_Sub_Services" FromRole="Required_Documents" ToRole="Sub_Services" />
         </EntityType>
@@ -2465,6 +2477,8 @@
           <Property Name="Sub_Services_Name_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Main_Services_ID" Type="Int32" />
           <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Sub_Services" FromRole="Sub_Services" ToRole="E_Forms" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_Sub_Services_Main_Services" FromRole="Sub_Services" ToRole="Main_Services" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
@@ -2646,6 +2660,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MainServiceID" Type="Int32" Nullable="false" />
           <Property Name="ApplicantTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Applicant_Type" Relationship="MostafidDBModel.FK_ValidTo_Applicant_Type" FromRole="ValidTo" ToRole="Applicant_Type" />
           <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_ValidTo_Main_Services" FromRole="ValidTo" ToRole="Main_Services" />
         </EntityType>
@@ -3630,6 +3646,8 @@
           <EntitySetMapping Name="Main_Services">
             <EntityTypeMapping TypeName="MostafidDBModel.Main_Services">
               <MappingFragment StoreEntitySet="Main_Services">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Main_Services_Name_AR" ColumnName="Main_Services_Name_AR" />
@@ -3850,6 +3868,8 @@
           <EntitySetMapping Name="Required_Documents">
             <EntityTypeMapping TypeName="MostafidDBModel.Required_Documents">
               <MappingFragment StoreEntitySet="Required_Documents">
+                <ScalarProperty Name="DeletetAt" ColumnName="DeletetAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="SubServiceID" ColumnName="SubServiceID" />
                 <ScalarProperty Name="Name_AR" ColumnName="Name_AR" />
@@ -3881,6 +3901,8 @@
           <EntitySetMapping Name="Sub_Services">
             <EntityTypeMapping TypeName="MostafidDBModel.Sub_Services">
               <MappingFragment StoreEntitySet="Sub_Services">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Main_Services_ID" ColumnName="Main_Services_ID" />
                 <ScalarProperty Name="Sub_Services_Name_AR" ColumnName="Sub_Services_Name_AR" />
@@ -4039,6 +4061,8 @@
           <EntitySetMapping Name="ValidTo">
             <EntityTypeMapping TypeName="MostafidDBModel.ValidTo">
               <MappingFragment StoreEntitySet="ValidTo">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
                 <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

@@ -21,11 +21,11 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetMain_Services()
         {
-            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q => q.Service_Type) });
+            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q => q.Service_Type).Where(q => !q.Deleted) });
         }
         public async Task<IHttpActionResult> GetActive()
         {
-            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.IS_Action.Value) });
+            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.IS_Action.Value && !q.Deleted) });
         }
 
         [HttpPost]
@@ -36,13 +36,13 @@ namespace IAUBackEnd.Admin.Controllers
             foreach (var i in servicetype)
                 pred.Or(q => q.ServiceTypeID == i);
             pred.Or(q => q.ServiceTypeID == Unit.ServiceTypeID);
-            var data = db.Main_Services.Where(q => q.IS_Action.Value).Where(pred).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.ServiceTypeID, q.Main_Services_Name_EN, Active = q.UnitMainServices.Count(w => w.UnitID == id) > 0 });
+            var data = db.Main_Services.Where(q => q.IS_Action.Value && !q.Deleted).Where(pred).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.ServiceTypeID, q.Main_Services_Name_EN, Active = q.UnitMainServices.Count(w => w.UnitID == id) > 0 });
             return Ok(new ResponseClass() { success = true, result = data });
         }
 
         public async Task<IHttpActionResult> GetMain_Services(int id)
         {
-            var main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Service_Type).Where(q => q.Main_Services_ID == id).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, q.IS_Action, q.Service_Type, q.ServiceTypeID, q.ValidTo, MainService_ApplicantType = q.ValidTo.Select(w => new { w.Applicant_Type.Applicant_Type_Name_AR, w.Applicant_Type.Applicant_Type_Name_EN }) }).FirstOrDefault();
+            var main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Service_Type).Where(q => q.Main_Services_ID == id && !q.Deleted).Select(q => new { q.Main_Services_ID, q.Main_Services_Name_AR, q.Main_Services_Name_EN, q.IS_Action, q.Service_Type, q.ServiceTypeID, q.ValidTo, MainService_ApplicantType = q.ValidTo.Select(w => new { w.Applicant_Type.Applicant_Type_Name_AR, w.Applicant_Type.Applicant_Type_Name_EN }) }).FirstOrDefault();
             if (main_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
 
@@ -51,7 +51,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> Update(Main_Services main_Services)
         {
-            var data = db.Main_Services.Include(q => q.ValidTo).FirstOrDefault(q => q.Main_Services_ID == main_Services.Main_Services_ID);
+            var data = db.Main_Services.Include(q => q.ValidTo).FirstOrDefault(q => q.Main_Services_ID == main_Services.Main_Services_ID && !q.Deleted);
             if (!ModelState.IsValid || data == null)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             try
@@ -78,6 +78,7 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 main_Services.IS_Action = true;
+                main_Services.Deleted = false;
                 db.Main_Services.Add(main_Services);
                 await db.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
@@ -92,7 +93,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Deactive(int id)
         {
             Main_Services main_Services = await db.Main_Services.FindAsync(id);
-            if (main_Services == null)
+            if (main_Services == null || main_Services.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
 
             main_Services.IS_Action = false;
@@ -104,7 +105,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Active(int id)
         {
             Main_Services main_Services = await db.Main_Services.FindAsync(id);
-            if (main_Services == null)
+            if (main_Services == null || main_Services.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
 
             main_Services.IS_Action = true;
@@ -127,15 +128,48 @@ namespace IAUBackEnd.Admin.Controllers
                 foreach (var i in Eforms)
                 {
                     i.Deleted = true;
-                    i.DetetedAt = DateTime.Now;
+                    i.DeletedAt = DateTime.Now;
                 }
                 //db.E_Forms.RemoveRange(db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID))); 
                 #endregion
 
-                db.Required_Documents.RemoveRange(db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value)));
-                db.Sub_Services.RemoveRange(main_Services.Sub_Services);
-                db.ValidTo.RemoveRange(db.ValidTo.Where(q => q.MainServiceID == id));
-                db.Main_Services.Remove(main_Services);
+                #region Delete RequiredDocs 
+                var RequiredDocs = db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value));
+                foreach (var i in RequiredDocs)
+                {
+                    i.Deleted = true;
+                    i.DeletetAt = DateTime.Now;
+                }
+                //db.Required_Documents.RemoveRange(db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value)));
+                #endregion
+
+                #region Delete SubService
+                foreach (var i in main_Services.Sub_Services)
+                    if (!main_Services.Deleted)
+                    {
+                        i.Deleted = true;
+                        i.DeletedAt = DateTime.Now;
+                    }
+
+                //db.Sub_Services.RemoveRange(main_Services.Sub_Services);
+
+                #endregion
+
+                #region Delete ValidTo
+                var VaildTo = db.ValidTo.Where(q => q.MainServiceID == id);
+                foreach (var i in VaildTo)
+                {
+                    i.Deleted = true;
+                    i.DeletedAt = DateTime.Now;
+                }
+                //db.ValidTo.RemoveRange(db.ValidTo.Where(q => q.MainServiceID == id));
+
+                #endregion
+
+                main_Services.Deleted = true;
+                main_Services.DeletedAt = DateTime.Now;
+
+                //db.Main_Services.Remove(main_Services);
                 await db.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
             }

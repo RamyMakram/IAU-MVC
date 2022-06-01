@@ -430,7 +430,7 @@ namespace IAUBackEnd.Admin.Controllers
                     var count = 0;
                     if (p.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID).Request_Type_Name_EN.ToLower().Contains("inquiry"))
                     {
-                        var RequiredFiles = p.Required_Documents.Where(q => q.SubServiceID == request_Data.Sub_Services_ID).ToList();
+                        var RequiredFiles = p.Required_Documents.Where(q => q.SubServiceID == request_Data.Sub_Services_ID && !q.Deleted).ToList();
                         foreach (var i in RequiredFiles)
                         {
                             var file = provider.Contents[count];

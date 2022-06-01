@@ -25,6 +25,8 @@ namespace IAUBackEnd.Admin.Models
         public string Name_AR { get; set; }
         public Nullable<int> SubServiceID { get; set; }
         public bool IS_Action { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletetAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_File> Request_File { get; set; }

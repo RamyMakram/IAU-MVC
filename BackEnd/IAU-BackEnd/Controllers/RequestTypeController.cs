@@ -19,6 +19,7 @@ namespace IAU_BackEnd.Controllers
                 !q.Deleted &&
                 q.IS_Action.Value &&
                 q.Units_Request_Type.Count(w =>
+                    !w.Units.Deleted &&
                     (//check if unit service type "main and sub" contain service type
                         w.Units.ServiceTypeID == SID ||
                         w.Units.UnitServiceTypes.Any(s =>
@@ -26,9 +27,11 @@ namespace IAU_BackEnd.Controllers
                         )
                     )
                     && w.Units.UnitMainServices.Count(r =>//check unit main service 
+                        !r.Main_Services.Deleted &&
                         r.Main_Services.IS_Action.Value &&
                         r.Main_Services.Sub_Services.Count(g =>
-                            g.IS_Action.Value
+                            g.IS_Action.Value &&
+                            !g.Deleted
                             ) != 0
                         ) != 0
 
