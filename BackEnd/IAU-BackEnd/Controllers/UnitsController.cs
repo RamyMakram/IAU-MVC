@@ -26,8 +26,8 @@ namespace IAU_BackEnd.Controllers
                 (req ? true : w.Main_Services.Sub_Services.Count(t => t.IS_Action.Value && !t.Deleted) != 0) &&//validated if inquiry then it's not required sub service
                 w.Main_Services.ValidTo.Count(e => e.ApplicantTypeID == AppType && !e.Deleted) != 0)//Check Applicant Type in main service
             != 0 &&
-            (q.ServiceTypeID == SerID || q.UnitServiceTypes.Count(d => d.ServiceTypeID == SerID) != 0) && //check Service Type
-            q.Units_Request_Type.Any(w => w.Request_Type_ID == ReqID)//check request type
+            (q.ServiceTypeID == SerID || q.UnitServiceTypes.Count(d => d.ServiceTypeID == SerID && !d.Service_Type.Deleted) != 0) && //check Service Type
+            q.Units_Request_Type.Any(w => w.Request_Type_ID == ReqID && !w.Request_Type.Deleted)//check request type
             )
                 .Select(q => new { ID = q.Units_ID, Name_AR = q.Units_Name_AR, Name_EN = q.Units_Name_EN, lvl = q.LevelID }).OrderBy(q => q.lvl).ToList();
             return Ok(new ResponseClass() { success = true, result = data });

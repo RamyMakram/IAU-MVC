@@ -20,6 +20,7 @@ namespace IAU_BackEnd.Controllers
                 !q.Deleted &&
                 q.Main_Services.IS_Action.Value &&
                 q.Main_Services.Service_Type.IS_Action.Value &&
+                !q.Main_Services.Service_Type.Deleted &&
                 q.Applicant_Type.IS_Action.Value &&
                 q.Main_Services.UnitMainServices.Count(s =>
                     s.Units.IS_Action.Value &&

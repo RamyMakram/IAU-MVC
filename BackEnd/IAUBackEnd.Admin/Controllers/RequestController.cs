@@ -329,6 +329,7 @@ namespace IAUBackEnd.Admin.Controllers
                     request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
                 request_Data.CreatedDate = Helper.GetDate();
 
+                #region CheckDeleted
                 if (p.Request_Type.Find(request_Data.Request_Type_ID).Deleted)
                 {
                     transaction.Rollback();
@@ -338,6 +339,7 @@ namespace IAUBackEnd.Admin.Controllers
                         success = false
                     });
                 }
+
                 if (p.Sub_Services.Find(request_Data.Sub_Services_ID).Deleted)
                 {
                     transaction.Rollback();
@@ -347,6 +349,17 @@ namespace IAUBackEnd.Admin.Controllers
                         success = false
                     });
                 }
+
+                if (p.Service_Type.Find(request_Data.Service_Type_ID).Deleted)
+                {
+                    transaction.Rollback();
+                    return Ok(new
+                    {
+                        result = "Del ST",
+                        success = false
+                    });
+                } 
+                #endregion
 
                 //request_Data.Request_State_ID = 1;
                 request_Data.IsTwasul_OC = false;
@@ -577,7 +590,14 @@ namespace IAUBackEnd.Admin.Controllers
             if (req.TempCode == "" || req.TempCode == null)
             {
                 req.IsTwasul_OC = IsTwasul_OC;
+                if (p.Service_Type.Find(Service_Type_ID).Deleted)
+                    return Ok(new ResponseClass() { success = false, result = "Del ST" });
+
                 req.Service_Type_ID = Service_Type_ID;
+
+                if (p.Request_Type.Find(Request_Type_ID).Deleted)
+                    return Ok(new ResponseClass() { success = false, result = "Del RT" });
+
                 req.Request_Type_ID = Request_Type_ID;
                 req.Unit_ID = Unit_ID;
                 string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
