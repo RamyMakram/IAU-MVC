@@ -49,6 +49,8 @@ namespace Web.Controllers
 			if (lst.success)
 				return Redirect(ConfigurationManager.AppSettings["AdminPanel"].ToString() + "/LoginForward/Login?t=" + JObject.Parse(lst.result.ToString())["Token"]);
 			ViewBag.Error = true;
+			ViewBag.CookieLang = Request.Cookies["lang"].Value;
+
 			return View();
 		}
 	}

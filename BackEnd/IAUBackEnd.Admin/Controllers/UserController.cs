@@ -205,6 +205,12 @@ namespace IAUBackEnd.Admin.Controllers
                         q.UnitID
                     })
                     .FirstOrDefault();
+                if (data == null)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Null"
+                    });
                 return Ok(new ResponseClass
                 {
                     success = true,
