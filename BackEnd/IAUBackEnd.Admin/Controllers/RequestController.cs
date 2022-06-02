@@ -32,7 +32,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
                 if (Unit.IS_Mostafid)
                 {
                     var data = p.Request_Data.Where(q => !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null)).Select(q => new { Required_Fields_Notes = q.RequestTransaction.Count() == 0 ? q.Required_Fields_Notes : q.RequestTransaction.OrderByDescending(s => s.CommentDate).FirstOrDefault().Comment, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, CreatedDate = q.RequestTransaction.Count == 0 ? q.CreatedDate : q.RequestTransaction.OrderByDescending(ssd => ssd.ID).FirstOrDefault().CommentDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
@@ -56,7 +56,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
                 if (Unit.IS_Mostafid)
                 {
                     var Pred = PredicateBuilder.New<Request_Data>(q => !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null));
@@ -106,7 +106,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetSendedRequests_Data(int UserID)
         {
-            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
             if (Unit.IS_Mostafid)
             {
                 var data = p.Request_Data.Where(q => !q.Is_Archived && q.Request_State_ID != 5 && q.RequestTransaction.Count() != 0 && (q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == "" || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == null)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
@@ -122,7 +122,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
                 if (Unit.IS_Mostafid)
                 {
                     var Pred = PredicateBuilder.New<Request_Data>(q => !q.Is_Archived && q.Request_State_ID != 5 && q.RequestTransaction.Count() != 0 && (q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == "" || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == null));
@@ -171,7 +171,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetArchivedRequests_Data(int UserID)
         {
-            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
             if (Unit.IS_Mostafid)
             {
                 var data = p.Request_Data.Where(q => q.Is_Archived).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
@@ -182,7 +182,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetFilterArchivedRequests_Data(int? ST, int? RT, int? MT, DateTime? DF, DateTime? DT, int UserID)
         {
-            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
             if (Unit.IS_Mostafid)
             {
                 var Pred = PredicateBuilder.New<Request_Data>(q => q.Is_Archived);
@@ -208,7 +208,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetRequestsCount(int UserID)
         {
-            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
             if (Unit.IS_Mostafid)
                 return Ok(new ResponseClass() { success = true, result = p.Request_Data.Count(q => !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null)) });
             else
@@ -221,7 +221,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
                 Request_Data request_Data;
                 if (Unit.IS_Mostafid)
                     request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
@@ -258,7 +258,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
                 Request_Data request_Data;
                 if (Unit.IS_Mostafid)
                     request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment == null));
@@ -280,7 +280,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
                 if (Unit.IS_Mostafid)
                 {
                     Request_Data request_Data = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).Include(q => q.Units).FirstOrDefault(q => q.Is_Archived && q.Request_Data_ID == id);
@@ -495,7 +495,7 @@ namespace IAUBackEnd.Admin.Controllers
 
                 var sendeddata = p.Request_Data.Where(q => q.Request_Data_ID == request_Data.Request_Data_ID).Select(q => new { q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Request_Data_ID, q.Required_Fields_Notes }).First();
 
-                var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
+                var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted).Select(q => q.User_ID).ToArray();
                 string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 WebSocketManager.SendToMulti(MostafidUsers, message);
                 new Thread(() =>
@@ -641,7 +641,7 @@ namespace IAUBackEnd.Admin.Controllers
                         sendeddata.Request_State_ID = 2;
                     p.SaveChanges();
                     sendeddata.Readed = false;
-                    var Users = p.Users.Where(q => q.Units.Units_ID == Unit_ID).Select(q => q.User_ID).ToArray();
+                    var Users = p.Users.Where(q => q.Units.Units_ID == Unit_ID && !q.Deleted).Select(q => q.User_ID).ToArray();
                     string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                     WebSocketManager.SendToMulti(Users, message);
                     return Ok(new ResponseClass() { success = true });
@@ -666,7 +666,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> AddComment(int UserID, int RequestID, int CommentType, [FromBody] string Comment)
         {
-            var CurrentUnit = p.Users.FirstOrDefault(q => q.User_ID == UserID).UnitID;
+            var CurrentUnit = p.Users.FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).UnitID;
             Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == RequestID);
             var trans = sendeddata.RequestTransaction.Last();
             if (CurrentUnit == trans.ToUnitID)
@@ -678,7 +678,7 @@ namespace IAUBackEnd.Admin.Controllers
                     sendeddata.Request_State_ID = 4;
                 sendeddata.Readed = false;
                 p.SaveChanges();
-                var Users = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
+                var Users = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted).Select(q => q.User_ID).ToArray();
                 string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 WebSocketManager.SendToMulti(Users, message);
                 return Ok(new ResponseClass() { success = true });
@@ -690,7 +690,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> AddReminder(int UserID, int RequestID, [FromBody] string Comment)
         {
-            var IsMostafid = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+            var IsMostafid = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
             Request_Data sendeddata = p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestID);
             var trans = p.RequestTransaction.Where(q => q.Request_ID == RequestID).OrderByDescending(q => q.ID).FirstOrDefault();
             if (IsMostafid.IS_Mostafid)
@@ -699,7 +699,7 @@ namespace IAUBackEnd.Admin.Controllers
                 p.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestID, ForwardDate = Helper.GetDate(), ToUnitID = trans.ToUnitID, Readed = false, FromUnitID = IsMostafid.Units_ID, Code = trans.Code, MostafidComment = Comment, Is_Reminder = true });
                 sendeddata.Readed = false;
                 p.SaveChanges();
-                var Users = p.Users.Where(q => q.Units.Units_ID == trans.ToUnitID).Select(q => q.User_ID).ToArray();
+                var Users = p.Users.Where(q => q.Units.Units_ID == trans.ToUnitID && !q.Deleted).Select(q => q.User_ID).ToArray();
                 string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 WebSocketManager.SendToMulti(Users, message);
                 return Ok(new ResponseClass() { success = true });
@@ -712,7 +712,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> ArchiveRequests(int UserID, [FromBody] string Requests)
         {
             var requests = JsonConvert.DeserializeObject<int[]>(Requests);
-            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
             if (Unit.IS_Mostafid)
             {
                 foreach (var i in requests)
@@ -754,7 +754,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> CloseRequest(int UserID, int RequestID)
         {
             Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
-            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID).Units;
+            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
 
             if (Unit.IS_Mostafid && (sendeddata.Request_State_ID != 2))
             {

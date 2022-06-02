@@ -34,7 +34,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetActiveForEmail()
         {
-            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && !q.Deleted && q.Users.Any(s => s.IS_Active == "1" && (!q.IS_Mostafid))) });
+            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && !q.Deleted && q.Users.Any(s => s.IS_Active == "1" && !s.Deleted && (!q.IS_Mostafid))) });
         }
         public async Task<IHttpActionResult> GetUniqueBuildingByLoca(int id)
         {
@@ -78,7 +78,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetActiveUnits_by(int serviceType, int Req, int? locid, string Build)
         {
-            var publider = PredicateBuilder.New<Units>(q => !q.Deleted && (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType)) && q.Units_Request_Type.Any(w => w.Request_Type_ID == Req) && q.Users.Any(s => s.IS_Active == "1") && (!q.IS_Mostafid));
+            var publider = PredicateBuilder.New<Units>(q => !q.Deleted && (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType)) && q.Units_Request_Type.Any(w => w.Request_Type_ID == Req) && q.Users.Any(s => s.IS_Active == "1" && !q.Deleted) && (!q.IS_Mostafid));
             if (Build != "" && Build != "null" && Build != null)
                 publider.And(q => q.Building_Number.Equals(Build));
             if (locid != null)

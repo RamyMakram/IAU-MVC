@@ -24,6 +24,8 @@ namespace IAUBackEnd.Admin.Models
         public string TEMP_Login { get; set; }
         public Nullable<int> UnitID { get; set; }
         public Nullable<System.DateTime> LoginDate { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Job Job { get; set; }
         public virtual Units Units { get; set; }

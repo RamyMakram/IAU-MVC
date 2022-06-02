@@ -29,7 +29,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Users.FirstOrDefault(q => q.IS_Active == "1" && q.User_Email == email && q.User_Password == pass);
+                var data = p.Users.FirstOrDefault(q => q.IS_Active == "1" && q.User_Email == email && q.User_Password == pass && !q.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
@@ -63,7 +63,7 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 var date = Helper.GetDate().AddDays(1);
-                var data = p.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date);
+                var data = p.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date && !q.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
@@ -91,7 +91,7 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 var date = Helper.GetDate().AddDays(1);
-                var data = p.Users.Include(q => q.Job.Job_Permissions.Select(s => s.Privilage)).Include(Q => Q.Units).FirstOrDefault(q => q.User_ID == id && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date);
+                var data = p.Users.Include(q => q.Job.Job_Permissions.Select(s => s.Privilage)).Include(Q => Q.Units).FirstOrDefault(q => q.User_ID == id && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date && !q.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
@@ -122,7 +122,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Users
+                var data = p.Users.Where(qt => !qt.Deleted)
                     .Include(q => q.Job)
                     .Include(q => q.Units)
                     .Select(q => new
@@ -159,7 +159,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Users.Where(q => q.UnitID == UID)
+                var data = p.Users.Where(q => q.UnitID == UID && !q.Deleted)
                     .Include(q => q.Job)
                     .Select(q => new
                     {
@@ -190,7 +190,7 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 var data = p.Users
-                    .Where(qt => qt.User_ID == uid)
+                    .Where(qt => qt.User_ID == uid && !qt.Deleted)
                     .Select(q => new
                     {
                         q.User_ID,
@@ -239,7 +239,13 @@ namespace IAUBackEnd.Admin.Controllers
                         success = false,
                         result = "Del U"
                     });
-                var data = p.Users.FirstOrDefault(qt => qt.User_ID == users.User_ID);
+                var data = p.Users.FirstOrDefault(qt => qt.User_ID == users.User_ID && !qt.Deleted);
+                if (data == null)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Null Ref"
+                    });
                 data.User_Mobile = users.User_Mobile;
                 data.User_Name = users.User_Name;
                 data.User_Password = users.User_Password;
@@ -268,7 +274,7 @@ namespace IAUBackEnd.Admin.Controllers
 
             try
             {
-                var data = p.Users.FirstOrDefault(qt => qt.User_ID == uid);
+                var data = p.Users.FirstOrDefault(qt => qt.User_ID == uid && !qt.Deleted);
                 data.IS_Active = "0";
                 p.SaveChanges();
                 return Ok(new ResponseClass
@@ -293,7 +299,7 @@ namespace IAUBackEnd.Admin.Controllers
 
             try
             {
-                var data = p.Users.FirstOrDefault(qt => qt.User_ID == uid);
+                var data = p.Users.FirstOrDefault(qt => qt.User_ID == uid && !qt.Deleted);
                 data.IS_Active = "1";
                 p.SaveChanges();
                 return Ok(new ResponseClass
@@ -330,6 +336,7 @@ namespace IAUBackEnd.Admin.Controllers
                         success = false,
                         result = "Del U"
                     });
+                users.Deleted = false;
                 var data = p.Users.Add(users);
                 if (p.SaveChanges() > 0)
                     return Ok(new ResponseClass
@@ -356,10 +363,15 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            var user = p.Users.FirstOrDefault(q => q.User_ID == id);
+            var user = p.Users.FirstOrDefault(q => q.User_ID == id && !q.Deleted);
             if (user == null)
                 return Ok(new ResponseClass() { success = false, result = "User Is Null" });
-            p.Users.Remove(user);
+            user.Deleted = true;
+            user.DeletedAt = DateTime.Now;
+
+            //p.Users.Remove(user);
+
+
             await p.SaveChangesAsync();
             return Ok(new ResponseClass() { success = true });
         }

@@ -541,6 +541,8 @@
           <Property Name="TEMP_Login" Type="nvarchar" MaxLength="300" />
           <Property Name="UnitID" Type="int" />
           <Property Name="LoginDate" Type="datetime" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -2674,6 +2676,8 @@
           <Property Name="TEMP_Login" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="UnitID" Type="Int32" />
           <Property Name="LoginDate" Type="DateTime" Precision="3" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Job" Relationship="MostafidDatabaseModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
         </EntityType>
@@ -4081,6 +4085,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
                 <ScalarProperty Name="UnitID" ColumnName="UnitID" />
                 <ScalarProperty Name="TEMP_Login" ColumnName="TEMP_Login" />
