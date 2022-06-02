@@ -449,7 +449,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            Units units = p.Units.Include(q => q.Request_Data).Include(q => q.Unit_Signature).Include(q => q.RequestTransaction1).Include(q => q.RequestTransaction).Include(q => q.Users).Include(q => q.Units1).Include(q => q.UnitMainServices).Include(q => q.E_Forms).Include(q => q.Users).FirstOrDefault(q => q.Units_ID == id && !q.Deleted);
+            Units units = p.Units.Include(q => q.Request_Data).Include(q => q.Unit_Signature).Include(q => q.RequestTransaction1).Include(q => q.RequestTransaction).Include(q => q.Users).Include(q => q.Units1).Include(q => q.UnitMainServices).Include(q => q.E_Forms).Include(q => q.Unit_Signature).Include(q => q.Users).FirstOrDefault(q => q.Units_ID == id && !q.Deleted);
             if (units == null)
                 return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
             if (units.Request_Data.Count == 0 && units.RequestTransaction1.Count == 0 && units.RequestTransaction.Count == 0 && units.Users.Count == 0 && units.Units1.Count == 0 && units.UnitMainServices.Count == 0 && units.E_Forms.Count == 0/*Eform Approval*/&& units.Users.Count == 0/*Users Jobs*/)
@@ -478,15 +478,17 @@ namespace IAUBackEnd.Admin.Controllers
                 #endregion
 
                 #region Delete UnitSignature
-                units.Unit_Signature.Deleted = true;
-                units.Unit_Signature.DeletedAt = DateTime.Now;
-
+                if (units.Unit_Signature != null)
+                {
+                    units.Unit_Signature.Deleted = true;
+                    units.Unit_Signature.DeletedAt = DateTime.Now;
+                }
                 #endregion
 
                 units.Deleted = true;
                 units.DeletedAt = DateTime.Now;
                 //p.Units.Remove(units);
-                await p.SaveChangesAsync();
+                var iss = await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
             }
             return Ok(new ResponseClass() { success = false, result = "CantRemove" });
