@@ -23,6 +23,10 @@ namespace IAUBackEnd.Admin.Controllers
     {
         private MostafidDBEntities p = new MostafidDBEntities();
 
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.Deleted).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.DeletedAt }) });
+        }
         public async Task<IHttpActionResult> GetUnits()
         {
             return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => !q.Deleted).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
@@ -487,6 +491,56 @@ namespace IAUBackEnd.Admin.Controllers
 
                 units.Deleted = true;
                 units.DeletedAt = DateTime.Now;
+                //p.Units.Remove(units);
+                var iss = await p.SaveChangesAsync();
+                return Ok(new ResponseClass() { success = true });
+            }
+            return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            Units units = p.Units.Include(q => q.Request_Data).Include(q => q.Unit_Signature).Include(q => q.RequestTransaction1).Include(q => q.RequestTransaction).Include(q => q.Users).Include(q => q.Units1).Include(q => q.UnitMainServices).Include(q => q.E_Forms).Include(q => q.Unit_Signature).Include(q => q.Users).FirstOrDefault(q => q.Units_ID == id && q.Deleted);
+            if (units == null)
+                return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
+            if (units.Request_Data.Count == 0 && units.RequestTransaction1.Count == 0 && units.RequestTransaction.Count == 0 && units.Users.Count == 0 && units.Units1.Count == 0 && units.UnitMainServices.Count == 0 && units.E_Forms.Count == 0/*Eform Approval*/&& units.Users.Count == 0/*Users Jobs*/)
+            {
+                #region Delete UnitRequestType
+                var UnitReqType = p.Units_Request_Type.Include(q => q.Request_Type).Where(q => q.Units_ID == id);
+                foreach (var UnitReq in UnitReqType)
+                {
+                    if (!UnitReq.Request_Type.Deleted)
+                    {
+                        UnitReq.Deleted = false;
+                    }
+                }
+                //p.Units_Request_Type.RemoveRange(p.Units_Request_Type.Where(q => q.Units_ID == id).ToList());
+
+
+                #endregion
+
+                #region Delete UnitServiceType
+                var UnitServiceType = p.UnitServiceTypes.Include(q => q.Service_Type).Where(q => q.UnitID == id);
+                foreach (var i in UnitServiceType)
+                {
+                    if (!i.Service_Type.Deleted)
+                    {
+                        i.Deleted = false;
+                    }
+                }
+                //p.UnitServiceTypes.RemoveRange(p.UnitServiceTypes.Where(q => q.UnitID == id).ToList());
+
+                #endregion
+
+                #region Delete UnitSignature
+                if (units.Unit_Signature != null)
+                {
+                    units.Unit_Signature.Deleted = false;
+                }
+                #endregion
+
+                units.Deleted = false;
                 //p.Units.Remove(units);
                 var iss = await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });

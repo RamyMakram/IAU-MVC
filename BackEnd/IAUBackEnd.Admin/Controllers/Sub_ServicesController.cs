@@ -18,6 +18,10 @@ namespace IAUBackEnd.Admin.Controllers
     {
         private MostafidDBEntities p = new MostafidDBEntities();
 
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => q.Deleted) });
+        }
         public async Task<IHttpActionResult> GetSub_Services()
         {
             return Ok(new ResponseClass() { success = true, result = p.Sub_Services.Where(q => !q.Deleted) });
@@ -116,7 +120,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            Sub_Services sub_Services = p.Sub_Services.Include(q => q.Request_Data).Include(q => q.E_Forms).FirstOrDefault(q => q.Sub_Services_ID == id);
+            Sub_Services sub_Services = p.Sub_Services.Include(q => q.Request_Data).Include(q => q.E_Forms).FirstOrDefault(q => q.Sub_Services_ID == id && !q.Deleted);
             if (sub_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
             if (sub_Services.E_Forms.Count(s => !s.Deleted) == 0 && sub_Services.Request_Data.Count == 0)
@@ -128,7 +132,7 @@ namespace IAUBackEnd.Admin.Controllers
                     i.Deleted = true;
                     i.DeletetAt = DateTime.Now;
                 }
-                p.Required_Documents.RemoveRange(p.Required_Documents.Where(q => q.SubServiceID == id));
+                //p.Required_Documents.RemoveRange(p.Required_Documents.Where(q => q.SubServiceID == id));
                 #endregion
 
                 sub_Services.Deleted = true;
@@ -138,6 +142,25 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass() { success = true });
             }
             return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+        }
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            Sub_Services sub_Services = p.Sub_Services.Include(q => q.Request_Data).Include(q => q.E_Forms).FirstOrDefault(q => q.Sub_Services_ID == id && q.Deleted);
+            if (sub_Services == null)
+                return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
+                #region Delete RequiredDocs 
+                var RequiredDocs = p.Required_Documents.Where(q => q.SubServiceID == id);
+                foreach (var i in RequiredDocs)
+                {
+                    i.Deleted = false;
+                }
+                #endregion
+
+                sub_Services.Deleted = false;
+                //p.Sub_Services.Remove(sub_Services);
+                await p.SaveChangesAsync();
+                return Ok(new ResponseClass() { success = true });
         }
         protected override void Dispose(bool disposing)
         {

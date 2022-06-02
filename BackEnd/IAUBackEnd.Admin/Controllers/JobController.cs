@@ -15,6 +15,33 @@ namespace IAUBackEnd.Admin.Controllers
     public class JobController : ApiController
     {
         private MostafidDBEntities p = new MostafidDBEntities();
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            try
+            {
+                var data = p.Job.Where(q => q.Deleted)
+                    .Select(q => new
+                    {
+                        q.User_Permissions_Type_ID,
+                        q.User_Permissions_Type_Name_AR,
+                        q.User_Permissions_Type_Name_EN,
+                        q.DeletedAt
+                    });
+                return Ok(new ResponseClass
+                {
+                    success = true,
+                    result = data
+                });
+            }
+            catch (Exception ee)
+            {
+                return Ok(new ResponseClass
+                {
+                    success = false,
+                    result = ee
+                });
+            }
+        }
         public async Task<IHttpActionResult> GetAllJobs()
         {
             try
@@ -168,7 +195,30 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            var job = p.Job.Include(q => q.Users).FirstOrDefault(q => q.User_Permissions_Type_ID == id);
+            var job = p.Job.Include(q => q.Users).FirstOrDefault(q => q.User_Permissions_Type_ID == id && !q.Deleted);
+            if (job == null)
+                return Ok(new ResponseClass() { success = false, result = "Job Location Is Null" });
+
+            var perm = p.Job_Permissions.Where(q => q.Job_ID == id);
+            foreach (var i in perm)
+            {
+                i.Deleted = true;
+                i.DeletedAt = DateTime.Now;
+            }
+            //p.Job_Permissions.RemoveRange(p.Job_Permissions.Where(q => q.Job_ID == id));
+
+            job.Deleted = true;
+            job.DeletedAt = DateTime.Now;
+
+            //p.Job.Remove(job);
+            await p.SaveChangesAsync();
+            return Ok(new ResponseClass() { success = true });
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            var job = p.Job.Include(q => q.Users).FirstOrDefault(q => q.User_Permissions_Type_ID == id && q.Deleted);
             if (job == null)
                 return Ok(new ResponseClass() { success = false, result = "Job Location Is Null" });
             if (job.Users.Count == 0)
@@ -176,13 +226,11 @@ namespace IAUBackEnd.Admin.Controllers
                 var perm = p.Job_Permissions.Where(q => q.Job_ID == id);
                 foreach (var i in perm)
                 {
-                    i.Deleted = true;
-                    i.DeletedAt = DateTime.Now;
+                    i.Deleted = false;
                 }
                 //p.Job_Permissions.RemoveRange(p.Job_Permissions.Where(q => q.Job_ID == id));
 
-                job.Deleted = true;
-                job.DeletedAt = DateTime.Now;
+                job.Deleted = false;
 
                 //p.Job.Remove(job);
                 await p.SaveChangesAsync();

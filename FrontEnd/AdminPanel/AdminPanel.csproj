@@ -3203,6 +3203,7 @@
     <Content Include="Views\Profile\Home.cshtml" />
     <Content Include="Views\Error\Home.cshtml" />
     <Content Include="Views\EForms\Eform.cshtml" />
+    <Content Include="Views\User\DeletedModelsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

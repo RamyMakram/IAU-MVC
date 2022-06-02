@@ -1,13 +1,13 @@
 ﻿@model ICollection<IAUAdmin.DTO.Entity.UserDTO>
 @{
-	ViewBag.Title = "Home Page";
-	ViewBag.pageTitle = "Home Page";
-	ViewBag.pTitle = "Users";
-	ViewBag.arTitle = "الرئيسية";
-	ViewBag.arpageTitle = "الرئيسية";
-	ViewBag.arpTitle = "المستخدمين";
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
+    ViewBag.Title = "Home Page";
+    ViewBag.pageTitle = "Home Page";
+    ViewBag.pTitle = "Users";
+    ViewBag.arTitle = "الرئيسية";
+    ViewBag.arpageTitle = "الرئيسية";
+    ViewBag.arpTitle = "المستخدمين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
 }
 
 <!-- DataTables -->
@@ -19,63 +19,65 @@
 <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
+    <div class="col-12">
+        <div style="text-align:end">
+            <button class="btn btn-outline-danger m-2" onclick="LoadRemoved()">@(Request.Cookies["lang"]?.Value=="ar"?"":"") <i style="color:red" class="fa fa-trash"></i></button>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="HeaderOfPage">
+                    <p class="card-title-desc" key="t-users">
+                        Manage Users
+                    </p>
 
-				<div class="HeaderOfPage">
-					<p class="card-title-desc" key="t-users">
-						Manage Users
-					</p>
-
-					<a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
-				</div>
-				<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-					<thead>
-						<tr>
-							<th key="t-name">User Name</th>
-							<th key="t-mobile">Mobile</th>
-							<th key="t-email">Email</th>
-							<th key="t-job">Department</th>
-							<th key="t-units-short">Department</th>
-							<th key="t-activeTitle">Active</th>
-							<th></th>
-						</tr>
-					</thead>
-					@{
-						var lang = Request.Cookies["lang"].Value;
-					}
-					<tbody>
-						@foreach (var i in Model)
-						{
-							<tr onclick="Go(this,'@Url.Action("Detials", "User", new { Id = i.User_ID })')">
-								<td>
-									@(lang == "ar" ?i.User_Name_Ar:i.User_Name_En)
-								</td>
-								<td class="en-font">@i.User_Mobile</td>
-								<td class="en-font">@i.User_Email</td>
-								<td>@(lang == "ar" ? i.User_Permissions_Type_Name_AR : i.User_Permissions_Type_Name_EN)</td>
-								<td>@(lang == "ar" ? i.Unit.Units_Name_AR : i.Unit.Units_Name_EN)</td>
-								@*<td>@i.User_Permissions_Type_Name_EN</td>*@
-								<td>
-									@Html.ActionLink("Active", i.IS_Active == "1" ? "Deactive" : "Active", new { Id = i.User_ID }, new { @class = i.IS_Active == "1" ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Active == "1" ? "t-active-Home" : "t-deactive-Home" })
-								</td>
-								<td>
-									@Html.ActionLink("Edit", "Edit", new { Id = i.User_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
-									@{
-										if (ShowDelete)
-										{
-											<button class="btn btn-primary" onclick="Delete('@i.User_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
-										}
-									}
-								</td>
-							</tr>
-						}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div> <!-- end col -->
+                    <a class="btn btn-circle" href=@Url.Action("Create")><i class="fas fa-plus-circle"></i></a>
+                </div>
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th key="t-name">User Name</th>
+                            <th key="t-mobile">Mobile</th>
+                            <th key="t-email">Email</th>
+                            <th key="t-job">Department</th>
+                            <th key="t-units-short">Department</th>
+                            <th key="t-activeTitle">Active</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @{
+                        var lang = Request.Cookies["lang"].Value;
+                    }
+                    <tbody>
+                        @foreach (var i in Model)
+                        {
+                            <tr onclick="Go(this,'@Url.Action("Detials", "User", new { Id = i.User_ID })')">
+                                <td>
+                                    @(lang == "ar" ?i.User_Name_Ar:i.User_Name_En)
+                                </td>
+                                <td class="en-font">@i.User_Mobile</td>
+                                <td class="en-font">@i.User_Email</td>
+                                <td>@(lang == "ar" ? i.User_Permissions_Type_Name_AR : i.User_Permissions_Type_Name_EN)</td>
+                                <td>@(lang == "ar" ? i.Unit.Units_Name_AR : i.Unit.Units_Name_EN)</td>
+                                @*<td>@i.User_Permissions_Type_Name_EN</td>*@
+                                <td>
+                                    @Html.ActionLink("Active", i.IS_Active == "1" ? "Deactive" : "Active", new { Id = i.User_ID }, new { @class = i.IS_Active == "1" ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Active == "1" ? "t-active-Home" : "t-deactive-Home" })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { Id = i.User_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+                                    @{
+                                        if (ShowDelete)
+                                        {
+                                            <button class="btn btn-primary" onclick="Delete('@i.User_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
 </div> <!-- end row -->
 <!-- JAVASCRIPT -->
 
@@ -113,7 +115,7 @@
 @if (ShowDelete)
 {
 
-	<script>
+    <script>
 		function Delete(id) {
 			event.stopPropagation()
 		event.stopImmediatePropagation()
@@ -150,5 +152,21 @@
 			}
 		});
 	}
-	</script>
+    </script>
 }
+<div id="ModalViewDiv-removed">
+
+</div>
+<script>
+    function LoadRemoved() {
+            $.ajax({
+                url: '/User/AllDel',method: "GET",  success: function (res) {
+						setTimeout(function () {
+							document.getElementById('LoadingDiv').style.display = 'none';
+                        }, 1000)
+                    $('#ModalViewDiv-removed').html(res)
+                    $('#DeletedItemsModal').modal('show')
+				}
+			})
+    }
+</script>

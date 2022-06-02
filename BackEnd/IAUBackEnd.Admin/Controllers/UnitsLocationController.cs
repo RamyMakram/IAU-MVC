@@ -19,6 +19,10 @@ namespace IAUBackEnd.Admin.Controllers
     {
         private MostafidDBEntities p = new MostafidDBEntities();
 
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            return Ok(new ResponseClass() { success = true, result = p.Units_Location.Where(q => q.Deleted) });
+        }
         public async Task<IHttpActionResult> GetUnits_Location()
         {
             return Ok(new ResponseClass() { success = true, result = p.Units_Location.Where(q => !q.Deleted) });
@@ -109,6 +113,18 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass() { success = true });
             }
             return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            Units_Location units_Location = p.Units_Location.Include(q => q.Units).FirstOrDefault(q => q.Units_Location_ID == id && q.Deleted);
+            if (units_Location == null)
+                return Ok(new ResponseClass() { success = false, result = "Units Location Is Null" });
+            //p.Units_Location.Remove(units_Location);
+            units_Location.Deleted = false;
+            await p.SaveChangesAsync();
+            return Ok(new ResponseClass() { success = true });
         }
         protected override void Dispose(bool disposing)
         {

@@ -153,6 +153,43 @@ namespace IAUBackEnd.Admin.Controllers
                 });
             }
         }
+        [HttpGet]
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            try
+            {
+                var data = p.Users.Where(qt => qt.Deleted)
+                    .Include(q => q.Job)
+                    .Include(q => q.Units)
+                    .Select(q => new
+                    {
+                        q.User_ID,
+                        q.User_Name,
+                        q.User_Mobile,
+                        q.User_Password,
+                        q.User_Email,
+                        q.IS_Active,
+                        q.Job_ID,
+                        q.Job.User_Permissions_Type_Name_AR,
+                        q.Job.User_Permissions_Type_Name_EN,
+                        Unit = q.Units,
+                        q.DeletedAt
+                    });
+                return Ok(new ResponseClass
+                {
+                    success = true,
+                    result = data
+                });
+            }
+            catch (Exception ee)
+            {
+                return Ok(new ResponseClass
+                {
+                    success = false,
+                    result = ee
+                });
+            }
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> GetAllByUnit(int UID)
@@ -381,6 +418,21 @@ namespace IAUBackEnd.Admin.Controllers
             await p.SaveChangesAsync();
             return Ok(new ResponseClass() { success = true });
         }
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            var user = p.Users.FirstOrDefault(q => q.User_ID == id && q.Deleted);
+            if (user == null)
+                return Ok(new ResponseClass() { success = false, result = "User Is Null" });
+            user.Deleted = false;
+
+            //p.Users.Remove(user);
+
+
+            await p.SaveChangesAsync();
+            return Ok(new ResponseClass() { success = true });
+        }
+
         [HttpGet]
         [Route("")]
         public async Task<HttpResponseMessage> GetFile(string fileName)

@@ -19,6 +19,10 @@ namespace IAUBackEnd.Admin.Controllers
     {
         private MostafidDBEntities db = new MostafidDBEntities();
 
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.Deleted) });
+        }
         public async Task<IHttpActionResult> GetMain_Services()
         {
             return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q => q.Service_Type).Where(q => !q.Deleted) });
@@ -116,44 +120,12 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id);
+            Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id && !q.Deleted);
             if (main_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
             if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.All(q => q.Request_Data.Count == 0 && q.Deleted))
             {
                 var subserviceid = main_Services.Sub_Services.Select(s => s.Sub_Services_ID);
-
-                //#region DeleteEforms
-                //var Eforms = db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID));
-                //foreach (var i in Eforms)
-                //{
-                //    i.Deleted = true;
-                //    i.DeletedAt = DateTime.Now;
-                //}
-                ////db.E_Forms.RemoveRange(db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID))); 
-                //#endregion
-
-                //#region Delete RequiredDocs 
-                //var RequiredDocs = db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value));
-                //foreach (var i in RequiredDocs)
-                //{
-                //    i.Deleted = true;
-                //    i.DeletetAt = DateTime.Now;
-                //}
-                ////db.Required_Documents.RemoveRange(db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value)));
-                //#endregion
-
-                //#region Delete SubService
-                //foreach (var i in main_Services.Sub_Services)
-                //    if (!main_Services.Deleted)
-                //    {
-                //        i.Deleted = true;
-                //        i.DeletedAt = DateTime.Now;
-                //    }
-
-                ////db.Sub_Services.RemoveRange(main_Services.Sub_Services);
-
-                //#endregion
 
                 #region Delete ValidTo
                 var VaildTo = db.ValidTo.Where(q => q.MainServiceID == id);
@@ -175,17 +147,33 @@ namespace IAUBackEnd.Admin.Controllers
             }
             return Ok(new ResponseClass()
             {
-                success = false,
-                result = new
-                {
-                    units = main_Services.UnitMainServices.Select(q => new
-                    {
-                        ID = q.UnitID,
-                        EN = q.Units.Units_Name_EN,
-                        AR = q.Units.Units_Name_AR
-                    }),
-                }
+                success = false
             });
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id && q.Deleted);
+            if (main_Services == null)
+                return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
+            var subserviceid = main_Services.Sub_Services.Select(s => s.Sub_Services_ID);
+
+            #region Delete ValidTo
+            var VaildTo = db.ValidTo.Where(q => q.MainServiceID == id);
+            foreach (var i in VaildTo)
+            {
+                i.Deleted = false;
+            }
+            //db.ValidTo.RemoveRange(db.ValidTo.Where(q => q.MainServiceID == id));
+
+            #endregion
+
+            main_Services.Deleted = false;
+
+            //db.Main_Services.Remove(main_Services);
+            await db.SaveChangesAsync();
+            return Ok(new ResponseClass() { success = true });
         }
         protected override void Dispose(bool disposing)
         {

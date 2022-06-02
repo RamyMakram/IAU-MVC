@@ -21,6 +21,24 @@ namespace AdminPanel.Controllers
 			else
 				return RedirectToAction("NotFound", "Error");
 		}
+		public ActionResult AllDel()
+		{
+			var Data = APIHandeling.getData("Request_Type/GetDeleted");
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			if (res.success)
+				return PartialView("DeletedModelsView", JsonConvert.DeserializeObject<ICollection<RequestTypeDTO>>(res.result.ToString()));
+			else
+				return PartialView("DeletedModelsView", null);
+		}
+		[HttpPost]
+		public JsonResult RestoreItem(int id)
+		{
+			var Data = APIHandeling.Post("Request_Type/_Restore?id=" + id, new { });
+			var resJson = Data.Content.ReadAsStringAsync();
+			var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+			return Json(res);
+		}
 		public ActionResult Detials(int id)
 		{
 			var Data = APIHandeling.getData("Request_Type/GetRequest_Type?id=" + id);

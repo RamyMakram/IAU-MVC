@@ -21,6 +21,10 @@ namespace IAUBackEnd.Admin.Controllers
     {
         private MostafidDBEntities p = new MostafidDBEntities();
 
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            return Ok(new ResponseClass() { success = true, result = p.Service_Type.Where(q => q.Deleted) });
+        }
         public async Task<IHttpActionResult> GetService_Type()
         {
             return Ok(new ResponseClass() { success = true, result = p.Service_Type.Where(q => !q.Deleted) });
@@ -115,7 +119,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            Service_Type service_Type = p.Service_Type.Include(q => q.Request_Data).Include(q => q.UnitServiceTypes).Include(q => q.Units).FirstOrDefault(q => q.Service_Type_ID == id);
+            Service_Type service_Type = p.Service_Type.Include(q => q.Request_Data).Include(q => q.UnitServiceTypes).Include(q => q.Units).FirstOrDefault(q => q.Service_Type_ID == id && !q.Deleted);
             if (service_Type == null)
                 return Ok(new ResponseClass() { success = false, result = "Type IS NULL" });
             if (service_Type.Request_Data.Count == 0 && service_Type.UnitServiceTypes.Count == 0 && service_Type.Units.Count == 0 && service_Type.Main_Services.All(q => q.Deleted))
@@ -127,6 +131,29 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass() { success = true });
             }
             return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+        }
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            Service_Type service_Type = p.Service_Type.Include(q => q.UnitServiceTypes.Select(s => s.Units)).FirstOrDefault(q => q.Service_Type_ID == id && q.Deleted);
+            if (service_Type == null)
+                return Ok(new ResponseClass() { success = false, result = "Type IS NULL" });
+            service_Type.Deleted = false;
+
+            #region Delete UnitServiceType
+            var UnitServiceType = service_Type.UnitServiceTypes;
+            foreach (var i in UnitServiceType)
+            {
+                if (!i.Units.Deleted)
+                {
+                    i.Deleted = false;
+                }
+            }
+
+            #endregion
+            //p.Service_Type.Remove(service_Type);
+            await p.SaveChangesAsync();
+            return Ok(new ResponseClass() { success = true });
         }
 
         protected override void Dispose(bool disposing)

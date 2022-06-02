@@ -21,6 +21,10 @@ namespace IAUBackEnd.Admin.Controllers
     {
         private MostafidDBEntities p = new MostafidDBEntities();
 
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            return Ok(new ResponseClass() { success = true, result = p.Request_Type.Where(q => q.Deleted) });
+        }   
         public async Task<IHttpActionResult> GetRequest_Type()
         {
             return Ok(new ResponseClass() { success = true, result = p.Request_Type.Where(q => !q.Deleted) });
@@ -116,6 +120,30 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass() { success = true });
             }
             return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+        }
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            Request_Type request_Type = p.Request_Type.Include(q => q.Units_Request_Type.Select(s => s.Units)).FirstOrDefault(q => q.Request_Type_ID == id && q.Deleted);
+            if (request_Type == null)
+                return Ok(new ResponseClass() { success = false, result = "Request Is NULL" });
+            request_Type.Deleted = false;
+            #region Delete UnitRequestType
+            var UnitReqType = request_Type.Units_Request_Type;
+            foreach (var UnitReq in UnitReqType)
+            {
+                if (!UnitReq.Units.Deleted)
+                {
+                    UnitReq.Deleted = false;
+                }
+            }
+            //p.Units_Request_Type.RemoveRange(p.Units_Request_Type.Where(q => q.Units_ID == id).ToList());
+
+
+            #endregion
+            //p.Request_Type.Remove(request_Type);
+            await p.SaveChangesAsync();
+            return Ok(new ResponseClass() { success = true });
         }
         protected override void Dispose(bool disposing)
         {
