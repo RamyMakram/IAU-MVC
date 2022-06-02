@@ -18,6 +18,8 @@ namespace IAUBackEnd.Admin.Models
         public string Path { get; set; }
         public System.DateTime Date { get; set; }
         public int UnitID { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Units Units { get; set; }
     }

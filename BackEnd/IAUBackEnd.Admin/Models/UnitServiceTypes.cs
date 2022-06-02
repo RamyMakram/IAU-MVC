@@ -17,6 +17,8 @@ namespace IAUBackEnd.Admin.Models
         public int ID { get; set; }
         public int ServiceTypeID { get; set; }
         public int UnitID { get; set; }
+        public bool Deleted { get; set; }
+        public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Service_Type Service_Type { get; set; }
         public virtual Units Units { get; set; }

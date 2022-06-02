@@ -32,7 +32,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> GetActiveWithServiceTypeAndUnit(int id, [FromBody] List<int> servicetype)
         {
             var pred = PredicateBuilder.New<Main_Services>();
-            var Unit = db.Units.FirstOrDefault(q => q.Units_ID == id);
+            var Unit = db.Units.FirstOrDefault(q => q.Units_ID == id && !q.Deleted);
             foreach (var i in servicetype)
                 pred.Or(q => q.ServiceTypeID == i);
             pred.Or(q => q.ServiceTypeID == Unit.ServiceTypeID);

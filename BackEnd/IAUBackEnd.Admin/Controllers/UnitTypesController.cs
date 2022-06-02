@@ -33,7 +33,7 @@ namespace IAUBackEnd.Admin.Controllers
 		}
 		public async Task<IHttpActionResult> GetUnits_TypeOFUnit(int id)
 		{
-			var units_Type = await p.Units.Include(q => q.Units_Type).FirstOrDefaultAsync(q => q.Units_ID == id);
+			var units_Type = await p.Units.Include(q => q.Units_Type).FirstOrDefaultAsync(q => q.Units_ID == id && !q.Deleted);
 			if (units_Type.Units_Type == null)
 				return Ok(new ResponseClass() { success = false, result = "Type Is NULL" });
 

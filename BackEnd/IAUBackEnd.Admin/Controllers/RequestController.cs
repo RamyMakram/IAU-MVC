@@ -733,8 +733,8 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> ApproveEform(int UnitID, int EformID)
         {
-            var Unit = await p.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == UnitID);
-            if (Unit.Unit_Signature == null)
+            var Unit = await p.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == UnitID && !q.Deleted);
+            if (Unit?.Unit_Signature == null)
                 return Ok(new ResponseClass() { success = false, result = "Signature" });
 
             var approval = await p.Preview_EformApproval.FirstOrDefaultAsync(q => q.PersonEform == EformID && q.OwnEform);

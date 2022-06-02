@@ -77,7 +77,7 @@ namespace IAU_BackEnd.Controllers
                       }).FirstOrDefault(q => q.ID == id);
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
-                var unit = await p.Units.FirstOrDefaultAsync(q => q.Units_ID == uid);
+                var unit = await p.Units.FirstOrDefaultAsync(q => q.Units_ID == uid && !q.Deleted);
                 return Ok(new ResponseClass() { success = true, result = new { Eform = e_Forms, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR, UnitCode = unit.Ref_Number.Substring(4) + " " + e_Forms.Code } });
             }
             catch (Exception eee)
@@ -123,7 +123,7 @@ namespace IAU_BackEnd.Controllers
                     }).FirstOrDefault(q => q.ID == id);
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
-                var unit = await p.Units.FirstOrDefaultAsync(q => q.Units_ID == uid);
+                var unit = await p.Units.FirstOrDefaultAsync(q => q.Units_ID == uid && !q.Deleted);
                 return Ok(new ResponseClass() { success = true, result = new { Eform = e_Forms, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR, UnitCode = unit.Ref_Number.Substring(4) + " " + e_Forms.Code } });
             }
             catch (Exception eee)

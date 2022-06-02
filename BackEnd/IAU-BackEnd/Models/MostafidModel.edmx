@@ -443,6 +443,8 @@
           <Property Name="Path" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="UnitID" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="UnitLevel">
           <Key>
@@ -478,6 +480,8 @@
           <Property Name="Code" Type="nvarchar" MaxLength="2" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="IS_Mostafid" Type="bit" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Units_Location">
           <Key>
@@ -499,6 +503,8 @@
           <Property Name="Units_Request_Type_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Units_ID" Type="int" />
           <Property Name="Request_Type_ID" Type="int" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Units_Type">
           <Key>
@@ -518,6 +524,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceTypeID" Type="int" Nullable="false" />
           <Property Name="UnitID" Type="int" Nullable="false" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -2539,6 +2547,8 @@
           <Property Name="Path" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UnitID" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Unit_Signature_Units" FromRole="Unit_Signature" ToRole="Units" />
         </EntityType>
         <EntityType Name="UnitLevel">
@@ -2579,6 +2589,8 @@
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDatabaseModel.FK_E_Forms_Units" FromRole="Units" ToRole="E_Forms" />
           <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDatabaseModel.FK_Preview_EformApproval_Units" FromRole="Units" ToRole="Preview_EformApproval" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
@@ -2618,6 +2630,8 @@
           <Property Name="Units_Request_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Units_ID" Type="Int32" />
           <Property Name="Request_Type_ID" Type="Int32" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" FromRole="Units_Request_Type" ToRole="Request_Type" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Units" FromRole="Units_Request_Type" ToRole="Units" />
         </EntityType>
@@ -2641,6 +2655,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceTypeID" Type="Int32" Nullable="false" />
           <Property Name="UnitID" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type" FromRole="UnitServiceTypes" ToRole="Service_Type" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_UnitServiceTypes_Units" FromRole="UnitServiceTypes" ToRole="Units" />
         </EntityType>
@@ -3965,6 +3981,8 @@
           <EntitySetMapping Name="Unit_Signature">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Unit_Signature">
               <MappingFragment StoreEntitySet="Unit_Signature">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="UnitID" ColumnName="UnitID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Path" ColumnName="Path" />
@@ -3994,6 +4012,8 @@
           <EntitySetMapping Name="Units">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Units">
               <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="IS_Mostafid" ColumnName="IS_Mostafid" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -4027,6 +4047,8 @@
           <EntitySetMapping Name="Units_Request_Type">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Units_Request_Type">
               <MappingFragment StoreEntitySet="Units_Request_Type">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
                 <ScalarProperty Name="Units_ID" ColumnName="Units_ID" />
                 <ScalarProperty Name="Units_Request_Type_ID" ColumnName="Units_Request_Type_ID" />
@@ -4048,6 +4070,8 @@
           <EntitySetMapping Name="UnitServiceTypes">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.UnitServiceTypes">
               <MappingFragment StoreEntitySet="UnitServiceTypes">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="UnitID" ColumnName="UnitID" />
                 <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

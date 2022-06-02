@@ -24,6 +24,7 @@ namespace IAU_BackEnd.Controllers
             (req ? true : q.Main_Services.Sub_Services.Any(g => g.IS_Action.Value && !g.Deleted)) &&//check inquiry for sub service
             q.Main_Services.UnitMainServices.Count(w =>//check if main service exist in unit main service
                 w.Units.IS_Action.Value &&//check if unit is active
+                !w.Units.Deleted &&
                 w.Units.Units_Request_Type.Count(s =>//check request type
                     s.Request_Type_ID == ReqType
                     ) != 0

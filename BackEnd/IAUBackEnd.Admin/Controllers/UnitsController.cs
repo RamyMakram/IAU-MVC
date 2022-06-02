@@ -25,24 +25,24 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetUnits()
         {
-            return Ok(new ResponseClass() { success = true, result = p.Units.Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => !q.Deleted).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
         }
 
         public async Task<IHttpActionResult> GetActive()
         {
-            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true) });
+            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && !q.Deleted) });
         }
         public async Task<IHttpActionResult> GetActiveForEmail()
         {
-            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.Users.Any(s => s.IS_Active == "1" && (!q.IS_Mostafid))) });
+            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && !q.Deleted && q.Users.Any(s => s.IS_Active == "1" && (!q.IS_Mostafid))) });
         }
         public async Task<IHttpActionResult> GetUniqueBuildingByLoca(int id)
         {
-            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.Units_Location_ID == id).Select(q => q.Building_Number).Distinct() });
+            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.IS_Action == true && q.Units_Location_ID == id && !q.Deleted).Select(q => q.Building_Number).Distinct() });
         }
         public async Task<IHttpActionResult> GetUnitSeginature(int id)
         {
-            return Ok(new ResponseClass() { success = true, result = await p.Unit_Signature.FirstOrDefaultAsync(q => q.UnitID == id) });
+            return Ok(new ResponseClass() { success = true, result = await p.Unit_Signature.FirstOrDefaultAsync(q => q.UnitID == id && !q.Deleted) });
         }
         [HttpPost]
         public async Task<IHttpActionResult> SaveUnitSeginature(IAUAdmin.DTO.Entity.Unit_Signature signature)
@@ -54,10 +54,13 @@ namespace IAUBackEnd.Admin.Controllers
             var FilePath = Path.Combine("Images", "UnitSignature", signature.UnitID + ".png");
             try
             {
-                var Singature = await p.Unit_Signature.FirstOrDefaultAsync(q => q.UnitID == signature.UnitID);
+                var Singature = await p.Unit_Signature.FirstOrDefaultAsync(q => q.UnitID == signature.UnitID && !q.Deleted);
                 File.WriteAllBytes(Path.Combine(path, FilePath), Convert.FromBase64String(signature.Base64));
                 if (Singature == null)
                 {
+                    if (p.Units.Find(signature.UnitID).Deleted)
+                        return Ok(new ResponseClass() { success = false, result = "del" });
+
                     Singature = new IAUBackEnd.Admin.Models.Unit_Signature { Date = Helper.GetDate(), Path = FilePath.Replace("\\", "/"), UnitID = signature.UnitID };
                     p.Unit_Signature.Add(Singature);
                 }
@@ -75,7 +78,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetActiveUnits_by(int serviceType, int Req, int? locid, string Build)
         {
-            var publider = PredicateBuilder.New<Units>(q => (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType)) && q.Units_Request_Type.Any(w => w.Request_Type_ID == Req) && q.Users.Any(s => s.IS_Active == "1") && (!q.IS_Mostafid));
+            var publider = PredicateBuilder.New<Units>(q => !q.Deleted && (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType)) && q.Units_Request_Type.Any(w => w.Request_Type_ID == Req) && q.Users.Any(s => s.IS_Active == "1") && (!q.IS_Mostafid));
             if (Build != "" && Build != "null" && Build != null)
                 publider.And(q => q.Building_Number.Equals(Build));
             if (locid != null)
@@ -85,7 +88,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> GetActiveUnits_byLevel(int id, int? uintId)
         {
             var pred = PredicateBuilder.New<Units>();
-            pred.And(q => q.IS_Action == true && q.LevelID < id);
+            pred.And(q => q.IS_Action == true && !q.Deleted && q.LevelID < id);
             if (uintId != null)
                 pred.And(q => q.Units_ID != uintId && q.SubID != uintId);
             return Ok(new ResponseClass() { success = true, result = p.Units.Where(pred).Select(q => new { q.Units_Name_AR, q.Units_Name_EN, q.Units_ID }) });
@@ -93,7 +96,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetUnits(int id)
         {
-            var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.Units_Type, q.ServiceTypeID, q.UnitLevel, q.Code, q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Location, CanChangeLevel = q.Units1.Count == 0, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
+            var units = await p.Units.Where(q => q.Units_ID == id && !q.Deleted).Select(q => new { q.Units_Type, q.ServiceTypeID, q.UnitLevel, q.Code, q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Location, CanChangeLevel = q.Units1.Count == 0, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
             if (units == null)
                 return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
 
@@ -110,7 +113,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetUnitsByID(int id)
         {
-            var units = await p.Units.Where(q => q.Units_ID == id).Select(q => new { q.ServiceTypeID, q.Code, q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
+            var units = await p.Units.Where(q => q.Units_ID == id && !q.Deleted).Select(q => new { q.ServiceTypeID, q.Code, q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.Units_Location_ID, q.Units_Type_ID, q.Ref_Number, q.Building_Number, q.LevelID, q.SubID, q.IS_Action, q.IS_Mostafid, q.Units_Type, q.Units_Location, Request_Type = q.Units_Request_Type.Select(w => new { w.Request_Type.Image_Path, w.Request_Type.Request_Type_Name_AR, w.Request_Type.Request_Type_Name_EN }), ServiceTypes = q.UnitServiceTypes.Select(w => new { Service_Type_ID = w.ServiceTypeID, w.Service_Type.Service_Type_Name_AR, w.Service_Type.Service_Type_Name_EN, w.Service_Type.Image_Path }), Units_Request_Type = q.Units_Request_Type.Select(s => new { s.Request_Type_ID, s.Units_ID, s.Units_Request_Type_ID }), MainServices = q.UnitMainServices.Select(w => new { w.Main_Services.Main_Services_ID, w.Main_Services.Main_Services_Name_AR, w.Main_Services.Main_Services_Name_EN }) }).FirstOrDefaultAsync();
             if (units == null)
                 return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
 
@@ -124,7 +127,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Update(Units units)
         {
             var db = new MostafidDBEntities();
-            var data = db.Units.Include(q => q.Units_Type).Include(q => q.Units_Location).Include(q => q.Units_Request_Type).Include(q => q.UnitServiceTypes).FirstOrDefault(q => q.Units_ID == units.Units_ID);
+            var data = db.Units.Include(q => q.Units_Type).Include(q => q.Units_Location).Include(q => q.Units_Request_Type).Include(q => q.UnitServiceTypes).FirstOrDefault(q => q.Units_ID == units.Units_ID && !q.Deleted);
             if (!ModelState.IsValid || data == null)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             var trans = db.Database.BeginTransaction();
@@ -172,7 +175,7 @@ namespace IAUBackEnd.Admin.Controllers
 
                     if (data.Units_Location_ID != units.Units_Location_ID)
                     {
-                        if (db.Units_Location.Find(units.Units_Location_ID).Deleted)
+                        if (db.Units_Location.Find(units.Units_Location_ID).Deleted)//check if unit location deleted
                         {
                             trans.Rollback();
                             return Ok(new ResponseClass() { success = false, result = "Del UT" });
@@ -270,11 +273,16 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Units.Include(q => q.UnitMainServices).FirstOrDefault(q => q.Units_ID == id);
+                var data = p.Units.Include(q => q.UnitMainServices).FirstOrDefault(q => q.Units_ID == id && !q.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
                 foreach (var i in main.Added)
+                {
+                    if (p.Main_Services.Find(i.MainServiceID).Deleted)
+                        return Ok(new ResponseClass() { success = false, result = "Del MS" });
+
                     data.UnitMainServices.Add(new UnitMainServices() { MainServiceID = i.MainServiceID });
+                }
                 foreach (var i in main.Deleted)
                     p.UnitMainServices.Remove(data.UnitMainServices.First(q => q.MainServiceID == i.MainServiceID));
                 await p.SaveChangesAsync();
@@ -295,7 +303,8 @@ namespace IAUBackEnd.Admin.Controllers
                 if (!ModelState.IsValid)
                     return Ok(new ResponseClass() { success = false, result = ModelState });
 
-                #region Handel Deleted RequestType
+                ///check if there Deleted RequestType in entred reuest types
+                #region Check Deleted RequestType 
                 foreach (var i in units.Units_Request_Type)
                     if (p.Request_Type.Find(i.Request_Type_ID).Deleted)
                     {
@@ -304,6 +313,23 @@ namespace IAUBackEnd.Admin.Controllers
                     }
                 #endregion
 
+                #region Check Deleted ServiceType 
+                foreach (var i in units.UnitServiceTypes)
+                    if (p.Service_Type.Find(i.ServiceTypeID).Deleted)
+                    {
+                        trans.Rollback();
+                        return Ok(new ResponseClass() { success = false, result = "Del ST" });
+                    }
+
+                if (p.Service_Type.Find(units.ServiceTypeID).Deleted)
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false, result = "Del ST" });
+                }
+
+                #endregion
+
+                units.Deleted = false;
                 units.IS_Action = true;
                 if (units.LevelID != 1 && units.Code.Length != 2)
                     units.Code = "0" + units.Code;
@@ -399,7 +425,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Active(int id)
         {
             Units units = await p.Units.FindAsync(id);
-            if (units == null)
+            if (units == null || units.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
 
             units.IS_Action = true;
@@ -411,7 +437,7 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Deactive(int id)
         {
             Units units = await p.Units.FindAsync(id);
-            if (units == null)
+            if (units == null || units.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
 
             units.IS_Action = false;
@@ -423,14 +449,43 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            Units units = p.Units.Include(q => q.Request_Data).Include(q => q.RequestTransaction1).Include(q => q.RequestTransaction).Include(q => q.Users).Include(q => q.Units1).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Units_ID == id);
+            Units units = p.Units.Include(q => q.Request_Data).Include(q => q.Unit_Signature).Include(q => q.RequestTransaction1).Include(q => q.RequestTransaction).Include(q => q.Users).Include(q => q.Units1).Include(q => q.UnitMainServices).Include(q => q.E_Forms).Include(q => q.Users).FirstOrDefault(q => q.Units_ID == id && !q.Deleted);
             if (units == null)
                 return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
-            if (units.Request_Data.Count == 0 && units.RequestTransaction1.Count == 0 && units.RequestTransaction.Count == 0 && units.Users.Count == 0 && units.Units1.Count == 0 && units.UnitMainServices.Count == 0)
+            if (units.Request_Data.Count == 0 && units.RequestTransaction1.Count == 0 && units.RequestTransaction.Count == 0 && units.Users.Count == 0 && units.Units1.Count == 0 && units.UnitMainServices.Count == 0 && units.E_Forms.Count == 0/*Eform Approval*/&& units.Users.Count == 0/*Users Jobs*/)
             {
-                p.Units_Request_Type.RemoveRange(p.Units_Request_Type.Where(q => q.Units_ID == id).ToList());
-                p.UnitServiceTypes.RemoveRange(p.UnitServiceTypes.Where(q => q.UnitID == id).ToList());
-                p.Units.Remove(units);
+                #region Delete UnitRequestType
+                var UnitReqType = p.Units_Request_Type.Where(q => q.Units_ID == id);
+                foreach (var UnitReq in UnitReqType)
+                {
+                    UnitReq.Deleted = true;
+                    UnitReq.DeletedAt = DateTime.Now;
+                }
+                //p.Units_Request_Type.RemoveRange(p.Units_Request_Type.Where(q => q.Units_ID == id).ToList());
+
+
+                #endregion
+
+                #region Delete UnitServiceType
+                var UnitServiceType = p.UnitServiceTypes.Where(q => q.UnitID == id);
+                foreach (var i in UnitServiceType)
+                {
+                    i.Deleted = true;
+                    i.DeletedAt = DateTime.Now;
+                }
+                //p.UnitServiceTypes.RemoveRange(p.UnitServiceTypes.Where(q => q.UnitID == id).ToList());
+
+                #endregion
+
+                #region Delete UnitSignature
+                units.Unit_Signature.Deleted = true;
+                units.Unit_Signature.DeletedAt = DateTime.Now;
+
+                #endregion
+
+                units.Deleted = true;
+                units.DeletedAt = DateTime.Now;
+                //p.Units.Remove(units);
                 await p.SaveChangesAsync();
                 return Ok(new ResponseClass() { success = true });
             }

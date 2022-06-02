@@ -233,7 +233,12 @@ namespace IAUBackEnd.Admin.Controllers
                         success = false,
                         result = "Deleted Job"
                     });
-
+                if (p.Units.Find(users.UnitID).Deleted)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Del U"
+                    });
                 var data = p.Users.FirstOrDefault(qt => qt.User_ID == users.User_ID);
                 data.User_Mobile = users.User_Mobile;
                 data.User_Name = users.User_Name;
@@ -313,6 +318,18 @@ namespace IAUBackEnd.Admin.Controllers
 
             try
             {
+                if (p.Job.Find(users.Job_ID).Deleted)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Deleted Job"
+                    });
+                if (p.Units.Find(users.UnitID).Deleted)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Del U"
+                    });
                 var data = p.Users.Add(users);
                 if (p.SaveChanges() > 0)
                     return Ok(new ResponseClass
