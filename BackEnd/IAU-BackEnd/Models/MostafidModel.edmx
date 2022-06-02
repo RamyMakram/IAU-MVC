@@ -489,6 +489,8 @@
           <Property Name="Location_ID" Type="int" />
           <Property Name="IS_Action" Type="bit" />
           <Property Name="Code" Type="nvarchar" MaxLength="2" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+          <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Units_Request_Type">
           <Key>
@@ -2604,6 +2606,8 @@
           <Property Name="Location_ID" Type="Int32" />
           <Property Name="IS_Action" Type="Boolean" />
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Location" Relationship="MostafidDatabaseModel.FK_Units_Location_Location" FromRole="Units_Location" ToRole="Location" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Units_Units_Location" FromRole="Units_Location" ToRole="Units" />
         </EntityType>
@@ -4009,6 +4013,8 @@
           <EntitySetMapping Name="Units_Location">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Units_Location">
               <MappingFragment StoreEntitySet="Units_Location">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />

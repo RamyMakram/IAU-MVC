@@ -172,6 +172,12 @@ namespace IAUBackEnd.Admin.Controllers
 
                     if (data.Units_Location_ID != units.Units_Location_ID)
                     {
+                        if (db.Units_Location.Find(units.Units_Location_ID).Deleted)
+                        {
+                            trans.Rollback();
+                            return Ok(new ResponseClass() { success = false, result = "Del UT" });
+                        }
+
                         data.Units_Location_ID = units.Units_Location_ID;
                         LocationID = units.Units_Location_ID;
                     }
