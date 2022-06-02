@@ -30,7 +30,7 @@ namespace IAU_BackEnd.Controllers
                     !r.Deleted
                 ) != 0
             ).Select(q => new { ID = q.Main_Services.Main_Services_ID, Name_AR = q.Main_Services.Main_Services_Name_AR, Name_EN = q.Main_Services.Main_Services_Name_EN });
-            return Ok(new ResponseClass() { success = true, result = data });
+            return Ok(new ResponseClass() { success = true, result = data.ToList() });
         }
     }
 }
