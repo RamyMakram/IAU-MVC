@@ -119,41 +119,41 @@ namespace IAUBackEnd.Admin.Controllers
             Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id);
             if (main_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
-            if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.All(q => q.Request_Data.Count == 0))
+            if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.All(q => q.Request_Data.Count == 0 && q.Deleted))
             {
                 var subserviceid = main_Services.Sub_Services.Select(s => s.Sub_Services_ID);
 
-                #region DeleteEforms
-                var Eforms = db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID));
-                foreach (var i in Eforms)
-                {
-                    i.Deleted = true;
-                    i.DeletedAt = DateTime.Now;
-                }
-                //db.E_Forms.RemoveRange(db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID))); 
-                #endregion
+                //#region DeleteEforms
+                //var Eforms = db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID));
+                //foreach (var i in Eforms)
+                //{
+                //    i.Deleted = true;
+                //    i.DeletedAt = DateTime.Now;
+                //}
+                ////db.E_Forms.RemoveRange(db.E_Forms.Where(q => subserviceid.Contains(q.SubServiceID))); 
+                //#endregion
 
-                #region Delete RequiredDocs 
-                var RequiredDocs = db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value));
-                foreach (var i in RequiredDocs)
-                {
-                    i.Deleted = true;
-                    i.DeletetAt = DateTime.Now;
-                }
-                //db.Required_Documents.RemoveRange(db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value)));
-                #endregion
+                //#region Delete RequiredDocs 
+                //var RequiredDocs = db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value));
+                //foreach (var i in RequiredDocs)
+                //{
+                //    i.Deleted = true;
+                //    i.DeletetAt = DateTime.Now;
+                //}
+                ////db.Required_Documents.RemoveRange(db.Required_Documents.Where(q => subserviceid.Contains(q.SubServiceID.Value)));
+                //#endregion
 
-                #region Delete SubService
-                foreach (var i in main_Services.Sub_Services)
-                    if (!main_Services.Deleted)
-                    {
-                        i.Deleted = true;
-                        i.DeletedAt = DateTime.Now;
-                    }
+                //#region Delete SubService
+                //foreach (var i in main_Services.Sub_Services)
+                //    if (!main_Services.Deleted)
+                //    {
+                //        i.Deleted = true;
+                //        i.DeletedAt = DateTime.Now;
+                //    }
 
-                //db.Sub_Services.RemoveRange(main_Services.Sub_Services);
+                ////db.Sub_Services.RemoveRange(main_Services.Sub_Services);
 
-                #endregion
+                //#endregion
 
                 #region Delete ValidTo
                 var VaildTo = db.ValidTo.Where(q => q.MainServiceID == id);
