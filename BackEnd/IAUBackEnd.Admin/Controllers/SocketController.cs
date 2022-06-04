@@ -7,6 +7,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Data.Entity;
+using System.Threading;
+using System.Net.Mail;
+using IAUAdmin.DTO.Helper;
+using System.Threading.Tasks;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -14,14 +18,119 @@ namespace IAUBackEnd.Admin.Controllers
     {
         [HttpGet]
         public IHttpActionResult Send(string name)
-		{
+        {
             MostafidDBEntities p = new MostafidDBEntities();
-            Request_Data data = p.Request_Data.Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).FirstOrDefault(q => q.Request_Data_ID == 33);
+            var data_Mos = p.Request_Data.Include(q => q.Request_File).Include(q => q.RequestTransaction.Select(s => s.Units)).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Request_Type).Where(q => q.RequestTransaction.Count() > 1);
 
-            var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid).Select(q => q.User_ID).ToArray();
-            string message = JsonConvert.SerializeObject(data, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-            WebSocketManager.SendToMulti(MostafidUsers, message);
+            foreach (var data in data_Mos)
+            {
+                string td_data = "";
+                var req_trans = data.RequestTransaction.Where(s => s.CommentDate.HasValue).OrderByDescending(q => q.CommentDate);
+                foreach (var i in req_trans)
+                {
+                    td_data += $@"
+                                <tr>
+                                    <td><p>{i.Units.Units_Name_AR}<p/> </br> <p>{i.Units.Units_Name_EN}<p/> </td>
+                                    <td>{i.Comment}</td>
+                                    <td>{i.CommentDate?.ToString("dd-MM-yyyy HH:mm") ?? ""}</td>
+                                <tr>";
+                }
+                string tableStyle = @"
+                            <style>
+                                table {
+                                    border-collapse: collapse;
+                                    }
+                                table, th, td {
+                                    padding:10px;
+                                  border: 1px solid;
+                                    text-align:center;
+                                }
+                            </style>";
+                string message = $@"
+                                {tableStyle}
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>اسم الفئة الإدارية </br> Unit Name</th>
+                                                <th>التعليق </br> Comment</th>
+                                                <th>التاريخ </br> Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {td_data}
+                                        </tbody>
+                                    <table>";
+                new Thread(() =>
+                {
+                    _ = NotifyUser(data.Personel_Data.Mobile, name, $@"عزيزي المستفيد، تم الانتهاء من الطلب رقم '{data.Code_Generate}'." + (req_trans.Count() == 0 ? "" : message), $"Dear Mostafid, Request number '{data.Code_Generate}' has been completed");
+                }).Start();
+            }
             return Ok();
+        }
+        [HttpGet]
+        [Route("api/Socket/NotifyUser")]
+        public async Task<IHttpActionResult> NotifyUser(string Mobile, string Email, string message_ar, string message_en)
+        {
+            try
+            {
+                if (WebApiApplication.Setting_UseMessage)
+                {
+                    HttpClient h = new HttpClient();
+
+                    string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid=su7G9tOZc6U0kPVnoeiJGHUDMKe8tp&msg={message_ar}&to={Mobile}&sender=IAU-BSC&baseEncode=False&encoding=UCS2";
+                    h.BaseAddress = new Uri(url);
+
+                    var res = h.GetAsync("").Result.Content.ReadAsStringAsync().Result;
+                }
+                var message = $@"
+					<p dir='ltr'>{message_en}</p>
+					<p dir='rtl'>{message_ar}</p>
+					";
+                //SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
+
+                //smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
+                //// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+                //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                ////smtpClient.EnableSsl = true;
+                //MailMessage mail = new MailMessage();
+
+                ////Setting From , To and CC
+                //mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
+                //mail.To.Add(new MailAddress(Email));
+                //mail.Subject = "IAU Notify";
+                //mail.Body = message;
+                //mail.IsBodyHtml = true;
+                //smtpClient.Send(mail);
+
+
+                SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
+
+                smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //smtpClient.EnableSsl = true;
+                MailMessage mail = new MailMessage();
+
+                //Setting From , To and CC
+                mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                mail.To.Add(new MailAddress(Email));
+                mail.Subject = "IAU Notify";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+                smtpClient.Send(mail);
+                return Ok(new ResponseClass()
+                {
+                    success = true
+                });
+            }
+            catch (Exception ee)
+            {
+                return Ok(new ResponseClass()
+                {
+                    result = ee,
+                    success = false
+                });
+            }
         }
     }
 }

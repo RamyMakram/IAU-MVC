@@ -358,7 +358,7 @@ namespace IAUBackEnd.Admin.Controllers
                         result = "Del ST",
                         success = false
                     });
-                } 
+                }
                 #endregion
 
                 //request_Data.Request_State_ID = 1;
@@ -537,38 +537,38 @@ namespace IAUBackEnd.Admin.Controllers
 					<p dir='ltr'>{message_en}</p>
 					<p dir='rtl'>{message_ar}</p>
 					";
-                SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
+                //SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
 
-                smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
-                // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                //smtpClient.EnableSsl = true;
-                MailMessage mail = new MailMessage();
-
-                //Setting From , To and CC
-                mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
-                mail.To.Add(new MailAddress(Email));
-                mail.Subject = "IAU Notify";
-                mail.Body = message;
-                mail.IsBodyHtml = true;
-                smtpClient.Send(mail);
-
-
-                //SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
-
-                //smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                //smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
                 //// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
                 //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 ////smtpClient.EnableSsl = true;
                 //MailMessage mail = new MailMessage();
 
                 ////Setting From , To and CC
-                //mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                //mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
                 //mail.To.Add(new MailAddress(Email));
                 //mail.Subject = "IAU Notify";
                 //mail.Body = message;
                 //mail.IsBodyHtml = true;
                 //smtpClient.Send(mail);
+
+
+                SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
+
+                smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //smtpClient.EnableSsl = true;
+                MailMessage mail = new MailMessage();
+
+                //Setting From , To and CC
+                mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                mail.To.Add(new MailAddress(Email));
+                mail.Subject = "IAU Notify";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+                smtpClient.Send(mail);
                 return Ok(new ResponseClass()
                 {
                     success = true
@@ -754,7 +754,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> CloseRequest(int UserID, int RequestID)
         {
-            Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
+            Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction.Select(s => s.Units)).Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
             var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
 
             if (Unit.IS_Mostafid && (sendeddata.Request_State_ID != 2))
@@ -762,12 +762,49 @@ namespace IAUBackEnd.Admin.Controllers
                 sendeddata.Request_State_ID = 5;
                 sendeddata.Is_Archived = true;
                 p.SaveChanges();
-                string message = $@"عزيزي المستفيد , تم الانتهاء من الطلب  رقم {sendeddata.Code_Generate} . ";
                 if (sendeddata.RequestTransaction.Count != 0)
+                {
+                    string td_data = "";
+                    var req_trans = sendeddata.RequestTransaction.Where(s => s.CommentDate.HasValue).OrderByDescending(q => q.CommentDate);
+                    foreach (var i in req_trans)
+                    {
+                        td_data += $@"
+                                <tr>
+                                    <td><p>{i.Units.Units_Name_AR}<p/> </br> <p>{i.Units.Units_Name_EN}<p/> </td>
+                                    <td>{i.Comment}</td>
+                                    <td>{i.CommentDate?.ToString("dd-MM-yyyy HH:mm") ?? ""}</td>
+                                <tr>";
+                    }
+                    string tableStyle = @"
+                            <style>
+                                table {
+                                    border-collapse: collapse;
+                                    }
+                                table, th, td {
+                                    padding:10px;
+                                  border: 1px solid;
+                                    text-align:center;
+                                }
+                            </style>";
+                    string message = $@"
+                                {tableStyle}
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>اسم الفئة الإدارية </br> Unit Name</th>
+                                                <th>التعليق </br> Comment</th>
+                                                <th>التاريخ </br> Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {td_data}
+                                        </tbody>
+                                    <table>";
                     new Thread(() =>
                     {
-                        _ = NotifyUser(sendeddata.Personel_Data.Mobile, sendeddata.Personel_Data.Email, $@"عزيزي المستفيد، تم الانتهاء من الطلب رقم '{sendeddata.Code_Generate}'.", $"Dear Mostafid, Request number '{sendeddata.Code_Generate}' has been completed");
+                        _ = NotifyUser(sendeddata.Personel_Data.Mobile,sendeddata.Personel_Data.Email, $@"عزيزي المستفيد، تم الانتهاء من الطلب رقم '{sendeddata.Code_Generate}'." + (req_trans.Count() == 0 ? "" : message), $"Dear Mostafid, Request number '{sendeddata.Code_Generate}' has been completed");
                     }).Start();
+                }
                 return Ok(new ResponseClass() { success = true });
             }
             return Ok(new ResponseClass() { success = false });
