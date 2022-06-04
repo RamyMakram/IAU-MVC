@@ -3207,6 +3207,7 @@
     <Content Include="Views\Units\DeletedModelsView.cshtml" />
     <Content Include="Views\UnitLocation\DeletedModelsView.cshtml" />
     <Content Include="Views\SubServices\DeletedModelsView.cshtml" />
+    <Content Include="Views\ServiceTypes\DeletedModelsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
