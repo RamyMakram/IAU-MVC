@@ -14,6 +14,7 @@ namespace IAUAdmin.DTO.Entity
 		public string Request_Type_Name_AR { get; set; }
 		public string Name { get; set; }
 		public Nullable<bool> IS_Action { get; set; }
+		public Nullable<DateTime> DeletedAt { get; set; }
 		public List<HttpPostedFileBase> Files { get; set; }
 		public string Image_Path { get; set; }
 		public string Base64 { get; set; }
