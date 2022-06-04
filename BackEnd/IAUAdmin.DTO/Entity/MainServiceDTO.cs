@@ -13,6 +13,7 @@ namespace IAUAdmin.DTO.Entity
 		public string Main_Services_Name_AR { get; set; }
 		public Nullable<bool> IS_Action { get; set; }
 		public Nullable<int> ServiceTypeID { get; set; }
+		public Nullable<DateTime> DeletedAt { get; set; }
 		public int[] Applicant_Types { get; set; }
 		public ICollection<ApplicantTypeDTO> MainService_ApplicantType { get; set; }
 		public bool Active { get; set; }

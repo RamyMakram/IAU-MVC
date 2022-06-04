@@ -21,7 +21,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetDeleted()
         {
-            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.Deleted) });
+            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q => q.Service_Type).Where(q => q.Deleted) });
         }
         public async Task<IHttpActionResult> GetMain_Services()
         {
