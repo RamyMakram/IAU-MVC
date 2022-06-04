@@ -642,6 +642,7 @@ namespace IAUBackEnd.Admin.Controllers
                     p.SaveChanges();
                     sendeddata.Readed = false;
                     var Users = p.Users.Where(q => q.Units.Units_ID == Unit_ID && !q.Deleted).Select(q => q.User_ID).ToArray();
+                    sendeddata.Required_Fields_Notes = comment;
                     string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                     WebSocketManager.SendToMulti(Users, message);
                     return Ok(new ResponseClass() { success = true });
