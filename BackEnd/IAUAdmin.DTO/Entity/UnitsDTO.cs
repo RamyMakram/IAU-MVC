@@ -24,6 +24,7 @@ namespace IAUAdmin.DTO.Entity
 		public int[] Units_ReqType { get; set; }
 		public int[] Units_ServiceType { get; set; }
 		public string Code { get; set; }
+		public Nullable<DateTime> DeletedAt{ get; set; }
 
 
 		public virtual ICollection<UnitServiceTypesDTO> UnitServiceTypes { get; set; }

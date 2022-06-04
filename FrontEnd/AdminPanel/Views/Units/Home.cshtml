@@ -52,6 +52,9 @@
 <span id="mainsservicesTExts" style="display:none" key="t-subservices"></span>
 <div class="row">
     <div class="col-12">
+        <div style="text-align:end">
+            <button class="btn btn-outline-danger m-2" onclick="LoadRemoved()">@(Request.Cookies["lang"]?.Value=="ar"?"":"") <i style="color:red" class="fa fa-trash"></i></button>
+        </div>
         <div class="card">
             <div class="card-body">
 
@@ -494,4 +497,21 @@
             }
         }, 300)
     });
+</script>
+
+<div id="ModalViewDiv-removed">
+
+</div>
+<script>
+    function LoadRemoved() {
+        $.ajax({
+            url: '/Units/AllDel', method: "GET", success: function (res) {
+                setTimeout(function () {
+                    document.getElementById('LoadingDiv').style.display = 'none';
+                }, 1000)
+                $('#ModalViewDiv-removed').html(res)
+                $('#DeletedItemsModal').modal('show')
+            }
+        })
+    }
 </script>

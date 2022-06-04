@@ -25,7 +25,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetDeleted()
         {
-            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.Deleted).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.DeletedAt }) });
+            return Ok(new ResponseClass() { success = true, result = p.Units.Where(q => q.Deleted).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.DeletedAt, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
         }
         public async Task<IHttpActionResult> GetUnits()
         {

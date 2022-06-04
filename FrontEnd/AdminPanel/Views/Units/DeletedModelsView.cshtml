@@ -1,0 +1,118 @@
+﻿@model ICollection<IAUAdmin.DTO.Entity.UnitsDTO>
+@using System.Configuration;
+
+@{
+    var lang = Request.Cookies["lang"]?.Value;
+    var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+
+}
+<style>
+    @@media (min-width: 576px) {
+        #DeletedItemsModal .modal-dialog {
+            max-width: 80%;
+            margin: 1.75rem auto;
+        }
+    }
+</style>
+<div class="modal fade" id="DeletedItemsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@(lang=="ar"?"البيانات المحذوفة":"Deleted Data")</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="jqtable table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>@(lang == "ar" ?"تاريخ الحذف":"Deleted Date")</th>
+                            <th key="t-name">Unit Name</th>
+                            <th key="t-enname">Type En Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var i in Model)
+                        {
+                            <tr>
+                                <td>@(i.DeletedAt.Value.ToString("HH:mm dd-MM-yyyy"))</td>
+                                <td class="TH-ar ar-font">
+                                    <span id="MainServiceImages">
+                                        @foreach (var s in i.UnitServiceTypes)
+                                        {
+                                            <img src="@(url + "/" + s.Service_Type.Image_Path)" id="img-@(s.ServiceTypeID)" onclick="FilterMain(this,@(s.ServiceTypeID))" />
+                                        }
+                                        <img src="@(url + "/" + i.Service_Type.Image_Path)" id="img-@(i.Service_Type.Service_Type_ID)" onclick="FilterMain(this,@(i.Service_Type.Service_Type_ID))" />
+                                    </span>
+                                    <span style="color:blue;padding:0 10px;">@(i.IS_Mostafid ? "✔" : "")</span>
+                                    @(i.Units_Name_AR)
+                                </td>
+                                <td class="TH-en en-font">@(i.Units_Name_EN)</td>
+                                <td>
+                                    <button class=" btn btn-primary" onclick="Restore('@i.Units_ID')">@(lang=="ar"?"استعادة":"Restore")</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.jqtable').DataTable({
+        lengthChange: false,
+        "responsive": true,
+        "paging": true,
+        filter: true,
+        buttons: [
+            'copy', 'excel', 'pdf'
+        ],
+        language: {
+            url: '@(lang == "ar" ? "/assets/DataTableTrans/ar.json" : "/assets/DataTableTrans/en.json")'
+        },
+        initComplete: function (settings, json) {
+            getLanguage()
+        }
+    });
+</script>
+<script>
+    function Restore(id) {
+			event.stopPropagation()
+		event.stopImmediatePropagation()
+		Swal.fire({
+			title:"@( Request.Cookies["lang"].Value == "ar" ? "هل انت متاكد من استعادة هذه الفئة؟" : "Are you sure To Restore this Unit?")",
+			text: "@(Request.Cookies["lang"].Value == "ar" ? "لن تستطيع ارجاع ذلك بعد اتمام العملية!" : "You won't be able to revert this!")",
+			icon: "warning",
+			showCancelButton: true,
+			focusConfirm: false,
+			confirmButtonColor: "#34c38f",
+			cancelButtonColor: "#f46a6a",
+			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق , استعادة الفئة" : "Yes, Restore it!")",
+			cancelButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "الغاء العملية" : "Cancel Process")",
+		}).then(function (result) {
+			if (result.value) {
+				document.getElementById('LoadingDiv').style.display = 'none';
+				$.ajax({
+                    url: '/Units/RestoreItem?id=' + id,method: "POST",  success: function (res) {
+						setTimeout(function () {
+							document.getElementById('LoadingDiv').style.display = 'none';
+						}, 1000)
+						if (res["success"] == true)
+							location.href = location.href;
+						else {
+							Swal.fire({
+								  icon: 'error',
+								  title: "@(Request.Cookies["lang"].Value == "ar" ? "فشل الاستعادة" : "Restore failed")",
+								  confirmButtonText:'@(Request.Cookies["lang"].Value == "ar" ? "حسنا" : "Okay")',
+								})
+						}
+				}
+			})
+			}
+		});
+	}
+</script>
