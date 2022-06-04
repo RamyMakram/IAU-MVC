@@ -18,6 +18,7 @@ namespace IAUAdmin.DTO.Entity
         public string QTY { get; set; }
         public string Del_QTY { get; set; }
         public string Code { get; set; }
+        public Nullable<DateTime> DeletedAt { get; set; }
         public virtual SubServicesDTO Sub_Services { get; set; }
         public virtual ICollection<Question> Question { get; set; }
         public virtual UnitsDTO Eform_Approval { get; set; }

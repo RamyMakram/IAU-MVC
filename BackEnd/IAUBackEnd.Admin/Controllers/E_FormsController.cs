@@ -23,9 +23,24 @@ namespace IAUBackEnd.Admin.Controllers
     public class E_FormsController : ApiController
     {
         private MostafidDBEntities p = new MostafidDBEntities();
+        public async Task<IHttpActionResult> GetDeleted()
+        {
+            try
+            {
+                return Ok(new ResponseClass() { success = true, result = p.E_Forms.Where(q => q.Deleted) });
+            }
+            catch (Exception ee)
+            {
+                return Ok(new ResponseClass
+                {
+                    success = false,
+                    result = ee
+                });
+            }
+        }
         public async Task<IHttpActionResult> GetE_Forms()
         {
-            return Ok(new ResponseClass() { success = true, result = p.E_Forms.ToList() });
+            return Ok(new ResponseClass() { success = true, result = p.E_Forms.Where(q => !q.Deleted).ToList() });
         }
         public async Task<IHttpActionResult> GetE_FormsFoRequest(int id, int RequestID)
         {
@@ -383,11 +398,30 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id);
+                E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id && !q.Deleted);
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
                 e_Forms.Deleted = true;
                 e_Forms.DeletedAt = DateTime.Now;
+                await p.SaveChangesAsync();
+
+                return Ok(new ResponseClass() { success = true });
+            }
+            catch (Exception ee)
+            {
+                return Ok(new ResponseClass() { success = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> _Restore(int id)
+        {
+            try
+            {
+                E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id && q.Deleted);
+                if (e_Forms == null)
+                    return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
+                e_Forms.Deleted = false;
                 await p.SaveChangesAsync();
 
                 return Ok(new ResponseClass() { success = true });

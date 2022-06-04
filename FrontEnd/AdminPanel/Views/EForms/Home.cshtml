@@ -21,6 +21,11 @@
 <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <div class="row">
     <div class="col-12">
+        <div style="text-align:end">
+            <button class="btn btn-outline-danger m-2" onclick="LoadRemoved()">@(Request.Cookies["lang"]?.Value=="ar"?"":"") <i style="color:red" class="fa fa-trash"></i></button>
+        </div>
+
+
         <div class="card">
             <div class="card-body">
                 <div class="HeaderOfPage">
@@ -105,17 +110,17 @@
 <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="~/assets/js/app.js"></script>
 @*<script>
-    function PreviewEform(ID) {
-        $.ajax({
-            url: `/Eforms/GetEformPreview?ID=${ID}`, method: "Post", data: {
-                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-            }, success: function (dd) {
-                $('#Eform').html(dd)
-                $('#Eform').modal('toggle');
-            }
-        })
-    }
-</script>*@
+        function PreviewEform(ID) {
+            $.ajax({
+                url: `/Eforms/GetEformPreview?ID=${ID}`, method: "Post", data: {
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                }, success: function (dd) {
+                    $('#Eform').html(dd)
+                    $('#Eform').modal('toggle');
+                }
+            })
+        }
+    </script>*@
 
 
 
@@ -159,3 +164,20 @@
 	}
     </script>
 }
+
+<div id="ModalViewDiv-removed">
+
+</div>
+<script>
+    function LoadRemoved() {
+        $.ajax({
+            url: '/EForms/AllDel', method: "GET", success: function (res) {
+                setTimeout(function () {
+                    document.getElementById('LoadingDiv').style.display = 'none';
+                }, 1000)
+                $('#ModalViewDiv-removed').html(res)
+                $('#DeletedItemsModal').modal('show')
+            }
+        })
+    }
+</script>
