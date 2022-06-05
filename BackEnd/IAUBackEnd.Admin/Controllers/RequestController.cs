@@ -770,7 +770,7 @@ namespace IAUBackEnd.Admin.Controllers
                     {
                         td_data += $@"
                                 <tr>
-                                    <td><p>{i.Units.Units_Name_AR}<p/> </br> <p>{i.Units.Units_Name_EN}<p/> </td>
+                                    <td><p>{i.Units1.Units_Name_AR}<p/> </br> <p>{i.Units1.Units_Name_EN}<p/> </td>
                                     <td>{i.Comment}</td>
                                     <td>{i.CommentDate?.ToString("dd-MM-yyyy HH:mm") ?? ""}</td>
                                 <tr>";
@@ -788,12 +788,12 @@ namespace IAUBackEnd.Admin.Controllers
                             </style>";
                     string message = $@"
                                 {tableStyle}
-                                    <table>
+                                    <table dir='rtl'>
                                         <thead>
                                             <tr>
-                                                <th>اسم الفئة الإدارية </br> Unit Name</th>
-                                                <th>التعليق </br> Comment</th>
-                                                <th>التاريخ </br> Date</th>
+                                                <th><p> اسم الفئة الإدارية </p><p> Unit Name</p></th>
+                                                <th><p>التعليق </p><p> Comment</p></th>
+                                                <th><p>التاريخ </p><p> Date</p></th>
                                             </tr>
                                         </thead>
                                         <tbody>
