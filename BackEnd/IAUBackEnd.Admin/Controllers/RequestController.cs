@@ -790,7 +790,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> CloseRequest(int UserID, int RequestID)
         {
-            Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction.Select(s => s.Units)).Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
+            Request_Data sendeddata = p.Request_Data.Include(q => q.RequestTransaction.Select(s => s.Units1)).Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestID);
             var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
 
             if (Unit.IS_Mostafid && (sendeddata.Request_State_ID != 2))
@@ -813,18 +813,10 @@ namespace IAUBackEnd.Admin.Controllers
                     }
                     string tableStyle = @"
                             <style>
-                                table {
-                                    border-collapse: collapse;
-                                    }
-                                table, th, td {
-                                    padding:10px;
-                                  border: 1px solid;
-                                    text-align:center;
-                                }
                             </style>";
                     string message = $@"
                                 {tableStyle}
-                                    <table dir='rtl'>
+                                    <table dir='rtl' border='1' cellpadding='1' cellspacing='1' width='100%'>
                                         <thead>
                                             <tr>
                                                 <th><p> اسم الفئة الإدارية </p><p> Unit Name</p></th>
