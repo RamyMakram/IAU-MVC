@@ -52,7 +52,8 @@ namespace IAUBackEnd.Admin.Controllers
                         q.User_Permissions_Type_ID,
                         q.User_Permissions_Type_Name_AR,
                         q.User_Permissions_Type_Name_EN,
-                        q.Job_Permissions
+                        q.Job_Permissions,
+                        q.IsModear
                     });
                 return Ok(new ResponseClass
                 {
@@ -82,6 +83,7 @@ namespace IAUBackEnd.Admin.Controllers
                         q.User_Permissions_Type_ID,
                         q.User_Permissions_Type_Name_AR,
                         q.User_Permissions_Type_Name_EN,
+                        q.IsModear
                     })
                     .FirstOrDefault();
                 if (Job == null)
@@ -118,7 +120,7 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass
                 {
                     success = true,
-                    result = new { Job.User_Permissions_Type_Name_AR, Job.User_Permissions_Type_ID, Job.User_Permissions_Type_Name_EN, Permissions = perm }
+                    result = new { Job.User_Permissions_Type_Name_AR, Job.User_Permissions_Type_ID, Job.User_Permissions_Type_Name_EN, Job.IsModear, Permissions = perm }
                     //result = ss
                 });
             }
@@ -138,8 +140,15 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 var data = p.Job.FirstOrDefault(q => q.User_Permissions_Type_ID == job.User_Permissions_Type_ID);
+                if (job.IsModear && ValidateIsModearExist(data.User_Permissions_Type_ID))/*IF Job IS Modear And There is modear*/
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Modear Error"
+                    });
                 data.User_Permissions_Type_Name_AR = job.User_Permissions_Type_Name_AR;
                 data.User_Permissions_Type_Name_EN = job.User_Permissions_Type_Name_EN;
+                data.IsModear = job.IsModear;
                 if (p.SaveChanges() > 0)
                     return Ok(new ResponseClass
                     {
@@ -162,12 +171,43 @@ namespace IAUBackEnd.Admin.Controllers
                 });
             }
         }
+        /// <summary>
+        /// Check if There is job with Modear flag
+        /// if Send ID Check if There is another job with Modear flag
+        /// </summary>
+        /// <param name="JobID"></param>
+        /// <returns>
+        /// true: if Theris
+        /// false: if not
+        /// </returns>
+        private bool ValidateIsModearExist(int? JobID)
+        {
+            return p.Job.Any(s => s.IsModear && (JobID.HasValue ? s.User_Permissions_Type_ID != JobID : true)/*Check IF There is another Job with Modear Flag*/);
+        }
+        [HttpGet]
+        public async Task<IHttpActionResult> CheckModear(int? JID)
+        {
+            try
+            {
+                return Ok(new ResponseClass { success = true, result = ValidateIsModearExist(JID) });
+            }
+            catch (Exception ee)
+            {
+                return Ok(new ResponseClass { success = false, result = ee });
+            }
+        }
 
         [HttpPost]
         public async Task<IHttpActionResult> CreateJob([FromBody] Job user_Permissions_Type)
         {
             try
             {
+                if (user_Permissions_Type.IsModear && ValidateIsModearExist(null))/*IF Job IS Modear And There is modear*/
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Modear Error"
+                    });
                 user_Permissions_Type.Deleted = false;
                 var data = p.Job.Add(user_Permissions_Type);
                 if (p.SaveChanges() > 0)

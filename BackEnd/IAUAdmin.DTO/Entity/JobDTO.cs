@@ -12,6 +12,7 @@ namespace IAUAdmin.DTO.Entity
 		public string User_Permissions_Type_Name_AR { get; set; }
 		public string User_Permissions_Type_Name_EN { get; set; }
 		public string Name { get; set; }
+		public bool IsModear { get; set; }
 		public Nullable<DateTime> DeletedAt { get; set; }
 		public virtual ICollection<PrivilgesDTO> Permissions { get; set; }
 		public virtual ICollection<Job_PermissionsDTO> Job_Permissions { get; set; }

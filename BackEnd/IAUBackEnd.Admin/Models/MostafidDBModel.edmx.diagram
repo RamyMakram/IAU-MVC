@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="MostafidDBModel.Employee" Width="1.5" PointX="10.5" PointY="47.75" />
         <EntityTypeShape EntityType="MostafidDBModel.ID_Document" Width="1.5" PointX="1.5" PointY="27.5" />
         <EntityTypeShape EntityType="MostafidDBModel.Input_Type" Width="1.5" PointX="15" PointY="50.625" />
-        <EntityTypeShape EntityType="MostafidDBModel.Job" Width="1.5" PointX="6" PointY="20.75" />
         <EntityTypeShape EntityType="MostafidDBModel.Job_Permissions" Width="1.5" PointX="8.25" PointY="10.875" />
         <EntityTypeShape EntityType="MostafidDBModel.Location" Width="1.5" PointX="1.5" PointY="45.75" />
         <EntityTypeShape EntityType="MostafidDBModel.Main_Services" Width="1.5" PointX="3" PointY="41.125" />
@@ -72,8 +71,6 @@
         <AssociationConnector Association="MostafidDBModel.FK_Request_Log_Employee" />
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_ID_Document" />
         <AssociationConnector Association="MostafidDBModel.FK_Input_Type_Question" />
-        <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Job" />
-        <AssociationConnector Association="MostafidDBModel.FK_Users_User_Permissions_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Privilage" />
         <AssociationConnector Association="MostafidDBModel.FK_Units_Location_Location" />
         <AssociationConnector Association="MostafidDBModel.FK_Main_Services_Service_Type" />
@@ -119,6 +116,9 @@
         <AssociationConnector Association="MostafidDBModel.FK_Units_Units_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_UnitServiceTypes_Units" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_Units" />
+        <EntityTypeShape EntityType="MostafidDBModel.Job" Width="1.5" PointX="6" PointY="20.625" />
+        <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Job" />
+        <AssociationConnector Association="MostafidDBModel.FK_Users_User_Permissions_Type" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

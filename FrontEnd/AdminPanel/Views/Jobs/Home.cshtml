@@ -49,7 +49,11 @@
                         @foreach (var i in Model)
                         {
                             <tr>
-                                <td class="TH-ar">@i.User_Permissions_Type_Name_AR</td>
+                                <td class="TH-ar">
+
+                                    <span style="color:blue;padding:0 10px;">@(i.IsModear? "✔" : "")</span>
+                                    @i.User_Permissions_Type_Name_AR
+                                </td>
                                 <td class="TH-en">@i.User_Permissions_Type_Name_EN</td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { Id = i.User_Permissions_Type_ID }, new { @class = "btn btn-primary", @key = "t-edit" })

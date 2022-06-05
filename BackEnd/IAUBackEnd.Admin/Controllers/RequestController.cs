@@ -32,17 +32,23 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
+                var User = p.Users.Include(q => q.Units).Include(q => q.Job).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted);
+                if (User == null)
+                    return Ok(new ResponseClass() { success = false, result = "Null Us" });
+                var ComplaintID = await p.Request_Type.FirstOrDefaultAsync(s => s.Request_Type_Name_EN.ToLower().StartsWith("comp"));
+                var Unit = User.Units;
+
                 if (Unit.IS_Mostafid)
                 {
-                    var data = p.Request_Data.Where(q => !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null)).Select(q => new { Required_Fields_Notes = q.RequestTransaction.Count() == 0 ? q.Required_Fields_Notes : q.RequestTransaction.OrderByDescending(s => s.CommentDate).FirstOrDefault().Comment, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, CreatedDate = q.RequestTransaction.Count == 0 ? q.CreatedDate : q.RequestTransaction.OrderByDescending(ssd => ssd.ID).FirstOrDefault().CommentDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
+                    var data = p.Request_Data.Where(q =>
+                    (User.Job.IsModear ? true : (q.Request_Type_ID != ComplaintID.Request_Type_ID/*Dont Get Complaint Request*/)) &&/*Check if is Modear and mostafid return shakway Orders */
+                    !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null)).Select(q => new { Required_Fields_Notes = q.RequestTransaction.Count() == 0 ? q.Required_Fields_Notes : q.RequestTransaction.OrderByDescending(s => s.CommentDate).FirstOrDefault().Comment, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, CreatedDate = q.RequestTransaction.Count == 0 ? q.CreatedDate : q.RequestTransaction.OrderByDescending(ssd => ssd.ID).FirstOrDefault().CommentDate, Readed = q.Readed ?? false, q.Request_State_ID, }).OrderByDescending(q => q.Request_Data_ID);
                     var ss = data.ToList();
                     return Ok(new ResponseClass() { success = true, result = data });
                 }
                 else
                 {
                     var data = p.RequestTransaction.Where(w => !w.Request_Data.Is_Archived && (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, CreatedDate = q.ForwardDate, q.Readed }).OrderByDescending(q => q.CreatedDate);
-                    var ss = data.ToList();
                     return Ok(new ResponseClass() { success = true, result = data });
                 }
             }
@@ -208,11 +214,26 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetRequestsCount(int UserID)
         {
-            var Unit = p.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
-            if (Unit.IS_Mostafid)
-                return Ok(new ResponseClass() { success = true, result = p.Request_Data.Count(q => !q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null)) });
+            var User = p.Users.Include(q => q.Units).Include(q => q.Job).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted);
+            if (User == null)
+                return Ok(new ResponseClass() { success = false, result = "Null Us" });
+            var ComplaintID = await p.Request_Type.FirstOrDefaultAsync(s => s.Request_Type_Name_EN.ToLower().StartsWith("comp"));
+            var Unit = User.Units; if (Unit.IS_Mostafid)
+                return Ok(new ResponseClass()
+                {
+                    success = true,
+                    result = p.Request_Data.Count(q =>
+(User.Job.IsModear ? true : (q.Request_Type_ID != ComplaintID.Request_Type_ID/*Dont Get Complaint Request*/)) &&/*Check if is Modear and mostafid return shakway Orders */
+!q.Is_Archived && q.Request_State_ID != 5 && (q.RequestTransaction.Count() == 0 || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment != null))
+                });
             else
-                return Ok(new ResponseClass() { success = true, result = p.RequestTransaction.Count(w => !w.Request_Data.Is_Archived && (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && !w.Readed) });
+                return Ok(new ResponseClass()
+                {
+                    success = true,
+                    result = p.RequestTransaction.Count(w =>
+(w.Request_Data.Request_Type_ID != ComplaintID.Request_Type_ID/*Dont Get Complaint Request*/) &&
+!w.Request_Data.Is_Archived && (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID && !w.Readed)
+                });
         }
 
         //[EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -340,7 +361,7 @@ namespace IAUBackEnd.Admin.Controllers
                     });
                 }
 
-                if (p.Sub_Services.Find(request_Data.Sub_Services_ID).Deleted)
+                if (request_Data.Sub_Services_ID != null && p.Sub_Services.Find(request_Data.Sub_Services_ID).Deleted)
                 {
                     transaction.Rollback();
                     return Ok(new
@@ -493,11 +514,19 @@ namespace IAUBackEnd.Admin.Controllers
                 p.SaveChanges();
                 transaction.Commit();
 
-                var sendeddata = p.Request_Data.Where(q => q.Request_Data_ID == request_Data.Request_Data_ID).Select(q => new { q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Request_Data_ID, q.Required_Fields_Notes }).First();
+                #region WebSocket
 
-                var MostafidUsers = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted).Select(q => q.User_ID).ToArray();
+                var sendeddata = p.Request_Data.Where(q => q.Request_Data_ID == request_Data.Request_Data_ID).Select(q => new { q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Request_Data_ID, q.Required_Fields_Notes }).First();
+                var ISComplaint = (sendeddata?.Request_Type?.Request_Type_Name_EN ?? "").ToLower().StartsWith("comp");//Modear of mostfaid unit
+                var Users = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted && (ISComplaint ? q.Job.IsModear : true)).Select(q => q.User_ID).ToArray();
+
                 string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-                WebSocketManager.SendToMulti(MostafidUsers, message);
+
+                WebSocketManager.SendToMulti(Users, message);
+
+                #endregion
+
+
                 new Thread(() =>
                 {
                     _ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعة", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 48 hours");
@@ -679,9 +708,16 @@ namespace IAUBackEnd.Admin.Controllers
                     sendeddata.Request_State_ID = 4;
                 sendeddata.Readed = false;
                 p.SaveChanges();
-                var Users = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted).Select(q => q.User_ID).ToArray();
+                
+                sendeddata.Required_Fields_Notes = Comment;
+
+                var ISComplaint = (sendeddata?.Request_Type?.Request_Type_Name_EN ?? "").ToLower().StartsWith("comp");//Modear of mostfaid unit
+
+
+                var Users = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted && (ISComplaint ? q.Job.IsModear : true)).Select(q => q.User_ID).ToArray();
                 string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 WebSocketManager.SendToMulti(Users, message);
+
                 return Ok(new ResponseClass() { success = true });
             }
             else
@@ -802,7 +838,7 @@ namespace IAUBackEnd.Admin.Controllers
                                     <table>";
                     new Thread(() =>
                     {
-                        _ = NotifyUser(sendeddata.Personel_Data.Mobile,sendeddata.Personel_Data.Email, $@"عزيزي المستفيد، تم الانتهاء من الطلب رقم '{sendeddata.Code_Generate}'." + (req_trans.Count() == 0 ? "" : message), $"Dear Mostafid, Request number '{sendeddata.Code_Generate}' has been completed");
+                        _ = NotifyUser(sendeddata.Personel_Data.Mobile, sendeddata.Personel_Data.Email, $@"عزيزي المستفيد، تم الانتهاء من الطلب رقم '{sendeddata.Code_Generate}'." + (req_trans.Count() == 0 ? "" : message), $"Dear Mostafid, Request number '{sendeddata.Code_Generate}' has been completed");
                     }).Start();
                 }
                 return Ok(new ResponseClass() { success = true });
