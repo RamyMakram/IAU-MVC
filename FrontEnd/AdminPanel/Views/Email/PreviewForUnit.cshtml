@@ -426,6 +426,9 @@
                     </div>
                 </div>
             </div>
+            @{
+                var ReqTrans = ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>;
+            }
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -436,7 +439,7 @@
                                         <a class="nav-link active  btn btn-primary" id="home" data-toggle="tab" href="#home-tab2" role="tab" aria-controls="home" aria-selected="true"><span key="t-NewComment"></span><span class="marker"></span></a>
 
                                     </li>
-                                    @if (ViewBag.RequestTransaction.Count != 0)
+                                    @if (ReqTrans.Count(q => (q.Comment != null && q.Comment.Trim() != "") || (q.MostafidComment != null && q.MostafidComment.Trim() != "")) != 0)
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link btn btn-primary" id="profile" data-toggle="tab" href="#profile-tab2" role="tab" aria-controls="profile" aria-selected="false"><span key="t-PreviousComment"></span><span class="marker"></span></a>
@@ -453,7 +456,7 @@
                                     <div class="col">
                                         @{
 
-                                            if (MostafidComment.MostafidComment != null && MostafidComment.MostafidComment != "")
+                                            if (MostafidComment.MostafidComment != null && MostafidComment.MostafidComment.Trim() != "")
                                             {
                                                 <div class="MostafidComment">
                                                     <h3 style="margin-bottom:19px">
@@ -476,16 +479,16 @@
                                     </div>
                                 </div>
                                 @{
-                                    if (ViewBag.RequestTransaction.Count != 0)
+                                    if (ReqTrans.Count(q => (q.Comment != null && q.Comment.Trim() != "") || (q.MostafidComment != null && q.MostafidComment.Trim() != "")) != 0)
                                     {
                                         var count = 0;
                                         <div class="tab-pane fade" id="profile-tab2" role="tabpanel" aria-labelledby="profile-tab">
                                             <div class="col">
                                                 <div class="CustomeCarso">
-                                                    @foreach (var i in ViewBag.RequestTransaction as ICollection<IAUAdmin.DTO.Entity.Request_TransactionDTO>)
+                                                    @foreach (var i in ReqTrans)
                                                     {
 
-                                                        if (i.MostafidComment != null && i.MostafidComment != "")
+                                                        if (i.MostafidComment != null && i.MostafidComment.Trim() != "")
                                                         {
                                                             count++;
                                                             <div class="data-Comment" data-id="@count">

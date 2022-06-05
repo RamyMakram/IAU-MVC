@@ -708,9 +708,16 @@ namespace IAUBackEnd.Admin.Controllers
                     sendeddata.Request_State_ID = 4;
                 sendeddata.Readed = false;
                 p.SaveChanges();
-                var Users = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted).Select(q => q.User_ID).ToArray();
+                
+                sendeddata.Required_Fields_Notes = Comment;
+
+                var ISComplaint = (sendeddata?.Request_Type?.Request_Type_Name_EN ?? "").ToLower().StartsWith("comp");//Modear of mostfaid unit
+
+
+                var Users = p.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted && (ISComplaint ? q.Job.IsModear : true)).Select(q => q.User_ID).ToArray();
                 string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 WebSocketManager.SendToMulti(Users, message);
+
                 return Ok(new ResponseClass() { success = true });
             }
             else
