@@ -77,6 +77,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var logstate = Logger.AddLog(db, LogClassType.ApplicantType, "Create", out _, out _, null, applicant_Type, applicant_Type.Applicant_Type_ID);
                 if (logstate)
                 {
+                    await db.SaveChangesAsync();
                     trans.Commit();
                     return Ok(new ResponseClass() { success = true });
                 }
@@ -108,6 +109,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var logstate = Logger.AddLog(db, LogClassType.ApplicantType, "Active", out _, out _, null, applicant_Type, applicant_Type.Applicant_Type_ID);
                 if (logstate)
                 {
+                    await db.SaveChangesAsync();
                     trans.Commit();
                     return Ok(new ResponseClass() { success = true });
                 }
@@ -138,6 +140,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var logstate = Logger.AddLog(db, LogClassType.ApplicantType, "Deactive", out _, out _, null, applicant_Type, applicant_Type.Applicant_Type_ID);
                 if (logstate)
                 {
+                    await db.SaveChangesAsync();
                     trans.Commit();
                     return Ok(new ResponseClass() { success = true });
                 }
