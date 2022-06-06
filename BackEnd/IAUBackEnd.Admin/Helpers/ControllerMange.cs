@@ -44,7 +44,7 @@ namespace IAUBackEnd.Admin
                 var date = GetDate();
                 if (UserID == -1)
                     throw new Exception("User Is Null");
-                syslog = new SystemLog { CallPath = HttpContext.Current.Request.Path, Method = Method, TransDate = date, ClassType = ((int)logClass), Oldval = JsonConvert.SerializeObject(Oldval), Newval = JsonConvert.SerializeObject(Newval), UserID = UserID, ReferID = ID, Notes = notes };
+                syslog = new SystemLog { CallPath = HttpContext.Current.Request.RawUrl, Method = Method, TransDate = date, ClassType = ((int)logClass), Oldval = (Oldval != null && Oldval.GetType() == typeof(string) ? Oldval.ToString() : JsonConvert.SerializeObject(Oldval, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })), Newval = JsonConvert.SerializeObject(Newval, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), UserID = UserID, ReferID = ID, Notes = notes };
                 db.SystemLog.Add(syslog);
                 es = null;
                 return true;
