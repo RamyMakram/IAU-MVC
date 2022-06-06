@@ -73,5 +73,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
         public virtual DbSet<Job> Job { get; set; }
+        public virtual DbSet<SystemLog> SystemLog { get; set; }
     }
 }

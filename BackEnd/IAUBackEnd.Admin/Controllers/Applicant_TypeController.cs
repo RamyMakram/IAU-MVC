@@ -45,7 +45,8 @@ namespace IAUBackEnd.Admin.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> UpdateApplicant_Type(Applicant_Type applicant_Type)
         {
-            if (!ModelState.IsValid)
+            var logstate = Logger.AddLog(db, LogClassType.ApplicantType, "Update", out _, out _, db.Applicant_Type.AsNoTracking().FirstOrDefault(q => q.Applicant_Type_ID == applicant_Type.Applicant_Type_ID), applicant_Type);
+            if (!ModelState.IsValid || !logstate)
                 return Ok(new ResponseClass() { success = false });
             try
             {

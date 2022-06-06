@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IAUBackEnd.Admin.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -39,15 +40,30 @@ namespace IAUBackEnd.Admin
         }
         protected void Application_BeginRequest(object Sender, EventArgs eventE)
         {
-            //string[] WS_AllowedSites = { "https://localhost:44346", "https://adminpanel.iau-bsc.com", "https://dashb-mustafid.iau.edu.sa" };
-            //var contexURl = HttpContext.Current.Request.Headers.Get("Origin");
-            //var cridantl = HttpContext.Current.Request.Headers["crd"];
-            //if (WS_AllowedSites.Contains(contexURl) && HttpContext.Current.Request.Path == "/WSHandler.ashx")
-            //{
+            string[] WS_AllowedSites = { "https://localhost:44346", "https://adminpanel.iau-bsc.com", "https://dashb-mustafid.iau.edu.sa" };
+            var contexURl = HttpContext.Current.Request.Headers.Get("Origin");
+            var cridantl = HttpContext.Current.Request.Headers["crd"];
+            if (WS_AllowedSites.Contains(contexURl) && HttpContext.Current.Request.Path == "/WSHandler.ashx")
+            {
+                return;
+            }
+            else if ((cridantl == null || cridantl == "" || cridantl != "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks"))
+                HttpContext.Current.Response.StatusCode = 401;
 
-            //}
-            //else if ((cridantl == null || cridantl == "" || cridantl != "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks"))
-            //    HttpContext.Current.Response.StatusCode = 401;
+            if (HttpContext.Current.Request.Path == "/api/User/VerfiyUser")
+                return;
+
+            int UserID = int.Parse(HttpContext.Current.Request.Headers["user"]?.ToString() ?? "-1");
+            var db = new MostafidDBEntities();
+            var date = Logger.GetDate().AddDays(1);
+            if (UserID == -1)
+                HttpContext.Current.Response.StatusCode = 401;
+            else
+            {
+                var token = HttpContext.Current.Request.Headers["token"]?.ToString();
+                if (!db.Users.Any(q => q.User_ID == UserID && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date && !q.Deleted))
+                    HttpContext.Current.Response.StatusCode = 401;
+            }
         }
     }
 }

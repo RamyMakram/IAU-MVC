@@ -408,6 +408,21 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Method" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="TransDate" Type="datetime" Nullable="false" />
+          <Property Name="ClassType" Type="int" Nullable="false" />
+          <Property Name="Oldval" Type="nvarchar(max)" />
+          <Property Name="Newval" Type="nvarchar(max)" />
+          <Property Name="CallPath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReferID" Type="int" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Table_Columns">
           <Key>
             <PropertyRef Name="ID" />
@@ -1408,6 +1423,7 @@
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Columns" EntityType="Self.Table_Columns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tables_Answare" EntityType="Self.Tables_Answare" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
@@ -2010,6 +2026,7 @@
             <End Role="Job" EntitySet="Job" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="SystemLog" EntityType="MostafidDBModel.SystemLog" />
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -3513,6 +3530,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Method" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TransDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClassType" Type="Int32" Nullable="false" />
+          <Property Name="Oldval" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Newval" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CallPath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReferID" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4111,6 +4143,22 @@
                 <ScalarProperty Name="User_Permissions_Type_Name_EN" ColumnName="User_Permissions_Type_Name_EN" />
                 <ScalarProperty Name="User_Permissions_Type_Name_AR" ColumnName="User_Permissions_Type_Name_AR" />
                 <ScalarProperty Name="User_Permissions_Type_ID" ColumnName="User_Permissions_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemLog">
+            <EntityTypeMapping TypeName="MostafidDBModel.SystemLog">
+              <MappingFragment StoreEntitySet="SystemLog">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="ReferID" ColumnName="ReferID" />
+                <ScalarProperty Name="CallPath" ColumnName="CallPath" />
+                <ScalarProperty Name="Newval" ColumnName="Newval" />
+                <ScalarProperty Name="Oldval" ColumnName="Oldval" />
+                <ScalarProperty Name="ClassType" ColumnName="ClassType" />
+                <ScalarProperty Name="TransDate" ColumnName="TransDate" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -278,6 +278,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ControllerMange.cs" />
     <Compile Include="MicrosoftWebsocket.cs" />
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
@@ -396,6 +397,9 @@
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SystemLog.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tables_Answare.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -485,6 +489,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Images\UnitSignature\" />
     <Folder Include="RequestFiles\" />
+    <Folder Include="Views\Firewall\" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\MostafidDBModel.edmx">

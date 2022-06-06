@@ -27,7 +27,7 @@ namespace IAUBackEnd.Admin.Models
         public bool Deleted { get; set; }
         public Nullable<System.DateTime> DeletedAt { get; set; }
     
-        public virtual Job Job { get; set; }
         public virtual Units Units { get; set; }
+        public virtual Job Job { get; set; }
     }
 }
