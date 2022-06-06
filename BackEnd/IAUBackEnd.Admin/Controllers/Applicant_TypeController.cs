@@ -64,6 +64,7 @@ namespace IAUBackEnd.Admin.Controllers
         [ResponseType(typeof(Applicant_Type))]
         public async Task<IHttpActionResult> Create(Applicant_Type applicant_Type)
         {
+            var trans = db.Database.BeginTransaction();
             applicant_Type.Applicant_Type_ID = 0;
             if (!ModelState.IsValid)
                 return Ok(new ResponseClass() { success = false });
@@ -73,7 +74,17 @@ namespace IAUBackEnd.Admin.Controllers
                 applicant_Type.IS_Action = true;
                 db.Applicant_Type.Add(applicant_Type);
                 await db.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+                var logstate = Logger.AddLog(db, LogClassType.ApplicantType, "Create", out _, out _, null, applicant_Type, applicant_Type.Applicant_Type_ID);
+                if (logstate)
+                {
+                    trans.Commit();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
 
             }
             catch (Exception cc)
@@ -86,12 +97,25 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
+                var trans = db.Database.BeginTransaction();
+
                 Applicant_Type applicant_Type = await db.Applicant_Type.FindAsync(id);
                 if (applicant_Type == null)
                     return Ok(new ResponseClass() { success = false });
                 applicant_Type.IS_Action = true;
+
                 await db.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+                var logstate = Logger.AddLog(db, LogClassType.ApplicantType, "Active", out _, out _, null, applicant_Type, applicant_Type.Applicant_Type_ID);
+                if (logstate)
+                {
+                    trans.Commit();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
 
             }
             catch (Exception rr)
@@ -104,13 +128,24 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
+                var trans = db.Database.BeginTransaction();
+
                 Applicant_Type applicant_Type = await db.Applicant_Type.FindAsync(id);
                 if (applicant_Type == null)
                     return Ok(new ResponseClass() { success = false });
                 applicant_Type.IS_Action = false;
                 await db.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
-
+                var logstate = Logger.AddLog(db, LogClassType.ApplicantType, "Deactive", out _, out _, null, applicant_Type, applicant_Type.Applicant_Type_ID);
+                if (logstate)
+                {
+                    trans.Commit();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception rr)
             {

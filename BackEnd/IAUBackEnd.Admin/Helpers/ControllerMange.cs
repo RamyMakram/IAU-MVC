@@ -37,14 +37,14 @@ namespace IAUBackEnd.Admin
                 return int.Parse(HttpContext.Current.Request.Headers["user"]?.ToString() ?? "-1");
             }
         }
-        public static bool AddLog(MostafidDBEntities db, LogClassType logClass, string Method, out Exception es, out SystemLog syslog, object Oldval = null, object Newval = null)
+        public static bool AddLog(MostafidDBEntities db, LogClassType logClass, string Method, out Exception es, out SystemLog syslog, object Oldval = null, object Newval = null, int? ID = null, string notes = null)
         {
             try
             {
                 var date = GetDate();
                 if (UserID == -1)
                     throw new Exception("User Is Null");
-                syslog = new SystemLog { CallPath = HttpContext.Current.Request.Path, Method = Method, TransDate = date, ClassType = ((int)logClass), Oldval = JsonConvert.SerializeObject(Oldval), Newval = JsonConvert.SerializeObject(Newval), UserID = UserID };
+                syslog = new SystemLog { CallPath = HttpContext.Current.Request.Path, Method = Method, TransDate = date, ClassType = ((int)logClass), Oldval = JsonConvert.SerializeObject(Oldval), Newval = JsonConvert.SerializeObject(Newval), UserID = UserID, ReferID = ID, Notes = notes };
                 db.SystemLog.Add(syslog);
                 es = null;
                 return true;
