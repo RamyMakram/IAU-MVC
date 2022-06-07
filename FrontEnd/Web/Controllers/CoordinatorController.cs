@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -50,7 +51,12 @@ namespace Web.Controllers
 				return Redirect(ConfigurationManager.AppSettings["AdminPanel"].ToString() + "/LoginForward/Login?t=" + JObject.Parse(lst.result.ToString())["Token"]);
 			ViewBag.Error = true;
 			ViewBag.CookieLang = Request.Cookies["lang"].Value;
-
+			if (!System.IO.File.Exists(Path.Combine(Server.MapPath("~"), "log.txt")))
+				System.IO.File.Create(Path.Combine(Server.MapPath("~"), "log.txt"));
+			using (StreamWriter ms = new StreamWriter(new FileStream(Path.Combine(Server.MapPath("~"), "log.txt"), FileMode.Append, FileAccess.ReadWrite)))
+			{
+				ms.WriteLine(DateTime.Now.ToString() + "|" + JsonConvert.SerializeObject(resJson.Result));
+			}
 			return View();
 		}
 	}
