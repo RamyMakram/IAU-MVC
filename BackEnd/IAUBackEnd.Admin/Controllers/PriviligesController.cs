@@ -8,17 +8,18 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Data.Entity;
 
 namespace IAUBackEnd.Admin.Controllers
 {
     public class PriviligesController : ApiController
     {
-        private MostafidDBEntities p = new MostafidDBEntities();
+        private MostafidDBEntities db = new MostafidDBEntities();
         public async Task<IHttpActionResult> GetAllAndSubPrivilges()
         {
             try
             {
-                var Permissions = p.Privilage.Where(w => w.DetailedFrom == null).Select(d => new
+                var Permissions = db.Privilage.Where(w => w.DetailedFrom == null).Select(d => new
                 {
                     d.ID,
                     d.Name,
@@ -47,7 +48,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Privilage.Where(q => q.SubOF == jid);
+                var data = db.Privilage.Where(q => q.SubOF == jid);
                 return Ok(new ResponseClass
                 {
                     success = true,
@@ -67,30 +68,53 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> AddPrivilgesToJob(IEnumerable<Job_Permissions> pri)
         {
+            var trans = db.Database.BeginTransaction();
             try
             {
-                if (p.Job.Find(pri.First().Job_ID).Deleted)
+                var jobid = pri.First().Job_ID;
+                if (!pri.All(q => q.Job_ID == jobid))//If there is invalid job id
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Invalid Data"
+                    });
+                var Job = db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid);
+
+                if (Job.Deleted)
                     return Ok(new ResponseClass
                     {
                         success = false,
                         result = "Deleted Job"
                     });
 
-                var data = p.Job_Permissions.AddRange(pri);
-                if (p.SaveChanges() > 0)
-                    return Ok(new ResponseClass
+
+                var ExistPermIDs = Job.Job_Permissions.Select(s => s.PrivilageID).ToArray();//Get Exist Permisions ID
+                var AddedPermisions = pri.Where(q => !ExistPermIDs.Contains(q.PrivilageID));//Get Added Permisions Object
+
+
+                db.Job_Permissions.AddRange(AddedPermisions);
+
+                await db.SaveChangesAsync();
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Update", Oldval: Job, Newval: db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid), es: out _, syslog: out _, ID: pri.First().Job_ID, notes: "Add Privilges To Job");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
                     {
-                        success = true,
+                        success = true
                     });
+                }
                 else
-                    return Ok(new ResponseClass
-                    {
-                        success = false,
-                        result = "Nosave"
-                    });
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
@@ -102,29 +126,55 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> DeletePrivilgesFromJob(IEnumerable<Job_Permissions> pri)
         {
+            var trans = db.Database.BeginTransaction();
+
             try
             {
-                foreach (var i in pri)
+                var jobid = pri.First().Job_ID;
+                if (!pri.All(q => q.Job_ID == jobid))//If there is invalid job id
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Invalid Data"
+                    });
+                var Job = db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid);
+
+                if (Job.Deleted)
+                    return Ok(new ResponseClass
+                    {
+                        success = false,
+                        result = "Deleted Job"
+                    });
+                var DeletedPermIDs = pri.Select(s => s.PrivilageID).ToArray();//Get Deletd Permisions ID
+                var DeletdPerm = Job.Job_Permissions.Where(q => DeletedPermIDs.Contains(q.PrivilageID));
+
+                foreach (var data in DeletdPerm)
                 {
-                    var data = p.Job_Permissions.FirstOrDefault(q => q.Job_ID == i.Job_ID && q.PrivilageID == i.PrivilageID);
                     data.Deleted = true;
                     data.DeletedAt = DateTime.Now;
                     //p.Job_Permissions.Remove(data);
                 }
-                if (p.SaveChanges() > 0)
-                    return Ok(new ResponseClass
+                await db.SaveChangesAsync();
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Update", Oldval: Job, Newval: db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid), es: out _, syslog: out _, ID: pri.First().Job_ID, notes: "Remove Privilges From Job");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
                     {
-                        success = true,
+                        success = true
                     });
+                }
                 else
-                    return Ok(new ResponseClass
-                    {
-                        success = false,
-                        result = "Nosave"
-                    });
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
