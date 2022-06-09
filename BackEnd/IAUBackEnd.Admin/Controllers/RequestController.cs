@@ -264,17 +264,26 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetRequest_Data(int id, int UserID)
         {
+            var trans = db.Database.BeginTransaction();
             try
             {
-                var Unit = db.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
+                var Unit = db.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted)?.Units;
+                if (Unit == null)
+                    return Ok(new ResponseClass() { success = false });
+
                 Request_Data request_Data;
+
                 if (Unit.IS_Mostafid)
                     request_Data = db.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents)).FirstOrDefault(q => q.Request_State_ID != 5 && q.Request_Data_ID == id && (q.RequestTransaction.Count == 0 || q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Comment != null));
                 else
                     request_Data = db.Request_Data.Include(q => q.RequestTransaction).Include(q => q.Request_File).Include(q => q.Personel_Data.Country).Include(q => q.Personel_Data.ID_Document1).Include(q => q.Personel_Data.Country1).Include(q => q.Personel_Data.City).Include(q => q.Personel_Data.Region).Include(q => q.Personel_Data.Country2).Include(q => q.Personel_Data.Applicant_Type).Include(q => q.Personel_Data.Person_Eform).Include(q => q.Personel_Data).Include(q => q.Service_Type).Include(q => q.Units).Include(q => q.Request_Type).Include(q => q.Request_File.Select(w => w.Required_Documents))
                         .FirstOrDefault(q => q.Request_Data_ID == id && ((q.RequestTransaction.Count == 0 || q.RequestTransaction.Count(w => (w.Comment == "" || w.Comment == null) && w.ToUnitID == Unit.Units_ID) != 0)));
+
                 if (request_Data == null)
                     return Ok(new ResponseClass() { success = false });
+
+                var OldVals = JsonConvert.SerializeObject(request_Data, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
                 if (Unit.IS_Mostafid)
                 {
                     if (request_Data.Readed == null || !request_Data.Readed.Value)
@@ -292,10 +301,26 @@ namespace IAUBackEnd.Admin.Controllers
                         request_Data.Request_State_ID = 3;
                     db.SaveChanges();
                 }
-                return Ok(new ResponseClass() { success = true, result = new { request_Data, request_Data.Units.Units_Location_ID, request_Data.Units.Building_Number } });
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Request, Method: "Update", Oldval: OldVals, Newval: request_Data, es: out _, syslog: out _, ID: request_Data.Request_Data_ID, notes: "Read Request");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true,
+                        result = new { request_Data, request_Data.Units.Units_Location_ID, request_Data.Units.Building_Number }
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass() { success = false, result = ee });
             }
         }
@@ -1090,7 +1115,16 @@ namespace IAUBackEnd.Admin.Controllers
                 var data = db.Request_Data.Where(Pred).Select(SelectQueryData(Columns)).Distinct();
                 var logstate = Logger.AddLog(db: db, logClass: LogClassType.Request, Method: "Get", Oldval: null, Newval: null, es: out _, syslog: out _, ID: null, notes: "Filter And Report Requests");
                 if (logstate)
+                {
                     await db.SaveChangesAsync();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true,
+                        result = data
+                    });
+                }
+                else
+                    return Ok(new ResponseClass() { success = false });
             }
             catch (Exception ee)
             {
