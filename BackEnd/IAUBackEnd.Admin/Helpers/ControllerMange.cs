@@ -25,7 +25,8 @@ namespace IAUBackEnd.Admin
         Unit,
         UnitLocation,
         UnitType,
-        User
+        User,
+        EformApproval
     }
 
     public class Logger
