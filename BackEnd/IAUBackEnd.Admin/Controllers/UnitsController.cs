@@ -56,7 +56,7 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass() { success = false, result = "CheckEnter" });
 
             var path = HttpContext.Current.Server.MapPath("~");
-            var FilePath = Path.Combine("Images", "UnitSignature", signature.UnitID + ".png");
+            var FilePath = Path.Combine("Images", "UnitSignature", signature.UnitID + "_" + DateTime.Now.Ticks + ".png");
 
             var trans = db.Database.BeginTransaction();
 
@@ -649,7 +649,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Restore(int id)
         {
-            Units units = db.Units.Include(q => q.Units_Request_Type.Select(s => s.Request_Type)).Include(s => s.UnitServiceTypes.Select(q => q.Service_Type)).Include(q => q.Unit_Signature).Include(q => q.Unit_Signature).FirstOrDefault(q => q.Units_ID == id && !q.Deleted);
+            Units units = db.Units.Include(q => q.Units_Request_Type.Select(s => s.Request_Type)).Include(s => s.UnitServiceTypes.Select(q => q.Service_Type)).Include(q => q.Unit_Signature).Include(q => q.Unit_Signature).FirstOrDefault(q => q.Units_ID == id && q.Deleted);
             if (units == null)
                 return Ok(new ResponseClass() { success = false, result = "Unit Is NULL" });
             var trans = db.Database.BeginTransaction();

@@ -443,7 +443,9 @@ namespace IAUBackEnd.Admin.Controllers
                     });
 
                 users.Deleted = false;
+                users.IS_Active = "1";
                 var data = db.Users.Add(users);
+                await db.SaveChangesAsync();
                 var logstate = Logger.AddLog(db: db, logClass: LogClassType.User, Method: "Create", Oldval: null, Newval: data, es: out _, syslog: out _, ID: data.User_ID, notes: null);
                 if (logstate)
                 {

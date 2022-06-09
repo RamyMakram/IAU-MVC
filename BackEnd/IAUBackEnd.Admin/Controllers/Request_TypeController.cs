@@ -63,7 +63,7 @@ namespace IAUBackEnd.Admin.Controllers
                 data.Request_Type_Name_EN = request_Type.Request_Type_Name_EN;
                 await db.SaveChangesAsync();
 
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Create", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.Request_Type_ID, notes: "");
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Create", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.Request_Type_ID, notes: null);
                 if (logstate)
                 {
                     await db.SaveChangesAsync();
@@ -104,7 +104,7 @@ namespace IAUBackEnd.Admin.Controllers
                 File.WriteAllBytes(Path.Combine(path, FilePath), Convert.FromBase64String(request_Type.Base64));
                 await db.SaveChangesAsync();
 
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Create", Oldval: null, Newval: data, es: out _, syslog: out _, ID: data.Request_Type_ID, notes: "");
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Create", Oldval: null, Newval: data, es: out _, syslog: out _, ID: data.Request_Type_ID, notes: null);
                 if (logstate)
                 {
                     await db.SaveChangesAsync();
@@ -146,7 +146,7 @@ namespace IAUBackEnd.Admin.Controllers
             request_Type.IS_Action = false;
             await db.SaveChangesAsync();
 
-            var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Deactive", Oldval: null, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: "");
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Deactive", Oldval: null, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: null);
             if (logstate)
             {
                 await db.SaveChangesAsync();
@@ -173,7 +173,7 @@ namespace IAUBackEnd.Admin.Controllers
             request_Type.IS_Action = true;
             await db.SaveChangesAsync();
 
-            var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Active", Oldval: null, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: "");
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Active", Oldval: null, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: null);
             if (logstate)
             {
                 await db.SaveChangesAsync();
@@ -208,7 +208,7 @@ namespace IAUBackEnd.Admin.Controllers
                 //p.Request_Type.Remove(request_Type);
                 await db.SaveChangesAsync();
 
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Delete", Oldval: OldVals, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: "");
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Delete", Oldval: OldVals, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: null);
                 if (logstate)
                 {
                     await db.SaveChangesAsync();
@@ -254,7 +254,7 @@ namespace IAUBackEnd.Admin.Controllers
             //p.Request_Type.Remove(request_Type);
             await db.SaveChangesAsync();
 
-            var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Delete", Oldval: OldVals, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: "");
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Restore", Oldval: OldVals, Newval: request_Type, es: out _, syslog: out _, ID: request_Type.Request_Type_ID, notes: null);
             if (logstate)
             {
                 await db.SaveChangesAsync();

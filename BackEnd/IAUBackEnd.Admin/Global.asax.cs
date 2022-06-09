@@ -50,7 +50,7 @@ namespace IAUBackEnd.Admin
             else if ((cridantl == null || cridantl == "" || cridantl != "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks"))
                 HttpContext.Current.Response.StatusCode = 401;
 
-            if (HttpContext.Current.Request.Path == "/api/User/VerfiyUser")
+            if (new string[] { "/api/User/VerfiyUser" , "/api/User/Login", "/api/User/VerfiyToken" }.Contains(HttpContext.Current.Request.Path))
                 return;
 
             int UserID = int.Parse(HttpContext.Current.Request.Headers["user"]?.ToString() ?? "-1");

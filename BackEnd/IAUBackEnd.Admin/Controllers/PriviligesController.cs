@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Data.Entity;
+using Newtonsoft.Json;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -79,6 +80,7 @@ namespace IAUBackEnd.Admin.Controllers
                         result = "Invalid Data"
                     });
                 var Job = db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid);
+                var OldVals = JsonConvert.SerializeObject(Job, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
                 if (Job.Deleted)
                     return Ok(new ResponseClass
@@ -88,15 +90,23 @@ namespace IAUBackEnd.Admin.Controllers
                     });
 
 
-                var ExistPermIDs = Job.Job_Permissions.Select(s => s.PrivilageID).ToArray();//Get Exist Permisions ID
-                var AddedPermisions = pri.Where(q => !ExistPermIDs.Contains(q.PrivilageID));//Get Added Permisions Object
+                var ExistPermIDs = Job.Job_Permissions.Where(q => !q.Deleted).Select(s => s.PrivilageID).ToArray();//Get Exist Permisions ID
 
+                var AddedPermisions = pri.Where(q => !ExistPermIDs.Contains(q.PrivilageID)).ToList();//Get Added Permisions Object
 
-                db.Job_Permissions.AddRange(AddedPermisions);
+                foreach (var i in AddedPermisions)
+                {
+                    var privilge = Job.Job_Permissions.FirstOrDefault(s => s.PrivilageID == i.PrivilageID);
+                    if (privilge != null)
+                        privilge.Deleted = false;
+                    else
+                        Job.Job_Permissions.Add(i);
+                }
+
 
                 await db.SaveChangesAsync();
 
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Update", Oldval: Job, Newval: db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid), es: out _, syslog: out _, ID: pri.First().Job_ID, notes: "Add Privilges To Job");
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Update", Oldval: OldVals, Newval: db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid), es: out _, syslog: out _, ID: pri.First().Job_ID, notes: "Add Privilges To Job");
                 if (logstate)
                 {
                     await db.SaveChangesAsync();
@@ -138,6 +148,7 @@ namespace IAUBackEnd.Admin.Controllers
                         result = "Invalid Data"
                     });
                 var Job = db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid);
+                var OldVals = JsonConvert.SerializeObject(Job, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
                 if (Job.Deleted)
                     return Ok(new ResponseClass
@@ -156,7 +167,7 @@ namespace IAUBackEnd.Admin.Controllers
                 }
                 await db.SaveChangesAsync();
 
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Update", Oldval: Job, Newval: db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == jobid), es: out _, syslog: out _, ID: pri.First().Job_ID, notes: "Remove Privilges From Job");
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Update", Oldval: OldVals, Newval: Job, es: out _, syslog: out _, ID: pri.First().Job_ID, notes: "Remove Privilges From Job");
                 if (logstate)
                 {
                     await db.SaveChangesAsync();

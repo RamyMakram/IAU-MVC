@@ -50,7 +50,7 @@ namespace IAUBackEnd.Admin.Controllers
             if (!ModelState.IsValid || data == null || db.Main_Services.Find(sub_Services.Main_Services_ID).Deleted)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             var trans = db.Database.BeginTransaction();
-            var OldVals = JsonConvert.SerializeObject(sub_Services, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            var OldVals = JsonConvert.SerializeObject(data, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 
             try
             {
