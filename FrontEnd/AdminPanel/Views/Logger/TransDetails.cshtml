@@ -21,9 +21,7 @@
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
 <div>
-    <h4>LogDTO</h4>
-    <hr />
-    <table class="dl-horizontal">
+    <table class="table table-striped">
         <tr>
             <th>
                 @(isar?"تاريخ العملية":"Transaction Date")
@@ -88,21 +86,11 @@
             <th>
                 @(isar?"الجدول":"")
             </th>
-            @{
-                var Name = "";
-                var URL = "";
-            }
             <td>
                 @switch (Model.ClassType)
                 {
                     case ((int)LogClassType.ApplicantType):
                         <span>@(isar?"أنواع المتقدمين": "Applicant Types")</span>
-
-
-                        var data = JsonConvert.DeserializeObject<ApplicantTypeDTO>(Model.Oldval);
-                        Name = (isar ? data.Applicant_Type_Name_AR : data.Applicant_Type_Name_EN);
-
-
                         break;
                     case ((int)LogClassType.E_form):
                         <span>@(isar?"النماذج الالكترونية": "E-forms")</span>
@@ -160,7 +148,6 @@
                         break;
                 }
                 <br />
-                <a>@Name</a>
             </td>
         </tr>
 
@@ -170,7 +157,7 @@
             </th>
 
             <td>
-                @Html.DisplayFor(model => model.Notes)
+                @Html.Raw(Model.Message)
             </td>
         </tr>
 

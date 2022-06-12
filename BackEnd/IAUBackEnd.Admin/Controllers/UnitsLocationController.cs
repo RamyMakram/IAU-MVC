@@ -132,7 +132,7 @@ namespace IAUBackEnd.Admin.Controllers
 
             units_Location.IS_Action = false;
             await db.SaveChangesAsync();
-            var logstate = Logger.AddLog(db: db, logClass: LogClassType.Unit, Method: "Deactive", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.UnitLocation, Method: "Deactive", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
             if (logstate)
             {
                 await db.SaveChangesAsync();
@@ -161,7 +161,7 @@ namespace IAUBackEnd.Admin.Controllers
 
             units_Location.IS_Action = true;
             await db.SaveChangesAsync();
-            var logstate = Logger.AddLog(db: db, logClass: LogClassType.Unit, Method: "Active", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.UnitLocation, Method: "Active", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
             if (logstate)
             {
                 await db.SaveChangesAsync();
@@ -193,7 +193,7 @@ namespace IAUBackEnd.Admin.Controllers
                 units_Location.DeletedAt = DateTime.Now;
                 await db.SaveChangesAsync();
 
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Unit, Method: "Delete", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.UnitLocation, Method: "Delete", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
                 if (logstate)
                 {
                     await db.SaveChangesAsync();
@@ -225,7 +225,7 @@ namespace IAUBackEnd.Admin.Controllers
             units_Location.Deleted = false;
             await db.SaveChangesAsync();
 
-            var logstate = Logger.AddLog(db: db, logClass: LogClassType.Unit, Method: "Restore", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.UnitLocation, Method: "Restore", Oldval: OldVals, Newval: units_Location, es: out _, syslog: out _, ID: units_Location.Units_Location_ID, notes: null);
             if (logstate)
             {
                 await db.SaveChangesAsync();
