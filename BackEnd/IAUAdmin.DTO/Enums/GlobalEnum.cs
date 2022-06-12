@@ -3,8 +3,30 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Linq;
-namespace IAU.DTO.Enums
+namespace IAUAdmin.DTO.Enums
 {
+    public enum LogClassType
+    {
+        ApplicantType,
+        E_form,
+        General_Setting,
+        Job,
+        Locations,
+        MainService,
+        Priviliges,
+        RequestType,
+        Request,
+        ServiceType,
+        SubService,
+        UnitLevel,
+        Unit,
+        UnitLocation,
+        UnitType,
+        User,
+        EformApproval,
+        UnitSignature,
+        Log,
+    }
     public class GlobalEnum
     {
         public enum Success
@@ -103,7 +125,7 @@ namespace IAU.DTO.Enums
             [Description("Request is DELIVERED"), AmbientValue(2)]
             DELIVERED = 4,
             [Description("Request is Deleted"), AmbientValue(2)]
-            Deleted =5,
+            Deleted = 5,
         }
 
         public enum RequesterType

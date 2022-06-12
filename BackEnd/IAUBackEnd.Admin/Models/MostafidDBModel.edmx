@@ -1122,6 +1122,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SystemLog_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="SystemLog" Type="Self.SystemLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Table_Columns_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1617,6 +1629,10 @@
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
           </AssociationSet>
+          <AssociationSet Name="FK_SystemLog_Users" Association="Self.FK_SystemLog_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SystemLog" EntitySet="SystemLog" />
+          </AssociationSet>
           <AssociationSet Name="FK_Table_Columns_Question" Association="Self.FK_Table_Columns_Question">
             <End Role="Question" EntitySet="Question" />
             <End Role="Table_Columns" EntitySet="Table_Columns" />
@@ -2027,6 +2043,10 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <EntitySet Name="SystemLog" EntityType="MostafidDBModel.SystemLog" />
+          <AssociationSet Name="FK_SystemLog_Users" Association="MostafidDBModel.FK_SystemLog_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SystemLog" EntitySet="SystemLog" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -2686,6 +2706,7 @@
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
           <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+          <NavigationProperty Name="SystemLog" Relationship="MostafidDBModel.FK_SystemLog_Users" FromRole="Users" ToRole="SystemLog" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -3544,7 +3565,20 @@
           <Property Name="CallPath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ReferID" Type="Int32" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_SystemLog_Users" FromRole="SystemLog" ToRole="Users" />
         </EntityType>
+        <Association Name="FK_SystemLog_Users">
+          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="MostafidDBModel.SystemLog" Role="SystemLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

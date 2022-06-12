@@ -60,6 +60,7 @@
     <Compile Include="Entity\E_Forms_Answer.cs" />
     <Compile Include="Entity\GlobalCount.cs" />
     <Compile Include="Entity\Input_Type.cs" />
+    <Compile Include="Entity\Log.cs" />
     <Compile Include="Entity\ParagraphDTO.cs" />
     <Compile Include="Entity\PersonEfDTO.cs" />
     <Compile Include="Entity\Preview_TableCols.cs" />

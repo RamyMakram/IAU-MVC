@@ -24,5 +24,7 @@ namespace IAUBackEnd.Admin.Models
         public string CallPath { get; set; }
         public Nullable<int> ReferID { get; set; }
         public string Notes { get; set; }
+    
+        public virtual Users Users { get; set; }
     }
 }

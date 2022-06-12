@@ -120,6 +120,7 @@
         <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Job" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_User_Permissions_Type" />
         <EntityTypeShape EntityType="MostafidDBModel.SystemLog" Width="1.5" PointX="4.375" PointY="5.75" />
+        <AssociationConnector Association="MostafidDBModel.FK_SystemLog_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

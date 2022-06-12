@@ -931,7 +931,7 @@ namespace IAUBackEnd.Admin.Controllers
 
                 db.SaveChanges();
 
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.EformApproval, Method: "Update", Oldval: OldVals, Newval: approval, es: out _, syslog: out _, ID: approval.PersonEform, notes: "Unit Sign Efrom");
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.EformApproval, Method: "Update", Oldval: OldVals, Newval: approval, es: out _, syslog: out _, ID: approval.Person_Eform, notes: "Unit Sign Efrom");
                 if (logstate)
                 {
                     await db.SaveChangesAsync();

@@ -75,6 +75,11 @@ namespace AdminPanel.Models
 			{
 				Name = "Delayed Transactions Alert",
 				path = "DelayedTrasaction"
+			},
+			new PagesPriviliges()
+			{
+				Name = "Actions Log",
+				path = "Logger"
 			}
 		};
 	}
