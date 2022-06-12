@@ -175,7 +175,8 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="Person_ID" Type="int" />
+          <Property Name="Person_ID" Type="int" Nullable="false" />
+          <Property Name="RequestID" Type="int" />
           <Property Name="Code" Type="nchar" MaxLength="2" />
           <Property Name="FillDate" Type="datetime" Nullable="false" />
         </EntityType>
@@ -407,6 +408,21 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Method" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="TransDate" Type="datetime" Nullable="false" />
+          <Property Name="ClassType" Type="int" Nullable="false" />
+          <Property Name="Oldval" Type="nvarchar(max)" />
+          <Property Name="Newval" Type="nvarchar(max)" />
+          <Property Name="CallPath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReferID" Type="int" />
+          <Property Name="Notes" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Table_Columns">
           <Key>
@@ -694,7 +710,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Person_Eform_Personel_Data">
-          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="0..1" />
+          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="1" />
           <End Role="Person_Eform" Type="Self.Person_Eform" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personel_Data">
@@ -702,6 +718,18 @@
             </Principal>
             <Dependent Role="Person_Eform">
               <PropertyRef Name="Person_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_Eform_Request_Data">
+          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="0..1" />
+          <End Role="Person_Eform" Type="Self.Person_Eform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="Person_Eform">
+              <PropertyRef Name="RequestID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1107,6 +1135,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SystemLog_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="SystemLog" Type="Self.SystemLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Table_Columns_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1408,6 +1448,7 @@
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Columns" EntityType="Self.Table_Columns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tables_Answare" EntityType="Self.Tables_Answare" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title_Middle_Names" EntityType="Self.Title_Middle_Names" Schema="dbo" store:Type="Tables" />
@@ -1467,6 +1508,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Person_Eform_Personel_Data" Association="Self.FK_Person_Eform_Personel_Data">
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+            <End Role="Person_Eform" EntitySet="Person_Eform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_Eform_Request_Data" Association="Self.FK_Person_Eform_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
             <End Role="Person_Eform" EntitySet="Person_Eform" />
           </AssociationSet>
           <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="Self.FK_Personel_Data_Applicant_Type">
@@ -1601,6 +1646,10 @@
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="Sub_Services" EntitySet="Sub_Services" />
           </AssociationSet>
+          <AssociationSet Name="FK_SystemLog_Users" Association="Self.FK_SystemLog_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SystemLog" EntitySet="SystemLog" />
+          </AssociationSet>
           <AssociationSet Name="FK_Table_Columns_Question" Association="Self.FK_Table_Columns_Question">
             <End Role="Question" EntitySet="Question" />
             <End Role="Table_Columns" EntitySet="Table_Columns" />
@@ -1705,6 +1754,7 @@
           <EntitySet Name="Employee" EntityType="MostafidDBModel.Employee" />
           <EntitySet Name="ID_Document" EntityType="MostafidDBModel.ID_Document" />
           <EntitySet Name="Input_Type" EntityType="MostafidDBModel.Input_Type" />
+          <EntitySet Name="Job" EntityType="MostafidDBModel.Job" />
           <EntitySet Name="Job_Permissions" EntityType="MostafidDBModel.Job_Permissions" />
           <EntitySet Name="Location" EntityType="MostafidDBModel.Location" />
           <EntitySet Name="Main_Services" EntityType="MostafidDBModel.Main_Services" />
@@ -1728,6 +1778,7 @@
           <EntitySet Name="Service_Type" EntityType="MostafidDBModel.Service_Type" />
           <EntitySet Name="Sub_Services" EntityType="MostafidDBModel.Sub_Services" />
           <EntitySet Name="sysdiagrams" EntityType="MostafidDBModel.sysdiagrams" />
+          <EntitySet Name="SystemLog" EntityType="MostafidDBModel.SystemLog" />
           <EntitySet Name="Table_Columns" EntityType="MostafidDBModel.Table_Columns" />
           <EntitySet Name="Tables_Answare" EntityType="MostafidDBModel.Tables_Answare" />
           <EntitySet Name="Title_Middle_Names" EntityType="MostafidDBModel.Title_Middle_Names" />
@@ -1821,6 +1872,14 @@
             <End Role="Question" EntitySet="Question" />
             <End Role="Input_Type" EntitySet="Input_Type" />
           </AssociationSet>
+          <AssociationSet Name="FK_User_Permissions_Job" Association="MostafidDBModel.FK_User_Permissions_Job">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Job_Permissions" EntitySet="Job_Permissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_Permissions_Privilage" Association="MostafidDBModel.FK_User_Permissions_Privilage">
             <End Role="Privilage" EntitySet="Privilage" />
             <End Role="Job_Permissions" EntitySet="Job_Permissions" />
@@ -1851,6 +1910,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Person_Eform_Personel_Data" Association="MostafidDBModel.FK_Person_Eform_Personel_Data">
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+            <End Role="Person_Eform" EntitySet="Person_Eform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_Eform_Request_Data" Association="MostafidDBModel.FK_Person_Eform_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
             <End Role="Person_Eform" EntitySet="Person_Eform" />
           </AssociationSet>
           <AssociationSet Name="FK_Preview_EformApproval_Person_Eform" Association="MostafidDBModel.FK_Preview_EformApproval_Person_Eform">
@@ -1961,6 +2024,10 @@
             <End Role="Service_Type" EntitySet="Service_Type" />
             <End Role="UnitServiceTypes" EntitySet="UnitServiceTypes" />
           </AssociationSet>
+          <AssociationSet Name="FK_SystemLog_Users" Association="MostafidDBModel.FK_SystemLog_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SystemLog" EntitySet="SystemLog" />
+          </AssociationSet>
           <AssociationSet Name="FK_Unit_Signature_Units" Association="MostafidDBModel.FK_Unit_Signature_Units">
             <End Role="Units" EntitySet="Units" />
             <End Role="Unit_Signature" EntitySet="Unit_Signature" />
@@ -1999,15 +2066,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
             <End Role="Units" EntitySet="Units" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <EntitySet Name="Job" EntityType="MostafidDBModel.Job" />
-          <AssociationSet Name="FK_User_Permissions_Job" Association="MostafidDBModel.FK_User_Permissions_Job">
-            <End Role="Job" EntitySet="Job" />
-            <End Role="Job_Permissions" EntitySet="Job_Permissions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_User_Permissions_Type" Association="MostafidDBModel.FK_Users_User_Permissions_Type">
-            <End Role="Job" EntitySet="Job" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
@@ -2143,6 +2201,19 @@
           <Property Name="IsDate" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Question" Relationship="MostafidDBModel.FK_Input_Type_Question" FromRole="Input_Type" ToRole="Question" />
         </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="User_Permissions_Type_ID" />
+          </Key>
+          <Property Name="User_Permissions_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Permissions_Type_Name_AR" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="User_Permissions_Type_Name_EN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsModear" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Job_Permissions" Relationship="MostafidDBModel.FK_User_Permissions_Job" FromRole="Job" ToRole="Job_Permissions" />
+          <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Job" ToRole="Users" />
+        </EntityType>
         <EntityType Name="Job_Permissions">
           <Key>
             <PropertyRef Name="ID" />
@@ -2152,8 +2223,8 @@
           <Property Name="Job_ID" Type="Int32" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Privilage" Relationship="MostafidDBModel.FK_User_Permissions_Privilage" FromRole="Job_Permissions" ToRole="Privilage" />
           <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_User_Permissions_Job" FromRole="Job_Permissions" ToRole="Job" />
+          <NavigationProperty Name="Privilage" Relationship="MostafidDBModel.FK_User_Permissions_Privilage" FromRole="Job_Permissions" ToRole="Privilage" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -2198,11 +2269,13 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Person_ID" Type="Int32" />
+          <Property Name="Person_ID" Type="Int32" Nullable="false" />
+          <Property Name="RequestID" Type="Int32" />
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="FillDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="E_Forms_Answer" Relationship="MostafidDBModel.FK_E_Forms_Answer_Person_Eform" FromRole="Person_Eform" ToRole="E_Forms_Answer" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Person_Eform_Personel_Data" FromRole="Person_Eform" ToRole="Personel_Data" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Person_Eform_Request_Data" FromRole="Person_Eform" ToRole="Request_Data" />
           <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDBModel.FK_Preview_EformApproval_Person_Eform" FromRole="Person_Eform" ToRole="Preview_EformApproval" />
         </EntityType>
         <EntityType Name="Personel_Data">
@@ -2350,6 +2423,7 @@
           <Property Name="GenratedDate" Type="DateTime" Precision="3" />
           <Property Name="Is_Archived" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_Data" FromRole="Request_Data" ToRole="DelayedTransaction" />
+          <NavigationProperty Name="Person_Eform" Relationship="MostafidDBModel.FK_Person_Eform_Request_Data" FromRole="Request_Data" ToRole="Person_Eform" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDBModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
           <NavigationProperty Name="Request_Type" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
@@ -2498,6 +2572,22 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Method" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TransDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClassType" Type="Int32" Nullable="false" />
+          <Property Name="Oldval" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Newval" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CallPath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReferID" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_SystemLog_Users" FromRole="SystemLog" ToRole="Users" />
         </EntityType>
         <EntityType Name="Table_Columns">
           <Key>
@@ -2667,8 +2757,9 @@
           <Property Name="LoginDate" Type="DateTime" Precision="3" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
           <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+          <NavigationProperty Name="SystemLog" Relationship="MostafidDBModel.FK_SystemLog_Users" FromRole="Users" ToRole="SystemLog" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -2928,6 +3019,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Permissions_Job">
+          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Job_Permissions" Role="Job_Permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="User_Permissions_Type_ID" />
+            </Principal>
+            <Dependent Role="Job_Permissions">
+              <PropertyRef Name="Job_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_User_Permissions_Type">
+          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="User_Permissions_Type_ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Job_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Permissions_Privilage">
           <End Type="MostafidDBModel.Privilage" Role="Privilage" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Job_Permissions" Role="Job_Permissions" Multiplicity="*" />
@@ -3015,7 +3130,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Person_Eform_Personel_Data">
-          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="1" />
           <End Type="MostafidDBModel.Person_Eform" Role="Person_Eform" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personel_Data">
@@ -3023,6 +3138,18 @@
             </Principal>
             <Dependent Role="Person_Eform">
               <PropertyRef Name="Person_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_Eform_Request_Data">
+          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.Person_Eform" Role="Person_Eform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="Person_Eform">
+              <PropertyRef Name="RequestID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3356,6 +3483,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SystemLog_Users">
+          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="MostafidDBModel.SystemLog" Role="SystemLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Unit_Signature_Units">
           <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="1" />
           <End Type="MostafidDBModel.Unit_Signature" Role="Unit_Signature" Multiplicity="0..1" />
@@ -3473,43 +3612,6 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="UnitID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Job">
-          <Key>
-            <PropertyRef Name="User_Permissions_Type_ID" />
-          </Key>
-          <Property Name="User_Permissions_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Permissions_Type_Name_AR" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="User_Permissions_Type_Name_EN" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsModear" Type="Boolean" Nullable="false" />
-          <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Job_Permissions" Relationship="MostafidDBModel.FK_User_Permissions_Job" FromRole="Job" ToRole="Job_Permissions" />
-          <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Job" ToRole="Users" />
-        </EntityType>
-        <Association Name="FK_User_Permissions_Job">
-          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Job_Permissions" Role="Job_Permissions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Job">
-              <PropertyRef Name="User_Permissions_Type_ID" />
-            </Principal>
-            <Dependent Role="Job_Permissions">
-              <PropertyRef Name="Job_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_User_Permissions_Type">
-          <End Type="MostafidDBModel.Job" Role="Job" Multiplicity="0..1" />
-          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Job">
-              <PropertyRef Name="User_Permissions_Type_ID" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="Job_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3641,6 +3743,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Job">
+            <EntityTypeMapping TypeName="MostafidDBModel.Job">
+              <MappingFragment StoreEntitySet="Job">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="IsModear" ColumnName="IsModear" />
+                <ScalarProperty Name="User_Permissions_Type_Name_EN" ColumnName="User_Permissions_Type_Name_EN" />
+                <ScalarProperty Name="User_Permissions_Type_Name_AR" ColumnName="User_Permissions_Type_Name_AR" />
+                <ScalarProperty Name="User_Permissions_Type_ID" ColumnName="User_Permissions_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Job_Permissions">
             <EntityTypeMapping TypeName="MostafidDBModel.Job_Permissions">
               <MappingFragment StoreEntitySet="Job_Permissions">
@@ -3690,6 +3804,7 @@
               <MappingFragment StoreEntitySet="Person_Eform">
                 <ScalarProperty Name="FillDate" ColumnName="FillDate" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
                 <ScalarProperty Name="Person_ID" ColumnName="Person_ID" />
                 <ScalarProperty Name="Name_EN" ColumnName="Name_EN" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3943,6 +4058,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SystemLog">
+            <EntityTypeMapping TypeName="MostafidDBModel.SystemLog">
+              <MappingFragment StoreEntitySet="SystemLog">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="ReferID" ColumnName="ReferID" />
+                <ScalarProperty Name="CallPath" ColumnName="CallPath" />
+                <ScalarProperty Name="Newval" ColumnName="Newval" />
+                <ScalarProperty Name="Oldval" ColumnName="Oldval" />
+                <ScalarProperty Name="ClassType" ColumnName="ClassType" />
+                <ScalarProperty Name="TransDate" ColumnName="TransDate" />
+                <ScalarProperty Name="Method" ColumnName="Method" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Table_Columns">
             <EntityTypeMapping TypeName="MostafidDBModel.Table_Columns">
               <MappingFragment StoreEntitySet="Table_Columns">
@@ -4099,18 +4230,6 @@
                 <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
                 <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Job">
-            <EntityTypeMapping TypeName="MostafidDBModel.Job">
-              <MappingFragment StoreEntitySet="Job">
-                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
-                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="IsModear" ColumnName="IsModear" />
-                <ScalarProperty Name="User_Permissions_Type_Name_EN" ColumnName="User_Permissions_Type_Name_EN" />
-                <ScalarProperty Name="User_Permissions_Type_Name_AR" ColumnName="User_Permissions_Type_Name_AR" />
-                <ScalarProperty Name="User_Permissions_Type_ID" ColumnName="User_Permissions_Type_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

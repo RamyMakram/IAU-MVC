@@ -194,6 +194,7 @@
     <Compile Include="Controllers\UnitsController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\LoggerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3212,6 +3213,8 @@
     <Content Include="Views\RequestType\DeletedModelsView.cshtml" />
     <Content Include="Views\Jobs\DeletedModelsView.cshtml" />
     <Content Include="Views\EForms\DeletedModelsView.cshtml" />
+    <Content Include="Views\Logger\Home.cshtml" />
+    <Content Include="Views\Logger\TransDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

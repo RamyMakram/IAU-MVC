@@ -22,12 +22,12 @@ namespace IAUBackEnd.Admin.Controllers
 {
     public class E_FormsController : ApiController
     {
-        private MostafidDBEntities p = new MostafidDBEntities();
+        private MostafidDBEntities db = new MostafidDBEntities();
         public async Task<IHttpActionResult> GetDeleted()
         {
             try
             {
-                return Ok(new ResponseClass() { success = true, result = p.E_Forms.Where(q => q.Deleted) });
+                return Ok(new ResponseClass() { success = true, result = db.E_Forms.Where(q => q.Deleted) });
             }
             catch (Exception ee)
             {
@@ -40,13 +40,13 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetE_Forms()
         {
-            return Ok(new ResponseClass() { success = true, result = p.E_Forms.Where(q => !q.Deleted).ToList() });
+            return Ok(new ResponseClass() { success = true, result = db.E_Forms.Where(q => !q.Deleted).ToList() });
         }
         public async Task<IHttpActionResult> GetE_FormsFoRequest(int id, int RequestID)
         {
             try
             {
-                var data = await p.Person_Eform.Include(q => q.E_Forms_Answer)
+                var data = await db.Person_Eform.Include(q => q.E_Forms_Answer)
                     .Where(q => q.ID == id && q.Personel_Data.Request_Data.Any(s => s.Request_Data_ID == RequestID))
                     .Select(q => new
                     {
@@ -65,8 +65,8 @@ namespace IAUBackEnd.Admin.Controllers
 
                 var OwnUnit = data.Eform_Approval.FirstOrDefault(s => s.OwnEform);
 
-                int uid = OwnUnit == null ? p.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestID).Unit_ID.Value : OwnUnit.UnitID;
-                var unit = await p.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == uid);
+                int uid = OwnUnit == null ? db.Request_Data.FirstOrDefault(q => q.Request_Data_ID == RequestID).Unit_ID.Value : OwnUnit.UnitID;
+                var unit = await db.Units.Include(q => q.Unit_Signature).FirstOrDefaultAsync(q => q.Units_ID == uid);
                 return Ok(new ResponseClass() { success = true, result = new { Eform = data, UnitEN = unit.Units_Name_EN, UnitAR = unit.Units_Name_AR, UnitCode = unit.Ref_Number.Substring(4) + " " + data.Code, Signature = unit.Unit_Signature } });
             }
             catch (Exception eee)
@@ -78,7 +78,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var e_Forms = p.E_Forms.Where(q => !q.Deleted).Select(q =>
+                var e_Forms = db.E_Forms.Where(q => !q.Deleted).Select(q =>
                     new
                     {
                         q.ID,
@@ -146,30 +146,34 @@ namespace IAUBackEnd.Admin.Controllers
         }
         public async Task<IHttpActionResult> GetE_FormsWithSubService(int id)
         {
-            var e_Forms = p.E_Forms.Where(q => q.SubServiceID == id && !q.Deleted);
+            var e_Forms = db.E_Forms.Where(q => q.SubServiceID == id && !q.Deleted);
             if (e_Forms == null)
                 return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
 
             return Ok(new ResponseClass() { success = true, result = e_Forms });
         }
 
-        public async Task<IHttpActionResult> UpdateTrack(E_Forms e_Forms)
-        {
-            try
-            {
-                p.Entry(e_Forms).State = EntityState.Modified;
-                await p.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+        //public async Task<IHttpActionResult> UpdateTrack(E_Forms e_Forms)
+        //{
+        //    try
+        //    {
 
-            }
-            catch (Exception ee)
-            {
-                return Ok(new ResponseClass() { success = false, result = ee });
-            }
-        }
+
+        //        db.Entry(e_Forms).State = EntityState.Modified;
+        //        await db.SaveChangesAsync();
+
+        //    }
+        //    catch (Exception ee)
+        //    {
+        //        return Ok(new ResponseClass() { success = false, result = ee });
+        //    }
+        //}
         public async Task<IHttpActionResult> Update(E_FormsDTO e_Forms)
         {
-            var eform = p.E_Forms.Include(q => q.Question).Include(q => q.Units).FirstOrDefault(q => q.ID == e_Forms.ID && !q.Deleted);
+            var trans = db.Database.BeginTransaction();
+
+            var eform = db.E_Forms.Include(q => q.Question).Include(q => q.Units).FirstOrDefault(q => q.ID == e_Forms.ID && !q.Deleted);
+            var eform_old = JsonConvert.SerializeObject(eform, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             if (!ModelState.IsValid || eform == null)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             try
@@ -181,9 +185,9 @@ namespace IAUBackEnd.Admin.Controllers
                 var Deleted_IDs = JsonConvert.DeserializeObject<List<int>>(e_Forms.Del_QTY);
                 foreach (var i in Deleted_IDs)
                 {
-                    var item = p.Question.Find(i);
+                    var item = db.Question.Find(i);
                     if (item != null)
-                        p.Question.Remove(item);
+                        db.Question.Remove(item);
                 }
                 e_Forms.Question = JsonConvert.DeserializeObject<List<IAUAdmin.DTO.Entity.Question>>(e_Forms.QTY);
                 foreach (var i in e_Forms.Question)
@@ -194,7 +198,7 @@ namespace IAUBackEnd.Admin.Controllers
                         quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
                     else
                     {
-                        quest = p.Question.Include(q => q.Paragraph).Include(q => q.Separator).Include(q => q.Input_Type).Include(q => q.Radio_Type).Include(q => q.CheckBox_Type).Include(q => q.Table_Columns).FirstOrDefault(q => q.ID == i.ID);
+                        quest = db.Question.Include(q => q.Paragraph).Include(q => q.Separator).Include(q => q.Input_Type).Include(q => q.Radio_Type).Include(q => q.CheckBox_Type).Include(q => q.Table_Columns).FirstOrDefault(q => q.ID == i.ID);
                         if (quest == null)
                             quest = new Models.Question { Type = i.T, LableName = i.Name ?? "", LableName_EN = i.Name_EN ?? "", CreatedOn = Helper.GetDate(), Active = true, Requird = i.Requird, Index_Order = i.Index_Order };
                         else
@@ -223,13 +227,13 @@ namespace IAUBackEnd.Admin.Controllers
                             break;
                         case "R":
                             if (!newItem)
-                                p.Radio_Type.RemoveRange(quest.Radio_Type.ToList());
+                                db.Radio_Type.RemoveRange(quest.Radio_Type.ToList());
                             foreach (var r in i.Radio)//If New Insert All
                                 quest.Radio_Type.Add(new Models.Radio_Type { Name = r.Name, Name_EN = r.Name_EN });
                             break;
                         case "C":
                             if (!newItem)
-                                p.CheckBox_Type.RemoveRange(quest.CheckBox_Type.ToList());
+                                db.CheckBox_Type.RemoveRange(quest.CheckBox_Type.ToList());
                             foreach (var c in i.Check)
                                 quest.CheckBox_Type.Add(new Models.CheckBox_Type { Name = c.Name, Name_EN = c.Name_EN });
                             break;
@@ -255,7 +259,7 @@ namespace IAUBackEnd.Admin.Controllers
                             break;
                         case "G":
                             if (!newItem)
-                                p.Table_Columns.RemoveRange(quest.Table_Columns.ToList());
+                                db.Table_Columns.RemoveRange(quest.Table_Columns.ToList());
                             quest.TableRowsNum = i.NRows;
                             foreach (var r in i.Columns)//If New Insert All
                                 quest.Table_Columns.Add(new Models.Table_Columns { Name = r.Name, Name_En = r.Name_En });
@@ -266,8 +270,20 @@ namespace IAUBackEnd.Admin.Controllers
                         eform.Question.Add(quest);
                 }
                 eform.UnitToApprove = e_Forms.UnitToApprove;
-                await p.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+                await db.SaveChangesAsync();
+
+                var logstate = Logger.AddLog(db, LogClassType.E_form, "Update", out _, out _, eform_old, eform, e_Forms.ID);
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
@@ -289,6 +305,7 @@ namespace IAUBackEnd.Admin.Controllers
                     WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(e_Forms, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
 
                 }
+                trans.Rollback();
 
                 return Ok(new ResponseClass() { success = false });
             }
@@ -298,6 +315,8 @@ namespace IAUBackEnd.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
+            var trans = db.Database.BeginTransaction();
+
             var eform = new E_Forms() { SubServiceID = e_Forms.SubServiceID, Name_EN = e_Forms.Name_EN, Name = e_Forms.Name, IS_Action = true, CreatedOn = Helper.GetDate(), Code = e_Forms.Code };
             try
             {
@@ -341,9 +360,20 @@ namespace IAUBackEnd.Admin.Controllers
                 }
                 eform.UnitToApprove = e_Forms.UnitToApprove;
                 eform.Deleted = false;
-                p.E_Forms.Add(eform);
-                await p.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+                db.E_Forms.Add(eform);
+                await db.SaveChangesAsync();
+                var logstate = Logger.AddLog(db, LogClassType.E_form, "Create", out _, out _, null, eform, eform.ID);
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
@@ -365,6 +395,7 @@ namespace IAUBackEnd.Admin.Controllers
                     WebApiApplication.log.Error("Error In Update Eform with data\n" + JsonConvert.SerializeObject(e_Forms, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), ee);
 
                 }
+                trans.Rollback();
                 return Ok(new ResponseClass() { success = false });
 
             }
@@ -373,42 +404,80 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Active(int id)
         {
-            E_Forms e_Forms = await p.E_Forms.FindAsync(id);
+            var trans = db.Database.BeginTransaction();
+
+            E_Forms e_Forms = await db.E_Forms.FindAsync(id);
             if (e_Forms == null)
                 return Ok(new ResponseClass() { success = false, result = e_Forms.Deleted ? "Deleted" : "EForm IS NULL" });
             e_Forms.IS_Action = true;
-            await p.SaveChangesAsync();
-
-            return Ok(new ResponseClass() { success = true });
+            await db.SaveChangesAsync();
+            var logstate = Logger.AddLog(db, LogClassType.E_form, "Active", out _, out _, null, null, e_Forms.ID);
+            if (logstate)
+            {
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass() { success = true });
+            }
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
         [HttpGet]
         public async Task<IHttpActionResult> Deactive(int id)
         {
-            E_Forms e_Forms = await p.E_Forms.FindAsync(id);
-            if (e_Forms == null || e_Forms.Deleted)
+            var trans = db.Database.BeginTransaction();
+
+            E_Forms e_Forms = await db.E_Forms.FindAsync(id);
+            if (e_Forms == null)
                 return Ok(new ResponseClass() { success = false, result = e_Forms.Deleted ? "Deleted" : "EForm IS NULL" });
             e_Forms.IS_Action = false;
-            await p.SaveChangesAsync();
-
-            return Ok(new ResponseClass() { success = true });
+            await db.SaveChangesAsync();
+            var logstate = Logger.AddLog(db, LogClassType.E_form, "Deactive", out _, out _, null, null, e_Forms.ID);
+            if (logstate)
+            {
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass() { success = true });
+            }
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Delete(int id)
         {
+            var trans = db.Database.BeginTransaction();
             try
             {
-                E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id && !q.Deleted);
+
+                E_Forms e_Forms = db.E_Forms.FirstOrDefault(q => q.ID == id && !q.Deleted);
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
                 e_Forms.Deleted = true;
                 e_Forms.DeletedAt = DateTime.Now;
-                await p.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-                return Ok(new ResponseClass() { success = true });
+                var logstate = Logger.AddLog(db, LogClassType.E_form, "Delete", out _, out _, null, null, e_Forms.ID);
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass() { success = false });
             }
         }
@@ -416,18 +485,31 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Restore(int id)
         {
+            var trans = db.Database.BeginTransaction();
+
             try
             {
-                E_Forms e_Forms = p.E_Forms.FirstOrDefault(q => q.ID == id && q.Deleted);
+                E_Forms e_Forms = db.E_Forms.FirstOrDefault(q => q.ID == id && q.Deleted);
                 if (e_Forms == null)
                     return Ok(new ResponseClass() { success = false, result = "EForm IS NULL" });
                 e_Forms.Deleted = false;
-                await p.SaveChangesAsync();
-
-                return Ok(new ResponseClass() { success = true });
+                await db.SaveChangesAsync();
+                var logstate = Logger.AddLog(db, LogClassType.E_form, "Restore", out _, out _, null, null, e_Forms.ID);
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass() { success = false });
             }
         }
@@ -435,7 +517,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             if (disposing)
             {
-                p.Dispose();
+                db.Dispose();
             }
             base.Dispose(disposing);
         }

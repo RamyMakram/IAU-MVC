@@ -12,6 +12,7 @@ using System.Web.Http.Description;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
 using LinqKit;
+using Newtonsoft.Json;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -58,6 +59,11 @@ namespace IAUBackEnd.Admin.Controllers
             var data = db.Main_Services.Include(q => q.ValidTo).FirstOrDefault(q => q.Main_Services_ID == main_Services.Main_Services_ID && !q.Deleted);
             if (!ModelState.IsValid || data == null)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
+
+            var trans = db.Database.BeginTransaction();
+
+            var OldVals = JsonConvert.SerializeObject(data, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
             try
             {
                 data.Main_Services_Name_AR = main_Services.Main_Services_Name_AR;
@@ -67,10 +73,26 @@ namespace IAUBackEnd.Admin.Controllers
                 data.ValidTo = main_Services.ValidTo;
                 data.IS_Action = true;
                 await db.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.MainService, Method: "Update", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.Main_Services_ID, notes: "");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass() { success = false, result = ee });
             }
         }
@@ -79,16 +101,35 @@ namespace IAUBackEnd.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
+
+            var trans = db.Database.BeginTransaction();
+
             try
             {
                 main_Services.IS_Action = true;
                 main_Services.Deleted = false;
                 db.Main_Services.Add(main_Services);
                 await db.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.MainService, Method: "Create", Oldval: null, Newval: main_Services, es: out _, syslog: out _, ID: main_Services.Main_Services_ID, notes: "");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass() { success = false, result = ee });
             }
         }
@@ -100,9 +141,26 @@ namespace IAUBackEnd.Admin.Controllers
             if (main_Services == null || main_Services.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
 
+            var trans = db.Database.BeginTransaction();
+
             main_Services.IS_Action = false;
             await db.SaveChangesAsync();
-            return Ok(new ResponseClass() { success = true });
+
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.MainService, Method: "Deactive", Oldval: null, Newval: main_Services, es: out _, syslog: out _, ID: main_Services.Main_Services_ID, notes: "");
+            if (logstate)
+            {
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass()
+                {
+                    success = true
+                });
+            }
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
 
         [HttpGet]
@@ -111,24 +169,44 @@ namespace IAUBackEnd.Admin.Controllers
             Main_Services main_Services = await db.Main_Services.FindAsync(id);
             if (main_Services == null || main_Services.Deleted)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
+            var trans = db.Database.BeginTransaction();
 
             main_Services.IS_Action = true;
             await db.SaveChangesAsync();
-            return Ok(new ResponseClass() { success = true });
+
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.MainService, Method: "Active", Oldval: null, Newval: main_Services, es: out _, syslog: out _, ID: main_Services.Main_Services_ID, notes: "");
+            if (logstate)
+            {
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass()
+                {
+                    success = true
+                });
+            }
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id && !q.Deleted);
+            Main_Services main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id && !q.Deleted);
             if (main_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
+
             if (main_Services.UnitMainServices.Count == 0 && main_Services.Sub_Services.All(q => q.Request_Data.Count == 0 && q.Deleted))
             {
+                var trans = db.Database.BeginTransaction();
+                var OldVals = JsonConvert.SerializeObject(main_Services, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
                 var subserviceid = main_Services.Sub_Services.Select(s => s.Sub_Services_ID);
 
                 #region Delete ValidTo
-                var VaildTo = db.ValidTo.Where(q => q.MainServiceID == id);
+                var VaildTo = main_Services.ValidTo;
                 foreach (var i in VaildTo)
                 {
                     i.Deleted = true;
@@ -143,7 +221,21 @@ namespace IAUBackEnd.Admin.Controllers
 
                 //db.Main_Services.Remove(main_Services);
                 await db.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.MainService, Method: "Delete", Oldval: OldVals, Newval: main_Services, es: out _, syslog: out _, ID: main_Services.Main_Services_ID, notes: "");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             return Ok(new ResponseClass()
             {
@@ -154,13 +246,15 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Restore(int id)
         {
-            Main_Services main_Services = db.Main_Services.Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id && q.Deleted);
+            Main_Services main_Services = db.Main_Services.Include(q => q.ValidTo).Include(q => q.Sub_Services.Select(s => s.Request_Data)).Include(q => q.UnitMainServices.Select(s => s.Units)).Include(q => q.UnitMainServices).FirstOrDefault(q => q.Main_Services_ID == id && q.Deleted);
             if (main_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Main Is Null" });
-            var subserviceid = main_Services.Sub_Services.Select(s => s.Sub_Services_ID);
+            var trans = db.Database.BeginTransaction();
+            var OldVals = JsonConvert.SerializeObject(main_Services, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
 
             #region Delete ValidTo
-            var VaildTo = db.ValidTo.Where(q => q.MainServiceID == id);
+            var VaildTo = main_Services.ValidTo;
             foreach (var i in VaildTo)
             {
                 i.Deleted = false;
@@ -173,7 +267,21 @@ namespace IAUBackEnd.Admin.Controllers
 
             //db.Main_Services.Remove(main_Services);
             await db.SaveChangesAsync();
-            return Ok(new ResponseClass() { success = true });
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.MainService, Method: "Delete", Oldval: OldVals, Newval: main_Services, es: out _, syslog: out _, ID: main_Services.Main_Services_ID, notes: "");
+            if (logstate)
+            {
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass()
+                {
+                    success = true
+                });
+            }
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
         protected override void Dispose(bool disposing)
         {

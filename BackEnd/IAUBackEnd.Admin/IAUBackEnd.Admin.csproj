@@ -260,6 +260,7 @@
     <Compile Include="Controllers\GeneralSettingController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\Main_ServicesController.cs" />
     <Compile Include="Controllers\PriviligesController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Logger.cs" />
     <Compile Include="MicrosoftWebsocket.cs" />
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
@@ -394,6 +396,9 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SystemLog.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tables_Answare.cs">

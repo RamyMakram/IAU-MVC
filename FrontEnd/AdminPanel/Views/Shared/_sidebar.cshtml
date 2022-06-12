@@ -19,6 +19,7 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 @{
                     var data = TempData["Permissions"] as string[];
+                    var isar = Request.Cookies["lang"]?.Value == "ar";
                     <li>
                         <a href="/" id="" class="waves-effect">
                             <i class="fas fa-layer-group"></i>
@@ -108,6 +109,11 @@
                                     if (data.Contains("Permissions"))
                                     {
                                         <li><a href=@Url.Action("Home", "Jobs") id="Jobs" key="t-priviliges">اعدادات الوظائف والصلاحيات</a></li>
+                                    }
+
+                                    if (data.Contains("Actions Log"))
+                                    {
+                                        <li><a href=@Url.Action("Home", "Logger") id="Logger">@(isar?"سجل العمليات":"Actions Log")</a></li>
                                     }
 
                                     if (data.Contains("General Settings"))

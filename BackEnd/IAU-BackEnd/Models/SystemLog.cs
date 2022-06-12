@@ -7,20 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IAUBackEnd.Admin.Models
+namespace IAU_BackEnd.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Job_Permissions
+    public partial class SystemLog
     {
         public int ID { get; set; }
-        public Nullable<int> PrivilageID { get; set; }
-        public Nullable<int> Job_ID { get; set; }
-        public bool Deleted { get; set; }
-        public Nullable<System.DateTime> DeletedAt { get; set; }
-    
-        public virtual Job Job { get; set; }
-        public virtual Privilage Privilage { get; set; }
+        public int UserID { get; set; }
+        public string Method { get; set; }
+        public System.DateTime TransDate { get; set; }
+        public int ClassType { get; set; }
+        public string Oldval { get; set; }
+        public string Newval { get; set; }
+        public string CallPath { get; set; }
     }
 }

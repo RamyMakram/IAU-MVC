@@ -9,17 +9,18 @@ using System.Web.Http;
 using System.Data.Entity;
 using IAUAdmin.DTO.Helper;
 using System.Web.Http.Cors;
+using Newtonsoft.Json;
 
 namespace IAUBackEnd.Admin.Controllers
 {
     public class JobController : ApiController
     {
-        private MostafidDBEntities p = new MostafidDBEntities();
+        private MostafidDBEntities db = new MostafidDBEntities();
         public async Task<IHttpActionResult> GetDeleted()
         {
             try
             {
-                var data = p.Job.Where(q => q.Deleted)
+                var data = db.Job.Where(q => q.Deleted)
                     .Select(q => new
                     {
                         q.User_Permissions_Type_ID,
@@ -46,7 +47,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Job.Where(q => !q.Deleted)
+                var data = db.Job.Where(q => !q.Deleted)
                     .Select(q => new
                     {
                         q.User_Permissions_Type_ID,
@@ -76,7 +77,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var Job = p.Job
+                var Job = db.Job
                     .Where(q => q.User_Permissions_Type_ID == jid && !q.Deleted)
                     .Select(q => new
                     {
@@ -92,8 +93,8 @@ namespace IAUBackEnd.Admin.Controllers
                         success = false,
                         result = "Invaild Data Entred"
                     });
-                var Permissions = (from c in p.Privilage
-                                   join o in p.Job_Permissions.Where(q => q.Job_ID == jid && !q.Deleted)
+                var Permissions = (from c in db.Privilage
+                                   join o in db.Job_Permissions.Where(q => q.Job_ID == jid && !q.Deleted)
                                       on c.ID equals o.PrivilageID into sr
                                    from x in sr.DefaultIfEmpty()
                                    select new
@@ -137,9 +138,12 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> EditJob([FromBody] Job job)
         {
+            var trans = db.Database.BeginTransaction();
+
             try
             {
-                var data = p.Job.FirstOrDefault(q => q.User_Permissions_Type_ID == job.User_Permissions_Type_ID);
+                var data = db.Job.FirstOrDefault(q => q.User_Permissions_Type_ID == job.User_Permissions_Type_ID);
+                var OldVals = JsonConvert.SerializeObject(data, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 if (job.IsModear && ValidateIsModearExist(data.User_Permissions_Type_ID))/*IF Job IS Modear And There is modear*/
                     return Ok(new ResponseClass
                     {
@@ -149,21 +153,27 @@ namespace IAUBackEnd.Admin.Controllers
                 data.User_Permissions_Type_Name_AR = job.User_Permissions_Type_Name_AR;
                 data.User_Permissions_Type_Name_EN = job.User_Permissions_Type_Name_EN;
                 data.IsModear = job.IsModear;
-                if (p.SaveChanges() > 0)
-                    return Ok(new ResponseClass
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Update", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.User_Permissions_Type_ID, notes: "");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
                     {
                         success = true,
                         result = data
                     });
+                }
                 else
-                    return Ok(new ResponseClass
-                    {
-                        success = false,
-                        result = "Error"
-                    });
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false, result = "Error" });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
@@ -177,12 +187,12 @@ namespace IAUBackEnd.Admin.Controllers
         /// </summary>
         /// <param name="JobID"></param>
         /// <returns>
-        /// true: if Theris
+        /// true: if There is,
         /// false: if not
         /// </returns>
         private bool ValidateIsModearExist(int? JobID)
         {
-            return p.Job.Any(s => s.IsModear && (JobID.HasValue ? s.User_Permissions_Type_ID != JobID : true)/*Check IF There is another Job with Modear Flag*/);
+            return db.Job.Any(s => s.IsModear && (JobID.HasValue ? s.User_Permissions_Type_ID != JobID : true)/*Check IF There is another Job with Modear Flag*/);
         }
         [HttpGet]
         public async Task<IHttpActionResult> CheckModear(int? JID)
@@ -200,8 +210,10 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> CreateJob([FromBody] Job user_Permissions_Type)
         {
+            var trans = db.Database.BeginTransaction();
             try
             {
+
                 if (user_Permissions_Type.IsModear && ValidateIsModearExist(null))/*IF Job IS Modear And There is modear*/
                     return Ok(new ResponseClass
                     {
@@ -209,22 +221,28 @@ namespace IAUBackEnd.Admin.Controllers
                         result = "Modear Error"
                     });
                 user_Permissions_Type.Deleted = false;
-                var data = p.Job.Add(user_Permissions_Type);
-                if (p.SaveChanges() > 0)
-                    return Ok(new ResponseClass
+                var data = db.Job.Add(user_Permissions_Type);
+                await db.SaveChangesAsync();
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Create", Oldval: null, Newval: data, es: out _, syslog: out _, ID: data.User_Permissions_Type_ID, notes: "");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
                     {
                         success = true,
                         result = data
                     });
+                }
                 else
-                    return Ok(new ResponseClass
-                    {
-                        success = false,
-                        result = "Error"
-                    });
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false, result = "Error" });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
@@ -235,48 +253,85 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            var job = p.Job.Include(q => q.Users).FirstOrDefault(q => q.User_Permissions_Type_ID == id && !q.Deleted);
+            var trans = db.Database.BeginTransaction();
+
+            var job = db.Job.Include(q => q.Job_Permissions).Include(q => q.Users).FirstOrDefault(q => q.User_Permissions_Type_ID == id && !q.Deleted);
             if (job == null)
                 return Ok(new ResponseClass() { success = false, result = "Job Location Is Null" });
-
-            var perm = p.Job_Permissions.Where(q => q.Job_ID == id);
-            foreach (var i in perm)
+            if (job.Users.Count == 0)
             {
-                i.Deleted = true;
-                i.DeletedAt = DateTime.Now;
+                var OldVals = JsonConvert.SerializeObject(job, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                var perm = job.Job_Permissions;
+                foreach (var i in perm)
+                {
+                    i.Deleted = true;
+                    i.DeletedAt = DateTime.Now;
+                }
+                //p.Job_Permissions.RemoveRange(p.Job_Permissions.Where(q => q.Job_ID == id));
+
+                job.Deleted = true;
+                job.DeletedAt = DateTime.Now;
+
+                //p.Job.Remove(job);
+                await db.SaveChangesAsync();
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Delete", Oldval: OldVals, Newval: job, es: out _, syslog: out _, ID: job.User_Permissions_Type_ID, notes: "");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
-            //p.Job_Permissions.RemoveRange(p.Job_Permissions.Where(q => q.Job_ID == id));
-
-            job.Deleted = true;
-            job.DeletedAt = DateTime.Now;
-
-            //p.Job.Remove(job);
-            await p.SaveChangesAsync();
-            return Ok(new ResponseClass() { success = true });
+            return Ok(new ResponseClass() { success = false });
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> _Restore(int id)
         {
-            var job = p.Job.Include(q => q.Users).FirstOrDefault(q => q.User_Permissions_Type_ID == id && q.Deleted);
+
+            var job = db.Job.Include(q => q.Job_Permissions).FirstOrDefault(q => q.User_Permissions_Type_ID == id && q.Deleted);
+
             if (job == null)
                 return Ok(new ResponseClass() { success = false, result = "Job Location Is Null" });
-            if (job.Users.Count == 0)
+            
+            var trans = db.Database.BeginTransaction();
+            var OldVals = JsonConvert.SerializeObject(job, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+            var perm = job.Job_Permissions;
+            foreach (var i in perm)
             {
-                var perm = p.Job_Permissions.Where(q => q.Job_ID == id);
-                foreach (var i in perm)
-                {
-                    i.Deleted = false;
-                }
-                //p.Job_Permissions.RemoveRange(p.Job_Permissions.Where(q => q.Job_ID == id));
-
-                job.Deleted = false;
-
-                //p.Job.Remove(job);
-                await p.SaveChangesAsync();
-                return Ok(new ResponseClass() { success = true });
+                i.Deleted = false;
             }
-            return Ok(new ResponseClass() { success = false, result = "CantRemove" });
+            //p.Job_Permissions.RemoveRange(p.Job_Permissions.Where(q => q.Job_ID == id));
+
+            job.Deleted = false;
+
+            //p.Job.Remove(job);
+            await db.SaveChangesAsync();
+
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.Job, Method: "Restore", Oldval: OldVals, Newval: job, es: out _, syslog: out _, ID: job.User_Permissions_Type_ID, notes: "");
+            if (logstate)
+            {
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass()
+                {
+                    success = true
+                });
+            }
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
     }
 }

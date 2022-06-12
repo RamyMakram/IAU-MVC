@@ -1,0 +1,213 @@
+﻿@model ICollection<IAUAdmin.DTO.Entity.LogDTO>
+@using IAUAdmin.DTO.Enums
+@using System.Globalization
+@{
+    ViewBag.Title = "Home Page";
+    ViewBag.pageTitle = "Home Page";
+    ViewBag.pTitle = "Actions History";
+    ViewBag.arTitle = "الرئيسية";
+    ViewBag.arpageTitle = "الرئيسية";
+    ViewBag.arpTitle = "سجل العمليات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var isar = Request.Cookies["lang"].Value == "ar";
+    var ci = new CultureInfo("ar-EG");
+}
+
+<!-- DataTables -->
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="HeaderOfPage">
+                    <p class="card-title-desc">
+                        @(isar? "سجل العمليات" : "Actions History")
+                    </p>
+
+                </div>
+                <table class="table  jqtable-btn table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>@(isar?"التاريخ":"Date")</th>
+                            <th>@(isar?"المستخدم":"User")</th>
+                            <th>@(isar?"العملية":"Action")</th>
+                            <th>@(isar?"الجدول":"Table")</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var i in Model)
+                        {
+                            <tr>
+                                <td>@i.ID</td>
+                                <td >@(i.TransDate.ToString("yyyy-MM-dd hh:mm:ss tt", ci))</td>
+                                <td class="TH-en">@(isar?i.Users.User_Name_Ar:i.Users.User_Name_En)</td>
+                                <td>
+                                    @switch (i.Method)
+                                    {
+                                        case "Create":
+                                            <span>@(isar?"اضافة": "Add")</span>
+                                            break;
+
+                                        case "Delete":
+                                            <span>@(isar?"حذف":"Remove")</span>
+                                            break;
+
+                                        case "Update":
+                                            <span>@(isar?"تعديل":"Edit")</span>
+                                            break;
+
+                                        case "Restore":
+                                            <span>@(isar?"استرجاع":"Get Back")</span>
+                                            break;
+
+                                        case "Deactive":
+                                            <span>@(isar?"الغاء تفعيل":"Deactive")</span>
+                                            break;
+
+                                        case "Active":
+                                            <span>@(isar? "تفعيل" : "Active")</span>
+                                            break;
+
+                                        case "Get":
+                                            <span>@(isar?"عرض":"Preview")</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    @switch (i.ClassType)
+                                    {
+                                        case ((int)LogClassType.ApplicantType):
+                                            <span data-t="type-@i.ClassType">@(isar?"أنواع المتقدمين": "Applicant Types")</span>
+                                            break;
+                                        case ((int)LogClassType.E_form):
+                                            <span data-t="type-@i.ClassType">@(isar?"النماذج الالكترونية": "E-forms")</span>
+                                            break;
+                                        case ((int)LogClassType.General_Setting):
+                                            <span data-t="type-@i.ClassType">@(isar?"الاعدادات العامة": "General Settinges")</span>
+                                            break;
+                                        case ((int)LogClassType.Job):
+                                            <span data-t="type-@i.ClassType">@(isar?"الوظائف": "Jobs")</span>
+                                            break;
+                                        case ((int)LogClassType.Locations):
+                                            <span data-t="type-@i.ClassType">@(isar?"الاماكن": "Locations")</span>
+                                            break;
+                                        case ((int)LogClassType.MainService):
+                                            <span data-t="type-@i.ClassType">@(isar?"الخدمات الرئيسية": "Main Services")</span>
+                                            break;
+                                        case ((int)LogClassType.Priviliges):
+                                            <span data-t="type-@i.ClassType">@(isar?"الصلاحيات": "Priviliges")</span>
+                                            break;
+                                        case ((int)LogClassType.RequestType):
+                                            <span data-t="type-@i.ClassType">@(isar?"انواع الطلبات": "Request Types")</span>
+                                            break;
+                                        case ((int)LogClassType.Request):
+                                            <span data-t="type-@i.ClassType">@(isar?"الطلبات": "Requests")</span>
+                                            break;
+                                        case ((int)LogClassType.ServiceType):
+                                            <span data-t="type-@i.ClassType">@(isar?"انواع الخدمات": "Service Types")</span>
+                                            break;
+                                        case ((int)LogClassType.SubService):
+                                            <span data-t="type-@i.ClassType">@(isar?"الخدمات الفرعية": "Sub Services")</span>
+                                            break;
+                                        case ((int)LogClassType.UnitLevel):
+                                            <span data-t="type-@i.ClassType">@(isar?"مستويات الفئات": "Unit Levels")</span>
+                                            break;
+                                        case ((int)LogClassType.Unit):
+                                            <span data-t="type-@i.ClassType">@(isar?"الفئات الاداراية": "Units")</span>
+                                            break;
+                                        case ((int)LogClassType.UnitLocation):
+                                            <span data-t="type-@i.ClassType">@(isar?"اماكن الفئات": "Unit Location")</span>
+                                            break;
+                                        case ((int)LogClassType.UnitType):
+                                            <span data-t="type-@i.ClassType">@(isar?"انواع الفئات": "Unit Types")</span>
+                                            break;
+                                        case ((int)LogClassType.User):
+                                            <span data-t="type-@i.ClassType">@(isar?"المستخدمين": "Users")</span>
+                                            break;
+                                        case ((int)LogClassType.UnitSignature):
+                                            <span data-t="type-@i.ClassType">@(isar?"امضاء الفئة": "Unit Signature")</span>
+                                            break;
+                                        case ((int)LogClassType.EformApproval):
+                                            <span data-t="type-@i.ClassType">@(isar?"امضاء النموذج الالكتروني": "Eform Approval")</span>
+                                            break;
+                                        case ((int)LogClassType.Log):
+                                            <span data-t="type-@i.ClassType">@(isar?"سجل العمليات":"Actions Log")</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-dark" href="/Logger/TransDetails?id=@i.ID" target="_blank">
+                                        @(isar?"عرض العملية":"View Transaction")
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<!-- JAVASCRIPT -->
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Required datatable js -->
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    $(document).ready(i => {
+        var table22 = $('.jqtable-btn').DataTable({
+            lengthChange: true,
+           /* buttons: [*//*'excel', 'pdf'*//*],*/
+            language: {
+                url: language == "ar" ? '/assets/DataTableTrans/ar.json' : '/assets/DataTableTrans/en.json'
+            },
+            initComplete: function (settings, json) {
+                //alert('DataTables has finished its initialisation.');
+                getLanguage()
+            },
+            "order": [[0, "desc"]],
+        });
+
+
+
+    })
+</script>
+
+
+<!-- Buttons examples -->
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/libs/jszip/jszip.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+<!-- Datatable init js -->
+<script src="~/assets/js/pages/datatables.init.js"></script>
+
+<script src="~/assets/js/app.js"></script>
+
+
+
+

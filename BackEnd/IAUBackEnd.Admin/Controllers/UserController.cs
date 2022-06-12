@@ -23,13 +23,13 @@ namespace IAUBackEnd.Admin.Controllers
 {
     public class UserController : ApiController
     {
-        private Admin.Models.MostafidDBEntities p = new MostafidDBEntities();
+        private Admin.Models.MostafidDBEntities db = new MostafidDBEntities();
         [HttpGet]
         public async Task<IHttpActionResult> Login(string email, string pass)
         {
             try
             {
-                var data = p.Users.FirstOrDefault(q => q.IS_Active == "1" && q.User_Email == email && q.User_Password == pass && !q.Deleted);
+                var data = db.Users.FirstOrDefault(q => q.IS_Active == "1" && q.User_Email == email && q.User_Password == pass && !q.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
@@ -39,7 +39,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var Datetime = Helper.GetHashString("" + data.User_ID + data.User_Name + date.ToString());
                 data.TEMP_Login = Datetime;
                 data.LoginDate = date.AddDays(1);
-                p.SaveChanges();
+                db.SaveChanges();
                 WebSocketManager.SendLogout(data.User_ID.ToString());
                 return Ok(new ResponseClass
                 {
@@ -63,7 +63,7 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 var date = Helper.GetDate().AddDays(1);
-                var data = p.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date && !q.Deleted);
+                var data = db.Users.Include(q => q.Units).FirstOrDefault(q => q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date && !q.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
@@ -91,7 +91,7 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 var date = Helper.GetDate().AddDays(1);
-                var data = p.Users.Include(q => q.Job.Job_Permissions.Select(s => s.Privilage)).Include(Q => Q.Units).FirstOrDefault(q => q.User_ID == id && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date && !q.Deleted);
+                var data = db.Users.Include(q => q.Job.Job_Permissions.Select(s => s.Privilage)).Include(Q => Q.Units).FirstOrDefault(q => q.User_ID == id && q.IS_Active == "1" && q.TEMP_Login == token && q.LoginDate <= date && !q.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
@@ -122,7 +122,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Users.Where(qt => !qt.Deleted)
+                var data = db.Users.Where(qt => !qt.Deleted)
                     .Include(q => q.Job)
                     .Include(q => q.Units)
                     .Select(q => new
@@ -158,7 +158,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Users.Where(qt => qt.Deleted)
+                var data = db.Users.Where(qt => qt.Deleted)
                     .Include(q => q.Job)
                     .Include(q => q.Units)
                     .Select(q => new
@@ -196,7 +196,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Users.Where(q => q.UnitID == UID && !q.Deleted)
+                var data = db.Users.Where(q => q.UnitID == UID && !q.Deleted)
                     .Include(q => q.Job)
                     .Select(q => new
                     {
@@ -226,7 +226,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var data = p.Users
+                var data = db.Users
                     .Where(qt => qt.User_ID == uid && !qt.Deleted)
                     .Select(q => new
                     {
@@ -267,42 +267,59 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> UpdateData([FromBody] Users users)
         {
+            var trans = db.Database.BeginTransaction();
 
             try
             {
-                if (p.Job.Find(users.Job_ID).Deleted)
+                if (db.Job.Find(users.Job_ID).Deleted)
                     return Ok(new ResponseClass
                     {
                         success = false,
                         result = "Deleted Job"
                     });
-                if (p.Units.Find(users.UnitID).Deleted)
+                if (db.Units.Find(users.UnitID).Deleted)
                     return Ok(new ResponseClass
                     {
                         success = false,
                         result = "Del U"
                     });
-                var data = p.Users.FirstOrDefault(qt => qt.User_ID == users.User_ID && !qt.Deleted);
+                var data = db.Users.FirstOrDefault(qt => qt.User_ID == users.User_ID && !qt.Deleted);
                 if (data == null)
                     return Ok(new ResponseClass
                     {
                         success = false,
                         result = "Null Ref"
                     });
+                var OldVals = JsonConvert.SerializeObject(data, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
                 data.User_Mobile = users.User_Mobile;
                 data.User_Name = users.User_Name;
                 data.User_Password = users.User_Password;
                 data.Job_ID = users.Job_ID;
                 data.UnitID = users.UnitID;
-                p.SaveChanges();
-                return Ok(new ResponseClass
+
+                await db.SaveChangesAsync();
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.User, Method: "Update", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.User_ID, notes: null);
+                if (logstate)
                 {
-                    success = true,
-                    result = data
-                });
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true,
+                        result = data
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
@@ -314,20 +331,41 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Deactive(int uid)
         {
+            var trans = db.Database.BeginTransaction();
 
             try
             {
-                var data = p.Users.FirstOrDefault(qt => qt.User_ID == uid && !qt.Deleted);
+                var data = db.Users.FirstOrDefault(qt => qt.User_ID == uid && !qt.Deleted);
+                if (data == null)
+                    return Ok(new ResponseClass
+                    {
+                        success = false
+                    });
+                var OldVals = JsonConvert.SerializeObject(data, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
                 data.IS_Active = "0";
-                p.SaveChanges();
-                return Ok(new ResponseClass
+                await db.SaveChangesAsync();
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.User, Method: "Deactive", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.User_ID, notes: null);
+                if (logstate)
                 {
-                    success = true,
-                    result = data
-                });
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true,
+                        result = data
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
@@ -339,63 +377,94 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Active(int uid)
         {
+            var trans = db.Database.BeginTransaction();
 
             try
             {
-                var data = p.Users.FirstOrDefault(qt => qt.User_ID == uid && !qt.Deleted);
+                var data = db.Users.FirstOrDefault(qt => qt.User_ID == uid && !qt.Deleted);
+                if (data == null)
+                    return Ok(new ResponseClass
+                    {
+                        success = false
+                    });
+                var OldVals = JsonConvert.SerializeObject(data, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
                 data.IS_Active = "1";
-                p.SaveChanges();
-                return Ok(new ResponseClass
+
+                await db.SaveChangesAsync();
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.User, Method: "Active", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.User_ID, notes: null);
+                if (logstate)
                 {
-                    success = true,
-                    result = data
-                });
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
+                    {
+                        success = true,
+                        result = data
+                    });
+                }
+                else
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
                     result = ee
                 });
             }
+
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Create([FromBody] Users users)
         {
+            var trans = db.Database.BeginTransaction();
 
             try
             {
-                if (p.Job.Find(users.Job_ID).Deleted)
+                if (db.Job.Find(users.Job_ID).Deleted)
                     return Ok(new ResponseClass
                     {
                         success = false,
                         result = "Deleted Job"
                     });
-                if (p.Units.Find(users.UnitID).Deleted)
+                if (db.Units.Find(users.UnitID).Deleted)
                     return Ok(new ResponseClass
                     {
                         success = false,
                         result = "Del U"
                     });
+
                 users.Deleted = false;
-                var data = p.Users.Add(users);
-                if (p.SaveChanges() > 0)
-                    return Ok(new ResponseClass
+                users.IS_Active = "1";
+                var data = db.Users.Add(users);
+                await db.SaveChangesAsync();
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.User, Method: "Create", Oldval: null, Newval: data, es: out _, syslog: out _, ID: data.User_ID, notes: null);
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    trans.Commit();
+                    return Ok(new ResponseClass()
                     {
-                        success = true,
-                        result = data
+                        success = true
                     });
+                }
                 else
-                    return Ok(new ResponseClass
-                    {
-                        success = false,
-                        result = "Add Faild"
-                    });
+                {
+                    trans.Rollback();
+                    return Ok(new ResponseClass() { success = false });
+                }
             }
             catch (Exception ee)
             {
+                trans.Rollback();
                 return Ok(new ResponseClass
                 {
                     success = false,
@@ -406,94 +475,67 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> _Delete(int id)
         {
-            var user = p.Users.FirstOrDefault(q => q.User_ID == id && !q.Deleted);
+            var user = db.Users.FirstOrDefault(q => q.User_ID == id && !q.Deleted);
             if (user == null)
                 return Ok(new ResponseClass() { success = false, result = "User Is Null" });
+
+            var trans = db.Database.BeginTransaction();
+
+            var OldVals = JsonConvert.SerializeObject(user, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
             user.Deleted = true;
             user.DeletedAt = DateTime.Now;
 
             //p.Users.Remove(user);
 
 
-            await p.SaveChangesAsync();
-            return Ok(new ResponseClass() { success = true });
+            await db.SaveChangesAsync();
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.User, Method: "Delete", Oldval: OldVals, Newval: user, es: out _, syslog: out _, ID: user.User_ID, notes: null);
+            if (logstate)
+            {
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass()
+                {
+                    success = true
+                });
+            }
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
         [HttpPost]
         public async Task<IHttpActionResult> _Restore(int id)
         {
-            var user = p.Users.FirstOrDefault(q => q.User_ID == id && q.Deleted);
+            var user = db.Users.FirstOrDefault(q => q.User_ID == id && q.Deleted);
             if (user == null)
                 return Ok(new ResponseClass() { success = false, result = "User Is Null" });
+            var trans = db.Database.BeginTransaction();
+            var OldVals = JsonConvert.SerializeObject(user, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
             user.Deleted = false;
 
             //p.Users.Remove(user);
 
 
-            await p.SaveChangesAsync();
-            return Ok(new ResponseClass() { success = true });
-        }
-
-        [HttpGet]
-        [Route("")]
-        public async Task<HttpResponseMessage> GetFile(string fileName)
-        {
-            //Create HTTP Response.
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
-
-            //Set the File Path.
-            //string filePath = HttpContext.Current.Server.MapPath("~/Files/") + fileName;
-            string filePath = @"E:\Photoshop\nwdn_file_temp_1611321815050.jpg";
-
-            //Check whether File exists.
-            if (!File.Exists(filePath))
+            await db.SaveChangesAsync();
+            var logstate = Logger.AddLog(db: db, logClass: LogClassType.User, Method: "Create", Oldval: null, Newval: user, es: out _, syslog: out _, ID: user.User_ID, notes: null);
+            if (logstate)
             {
-                //Throw 404 (Not Found) exception if File not found.
-                response.StatusCode = HttpStatusCode.NotFound;
-                response.ReasonPhrase = string.Format("File not found: {0} .", filePath);
-                throw new HttpResponseException(response);
+                await db.SaveChangesAsync();
+                trans.Commit();
+                return Ok(new ResponseClass()
+                {
+                    success = true
+                });
             }
-
-            //Read the File into a Byte Array.
-            byte[] bytes = File.ReadAllBytes(filePath);
-
-            //Set the Response Content.
-            response.Content = new ByteArrayContent(bytes);
-
-            //Set the Response Content Length.
-            response.Content.Headers.ContentLength = bytes.LongLength;
-
-            //Set the Content Disposition Header Value and FileName.
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            response.Content.Headers.ContentDisposition.FileName = Path.GetFileName(filePath);
-
-            //Set the File Content Type.
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(Path.GetFileName(filePath)));
-            return response;
+            else
+            {
+                trans.Rollback();
+                return Ok(new ResponseClass() { success = false });
+            }
         }
-        //public (string fileType, byte[] archiveData, string archiveName) DownloadFiles(string subDirectory)
-        //{
-        //	var zipName = $"archive-{DateTime.Now.ToString("yyyy_MM_dd-HH_mm_ss")}.zip";
-
-        //	var files = Directory.GetFiles(Path.Combine(_hostingEnvironment.ContentRootPath, subDirectory)).ToList();
-
-        //	using (var memoryStream = new MemoryStream())
-        //	{
-        //		using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
-        //		{
-        //			files.ForEach(file =>
-        //			{
-        //				var theFile = archive.CreateEntry(file);
-        //				using (var streamWriter = new StreamWriter(theFile.Open()))
-        //				{
-        //					streamWriter.Write(File.ReadAllText(file));
-        //				}
-
-        //			});
-        //		}
-
-        //		return (new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(Path.GetFileName(filePath))), memoryStream.ToArray(), zipName);
-        //	}
-
-        //}
     }
 }
