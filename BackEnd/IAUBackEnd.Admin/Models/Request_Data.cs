@@ -18,6 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public Request_Data()
         {
             this.DelayedTransaction = new HashSet<DelayedTransaction>();
+            this.Person_Eform = new HashSet<Person_Eform>();
             this.Request_File = new HashSet<Request_File>();
             this.Request_Log = new HashSet<Request_Log>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
@@ -42,6 +43,8 @@ namespace IAUBackEnd.Admin.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DelayedTransaction> DelayedTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Person_Eform> Person_Eform { get; set; }
         public virtual Personel_Data Personel_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
         public virtual Request_Type Request_Type { get; set; }

@@ -36,6 +36,6 @@ namespace IAUAdmin.DTO.Entity
         public UnitTypeDTO UnitType { get; set; }
         public UserDTO User { get; set; }
         public Unit_Signature Unit_Signature { get; set; }
-        public PersonEfDTO  { get; set; }
+        public PersonEfDTO Ef { get; set; }
     }
 }

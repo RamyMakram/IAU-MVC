@@ -33,9 +33,9 @@ namespace IAUBackEnd.Admin.Models
         public bool Deleted { get; set; }
         public Nullable<System.DateTime> DeletedAt { get; set; }
     
-        public virtual Units Units { get; set; }
         public virtual Job Job { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SystemLog> SystemLog { get; set; }
+        public virtual Units Units { get; set; }
     }
 }

@@ -25,12 +25,14 @@ namespace IAUBackEnd.Admin.Models
         public string Name { get; set; }
         public string Name_EN { get; set; }
         public Nullable<int> Person_ID { get; set; }
+        public Nullable<int> RequestID { get; set; }
         public string Code { get; set; }
         public System.DateTime FillDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<E_Forms_Answer> E_Forms_Answer { get; set; }
         public virtual Personel_Data Personel_Data { get; set; }
+        public virtual Request_Data Request_Data { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Preview_EformApproval> Preview_EformApproval { get; set; }
     }

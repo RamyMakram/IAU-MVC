@@ -36,6 +36,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<ID_Document> ID_Document { get; set; }
         public virtual DbSet<Input_Type> Input_Type { get; set; }
+        public virtual DbSet<Job> Job { get; set; }
         public virtual DbSet<Job_Permissions> Job_Permissions { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Main_Services> Main_Services { get; set; }
@@ -59,6 +60,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Service_Type> Service_Type { get; set; }
         public virtual DbSet<Sub_Services> Sub_Services { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<SystemLog> SystemLog { get; set; }
         public virtual DbSet<Table_Columns> Table_Columns { get; set; }
         public virtual DbSet<Tables_Answare> Tables_Answare { get; set; }
         public virtual DbSet<Title_Middle_Names> Title_Middle_Names { get; set; }
@@ -72,7 +74,5 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
-        public virtual DbSet<Job> Job { get; set; }
-        public virtual DbSet<SystemLog> SystemLog { get; set; }
     }
 }
