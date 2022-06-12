@@ -213,6 +213,7 @@
 <!-- Sweet Alerts js -->
 <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script>
+    let unitcodeToched = false;
 	let UnitTypes = [];
 	$(document).ready(w => {
 		getUnitTypes(document.getElementById('LEVEID').value)
@@ -232,13 +233,13 @@
 				var select = document.getElementById('UnitType');
 				select.innerHTML = ``;
 				if (e.length != 0) {
-					UnitCodeChange(true)
 					$('#TypeID').val(e[0]["Units_Type_ID"])
 					$('#TypeCode').text(e[0]["Code"]);
 					var lang = document.getElementById("lang").value
 					e.forEach(d => {
 						select.innerHTML += `<option value="${d["Units_Type_ID"]}">${lang == "ar" ? d["Units_Type_Name_AR"] : d["Units_Type_Name_EN"]}</option>`
 					})
+					UnitCodeChange(true)
 				} else
 					$('#TypeCode').text("");
 			}, error: function (ee) {
@@ -259,7 +260,6 @@
 		$('#BuildNum').val(BuildNumber)
 	}
 	function LevelChange(eve) {
-		getUnitTypes(eve.target.value)
 		$.ajax({
 			url: "/Units/getUnits?id=" + eve.target.value, success: function (e) {
 				var select = document.getElementById('SubUnits');
@@ -278,7 +278,8 @@
 					$('#unitCode').attr('minlength', "1");
 					if ($('#unitCode').val().length > 1)
 						$('#unitCode').val("")
-				}
+                }
+                getUnitTypes(eve.target.value)
 			}, error: function (ee) {
 				event.stopPropagation();
 				console.log("error", ee)
@@ -320,7 +321,8 @@
 	function LocationChange(ID) {
 		document.querySelector('#CodeGenrateDiv input:nth-of-type(4)').value = ID
 	}
-	function UnitCodeChange(ISLevelChange) {
+    function UnitCodeChange(ISLevelChange) {
+        if (entered_Code)
 		$.ajax({
             url: `/Units/CheckCode?code=${$('#unitCode').val()}&levelID=${$('#LEVEID option:selected').val()}&uID=${$('#UnitID').val()}&ut=${$('#UnitType').val()}`, method: "POST", success: function (data) {
 				if (!data['success'])
@@ -367,17 +369,18 @@
 			}
 		})
 	}
-	function LaunchErrorHandelare() {
-		Swal.fire({
-			title: "@( Request.Cookies["lang"].Value == "ar" ? "لا يمكن استخدام هذا الرقم" : "You Can't Use this Code.")",
-			icon: "warning",
-			focusConfirm: true,
-			confirmButtonColor: "#34c38f",
-			cancelButtonColor: "#f46a6a",
-			confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق" : "Ok")",
-        }).then((result) => {
-		$('#unitCode').focus()
-        });
+    function LaunchErrorHandelare() {
+        if (entered_Code)
+		    Swal.fire({
+			    title: "@( Request.Cookies["lang"].Value == "ar" ? "لا يمكن استخدام هذا الرقم" : "You Can't Use this Code.")",
+			    icon: "warning",
+			    focusConfirm: true,
+			    confirmButtonColor: "#34c38f",
+			    cancelButtonColor: "#f46a6a",
+			    confirmButtonText: "@(Request.Cookies["lang"].Value == "ar" ? "موافق" : "Ok")",
+            }).then((result) => {
+		        $('#unitCode').focus()
+            });
     }
     var entered_Code = false;
 	$(document).ready(i => {

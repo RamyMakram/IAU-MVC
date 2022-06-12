@@ -451,7 +451,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID, string UCode, string typecode, int loc, int Level)
         {
-            char[] GenrateCode = Ref_Number.ToCharArray();
+            char[] GenrateCode = Ref_Number?.ToCharArray()??new char[13];
             if (SubID != 0 && SubID != null)
                 GetCode(ref GenrateCode, SubID.Value, UCode, typecode[0], Level, loc);
             var code = string.Join("", GenrateCode);
