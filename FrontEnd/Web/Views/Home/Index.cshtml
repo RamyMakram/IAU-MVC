@@ -1021,7 +1021,7 @@
                                      title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 400 حرف." />
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
-                                <div id="textarea-container">
+                                <div id="textarea-container" class="Required-Notes">
                                     <div class="insideTextArea">
                                         <p class="">وصف الطلب (400 حرف كحد أقصى)</p>
                                     </div>
@@ -1122,7 +1122,7 @@
                                      title="If you need further explanation to your request, kindly write it this field. If not, please skip it and fill out other required fields. The description should not exceed 400 characters." />
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
-                                <div id="textarea-container">
+                                <div id="textarea-container" class="Required-Notes">
                                     <div class="insideTextArea">
                                         <p class="">Request Description (400 character max.)</p>
                                     </div>
@@ -1177,7 +1177,7 @@
                                      title="إذا كنت بحاجة إلى مزيد من التوضيح لطلبك ، فيرجى كتابته في هذا الحقل. إذا لم يكن كذلك ، يرجى تخطيها وملء الحقول الأخرى المطلوبة. يجب ألا يتجاوز الوصف 400 حرف." />
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
-                                <div id="textarea-container">
+                                <div id="textarea-container" class="Required-Notes">
                                     <div class="insideTextArea">
                                         <span class="">وصف الطلب (400 حرف كحد أقصى)</span>
                                     </div>
@@ -1230,7 +1230,7 @@
 
                             </div>
                             <div class="col-md-8 required-field" style="padding:0px;">
-                                <div id="textarea-container">
+                                <div id="textarea-container" class="Required-Notes">
                                     <div class="insideTextArea">
                                         <span class="">Request Description (400 character max.)</span>
                                     </div>
@@ -1408,6 +1408,13 @@
     <script src="~/Design/JS/eform.js"></script>
     <script src="~/Design/JS/eformReadOnly.js"></script>
     <script src="~/Design/JS/scripts.js?ver=1.0" charset="utf-8" type="text/javascript"></script>
+    <script>
+        $(document).ready(i => {
+            $('.Required-Notes .insideTextArea').click(() => {
+                $('#Required_Fields_Notes_Other,#Required_Fields_Notes').focus();
+            })
+        })
+    </script>
 </body>
 
 </html>
