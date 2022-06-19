@@ -456,18 +456,22 @@ $('.mainservice').click(function (e) {//service type
                     : '<img src="/Design/img/EnRequestType.png" style="width:100%"/>')} 
 				</div>`);
             let serverpath = $('#serverpath').html()
+            let toogle = `${window.screen.width <= 700 ? "" : (`data-bs-toggle="tooltip" data-bs-placement="top"
+										 data-bs-custom-class="beautifier"
+										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password."`)}`;
             JSON.parse(data).forEach(request => {
-                $("#Request_Type_Id").append(`
+                let data_bind = `
 							<div class="col-md-4 col-lg-3">
 								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypenameEN="${request.Name_EN}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
-									<img src=${(serverpath + "/" + request.Image_Path)} data-bs-toggle="tooltip" data-bs-placement="top"
-										 data-bs-custom-class="beautifier"
-										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+									<img src="${(serverpath + "/" + request.Image_Path)}" class="Toogle-TootipScreen" ${toogle} />
 									<p>${(language == "ar" ? request.Name_AR : request.Name_EN)}</p >
 								</div >
 							</div >
-					`)
+					`
+                console.log(data_bind)
+                $("#Request_Type_Id").append(data_bind)
             })
+
             $("body").tooltip({ selector: '[data-bs-toggle=tooltip]' });
             $(`.mainservice`).removeClass('active')
             $(`.mainservice[data-mainserviceid="${ID}"]`).addClass('active');
