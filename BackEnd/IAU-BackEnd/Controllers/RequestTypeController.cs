@@ -36,7 +36,7 @@ namespace IAU_BackEnd.Controllers
                         ) != 0
 
                 ) != 0
-            ).Select(q => new { ID = q.Request_Type_ID, Name_AR = q.Request_Type_Name_AR, Name_EN = q.Request_Type_Name_EN, q.Image_Path });
+            ).Select(q => new { ID = q.Request_Type_ID, N_AR = q.Request_Type_Name_AR, N_EN = q.Request_Type_Name_EN, q.Image_Path, DAR = q.Desc_AR, DEN = q.Desc_EN });
             return Ok(new ResponseClass() { success = true, result = data });
         }
     }

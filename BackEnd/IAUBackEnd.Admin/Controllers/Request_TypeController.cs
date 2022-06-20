@@ -61,6 +61,8 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 data.Request_Type_Name_AR = request_Type.Request_Type_Name_AR;
                 data.Request_Type_Name_EN = request_Type.Request_Type_Name_EN;
+                data.Desc_EN = request_Type.Desc_EN;
+                data.Desc_AR = request_Type.Desc_AR;
                 await db.SaveChangesAsync();
 
                 var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Create", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.Request_Type_ID, notes: null);
@@ -97,7 +99,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var path = HttpContext.Current.Server.MapPath("~");
                 var FilePath = Path.Combine("Images", "Request_Type", DateTime.Now.Ticks.ToString() + ".png");
 
-                var data = new Request_Type() { IS_Action = true, Deleted = false, Request_Type_Name_AR = request_Type.Request_Type_Name_AR, Request_Type_Name_EN = request_Type.Request_Type_Name_EN, Image_Path = FilePath.Replace('\\', '/') };
+                var data = new Request_Type() { IS_Action = true, Deleted = false, Request_Type_Name_AR = request_Type.Request_Type_Name_AR, Request_Type_Name_EN = request_Type.Request_Type_Name_EN, Image_Path = FilePath.Replace('\\', '/'), Desc_AR = request_Type.Desc_AR, Desc_EN = request_Type.Desc_EN };
 
                 db.Request_Type.Add(data);
 

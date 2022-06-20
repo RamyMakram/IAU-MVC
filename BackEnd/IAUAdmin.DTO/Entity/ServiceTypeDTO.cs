@@ -18,5 +18,7 @@ namespace IAUAdmin.DTO.Entity
         public string Image_Path { get; set; }
         public string Base64 { get; set; }
         public List<HttpPostedFileBase> Files { get; set; }
+        public string Desc_AR { get; set; }
+        public string Desc_EN { get; set; }
     }
 }
