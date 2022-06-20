@@ -615,7 +615,7 @@ namespace IAUBackEnd.Admin.Controllers
 					<p dir='ltr'>{message_en}</p>
 					<p dir='rtl'>{message_ar}</p>
 					";
-                SmtpClient smtpClient = new SmtpClient("mail.iau.edu.sa", 25);
+                SmtpClient smtpClient = new SmtpClient("10.30.1.101", 25);
 
                 smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
                 // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
