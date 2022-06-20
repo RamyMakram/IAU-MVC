@@ -185,6 +185,9 @@
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SystemLog.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tables_Answare.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>

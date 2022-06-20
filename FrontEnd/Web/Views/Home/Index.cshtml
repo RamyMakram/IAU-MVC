@@ -351,13 +351,11 @@
                     var mainservice_class = counter == 0 ? "stick active mainservice" : "stick mainservice";
 
                     <div class="col-md-4 col-lg-3">
-                        <div class="@mainservice_class" data-mainserviceid="@service.Service_Type_ID" data-mainservicename="@(isar ? service.Service_Type_Name_AR:service.Service_Type_Name_EN)">
-                            <img src="@(serverpath+"/"+service.Image_Path)" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="top" class="Toogle-TootipScreen"
-                                 data-bs-custom-class="beautifier"
-                                 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password.">
+                        <div class="@mainservice_class" data-mainserviceid="@service.ID" data-mainservicename="@(isar ? service.N_AR:service.N_EN)">
+                            <img src="@(serverpath+"/"+service.Image_Path)" @Html.Raw((service.DAR == null || service.DEN == null ? "" : $"data-bs-trigger=\"hover\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" class=\"Toogle-TootipScreen\" data-bs-custom-class=\"beautifier\" title=\"{(isar ? service.DAR : service.DEN)}\""))>
                             <p>
                                 @{
-                                    var names = (isar ? service.Service_Type_Name_AR : service.Service_Type_Name_EN).Replace(" ", "\n");
+                                    var names = (isar ? service.N_AR : service.N_EN).Replace(" ", "\n");
                                     @Html.Raw(names);
                                 }
 
