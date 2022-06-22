@@ -49,7 +49,7 @@ namespace AdminPanel.Controllers
                 return View();
             }
         }
-        
+
         public async Task<ActionResult> _UnitsByLocation(int? locid)
         {
             if (locid.HasValue)
@@ -63,7 +63,7 @@ namespace AdminPanel.Controllers
                     ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_AR");
                 else
                     ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_EN");
-                
+
                 ViewBag.SelectedLevel = Locations.First(q => q.Units_Location_ID == locid);
 
                 Data = APIHandeling.getData("Units/GetUnitsByLocation?locid=" + locid);
@@ -84,6 +84,46 @@ namespace AdminPanel.Controllers
                     ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_AR");
                 else
                     ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_EN");
+
+
+                return View();
+            }
+        }
+
+        public async Task<ActionResult> _UnitsByServiceType(int? sid)
+        {
+            if (sid.HasValue)
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+                var Data = APIHandeling.getData("Service_Type/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+                if (isar)
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_AR");
+                else
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_EN");
+
+                ViewBag.SelectedLevel = Services.First(q => q.Service_Type_ID == sid);
+
+                Data = APIHandeling.getData("Units/GetUnitsByServiceType?serviceType=" + sid);
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+                return View(JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString()));
+            }
+            else
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+
+                var Data = APIHandeling.getData("Service_Type/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+                if (isar)
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_AR");
+                else
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_EN");
 
 
                 return View();
