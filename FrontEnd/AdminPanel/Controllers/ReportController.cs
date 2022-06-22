@@ -49,6 +49,46 @@ namespace AdminPanel.Controllers
                 return View();
             }
         }
+        
+        public async Task<ActionResult> _UnitsByLocation(int? locid)
+        {
+            if (locid.HasValue)
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+                var Data = APIHandeling.getData("UnitsLocation/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Locations = JsonConvert.DeserializeObject<ICollection<UnitsLocDTO>>(res.result.ToString());
+                if (isar)
+                    ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_AR");
+                else
+                    ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_EN");
+                
+                ViewBag.SelectedLevel = Locations.First(q => q.Units_Location_ID == locid);
+
+                Data = APIHandeling.getData("Units/GetUnitsByLocation?locid=" + locid);
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+                return View(JsonConvert.DeserializeObject<ICollection<UnitsDTO>>(res.result.ToString()));
+            }
+            else
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+
+                var Data = APIHandeling.getData("UnitsLocation/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Locations = JsonConvert.DeserializeObject<ICollection<UnitsLocDTO>>(res.result.ToString());
+                if (isar)
+                    ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_AR");
+                else
+                    ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_EN");
+
+
+                return View();
+            }
+        }
 
         public async Task<ActionResult> _Request()
         {

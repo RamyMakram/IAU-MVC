@@ -37,6 +37,11 @@ namespace IAUBackEnd.Admin.Controllers
         {
             return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && q.LevelID == lvlid).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
         }
+        
+        public async Task<IHttpActionResult> GetUnitsByLocation(int locid)
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && q.Units_Location_ID == locid).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+        }
 
         public async Task<IHttpActionResult> GetActive()
         {
