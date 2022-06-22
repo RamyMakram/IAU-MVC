@@ -19,12 +19,19 @@ namespace IAUBackEnd.Admin.Controllers
         private MostafidDBEntities db = new MostafidDBEntities();
 
         // GET: Logs
-        public async Task<IHttpActionResult> GetAll()
+        public async Task<IHttpActionResult> GetAll(DateTime? DF, DateTime? DT)
         {
             var DateTime = Logger.GetDate().AddDays(-10);
 
 
-            var data = db.SystemLog.Include(q => q.Users).Where(q => q.TransDate >= DateTime).Select(q => new { q.ClassType, q.Method, q.TransDate, q.ID, q.UserID, q.Users, q.Notes, q.ReferID }).OrderByDescending(q => q.TransDate);
+            var data_query = db.SystemLog.Include(q => q.Users);
+
+            if (DF.HasValue && DT.HasValue)
+                data_query = data_query.Where(q => EntityFunctions.TruncateTime(q.TransDate) >= EntityFunctions.TruncateTime(DF) && EntityFunctions.TruncateTime(q.TransDate) <= EntityFunctions.TruncateTime(DT));
+            else
+                data_query = data_query.Where(q => q.TransDate >= DateTime);
+
+            var data = data_query.Select(q => new { q.ClassType, q.Method, q.TransDate, q.ID, q.UserID, q.Users, q.Notes, q.ReferID }).OrderByDescending(q => q.TransDate);
 
             var logstate = Logger.AddLog(db: db, logClass: LogClassType.Log, Method: "Get", Oldval: null, Newval: data, es: out _, syslog: out _, ID: null, notes: "Access Log System");
             if (logstate)
@@ -193,7 +200,7 @@ namespace IAUBackEnd.Admin.Controllers
                         break;
                 }
             if (systemLog.ClassType == (int)LogClassType.General_Setting)
-                log.Message = $@"<a {class_and_style.Replace("target","")} href='#'>{(isar ? (log.Notes == "Update Delayed Request Interval" ? "تعديل الوقت المستغرق للطلبات المتاخرة" : "تفعيل او تعطيل رسائل ال SMS") : (log.Notes == "Update Delayed Request Interval" ? "Update Delayed Request Interval" : "Update SMS Enable or disable"))}</a>";
+                log.Message = $@"<a {class_and_style.Replace("target", "")} href='#'>{(isar ? (log.Notes == "Update Delayed Request Interval" ? "تعديل الوقت المستغرق للطلبات المتاخرة" : "تفعيل او تعطيل رسائل ال SMS") : (log.Notes == "Update Delayed Request Interval" ? "Update Delayed Request Interval" : "Update SMS Enable or disable"))}</a>";
 
             return log;
         }

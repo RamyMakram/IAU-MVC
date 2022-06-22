@@ -12,9 +12,9 @@ namespace AdminPanel.Controllers
     public class LoggerController : BaseController
     {
         // GET: User
-        public ActionResult Home()
+        public ActionResult Home(DateTime? DF, DateTime? DT)
         {
-            var Data = APIHandeling.getData("Logs/GetAll");
+            var Data = APIHandeling.getData($"Logs/GetAll?DF={DF}&DT={DT}");
             var resJson = Data.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             if (res.success)
