@@ -130,6 +130,46 @@ namespace AdminPanel.Controllers
             }
         }
 
+        public async Task<ActionResult> _ServicesByService(int? sid)
+        {
+            if (sid.HasValue)
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+                var Data = APIHandeling.getData("Service_Type/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+                if (isar)
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_AR");
+                else
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_EN");
+
+                ViewBag.SelectedLevel = Services.First(q => q.Service_Type_ID == sid);
+
+                Data = APIHandeling.getData("Main_services/GetMainServiceByServiceType?serviceType=" + sid);
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+                return View(JsonConvert.DeserializeObject<ICollection<MainServiceDTO>>(res.result.ToString()));
+            }
+            else
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+
+                var Data = APIHandeling.getData("Service_Type/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+                if (isar)
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_AR");
+                else
+                    ViewBag.ServiceType = new SelectList(Services, "Service_Type_ID", "Service_Type_Name_EN");
+
+
+                return View();
+            }
+        }
+
         public async Task<ActionResult> _Request()
         {
             var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
