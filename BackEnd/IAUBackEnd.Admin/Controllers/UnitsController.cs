@@ -33,6 +33,11 @@ namespace IAUBackEnd.Admin.Controllers
             return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
         }
 
+        public async Task<IHttpActionResult> GetUnitsByLevel(int lvlid)
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && q.LevelID == lvlid).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+        }
+
         public async Task<IHttpActionResult> GetActive()
         {
             return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => q.IS_Action == true && !q.Deleted) });
@@ -451,7 +456,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID, string UCode, string typecode, int loc, int Level)
         {
-            char[] GenrateCode = Ref_Number?.ToCharArray()??new char[13];
+            char[] GenrateCode = Ref_Number?.ToCharArray() ?? new char[13];
             if (SubID != 0 && SubID != null)
                 GetCode(ref GenrateCode, SubID.Value, UCode, typecode[0], Level, loc);
             var code = string.Join("", GenrateCode);
