@@ -31,6 +31,16 @@ namespace IAUBackEnd.Admin.Controllers
         {
             return Ok(new ResponseClass() { success = true, result = db.Sub_Services.Where(q => q.Main_Services_ID == id && !q.Deleted) });
         }
+        /// <summary>
+        /// For Report
+        /// </summary>
+        /// <param name="id">MainServiceID</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IHttpActionResult> Sub_ServicesByMain(int id)
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Sub_Services.Where(q => q.Main_Services_ID == id && !q.Deleted).Select(q => new { q.Sub_Services_ID, q.Sub_Services_Name_EN, q.Sub_Services_Name_AR, E_Forms = q.E_Forms.Select(s => new { s.Name, s.Name_EN }) }) });
+        }
         public async Task<IHttpActionResult> GetActive()
         {
             return Ok(new ResponseClass() { success = true, result = db.Sub_Services.Where(q => q.IS_Action.Value && !q.Deleted) });
@@ -236,7 +246,7 @@ namespace IAUBackEnd.Admin.Controllers
             Sub_Services sub_Services = db.Sub_Services.Include(q => q.Request_Data).Include(q => q.E_Forms).FirstOrDefault(q => q.Sub_Services_ID == id && q.Deleted);
             if (sub_Services == null)
                 return Ok(new ResponseClass() { success = false, result = "Service Is NULL" });
-          
+
             var trans = db.Database.BeginTransaction();
             var OldVals = JsonConvert.SerializeObject(sub_Services, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
 

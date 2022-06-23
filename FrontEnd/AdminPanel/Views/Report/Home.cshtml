@@ -22,7 +22,7 @@
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
 
-    img {
+    .card-body img {
         width: 100px
     }
 
@@ -176,9 +176,9 @@
                     </div>
                     <h3>@(isar?"الخدمات":"Services")</h3>
                     <div class="container d-flex flex-column">
-                        <a href="/Report/_Request" class="Links_Die">
+                        <a href="/Report/_Sub_ServicesByMain" class="Links_Die">
                             <i class="bx bxs-paper-plane"></i>
-                            @(isar?"تقرير عرض الخدمة الرئيسية والفرعية النماذج الالكترونية":"")
+                            @(isar?"تقرير عرض الخدمة الرئيسية والفرعية والنماذج الالكترونية": "Report of Main Service and Sub service and E-forms")
                         </a>
                         <a href="/Report/_ServicesByService" class="Links_Die">
                             <i class="bx bxs-paper-plane"></i>

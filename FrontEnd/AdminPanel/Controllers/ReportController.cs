@@ -130,6 +130,52 @@ namespace AdminPanel.Controllers
             }
         }
 
+        public async Task<ActionResult> _Sub_ServicesByMain(int? id)
+        {
+            if (id.HasValue)
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+                var Data = APIHandeling.getData("Main_Services/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                if (res.success)
+                {
+                    var data = JsonConvert.DeserializeObject<ICollection<MainServiceDTO>>(res.result.ToString());
+                    if (isar)
+                        ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_AR");
+                    else
+                        ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_EN");
+                    ViewBag.SelectedLevel = data.First(q => q.Main_Services_ID == id);
+                }
+
+
+                Data = APIHandeling.getData("Sub_Services/Sub_ServicesByMain?id=" + id);
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+                return View(JsonConvert.DeserializeObject<ICollection<SubServicesDTO>>(res.result.ToString()));
+            }
+            else
+            {
+                var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+
+                var Data = APIHandeling.getData("Main_Services/GetActive");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                if (res.success)
+                {
+                    var data = JsonConvert.DeserializeObject<ICollection<MainServiceDTO>>(res.result.ToString());
+                    if (isar)
+                        ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_AR");
+                    else
+                        ViewBag.MainServices = new SelectList(data, "Main_Services_ID", "Main_Services_Name_EN");
+                }
+
+
+                return View();
+            }
+        }
+
         public async Task<ActionResult> _ServicesByService(int? sid)
         {
             if (sid.HasValue)

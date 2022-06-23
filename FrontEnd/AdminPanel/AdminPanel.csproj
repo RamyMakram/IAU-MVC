@@ -3220,6 +3220,7 @@
     <Content Include="Views\Report\Home.cshtml" />
     <Content Include="Views\Report\_UnitsByLocation.cshtml" />
     <Content Include="Views\Report\_ServicesByService.cshtml" />
+    <Content Include="Views\Report\_Sub_ServicesByMain.cshtml" />
     <None Include="Views\Report\_UnitsByLevel.cshtml" />
     <Content Include="Views\Report\_UnitsByServiceType.cshtml" />
   </ItemGroup>
