@@ -3224,6 +3224,7 @@
     <Content Include="Views\Report\_UnitsMostRequested.cshtml" />
     <None Include="Views\Report\_UnitsByLevel.cshtml" />
     <Content Include="Views\Report\_UnitsByServiceType.cshtml" />
+    <Content Include="Views\Report\_UnitsRequestedShakawa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

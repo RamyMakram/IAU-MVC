@@ -230,6 +230,16 @@ namespace AdminPanel.Controllers
                 return View();
         }
 
+        public async Task<ActionResult> _UnitsRequestedShakawa()
+        {
+
+            var Data = APIHandeling.getData($"Units/GetUnitsComplaintRequests");
+            var resJson = Data.Content.ReadAsStringAsync();
+            var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+            return View(JsonConvert.DeserializeObject<ICollection<UnitsMuchRequestsVM>>(res.result.ToString()));
+        }
+
         public async Task<ActionResult> _Request()
         {
             var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";

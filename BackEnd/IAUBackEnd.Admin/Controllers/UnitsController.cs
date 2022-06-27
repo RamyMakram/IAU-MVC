@@ -76,6 +76,22 @@ namespace IAUBackEnd.Admin.Controllers
 
             return Ok(new ResponseClass() { success = true, result = data });
         }
+
+        public async Task<IHttpActionResult> GetUnitsComplaintRequests()
+        {
+            var data = db.Request_Data
+                .Where(q =>
+                q.Request_Type.Request_Type_Name_EN.ToLower().StartsWith("compl")
+                )
+                .Select(q => q.Units)
+                .GroupBy(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.IS_Mostafid })
+                .Select(q => new { Unit = new { q.Key.Units_ID, q.Key.Units_Name_AR, q.Key.Units_Name_EN, q.Key.IS_Mostafid }, Count = q.Count() })
+                .OrderByDescending(q => q.Count)
+                .Take(10);
+
+
+            return Ok(new ResponseClass() { success = true, result = data });
+        }
         public async Task<IHttpActionResult> GetUnitSeginature(int id)
         {
             return Ok(new ResponseClass() { success = true, result = await db.Unit_Signature.FirstOrDefaultAsync(q => q.UnitID == id && !q.Deleted) });
