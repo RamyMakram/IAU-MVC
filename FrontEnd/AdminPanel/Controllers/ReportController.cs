@@ -216,6 +216,20 @@ namespace AdminPanel.Controllers
             }
         }
 
+        public async Task<ActionResult> _UnitsMostRequested(DateTime? from, DateTime? to)
+        {
+            if (from.HasValue && to.HasValue)
+            {
+                var Data = APIHandeling.getData($"Units/GetUnitsMuchRequests?from={from}&to={to}");
+                var resJson = Data.Content.ReadAsStringAsync();
+                var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+                return View(JsonConvert.DeserializeObject<ICollection<UnitsMuchRequestsVM>>(res.result.ToString()));
+            }
+            else
+                return View();
+        }
+
         public async Task<ActionResult> _Request()
         {
             var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
