@@ -21,9 +21,16 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
+    .green-color {
+        color: #4f693a !important;
+    }
 
     .card-body img {
         width: 100px
+    }
+
+    .Links_Die:hover {
+        color: #787a82;
     }
 
     .Links_Die {
@@ -110,16 +117,16 @@
         font-weight: bold;
     }
 </style>
-<div class="row justify-content-center h-100 align-items-center">
+<div class="row justify-content-start h-100 align-items-start">
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <h2>@(isar?"الطلبات":"Requests")</h2>
+                <h2 class="green-color">@(isar?"تقرير الطلبات":"Requests")</h2>
 
 
                 <div class="d-flex flex-column justify-content-center align-items-center w-100">
                     <img src="~/assets/images/Report/5860.jpg" />
-                    <p class="m-0">الوصف</p>
+                    <p class="m-0 green-color">الوصف</p>
                 </div>
 
 
@@ -137,17 +144,17 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <h2>@(isar?"مستفيد":"Mostafid")</h2>
+                <h2 class="green-color">@(isar?"تقرير مستفيد":"Mostafid")</h2>
 
 
                 <div class="d-flex flex-column justify-content-center align-items-center w-100">
                     <img src="~/assets/images/Report/5876.jpg" />
-                    <p class="m-0">الوصف</p>
+                    <p class="m-0 green-color">الوصف</p>
                 </div>
 
 
                 <div class="container">
-                    <h3>@(isar?"الفئات":"Units")</h3>
+                    <h3 class="green-color my-2">@(isar?"تقرير الفئات الادارية":"Units")</h3>
                     <div class="container d-flex flex-column">
                         <a href="/Report/_UnitsByLevel" class="Links_Die">
                             <i class="bx bxs-paper-plane"></i>
@@ -174,7 +181,7 @@
                             @(isar?"تقرير الفئات وفقاً للخدمات المقدمة": "Units report according to the services provided")
                         </a>
                     </div>
-                    <h3>@(isar?"الخدمات":"Services")</h3>
+                    <h3 class="green-color my-2">@(isar?"تقرير الخدمات":"Services")</h3>
                     <div class="container d-flex flex-column">
                         <a href="/Report/_Sub_ServicesByMain" class="Links_Die">
                             <i class="bx bxs-paper-plane"></i>

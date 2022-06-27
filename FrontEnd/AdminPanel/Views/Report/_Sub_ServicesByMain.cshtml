@@ -41,12 +41,12 @@
 <div class="row">
     <div class="col-12">
         <div class="row d-flex justify-content-center ">
-            @using (Html.BeginForm(htmlAttributes: new { @class = "col-6" }, controllerName: "Report", actionName: "_Sub_ServicesByMain", method: FormMethod.Get))
+            @using (Html.BeginForm(htmlAttributes: new { @class = "col-4" }, controllerName: "Report", actionName: "_Sub_ServicesByMain", method: FormMethod.Get))
             {
                 <div class="d-flex flex-column justify-content-center align-items-center">
-                    <div class="d-flex justify-content-around w-100">
+                    <div class="d-flex flex-column justify-content-around w-100">
                         <div class="form-group">
-                            <label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
+                            <label class="control-label font-weight-bold" key="t-title-mainservice" for="servicetype">Main servicetype</label>
                             @Html.DropDownList("id", (IEnumerable<SelectListItem>)ViewBag.MainServices, new { @class = "form-control select2", @required = "true" })
                         </div>
                     </div>

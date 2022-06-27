@@ -69,12 +69,12 @@
 <div class="row">
     <div class="col-12">
         <div class="row d-flex justify-content-center ">
-            @using (Html.BeginForm(htmlAttributes: new { @class = "col-6" }, controllerName: "Report", actionName: "_UnitsByLocation", method: FormMethod.Get))
+            @using (Html.BeginForm(htmlAttributes: new { @class = "col-4" }, controllerName: "Report", actionName: "_UnitsByLocation", method: FormMethod.Get))
             {
                 <div class="d-flex flex-column justify-content-center align-items-center">
-                    <div class="d-flex justify-content-around w-100">
+                    <div class="d-flex  flex-column justify-content-around w-100">
                         <div class="form-group">
-                            <label key="t-location" class="control-label report-filter-title">Types</label>
+                            <label key="t-location" class="control-label font-weight-bold">Types</label>
                             @Html.DropDownList("locid", (IEnumerable<SelectListItem>)ViewBag.Locations, new { @class = "form-control select2", @required = "true", @id = "LEVEID" })
                         </div>
                     </div>
