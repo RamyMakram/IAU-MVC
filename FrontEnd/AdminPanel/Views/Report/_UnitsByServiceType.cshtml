@@ -74,7 +74,7 @@
                 <div class="d-flex flex-column justify-content-center align-items-center">
                     <div class="d-flex justify-content-around w-100">
                         <div class="form-group">
-                            <label class="control-label" key="t-title-mainservice" for="servicetype">Main servicetype</label>
+                            <label class="control-label report-filter-title" key="t-title-mainservice" for="servicetype">Main servicetype</label>
                             @Html.DropDownList("sid", (IEnumerable<SelectListItem>)ViewBag.ServiceType, new { @class = "form-control select2", @required = "true", @id = "LEVEID" })
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                     var lang = Request.Cookies["lang"].Value;
                 }
                 <span style="display:none" id="lang">@lang</span>
-                <table class="jqtable-btn table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <table id="table-jq" class="jqtable-btn table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                         <tr>
                             <th key="t-name" class="showExport">Unit Name</th>
@@ -114,8 +114,8 @@
                         {
                             <tr onclick="Go(this,'@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
 
-                                <td class="TH-ar ar-font">
-                                    <span id="MainServiceImages">
+                                <td class="TH-ar ar-font showExport">
+                                    <span id="MainServiceImages" style="display:none">
                                         @foreach (var s in i.UnitServiceTypes)
                                         {
                                             <img src="@(url + "/" + s.Service_Type.Image_Path)" id="img-@(s.ServiceTypeID)" onclick="FilterMain(this,@(s.ServiceTypeID))" />
@@ -125,7 +125,7 @@
                                     <span style="color:blue;padding:0 10px;">@(i.IS_Mostafid ? "✔" : "")</span>
                                     @(i.Units_Name_AR)
                                 </td>
-                                <td class="TH-en en-font">@(i.Units_Name_EN)</td>
+                                <td class="TH-en en-font showExport">@(i.Units_Name_EN)</td>
                                 <td>
                                     @Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
                                 </td>
@@ -266,6 +266,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script src="~/assets/libs/jquery/jquery.min.js"></script>
 <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -525,9 +527,9 @@
 <script>
     $(document).ready(function () {
         let interval = setInterval(e => {
-            if ($('#datatable-buttons_filter label input').length != 0) {
+            if ($('#table-jq_filter label input').length != 0) {
                 clearInterval(interval)
-                $('#datatable-buttons_filter label input').on('keydown', function () { getLanguage() })
+                $('#table-jq_filter label input').on('keydown', function () { getLanguage() })
             }
         }, 300)
     });
@@ -551,25 +553,268 @@
 </script>
 <script>
     $(document).ready(i => {
-        var table = $('.jqtable-btn').DataTable({
+        var table = $('#table-jq').DataTable({
             "dom": 'Bfrtip',
             lengthChange: true,
-            buttons: [{
-                "extend": 'excelHtml5',
-                "text": '<i class="fa fa-file-excel mx-1" style="color:#69f469"></i> @(isar?"اكسل":"Excel")',
-                "autoFilter": true,
-                "sheetName": 'Exported data',
-                "exportOptions": {
-                    columns: '.showExport',
+            buttons: [
+                {
+                    "extend": 'excelHtml5',
+                    "text": '<i class="fa fa-file-excel mx-1" style="color:#69f469"></i> @(isar?"اكسل":"Excel")',
+                    "autoFilter": true,
+                    "sheetName": 'Exported data',
+                    "exportOptions": {
+                        columns: '.showExport',
+                    }
+                },
+                {
+                    extend: '',
+                    text: '<i class="bx bx-printer" style="color:white"></i> PDF',
+                    className: 'print-table-intial',
+                    title: ''
                 }
-            }],
+            ],
             language: {
                 url: language == "ar" ? '/assets/DataTableTrans/ar.json' : '/assets/DataTableTrans/en.json'
             },
             initComplete: function (settings, json) {
                 getLanguage()
+                $('.print-table-intial').click(() => {
+                    openWin()
+                })
             },
         });
 
     })
+
 </script>
+<script type="text/javascript">
+	const max_contentSize = 480;
+	function GetNewPage() {
+		document.getElementById('VIEwTemP__dsdm').innerHTML = ``;
+		var page_div = document.createElement("div")
+		page_div.className = "page"
+		page_div.innerHTML = `
+					<div class="watermark">
+						<img src="/assets/images/repo/iaubackgroud.jpeg" height="205px">
+					</div>
+					<div class="header" style="height: 210px;">
+						<img src="/assets/images/repo/iauHeader.jpeg" height="180px">
+					</div>
+					<div class="content">
+
+					</div>
+					 <div class="footer-pdf" style="height: 210px;">
+						<img src="/assets/images/repo/iaufooter.jpeg" height="90px">
+					</div>`
+		return page_div;
+	}
+	function GetInfoPage() {
+		var page_div = document.createElement("div")
+		page_div.className = "table-responsive"
+		page_div.innerHTML = document.getElementById('InfoData').innerHTML
+		return page_div;
+	}
+    function GetHTML() {
+        $('#VIEwTemP__dsdm').html("");
+
+		let thead = document.createElement("thead");
+		thead.innerHTML = document.querySelector('.jqtable-btn thead').innerHTML
+		var tbody_data = [];
+		let length = document.getElementsByClassName("page-link").length;
+		for (var i = 0; i < length; i++) {
+            ([...document.querySelectorAll('#table-jq tr')]).forEach(s => {
+				tbody_data.push(s);
+			})
+			if ($('#table-jq_next').hasClass("disabled"))
+				break;
+			else
+				$('#table-jq_next').click();
+		}
+		var html = document.createElement("html");
+		var head = document.createElement("head");
+		head.innerHTML = `<meta charset="UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Document</title>
+				<style>
+
+					body{
+						direction: @(isar?"rtl":"ltr");
+					}
+                    th,td{
+                        display:none!important;
+                    }
+                    .showExport{
+                        display:table-cell!important;
+                    }
+
+					.page {
+						border: 1px solid black;
+						width: 794px;
+						height: 1123px;
+						position: relative;
+					}
+
+					table {
+						margin: 12px 28px;
+						width: auto !important;
+					}
+
+					tr {
+						border: 1px solid;
+					}
+
+					th {
+						border: 1px solid;
+					}
+
+					td {
+						text-align: center;
+						border: 1px solid;
+					}
+
+					.watermark {
+						position: absolute;
+						top: 0;
+						bottom: 0;
+						right: 0;
+						width: 810px !important;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						z-index: 15;
+					}
+
+					.watermark img {
+						z-index: 15;
+
+					}
+
+					.header {
+						padding: 6px;
+					}
+					.header img {
+						height: 180px !important;
+					}
+
+					.content{
+                        width:794px !important
+
+                        }
+					.content,
+					table,
+					.header {
+						z-index: 25;
+						position: relative;
+					}
+
+					.footer-pdf {
+						position: absolute;
+						right: 0px;
+						bottom: 1px;
+						width: 794px;
+						height: 99px !important;
+						text-align: center;
+					}
+
+					 .footer-pdf img {
+						height: 90px !important;
+					 }
+					.table tbody tr th,
+					.table tbody tr td {
+						padding: 7px;
+					}
+
+					.table tbody tr th {
+						width: 200px !important;
+					}
+
+					.table tbody tr td {
+						width: auto !important;
+					}
+
+					.table {
+						width: 93% !important;
+					}
+
+					div.content.infopage {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						height: 776px;
+					}
+
+					div.content.infopage div table {
+						width: 734px !important;
+					}
+				</style>`
+		html.appendChild(head);
+		var body = document.createElement("body");
+		html.appendChild(body);
+
+		var page = GetNewPage();
+		//var Info_PG = GetInfoPage();
+		//var content = page.getElementsByClassName('content')[0];
+		//content.className += " infopage";
+		//content.appendChild(Info_PG);
+		//body.appendChild(page);
+
+		//page = GetNewPage();
+		var table = document.createElement("table");
+		table.appendChild(thead)
+		var tbody = document.createElement("tbody");
+		table.appendChild(tbody)
+		var content = page.getElementsByClassName('content')[0];
+		content.appendChild(table);
+		body.appendChild(page);
+		document.getElementById('VIEwTemP__dsdm').appendChild(html);
+
+        tbody_data.forEach(i => {
+            console.log(content.clientHeight >= max_contentSize, content.clientHeight)
+            if (content.clientHeight >= max_contentSize) {
+                console.log(i)
+				page = GetNewPage();
+				table = document.createElement("table");
+				thead = document.createElement("thead");
+                thead.innerHTML = document.querySelector('.jqtable-btn thead').innerHTML
+				table.appendChild(thead)
+				tbody = document.createElement("tbody");
+				table.appendChild(tbody)
+				content = page.getElementsByClassName('content')[0];
+				content.appendChild(table);
+				body.appendChild(page);
+				document.getElementById('VIEwTemP__dsdm').appendChild(html);
+			}
+			tbody.appendChild(i);
+		});
+        var myWindow = window.open('', '', 'width=800,height=700');
+
+		myWindow.document.write(html.innerHTML);
+		//myWindow.document.body. = function () { myWindow.print(); }
+		myWindow.addEventListener('load', (event) => {
+
+            myWindow.print();
+			//setTimeout(() => { myWindow.close();},500)
+		});
+		myWindow.document.close();
+		document.getElementById('VIEwTemP__dsdm').innerHTML = ""
+		//tbody_data.forEach(s => {
+  //          document.getElementById('table-jq').appendChild(s)
+		//})
+		$('.page-link[data-dt-idx="1"]').click()
+	}
+	function openWin() {
+		GetHTML()
+	}
+	$(document).ready(() => {
+		$('input[aria-controls="datatable-buttons"]').css({ 'display': 'none' });
+		var data = JSON.parse(localStorage.getItem('PP_sdat_rep'))
+		var keys = Object.keys(data);
+		keys.forEach(i => {
+			$("#" + i).text(data[i])
+		})
+	})
+</script>
+<div id="VIEwTemP__dsdm" style="opacity:0;height:0 !important;overflow-y: auto;">
+
+</div>
