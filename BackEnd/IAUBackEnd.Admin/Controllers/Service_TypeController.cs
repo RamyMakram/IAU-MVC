@@ -69,6 +69,8 @@ namespace IAUBackEnd.Admin.Controllers
 
                 data.Service_Type_Name_AR = service_Type.Service_Type_Name_AR;
                 data.Service_Type_Name_EN = service_Type.Service_Type_Name_EN;
+                data.Desc_AR = service_Type.Desc_AR;
+                data.Desc_EN = service_Type.Desc_EN;
                 await db.SaveChangesAsync();
 
 
@@ -105,7 +107,7 @@ namespace IAUBackEnd.Admin.Controllers
 
             try
             {
-                var new_ServiceType = new Service_Type() { IS_Action = true, Deleted = false, Service_Type_Name_AR = service_Type.Service_Type_Name_AR, Service_Type_Name_EN = service_Type.Service_Type_Name_EN, Image_Path = FilePath.Replace('\\', '/') };
+                var new_ServiceType = new Service_Type() { IS_Action = true, Deleted = false, Service_Type_Name_AR = service_Type.Service_Type_Name_AR, Service_Type_Name_EN = service_Type.Service_Type_Name_EN, Image_Path = FilePath.Replace('\\', '/'), Desc_AR = service_Type.Desc_AR, Desc_EN = service_Type.Desc_EN };
                 db.Service_Type.Add(new_ServiceType);
                 File.WriteAllBytes(Path.Combine(path, FilePath), Convert.FromBase64String(service_Type.Base64));
                 await db.SaveChangesAsync();

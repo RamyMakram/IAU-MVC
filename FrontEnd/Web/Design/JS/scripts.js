@@ -456,19 +456,19 @@ $('.mainservice').click(function (e) {//service type
                     : '<img src="/Design/img/EnRequestType.png" style="width:100%"/>')} 
 				</div>`);
             let serverpath = $('#serverpath').html()
-            let toogle = `${window.screen.width <= 700 ? "" : (`data-bs-toggle="tooltip" data-bs-placement="top"
-										 data-bs-custom-class="beautifier"
-										 title="Please include your IAU ID number, whether it is the student ID number or your ID job number, following by the Password."`)}`;
             JSON.parse(data).forEach(request => {
+                let toogle = `${window.screen.width <= 700 || request.DAR == null || request.DEN == null ? "" : (`data-bs-toggle="tooltip" data-bs-placement="top"
+										 data-bs-custom-class="beautifier"
+										 title="${language == "ar" ? request.DAR : request.DEN}"`)}`;
+
                 let data_bind = `
 							<div class="col-md-4 col-lg-3">
-								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypenameEN="${request.Name_EN}" data-requesttypename="${(language == "ar" ? request.Name_AR : request.Name_EN)}">
+								<div class="stick requesttype" data-requesttypeid="${request.ID}" data-requesttypenameEN="${request.N_EN}" data-requesttypename="${(language == "ar" ? request.N_AR : request.N_EN)}">
 									<img src="${(serverpath + "/" + request.Image_Path)}" class="Toogle-TootipScreen" ${toogle} />
-									<p>${(language == "ar" ? request.Name_AR : request.Name_EN)}</p >
+									<p>${(language == "ar" ? request.N_AR : request.N_EN)}</p >
 								</div >
 							</div >
 					`
-                console.log(data_bind)
                 $("#Request_Type_Id").append(data_bind)
             })
 
@@ -544,7 +544,7 @@ function HandelDragAndDrop(files) {
                 DropedFile.push(file)
                 counter++;
                 FileNames.push(file.name);
-                $(inquiry ? '#filesNameDrop' : '#filesNameDropOther').append("<div class='col-md-6 fileshow' data-toggle='tooltip' data-placement='bottom' title='" + file.name+"' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
+                $(inquiry ? '#filesNameDrop' : '#filesNameDropOther').append("<div class='col-md-6 fileshow' data-toggle='tooltip' data-placement='bottom' title='" + file.name + "' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
             }
         });
     }

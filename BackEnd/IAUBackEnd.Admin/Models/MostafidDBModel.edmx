@@ -175,7 +175,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="Person_ID" Type="int" Nullable="false" />
+          <Property Name="Person_ID" Type="int" />
           <Property Name="RequestID" Type="int" />
           <Property Name="Code" Type="nchar" MaxLength="2" />
           <Property Name="FillDate" Type="datetime" Nullable="false" />
@@ -332,6 +332,8 @@
           <Property Name="Request_Type_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Request_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Desc_EN" Type="nvarchar(max)" />
+          <Property Name="Desc_AR" Type="nvarchar(max)" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
@@ -383,6 +385,8 @@
           <Property Name="Service_Type_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Service_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Desc_AR" Type="nvarchar(max)" />
+          <Property Name="Desc_EN" Type="nvarchar(max)" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
@@ -710,7 +714,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Person_Eform_Personel_Data">
-          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="1" />
+          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="0..1" />
           <End Role="Person_Eform" Type="Self.Person_Eform" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personel_Data">
@@ -2269,7 +2273,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Person_ID" Type="Int32" Nullable="false" />
+          <Property Name="Person_ID" Type="Int32" />
           <Property Name="RequestID" Type="Int32" />
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="FillDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -2480,6 +2484,8 @@
           <Property Name="Request_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Desc_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Desc_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
@@ -2539,6 +2545,8 @@
           <Property Name="Service_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Service_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Desc_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Desc_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
@@ -3130,7 +3138,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Person_Eform_Personel_Data">
-          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="1" />
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Person_Eform" Role="Person_Eform" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personel_Data">
@@ -3972,6 +3980,8 @@
                 <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+                <ScalarProperty Name="Desc_AR" ColumnName="Desc_AR" />
+                <ScalarProperty Name="Desc_EN" ColumnName="Desc_EN" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Request_Type_Name_AR" ColumnName="Request_Type_Name_AR" />
                 <ScalarProperty Name="Request_Type_Name_EN" ColumnName="Request_Type_Name_EN" />
@@ -4027,6 +4037,8 @@
                 <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+                <ScalarProperty Name="Desc_EN" ColumnName="Desc_EN" />
+                <ScalarProperty Name="Desc_AR" ColumnName="Desc_AR" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Service_Type_Name_AR" ColumnName="Service_Type_Name_AR" />
                 <ScalarProperty Name="Service_Type_Name_EN" ColumnName="Service_Type_Name_EN" />
