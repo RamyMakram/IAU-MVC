@@ -32,6 +32,10 @@ namespace IAUBackEnd.Admin.Controllers
         {
             return Ok(new ResponseClass() { success = true, result = db.Main_Services.Where(q => q.IS_Action.Value && !q.Deleted) });
         }
+        public async Task<IHttpActionResult> GetMainServiceByServiceType(int servicetype)
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Main_Services.Include(q => q.Service_Type).Where(q => q.ServiceTypeID == servicetype && !q.Deleted) });
+        }
 
         [HttpPost]
         public async Task<IHttpActionResult> GetActiveWithServiceTypeAndUnit(int id, [FromBody] List<int> servicetype)

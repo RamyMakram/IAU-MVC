@@ -29,7 +29,7 @@ namespace AdminPanel.Controllers
 		public ActionResult ChangeLanguage(string lang,string redirect)
 		{
 			Response.Cookies.Add(new HttpCookie("lang", lang ?? "ar"));
-			return Redirect(redirect);
+			return Redirect(redirect??"Home");
 		}
 		public JsonResult GetOrderCount(int ID)
 		{

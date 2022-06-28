@@ -328,9 +328,9 @@
 		return page_div;
 	}
 	function GetHTML() {
-		thead = document.createElement("thead");
+		let thead = document.createElement("thead");
 		thead.innerHTML = document.querySelector('#datatable-buttons thead').innerHTML
-		var tbody_data = [];
+		let tbody_data = [];
 		let length = document.getElementsByClassName("page-link").length;
 		for (var i = 0; i < length; i++) {
 			([...document.querySelectorAll('#MailList tr')]).forEach(s => {

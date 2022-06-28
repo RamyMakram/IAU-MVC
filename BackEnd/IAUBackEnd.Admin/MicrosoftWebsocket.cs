@@ -12,9 +12,15 @@ namespace IAUBackEnd.Admin
         private static Dictionary<string, WebSocketCollection> Mapped = new Dictionary<string, WebSocketCollection>();
         public override void OnOpen()
         {
-            string name = this.WebSocketContext.QueryString["Name"];
-            Mapped[name] = new WebSocketCollection() { this };
-            clients.Add(this);
+            try
+            {
+                string name = this.WebSocketContext.QueryString["Name"];
+                Mapped[name] = new WebSocketCollection() { this };
+                clients.Add(this);
+            }
+            catch (Exception eee)
+            {
+            }
         }
         public static void SendTo(string Name, string Message)
         {

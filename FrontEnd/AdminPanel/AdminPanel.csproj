@@ -276,6 +276,8 @@
     <Content Include="assets\images\product\img-7.png" />
     <Content Include="assets\images\product\img-8.png" />
     <Content Include="assets\images\profile-img.png" />
+    <Content Include="assets\images\Report\5860.jpg" />
+    <Content Include="assets\images\Report\5876.jpg" />
     <Content Include="assets\images\repo\iaubackgroud.jpeg" />
     <Content Include="assets\images\repo\iaufooter.jpeg" />
     <Content Include="assets\images\repo\iauHeader.jpeg" />
@@ -3189,7 +3191,7 @@
     <Content Include="Views\ArchivedRequests\Preview.cshtml" />
     <Content Include="Views\GlobalSettings\Home.cshtml" />
     <Content Include="Views\DelayedTrasaction\Preview.cshtml" />
-    <Content Include="Views\Report\Home.cshtml" />
+    <Content Include="Views\Report\_Request.cshtml" />
     <Content Include="Views\Report\Filter.cshtml" />
     <Content Include="Views\EForms\script.cshtml" />
     <Content Include="Views\Shared\PrivilgesControls.cshtml" />
@@ -3215,6 +3217,14 @@
     <Content Include="Views\EForms\DeletedModelsView.cshtml" />
     <Content Include="Views\Logger\Home.cshtml" />
     <Content Include="Views\Logger\TransDetails.cshtml" />
+    <Content Include="Views\Report\Home.cshtml" />
+    <Content Include="Views\Report\_UnitsByLocation.cshtml" />
+    <Content Include="Views\Report\_ServicesByService.cshtml" />
+    <Content Include="Views\Report\_Sub_ServicesByMain.cshtml" />
+    <Content Include="Views\Report\_UnitsMostRequested.cshtml" />
+    <None Include="Views\Report\_UnitsByLevel.cshtml" />
+    <Content Include="Views\Report\_UnitsByServiceType.cshtml" />
+    <Content Include="Views\Report\_UnitsRequestedShakawa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

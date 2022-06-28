@@ -16,6 +16,7 @@ namespace IAUAdmin.DTO.Entity
 		public Nullable<DateTime> DeletedAt { get; set; }
 		public string Required { get; set; }
 		public ICollection<RequiredDocsDTO> Required_Documents { get; set; }
+		public ICollection<E_FormsDTO> E_Forms { get; set; }
 		public virtual MainServiceDTO Main_Services { get; set; }
 
 	}

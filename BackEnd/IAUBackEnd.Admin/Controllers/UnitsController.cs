@@ -17,6 +17,7 @@ using LinqKit;
 using System.Web;
 using System.IO;
 using Newtonsoft.Json;
+using System.Data.Entity.Core.Objects;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -33,6 +34,20 @@ namespace IAUBackEnd.Admin.Controllers
             return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
         }
 
+        public async Task<IHttpActionResult> GetUnitsByLevel(int lvlid)
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && q.LevelID == lvlid).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+        }
+
+        public async Task<IHttpActionResult> GetUnitsByLocation(int locid)
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && q.Units_Location_ID == locid).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+        }
+        public async Task<IHttpActionResult> GetUnitsByServiceType(int serviceType)
+        {
+            return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && (q.ServiceTypeID == serviceType || q.UnitServiceTypes.Any(w => w.ServiceTypeID == serviceType))).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+        }
+
         public async Task<IHttpActionResult> GetActive()
         {
             return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => q.IS_Action == true && !q.Deleted) });
@@ -44,6 +59,38 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> GetUniqueBuildingByLoca(int id)
         {
             return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => q.IS_Action == true && q.Units_Location_ID == id && !q.Deleted).Select(q => q.Building_Number).Distinct() });
+        }
+        public async Task<IHttpActionResult> GetUnitsMuchRequests(DateTime from, DateTime to)
+        {
+            var data = db.Request_Data
+                .Where(q =>
+                    EntityFunctions.TruncateTime(q.CreatedDate) >= from &&
+                    EntityFunctions.TruncateTime(q.CreatedDate) <= to
+                )
+                .Select(q => q.Units)
+                .GroupBy(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.IS_Mostafid })
+                .Select(q => new { Unit = new { q.Key.Units_ID, q.Key.Units_Name_AR, q.Key.Units_Name_EN, q.Key.IS_Mostafid }, Count = q.Count() })
+                .OrderByDescending(q => q.Count)
+                .Take(10);
+
+
+            return Ok(new ResponseClass() { success = true, result = data });
+        }
+
+        public async Task<IHttpActionResult> GetUnitsComplaintRequests()
+        {
+            var data = db.Request_Data
+                .Where(q =>
+                q.Request_Type.Request_Type_Name_EN.ToLower().StartsWith("compl")
+                )
+                .Select(q => q.Units)
+                .GroupBy(q => new { q.Units_ID, q.Units_Name_AR, q.Units_Name_EN, q.IS_Mostafid })
+                .Select(q => new { Unit = new { q.Key.Units_ID, q.Key.Units_Name_AR, q.Key.Units_Name_EN, q.Key.IS_Mostafid }, Count = q.Count() })
+                .OrderByDescending(q => q.Count)
+                .Take(10);
+
+
+            return Ok(new ResponseClass() { success = true, result = data });
         }
         public async Task<IHttpActionResult> GetUnitSeginature(int id)
         {
@@ -451,7 +498,7 @@ namespace IAUBackEnd.Admin.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GenrateCode(string Ref_Number, int? SubID, string UCode, string typecode, int loc, int Level)
         {
-            char[] GenrateCode = Ref_Number?.ToCharArray()??new char[13];
+            char[] GenrateCode = Ref_Number?.ToCharArray() ?? new char[13];
             if (SubID != 0 && SubID != null)
                 GetCode(ref GenrateCode, SubID.Value, UCode, typecode[0], Level, loc);
             var code = string.Join("", GenrateCode);
