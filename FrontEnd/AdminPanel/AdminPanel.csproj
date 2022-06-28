@@ -2896,7 +2896,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\_hepler_partial_views\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\app-dark.min.css.map" />
@@ -3226,6 +3225,7 @@
     <None Include="Views\Report\_UnitsByLevel.cshtml" />
     <Content Include="Views\Report\_UnitsByServiceType.cshtml" />
     <Content Include="Views\Report\_UnitsRequestedShakawa.cshtml" />
+    <Content Include="Views\Report\_UnitsEffen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAUAdmin.DTO\IAUAdmin.DTO.csproj">

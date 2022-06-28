@@ -41,5 +41,11 @@ namespace IAUBackEnd.Admin.Controllers
             }
             return Ok(new ResponseClass() { success = true, result = data });
         }
+
+        public async Task<IHttpActionResult> GetUnits()
+        {
+            var data = p.DelayedTransaction.GroupBy(q => q.Units).Select(q => new { Unit = q.Key, Count = q.Count(), DelayedDaysCount = q.Sum(s => s.Delayed) });
+            return Ok(new ResponseClass() { success = true, result = data });
+        }
     }
 }
