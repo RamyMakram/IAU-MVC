@@ -96,7 +96,7 @@
                         <i class="bx bx-bell bx-tada"></i>
                         <span class="badge badge-danger badge-pill" id="DelayedTrans-count">0</span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right" id="DelayedTrans-View" style="min-width:35rem !important">
+                    <div class="dropdown-menu dropdown-menu-right" id="DelayedTrans-View" style="min-width: 35rem !important; overflow: auto; height: 60vh;">
 
                     </div>
                 </div>
@@ -138,14 +138,14 @@
 			$(document).ready(function () {
 				$.ajax({
 					url: "/Home/GetDelayedRequests", type: "POST", success: function (d) {
-						let data = JSON.parse(d)
-
+                        let data = JSON.parse(d)
+                        console.log(data)
 						$('#DelayedTrans-count').html(data.length)
 						if (data.length != 0) {
 							let Bind = ''
 							data.forEach(i => {
 								Bind += `
-										<a class="dropdown-item ${i["Readed"] ? "" : "noreaded"}" href="/DelayedTrasaction/Preview/${i["ID"]}">@(isAr?"المعاملة رقم ":"Transaction Number ")'${i['ReqID']}'@(isAr?" معاملة متاخرة ، حالة الطلب":" is Delayed Transaction , Request Status ") ' ${i['@(isAr?"RequestStatusAR":"RequestStatusEN")']} '</a>
+										<a class="dropdown-item ${i["Readed"] ? "" : "noreaded"}" href="/DelayedTrasaction/Preview/${i["ID"]}">@(isAr?"المعاملة رقم ":"Transaction Number ")'${i['ReqID']}'@(isAr?" معاملة متاخرة ، حالة الطلب":" is Delayed Transaction , Request Status ") ' ${i['@(isAr?"RequestStatusAR":"RequestStatusEN")']} '${i["UName"] == null ? "" : `@(isAr?" في الفئة":" In Unit ") '${i["UName"]}' `}</a>
 										<div class="dropdown-divider ${i["Readed"] ? "" : "noreaded"}"></div>
 										`
 							})

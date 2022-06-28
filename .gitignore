@@ -269,3 +269,14 @@ paket-files/
 __pycache__/
 *.pyc
 /BackEnd/IAUBackEnd.Admin/RequestFiles
+/BackEnd/IAUBackEnd.Admin/Models/State.cs
+/BackEnd/IAUBackEnd.Admin/Models/Set.cs
+/BackEnd/IAUBackEnd.Admin/Models/Server.cs
+/BackEnd/IAUBackEnd.Admin/Models/Schema.cs
+/BackEnd/IAUBackEnd.Admin/Models/List.cs
+/BackEnd/IAUBackEnd.Admin/Models/JobQueue.cs
+/BackEnd/IAUBackEnd.Admin/Models/JobParameter.cs
+/BackEnd/IAUBackEnd.Admin/Models/Job1.cs
+/BackEnd/IAUBackEnd.Admin/Models/Hash.cs
+/BackEnd/IAUBackEnd.Admin/Models/Counter.cs
+/BackEnd/IAUBackEnd.Admin/Models/AggregatedCounter.cs

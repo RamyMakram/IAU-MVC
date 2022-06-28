@@ -15,19 +15,19 @@ namespace IAUBackEnd.Admin.Controllers
     public class DelayedRequestController : ApiController
     {
         private MostafidDBEntities p = new MostafidDBEntities();
-        public async Task<IHttpActionResult> GetActive(int uid)
+        public async Task<IHttpActionResult> GetActive(int uid, bool ar)
         {
-            var unit = await p.Units.FirstOrDefaultAsync(q => q.Units_ID == uid);
+            var unit = await p.Users.Include(q => q.Units).FirstOrDefaultAsync(q => q.User_ID == uid);
             if (unit == null)
                 return Ok(new ResponseClass() { success = false });
 
             var date = Helper.GetDate();
-            var query = p.DelayedTransaction.Where(q => EntityFunctions.DiffMonths(date, q.AddedDate) == 0);
-            
-            if (!unit.IS_Mostafid)
-                query = query.Where(q => q.DelayedOnUnitID == uid);/*Get My Delayed Transcations*/
+            var query = p.DelayedTransaction.Where(q => EntityFunctions.DiffMonths(date, q.AddedDate) == 0 && q.DelayedOnUnitID != null);
+            var isMos = unit.Units.IS_Mostafid;
+            if (!isMos)
+                query = query.Where(q => q.DelayedOnUnitID == unit.UnitID);/*Get My Delayed Transcations*/
 
-            var data = query.OrderByDescending(q => q.AddedDate).Select(q => new { ReqID = q.RequestID, RequestStatusAR = q.Request_State.StateName_AR, RequestStatusEN = q.Request_State.StateName_EN, q.Readed, q.ID });
+            var data = query.OrderByDescending(q => q.AddedDate).Select(q => new { ReqID = q.RequestID, RequestStatusAR = q.Request_State.StateName_AR, RequestStatusEN = q.Request_State.StateName_EN, q.Readed, q.ID, UName = (isMos ? (ar ? q.Units.Units_Name_AR : q.Units.Units_Name_EN) : null) });
             return Ok(new ResponseClass() { success = true, result = data });
         }
         public async Task<IHttpActionResult> GetTranscation(int id)
