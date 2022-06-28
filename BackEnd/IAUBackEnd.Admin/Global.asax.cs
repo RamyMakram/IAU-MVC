@@ -40,9 +40,13 @@ namespace IAUBackEnd.Admin
         }
         protected void Application_BeginRequest(object Sender, EventArgs eventE)
         {
-            string[] WS_AllowedSites = { "https://localhost:44346", "https://adminpanel.iau-bsc.com", "https://dashb-mustafid.iau.edu.sa" };
+            string[] WS_AllowedSites = { "https://localhost:44346", "https://adminpanel.iau-bsc.com", "http://adminpanel.iau-bsc.com", "https://dashb-mustafid.iau.edu.sa" };
             var contexURl = HttpContext.Current.Request.Headers.Get("Origin");
             var cridantl = HttpContext.Current.Request.Headers["crd"];
+
+            if ("/hangfire?uname=RamySSuiopd" == Request.RawUrl || Request.RawUrl.Contains("hangfire"))
+                return;
+
             if (WS_AllowedSites.Contains(contexURl) && HttpContext.Current.Request.Path == "/WSHandler.ashx")
             {
                 return;
@@ -52,7 +56,6 @@ namespace IAUBackEnd.Admin
 
             if (new string[] { "/api/User/VerfiyUser", "/api/User/Login", "/api/User/VerfiyToken", "/api/Request/NotifyUser", "/api/Request/saveApplicantData" }.Contains(HttpContext.Current.Request.Path))
                 return;
-
             int UserID = int.Parse(HttpContext.Current.Request.Headers["user"]?.ToString() ?? "-1");
             var db = new MostafidDBEntities();
             var date = Logger.GetDate().AddDays(1);

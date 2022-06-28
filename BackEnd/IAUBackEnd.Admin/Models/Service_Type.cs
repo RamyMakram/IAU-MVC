@@ -27,6 +27,8 @@ namespace IAUBackEnd.Admin.Models
         public string Service_Type_Name_EN { get; set; }
         public string Service_Type_Name_AR { get; set; }
         public Nullable<bool> IS_Action { get; set; }
+        public string Desc_AR { get; set; }
+        public string Desc_EN { get; set; }
         public string Image_Path { get; set; }
         public bool Deleted { get; set; }
         public Nullable<System.DateTime> DeletedAt { get; set; }

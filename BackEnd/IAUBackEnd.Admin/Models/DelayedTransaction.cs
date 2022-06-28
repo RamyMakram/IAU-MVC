@@ -16,6 +16,7 @@ namespace IAUBackEnd.Admin.Models
     {
         public int ID { get; set; }
         public int RequestID { get; set; }
+        public Nullable<int> DelayedOnUnitID { get; set; }
         public string RequestCode { get; set; }
         public byte RequestStatus { get; set; }
         public System.DateTime TransactionDate { get; set; }
@@ -25,5 +26,6 @@ namespace IAUBackEnd.Admin.Models
     
         public virtual Request_Data Request_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
+        public virtual Units Units { get; set; }
     }
 }
