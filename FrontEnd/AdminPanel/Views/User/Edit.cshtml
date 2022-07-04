@@ -50,7 +50,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label" key="t-name" for="name">User Name</label>
-								@Html.TextBoxFor(q => q.User_Name_Ar, new { @id = "name", @class = "form-control ar-font", @required = "true" })
+								@Html.TextBoxFor(q => q.User_Name_Ar, new { @id = "name", @class = "form-control ar-font", maxlength = "74", @required = "true" })
 							</div>
 							<div class="form-group">
 								<label class="control-label" key="t-email" for="email">Email</label>
@@ -68,7 +68,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label" key="t-enname" for="name">Name</label>
-								@Html.TextBoxFor(q => q.User_Name_En, new { @class = "form-control en-font", @name = "name", @id = "name", @required = "true" })
+								@Html.TextBoxFor(q => q.User_Name_En, new { @class = "form-control en-font", @name = "name", maxlength = "74", @id = "name", @required = "true" })
 							</div>
 
 							<div class="form-group">

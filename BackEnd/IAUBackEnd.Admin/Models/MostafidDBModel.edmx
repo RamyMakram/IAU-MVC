@@ -51,6 +51,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="DelayedOnUnitID" Type="int" />
           <Property Name="RequestCode" Type="char" MaxLength="13" />
           <Property Name="RequestStatus" Type="tinyint" Nullable="false" />
           <Property Name="TransactionDate" Type="date" Nullable="false" />
@@ -175,7 +176,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Name_EN" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="Person_ID" Type="int" Nullable="false" />
+          <Property Name="Person_ID" Type="int" />
           <Property Name="RequestID" Type="int" />
           <Property Name="Code" Type="nchar" MaxLength="2" />
           <Property Name="FillDate" Type="datetime" Nullable="false" />
@@ -332,6 +333,8 @@
           <Property Name="Request_Type_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Request_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Desc_EN" Type="nvarchar(max)" />
+          <Property Name="Desc_AR" Type="nvarchar(max)" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
@@ -383,6 +386,8 @@
           <Property Name="Service_Type_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Service_Type_Name_AR" Type="nvarchar" MaxLength="250" />
           <Property Name="IS_Action" Type="bit" />
+          <Property Name="Desc_AR" Type="nvarchar(max)" />
+          <Property Name="Desc_EN" Type="nvarchar(max)" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
@@ -549,7 +554,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="150" />
           <Property Name="User_Mobile" Type="nvarchar" MaxLength="20" />
           <Property Name="User_Email" Type="nvarchar" MaxLength="100" />
           <Property Name="User_Password" Type="nvarchar" MaxLength="20" />
@@ -571,6 +576,8 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_CheckBox_Type_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -618,6 +625,18 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="DelayedTransaction" Type="Self.DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -710,7 +729,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Person_Eform_Personel_Data">
-          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="1" />
+          <End Role="Personel_Data" Type="Self.Personel_Data" Multiplicity="0..1" />
           <End Role="Person_Eform" Type="Self.Person_Eform" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personel_Data">
@@ -1478,6 +1497,10 @@
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="Self.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_E-Forms_Answer_Person_Eform" Association="Self.FK_E-Forms_Answer_Person_Eform">
             <End Role="Person_Eform" EntitySet="Person_Eform" />
             <End Role="E-Forms_Answer" EntitySet="E-Forms_Answer" />
@@ -1836,6 +1859,10 @@
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="MostafidDBModel.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
             <End Role="Sub_Services" EntitySet="Sub_Services" />
             <End Role="E_Forms" EntitySet="E_Forms" />
@@ -2068,7 +2095,7 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
             <PropertyRef Name="Applicant_Type_ID" />
@@ -2124,6 +2151,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="DelayedOnUnitID" Type="Int32" />
           <Property Name="RequestCode" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
           <Property Name="RequestStatus" Type="Byte" Nullable="false" />
           <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -2132,6 +2160,7 @@
           <Property Name="Readed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_Data" FromRole="DelayedTransaction" ToRole="Request_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_State" FromRole="DelayedTransaction" ToRole="Request_State" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_DelayedTransaction_Units" FromRole="DelayedTransaction" ToRole="Units" />
         </EntityType>
         <EntityType Name="E_Forms">
           <Key>
@@ -2269,7 +2298,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Name_EN" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Person_ID" Type="Int32" Nullable="false" />
+          <Property Name="Person_ID" Type="Int32" />
           <Property Name="RequestID" Type="Int32" />
           <Property Name="Code" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="FillDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -2480,6 +2509,8 @@
           <Property Name="Request_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Desc_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Desc_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
@@ -2539,6 +2570,8 @@
           <Property Name="Service_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Service_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Desc_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Desc_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
@@ -2672,6 +2705,7 @@
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDBModel.FK_DelayedTransaction_Units" FromRole="Units" ToRole="DelayedTransaction" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Units" FromRole="Units" ToRole="E_Forms" />
           <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDBModel.FK_Preview_EformApproval_Units" FromRole="Units" ToRole="Preview_EformApproval" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
@@ -2746,7 +2780,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -2904,6 +2938,18 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.DelayedTransaction" Role="DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3130,7 +3176,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Person_Eform_Personel_Data">
-          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="1" />
+          <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Person_Eform" Role="Person_Eform" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personel_Data">
@@ -3674,6 +3720,7 @@
                 <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
                 <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
                 <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
+                <ScalarProperty Name="DelayedOnUnitID" ColumnName="DelayedOnUnitID" />
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -3972,6 +4019,8 @@
                 <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+                <ScalarProperty Name="Desc_AR" ColumnName="Desc_AR" />
+                <ScalarProperty Name="Desc_EN" ColumnName="Desc_EN" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Request_Type_Name_AR" ColumnName="Request_Type_Name_AR" />
                 <ScalarProperty Name="Request_Type_Name_EN" ColumnName="Request_Type_Name_EN" />
@@ -4027,6 +4076,8 @@
                 <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+                <ScalarProperty Name="Desc_EN" ColumnName="Desc_EN" />
+                <ScalarProperty Name="Desc_AR" ColumnName="Desc_AR" />
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
                 <ScalarProperty Name="Service_Type_Name_AR" ColumnName="Service_Type_Name_AR" />
                 <ScalarProperty Name="Service_Type_Name_EN" ColumnName="Service_Type_Name_EN" />
@@ -4233,7 +4284,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
