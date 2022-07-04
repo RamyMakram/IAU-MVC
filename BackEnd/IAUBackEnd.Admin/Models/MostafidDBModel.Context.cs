@@ -59,7 +59,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Separator> Separator { get; set; }
         public virtual DbSet<Service_Type> Service_Type { get; set; }
         public virtual DbSet<Sub_Services> Sub_Services { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<SystemLog> SystemLog { get; set; }
         public virtual DbSet<Table_Columns> Table_Columns { get; set; }
         public virtual DbSet<Tables_Answare> Tables_Answare { get; set; }

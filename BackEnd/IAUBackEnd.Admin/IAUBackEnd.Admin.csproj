@@ -404,9 +404,6 @@
     <Compile Include="Models\Sub_Services.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>MostafidDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SystemLog.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>

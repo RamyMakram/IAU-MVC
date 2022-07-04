@@ -404,16 +404,6 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="SystemLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -554,7 +544,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="150" />
           <Property Name="User_Mobile" Type="nvarchar" MaxLength="20" />
           <Property Name="User_Email" Type="nvarchar" MaxLength="100" />
           <Property Name="User_Password" Type="nvarchar" MaxLength="20" />
@@ -576,6 +566,8 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_CheckBox_Type_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1464,7 +1456,6 @@
           <EntitySet Name="Separator" EntityType="Self.Separator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Columns" EntityType="Self.Table_Columns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tables_Answare" EntityType="Self.Tables_Answare" Schema="dbo" store:Type="Tables" />
@@ -1798,7 +1789,6 @@
           <EntitySet Name="Separator" EntityType="MostafidDBModel.Separator" />
           <EntitySet Name="Service_Type" EntityType="MostafidDBModel.Service_Type" />
           <EntitySet Name="Sub_Services" EntityType="MostafidDBModel.Sub_Services" />
-          <EntitySet Name="sysdiagrams" EntityType="MostafidDBModel.sysdiagrams" />
           <EntitySet Name="SystemLog" EntityType="MostafidDBModel.SystemLog" />
           <EntitySet Name="Table_Columns" EntityType="MostafidDBModel.Table_Columns" />
           <EntitySet Name="Tables_Answare" EntityType="MostafidDBModel.Tables_Answare" />
@@ -1812,9 +1802,14 @@
           <EntitySet Name="Units_Type" EntityType="MostafidDBModel.Units_Type" />
           <EntitySet Name="UnitServiceTypes" EntityType="MostafidDBModel.UnitServiceTypes" />
           <EntitySet Name="Users" EntityType="MostafidDBModel.Users" />
+          <EntitySet Name="ValidTo" EntityType="MostafidDBModel.ValidTo" />
           <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="MostafidDBModel.FK_Personel_Data_Applicant_Type">
             <End Role="Applicant_Type" EntitySet="Applicant_Type" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="MostafidDBModel.FK_ValidTo_Applicant_Type">
+            <End Role="Applicant_Type" EntitySet="Applicant_Type" />
+            <End Role="ValidTo" EntitySet="ValidTo" />
           </AssociationSet>
           <AssociationSet Name="FK_CheckBox_Type_Question" Association="MostafidDBModel.FK_CheckBox_Type_Question">
             <End Role="Question" EntitySet="Question" />
@@ -1919,6 +1914,10 @@
           <AssociationSet Name="FK_UnitMainServices_Main_Services" Association="MostafidDBModel.FK_UnitMainServices_Main_Services">
             <End Role="Main_Services" EntitySet="Main_Services" />
             <End Role="UnitMainServices" EntitySet="UnitMainServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ValidTo_Main_Services" Association="MostafidDBModel.FK_ValidTo_Main_Services">
+            <End Role="Main_Services" EntitySet="Main_Services" />
+            <End Role="ValidTo" EntitySet="ValidTo" />
           </AssociationSet>
           <AssociationSet Name="FK_Paragraph_Question" Association="MostafidDBModel.FK_Paragraph_Question">
             <End Role="Question" EntitySet="Question" />
@@ -2083,15 +2082,6 @@
           <AssociationSet Name="FK_Users_Units" Association="MostafidDBModel.FK_Users_Units">
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <EntitySet Name="ValidTo" EntityType="MostafidDBModel.ValidTo" />
-          <AssociationSet Name="FK_ValidTo_Applicant_Type" Association="MostafidDBModel.FK_ValidTo_Applicant_Type">
-            <End Role="Applicant_Type" EntitySet="Applicant_Type" />
-            <End Role="ValidTo" EntitySet="ValidTo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ValidTo_Main_Services" Association="MostafidDBModel.FK_ValidTo_Main_Services">
-            <End Role="Main_Services" EntitySet="Main_Services" />
-            <End Role="ValidTo" EntitySet="ValidTo" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
@@ -2594,16 +2584,6 @@
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
           <NavigationProperty Name="Required_Documents" Relationship="MostafidDBModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="SystemLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -2778,7 +2758,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -2793,6 +2773,18 @@
           <NavigationProperty Name="SystemLog" Relationship="MostafidDBModel.FK_SystemLog_Users" FromRole="Users" ToRole="SystemLog" />
           <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
         </EntityType>
+        <EntityType Name="ValidTo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MainServiceID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicantTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Applicant_Type" Relationship="MostafidDBModel.FK_ValidTo_Applicant_Type" FromRole="ValidTo" ToRole="Applicant_Type" />
+          <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_ValidTo_Main_Services" FromRole="ValidTo" ToRole="Main_Services" />
+        </EntityType>
         <Association Name="FK_Personel_Data_Applicant_Type">
           <End Type="MostafidDBModel.Applicant_Type" Role="Applicant_Type" Multiplicity="0..1" />
           <End Type="MostafidDBModel.Personel_Data" Role="Personel_Data" Multiplicity="*" />
@@ -2802,6 +2794,18 @@
             </Principal>
             <Dependent Role="Personel_Data">
               <PropertyRef Name="Applicant_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValidTo_Applicant_Type">
+          <End Type="MostafidDBModel.Applicant_Type" Role="Applicant_Type" Multiplicity="1" />
+          <End Type="MostafidDBModel.ValidTo" Role="ValidTo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant_Type">
+              <PropertyRef Name="Applicant_Type_ID" />
+            </Principal>
+            <Dependent Role="ValidTo">
+              <PropertyRef Name="ApplicantTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3119,6 +3123,18 @@
               <PropertyRef Name="Main_Services_ID" />
             </Principal>
             <Dependent Role="UnitMainServices">
+              <PropertyRef Name="MainServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ValidTo_Main_Services">
+          <End Type="MostafidDBModel.Main_Services" Role="Main_Services" Multiplicity="1" />
+          <End Type="MostafidDBModel.ValidTo" Role="ValidTo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Main_Services">
+              <PropertyRef Name="Main_Services_ID" />
+            </Principal>
+            <Dependent Role="ValidTo">
               <PropertyRef Name="MainServiceID" />
             </Dependent>
           </ReferentialConstraint>
@@ -3623,42 +3639,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ValidTo">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MainServiceID" Type="Int32" Nullable="false" />
-          <Property Name="ApplicantTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Applicant_Type" Relationship="MostafidDBModel.FK_ValidTo_Applicant_Type" FromRole="ValidTo" ToRole="Applicant_Type" />
-          <NavigationProperty Name="Main_Services" Relationship="MostafidDBModel.FK_ValidTo_Main_Services" FromRole="ValidTo" ToRole="Main_Services" />
-        </EntityType>
-        <Association Name="FK_ValidTo_Applicant_Type">
-          <End Type="MostafidDBModel.Applicant_Type" Role="Applicant_Type" Multiplicity="1" />
-          <End Type="MostafidDBModel.ValidTo" Role="ValidTo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Applicant_Type">
-              <PropertyRef Name="Applicant_Type_ID" />
-            </Principal>
-            <Dependent Role="ValidTo">
-              <PropertyRef Name="ApplicantTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ValidTo_Main_Services">
-          <End Type="MostafidDBModel.Main_Services" Role="Main_Services" Multiplicity="1" />
-          <End Type="MostafidDBModel.ValidTo" Role="ValidTo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Main_Services">
-              <PropertyRef Name="Main_Services_ID" />
-            </Principal>
-            <Dependent Role="ValidTo">
-              <PropertyRef Name="MainServiceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4096,17 +4076,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="MostafidDBModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SystemLog">
             <EntityTypeMapping TypeName="MostafidDBModel.SystemLog">
               <MappingFragment StoreEntitySet="SystemLog">
@@ -4282,7 +4251,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
