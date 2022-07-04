@@ -1085,11 +1085,11 @@ namespace IAUBackEnd.Admin.Controllers
             return $"new({SelectQuery})";
         }
         [HttpPost]
-        public async Task<IHttpActionResult> ReportRequests(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
+        public async Task<IHttpActionResult> ReportRequests(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns, bool EndedRequest)
         {
             try
             {
-                var Pred = PredicateBuilder.New<Request_Data>(q => q.Is_Archived);
+                var Pred = PredicateBuilder.New<Request_Data>(q => q.Is_Archived == EndedRequest);
                 if (ST.HasValue)
                     Pred.And(q => q.Service_Type_ID == ST);
                 if (RT.HasValue)
@@ -1104,9 +1104,9 @@ namespace IAUBackEnd.Admin.Controllers
                 if (DT.HasValue)
                     Pred.And(q => q.CreatedDate <= DT);
                 if (location.HasValue)
-                    Pred.And(q => q.RequestTransaction.Count(s => s.Units.Units_Location_ID == location) != 0);
+                    Pred.And(q => q.RequestTransaction.Any(s => s.Units.Units_Location_ID == location));
                 if (Unit.HasValue)
-                    Pred.And(q => q.RequestTransaction.Count(s => s.ToUnitID == Unit) != 0);
+                    Pred.And(q => q.RequestTransaction.Any(s => s.ToUnitID == Unit) || q.Unit_ID == Unit);
                 if (ReqStatus.HasValue)
                     Pred.And(q => q.Request_State_ID == ReqStatus);
                 if (ReqSource.HasValue)

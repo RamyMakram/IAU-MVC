@@ -107,121 +107,132 @@
 			<div class="card-body">
 				@using (Html.BeginForm("", "", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "FilterForm" }))
 				{
-					<div class="row w-100 h-100 m-0">
-						<div class="col-6 form-group">
-							<label key="t-mainservice" class="control-label"></label>
-							<select name="ST" class="form-control select2">
-								<option selected value="null" key="t-all">@(isAr ? "الكل" : "All")</option>
-								@foreach (var i in ViewBag.ServiceType)
-								{
-									<option value="@i.Service_Type_ID">@(isAr ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
-								}
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-request-type" class="control-label"></label>
-							<select name="RT" class="form-control select2">
-								<option selected value="null" key="t-all">@(isAr ? "الكل" : "All")</option>
-								@foreach (var i in ViewBag.ReqTypes)
-								{
-									<option value="@i.Request_Type_ID">@(isAr ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
-								}
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-IAUAff" class="control-label"></label>
-							<select name="MT" class="form-control select2">
-								<option value="null">@(isAr ? "الكل" : "All")</option>
-								<option value="0" key="t-no"></option>
-								<option value="1" key="t-yes"></option>
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-location" class="control-label">Loactions</label>
-							@Html.DropDownList("location", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @id = "LocationIDSelect" })
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-units-short" class="control-label">Types</label>
-							@Html.DropDownList("Unit", (ViewBag.Units as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @id = "UnitsSelect" })
-						</div>
+                <div class="row w-100 h-100 m-0">
+                    <div class="col-6 form-group">
+                        <label key="t-mainservice" class="control-label"></label>
+                        <select name="ST" class="form-control select2">
+                            <option selected value="null" key="t-all">@(isAr ? "الكل" : "All")</option>
+                            @foreach (var i in ViewBag.ServiceType)
+                            {
+                                <option value="@i.Service_Type_ID">@(isAr ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label key="t-request-type" class="control-label"></label>
+                        <select name="RT" class="form-control select2">
+                            <option selected value="null" key="t-all">@(isAr ? "الكل" : "All")</option>
+                            @foreach (var i in ViewBag.ReqTypes)
+                            {
+                                <option value="@i.Request_Type_ID">@(isAr ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label key="t-IAUAff" class="control-label"></label>
+                        <select name="MT" class="form-control select2">
+                            <option value="null">@(isAr ? "الكل" : "All")</option>
+                            <option value="0" key="t-no"></option>
+                            <option value="1" key="t-yes"></option>
+                        </select>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label key="t-location" class="control-label">Loactions</label>
+                        @Html.DropDownList("location", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @id = "LocationIDSelect" })
+                    </div>
+                    <div class="col-6 form-group">
+                        <label key="t-units-short" class="control-label">Types</label>
+                        @Html.DropDownList("Unit", (ViewBag.Units as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @id = "UnitsSelect" })
+                    </div>
 
-						<div class="col-6 form-group">
-							<label key="t-activeTitle" class="control-label">Types</label>
-							<select name="ReqStatus" class="form-control select2">
-								<option value="null">@(isAr ? "الكل" : "All")</option>
+                    <div class="col-6 form-group">
+                        <label key="t-activeTitle" class="control-label">Types</label>
+                        <select name="ReqStatus" class="form-control select2">
+                            <option value="null">@(isAr ? "الكل" : "All")</option>
 
-								@foreach (var i in ViewBag.Status as ICollection<IAUAdmin.DTO.Entity.RequestStatusDTO>)
-								{
-									<option value="@i.State_ID">@(isAr ? i.StateName_AR : i.StateName_EN)</option>
-								}
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-e-source" class="control-label">المصدر</label>
-							@Html.DropDownList("ReqSource", (ViewBag.Source as IEnumerable<SelectListItem>).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control", @name = "source", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-						</div>
+                            @foreach (var i in ViewBag.Status as ICollection<IAUAdmin.DTO.Entity.RequestStatusDTO>)
+                            {
+                                <option value="@i.State_ID">@(isAr ? i.StateName_AR : i.StateName_EN)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label key="t-e-source" class="control-label">المصدر</label>
+                        @Html.DropDownList("ReqSource", (ViewBag.Source as IEnumerable<SelectListItem>).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control", @name = "source", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
+                    </div>
 
 
-						<div class="col-6 d-inline-flex justify-content-around">
-							<div class="form-group">
-								<label class="control-label" key="t-date-from">From</label>
-								<input name="DF" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(-5).ToString("yyy-MM-dd"))" />
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-date-to">To</label>
-								<input name="DT" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
-							</div>
-						</div>
-						<div class="col-12 d-inline-flex justify-content-center">
+                    <div class="col-6 d-inline-flex justify-content-around">
+                        <div class="form-group">
+                            <label class="control-label" key="t-date-from">From</label>
+                            <input name="DF" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(-5).ToString("yyy-MM-dd"))" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" key="t-date-to">To</label>
+                            <input name="DT" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+                        </div>
+                    </div>
 
-							<div class="main">
-								<div class="container">
-									<div class="list-1">
-										<h3 class="text-center p-2">@(isAr ? "المتاح" : "Available")</h3>
-										<hr />
-										<ul class="list1">
-											<li data-key="ServiceType" class="active"> @(isAr?"نوع الخدمة": "Service Type")  </li>
-											<li data-key="RequestType">@(isAr?"نوع الطلب": "Request Type")  </li>
-											<li data-key="RequestStatus"> @(isAr?"حالة الطلب": "Request Status")  </li>
-											<li data-key="Code"> @(isAr?"رقم الطلب": "Code")  </li>
-											<li data-key="CDate"> @(isAr? "تاريخ الإنشاء" : "Creation Date")  </li>
-											<li data-key="IAU_ID_Number"> @(isAr?"رقم المستفيد": "IAU ID Number") </li>
-											<li data-key="ApplicantType"> @(isAr?"نوع مقدم الطلب": "Applicant Type")  </li>
-											<li data-key="Middle_Name"> @(isAr? "الاسم الأوسط" : "Middle Name")  </li>
-											<li data-key="Last_Name"> @(isAr? "الاسم الأخير" : "Last Name")  </li>
-											<li data-key="Nationality"> @(isAr?"الجنسية": "Nationality")  </li>
-											<li data-key="ID_Number"> @(isAr?"رقم الهوية": "ID Number")  </li>
-											<li data-key="Country"> @(isAr?"": "Country")</li>
-											<li data-key="City"> @(isAr?"": "City")  </li>
-											<li data-key="Region"> @(isAr?"": "Region")  </li>
-											<li data-key="Postal_Code"> @(isAr?"الرقم البريدي": "Postal Code")  </li>
-										</ul>
-									</div>
-								</div>
-								<div class="container-2">
-									<div class=" transfer  px-3">
-										<input type='button' class="btn btn-outline-info my-3" value='>' id='move_right' />
-										<input type='button' class="btn btn-outline-info my-3" value='<' id='move_left' />
-									</div>
-								</div>
-								<div class="container-3">
-									<div class="list-2">
-										<h3 class="text-center p-2">@(isAr ? "المعروض" : "Viewed")</h3>
-										<hr />
-										<ul class="list2">
-											<li data-key="First_Name"> @(isAr?"الاسم الاول": "First Name")  </li>
-											<li data-key="Mobile"> @(isAr?"رقم الهاتف": "Mobile") </li>
-											<li data-key="Email"> @(isAr?"البريد الالكتروني": "Email")  </li>
-										</ul>
-									</div>
-								</div>
-								<input class="hidden d-none" name="Columns" id="cols" />
-							</div>
-						</div>
-						<div class="col-12 justify-content-center d-flex">
-							<input class="btn btn-primary w-50" id="btn-filter" type="button" value="@(isAr?"فرز":"Filter")" />
-						</div>
-					</div>
+                    <div class="row d-flex justify-content-center w-100">
+                        <div class="col-6 form-group">
+                            <label class="control-label">@(isAr?"نوع الطلبات المعروضة":"Type Of Viewed Requests")</label>
+                            <select name="Request_state_Type" class="form-control select2">
+                                <option value="True">@(isAr ? "الطلبات المنتهية" : "Ended Requests")</option>
+                                <option value="False">@(isAr ? "الطلبات تحت العمل" : "Requests Under Work")</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 d-inline-flex justify-content-center">
+
+                        <div class="main">
+                            <div class="container">
+                                <div class="list-1">
+                                    <h3 class="text-center p-2">@(isAr ? "المتاح" : "Available")</h3>
+                                    <hr />
+                                    <ul class="list1">
+                                        <li data-key="ServiceType" class="active"> @(isAr?"نوع الخدمة": "Service Type")  </li>
+                                        <li data-key="RequestType">@(isAr?"نوع الطلب": "Request Type")  </li>
+                                        <li data-key="RequestStatus"> @(isAr?"حالة الطلب": "Request Status")  </li>
+                                        <li data-key="Code_Generate"> @(isAr?"رقم الطلب": "Code")  </li>
+                                        <li data-key="CreatedDate"> @(isAr? "تاريخ الإنشاء" : "Creation Date")  </li>
+                                        <li data-key="IAU_ID_Number"> @(isAr?"رقم المستفيد": "IAU ID Number") </li>
+                                        <li data-key="ApplicantType"> @(isAr?"نوع مقدم الطلب": "Applicant Type")  </li>
+                                        <li data-key="Middle_Name"> @(isAr? "الاسم الأوسط" : "Middle Name")  </li>
+                                        <li data-key="Last_Name"> @(isAr? "الاسم الأخير" : "Last Name")  </li>
+                                        <li data-key="Nationality"> @(isAr?"الجنسية": "Nationality")  </li>
+                                        <li data-key="ID_Number"> @(isAr?"رقم الهوية": "ID Number")  </li>
+                                        <li data-key="Country"> @(isAr?"الدولة": "Country")</li>
+                                        <li data-key="City"> @(isAr?"المدينة": "City")  </li>
+                                        <li data-key="Region"> @(isAr?"المنطقة": "Region")  </li>
+                                        <li data-key="Postal_Code"> @(isAr?"الرقم البريدي": "Postal Code")  </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="container-2">
+                                <div class=" transfer  px-3">
+                                    <input type='button' class="btn btn-outline-info my-3" value='>' id='move_right' />
+                                    <input type='button' class="btn btn-outline-info my-3" value='<' id='move_left' />
+                                </div>
+                            </div>
+                            <div class="container-3">
+                                <div class="list-2">
+                                    <h3 class="text-center p-2">@(isAr ? "المعروض" : "Viewed")</h3>
+                                    <hr />
+                                    <ul class="list2">
+                                        <li data-key="First_Name"> @(isAr?"الاسم الاول": "First Name")  </li>
+                                        <li data-key="Mobile"> @(isAr?"رقم الهاتف": "Mobile") </li>
+                                        <li data-key="Email"> @(isAr?"البريد الالكتروني": "Email")  </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <input class="hidden d-none" name="Columns" id="cols" />
+                        </div>
+                    </div>
+                    <div class="col-12 justify-content-center d-flex">
+                        <input class="btn btn-primary w-50" id="btn-filter" type="button" value="@(isAr?"فرز":"Filter")" />
+                    </div>
+                </div>
 				}
 			</div>
 		</div>

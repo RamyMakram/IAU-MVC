@@ -3192,7 +3192,7 @@
     <Content Include="Views\GlobalSettings\Home.cshtml" />
     <Content Include="Views\DelayedTrasaction\Preview.cshtml" />
     <Content Include="Views\Report\_Request.cshtml" />
-    <Content Include="Views\Report\Filter.cshtml" />
+    <Content Include="Views\Report\_Request_Filter.cshtml" />
     <Content Include="Views\EForms\script.cshtml" />
     <Content Include="Views\Shared\PrivilgesControls.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
