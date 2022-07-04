@@ -121,12 +121,36 @@ namespace IAUBackEnd.Admin.Controllers
             var Unit = db.Users.Include(q => q.Units).FirstOrDefault(q => q.User_ID == UserID && !q.Deleted).Units;
             if (Unit.IS_Mostafid)
             {
-                var data = db.Request_Data.Where(q => !q.Is_Archived && q.Request_State_ID != 5 && q.RequestTransaction.Count() != 0 && (q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == "" || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == null)).Select(q => new { q.Required_Fields_Notes, q.Request_Data_ID, q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Readed, q.Request_State_ID, }).Distinct().OrderByDescending(q => q.Request_Data_ID);
+                var data = db.Request_Data.Where(q => !q.Is_Archived && q.Request_State_ID != 5 && q.RequestTransaction.Count() != 0 && (q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == "" || q.RequestTransaction.OrderByDescending(s => s.ID).FirstOrDefault().Comment == null))
+                    .Select(q =>
+                    new
+                    {
+                        q.Required_Fields_Notes,
+                        q.Request_Data_ID,
+                        q.Service_Type,
+                        q.Request_Type,
+                        q.Personel_Data,
+                        q.CreatedDate,
+                        q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Readed,
+                        q.Request_State_ID,
+                        Units = q.RequestTransaction.OrderByDescending(w => w.ID).FirstOrDefault().Units1,
+
+                    }).Distinct().OrderByDescending(q => q.Request_Data_ID);
                 return Ok(new ResponseClass() { success = true, result = data });
             }
             else
             {
-                var data = db.RequestTransaction.Where(w => !w.Request_Data.Is_Archived && (w.Comment != "" && w.Comment != null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q => new { q.Request_Data.Required_Fields_Notes, q.Request_Data.Request_Data_ID, q.Request_Data.Service_Type, q.Request_Data.Request_Type, q.Request_Data.Personel_Data, q.Request_Data.CreatedDate, q.Request_Data.Readed }).Distinct().OrderByDescending(q => q.CreatedDate);
+                var data = db.RequestTransaction.Where(w => !w.Request_Data.Is_Archived && (w.Comment != "" && w.Comment != null) && w.ToUnitID == Unit.Units_ID && w.Request_Data.Request_State_ID != 5).Select(q =>
+                new
+                {
+                    q.Request_Data.Required_Fields_Notes,
+                    q.Request_Data.Request_Data_ID,
+                    q.Request_Data.Service_Type,
+                    q.Request_Data.Request_Type,
+                    q.Request_Data.Personel_Data,
+                    q.Request_Data.CreatedDate,
+                    q.Request_Data.Readed
+                }).Distinct().OrderByDescending(q => q.CreatedDate);
                 return Ok(new ResponseClass() { success = true, result = data });
             }
         }

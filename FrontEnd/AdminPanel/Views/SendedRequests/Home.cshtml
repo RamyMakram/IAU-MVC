@@ -44,6 +44,7 @@
 @{
     var lang = Request.Cookies["lang"].Value;
     var count = 1;
+    var ShowToUnit = Model.All(q => q.Units != null);
 }
 
 <div class="row">
@@ -65,6 +66,10 @@
                             <th key="t-IAUAff">IS IAU</th>
                             <th key="t-mostafidname">Name</th>
                             <th key="t-date">Date</th>
+                            @if (ShowToUnit)
+                            {
+                                <th>@(lang == "ar" ? "الجهة الموجه لها الطلب" : "To Unit")</th>
+                            }
                             <th key="t-comment">Comment</th>
                         </tr>
                     </thead>
@@ -90,7 +95,10 @@
                                 <td class="en-font">
                                     @(i.CreatedDate.ToString("MM/dd - HH:mm"))
                                 </td>
-
+                                @if (ShowToUnit)
+                                {
+                                    <td>@(lang == "ar" ? i.Units.Units_Name_AR: i.Units.Units_Name_EN)</td>
+                                }
                                 <td>
                                     <div class="dropdown dropbtn">
                                         @(i.Required_Fields_Notes == null ? "" : string.Join("", i.Required_Fields_Notes.Take(15).ToArray()) + " ...")
