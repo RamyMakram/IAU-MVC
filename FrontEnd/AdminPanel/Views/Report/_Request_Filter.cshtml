@@ -40,7 +40,7 @@
                             <tbody>
                                 <tr>
                                     <th scope="row" style="width: 400px;">@(isAr?"نوع الطلبات المعروضة":"Type Of Viewed Requests")</th>
-                                    <td id="Request_state_Type">@(Request.QueryString["Request_state_Type"] =="True"? (isAr ? "الطلبات المنتهية" : "Ended Requests") : (isAr ? "الطلبات تحت العمل" : "Requests Under Work"))</td>
+                                    <td id="Request_state_Type">@(Request.QueryString["Request_state_Type"] =="True"? (isAr ? "الطلبات المنجزة" : "Ended Requests") : (isAr ? "الطلبات غير المنجزة" : "Opend Requests"))</td>
                                 </tr>
                                 <tr>
                                     <th scope="row" style="width: 400px;">@(isAr?"الخدمة الاساسية":"Main Service")</th>
