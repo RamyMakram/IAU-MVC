@@ -578,7 +578,7 @@ namespace IAUBackEnd.Admin.Controllers
 
                 new Thread(() =>
                 {
-                    _ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعة", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 48 hours");
+                    _ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال 3 ساعات", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 3 hours");
                 }).Start();
                 return Ok(new
                 {
