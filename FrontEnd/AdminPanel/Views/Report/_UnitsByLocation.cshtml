@@ -3,14 +3,14 @@
 @{
     var selectedlevel = ViewBag.SelectedLevel as IAUAdmin.DTO.Entity.UnitsLocDTO;
 
-    ViewBag.Title = "Statistics | Units report by Location" + (selectedlevel?.Units_Location_Name_EN == null ? "" : $" | '{selectedlevel?.Units_Location_Name_EN}'");
-    ViewBag.arTitle = "التقارير والاحصائيات | تقرير الفئات حسب الموقع" + (selectedlevel?.Units_Location_Name_AR == null ? "" : $" | '{selectedlevel?.Units_Location_Name_AR}'");
+    ViewBag.Title = "Statistics | Units report by Campus" + (selectedlevel?.Units_Location_Name_EN == null ? "" : $" | '{selectedlevel?.Units_Location_Name_EN}'");
+    ViewBag.arTitle = "التقارير والاحصائيات | تقرير الفئات حسب الحرم الجامعي" + (selectedlevel?.Units_Location_Name_AR == null ? "" : $" | '{selectedlevel?.Units_Location_Name_AR}'");
 
     ViewBag.pTitle = "Statistics";
     ViewBag.arpageTitle = "التقارير والاحصائيات";
 
-    ViewBag.pTitle = "Units report by Location";
-    ViewBag.arpTitle = "تقرير الفئات حسب الموقع";
+    ViewBag.pTitle = "Units report by Campus";
+    ViewBag.arpTitle = "تقرير الفئات حسب الحرم الجامعي";
 
     Layout = "~/Views/Shared/_Layout.cshtml";
     var ShowDelete = (TempData["Permissions"] as string[]).Contains("Delete Item");
@@ -30,6 +30,7 @@
 <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <!-- Sweet Alert-->
 <link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<script src="~/assets/libs/chart.js/Chart.bundle.min.js"></script>
 <style>
     #MainServiceImages, #hidden {
         display: none;
@@ -64,18 +65,44 @@
     .control-label::after {
         content: ":"
     }
+
+    .g-filter,
+    .g-filter > div > div {
+        margin: 10px;
+        margin-top: 0;
+    }
 </style>
 <span id="mainsservicesTExts" style="display:none" key="t-subservices"></span>
 <div class="row">
     <div class="col-12">
         <div class="row d-flex justify-content-center ">
-            @using (Html.BeginForm(htmlAttributes: new { @class = "col-4" }, controllerName: "Report", actionName: "_UnitsByLocation", method: FormMethod.Get))
+            @using (Html.BeginForm(htmlAttributes: new { @class = "col-12" }, controllerName: "Report", actionName: "_UnitsByLocation", method: FormMethod.Get))
             {
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                    <div class="d-flex  flex-column justify-content-around w-100">
-                        <div class="form-group">
-                            <label key="t-location" class="control-label font-weight-bold">Types</label>
-                            @Html.DropDownList("locid", (IEnumerable<SelectListItem>)ViewBag.Locations, new { @class = "form-control select2", @required = "true", @id = "LEVEID" })
+                <div class="d-flex flex-column justify-content-between align-items-center g-filter">
+                    <div class="d-flex  flex-row w-100 g-filter">
+                        <div class="d-flex  flex-column justify-content-around w-100">
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">@(isar?"الحرم الجامعي":"")</label>
+                                @Html.DropDownList("locid", ((IEnumerable<SelectListItem>)ViewBag.Locations)@*.Prepend(new SelectListItem() { Text = isar ? "الكل" : "All", Value = "null" })*@, new { @class = "form-control select2", @required = "true" })
+                            </div>
+                        </div>
+                        <div class="d-flex  flex-column justify-content-around w-100">
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">@(isar?"المستوي":"")</label>
+                                @Html.DropDownList("lvl", ((IEnumerable<SelectListItem>)ViewBag.Levels).Prepend(new SelectListItem() { Text = isar ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @required = "true" })
+                            </div>
+                        </div>
+                        <div class="d-flex  flex-column justify-content-around w-100">
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">@(isar?"المباني":"")</label>
+                                @Html.TextBox("loc", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="d-flex  flex-column justify-content-around w-100">
+                            <div class="form-group">
+                                <label class="control-label font-weight-bold">@(isar?"الخدمات":"")</label>
+                                @Html.DropDownList("serv", ((IEnumerable<SelectListItem>)ViewBag.ServiceType).Prepend(new SelectListItem() { Text = isar ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @required = "true" })
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-primary w-50">@(isar?"فرز":"Filter")</button>
@@ -96,59 +123,70 @@
                     var lang = Request.Cookies["lang"].Value;
                 }
                 <span style="display:none" id="lang">@lang</span>
-                <table class="jqtable-btn table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                    <thead>
-                        <tr>
-                            <th key="t-name" class="showExport">Unit Name</th>
-                            <th key="t-enname" class="showExport">Type En Name</th>
-                            <th key="t-activeTitle">Status</th>
-                            <th key="t-unit-home-mainservices">MainServices</th>
-                            <th key="t-user">MainServices</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                <div class="row">
+                    <div class="col-6">
+                        <canvas id="myChart" width="400" height="200"></canvas>
 
-                    <tbody>
+                    </div>
+                    <div class="col-6">
+                        <canvas id="myChart2" width="400" height="200"></canvas>
 
-                        @foreach (var i in (Model ?? new List<IAUAdmin.DTO.Entity.UnitsDTO>()))
-                        {
-                            <tr onclick="Go(this,'@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
+                    </div>
+                </div>
 
-                                <td class="TH-ar ar-font">
-                                    <span id="MainServiceImages">
-                                        @foreach (var s in i.UnitServiceTypes)
-                                        {
-                                            <img src="@(url + "/" + s.Service_Type.Image_Path)" id="img-@(s.ServiceTypeID)" onclick="FilterMain(this,@(s.ServiceTypeID))" />
-                                        }
-                                        <img src="@(url + "/" + i.Service_Type.Image_Path)" id="img-@(i.Service_Type.Service_Type_ID)" onclick="FilterMain(this,@(i.Service_Type.Service_Type_ID))" />
-                                    </span>
-                                    <span style="color:blue;padding:0 10px;">@(i.IS_Mostafid ? "✔" : "")</span>
-                                    @(i.Units_Name_AR)
-                                </td>
-                                <td class="TH-en en-font">@(i.Units_Name_EN)</td>
-                                <td>
-                                    @Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" type="button" onclick="getMainService(event,this, '@(i.Units_ID)', '[@(string.Join(",", i.UnitServiceTypes.Select(q => q.ServiceTypeID).ToArray()))]')" key="t-unit-home-mainservices">MainService</button>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" type="button" onclick="getUsers(event,this, '@(i.Units_ID)')" key="t-user">Users</button>
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
-                                    @{
-                                        if (ShowDelete)
-                                        {
-                                            <button class="btn btn-primary" onclick="Delete('@i.Units_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
-                                        }
-                                    }
-                                </td>
+                @*<table class="jqtable-btn table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th key="t-name" class="showExport">Unit Name</th>
+                                <th key="t-enname" class="showExport">Type En Name</th>
+                                <th key="t-activeTitle">Status</th>
+                                <th key="t-unit-home-mainservices">MainServices</th>
+                                <th key="t-user">MainServices</th>
+                                <th></th>
                             </tr>
-                        }
+                        </thead>
 
-                    </tbody>
-                </table>
+                        <tbody>
+
+                            @foreach (var i in (Model ?? new List<IAUAdmin.DTO.Entity.UnitsDTO>()))
+                            {
+                                <tr onclick="Go(this,'@Url.Action("Detials", "Units", new { Id = i.Units_ID })')">
+
+                                    <td class="TH-ar ar-font">
+                                        <span id="MainServiceImages">
+                                            @foreach (var s in i.UnitServiceTypes)
+                                            {
+                                                <img src="@(url + "/" + s.Service_Type.Image_Path)" id="img-@(s.ServiceTypeID)" onclick="FilterMain(this,@(s.ServiceTypeID))" />
+                                            }
+                                            <img src="@(url + "/" + i.Service_Type.Image_Path)" id="img-@(i.Service_Type.Service_Type_ID)" onclick="FilterMain(this,@(i.Service_Type.Service_Type_ID))" />
+                                        </span>
+                                        <span style="color:blue;padding:0 10px;">@(i.IS_Mostafid ? "✔" : "")</span>
+                                        @(i.Units_Name_AR)
+                                    </td>
+                                    <td class="TH-en en-font">@(i.Units_Name_EN)</td>
+                                    <td>
+                                        @Html.ActionLink("Active", i.IS_Action.Value ? "Deactive" : "Active", "Units", new { Id = i.Units_ID }, new { @class = i.IS_Action.Value ? "btn btn-primary active" : "btn btn-danger deactive", @key = i.IS_Action.Value ? "t-active-Home" : "t-deactive-Home" })
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" type="button" onclick="getMainService(event,this, '@(i.Units_ID)', '[@(string.Join(",", i.UnitServiceTypes.Select(q => q.ServiceTypeID).ToArray()))]')" key="t-unit-home-mainservices">MainService</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" type="button" onclick="getUsers(event,this, '@(i.Units_ID)')" key="t-user">Users</button>
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { Id = i.Units_ID }, new { @class = "btn btn-primary", @key = "t-edit" })
+                                        @{
+                                            if (ShowDelete)
+                                            {
+                                                <button class="btn btn-primary" onclick="Delete('@i.Units_ID')">@(Request.Cookies["lang"].Value == "ar" ? "حذف" : "Delete")</button>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>*@
             </div>
         </div>
     </div> <!-- end col -->
@@ -304,6 +342,94 @@
 <!-- Sweet Alerts js -->
 <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="~/assets/js/app.js"></script>
+<script>
+    @{
+        var dataModel_grouped = Model.OrderByDescending(q=>q.LevelID).GroupBy(q => new{ q.Units_Type_ID,q.Units_Type.Units_Type_Name_AR,q.Units_Type.Units_Type_Name_EN}).Select(q => new { q.Key, Count = q.Count() });
+        var lbls_digram = string.Join(",",dataModel_grouped.Select(s => (isar ? s.Key.Units_Type_Name_AR : s.Key.Units_Type_Name_EN)).Distinct().ToList());
+        var lbls_digram_count = string.Join(",",dataModel_grouped.Select(s => s.Count));
+
+        var rgb_colors = new string[]
+        {
+            "RGB(128,0,0)",
+            "RGB(240,230,140)",
+            "RGB(165,42,42)",
+            "RGB(152,251,152)",
+            "RGB(220,20,60)",
+            "RGB(0,255,255)",
+            "RGB(32,178,170)",
+            "RGB(255,215,0)",
+            "RGB(189,183,107)",
+            "RGB(255,255,0)",
+            "RGB(173,255,47)",
+        };
+    }
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: '@lbls_digram'.split(','),
+            datasets: [{
+                label: '@(isar?"توزيع الفئات علي انواع الخدمات":"")',
+                data: '@lbls_digram_count'.split(','),
+                backgroundColor: [
+                    "RGB(128,0,0)",
+                    "RGB(240,230,140)",
+                    "RGB(105,42,42)",
+                    "RGB(152,251,152)",
+                    "RGB(220,20,60)",
+                    "RGB(0,255,255)",
+                    "RGB(32,178,170)",
+                    "RGB(255,215,0)",
+                    "RGB(189,183,107)",
+                    "RGB(255,255,0)",
+                    "RGB(173,255,47)",
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const myChart2 = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: '@lbls_digram'.split(','),
+            datasets: [{
+                label: '@(isar?"بيانات الوحدات طبقا لنوع الفئات":"")',
+                data: '@lbls_digram_count'.split(','),
+               @* backgroundColor: '@(string.Join(",",rgb_colors.Take(lbls_digram.Count())))'.split(','),*@
+                backgroundColor: [
+                    "RGB(128,0,0)",
+                    "RGB(240,230,140)",
+                    "RGB(105,42,42)",
+                    "RGB(152,251,152)",
+                    "RGB(220,20,60)",
+                    "RGB(0,255,255)",
+                    "RGB(32,178,170)",
+                    "RGB(255,215,0)",
+                    "RGB(189,183,107)",
+                    "RGB(255,255,0)",
+                    "RGB(173,255,47)",
+                ],
+                hoverOffset: 4
+            }]
+        }
+    });
+</script>
 @if (ShowDelete)
 {
 
