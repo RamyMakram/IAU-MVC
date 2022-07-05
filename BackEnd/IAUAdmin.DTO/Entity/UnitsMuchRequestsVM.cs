@@ -10,5 +10,6 @@ namespace IAUAdmin.DTO.Entity
     {
         public UnitsDTO Unit { get; set; }
         public int Count { get; set; }
+        public int DelayedDaysCount { get; set; }
     }
 }

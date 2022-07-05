@@ -39,9 +39,19 @@ namespace IAUBackEnd.Admin.Controllers
             return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && q.LevelID == lvlid).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
         }
 
-        public async Task<IHttpActionResult> GetUnitsByLocation(int locid)
+        public async Task<IHttpActionResult> GetUnitsByLocation(int locid, int? level, string loc, int? Service)
         {
-            return Ok(new ResponseClass() { success = true, result = db.Units.Where(q => !q.Deleted && q.Units_Location_ID == locid).Include(q => q.UnitServiceTypes).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) }) });
+            var query = db.Units.Where(q => !q.Deleted && q.Units_Location_ID == locid);
+            if (level.HasValue)
+                query = query.Where(q => q.LevelID == level.Value);
+            if (Service.HasValue)
+                query = query.Where(q => q.ServiceTypeID == Service || q.UnitServiceTypes.Any(s => s.ServiceTypeID == Service));
+            if (loc != null)
+                query = query.Where(q => q.Building_Number == loc.ToUpper());
+
+
+            var data = query.Include(q => q.UnitServiceTypes).Include(q => q.Units_Type).Include(q => q.Service_Type).Select(q => new { q.IS_Mostafid, q.Service_Type, q.Units_ID, q.Units_Name_EN, q.Units_Name_AR, q.IS_Action, q.Units_Type, UnitServiceTypes = q.UnitServiceTypes.Select(w => new { w.ID, w.ServiceTypeID, w.Service_Type }) });
+            return Ok(new ResponseClass() { success = true, result = data });
         }
         public async Task<IHttpActionResult> GetUnitsByServiceType(int serviceType)
         {

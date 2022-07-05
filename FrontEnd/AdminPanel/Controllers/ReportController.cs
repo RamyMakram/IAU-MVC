@@ -50,7 +50,7 @@ namespace AdminPanel.Controllers
             }
         }
 
-        public async Task<ActionResult> _UnitsByLocation(int? locid)
+        public async Task<ActionResult> _UnitsByLocation(int? locid, int? lvl, string loc, int? serv)
         {
             if (locid.HasValue)
             {
@@ -66,7 +66,21 @@ namespace AdminPanel.Controllers
 
                 ViewBag.SelectedLevel = Locations.First(q => q.Units_Location_ID == locid);
 
-                Data = APIHandeling.getData("Units/GetUnitsByLocation?locid=" + locid);
+                Data = APIHandeling.getData("Service_Type/GetActive");
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+                ViewBag.ServiceType = Services.ToList().ConvertAll(q => { return new SelectListItem() { Value = q.Service_Type_ID.ToString(), Text = isar ? q.Service_Type_Name_AR : q.Service_Type_Name_EN }; });
+
+                Data = APIHandeling.getData("UnitLevels/GetUnitLevelForUnit");
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Levels = JsonConvert.DeserializeObject<ICollection<UnitLevelDTO>>(res.result.ToString());
+                ViewBag.Levels = Levels.ToList().ConvertAll(q => { return new SelectListItem() { Value = q.ID.ToString(), Text = q.Code + " - " + (isar ? q.Name_AR : q.Name_EN), Selected = false }; });
+
+
+
+                Data = APIHandeling.getData($"Units/GetUnitsByLocation?locid={locid}&level={lvl}&loc={loc}&Service={serv}");
                 resJson = Data.Content.ReadAsStringAsync();
                 res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 
@@ -85,6 +99,18 @@ namespace AdminPanel.Controllers
                 else
                     ViewBag.Locations = new SelectList(Locations, "Units_Location_ID", "Units_Location_Name_EN");
 
+
+                Data = APIHandeling.getData("Service_Type/GetActive");
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Services = JsonConvert.DeserializeObject<ICollection<ServiceTypeDTO>>(res.result.ToString());
+                ViewBag.ServiceType = Services.ToList().ConvertAll(q => { return new SelectListItem() { Value = q.Service_Type_ID.ToString(), Text = isar ? q.Service_Type_Name_AR : q.Service_Type_Name_EN }; });
+
+                Data = APIHandeling.getData("UnitLevels/GetUnitLevelForUnit");
+                resJson = Data.Content.ReadAsStringAsync();
+                res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+                var Levels = JsonConvert.DeserializeObject<ICollection<UnitLevelDTO>>(res.result.ToString());
+                ViewBag.Levels = Levels.ToList().ConvertAll(q => { return new SelectListItem() { Value = q.ID.ToString(), Text = isar ? q.Name_AR : q.Name_EN }; });
 
                 return View();
             }
@@ -240,6 +266,16 @@ namespace AdminPanel.Controllers
             return View(JsonConvert.DeserializeObject<ICollection<UnitsMuchRequestsVM>>(res.result.ToString()));
         }
 
+        public async Task<ActionResult> _UnitsEffen()
+        {
+
+            var Data = APIHandeling.getData($"DelayedRequest/GetUnits");
+            var resJson = Data.Content.ReadAsStringAsync();
+            var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+
+            return View(JsonConvert.DeserializeObject<ICollection<UnitsMuchRequestsVM>>(res.result.ToString()));
+        }
+
         public async Task<ActionResult> _Request()
         {
             var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
@@ -283,13 +319,13 @@ namespace AdminPanel.Controllers
             ViewBag.Status = JsonConvert.DeserializeObject<ICollection<RequestStatusDTO>>(res.result.ToString());
             return View();
         }
-        public async Task<ActionResult> FilterRequest(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
+        public async Task<ActionResult> FilterRequest(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns, bool Request_state_Type)
         {
-            var Data = APIHandeling.Post($"Request/ReportRequests?RT={RT}&ST={ST}&MT={MT}&DF={DF}&DT={DT}&location={location}&Unit={Unit}&ReqStatus={ReqStatus}&ReqSource={ReqSource}&Columns={Columns}", "");
+            var Data = APIHandeling.Post($"Request/ReportRequests?RT={RT}&ST={ST}&MT={MT}&DF={DF}&DT={DT}&location={location}&Unit={Unit}&ReqStatus={ReqStatus}&ReqSource={ReqSource}&Columns={Columns}&EndedRequest={Request_state_Type}", "");
             var resJson = await Data.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson);
             if (res.success)
-                return View("Filter", JsonConvert.DeserializeObject<ICollection<RequestReportDTO>>(res.result.ToString()));
+                return View("_Request_Filter", JsonConvert.DeserializeObject<ICollection<RequestReportDTO>>(res.result.ToString()));
             else
                 return RedirectToAction("Home");
         }
