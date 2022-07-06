@@ -396,6 +396,16 @@
     <Content Include="assets\libs\bs-custom-file-input\bs-custom-file-input.min.js" />
     <Content Include="assets\libs\chance\chance.min.js" />
     <Content Include="assets\libs\chart.js\Chart.bundle.min.js" />
+    <Content Include="assets\libs\chart.js\chart.esm.js" />
+    <Content Include="assets\libs\chart.js\chart.esm.min.js" />
+    <Content Include="assets\libs\chart.js\chart.js" />
+    <Content Include="assets\libs\chart.js\chart.min.js" />
+    <Content Include="assets\libs\chart.js\helpers.esm.js" />
+    <Content Include="assets\libs\chart.js\helpers.esm.min.js" />
+    <Content Include="assets\libs\chartjs-plugin-datalabels\chartjs-plugin-datalabels.esm.js" />
+    <Content Include="assets\libs\chartjs-plugin-datalabels\chartjs-plugin-datalabels.esm.min.js" />
+    <Content Include="assets\libs\chartjs-plugin-datalabels\chartjs-plugin-datalabels.js" />
+    <Content Include="assets\libs\chartjs-plugin-datalabels\chartjs-plugin-datalabels.min.js" />
     <Content Include="assets\libs\cropperjs\cropper.min.css" />
     <Content Include="assets\libs\cropperjs\cropper.min.js" />
     <Content Include="assets\libs\datatables.net-autoFill-bs4\css\autoFill.bootstrap4.min.html" />

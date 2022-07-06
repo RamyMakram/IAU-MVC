@@ -13,6 +13,15 @@
     {
       "library": "bootstrap-multiselect@1.1.1",
       "destination": "assets/libs/bootstrap-multiselect/"
+    },
+    {
+      "library": "chartjs-plugin-datalabels@2.0.0",
+      "destination": "assets/libs/chartjs-plugin-datalabels/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "Chart.js@3.8.0",
+      "destination": "assets/libs/Chart.js/"
     }
   ]
 }

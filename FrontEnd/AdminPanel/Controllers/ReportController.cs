@@ -49,7 +49,20 @@ namespace AdminPanel.Controllers
                 return View();
             }
         }
-
+        public async Task<ContentResult> GetLocation(int id)
+        {
+            var isar = Request.Cookies["lang"] == null || Request.Cookies["lang"].Value == "ar";
+            var Data = APIHandeling.getData($"Units/GetBuildNumbersByLocation?locid={id}");
+            var resJson = Data.Content.ReadAsStringAsync();
+            var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            var Locations = JsonConvert.DeserializeObject<ICollection<string>>(res.result.ToString());
+            var locs = $"<option value='null'>{(isar ? "الكل" : "All")}</option>";
+            foreach (var i in Locations)
+            {
+                locs += $"<option value='{i}'>{i}</option>";
+            }
+            return base.Content(locs, "text/html");
+        }
         public async Task<ActionResult> _UnitsByLocation(int? locid, int? lvl, string loc, int? serv)
         {
             if (locid.HasValue)
