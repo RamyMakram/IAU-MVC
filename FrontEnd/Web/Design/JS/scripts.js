@@ -290,7 +290,7 @@ $("#right-arrow").click(function () {
         if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال") {
             let controls = $('#provider,#Sub_Services_ID,#Main_Services_ID,#Required_Fields_Notes');
             ([...controls]).forEach(e => {
-                if (e.value == "" || e.value == null || e.value == "null") {
+                if (e.value == "" || e.value == null || e.value == "null" || e.value.replace(' ', '').length == 0) {
                     $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
                     error = true;
                     return;
@@ -325,7 +325,7 @@ $("#right-arrow").click(function () {
         }
         else {
             ([...$('#providerOther,#Required_Fields_Notes_Other')]).forEach(e => {
-                if (e.value == "" || e.value == null || e.value == "null") {
+                if (e.value == "" || e.value == null || e.value == "null" || e.value.replace(' ', '').length == 0) {
                     $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
                     error = true;
                     return;
@@ -544,7 +544,7 @@ function HandelDragAndDrop(files) {
                 DropedFile.push(file)
                 counter++;
                 FileNames.push(file.name);
-                $(inquiry ? '#filesNameDrop' : '#filesNameDropOther').append("<div class='col-md-6 fileshow' data-toggle='tooltip' data-placement='bottom' title='" + file.name+"' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
+                $(inquiry ? '#filesNameDrop' : '#filesNameDropOther').append("<div class='col-md-6 fileshow' data-toggle='tooltip' data-placement='bottom' title='" + file.name + "' data-filename='" + file.name + "'  id='support-doc" + counter + "'>" + file.name.slice(0, 7) + ".. \t (" + Math.ceil(file.size / 1024) + " kb) <meter min=1 max=10 value=10></meter> <i class='far fa-times-circle' " + `onclick="deleteFileSupport('support-doc${counter}',this)"></i></div>`)
             }
         });
     }
