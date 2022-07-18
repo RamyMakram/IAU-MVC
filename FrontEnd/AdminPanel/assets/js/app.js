@@ -351,8 +351,8 @@ $(document).ajaxComplete(function () {
             if ("WebSocket" in window) {
 
                 //var ws = new WebSocket("wss://be-mustafid.iau.edu.sa/WSHandler.ashx?Name=" + User);
-                var ws = new WebSocket("wss://localhost:44344/WSHandler.ashx?Name=" + User);
-                //var ws = new WebSocket("wss://mm.iau-bsc.com/WSHandler.ashx?Name=" + User);
+                //var ws = new WebSocket("wss://localhost:44344/WSHandler.ashx?Name=" + User);
+                var ws = new WebSocket("ws://mm.iau-bsc.com/WSHandler.ashx?Name=" + User);
 
                 ws.onopen = function () {
                 };

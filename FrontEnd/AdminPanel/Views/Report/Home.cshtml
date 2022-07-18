@@ -1,12 +1,12 @@
 ﻿@{
-	ViewBag.Title = "Statistics";
-	ViewBag.pTitle = "Statistics";
-	ViewBag.pageTitle = "Home";
-	ViewBag.arTitle = "التقارير والاحصائيات";
-	ViewBag.arpageTitle = "التقارير والاحصائيات";
-	ViewBag.arpTitle = "الرئيسية";
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	var isAr = Request.Cookies["lang"].Value == "ar";
+    ViewBag.Title = "Statistics";
+    ViewBag.pTitle = "Statistics";
+    ViewBag.pageTitle = "Home";
+    ViewBag.arTitle = "التقارير والاحصائيات";
+    ViewBag.arpageTitle = "التقارير والاحصائيات";
+    ViewBag.arpTitle = "الرئيسية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var isar = Request.Cookies["lang"].Value == "ar";
 
 }
 <!-- Summernote css -->
@@ -21,211 +21,181 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
+    .green-color {
+        color: #4f693a !important;
+    }
 
+    .card-body img {
+        width: 100px
+    }
 
-	.main {
-		margin: 20px auto;
-		display: flex;
-	}
+    .Links_Die:hover {
+        color: #787a82;
+    }
 
-	.container {
-		text-align: center;
-		float: left;
-		width: 200px;
-		display: inline-block;
-		border: 1px solid black;
-	}
+    .Links_Die {
+        color: #2a3042;
+        font-size: 20px;
+        font-weight: lighter;
+    }
 
-		.container.list-1 ul {
-			height: 100%;
-		}
+    .main {
+        margin: 20px auto;
+        display: flex;
+    }
+    /*
+    .container {
+        text-align: center;
+        float: left;
+        width: 200px;
+        display: inline-block;
+        border: 1px solid black;
+    }*/
 
-	.container-2 {
-		text-align: center;
-		border: 1px solid black;
-		padding: 33% 0;
-		cursor: pointer;
-	}
+    .container.list-1 ul {
+        height: 100%;
+    }
 
-		.container-2 p {
-			margin: 0 15px;
-		}
+    .container-2 {
+        text-align: center;
+        border: 1px solid black;
+        padding: 33% 0;
+        cursor: pointer;
+    }
 
-	.container-3 {
-		text-align: center;
-		width: 200px;
-		float: right;
-		box-sizing: border-box;
-		display: inline-block;
-		border: 1px solid black;
-		margin: 0 auto;
-	}
+        .container-2 p {
+            margin: 0 15px;
+        }
 
-	.transfer {
-		display: grid;
-	}
+    .container-3 {
+        text-align: center;
+        width: 200px;
+        float: right;
+        box-sizing: border-box;
+        display: inline-block;
+        border: 1px solid black;
+        margin: 0 auto;
+    }
 
-	.selected {
-		background-color: #0a1332 !important;
-		color: white;
-	}
+    .transfer {
+        display: grid;
+    }
 
-	ul {
-		list-style: none;
-		margin: 0;
-		padding: 15px 0 !important;
-		overflow: auto;
-	}
+    .selected {
+        background-color: #0a1332 !important;
+        color: white;
+    }
 
-	li {
-		cursor: pointer;
-	}
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 15px 0 !important;
+        overflow: auto;
+    }
 
-	.select2-selection__rendered {
-		font-weight: normal;
-	}
+    li {
+        cursor: pointer;
+    }
 
-	.select2-selection__rendered, .select2-selection__arrow {
-		margin-top: 3px;
-	}
+    .select2-selection__rendered {
+        font-weight: normal;
+    }
 
-	span.select2-selection.select2-selection {
-		height: 36px !important;
-	}
+    .select2-selection__rendered, .select2-selection__arrow {
+        margin-top: 3px;
+    }
 
-	label.control-label::after {
-		content: ":";
-	}
+    span.select2-selection.select2-selection {
+        height: 36px !important;
+    }
 
-	label.control-label {
-		font-weight: bold;
-	}
+    label.control-label::after {
+        content: ":";
+    }
+
+    label.control-label {
+        font-weight: bold;
+    }
 </style>
-<div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
-				@using (Html.BeginForm("", "", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "FilterForm" }))
-				{
-					<div class="row w-100 h-100 m-0">
-						<div class="col-6 form-group">
-							<label key="t-mainservice" class="control-label"></label>
-							<select name="ST" class="form-control select2">
-								<option selected value="null" key="t-all">@(isAr ? "الكل" : "All")</option>
-								@foreach (var i in ViewBag.ServiceType)
-								{
-									<option value="@i.Service_Type_ID">@(isAr ? i.Service_Type_Name_AR : i.Service_Type_Name_EN)</option>
-								}
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-request-type" class="control-label"></label>
-							<select name="RT" class="form-control select2">
-								<option selected value="null" key="t-all">@(isAr ? "الكل" : "All")</option>
-								@foreach (var i in ViewBag.ReqTypes)
-								{
-									<option value="@i.Request_Type_ID">@(isAr ? i.Request_Type_Name_AR : i.Request_Type_Name_EN)</option>
-								}
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-IAUAff" class="control-label"></label>
-							<select name="MT" class="form-control select2">
-								<option value="null">@(isAr ? "الكل" : "All")</option>
-								<option value="0" key="t-no"></option>
-								<option value="1" key="t-yes"></option>
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-location" class="control-label">Loactions</label>
-							@Html.DropDownList("location", (ViewBag.Locations as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @id = "LocationIDSelect" })
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-units-short" class="control-label">Types</label>
-							@Html.DropDownList("Unit", (ViewBag.Units as SelectList).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @id = "UnitsSelect" })
-						</div>
-
-						<div class="col-6 form-group">
-							<label key="t-activeTitle" class="control-label">Types</label>
-							<select name="ReqStatus" class="form-control select2">
-								<option value="null">@(isAr ? "الكل" : "All")</option>
-
-								@foreach (var i in ViewBag.Status as ICollection<IAUAdmin.DTO.Entity.RequestStatusDTO>)
-								{
-									<option value="@i.State_ID">@(isAr ? i.StateName_AR : i.StateName_EN)</option>
-								}
-							</select>
-						</div>
-						<div class="col-6 form-group">
-							<label key="t-e-source" class="control-label">المصدر</label>
-							@Html.DropDownList("ReqSource", (ViewBag.Source as IEnumerable<SelectListItem>).Prepend(new SelectListItem() { Text = isAr ? "الكل" : "All", Value = "null" }), new { @class = "select2 form-control", @name = "source", @dir = @Request.Cookies["lang"].Value == "ar" ? "rtl" : "ltr" })
-						</div>
+<div class="row justify-content-start h-100 align-items-start">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="green-color">@(isar?"تقرير الطلبات":"Requests")</h2>
 
 
-						<div class="col-6 d-inline-flex justify-content-around">
-							<div class="form-group">
-								<label class="control-label" key="t-date-from">From</label>
-								<input name="DF" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(-5).ToString("yyy-MM-dd"))" />
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-date-to">To</label>
-								<input name="DT" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
-							</div>
-						</div>
-						<div class="col-12 d-inline-flex justify-content-center">
+                <div class="d-flex flex-column justify-content-center align-items-center w-100">
+                    <img src="~/assets/images/Report/5860.jpg" />
+                    <p class="m-0 green-color">الوصف</p>
+                </div>
 
-							<div class="main">
-								<div class="container">
-									<div class="list-1">
-										<h3 class="text-center p-2">@(isAr ? "المتاح" : "Available")</h3>
-										<hr />
-										<ul class="list1">
-											<li data-key="ServiceType" class="active"> @(isAr?"نوع الخدمة": "Service Type")  </li>
-											<li data-key="RequestType">@(isAr?"نوع الطلب": "Request Type")  </li>
-											<li data-key="RequestStatus"> @(isAr?"حالة الطلب": "Request Status")  </li>
-											<li data-key="Code"> @(isAr?"رقم الطلب": "Code")  </li>
-											<li data-key="CDate"> @(isAr? "تاريخ الإنشاء" : "Creation Date")  </li>
-											<li data-key="IAU_ID_Number"> @(isAr?"رقم المستفيد": "IAU ID Number") </li>
-											<li data-key="ApplicantType"> @(isAr?"نوع مقدم الطلب": "Applicant Type")  </li>
-											<li data-key="Middle_Name"> @(isAr? "الاسم الأوسط" : "Middle Name")  </li>
-											<li data-key="Last_Name"> @(isAr? "الاسم الأخير" : "Last Name")  </li>
-											<li data-key="Nationality"> @(isAr?"الجنسية": "Nationality")  </li>
-											<li data-key="ID_Number"> @(isAr?"رقم الهوية": "ID Number")  </li>
-											<li data-key="Country"> @(isAr?"": "Country")</li>
-											<li data-key="City"> @(isAr?"": "City")  </li>
-											<li data-key="Region"> @(isAr?"": "Region")  </li>
-											<li data-key="Postal_Code"> @(isAr?"الرقم البريدي": "Postal Code")  </li>
-										</ul>
-									</div>
-								</div>
-								<div class="container-2">
-									<div class=" transfer  px-3">
-										<input type='button' class="btn btn-outline-info my-3" value='>' id='move_right' />
-										<input type='button' class="btn btn-outline-info my-3" value='<' id='move_left' />
-									</div>
-								</div>
-								<div class="container-3">
-									<div class="list-2">
-										<h3 class="text-center p-2">@(isAr ? "المعروض" : "Viewed")</h3>
-										<hr />
-										<ul class="list2">
-											<li data-key="First_Name"> @(isAr?"الاسم الاول": "First Name")  </li>
-											<li data-key="Mobile"> @(isAr?"رقم الهاتف": "Mobile") </li>
-											<li data-key="Email"> @(isAr?"البريد الالكتروني": "Email")  </li>
-										</ul>
-									</div>
-								</div>
-								<input class="hidden d-none" name="Columns" id="cols" />
-							</div>
-						</div>
-						<div class="col-12 justify-content-center d-flex">
-							<input class="btn btn-primary w-50" id="btn-filter" type="button" value="@(isAr?"فرز":"Filter")" />
-						</div>
-					</div>
-				}
-			</div>
-		</div>
-	</div>
+
+                <div class="container">
+                    <a href="/Report/_Request" class="Links_Die">
+                        <i class="bx bxs-paper-plane"></i>
+                        @(isar?"فلترة الطلبات":"Requests Filter")
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="green-color">@(isar?"تقرير مستفيد":"Mostafid")</h2>
+
+
+                <div class="d-flex flex-column justify-content-center align-items-center w-100">
+                    <img src="~/assets/images/Report/5876.jpg" />
+                    <p class="m-0 green-color">الوصف</p>
+                </div>
+
+
+                <div class="container">
+                    <h3 class="green-color my-2">@(isar?"تقرير الفئات الادارية":"Units")</h3>
+                    <div class="container d-flex flex-column">
+                        <a href="/Report/_UnitsByLevel" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير الفئات علي حسب المستوي": "Units report by level")
+                        </a>
+                        <a href="/Report/_UnitsMostRequested" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير الفئات الاكثر طلباً خلال فترة": "Report of the most requested categories during a period")
+                        </a>
+                        <a href="/Report/_UnitsByLocation" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير الفئات حسب الموقع": "Units report by Location")
+                        </a>
+                        <a href="/Report/_UnitsEffen" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير تاخر الفئات فى التعامل مع الطلبات":"")
+                        </a>
+                        <a href="/Report/_UnitsRequestedShakawa" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير الفئات حسب الشكاوي": "Report Units to complaints")
+                        </a>
+                        <a href="/Report/_UnitsByServiceType" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير الفئات وفقاً للخدمات المقدمة": "Units report according to the services provided")
+                        </a>
+                    </div>
+                    <h3 class="green-color my-2">@(isar?"تقرير الخدمات":"Services")</h3>
+                    <div class="container d-flex flex-column">
+                        <a href="/Report/_Sub_ServicesByMain" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير عرض الخدمة الرئيسية والفرعية والنماذج الالكترونية": "Report of Main Service and Sub service and E-forms")
+                        </a>
+                        <a href="/Report/_ServicesByService" class="Links_Die">
+                            <i class="bx bxs-paper-plane"></i>
+                            @(isar?"تقرير الخدمات وفقا لنوع الخدمة": "Services report according to service type")
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- JAVASCRIPT -->
@@ -261,35 +231,35 @@
 
 
 <script>
-	$(document).ready(p => {
-		$('.list1 li,.list2 li').addClass('en-font');
-	})
-	$('body').on('click', 'li', function () {
-		$(this).toggleClass('selected');
-	});
-	$('#move_left').click(function () {
-		$('.list1').append($('.list2 .selected').removeClass('selected'));
-	})
-	$('#move_right').click(function () {
-		$('.list2').append($('.list1 .selected').removeClass('selected'));
-	});
-	$('#btn-filter').click(s => {
-		event.stopPropagation()
-		event.stopImmediatePropagation()
-		let Columns = "";
-		let count = 0;
-		([...$('.list2 li')]).forEach(i => { Columns += count == 0 ? $(i).attr('data-key') : "," + $(i).attr('data-key'); count++; });
-		$('#cols').val(Columns)
-		var data = {
-			ST: $('[name="ST"] option:selected').text(),
-			MT: $('[name="MT"] option:selected').text(),
-			RT: $('[name="RT"] option:selected').text(),
-			ReqSource: $('[name="ReqSource"] option:selected').text(),
-			ReqStatus: $('[name="ReqStatus"] option:selected').text(),
-			Unit: $('[name="Unit"] option:selected').text(),
-			location: $('[name="location"] option:selected').text()
-		}
-		localStorage.setItem("PP_sdat_rep", JSON.stringify(data))
-		location.href = "/Report/FilterRequest?" + $('#FilterForm').serialize()
-	})
+    $(document).ready(p => {
+        $('.list1 li,.list2 li').addClass('en-font');
+    })
+    $('body').on('click', 'li', function () {
+        $(this).toggleClass('selected');
+    });
+    $('#move_left').click(function () {
+        $('.list1').append($('.list2 .selected').removeClass('selected'));
+    })
+    $('#move_right').click(function () {
+        $('.list2').append($('.list1 .selected').removeClass('selected'));
+    });
+    $('#btn-filter').click(s => {
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+        let Columns = "";
+        let count = 0;
+        ([...$('.list2 li')]).forEach(i => { Columns += count == 0 ? $(i).attr('data-key') : "," + $(i).attr('data-key'); count++; });
+        $('#cols').val(Columns)
+        var data = {
+            ST: $('[name="ST"] option:selected').text(),
+            MT: $('[name="MT"] option:selected').text(),
+            RT: $('[name="RT"] option:selected').text(),
+            ReqSource: $('[name="ReqSource"] option:selected').text(),
+            ReqStatus: $('[name="ReqStatus"] option:selected').text(),
+            Unit: $('[name="Unit"] option:selected').text(),
+            location: $('[name="location"] option:selected').text()
+        }
+        localStorage.setItem("PP_sdat_rep", JSON.stringify(data))
+        location.href = "/Report/FilterRequest?" + $('#FilterForm').serialize()
+    })
 </script>

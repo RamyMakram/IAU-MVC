@@ -615,38 +615,38 @@ namespace IAUBackEnd.Admin.Controllers
 					<p dir='ltr'>{message_en}</p>
 					<p dir='rtl'>{message_ar}</p>
 					";
-                SmtpClient smtpClient = new SmtpClient("10.30.1.101", 25);
+                //SmtpClient smtpClient = new SmtpClient("10.30.1.101", 25);
 
-                smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
-                // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                //smtpClient.EnableSsl = true;
-                MailMessage mail = new MailMessage();
-
-                //Setting From , To and CC
-                mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
-                mail.To.Add(new MailAddress(Email));
-                mail.Subject = "IAU Notify";
-                mail.Body = message;
-                mail.IsBodyHtml = true;
-                smtpClient.Send(mail);
-
-
-                //SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
-
-                //smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                //smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
                 //// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
                 //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 ////smtpClient.EnableSsl = true;
                 //MailMessage mail = new MailMessage();
 
                 ////Setting From , To and CC
-                //mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                //mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
                 //mail.To.Add(new MailAddress(Email));
                 //mail.Subject = "IAU Notify";
                 //mail.Body = message;
                 //mail.IsBodyHtml = true;
                 //smtpClient.Send(mail);
+
+
+                SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
+
+                smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //smtpClient.EnableSsl = true;
+                MailMessage mail = new MailMessage();
+
+                //Setting From , To and CC
+                mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                mail.To.Add(new MailAddress(Email));
+                mail.Subject = "IAU Notify";
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+                smtpClient.Send(mail);
                 return Ok(new ResponseClass()
                 {
                     success = true
@@ -1085,11 +1085,11 @@ namespace IAUBackEnd.Admin.Controllers
             return $"new({SelectQuery})";
         }
         [HttpPost]
-        public async Task<IHttpActionResult> ReportRequests(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns)
+        public async Task<IHttpActionResult> ReportRequests(int? ST, int? RT, int? MT, int? location, int? Unit, int? ReqStatus, bool? ReqSource, DateTime? DF, DateTime? DT, string Columns, bool EndedRequest)
         {
             try
             {
-                var Pred = PredicateBuilder.New<Request_Data>(q => q.Is_Archived);
+                var Pred = PredicateBuilder.New<Request_Data>(q => q.Is_Archived == EndedRequest);
                 if (ST.HasValue)
                     Pred.And(q => q.Service_Type_ID == ST);
                 if (RT.HasValue)
@@ -1104,9 +1104,9 @@ namespace IAUBackEnd.Admin.Controllers
                 if (DT.HasValue)
                     Pred.And(q => q.CreatedDate <= DT);
                 if (location.HasValue)
-                    Pred.And(q => q.RequestTransaction.Count(s => s.Units.Units_Location_ID == location) != 0);
+                    Pred.And(q => q.RequestTransaction.Any(s => s.Units.Units_Location_ID == location));
                 if (Unit.HasValue)
-                    Pred.And(q => q.RequestTransaction.Count(s => s.ToUnitID == Unit) != 0);
+                    Pred.And(q => q.RequestTransaction.Any(s => s.ToUnitID == Unit) || q.Unit_ID == Unit);
                 if (ReqStatus.HasValue)
                     Pred.And(q => q.Request_State_ID == ReqStatus);
                 if (ReqSource.HasValue)

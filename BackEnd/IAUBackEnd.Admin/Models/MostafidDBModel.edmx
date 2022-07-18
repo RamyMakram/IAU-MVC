@@ -51,6 +51,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="DelayedOnUnitID" Type="int" />
           <Property Name="RequestCode" Type="char" MaxLength="13" />
           <Property Name="RequestStatus" Type="tinyint" Nullable="false" />
           <Property Name="TransactionDate" Type="date" Nullable="false" />
@@ -403,16 +404,6 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="SystemLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -553,7 +544,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="150" />
           <Property Name="User_Mobile" Type="nvarchar" MaxLength="20" />
           <Property Name="User_Email" Type="nvarchar" MaxLength="100" />
           <Property Name="User_Password" Type="nvarchar" MaxLength="20" />
@@ -575,6 +566,8 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_CheckBox_Type_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -622,6 +615,18 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="DelayedTransaction" Type="Self.DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1451,7 +1456,6 @@
           <EntitySet Name="Separator" EntityType="Self.Separator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Columns" EntityType="Self.Table_Columns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tables_Answare" EntityType="Self.Tables_Answare" Schema="dbo" store:Type="Tables" />
@@ -1480,6 +1484,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="Self.FK_DelayedTransaction_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="Self.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
           <AssociationSet Name="FK_E-Forms_Answer_Person_Eform" Association="Self.FK_E-Forms_Answer_Person_Eform">
@@ -1781,7 +1789,6 @@
           <EntitySet Name="Separator" EntityType="MostafidDBModel.Separator" />
           <EntitySet Name="Service_Type" EntityType="MostafidDBModel.Service_Type" />
           <EntitySet Name="Sub_Services" EntityType="MostafidDBModel.Sub_Services" />
-          <EntitySet Name="sysdiagrams" EntityType="MostafidDBModel.sysdiagrams" />
           <EntitySet Name="SystemLog" EntityType="MostafidDBModel.SystemLog" />
           <EntitySet Name="Table_Columns" EntityType="MostafidDBModel.Table_Columns" />
           <EntitySet Name="Tables_Answare" EntityType="MostafidDBModel.Tables_Answare" />
@@ -1838,6 +1845,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="MostafidDBModel.FK_DelayedTransaction_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="MostafidDBModel.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
           <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDBModel.FK_E_Forms_Sub_Services">
@@ -2128,6 +2139,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="DelayedOnUnitID" Type="Int32" />
           <Property Name="RequestCode" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
           <Property Name="RequestStatus" Type="Byte" Nullable="false" />
           <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -2136,6 +2148,7 @@
           <Property Name="Readed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_Data" FromRole="DelayedTransaction" ToRole="Request_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDBModel.FK_DelayedTransaction_Request_State" FromRole="DelayedTransaction" ToRole="Request_State" />
+          <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_DelayedTransaction_Units" FromRole="DelayedTransaction" ToRole="Units" />
         </EntityType>
         <EntityType Name="E_Forms">
           <Key>
@@ -2571,16 +2584,6 @@
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
           <NavigationProperty Name="Required_Documents" Relationship="MostafidDBModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="SystemLog">
           <Key>
             <PropertyRef Name="ID" />
@@ -2680,6 +2683,7 @@
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDBModel.FK_DelayedTransaction_Units" FromRole="Units" ToRole="DelayedTransaction" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDBModel.FK_E_Forms_Units" FromRole="Units" ToRole="E_Forms" />
           <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDBModel.FK_Preview_EformApproval_Units" FromRole="Units" ToRole="Preview_EformApproval" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
@@ -2754,7 +2758,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -2912,6 +2916,18 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Type="MostafidDBModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.DelayedTransaction" Role="DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3682,6 +3698,7 @@
                 <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
                 <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
                 <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
+                <ScalarProperty Name="DelayedOnUnitID" ColumnName="DelayedOnUnitID" />
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -4059,17 +4076,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="MostafidDBModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SystemLog">
             <EntityTypeMapping TypeName="MostafidDBModel.SystemLog">
               <MappingFragment StoreEntitySet="SystemLog">
@@ -4245,7 +4251,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

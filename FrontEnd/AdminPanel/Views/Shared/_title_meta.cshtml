@@ -1,6 +1,12 @@
 ﻿
 <meta charset="utf-8" />
-<title>@(Request.Cookies["lang"].Value == "ar"? (ViewBag.arTitle==null?"": ViewBag.arTitle+ " |") + " جامعة الامام عبد الرحمن بن فيصل": (ViewBag.Title == null ? "" : ViewBag.Title + " |") + " IAU-BSC") </title>
+<title>
+   @(
+        Request.Cookies["lang"].Value == "ar"?
+        (ViewBag.arTitle==null?"": ViewBag.arTitle+ " |") + " جامعة الامام عبد الرحمن بن فيصل":
+        (ViewBag.Title == null ? "" : ViewBag.Title + " |") + " IAU-BSC"
+    )
+</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
 <meta content="Themesbrand" name="author" />

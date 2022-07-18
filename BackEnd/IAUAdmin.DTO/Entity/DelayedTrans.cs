@@ -11,6 +11,7 @@ namespace IAUAdmin.DTO.Entity
 
 		public int ID { get; set; }
 		public int RequestID { get; set; }
+		public int? UnitID { get; set; }
 		public string RequestCode { get; set; }
 		public byte RequestStatus { get; set; }
 		public System.DateTime TransactionDate { get; set; }

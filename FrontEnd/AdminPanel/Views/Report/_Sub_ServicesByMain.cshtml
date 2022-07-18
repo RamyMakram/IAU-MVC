@@ -1,0 +1,194 @@
+﻿@model ICollection<IAUAdmin.DTO.Entity.SubServicesDTO>
+@using System.Configuration;
+@{
+    var selectedlevel = ViewBag.SelectedLevel as IAUAdmin.DTO.Entity.MainServiceDTO;
+
+    ViewBag.Title = "Statistics | Report of Main Service and Sub service and E-forms" + (selectedlevel?.Main_Services_Name_EN == null ? "" : $" | '{selectedlevel?.Main_Services_Name_EN}'");
+    ViewBag.arTitle = "التقارير والاحصائيات | تقرير عرض الخدمة الرئيسية والفرعية والنماذج الالكترونية" + (selectedlevel?.Main_Services_Name_AR == null ? "" : $" | '{selectedlevel?.Main_Services_Name_AR}'");
+
+    ViewBag.pTitle = "Statistics";
+    ViewBag.arpageTitle = "التقارير والاحصائيات";
+
+    ViewBag.pTitle = "Report of Main Service and Sub service and E-forms";
+    ViewBag.arpTitle = "تقرير عرض الخدمة الرئيسية والفرعية والنماذج الالكترونية";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var isar = Request.Cookies["lang"].Value == "ar";
+}
+<style>
+    .t-start {
+        text-align: start;
+    }
+
+    .control-label::after {
+        content: ":"
+    }
+</style>
+<!-- select2 css -->
+<link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<!-- dropzone css -->
+<link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+
+<!-- DataTables -->
+<link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Sweet Alert-->
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<div class="row">
+    <div class="col-12">
+        <div class="row d-flex justify-content-center ">
+            @using (Html.BeginForm(htmlAttributes: new { @class = "col-4" }, controllerName: "Report", actionName: "_Sub_ServicesByMain", method: FormMethod.Get))
+            {
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div class="d-flex flex-column justify-content-around w-100">
+                        <div class="form-group">
+                            <label class="control-label font-weight-bold" key="t-title-mainservice" for="servicetype">Main servicetype</label>
+                            @Html.DropDownList("id", (IEnumerable<SelectListItem>)ViewBag.MainServices, new { @class = "form-control select2", @required = "true" })
+                        </div>
+                    </div>
+                    <button class="btn btn-primary w-50">@(isar?"فرز":"Filter")</button>
+                </div>
+            }
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="HeaderOfPage">
+                    <p class="card-title-desc">
+                        @*Manage Users*@
+                    </p>
+
+                </div>
+
+                <table class="jqtable-btn table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th key="t-name" class="showExport">Unit Name</th>
+                            <th key="t-enname" class="showExport">Type En Name</th>
+                            <th class="showExport">@(isar?"النماذج الالكترونية":"E-forms")</th>
+                        </tr>
+                    </thead>
+                    @{
+                        var lang = Request.Cookies["lang"].Value;
+                        var url = ConfigurationManager.AppSettings["DomainName"].ToString();
+                    }
+                    <tbody>
+                        @foreach (var i in (Model ?? new List<IAUAdmin.DTO.Entity.SubServicesDTO>()))
+                        {
+                            <tr>
+                                <td class="TH-ar ar-font">@(i.Sub_Services_Name_AR)</td>
+                                <td class="TH-en en-font">@(i.Sub_Services_Name_EN)</td>
+                                <td>
+                                    <table style="width:100%">
+                                        <tr>
+                                            @foreach (var item in i.E_Forms)
+                                            {
+                                                <th>@item.Name</th>
+                                                <td>@item.Name_EN</td>
+                                            }
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<!-- JAVASCRIPT -->
+
+
+<script src="~/assets/libs/jquery/jquery.min.js"></script>
+<script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="~/assets/libs/node-waves/waves.min.js"></script>
+<script src="~/assets/js/lang/jquery.multiLanguage.js"></script>
+
+<!-- Required datatable js -->
+<script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script src="~/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/libs/jszip/jszip.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+<script src="~/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="~/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+<!-- Responsive examples -->
+<script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+<!-- select 2 plugin -->
+<script src="~/assets/libs/select2/js/select2.min.js"></script>
+
+<!-- dropzone plugin -->
+<script src="~/assets/libs/dropzone/min/dropzone.min.js"></script>
+
+<!-- init js -->
+<script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
+
+<!-- Datatable init js -->
+<script src="~/assets/js/pages/datatables.init.js"></script>
+<!-- Sweet Alerts js -->
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<script src="~/assets/js/app.js"></script>
+<script>
+    $(document).ready(function () {
+        let interval = setInterval(e => {
+            if ($('#datatable-buttons_filter label input').length != 0) {
+                clearInterval(interval)
+                $('#datatable-buttons_filter label input').on('keydown', function () { getLanguage() })
+            }
+        }, 300)
+    });
+</script>
+<div id="ModalViewDiv-removed">
+
+</div>
+<script>
+    function LoadRemoved() {
+        $.ajax({
+            url: '/ServicesBank/AllDel', method: "GET", success: function (res) {
+                setTimeout(function () {
+                    document.getElementById('LoadingDiv').style.display = 'none';
+                }, 1000)
+                $('#ModalViewDiv-removed').html(res)
+                $('#DeletedItemsModal').modal('show')
+            }
+        })
+    }
+</script>
+<script>
+    $(document).ready(i => {
+        var table = $('.jqtable-btn').DataTable({
+            "dom": 'Bfrtip',
+            lengthChange: true,
+            buttons: [{
+                "extend": 'excelHtml5',
+                "text": '<i class="fa fa-file-excel mx-1" style="color:#69f469"></i> @(isar?"اكسل":"Excel")',
+                "autoFilter": true,
+                "sheetName": 'Exported data',
+                "exportOptions": {
+                    columns: '.showExport',
+                }
+            }],
+            language: {
+                url: language == "ar" ? '/assets/DataTableTrans/ar.json' : '/assets/DataTableTrans/en.json'
+            },
+            initComplete: function (settings, json) {
+                getLanguage()
+            },
+        });
+
+    })
+</script>

@@ -1,12 +1,12 @@
 ﻿@model IAUAdmin.DTO.Entity.UserDTO
 @{
-	ViewBag.Title = "Create User";
-	ViewBag.pTitle = "Create User";
-	ViewBag.pageTitle = "Users";
-	ViewBag.arTitle = "اضافة مستخدم";
-	ViewBag.arpTitle = "اضافة مستخدم";
-	ViewBag.arpageTitle = "المستخدمين";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Create User";
+    ViewBag.pTitle = "Create User";
+    ViewBag.pageTitle = "Users";
+    ViewBag.arTitle = "اضافة مستخدم";
+    ViewBag.arpTitle = "اضافة مستخدم";
+    ViewBag.arpageTitle = "المستخدمين";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -17,81 +17,81 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
-	span.select2 {
-		width: 100% !important
-	}
+    span.select2 {
+        width: 100% !important
+    }
 
-	label.control-label::after {
-		content: ":";
-	}
+    label.control-label::after {
+        content: ":";
+    }
 
-	label.control-label {
-		font-weight: bold;
-	}
+    label.control-label {
+        font-weight: bold;
+    }
 
-	span.select2-selection.select2-selection--single {
-		height: 36px !important;
-	}
+    span.select2-selection.select2-selection--single {
+        height: 36px !important;
+    }
 
-	.select2-selection__rendered, .select2-selection__arrow {
-		margin-top: 3px;
-		font-weight: normal;
-	}
+    .select2-selection__rendered, .select2-selection__arrow {
+        margin-top: 3px;
+        font-weight: normal;
+    }
 </style>
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
 
-				<h4 key="t-basicInfo" class="card-title">Basic Information</h4>
-				<p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
+                <h4 key="t-basicInfo" class="card-title">Basic Information</h4>
+                <p key="t-fillrequired" class="card-title-desc">Fill all information below</p>
 
-				@using (Html.BeginForm("Create", "User"))
-				{
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label" key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.User_Name_Ar, new { @class = "form-control ar-font", @name = "name", @id = "name", @required = "true"})
-							</div>
+                @using (Html.BeginForm("Create", "User"))
+                {
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" key="t-name" for="name">Name</label>
+                                @Html.TextBoxFor(q => q.User_Name_Ar, new { @class = "form-control ar-font", @name = "name", @id = "name", maxlength = "74", @required = "true" })
+                            </div>
 
-							<div class="form-group">
-								<label class="control-label" key="t-email" for="email">Email</label>
-								@Html.TextBoxFor(q => q.User_Email, new { @class = "form-control en-font", @name = "email", @id = "email", @type = "email", @required = "true" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-job">Job</label>
-								@Html.DropDownListFor(q => q.Job_ID, ViewBag.Jobs as SelectList, new { @class = "form-control select2", @required = "true" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-units-short">Job</label>
-								@Html.DropDownListFor(q => q.UnitID, ViewBag.Units as SelectList, new { @class = "form-control select2", @required = "true" })
-							</div>
-						</div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-email" for="email">Email</label>
+                                @Html.TextBoxFor(q => q.User_Email, new { @class = "form-control en-font", @name = "email", @id = "email", @type = "email", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-job">Job</label>
+                                @Html.DropDownListFor(q => q.Job_ID, ViewBag.Jobs as SelectList, new { @class = "form-control select2", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-units-short">Job</label>
+                                @Html.DropDownListFor(q => q.UnitID, ViewBag.Units as SelectList, new { @class = "form-control select2", @required = "true" })
+                            </div>
+                        </div>
 
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label" key="t-enname" for="name">Name</label>
-								@Html.TextBoxFor(q => q.User_Name_En, new { @class = "form-control en-font", @name = "name", @id = "name", @required = "true" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-mobile" for="mobile">Mobile</label>
-								@Html.TextBoxFor(q => q.User_Mobile, new { @class = "form-control en-font", @name = "mobile", @id = "mobile", @required = "true" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-password" for="pass">Password</label>
-								@Html.TextBoxFor(q => q.User_Password, new { @class = "form-control en-font", @name = "pass", @id = "pass", @required = "true" })
-							</div>
-						</div>
-					</div>
-					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					@Html.ActionLink("Cancel", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
-				}
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" key="t-enname" for="name">Name</label>
+                                @Html.TextBoxFor(q => q.User_Name_En, new { @class = "form-control en-font", @name = "name", @id = "name", maxlength = "74", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-mobile" for="mobile">Mobile</label>
+                                @Html.TextBoxFor(q => q.User_Mobile, new { @class = "form-control en-font", @name = "mobile", @id = "mobile", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-password" for="pass">Password</label>
+                                @Html.TextBoxFor(q => q.User_Password, new { @class = "form-control en-font", @name = "pass", @id = "pass", @required = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    @Html.ActionLink("Cancel", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
+                }
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 <!-- end row -->
 <!-- JAVASCRIPT -->
@@ -116,7 +116,7 @@
 <script src="~/assets/js/pages/ecommerce-select2.init.js"></script>
 @*<script src="~/assets/libs/jquery-validate/jquery.validate.js"></script>
 
-@if (Request.Cookies["ar"]?.Value == "ar")
-{
-	<script src="~/assets/libs/jquery-validate/localization/messages_ar.js"></script>
-}*@
+    @if (Request.Cookies["ar"]?.Value == "ar")
+    {
+        <script src="~/assets/libs/jquery-validate/localization/messages_ar.js"></script>
+    }*@

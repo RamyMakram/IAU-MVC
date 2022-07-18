@@ -21,6 +21,24 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="row d-flex justify-content-center ">
+            @using (Html.BeginForm(htmlAttributes: new { @class = "col-6" }, controllerName: "Logger", actionName: "Home", method: FormMethod.Get))
+            {
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div class="d-inline-flex justify-content-around w-100">
+                        <div class="form-group">
+                            <label class="control-label" key="t-date-from">From</label>
+                            <input name="DF" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(-5).ToString("yyy-MM-dd"))" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" key="t-date-to">To</label>
+                            <input name="DT" type="date" class="form-control en-font" value="@(TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Arabic Standard Time")).AddDays(2).ToString("yyy-MM-dd"))" />
+                        </div>
+                    </div>
+                    <button class="btn btn-primary w-50">@(isar?"بحث":"Search")</button>
+                </div>
+            }
+        </div>
         <div class="card">
             <div class="card-body">
 
@@ -28,7 +46,6 @@
                     <p class="card-title-desc">
                         @(isar? "سجل العمليات" : "Actions History")
                     </p>
-
                 </div>
                 <table class="table  jqtable-btn table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
@@ -47,7 +64,7 @@
                         {
                             <tr>
                                 <td>@i.ID</td>
-                                <td >@(i.TransDate.ToString("yyyy-MM-dd hh:mm:ss tt", ci))</td>
+                                <td>@(i.TransDate.ToString("yyyy-MM-dd hh:mm:ss tt", ci))</td>
                                 <td class="TH-en">@(isar?i.Users.User_Name_Ar:i.Users.User_Name_En)</td>
                                 <td>
                                     @switch (i.Method)
@@ -172,7 +189,7 @@
     $(document).ready(i => {
         var table22 = $('.jqtable-btn').DataTable({
             lengthChange: true,
-           /* buttons: [*//*'excel', 'pdf'*//*],*/
+            /* buttons: [*//*'excel', 'pdf'*//*],*/
             language: {
                 url: language == "ar" ? '/assets/DataTableTrans/ar.json' : '/assets/DataTableTrans/en.json'
             },
