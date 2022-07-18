@@ -76,7 +76,7 @@
 <div class="row">
     <div class="col-12">
         <div class="row d-flex justify-content-center ">
-            @using (Html.BeginForm(htmlAttributes: new { @class = "col-12" }, controllerName: "Report", actionName: "_UnitsByLocation", method: FormMethod.Get))
+            @using (Html.BeginForm(htmlAttributes: new { @class = "col-6" }, controllerName: "Report", actionName: "_UnitsByLocation", method: FormMethod.Get))
             {
                 <div class="d-flex flex-column justify-content-between align-items-center g-filter">
                     <div class="d-flex  flex-row w-100 g-filter">
@@ -86,7 +86,7 @@
                                 @Html.DropDownList("locid", ((IEnumerable<SelectListItem>)ViewBag.Locations)@*.Prepend(new SelectListItem() { Text = isar ? "الكل" : "All", Value = "null" })*@, new { @class = "form-control select2", @required = "true" })
                             </div>
                         </div>
-                        <div class="d-flex  flex-column justify-content-around w-100">
+                        @*<div class="d-flex  flex-column justify-content-around w-100">
                             <div class="form-group">
                                 <label class="control-label font-weight-bold">@(isar?"المستوي":"")</label>
                                 @Html.DropDownList("lvl", ((IEnumerable<SelectListItem>)ViewBag.Levels).Prepend(new SelectListItem() { Text = isar ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @required = "true" })
@@ -103,7 +103,7 @@
                                 <label class="control-label font-weight-bold">@(isar?"الخدمات":"")</label>
                                 @Html.DropDownList("serv", ((IEnumerable<SelectListItem>)ViewBag.ServiceType).Prepend(new SelectListItem() { Text = isar ? "الكل" : "All", Value = "null" }), new { @class = "form-control select2", @required = "true" })
                             </div>
-                        </div>
+                        </div>*@
                     </div>
                     <button class="btn btn-primary w-50">@(isar?"فرز":"Filter")</button>
                 </div>
@@ -123,7 +123,7 @@
                     var lang = Request.Cookies["lang"].Value;
                 }
                 <span style="display:none" id="lang">@lang</span>
-                <div class="row">
+                @*<div class="row">
                     <div class="col-6">
                         <canvas id="myChart" width="400" height="200"></canvas>
 
@@ -132,9 +132,9 @@
                         <canvas id="myChart2" width="400" height="200"></canvas>
 
                     </div>
-                </div>
+                </div>*@
 
-                @*<table class="jqtable-btn table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <table class="jqtable-btn table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <tr>
                                 <th key="t-name" class="showExport">Unit Name</th>
@@ -186,7 +186,7 @@
                             }
 
                         </tbody>
-                    </table>*@
+                    </table>
             </div>
         </div>
     </div> <!-- end col -->
@@ -342,7 +342,7 @@
 <!-- Sweet Alerts js -->
 <script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="~/assets/js/app.js"></script>
-<script>
+@*<script>
     @{
         var dataModel_grouped = Model.OrderByDescending(q=>q.LevelID).GroupBy(q => new{ q.Units_Type_ID,q.Units_Type.Units_Type_Name_AR,q.Units_Type.Units_Type_Name_EN}).Select(q => new { q.Key, Count = q.Count() });
         var lbls_digram = string.Join(",",dataModel_grouped.Select(s => (isar ? s.Key.Units_Type_Name_AR : s.Key.Units_Type_Name_EN)).Distinct().ToList());
@@ -411,7 +411,6 @@
             datasets: [{
                 label: '@(isar?"بيانات الوحدات طبقا لنوع الفئات":"")',
                 data: '@lbls_digram_count'.split(','),
-               @* backgroundColor: '@(string.Join(",",rgb_colors.Take(lbls_digram.Count())))'.split(','),*@
                 backgroundColor: [
                     "RGB(128,0,0)",
                     "RGB(240,230,140)",
@@ -430,6 +429,7 @@
         }
     });
 </script>
+*@
 @if (ShowDelete)
 {
 
