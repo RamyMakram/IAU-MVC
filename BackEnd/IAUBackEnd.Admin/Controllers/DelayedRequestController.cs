@@ -44,7 +44,7 @@ namespace IAUBackEnd.Admin.Controllers
 
         public async Task<IHttpActionResult> GetUnits()
         {
-            var data = p.DelayedTransaction.GroupBy(q => q.Units).Select(q => new { Unit = q.Key, Count = q.Count(), DelayedDaysCount = q.Sum(s => s.Delayed) });
+            var data = p.DelayedTransaction.GroupBy(q => q.Units).Select(q => new { Unit = q.Key, Count = q.Count(), DelayedDaysCount = q.Sum(s => s.Delayed) }).Where(q => q.Unit != null);
             return Ok(new ResponseClass() { success = true, result = data });
         }
     }
