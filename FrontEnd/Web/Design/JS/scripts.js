@@ -290,7 +290,7 @@ $("#right-arrow").click(function () {
         if ($("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "inquiry" || $("#Request_Type_Id .active ").attr("data-requesttypenameEN").toLowerCase() == "سؤال") {
             let controls = $('#provider,#Sub_Services_ID,#Main_Services_ID,#Required_Fields_Notes');
             ([...controls]).forEach(e => {
-                if (e.value == "" || e.value == null || e.value == "null") {
+                if (e.value == "" || e.value == null || e.value == "null" || e.value.trim().length == 0) {
                     $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
                     error = true;
                     return;
@@ -325,7 +325,7 @@ $("#right-arrow").click(function () {
         }
         else {
             ([...$('#providerOther,#Required_Fields_Notes_Other')]).forEach(e => {
-                if (e.value == "" || e.value == null || e.value == "null") {
+                if (e.value == "" || e.value == null || e.value == "null" || e.value.trim().length == 0) {
                     $(e).css({ 'border': '2px solid red', 'background': '#ffafaf' });
                     error = true;
                     return;
