@@ -14,6 +14,12 @@ namespace IAU_BackEnd.Models
     
     public partial class Users
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Users()
+        {
+            this.SystemLog = new HashSet<SystemLog>();
+        }
+    
         public int User_ID { get; set; }
         public string User_Name { get; set; }
         public string User_Mobile { get; set; }
@@ -28,6 +34,8 @@ namespace IAU_BackEnd.Models
         public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Job Job { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SystemLog> SystemLog { get; set; }
         public virtual Units Units { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace IAU_BackEnd.Models
         public int User_Permissions_Type_ID { get; set; }
         public string User_Permissions_Type_Name_AR { get; set; }
         public string User_Permissions_Type_Name_EN { get; set; }
+        public bool IsModear { get; set; }
         public bool Deleted { get; set; }
         public Nullable<System.DateTime> DeletedAt { get; set; }
     

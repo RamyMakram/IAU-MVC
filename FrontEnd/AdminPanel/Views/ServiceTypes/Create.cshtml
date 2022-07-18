@@ -41,26 +41,34 @@
 				@using (Html.BeginForm("Create", "ServiceTypes", FormMethod.Post, new { encType = "multipart/form-data" }))
 				{
 					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label" key="t-name" for="name">Name</label>
-								@Html.TextBoxFor(q => q.Service_Type_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name", @required = "true" })
-							</div>
-							<div class="form-group">
-								<label class="control-label" key="t-image" for="name">Image</label>
-								<div class="custom-file">
-									@Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input en-font", @type = "file", @name = "name", @id = "customFile", @required = "true" })
-									<label class="custom-file-label en-font" for="customFile">Choose file</label>
-								</div>
-							</div>
-						</div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" key="t-name" for="name">Name</label>
+                                @Html.TextBoxFor(q => q.Service_Type_Name_AR, new { @class = "form-control ar-font", @name = "name", @id = "name", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" key="t-image" for="name">Image</label>
+                                <div class="custom-file">
+                                    @Html.TextBoxFor(q => q.Files, new { @class = "custom-file-input en-font", @type = "file", @name = "name", @id = "customFile", @required = "true" })
+                                    <label class="custom-file-label en-font" for="customFile">Choose file</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label ar-font" key="t-ardesc" for="ardesc">Mobile</label>
+                                @Html.TextBoxFor(q => q.Desc_AR, new { @class = "form-control ar-font", @name = "ardesc", @id = "ardesc", @required = "true" })
+                            </div>
+                        </div>
 
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label en-font" key="t-enname" for="enname">Mobile</label>
-								@Html.TextBoxFor(q => q.Service_Type_Name_EN, new { @class = "form-control", @name = "enname", @id = "enname", @required = "true" })
-							</div>
-						</div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label en-font" key="t-enname" for="enname">Mobile</label>
+                                @Html.TextBoxFor(q => q.Service_Type_Name_EN, new { @class = "form-contro en-fontl", @name = "enname", @id = "enname", @required = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label en-font" key="t-endesc" for="enname">Mobile</label>
+                                @Html.TextBoxFor(q => q.Desc_EN, new { @class = "form-control en-fontl", @name = "endesc", @id = "endesc", @required = "true" })
+                            </div>
+                        </div>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
 					@Html.ActionLink("Cancel", "Home", "ServiceTypes", null, new { @class = "btn btn-secondary waves-effect", @key = "t-cancel" })

@@ -22,5 +22,9 @@ namespace IAU_BackEnd.Models
         public string Oldval { get; set; }
         public string Newval { get; set; }
         public string CallPath { get; set; }
+        public Nullable<int> ReferID { get; set; }
+        public string Notes { get; set; }
+    
+        public virtual Users Users { get; set; }
     }
 }
