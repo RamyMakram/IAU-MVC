@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MustafidAppModels.Context;
+using MustafidAppModels.Models;
+using System.Linq;
 
 namespace MustafidApp.Controllers.v1
 {
@@ -7,10 +10,16 @@ namespace MustafidApp.Controllers.v1
     [ApiController]
     public class HomeController : ControllerBase
     {
+        private MustafidAppContext _appContext;
+        public HomeController(MustafidAppContext appContext)
+        {
+            _appContext = appContext;
+        }
+
         [HttpGet]
         public string Get()
         {
-            return "data from api v1";
+            return _appContext.EForms.FirstOrDefault().NameEn;
         }
     }
 }

@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MustafidAppModels.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace MustafidApp
 {
@@ -38,6 +40,11 @@ namespace MustafidApp
                 config.ReportApiVersions = true;
             });
             #endregion
+            
+            services.AddDbContext<MustafidAppContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("default"));
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

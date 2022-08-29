@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=LAPTOP-CN4OLI1Q\SQL19;Database=[FromServer]Mustafid05062022;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context MustafidAppContext -ContextDir Context -Schemas dbo
