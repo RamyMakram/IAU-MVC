@@ -578,7 +578,7 @@ namespace IAUBackEnd.Admin.Controllers
 
                 new Thread(() =>
                 {
-                    _ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال ٤٨ ساعة", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 48 hours");
+                    _ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال 3 ساعات", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 3 hours");
                 }).Start();
                 return Ok(new
                 {
@@ -615,38 +615,38 @@ namespace IAUBackEnd.Admin.Controllers
 					<p dir='ltr'>{message_en}</p>
 					<p dir='rtl'>{message_ar}</p>
 					";
-                //SmtpClient smtpClient = new SmtpClient("10.30.1.101", 25);
+                SmtpClient smtpClient = new SmtpClient("10.30.1.101", 25);
 
-                //smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
-                //// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
-                //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                ////smtpClient.EnableSsl = true;
-                //MailMessage mail = new MailMessage();
-
-                ////Setting From , To and CC
-                //mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
-                //mail.To.Add(new MailAddress(Email));
-                //mail.Subject = "IAU Notify";
-                //mail.Body = message;
-                //mail.IsBodyHtml = true;
-                //smtpClient.Send(mail);
-
-
-                SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
-
-                smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
                 // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 //smtpClient.EnableSsl = true;
                 MailMessage mail = new MailMessage();
 
                 //Setting From , To and CC
-                mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
                 mail.To.Add(new MailAddress(Email));
                 mail.Subject = "IAU Notify";
                 mail.Body = message;
                 mail.IsBodyHtml = true;
                 smtpClient.Send(mail);
+
+
+                //SmtpClient smtpClient = new SmtpClient("mail.iau-bsc.com", 25);
+
+                //smtpClient.Credentials = new System.Net.NetworkCredential("ramy@iau-bsc.com", "ENGGGGAAA1448847@");
+                //// smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
+                //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                ////smtpClient.EnableSsl = true;
+                //MailMessage mail = new MailMessage();
+
+                ////Setting From , To and CC
+                //mail.From = new MailAddress("ramy@iau-bsc.com", "Mustafid");
+                //mail.To.Add(new MailAddress(Email));
+                //mail.Subject = "IAU Notify";
+                //mail.Body = message;
+                //mail.IsBodyHtml = true;
+                //smtpClient.Send(mail);
                 return Ok(new ResponseClass()
                 {
                     success = true
@@ -741,19 +741,28 @@ namespace IAUBackEnd.Admin.Controllers
                 if (sendeddata.TempCode != "")
                 {
                     var OldVals = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                    var willsend = JsonConvert.DeserializeObject<Request_Data>(OldVals);
+
 
                     db.RequestTransaction.Add(new RequestTransaction() { Request_ID = RequestIID, ExpireDays = Expected, ForwardDate = Helper.GetDate(), ToUnitID = Unit_ID, Readed = false, FromUnitID = db.Units.First(q => q.IS_Mostafid).Units_ID, Code = sendeddata.TempCode, MostafidComment = comment, Is_Reminder = false });
                     sendeddata.TempCode = "";
+                    willsend.TempCode = "";
                     if (sendeddata.Request_State_ID == 1)
+                    {
                         sendeddata.Request_State_ID = 2;
+                        willsend.Request_State_ID = 2;
+                    }
                     db.SaveChanges();
-                    sendeddata.Readed = false;
+
+                    willsend.Readed = false;
                     var Users = db.Users.Where(q => q.Units.Units_ID == Unit_ID && !q.Deleted).Select(q => q.User_ID).ToArray();
-                    sendeddata.Required_Fields_Notes = comment;
-                    string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+                    willsend.Required_Fields_Notes = comment.Trim().Length == 0 ? willsend.Required_Fields_Notes : comment;
+
+                    string message = JsonConvert.SerializeObject(willsend, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                     WebSocketManager.SendToMulti(Users, message);
 
-                    var logstate = Logger.AddLog(db: db, logClass: LogClassType.Request, Method: "Update", Oldval: OldVals, Newval: sendeddata, es: out _, syslog: out _, ID: sendeddata.Request_Data_ID, notes: "Forward Request");
+                    var logstate = Logger.AddLog(db: db, logClass: LogClassType.Request, Method: "Update", Oldval: OldVals, Newval: willsend, es: out _, syslog: out _, ID: willsend.Request_Data_ID, notes: "Forward Request");
                     if (logstate)
                     {
                         await db.SaveChangesAsync();
