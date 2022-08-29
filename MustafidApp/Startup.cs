@@ -13,6 +13,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MustafidAppModels.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.IO;
+using System.Reflection;
 
 namespace MustafidApp
 {
@@ -51,7 +54,13 @@ namespace MustafidApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MustafidApp", Version = "v1" });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
+                                                                                         // using System.Reflection;
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
             });
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
