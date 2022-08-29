@@ -44,19 +44,25 @@ namespace Web.Controllers
 		[ValidateAntiForgeryToken()]
 		public async System.Threading.Tasks.Task<ActionResult> Index(string email, string pass)
 		{
-			var res = await APIHandeling.LoginAdminAsync($"User/Login?email={email}&pass={pass}");
+			var res = await APIHandeling.LoginAdminAsync($"User/Login?email={Url.Encode(email)}&pass={Url.Encode(pass)}");
 			var resJson = res.Content.ReadAsStringAsync();
 			var lst = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
 			if (lst.success)
 				return Redirect(ConfigurationManager.AppSettings["AdminPanel"].ToString() + "/LoginForward/Login?t=" + JObject.Parse(lst.result.ToString())["Token"]);
 			ViewBag.Error = true;
 			ViewBag.CookieLang = Request.Cookies["lang"].Value;
-			if (!System.IO.File.Exists(Path.Combine(Server.MapPath("~"), "log.txt")))
-				System.IO.File.Create(Path.Combine(Server.MapPath("~"), "log.txt"));
-			using (StreamWriter ms = new StreamWriter(new FileStream(Path.Combine(Server.MapPath("~"), "log.txt"), FileMode.Append, FileAccess.ReadWrite)))
-			{
-				ms.WriteLine(DateTime.Now.ToString() + "|" + JsonConvert.SerializeObject(resJson.Result));
+            try
+            {
+				if (!System.IO.File.Exists(Path.Combine(Server.MapPath("~"), "log.txt")))
+					System.IO.File.Create(Path.Combine(Server.MapPath("~"), "log.txt"));
+				using (StreamWriter ms = new StreamWriter(new FileStream(Path.Combine(Server.MapPath("~"), "log.txt"), FileMode.Append, FileAccess.Write)))
+				{
+					ms.WriteLine(DateTime.Now.ToString() + "|" + JsonConvert.SerializeObject(resJson.Result));
+				}
 			}
+            catch (Exception ee)
+            {
+            }
 			return View();
 		}
 	}
