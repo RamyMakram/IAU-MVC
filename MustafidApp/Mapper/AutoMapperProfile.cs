@@ -147,7 +147,11 @@ namespace MustafidApp.Mapper
                 .ReverseMap();
 
             #endregion
-
+            CreateMap<PhoneNumberNotification, NotificationsDTO>()
+                .ForMember(dest => dest.Noti_TXT, src => src.MapFrom(src => src.Message))
+                .ForMember(dest => dest.Noti_TXT_EN, src => src.MapFrom(src => src.MessageEn))
+                .ForMember(dest => dest.Noti_Date, src => src.MapFrom(src => src.NotiDate))
+                .ReverseMap();
         }
     }
 }
