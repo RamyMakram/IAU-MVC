@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MustafidApp.Controllers.v2
 {
+    [Authorize]
+
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     [ApiController]

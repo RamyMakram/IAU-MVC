@@ -17,6 +17,11 @@ using Microsoft.Extensions.Options;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using MustafidApp.JWT;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MustafidApp
 {
@@ -44,6 +49,33 @@ namespace MustafidApp
                 config.ReportApiVersions = true;
             });
             #endregion
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                var Key = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]);
+                o.SaveToken = true;
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["JWT:Issuer"],
+                    ValidAudience = Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Key)
+                };
+            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme).Build();
+            //});
+
+            services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
 
             services.AddDbContext<MustafidAppContext>(options =>
             {
@@ -58,11 +90,31 @@ namespace MustafidApp
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MustafidApp", Version = "v1" });
-                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
-                                                                                         // using System.Reflection;
+                // using System.Reflection;
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert your JWT Token into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                    {
+                        new OpenApiSecurityScheme{
+                            Reference = new OpenApiReference{
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
             });
 
             services.AddAutoMapper(typeof(Startup));
@@ -82,6 +134,7 @@ namespace MustafidApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
