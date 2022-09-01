@@ -109,8 +109,8 @@ namespace Web.Controllers
                 var shaCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code)));
                 if (Request.Cookies["n"] != null && shaCode == Request.Cookies["n"].Value)
                 {
-                    var Files = new List<CustomeFile>();
-                    List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
+                    //var Files = new List<CustomeFile>();
+                    //List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
                     HttpClientHandler handler = new HttpClientHandler();
                     using (var client = new HttpClient(handler, false))
                     {

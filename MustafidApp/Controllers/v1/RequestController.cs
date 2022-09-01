@@ -11,6 +11,12 @@ using MustafidAppModels.Context;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MustafidApp.Helpers;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
+using MustafidAppModels.Models;
+using System.Net.Http;
+using System.IO;
 
 namespace MustafidApp.Controllers.v1
 {
@@ -22,10 +28,13 @@ namespace MustafidApp.Controllers.v1
     {
         private MustafidAppContext _appContext;
         private IMapper _mapper;
-        public RequestController(MustafidAppContext appContext, IMapper mapper)
+        private readonly IConfiguration _configuration;
+
+        public RequestController(MustafidAppContext appContext, IMapper mapper, IConfiguration configuration)
         {
             _appContext = appContext;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
 
@@ -90,5 +99,96 @@ namespace MustafidApp.Controllers.v1
 
             return Ok(new ResponseClass() { Success = true, data = data_DTO });
         }
+
+        /// <summary>
+        /// Send Code To Confirm User
+        /// </summary>
+        /// <param name="Email">User Email</param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmRequest(string Email)
+        {
+            int code = new Random().Next(1000, 9999);
+
+            string message_en = $@"Use this code {code} to complete your Request.";
+            string message_ar = $@"برجاء استخدام هذا الكود {code} لتاكيد طلبك.";
+
+            var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
+
+            var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
+
+            var res = HttpClientAdminBackend.getDataAdmin($"/Request/NotifyUser?Mobile={Mobile_Phone}&message_en={message_en}&message_ar={message_ar}&Email={Email}", _configuration);
+
+            var resJson = await res.Content.ReadAsStringAsync();
+
+            var Res = JsonConvert.DeserializeObject<ResponseClass>(resJson);
+            if (Res.Success)
+                return Ok(new ResponseClass() { Success = true, data = CypherCode });
+            else
+                return Ok(new ResponseClass() { Success = false });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveRequest(int code, string C_Code, RequestDTO request)
+        {
+            var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
+
+            if (CypherCode == C_Code)
+            {
+                //var request_Data = _mapper.Map<RequestDatum>(request);
+                //HttpClientHandler handler = new HttpClientHandler();
+                //using (var client = new HttpClient(handler, false))
+                //{
+                //    client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
+                //    using (var content = new MultipartFormDataContent())
+                //    {
+                //        int length = Request.Form.Files.Count;
+
+                //        for (int i = 0; i < length; i++)
+                //        {
+                //            var file = Request.Form.Files[i];
+                //            byte[] Bytes;
+                //            using (var ms = new MemoryStream())
+                //            {
+                //                file.CopyTo(ms);
+                //                Bytes = ms.ToArray();
+                //            }
+                //            var fileContent = new ByteArrayContent(Bytes);
+                //            fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
+                //            content.Add(fileContent);
+                //        }
+                //        var stringContent = new StringContent(JsonConvert.SerializeObject(JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data).Personel_Data.E_Forms_Answer));
+                //        stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
+                //        content.Add(stringContent, "json");
+                //        stringContent = new StringContent(JsonConvert.SerializeObject(request_Data));
+                //        stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
+                //        content.Add(stringContent, "json");
+
+                //        var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData";
+                //        var result = client.PostAsync(requestUri, content).Result;
+                //        if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                //        {
+                //            var d = result.Content.ReadAsStringAsync();
+                //            var lst = JsonConvert.DeserializeObject<ResponseClass>(d.Result);
+                //            if (lst.success)
+                //            {
+                //                Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
+                //                return JsonConvert.SerializeObject(new ResponseClass() { success = true });
+                //            }
+                //            else
+                //                return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
+                //        }
+                //        return JsonConvert.SerializeObject(new ResponseClass() { success = false });
+                //    }
+                //}
+
+                return Ok(new ResponseClass() { Success = true/*, data = token */});
+            }
+            else
+                return Ok(new ResponseClass() { Success = false });
+
+        }
+
     }
 }
