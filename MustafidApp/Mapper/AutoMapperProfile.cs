@@ -147,11 +147,55 @@ namespace MustafidApp.Mapper
                 .ReverseMap();
 
             #endregion
+
             CreateMap<PhoneNumberNotification, NotificationsDTO>()
                 .ForMember(dest => dest.Noti_TXT, src => src.MapFrom(src => src.Message))
                 .ForMember(dest => dest.Noti_TXT_EN, src => src.MapFrom(src => src.MessageEn))
                 .ForMember(dest => dest.Noti_Date, src => src.MapFrom(src => src.NotiDate))
                 .ReverseMap();
+
+            CreateMap<PersonelDatum, PersonalDataDTO>()
+            .ForMember(dest => dest.PD_ID, src => src.MapFrom(src => src.PersonelDataId))
+            .ForMember(dest => dest.PD_IAUNumber, src => src.MapFrom(src => src.IauIdNumber))
+            .ForMember(dest => dest.PD_TitleNames_ID, src => src.MapFrom(src => src.TitleMiddleNamesId))
+            .ForMember(dest => dest.PD_F_Name, src => src.MapFrom(src => src.FirstName))
+            .ForMember(dest => dest.PD_M_Name, src => src.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.PD_L_Name, src => src.MapFrom(src => src.LastName))
+            .ForMember(dest => dest.PD_National_ID, src => src.MapFrom(src => src.NationalityId))
+            .ForMember(dest => dest.PD_ID_Doc_ID, src => src.MapFrom(src => src.IdDocument))
+            .ForMember(dest => dest.PD_ID_Number, src => src.MapFrom(src => src.IdNumber))
+            .ForMember(dest => dest.PD_C_ID, src => src.MapFrom(src => src.CountryId))
+            .ForMember(dest => dest.PD_Address_C_ID, src => src.MapFrom(src => src.AddressCountryId))
+            .ForMember(dest => dest.PD_Address_City_ID, src => src.MapFrom(src => src.AddressCityId))
+            .ForMember(dest => dest.PD_Adress_R_ID, src => src.MapFrom(src => src.AdressRegionId))
+            .ForMember(dest => dest.PD_Address_City, src => src.MapFrom(src => src.AddressCity))
+            .ForMember(dest => dest.PD_Adress_Region, src => src.MapFrom(src => src.AdressRegion))
+            .ForMember(dest => dest.PD_Postal, src => src.MapFrom(src => src.PostalCode))
+            .ForMember(dest => dest.PD_mail, src => src.MapFrom(src => src.Email))
+            .ForMember(dest => dest.PD_Phone, src => src.MapFrom(src => src.Mobile))
+            .ReverseMap();
+
+            CreateMap<RequestTransaction, RequestTransactionDTO>()
+                .ForMember(dest => dest.ReqTrans_DateWillEnd, src => src.MapFrom(src => src.ExpireDays))
+                .ForMember(dest => dest.ReqTrans_Unit, src => src.MapFrom(src => src.ToUnit))
+                .ReverseMap();
+
+
+            CreateMap<RequestDatum, RequestDTO>()
+                .ForMember(dest => dest.Req_ID, src => src.MapFrom(src => src.RequestDataId))
+                .ForMember(dest => dest.Req_U_ID, src => src.MapFrom(src => src.UnitId))
+                .ForMember(dest => dest.Req_SS_ID, src => src.MapFrom(src => src.SubServicesId))
+                .ForMember(dest => dest.Req_Notes, src => src.MapFrom(src => src.RequiredFieldsNotes))
+                .ForMember(dest => dest.Req_S_ID, src => src.MapFrom(src => src.ServiceTypeId))
+                .ForMember(dest => dest.Req_R_ID, src => src.MapFrom(src => src.RequestTypeId))
+                .ForMember(dest => dest.Req_Is_Mos, src => src.MapFrom(src => src.IsTwasulOc))
+                .ForMember(dest => dest.Req_Status, src => src.MapFrom(src => src.RequestStateId))
+                .ForMember(dest => dest.Req_ApplicantData, src => src.MapFrom(src => src.PersonelData))
+                //.ForMember(dest => dest.Req_Trans, src => src.MapFrom(src => src.RequestTransactions))
+                .ReverseMap();
+
+
+
         }
     }
 }

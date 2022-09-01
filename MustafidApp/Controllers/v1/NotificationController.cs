@@ -27,7 +27,7 @@ namespace MustafidApp.Controllers.v1
             _mapper = mapper;
         }
         /// <summary>
-        /// Returns All Valid Title Names Like Mr,Mrs,Dr,Eng "اللقب"
+        /// Returns All Notification OF User
         /// </summary>
         /// <returns></returns>
         [HttpGet]

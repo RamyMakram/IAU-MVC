@@ -42,29 +42,44 @@ namespace MustafidApp.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> SignIn(string Phone)
         {
-            if (Phone == null)
-                return Ok(new ResponseClass() { Success = false, data = "Null" });
+            try
+            {
+                if (Phone == null)
+                    return Ok(new ResponseClass() { Success = false, data = "Null" });
 
-            if (!Phone.StartsWith("966") && !Phone.StartsWith("+966"))
-                return Ok(new ResponseClass() { Success = false, data = "ISNT_SA" });
+                if (!Phone.StartsWith("966") && !Phone.StartsWith("+966"))
+                    return Ok(new ResponseClass() { Success = false, data = "ISNT_SA" });
 
-            //int code = new Random().Next(1000, 9999);
-            int code = 9999;
+                //int code = new Random().Next(1000, 9999);
+                int code = 9999;
 
-            string message_en = $@"Use this code {code} to complete your Login.";
-            string message_ar = $@"برجاء استخدام هذا الكود {code} لتاكيد هويتك.";
+                string message_en = $@"Use this code {code} to complete your Login.";
+                string message_ar = $@"برجاء استخدام هذا الكود {code} لتاكيد هويتك.";
 
-            var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
-            var res = HttpClientAdminBackend.getDataAdmin($"/Request/NotifyUser?Mobile={Phone}&message_en={message_en}&message_ar={message_ar}", _configuration);
+                var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
+                var res = HttpClientAdminBackend.getDataAdmin($"/Request/NotifyUser?Mobile={Phone}&message_en={message_en}&message_ar={message_ar}", _configuration);
 
-            var resJson = await res.Content.ReadAsStringAsync();
+                var resJson = await res.Content.ReadAsStringAsync();
 
-            var Res = JsonConvert.DeserializeObject<ResponseClass>(resJson);
-            if (Res.Success)
-                return Ok(new ResponseClass() { Success = true, data = CypherCode });
-            else
-                return Ok(new ResponseClass() { Success = false });
+                var Res = JsonConvert.DeserializeObject<ResponseClass>(resJson);
+                if (Res.Success)
+                    return Ok(new ResponseClass() { Success = true, data = CypherCode });
+                else
+                    return Ok(new ResponseClass() { Success = false });
+            }
+            catch (Exception eee)
+            {
+                return Ok(new ResponseClass() { Success = false, data = eee.Message });
+            }
         }
+
+        /// <summary>
+        /// Return Tokent That Will u Use it
+        /// </summary>
+        /// <param name="Phone">Reprenset Entered Phone</param>
+        /// <param name="code">Code That User Entered it</param>
+        /// <param name="C_Code">repose of SigIn API</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Complete_SignIn(string Phone, int code, string C_Code)
         {
