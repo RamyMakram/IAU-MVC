@@ -22,6 +22,7 @@ namespace IAUBackEnd.Admin.Models
             this.Request_File = new HashSet<Request_File>();
             this.Request_Log = new HashSet<Request_Log>();
             this.RequestTransaction = new HashSet<RequestTransaction>();
+            this.PhoneNumberNotification = new HashSet<PhoneNumberNotification>();
         }
     
         public int? Request_Data_ID { get; set; }
@@ -57,5 +58,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual ICollection<Request_Log> Request_Log { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestTransaction> RequestTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhoneNumberNotification> PhoneNumberNotification { get; set; }
     }
 }

@@ -73,5 +73,7 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
+        public virtual DbSet<PhoneNumberNotification> PhoneNumberNotification { get; set; }
+        public virtual DbSet<UserFCMToken> UserFCMToken { get; set; }
     }
 }

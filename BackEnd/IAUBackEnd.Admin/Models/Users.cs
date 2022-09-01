@@ -18,6 +18,7 @@ namespace IAUBackEnd.Admin.Models
         public Users()
         {
             this.SystemLog = new HashSet<SystemLog>();
+            this.PhoneNumberNotification = new HashSet<PhoneNumberNotification>();
         }
     
         public int User_ID { get; set; }
@@ -37,5 +38,7 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SystemLog> SystemLog { get; set; }
         public virtual Units Units { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhoneNumberNotification> PhoneNumberNotification { get; set; }
     }
 }

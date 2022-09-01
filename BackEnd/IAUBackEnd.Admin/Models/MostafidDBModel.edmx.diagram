@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9cd8a4feffbf4ebfaf5cd30514393d3d" Name="Diagram1">
+      <Diagram DiagramId="9cd8a4feffbf4ebfaf5cd30514393d3d" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="MostafidDBModel.Applicant_Type" Width="1.5" PointX="3" PointY="50.125" />
         <EntityTypeShape EntityType="MostafidDBModel.CheckBox_Type" Width="1.5" PointX="15" PointY="31.875" />
         <EntityTypeShape EntityType="MostafidDBModel.City" Width="1.5" PointX="5.25" PointY="61.75" />
@@ -122,6 +122,10 @@
         <AssociationConnector Association="MostafidDBModel.FK_Units_Units_Type" />
         <AssociationConnector Association="MostafidDBModel.FK_UnitServiceTypes_Units" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_Units" />
+        <EntityTypeShape EntityType="MostafidDBModel.PhoneNumberNotification" Width="1.5" PointX="13.875" PointY="27.5" />
+        <EntityTypeShape EntityType="MostafidDBModel.UserFCMToken" Width="1.5" PointX="2.75" PointY="5.75" />
+        <AssociationConnector Association="MostafidDBModel.FK_PhoneNumberNotification_Request_Data" />
+        <AssociationConnector Association="MostafidDBModel.FK_PhoneNumberNotification_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

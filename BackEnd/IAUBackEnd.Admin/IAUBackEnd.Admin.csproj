@@ -356,6 +356,9 @@
     <Compile Include="Models\Person_Eform.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PhoneNumberNotification.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Preview_EformApproval.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -438,6 +441,9 @@
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Unit_Signature.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserFCMToken.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Users.cs">

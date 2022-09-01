@@ -206,6 +206,18 @@
           <Property Name="Mobile" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="IS_Action" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="PhoneNumberNotification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Message_EN" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RequestID" Type="int" />
+          <Property Name="NotiDate" Type="datetime" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
         <EntityType Name="Preview_EformApproval">
           <Key>
             <PropertyRef Name="UnitID" />
@@ -539,6 +551,15 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <EntityType Name="UserFCMToken">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FCMToken" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="User_ID" />
@@ -835,6 +856,30 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
             </Principal>
             <Dependent Role="Personel_Data">
               <PropertyRef Name="Title_Middle_Names_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumberNotification_Request_Data">
+          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="0..1" />
+          <End Role="PhoneNumberNotification" Type="Self.PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumberNotification_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="PhoneNumberNotification" Type="Self.PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1440,6 +1485,7 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
           <EntitySet Name="Paragraph" EntityType="Self.Paragraph" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person_Eform" EntityType="Self.Person_Eform" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneNumberNotification" EntityType="Self.PhoneNumberNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preview_EformApproval" EntityType="Self.Preview_EformApproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preview_TableCols" EntityType="Self.Preview_TableCols" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
@@ -1468,6 +1514,7 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
           <EntitySet Name="Units_Request_Type" EntityType="Self.Units_Request_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units_Type" EntityType="Self.Units_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitServiceTypes" EntityType="Self.UnitServiceTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFCMToken" EntityType="Self.UserFCMToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ValidTo" EntityType="Self.ValidTo" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CheckBox_Type_Question" Association="Self.FK_CheckBox_Type_Question">
@@ -1557,6 +1604,14 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
           <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="Self.FK_Personel_Data_Title_Middle_Names">
             <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumberNotification_Request_Data" Association="Self.FK_PhoneNumberNotification_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumberNotification_Users" Association="Self.FK_PhoneNumberNotification_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
           </AssociationSet>
           <AssociationSet Name="FK_Preview_EformApproval_Person_Eform" Association="Self.FK_Preview_EformApproval_Person_Eform">
             <End Role="Person_Eform" EntitySet="Person_Eform" />
@@ -2083,7 +2138,17 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="PhoneNumberNotification" EntityType="MostafidDBModel.PhoneNumberNotification" />
+          <EntitySet Name="UserFCMToken" EntityType="MostafidDBModel.UserFCMToken" />
+          <AssociationSet Name="FK_PhoneNumberNotification_Request_Data" Association="MostafidDBModel.FK_PhoneNumberNotification_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumberNotification_Users" Association="MostafidDBModel.FK_PhoneNumberNotification_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
             <PropertyRef Name="Applicant_Type_ID" />
@@ -2450,6 +2515,7 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
           <NavigationProperty Name="Request_File" Relationship="MostafidDBModel.FK_Request_File_Request_Data" FromRole="Request_Data" ToRole="Request_File" />
           <NavigationProperty Name="Request_Log" Relationship="MostafidDBModel.FK_Request_State_Request_Data" FromRole="Request_Data" ToRole="Request_Log" />
           <NavigationProperty Name="RequestTransaction" Relationship="MostafidDBModel.FK_RequestTransaction_Request_Data" FromRole="Request_Data" ToRole="RequestTransaction" />
+          <NavigationProperty Name="PhoneNumberNotification" Relationship="MostafidDBModel.FK_PhoneNumberNotification_Request_Data" FromRole="Request_Data" ToRole="PhoneNumberNotification" />
         </EntityType>
         <EntityType Name="Request_File">
           <Key>
@@ -2772,6 +2838,7 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
           <NavigationProperty Name="Job" Relationship="MostafidDBModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
           <NavigationProperty Name="SystemLog" Relationship="MostafidDBModel.FK_SystemLog_Users" FromRole="Users" ToRole="SystemLog" />
           <NavigationProperty Name="Units" Relationship="MostafidDBModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
+          <NavigationProperty Name="PhoneNumberNotification" Relationship="MostafidDBModel.FK_PhoneNumberNotification_Users" FromRole="Users" ToRole="PhoneNumberNotification" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -3639,6 +3706,53 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PhoneNumberNotification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message_EN" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RequestID" Type="Int32" />
+          <Property Name="NotiDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_PhoneNumberNotification_Request_Data" FromRole="PhoneNumberNotification" ToRole="Request_Data" />
+          <NavigationProperty Name="Users" Relationship="MostafidDBModel.FK_PhoneNumberNotification_Users" FromRole="PhoneNumberNotification" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserFCMToken">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FCMToken" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_PhoneNumberNotification_Request_Data">
+          <End Type="MostafidDBModel.Request_Data" Role="Request_Data" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.PhoneNumberNotification" Role="PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumberNotification_Users">
+          <End Type="MostafidDBModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="MostafidDBModel.PhoneNumberNotification" Role="PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4247,6 +4361,29 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="ApplicantTypeID" ColumnName="ApplicantTypeID" />
                 <ScalarProperty Name="MainServiceID" ColumnName="MainServiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneNumberNotification">
+            <EntityTypeMapping TypeName="MostafidDBModel.PhoneNumberNotification">
+              <MappingFragment StoreEntitySet="PhoneNumberNotification">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="NotiDate" ColumnName="NotiDate" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="Message_EN" ColumnName="Message_EN" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserFCMToken">
+            <EntityTypeMapping TypeName="MostafidDBModel.UserFCMToken">
+              <MappingFragment StoreEntitySet="UserFCMToken">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="FCMToken" ColumnName="FCMToken" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
