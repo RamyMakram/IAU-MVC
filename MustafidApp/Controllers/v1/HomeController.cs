@@ -32,6 +32,7 @@ namespace MustafidApp.Controllers.v1
         /// List of Service Type Object
         /// </returns>
 
+        [ApiExplorerSettings(GroupName = "Create Request")]
         [HttpGet]
         public async Task<IActionResult> GetServiceType()
         {
@@ -275,21 +276,57 @@ namespace MustafidApp.Controllers.v1
         /// <summary>
         /// Return Eform
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// SS_ID=549,632,661
+        /// <br /> 
+        /// Q_Type property is 
+        /// <br /> 
+        /// I: Input Type
+        /// <br /> 
+        /// D: Input Type With Date Prop
+        /// <br /> 
+        /// R: Radio Type
+        /// <br /> 
+        /// C: Check Box
+        /// <br /> 
+        /// P: Paragraph
+        /// <br /> 
+        /// S: Separtor
+        /// <br /> 
+        /// T: Title ('user ar and end in quest type')
+        /// <br /> 
+        /// E: Refer To Exist Field
+        /// <br /> 
+        /// G: Grid use ('nrows,table columns')
+        /// <br /> 
+        /// </remarks>
         /// <param name="SS_ID">SS_ID is Sub Service ID that User Choose It</param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetEforms(int SS_ID)
         {
-            //var data = await _appContext.SubServices.Include(q => q.RequiredDocuments).Where(q =>
-            //    !q.Deleted &&
-            //    q.IsAction.Value &&
-            //    q.MainServicesId == M_ID &&
-            //    !q.MainServices.Deleted
-            //).ToListAsync();
+            var data = await _appContext.EForms
+                .Include(q => q.UnitToApproveNavigation)
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.Paragraph)
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.Separator)
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.CheckBoxTypes)
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.RadioTypes)
+                .Include(q => q.Questions)
+                .ThenInclude(q => q.TableColumns)
+                .Where(q =>
+                    !q.Deleted &&
+                    q.IsAction.Value &&
+                    q.SubServiceId == SS_ID
+            ).ToListAsync();
 
-            //var data_DTO = _mapper.Map<List<SubSerivceDTO>>(data);
+            var data_DTO = _mapper.Map<List<EFormDTO>>(data);
 
-            return Ok(new ResponseClass() { Success = true });
+            return Ok(new ResponseClass() { Success = true, data = data_DTO });
         }
     }
 }

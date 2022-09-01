@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
 
 namespace MustafidApp
 {
@@ -43,13 +44,17 @@ namespace MustafidApp
                 config.ReportApiVersions = true;
             });
             #endregion
-            
+
             services.AddDbContext<MustafidAppContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("default"));
             });
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MustafidApp", Version = "v1" });
