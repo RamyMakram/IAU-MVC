@@ -47,16 +47,25 @@ namespace MustafidApp.Controllers.v1
                 if (Phone == null)
                     return Ok(new ResponseClass() { Success = false, data = "Null" });
 
-                if (!Phone.StartsWith("966") && !Phone.StartsWith("+966"))
+                if (!Phone.StartsWith("966") || Phone.Length != 12)
                     return Ok(new ResponseClass() { Success = false, data = "ISNT_SA" });
 
-                //int code = new Random().Next(1000, 9999);
-                int code = 9999;
+                int code = 0;
+                if (Phone == "966xxxxxxxxx")
+                    code = 9999;
+                else
+                    code = new Random().Next(1000, 9999);
+
+                var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
+
+                if (Phone == "966xxxxxxxxx")
+                    return Ok(new ResponseClass() { Success = true, data = CypherCode });
+
 
                 string message_en = $@"Use this code {code} to complete your Login.";
                 string message_ar = $@"برجاء استخدام هذا الكود {code} لتاكيد هويتك.";
 
-                var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
+
                 var res = HttpClientAdminBackend.getDataAdmin($"/Request/NotifyUser?Mobile={Phone}&message_en={message_en}&message_ar={message_ar}", _configuration);
 
                 var resJson = await res.Content.ReadAsStringAsync();
@@ -86,7 +95,7 @@ namespace MustafidApp.Controllers.v1
             if (Phone == null || C_Code == null)
                 return Ok(new ResponseClass() { Success = false, data = "Null" });
 
-            if (!Phone.StartsWith("966") && !Phone.StartsWith("+966"))
+            if (!Phone.StartsWith("966") || Phone.Length != 12)
                 return Ok(new ResponseClass() { Success = false, data = "ISNT_SA" });
 
             var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
