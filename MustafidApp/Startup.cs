@@ -22,6 +22,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MustafidApp.JWT;
 using Microsoft.AspNetCore.Authorization;
+using MustafidApp.Helpers;
+using Microsoft.AspNetCore.Http;
+using System.Net;
+using AutoMapper;
+using MustafidApp.Mapper;
 
 namespace MustafidApp
 {
@@ -117,7 +122,14 @@ namespace MustafidApp
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
             });
 
-            services.AddAutoMapper(typeof(Startup));
+            //services.AddAutoMapper(typeof(Startup));
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfile(Configuration));
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -125,10 +137,24 @@ namespace MustafidApp
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MustafidApp v1"));
             }
+            app.UseStatusCodePages(async statusCodeContext =>
+            {
+                switch (statusCodeContext.HttpContext.Response.StatusCode)
+                {
+                    case 401:
+                        statusCodeContext.HttpContext.Response.StatusCode = 200;
+                        await statusCodeContext.HttpContext.Response.WriteAsJsonAsync(new ResponseClass { Success = false, data = "NoAuth" });
+                        break;
+                        //case 403:
+                        //    statusCodeContext.HttpContext.Response.StatusCode = 400;
+                        //    await statusCodeContext.HttpContext.Response.WriteAsJsonAsync(new ErrorMessage { httpStatus = 500, Message = "some message" });
+                        //    break;
+                }
+            });
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MustafidApp v1"));
 
             app.UseHttpsRedirection();
 
@@ -146,6 +172,30 @@ namespace MustafidApp
                     return;
                 });
             });
+
+            //app.Use(async (context, next) =>
+            //{
+            //    await next();
+
+            //    if (context.Response.StatusCode == (int)HttpStatusCode.Unauthorized) // 401
+            //    {
+            //        context.Response.ContentType = "application/json";
+            //        context.Response.StatusCode = 200;
+
+
+            //        await context.Response.WriteAsJsonAsync(new ResponseClass { Success = false, data = "NoAuth" });
+            //    }
+
+            //    //if (context.Response.StatusCode == (int)HttpStatusCode.Forbidden) // 403
+            //    //{
+            //    //    context.Response.ContentType = "application/json";
+
+            //    //    await context.Response.WriteAsync(new
+            //    //    {
+            //    //        Message = "Your claims are incorrect."
+            //    //    }.ToString());
+            //    //}
+            //});
         }
     }
 }

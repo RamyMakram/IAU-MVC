@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using MustafidAppDTO.DTO;
 using MustafidAppModels.Models;
 
@@ -6,18 +7,23 @@ namespace MustafidApp.Mapper
 {
     public class AutoMapperProfile : Profile
     {
-        public AutoMapperProfile()
+        IConfiguration configuration;
+        public AutoMapperProfile(IConfiguration _configuration)
         {
+            this.configuration = _configuration;
+
             CreateMap<ServiceType, ServiceTypeDTO>()
                 .ForMember(dest => dest.S_ID, src => src.MapFrom(src => src.ServiceTypeId))
                 .ForMember(dest => dest.S_Name, src => src.MapFrom(src => src.ServiceTypeNameAr))
                 .ForMember(dest => dest.S_Name_EN, src => src.MapFrom(src => src.ServiceTypeNameEn))
+                .ForMember(dest => dest.S_Img, src => src.MapFrom(src => configuration["ImagePath"] + "/" + src.ImagePath))
                 .ReverseMap();
 
             CreateMap<RequestType, RequestTypeDTO>()
                 .ForMember(dest => dest.R_ID, src => src.MapFrom(src => src.RequestTypeId))
                 .ForMember(dest => dest.R_Name, src => src.MapFrom(src => src.RequestTypeNameAr))
                 .ForMember(dest => dest.R_Name_EN, src => src.MapFrom(src => src.RequestTypeNameEn))
+                .ForMember(dest => dest.R_Img, src => src.MapFrom(src => configuration["ImagePath"] + "/" + src.ImagePath))
                 .ReverseMap();
 
             CreateMap<ApplicantType, ApplicantTypeDTO>()

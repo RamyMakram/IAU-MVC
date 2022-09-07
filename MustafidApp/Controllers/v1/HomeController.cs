@@ -33,8 +33,7 @@ namespace MustafidApp.Controllers.v1
         /// <returns>
         /// List of Service Type Object
         /// </returns>
-
-        [ApiExplorerSettings(GroupName = "Create Request")]
+        /// 
         [HttpGet]
         public async Task<IActionResult> GetServiceType()
         {
@@ -102,7 +101,7 @@ namespace MustafidApp.Controllers.v1
         /// Returns All Valid Applicant Type base on given Service Type ID and Request Type ID "نوع مقدم الطلب"
         /// </summary>
         /// <param name="S_ID">S_ID is Service Type ID that User Choose It</param>
-        /// <param name="R_ID">S_ID is Request Type ID that User Choose It</param>
+        /// <param name="R_ID">R_ID is Request Type ID that User Choose It</param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAAPType(int S_ID, int R_ID)
@@ -124,7 +123,7 @@ namespace MustafidApp.Controllers.v1
                 ) != 0
             ).Select(q => q.ApplicantType).Distinct().OrderBy(q => q.Index).ToListAsync();
 
-            var data_DTO = _mapper.Map<List<TitleMiddleName>>(data);
+            var data_DTO = _mapper.Map<List<ApplicantTypeDTO>>(data);
 
             return Ok(new ResponseClass() { Success = true, data = data_DTO });
         }
@@ -138,7 +137,7 @@ namespace MustafidApp.Controllers.v1
         {
             var data = await _appContext.TitleMiddleNames.Where(q => q.IsAction.Value).ToListAsync();
 
-            var data_DTO = _mapper.Map<List<ApplicantTypeDTO>>(data);
+            var data_DTO = _mapper.Map<List<TitleNamesDTO>>(data);
 
             return Ok(new ResponseClass() { Success = true, data = data_DTO });
         }
@@ -274,9 +273,32 @@ namespace MustafidApp.Controllers.v1
 
             return Ok(new ResponseClass() { Success = true, data = data_DTO });
         }
+        /// <summary>
+        /// Return Eforms Names
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// SS_ID=549,632,661
+        /// <br /> 
+        /// <param name="SS_ID">SS_ID is Sub Service ID that User Choose It</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetEforms(int SS_ID)
+        {
+            var data = await _appContext.EForms
+                .Where(q =>
+                    !q.Deleted &&
+                    q.IsAction.Value &&
+                    q.SubServiceId == SS_ID
+            ).ToListAsync();
+
+            var data_DTO = _mapper.Map<List<EFormDTO>>(data);
+
+            return Ok(new ResponseClass() { Success = true, data = data_DTO });
+        }
 
         /// <summary>
-        /// Return Eform
+        /// Return Eform Detailed
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -304,11 +326,12 @@ namespace MustafidApp.Controllers.v1
         /// <br /> 
         /// </remarks>
         /// <param name="SS_ID">SS_ID is Sub Service ID that User Choose It</param>
+        /// <param name="EF_ID">EF_ID is Eforms ID that User Will Fill It</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetEforms(int SS_ID)
+        public async Task<IActionResult> GetEformDetails(int SS_ID,int EF_ID)
         {
-            var data = await _appContext.EForms
+            var data = await _appContext.EForms.Where(q=>q.Id==EF_ID)
                 .Include(q => q.UnitToApproveNavigation)
                 .Include(q => q.Questions)
                 .ThenInclude(q => q.Paragraph)

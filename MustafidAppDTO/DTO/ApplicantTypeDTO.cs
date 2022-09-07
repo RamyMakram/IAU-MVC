@@ -11,6 +11,6 @@ namespace MustafidAppDTO.DTO
         public int APP_ID { get; set; }
         public string APP_Name { get; set; }
         public string APP_Name_EN { get; set; }
-        public string APP_Affliated { get; set; }
+        public bool APP_Affliated { get; set; }
     }
 }
