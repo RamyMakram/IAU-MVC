@@ -216,6 +216,8 @@
     <Content Include="Design\img\IAU-BSC ReferencePoints1.png" />
     <Content Include="Design\img\IAULOGO.png" />
     <Content Include="Design\img\loading2.gif" />
+    <Content Include="Design\img\logo-ar.png" />
+    <Content Include="Design\img\logo-en.png" />
     <Content Include="Design\img\MousLogo2.png" />
     <Content Include="Design\img\mustafid %282%29.png" />
     <Content Include="Design\img\newrequest.png" />

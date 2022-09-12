@@ -19,7 +19,9 @@
 html,
 body {
 	height: 100%;
-	background-color: #0a1332;
+	background-color: #555555;
+	/*background-color: #f39200;*/
+	/*background-color: #642D90;*/
 	font-family: 'Frutiger LT Arabic 55 Roman';
 }
 
@@ -28,7 +30,7 @@ body {
 }
 
 .main-page a.active {
-	background-color: #a5cc7d !important;
+	background-color: #f39200 !important;
 }
 /* #region Navbar */
 nav {
@@ -77,7 +79,7 @@ nav {
 			nav ul li a:hover,
 			nav ul li,
 			nav ul li .active {
-				color: #a5cc7d;
+				color: #f39200;
 				font-weight: bold;
 			}
 
@@ -85,7 +87,7 @@ nav {
 	.serial-input button,
 	.langBTN {
 		border: none;
-		background: #4f693a;
+		background: #f39200;
 		color: #fff !important;
 		border-radius: 5px;
 		text-transform: capitalize;
@@ -115,7 +117,7 @@ nav {
 }
 
 	.nav-fill .nav-item {
-		background-color: #4f693a;
+		background-color: #f39200;
 		margin: 0px 5px;
 		border-radius: 3px;
 	}
@@ -131,7 +133,7 @@ nav {
 		}
 
 		.nav-fill .nav-item .active {
-			background-color: #a5cc7d;
+			background-color: #f39200;
 			color: #14242d;
 		}
 
@@ -174,7 +176,7 @@ nav {
 .containt #Request_Type_Id .stick,
 .containt #start-request .stick {
 	text-align: center;
-	background-color: #283758;
+	background-color: #462d90;
 	border-radius: 15px;
 	color: #fff;
 	width: 88%;
@@ -277,7 +279,7 @@ nav {
 #start-request .stick img {
 	width: 110px;
 	margin-bottom: 35px;
-	background-color: rgb(79, 105, 58);
+	background-color: #f39200;
 	padding: 24px 13px;
 	border-radius: 9px;
 }
@@ -331,7 +333,7 @@ nav {
 #personel-data,
 #Documents,
 #Confirmation {
-	background-color: #283758;
+	background-color: #462d90;
 }
 
 	#personel-data .row,
@@ -678,17 +680,17 @@ nav {
 	}
 
 		#Confirmation li span {
-			color: #a5cc7d;
+			color: #f39200;
 			text-transform: uppercase;
 			font-weight: bold;
 		}
 
 	#Confirmation summary {
 		color: #fff;
-		border: 2px solid #4f693a;
+		border: 2px solid #f39200;
 		border-radius: 9px;
 		width: 231px;
-		background-color: #4f693a;
+		background-color: #f39200;
 		text-align: center;
 		margin: auto;
 		padding: 9px 0px;
@@ -702,7 +704,7 @@ nav {
 	#Confirmation button {
 		width: 185px;
 		margin: auto;
-		color: #4f693a;
+		color: #f39200;
 		text-transform: uppercase;
 		font-weight: bold;
 		border: none;
@@ -715,7 +717,7 @@ nav {
 		}
 
 .success {
-	background-color: #4f693a;
+	background-color: #f39200;
 	color: #fff;
 	font-weight: bold;
 	padding: 10px 5px;
@@ -751,12 +753,12 @@ nav {
 
 	.containt2 .col-md-12:first-of-type,
 	.containt2 .col-md-12:nth-of-type(2) {
-		background-color: #283758;
+		background-color: #462d90;
 	}
 
 .containt2 .row .col-md-12:first-of-type img {
 	width: 46px;
-	border: 2px solid #4f693a;
+	border: 2px solid #f39200;
 	border-radius: 5px;
 	line-height: -7px;
 	margin-top: 7px;
@@ -878,11 +880,20 @@ nav {
 .FilesINPDF p {
 	color: green;
 }
-
+.loading.active, .loading.callApi {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	z-index: 9999999;
+	position: fixed;
+	background: #462d90;
+}
 .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .border-state img {
 	width: 80px;
 	height: 80px;
-	background-color: #0a1332;
+	background-color: #462d90;
 	border-radius: 10px;
 	padding: 8px;
 	border: 3px solid #fff;
@@ -922,12 +933,12 @@ nav {
 
 .progress-sucess-state div,
 .progress-sucess-state span {
-	color: #4f693a !important;
-	border-color: #4f693a !important;
+	color: #f39200 !important;
+	border-color: #f39200 !important;
 }
 
 .progress-sucess-state.col-md-1 span {
-	background-color: #4f693a !important;
+	background-color: #f39200 !important;
 }
 
 .modal-dialog {
@@ -965,7 +976,7 @@ input:focus {
 }
 
 	#ReviewMaster2 button {
-		background-color: #4f693a;
+		background-color: #f39200;
 		border: none;
 		width: 100px;
 		height: 40px;
@@ -973,7 +984,7 @@ input:focus {
 
 .tooltip-inner {
 	max-width: 400px !important;
-	background-color: #4b7428;
+	background-color: #f39200;
 	border: 1px solid #fff;
 	opacity: 1;
 	z-index: 1000;
@@ -988,7 +999,7 @@ img {
 .master-login {
 	width: 30%;
 	margin: 30px auto;
-	background-color: #283758;
+	background-color: #462d90;
 	padding: 15px 20px;
 	border-radius: 10px;
 	box-shadow: 1px 1px 5px #eee;
@@ -1038,7 +1049,7 @@ img {
 		display: block;
 		margin: auto;
 		margin-top: 15px;
-		background-color: #4b7428;
+		background-color: #f39200;
 		color: #fff;
 		width: 120px;
 		height: 39px;
@@ -1066,7 +1077,7 @@ img {
 
 		#paint-app .toolbar a {
 			margin: 0px 10px;
-			background-color: #4f693a;
+			background-color: #f39200;
 			border: none;
 		}
 
@@ -1113,7 +1124,7 @@ canvas {
 	border: none;
 	box-shadow: 3px 5px 3px #000;
 	height: 45px;
-	background-color: #4f693a;
+	background-color: #f39200;
 	border: none;
 	width: 100px;
 	height: 40px;
@@ -1673,7 +1684,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 		.main-page .collapse-container > a {
 			display: block;
 			padding: 15px 10px;
-			background-color: #4f693a;
+			background-color: #f39200;
 			border: none;
 			border-radius: 0;
 			letter-spacing: 2px;
@@ -1687,7 +1698,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 
 	.main-page .New-Idea h3,
 	.main-page .operation-System h3 {
-		color: #4f693a;
+		color: #f39200;
 		font-size: 30px;
 		font-weight: bold;
 		padding: 10px 5px 10px 0px;
@@ -1699,7 +1710,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 	.main-page .operation-System p,
 	.main-page .operation-System ul,
 	.main-page .operation-System ol {
-		color: #0a1332;
+		color: #462d90;
 		font-size: 16px;
 		text-align: justify;
 	}
@@ -1746,7 +1757,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 
 			.main-page .New-Idea .Objective .Objective-question ol *,
 			.main-page .New-Idea .Objective .Objective-question ul * {
-				color: #0a1332;
+				color: #462d90;
 			}
 
 		.main-page .New-Idea .vision > ul > li {
@@ -1757,7 +1768,7 @@ i .fa-upload .col-1, i .fa-trash .col-1 {
 			.main-page .New-Idea .vision > ul > li > b,
 			.main-page .operation-System .Scope-of-Services ol li b {
 				font-size: 23px;
-				color: #4b7428
+				color: #f39200
 			}
 
 .vision {

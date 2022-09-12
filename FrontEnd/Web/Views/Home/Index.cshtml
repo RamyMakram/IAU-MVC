@@ -136,16 +136,7 @@
             display: none;
         }
 
-            .loading.active, .loading.callApi {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100vw;
-                height: 100vh;
-                z-index: 9999999;
-                position: fixed;
-                background: #0a1332;
-            }
+           
     </style>
     <script src="~/Design/JS/AraTranslate.js"></script>
 </head>
@@ -156,7 +147,14 @@
     <nav class="navbar navbar-expand-xl">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
+                @if (ViewBag.CookieLang == "ar")
+                {
+                    <img src="~/Design/img/logo-ar.png" />
+                }
+                else
+                {
+                    <img src="~/Design/img/logo-en.png" />
+                }
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
