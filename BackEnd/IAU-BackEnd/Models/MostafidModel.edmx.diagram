@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1af6fa459f1e42ea8a567db91ffb3604" Name="Diagram1">
+      <Diagram DiagramId="1af6fa459f1e42ea8a567db91ffb3604" Name="Diagram1" ZoomLevel="46">
         <EntityTypeShape EntityType="MostafidDatabaseModel.Applicant_Type" Width="1.5" PointX="3" PointY="48.75" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.CheckBox_Type" Width="1.5" PointX="15" PointY="46" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.City" Width="1.5" PointX="5.25" PointY="52.625" />
@@ -32,7 +32,6 @@
         <EntityTypeShape EntityType="MostafidDatabaseModel.Request_File" Width="1.5" PointX="9.75" PointY="54.625" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Log" Width="1.5" PointX="12.75" PointY="44.875" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Request_State" Width="1.5" PointX="5.25" PointY="21.875" />
-        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Type" Width="1.5" PointX="3" PointY="27.75" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.RequestTransaction" Width="1.5" PointX="10.75" PointY="32.875" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Required_Documents" Width="1.5" PointX="7.5" PointY="71" />
         <EntityTypeShape EntityType="MostafidDatabaseModel.Separator" Width="1.5" PointX="15" PointY="51.5" />
@@ -96,7 +95,6 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_Separator_Question" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Table_Columns_Question" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Request_State" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Request_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Service_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Sub_Services" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Units" />
@@ -105,7 +103,6 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_RequestTransaction_Request_Data" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_File_Required_Documents" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Log_Request_State" />
-        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_RequestTransaction_Units" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_RequestTransaction_Units1" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Required_Documents_Sub_Services" />
@@ -122,7 +119,11 @@
         <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Units_Type" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_UnitServiceTypes_Units" />
         <AssociationConnector Association="MostafidDatabaseModel.FK_Users_Units" />
-      </Diagram>
+        <EntityTypeShape EntityType="MostafidDatabaseModel.Request_Type" Width="1.5" PointX="8.75" PointY="1" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_DelayedTransaction_Units" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Request_Data_Request_Type" />
+        <AssociationConnector Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

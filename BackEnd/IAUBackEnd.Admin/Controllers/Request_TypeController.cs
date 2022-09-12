@@ -63,6 +63,7 @@ namespace IAUBackEnd.Admin.Controllers
                 data.Request_Type_Name_EN = request_Type.Request_Type_Name_EN;
                 data.Desc_EN = request_Type.Desc_EN;
                 data.Desc_AR = request_Type.Desc_AR;
+                data.IsRequestType = request_Type.IsRequestType;
                 await db.SaveChangesAsync();
 
                 var logstate = Logger.AddLog(db: db, logClass: LogClassType.RequestType, Method: "Create", Oldval: OldVals, Newval: data, es: out _, syslog: out _, ID: data.Request_Type_ID, notes: null);
@@ -92,6 +93,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return Ok(new ResponseClass() { success = false, result = ModelState });
+
             var trans = db.Database.BeginTransaction();
 
             try

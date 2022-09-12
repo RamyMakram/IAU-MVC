@@ -186,8 +186,7 @@ namespace MustafidApp.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> ValidateRequestData(int R_ID, int S_ID, int APP_ID, int U_ID, int? M_ID, int? SS_ID)
         {
-            var ReqType = await _appContext.RequestTypes.FirstOrDefaultAsync(q => q.RequestTypeId == R_ID && !q.Deleted);
-            var req = ReqType.RequestTypeNameEn.ToLower().Contains("inq");
+            var req = await _appContext.RequestTypes.AnyAsync(q => q.RequestTypeId == R_ID && !q.Deleted && q.IsRequestType);
 
             if (req)
                 if (!M_ID.HasValue || !SS_ID.HasValue)

@@ -155,6 +155,7 @@
 	"t-Home-unit": "Units",
 	"t-Home-InquiryRequest": "Request Inquiry",
 	"t-SubmitReminder": "Send Reminder",
-	"t-order-date": "Requet Date"
+	"t-order-date": "Requet Date",
+	"t-isrequestType": "Acting As Request Type"
 
 }

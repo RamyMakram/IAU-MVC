@@ -157,6 +157,7 @@
 	"t-Home-unit": "الفئات",
 	"t-Home-InquiryRequest": "الإستعلام عن الطلب",
 	"t-SubmitReminder": "إرسال تذكير",
-	"t-order-date": "تاريخ الطلب"
+	"t-order-date": "تاريخ الطلب",
+	"t-isrequestType": "يعامل معاملة الطلب"
 
 }

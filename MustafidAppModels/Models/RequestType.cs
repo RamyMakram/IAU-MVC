@@ -20,6 +20,7 @@ namespace MustafidAppModels.Models
         public string DescEn { get; set; }
         public string DescAr { get; set; }
         public string ImagePath { get; set; }
+        public bool IsRequestType { get; set; }
         public bool Deleted { get; set; }
         public DateTime? DeletedAt { get; set; }
 

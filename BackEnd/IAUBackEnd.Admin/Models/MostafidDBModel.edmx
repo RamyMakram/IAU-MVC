@@ -348,6 +348,7 @@
           <Property Name="Desc_EN" Type="nvarchar(max)" />
           <Property Name="Desc_AR" Type="nvarchar(max)" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsRequestType" Type="bit" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
@@ -2570,6 +2571,7 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDBModel.FK_Request_Data_Request_Type" FromRole="Request_Type" ToRole="Request_Data" />
           <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDBModel.FK_Units_Request_Type_Request_Type" FromRole="Request_Type" ToRole="Units_Request_Type" />
+          <Property Name="IsRequestType" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="RequestTransaction">
           <Key>
@@ -4108,6 +4110,7 @@ warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' doe
           <EntitySetMapping Name="Request_Type">
             <EntityTypeMapping TypeName="MostafidDBModel.Request_Type">
               <MappingFragment StoreEntitySet="Request_Type">
+                <ScalarProperty Name="IsRequestType" ColumnName="IsRequestType" />
                 <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
                 <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />

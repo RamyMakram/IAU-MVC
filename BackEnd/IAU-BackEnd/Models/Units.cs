@@ -27,6 +27,7 @@ namespace IAU_BackEnd.Models
             this.Units1 = new HashSet<Units>();
             this.UnitServiceTypes = new HashSet<UnitServiceTypes>();
             this.Users = new HashSet<Users>();
+            this.DelayedTransaction = new HashSet<DelayedTransaction>();
         }
     
         public int Units_ID { get; set; }
@@ -71,5 +72,7 @@ namespace IAU_BackEnd.Models
         public virtual ICollection<UnitServiceTypes> UnitServiceTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DelayedTransaction> DelayedTransaction { get; set; }
     }
 }

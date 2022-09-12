@@ -67,6 +67,10 @@
                                 <label class="control-label en-font" key="t-endesc" for="enname">Mobile</label>
                                 @Html.TextBoxFor(q => q.Desc_EN, new { @class = "form-control en-font", @name = "endesc", @id = "endesc" })
                             </div>
+                            <div class="form-group">
+                                <label class="control-label ar-font" key="t-isrequestType" for="isrequestType"></label>
+                                @Html.CheckBoxFor(q => q.IsRequestType, new { @class = "form-control", @name = "isrequestType", @id = "isrequestType" })
+                            </div>
                         </div>
 					</div>
 					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>

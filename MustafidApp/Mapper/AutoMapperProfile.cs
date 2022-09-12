@@ -23,6 +23,7 @@ namespace MustafidApp.Mapper
                 .ForMember(dest => dest.R_ID, src => src.MapFrom(src => src.RequestTypeId))
                 .ForMember(dest => dest.R_Name, src => src.MapFrom(src => src.RequestTypeNameAr))
                 .ForMember(dest => dest.R_Name_EN, src => src.MapFrom(src => src.RequestTypeNameEn))
+                .ForMember(dest => dest.R_IsReq, src => src.MapFrom(src => src.IsRequestType))
                 .ForMember(dest => dest.R_Img, src => src.MapFrom(src => configuration["ImagePath"] + "/" + src.ImagePath))
                 .ReverseMap();
 

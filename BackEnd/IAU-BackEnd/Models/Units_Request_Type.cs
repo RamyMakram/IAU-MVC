@@ -20,7 +20,7 @@ namespace IAU_BackEnd.Models
         public bool Deleted { get; set; }
         public Nullable<System.DateTime> DeletedAt { get; set; }
     
-        public virtual Request_Type Request_Type { get; set; }
         public virtual Units Units { get; set; }
+        public virtual Request_Type Request_Type { get; set; }
     }
 }

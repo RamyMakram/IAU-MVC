@@ -53,7 +53,6 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<Request_File> Request_File { get; set; }
         public virtual DbSet<Request_Log> Request_Log { get; set; }
         public virtual DbSet<Request_State> Request_State { get; set; }
-        public virtual DbSet<Request_Type> Request_Type { get; set; }
         public virtual DbSet<RequestTransaction> RequestTransaction { get; set; }
         public virtual DbSet<Required_Documents> Required_Documents { get; set; }
         public virtual DbSet<Separator> Separator { get; set; }
@@ -74,5 +73,6 @@ namespace IAU_BackEnd.Models
         public virtual DbSet<UnitServiceTypes> UnitServiceTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<ValidTo> ValidTo { get; set; }
+        public virtual DbSet<Request_Type> Request_Type { get; set; }
     }
 }

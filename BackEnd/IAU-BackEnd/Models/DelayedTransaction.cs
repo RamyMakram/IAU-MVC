@@ -22,8 +22,10 @@ namespace IAU_BackEnd.Models
         public int Delayed { get; set; }
         public System.DateTime AddedDate { get; set; }
         public bool Readed { get; set; }
+        public Nullable<int> DelayedOnUnitID { get; set; }
     
         public virtual Request_Data Request_Data { get; set; }
         public virtual Request_State Request_State { get; set; }
+        public virtual Units Units { get; set; }
     }
 }

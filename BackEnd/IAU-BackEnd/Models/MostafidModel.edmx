@@ -51,6 +51,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="DelayedOnUnitID" Type="int" />
           <Property Name="RequestCode" Type="char" MaxLength="13" />
           <Property Name="RequestStatus" Type="tinyint" Nullable="false" />
           <Property Name="TransactionDate" Type="date" Nullable="false" />
@@ -335,6 +336,7 @@
           <Property Name="Desc_EN" Type="nvarchar(max)" />
           <Property Name="Desc_AR" Type="nvarchar(max)" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsRequestType" Type="bit" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
@@ -553,7 +555,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="150" />
           <Property Name="User_Mobile" Type="nvarchar" MaxLength="20" />
           <Property Name="User_Email" Type="nvarchar" MaxLength="100" />
           <Property Name="User_Password" Type="nvarchar" MaxLength="20" />
@@ -575,6 +577,8 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_CheckBox_Type_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -622,6 +626,18 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="DelayedTransaction" Type="Self.DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1482,6 +1498,10 @@
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="Self.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_E-Forms_Answer_Person_Eform" Association="Self.FK_E-Forms_Answer_Person_Eform">
             <End Role="Person_Eform" EntitySet="Person_Eform" />
             <End Role="E-Forms_Answer" EntitySet="E-Forms_Answer" />
@@ -1775,7 +1795,6 @@
           <EntitySet Name="Request_File" EntityType="MostafidDatabaseModel.Request_File" />
           <EntitySet Name="Request_Log" EntityType="MostafidDatabaseModel.Request_Log" />
           <EntitySet Name="Request_State" EntityType="MostafidDatabaseModel.Request_State" />
-          <EntitySet Name="Request_Type" EntityType="MostafidDatabaseModel.Request_Type" />
           <EntitySet Name="RequestTransaction" EntityType="MostafidDatabaseModel.RequestTransaction" />
           <EntitySet Name="Required_Documents" EntityType="MostafidDatabaseModel.Required_Documents" />
           <EntitySet Name="Separator" EntityType="MostafidDatabaseModel.Separator" />
@@ -1968,10 +1987,6 @@
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="Request_Data" EntitySet="Request_Data" />
           </AssociationSet>
-          <AssociationSet Name="FK_Request_Data_Request_Type" Association="MostafidDatabaseModel.FK_Request_Data_Request_Type">
-            <End Role="Request_Type" EntitySet="Request_Type" />
-            <End Role="Request_Data" EntitySet="Request_Data" />
-          </AssociationSet>
           <AssociationSet Name="FK_Request_Data_Service_Type" Association="MostafidDatabaseModel.FK_Request_Data_Service_Type">
             <End Role="Service_Type" EntitySet="Service_Type" />
             <End Role="Request_Data" EntitySet="Request_Data" />
@@ -2003,10 +2018,6 @@
           <AssociationSet Name="FK_Request_Log_Request_State" Association="MostafidDatabaseModel.FK_Request_Log_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
             <End Role="Request_Log" EntitySet="Request_Log" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type">
-            <End Role="Request_Type" EntitySet="Request_Type" />
-            <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
           </AssociationSet>
           <AssociationSet Name="FK_RequestTransaction_Units" Association="MostafidDatabaseModel.FK_RequestTransaction_Units">
             <End Role="Units" EntitySet="Units" />
@@ -2072,6 +2083,19 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Request_Type" EntityType="MostafidDatabaseModel.Request_Type" />
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="MostafidDatabaseModel.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_Data_Request_Type" Association="MostafidDatabaseModel.FK_Request_Data_Request_Type">
+            <End Role="Request_Type" EntitySet="Request_Type" />
+            <End Role="Request_Data" EntitySet="Request_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Units_Request_Type_Request_Type" Association="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type">
+            <End Role="Request_Type" EntitySet="Request_Type" />
+            <End Role="Units_Request_Type" EntitySet="Units_Request_Type" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
@@ -2136,6 +2160,8 @@
           <Property Name="Readed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Request_Data" FromRole="DelayedTransaction" ToRole="Request_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Request_State" FromRole="DelayedTransaction" ToRole="Request_State" />
+          <Property Name="DelayedOnUnitID" Type="Int32" />
+          <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Units" FromRole="DelayedTransaction" ToRole="Units" />
         </EntityType>
         <EntityType Name="E_Forms">
           <Key>
@@ -2430,13 +2456,13 @@
           <NavigationProperty Name="Person_Eform" Relationship="MostafidDatabaseModel.FK_Person_Eform_Request_Data" FromRole="Request_Data" ToRole="Person_Eform" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
-          <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
           <NavigationProperty Name="Sub_Services" Relationship="MostafidDatabaseModel.FK_Request_Data_Sub_Services" FromRole="Request_Data" ToRole="Sub_Services" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Request_Data_Units" FromRole="Request_Data" ToRole="Units" />
           <NavigationProperty Name="Request_File" Relationship="MostafidDatabaseModel.FK_Request_File_Request_Data" FromRole="Request_Data" ToRole="Request_File" />
           <NavigationProperty Name="Request_Log" Relationship="MostafidDatabaseModel.FK_Request_State_Request_Data" FromRole="Request_Data" ToRole="Request_Log" />
           <NavigationProperty Name="RequestTransaction" Relationship="MostafidDatabaseModel.FK_RequestTransaction_Request_Data" FromRole="Request_Data" ToRole="RequestTransaction" />
+          <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
         </EntityType>
         <EntityType Name="Request_File">
           <Key>
@@ -2475,22 +2501,6 @@
           <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Request_State" FromRole="Request_State" ToRole="DelayedTransaction" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_State" FromRole="Request_State" ToRole="Request_Data" />
           <NavigationProperty Name="Request_Log" Relationship="MostafidDatabaseModel.FK_Request_Log_Request_State" FromRole="Request_State" ToRole="Request_Log" />
-        </EntityType>
-        <EntityType Name="Request_Type">
-          <Key>
-            <PropertyRef Name="Request_Type_ID" />
-          </Key>
-          <Property Name="Request_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Request_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="IS_Action" Type="Boolean" />
-          <Property Name="Desc_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Desc_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Deleted" Type="Boolean" Nullable="false" />
-          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Type" ToRole="Request_Data" />
-          <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" FromRole="Request_Type" ToRole="Units_Request_Type" />
         </EntityType>
         <EntityType Name="RequestTransaction">
           <Key>
@@ -2696,6 +2706,7 @@
           <NavigationProperty Name="Units_Type" Relationship="MostafidDatabaseModel.FK_Units_Units_Type" FromRole="Units" ToRole="Units_Type" />
           <NavigationProperty Name="UnitServiceTypes" Relationship="MostafidDatabaseModel.FK_UnitServiceTypes_Units" FromRole="Units" ToRole="UnitServiceTypes" />
           <NavigationProperty Name="Users" Relationship="MostafidDatabaseModel.FK_Users_Units" FromRole="Units" ToRole="Users" />
+          <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Units" FromRole="Units" ToRole="DelayedTransaction" />
         </EntityType>
         <EntityType Name="Units_Location">
           <Key>
@@ -2721,8 +2732,8 @@
           <Property Name="Request_Type_ID" Type="Int32" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" FromRole="Units_Request_Type" ToRole="Request_Type" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Units" FromRole="Units_Request_Type" ToRole="Units" />
+          <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" FromRole="Units_Request_Type" ToRole="Request_Type" />
         </EntityType>
         <EntityType Name="Units_Type">
           <Key>
@@ -2754,7 +2765,7 @@
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -3311,18 +3322,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Request_Data_Request_Type">
-          <End Type="MostafidDatabaseModel.Request_Type" Role="Request_Type" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Request_Data" Role="Request_Data" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Request_Type">
-              <PropertyRef Name="Request_Type_ID" />
-            </Principal>
-            <Dependent Role="Request_Data">
-              <PropertyRef Name="Request_Type_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Request_Data_Service_Type">
           <End Type="MostafidDatabaseModel.Service_Type" Role="Service_Type" Multiplicity="0..1" />
           <End Type="MostafidDatabaseModel.Request_Data" Role="Request_Data" Multiplicity="*" />
@@ -3416,18 +3415,6 @@
             </Principal>
             <Dependent Role="Request_Log">
               <PropertyRef Name="Request_State_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Units_Request_Type_Request_Type">
-          <End Type="MostafidDatabaseModel.Request_Type" Role="Request_Type" Multiplicity="0..1" />
-          <End Type="MostafidDatabaseModel.Units_Request_Type" Role="Units_Request_Type" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Request_Type">
-              <PropertyRef Name="Request_Type_ID" />
-            </Principal>
-            <Dependent Role="Units_Request_Type">
-              <PropertyRef Name="Request_Type_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3623,6 +3610,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Request_Type">
+          <Key>
+            <PropertyRef Name="Request_Type_ID" />
+          </Key>
+          <Property Name="Request_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Request_Type_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Request_Type_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IS_Action" Type="Boolean" />
+          <Property Name="Desc_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Desc_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsRequestType" Type="Boolean" Nullable="false" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Type" ToRole="Request_Data" />
+          <NavigationProperty Name="Units_Request_Type" Relationship="MostafidDatabaseModel.FK_Units_Request_Type_Request_Type" FromRole="Request_Type" ToRole="Units_Request_Type" />
+        </EntityType>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.DelayedTransaction" Role="DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_Data_Request_Type">
+          <End Type="MostafidDatabaseModel.Request_Type" Role="Request_Type" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Request_Data" Role="Request_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Type">
+              <PropertyRef Name="Request_Type_ID" />
+            </Principal>
+            <Dependent Role="Request_Data">
+              <PropertyRef Name="Request_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Units_Request_Type_Request_Type">
+          <End Type="MostafidDatabaseModel.Request_Type" Role="Request_Type" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.Units_Request_Type" Role="Units_Request_Type" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Type">
+              <PropertyRef Name="Request_Type_ID" />
+            </Principal>
+            <Dependent Role="Units_Request_Type">
+              <PropertyRef Name="Request_Type_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3676,6 +3716,7 @@
           <EntitySetMapping Name="DelayedTransaction">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.DelayedTransaction">
               <MappingFragment StoreEntitySet="DelayedTransaction">
+                <ScalarProperty Name="DelayedOnUnitID" ColumnName="DelayedOnUnitID" />
                 <ScalarProperty Name="Readed" ColumnName="Readed" />
                 <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
                 <ScalarProperty Name="Delayed" ColumnName="Delayed" />
@@ -3974,21 +4015,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Request_Type">
-            <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_Type">
-              <MappingFragment StoreEntitySet="Request_Type">
-                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
-                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
-                <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
-                <ScalarProperty Name="Desc_AR" ColumnName="Desc_AR" />
-                <ScalarProperty Name="Desc_EN" ColumnName="Desc_EN" />
-                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
-                <ScalarProperty Name="Request_Type_Name_AR" ColumnName="Request_Type_Name_AR" />
-                <ScalarProperty Name="Request_Type_Name_EN" ColumnName="Request_Type_Name_EN" />
-                <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RequestTransaction">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.RequestTransaction">
               <MappingFragment StoreEntitySet="RequestTransaction">
@@ -4245,7 +4271,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="Request_Type">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.Request_Type">
+              <MappingFragment StoreEntitySet="Request_Type">
+                <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="IsRequestType" ColumnName="IsRequestType" />
+                <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+                <ScalarProperty Name="Desc_AR" ColumnName="Desc_AR" />
+                <ScalarProperty Name="Desc_EN" ColumnName="Desc_EN" />
+                <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+                <ScalarProperty Name="Request_Type_Name_AR" ColumnName="Request_Type_Name_AR" />
+                <ScalarProperty Name="Request_Type_Name_EN" ColumnName="Request_Type_Name_EN" />
+                <ScalarProperty Name="Request_Type_ID" ColumnName="Request_Type_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

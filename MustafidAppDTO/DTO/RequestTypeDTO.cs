@@ -12,5 +12,6 @@ namespace MustafidAppDTO.DTO
         public string R_Name { get; set; }
         public string R_Name_EN { get; set; }
         public string R_Img { get; set; }
+        public string R_IsReq { get; set; }
     }
 }
