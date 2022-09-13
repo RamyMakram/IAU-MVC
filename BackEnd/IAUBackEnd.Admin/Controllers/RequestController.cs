@@ -526,18 +526,32 @@ namespace IAUBackEnd.Admin.Controllers
                         foreach (var i in RequiredFiles)
                         {
                             var file = provider.Contents[count];
-                            var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
-                            var Strambuffer = await file.ReadAsByteArrayAsync();
-                            var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
-                            File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
-                            request_Data.Request_File.Add(new Request_File()
+                            var ReqFile = file.Headers.ContentDisposition.FileName.Split('|');
+                            if (ReqFile.Length != 2)
                             {
-                                Request_ID = request_Data.Request_Data_ID.Value,
-                                RequiredDoc_ID = i.ID.Value,
-                                File_Name = filename,
-                                CreatedDate = DateTime.Now,
-                                File_Path = filepath.Replace("\\", "/")
-                            });
+                                transaction.Rollback();
+                                return Ok(new
+                                {
+                                    result = "Error In Suppoerted Files",
+                                    success = false
+                                });
+                            }
+                            var ReqFileID = int.Parse(ReqFile[0]);
+                            if (i.ID == ReqFileID)
+                            {
+                                var filename = ReqFile[1].Trim('\"');
+                                var Strambuffer = await file.ReadAsByteArrayAsync();
+                                var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
+                                File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
+                                request_Data.Request_File.Add(new Request_File()
+                                {
+                                    Request_ID = request_Data.Request_Data_ID.Value,
+                                    RequiredDoc_ID = i.ID.Value,
+                                    File_Name = filename,
+                                    CreatedDate = DateTime.Now,
+                                    File_Path = filepath.Replace("\\", "/")
+                                });
+                            }
                             count++;
                         }
                     }

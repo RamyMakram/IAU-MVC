@@ -603,7 +603,7 @@ function PrepareFiles() {
     for (var i = 0; i < lengthSuppor; i++) {
         for (var j = 0; j < lengthupload; j++) {
             if (supporteddocs[i].ID == uploadfiles[j].ID) {
-                fileData.append(uploadfiles[j].File.name, uploadfiles[j].File)
+                fileData.append(supporteddocs[i].ID + "|" + uploadfiles[j].File.name, uploadfiles[j].File)
                 //console.log(uploadfiles[j].File.name)
                 break;
             }
