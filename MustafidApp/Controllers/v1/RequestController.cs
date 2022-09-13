@@ -130,63 +130,63 @@ namespace MustafidApp.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveRequest(int code, string C_Code, RequestDTO request)
+        public async Task<IActionResult> SaveRequest(int code, string C_Code, [FromBody]RequestDTO request)
         {
             var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
 
             if (CypherCode == C_Code)
             {
-                //var request_Data = _mapper.Map<RequestDatum>(request);
-                //HttpClientHandler handler = new HttpClientHandler();
-                //using (var client = new HttpClient(handler, false))
-                //{
-                //    client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
-                //    using (var content = new MultipartFormDataContent())
-                //    {
-                //        int length = Request.Form.Files.Count;
+                var request_Data = _mapper.Map<RequestDatum>(request);
+                HttpClientHandler handler = new HttpClientHandler();
+                using (var client = new HttpClient(handler, false))
+                {
+                    client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        int length = Request.Form.Files.Count;
 
-                //        for (int i = 0; i < length; i++)
-                //        {
-                //            var file = Request.Form.Files[i];
-                //            byte[] Bytes;
-                //            using (var ms = new MemoryStream())
-                //            {
-                //                file.CopyTo(ms);
-                //                Bytes = ms.ToArray();
-                //            }
-                //            var fileContent = new ByteArrayContent(Bytes);
-                //            fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
-                //            content.Add(fileContent);
-                //        }
-                //        var stringContent = new StringContent(JsonConvert.SerializeObject(JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data).Personel_Data.E_Forms_Answer));
-                //        stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
-                //        content.Add(stringContent, "json");
-                //        stringContent = new StringContent(JsonConvert.SerializeObject(request_Data));
-                //        stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
-                //        content.Add(stringContent, "json");
+                        for (int i = 0; i < length; i++)
+                        {
+                            var file = Request.Form.Files[i];
+                            byte[] Bytes;
+                            using (var ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                Bytes = ms.ToArray();
+                            }
+                            var fileContent = new ByteArrayContent(Bytes);
+                            fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
+                            content.Add(fileContent);
+                        }
+                        var stringContent = new StringContent(JsonConvert.SerializeObject(request.Req_ApplicantData.PD_EFormAnswer));
+                        stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
+                        content.Add(stringContent, "json");
+                        stringContent = new StringContent(JsonConvert.SerializeObject(request_Data));
+                        stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
+                        content.Add(stringContent, "json");
 
-                //        var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData";
-                //        var result = client.PostAsync(requestUri, content).Result;
-                //        if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                //        {
-                //            var d = result.Content.ReadAsStringAsync();
-                //            var lst = JsonConvert.DeserializeObject<ResponseClass>(d.Result);
-                //            if (lst.success)
-                //            {
-                //                Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
-                //                return JsonConvert.SerializeObject(new ResponseClass() { success = true });
-                //            }
-                //            else
-                //                return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
-                //        }
-                //        return JsonConvert.SerializeObject(new ResponseClass() { success = false });
-                //    }
-                //}
+                        var requestUri = _configuration["AdminPanel_BE_URL"] + "/api/Request/saveApplicantData";
+                        var result = client.PostAsync(requestUri, content).Result;
+                        if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            var d = result.Content.ReadAsStringAsync();
+                            var lst = JsonConvert.DeserializeObject<ResponseClass>(d.Result);
+                            //if (lst.Success)
+                            //{
+                            //    Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
+                            //    return JsonConvert.SerializeObject(new ResponseClass() { success = true });
+                            //}
+                            //else
+                            //    return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
+                        }
+                        //return JsonConvert.SerializeObject(new ResponseClass() { Success = false });
+                    }
+                }
 
-                return Ok(new ResponseClass() { Success = true/*, data = token */});
+                return Ok(new ResponseClass() { Success = true, data = "Ok" });
             }
             else
-                return Ok(new ResponseClass() { Success = false });
+                return Ok(new ResponseClass() { Success = false, data = "CodeError" });
 
         }
 

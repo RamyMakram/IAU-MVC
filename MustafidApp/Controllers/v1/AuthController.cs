@@ -74,7 +74,7 @@ namespace MustafidApp.Controllers.v1
                 if (Res.Success)
                     return Ok(new ResponseClass() { Success = true, data = CypherCode });
                 else
-                    return Ok(new ResponseClass() { Success = false });
+                    return Ok(new ResponseClass() { Success = false, data = "Error" });
             }
             catch (Exception eee)
             {
@@ -107,7 +107,7 @@ namespace MustafidApp.Controllers.v1
                 return Ok(new ResponseClass() { Success = true, data = token });
             }
             else
-                return Ok(new ResponseClass() { Success = false });
+                return Ok(new ResponseClass() { Success = false, data = "InvalidCode" });
         }
     }
 }

@@ -46,5 +46,7 @@ namespace MustafidAppDTO.DTO
         //[MinLength(12)]
         //[MaxLength(12)]
         public string PD_Phone { get; set; }
+		public virtual ICollection<EformAnsDTO> PD_EFormAnswer { get; set; }
+
     }
 }

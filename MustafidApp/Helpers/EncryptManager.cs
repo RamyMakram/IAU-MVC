@@ -10,7 +10,7 @@ namespace MustafidApp.Helpers
         private static readonly string keyString = "AAECAwQFBgcICQoLDA0ODw==";
         public static string EncryptString(string text)
         {
-            var key = Convert.FromBase64String(keyString);
+            //var key = Convert.FromBase64String(keyString);
 
             //using (var aesAlg = Aes.Create())
             //{
