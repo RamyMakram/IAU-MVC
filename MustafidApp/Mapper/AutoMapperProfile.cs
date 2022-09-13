@@ -180,6 +180,7 @@ namespace MustafidApp.Mapper
             .ForMember(dest => dest.PD_Postal, src => src.MapFrom(src => src.PostalCode))
             .ForMember(dest => dest.PD_mail, src => src.MapFrom(src => src.Email))
             .ForMember(dest => dest.PD_Phone, src => src.MapFrom(src => src.Mobile))
+            //.ForMember(dest => dest.PD_EFormAnswer, src => src.MapFrom(src => src.))
             .ReverseMap();
 
             CreateMap<RequestTransaction, RequestTransactionDTO>()
@@ -201,6 +202,27 @@ namespace MustafidApp.Mapper
                 //.ForMember(dest => dest.Req_Trans, src => src.MapFrom(src => src.RequestTransactions))
                 .ReverseMap();
 
+
+            #region EFrom Answares
+            CreateMap<EFormsAnswer, EformAnsDTO>()
+                   .ForMember(dest => dest.EFAns_Value, src => src.MapFrom(src => src.Value))
+                   .ForMember(dest => dest.EFAns_Value_EN, src => src.MapFrom(src => src.ValueEn))
+                   .ForMember(dest => dest.EFAns_Q_ID, src => src.MapFrom(src => src.QuestionId))
+                   .ForMember(dest => dest.EFAns_EF_ID, src => src.MapFrom(src => src.EformId))
+                   .ForMember(dest => dest.EFAns_TableCol, src => src.MapFrom(src => src.PreviewTableCols))
+                   .ReverseMap();
+
+            CreateMap<PreviewTableCol, Preview_TableColsDTO>()
+                //.ForMember(dest => dest.TC_ID, src => src.MapFrom(src => src.Id))
+                .ForMember(dest => dest.TC_Answare, src => src.MapFrom(src => src.TablesAnswares))
+                .ReverseMap();
+
+
+            CreateMap<TablesAnsware, Tables_AnswareDTO>()
+                .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Row))
+                .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Value))
+                .ReverseMap(); 
+            #endregion
 
 
         }

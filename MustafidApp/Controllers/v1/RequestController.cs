@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using MustafidAppModels.Models;
 using System.Net.Http;
 using System.IO;
+using Microsoft.Extensions.Hosting;
 
 namespace MustafidApp.Controllers.v1
 {
@@ -128,26 +129,115 @@ namespace MustafidApp.Controllers.v1
             else
                 return Ok(new ResponseClass() { Success = false });
         }
-
+        /// <summary>
+        /// Save Request
+        /// </summary>
+        /// <param name="code">Code That User Enter IT</param>
+        /// <param name="C_Code">Return Of Api</param>
+        /// <param name="request">Req Object As FormData</param>
+        /// 
+        /// 
+        /// <remarks>
+        ///     {        
+        ///         "Req_U_ID": Unit ID حدد الخدمة,
+        ///         "Req_SS_ID": Sub Service ID,
+        ///         "Req_Notes": Requst Notes,
+        ///         "Req_S_ID": Service Type ID,
+        ///         "Req_R_ID": Request Type ID,
+        ///         "Req_Is_Mos": always is 'true',
+        ///         "Req_ApplicantData": {
+        ///          "PD_Address_C_ID": الدولة,
+        ///          "PD_APP_ID": Applicant Type ID,
+        ///          "PD_C_ID": مكان الاقامة,
+        ///          "PD_F_Name": ,
+        ///          "PD_L_Name": "incididunt aliquip",
+        ///          "PD_M_Name": "id irure ",
+        ///          "PD_ID_Doc_ID": نوع الهوية,
+        ///          "PD_ID_Number": رقم الهوية,
+        ///          "PD_mail": ,
+        ///          "PD_National_ID": الجنسية,
+        ///          "PD_TitleNames_ID": Mrs.,
+        ///          "PD_IAUNumber": If Affliated,
+        ///          "PD_Address_City_ID": المنطقة,
+        ///          "PD_Adress_R_ID": المدينة,
+        ///          "PD_Address_City": string : المنطقة,
+        ///          "PD_Adress_Region": string : المدينة,
+        ///          "PD_Postal": ,
+        ///          "PD_EFormAnswer": [
+        ///              {
+        ///                  "EFAns_Q_ID": رقم السؤال,
+        ///                  "EFAns_EF_ID": رقم النموذج,
+        ///                  "EFAns_Value": لو radio or check بيبق JSON,
+        ///                  "EFAns_Value_EN": لو radio or check بيبق JSON,
+        ///                  "EFAns_TableCol": لو جدول [
+        ///                      {
+        ///                          "TC_ID":  رقم ال column,
+        ///                          "TC_Answare": [
+        ///                              {
+        ///                                  "TAns_Row":رقم ال row,
+        ///                                  "TAns_Val": ""
+        ///                              },
+        ///                              {
+        ///                                  "TAns_Row": رقم ال row,
+        ///                                  "TAns_Val": ""
+        ///                              }
+        ///                          ]
+        ///                      }
+        ///                  ]
+        ///              },
+        ///              {
+        ///                  "EFAns_Q_ID": رقم السؤال,
+        ///                  "EFAns_EF_ID": رقم النموذج,
+        ///                  "EFAns_Value": لو radio or check بيبق JSON,
+        ///                  "EFAns_Value_EN": لو radio or check بيبق JSON,
+        ///              }
+        ///          ]
+        ///      }
+        ///     }
+        ///dd
+        /// </remarks>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> SaveRequest(int code, string C_Code, [FromBody]RequestDTO request)
+        [RequestSizeLimit(100_000_000_000)]
+        public async Task<IActionResult> SaveRequest([FromForm] int code, [FromForm] string C_Code, [FromForm] RequestDTO request)
         {
             var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
 
             if (CypherCode == C_Code)
             {
+                var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
+
+                request.Req_ApplicantData.PD_Phone = Mobile_Phone;
+
                 var request_Data = _mapper.Map<RequestDatum>(request);
                 HttpClientHandler handler = new HttpClientHandler();
                 using (var client = new HttpClient(handler, false))
                 {
                     client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
+
                     using (var content = new MultipartFormDataContent())
                     {
-                        int length = Request.Form.Files.Count;
-
-                        for (int i = 0; i < length; i++)
+                        //int length = Request.Form.Files.Count;
+                        foreach (var i in request.Req_RequiredDocs)
                         {
-                            var file = Request.Form.Files[i];
+                            var file = i;
+                            if (i.FileName.Contains("-"))
+                            {
+                                byte[] Bytes;
+                                using (var ms = new MemoryStream())
+                                {
+                                    file.CopyTo(ms);
+                                    Bytes = ms.ToArray();
+                                }
+                                var fileContent = new ByteArrayContent(Bytes);
+                                fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName.Replace("-", "|") };
+                                content.Add(fileContent);
+                            }
+                        }
+
+                        foreach (var i in request.Req_Files)
+                        {
+                            var file = i;
                             byte[] Bytes;
                             using (var ms = new MemoryStream())
                             {
@@ -158,32 +248,45 @@ namespace MustafidApp.Controllers.v1
                             fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
                             content.Add(fileContent);
                         }
-                        var stringContent = new StringContent(JsonConvert.SerializeObject(request.Req_ApplicantData.PD_EFormAnswer));
+
+                        //Order Columns Answares
+
+                        foreach (var i in request.Req_ApplicantData.PD_EFormAnswer)
+                        {
+                            i.EFAns_TableCol = i.EFAns_TableCol.OrderBy(q => q.TC_ID).ToList();
+                        }
+
+                        var EFAns = _mapper.Map<List<EFormsAnswer>>(request.Req_ApplicantData.PD_EFormAnswer);
+
+                        var stringContent = new StringContent(JsonConvert.SerializeObject(EFAns));
                         stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
                         content.Add(stringContent, "json");
+
+
                         stringContent = new StringContent(JsonConvert.SerializeObject(request_Data));
                         stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
                         content.Add(stringContent, "json");
 
-                        var requestUri = _configuration["AdminPanel_BE_URL"] + "/api/Request/saveApplicantData";
-                        var result = client.PostAsync(requestUri, content).Result;
+                        var requestUri = _configuration["AdminPanel_BE_URL"] + "api/Request/saveApplicantData";
+                        var result = await client.PostAsync(requestUri, content);
                         if (result.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             var d = result.Content.ReadAsStringAsync();
-                            var lst = JsonConvert.DeserializeObject<ResponseClass>(d.Result);
-                            //if (lst.Success)
-                            //{
-                            //    Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
-                            //    return JsonConvert.SerializeObject(new ResponseClass() { success = true });
-                            //}
-                            //else
-                            //    return JsonConvert.SerializeObject(new ResponseClass() { success = false, result = lst.result });
+                            var lst = JsonConvert.DeserializeObject<ResponseClassServer>(d.Result);
+                            if (lst.success)
+                            {
+                                //Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
+                                return Ok(new ResponseClass() { Success = true, data = "" });
+                            }
+                            else
+                                return Ok(new ResponseClass() { Success = false, data = lst.result });
                         }
-                        //return JsonConvert.SerializeObject(new ResponseClass() { Success = false });
+                        else
+                            return Ok(new ResponseClass() { Success = false, data = JsonConvert.SerializeObject(result, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
                     }
                 }
 
-                return Ok(new ResponseClass() { Success = true, data = "Ok" });
+                //return Ok(new ResponseClass() { Success = true, data = "Ok" });
             }
             else
                 return Ok(new ResponseClass() { Success = false, data = "CodeError" });

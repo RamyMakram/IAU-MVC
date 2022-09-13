@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace MustafidAppDTO.DTO
         public UnitsDTO Req_Current_Unit { get; set; }
 
         public PersonalDataDTO Req_ApplicantData { get; set; }
-        //public List<RequestTransactionDTO> Req_Trans { get; set; }
+        public IList<IFormFile> Req_RequiredDocs { get; set; }
+        public IList<IFormFile> Req_Files { get; set; }
     }
 }

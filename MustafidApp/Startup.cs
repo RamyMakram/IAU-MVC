@@ -94,10 +94,8 @@ namespace MustafidApp
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MustafidApp", Version = "v1" });
+                c.SwaggerDoc("v1.4", new OpenApiInfo { Title = "MustafidApp", Version = "v1.4" });
                 // using System.Reflection;
-                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -120,6 +118,9 @@ namespace MustafidApp
                     }
                 });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First()); //This line
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
             //services.AddAutoMapper(typeof(Startup));
@@ -154,7 +155,7 @@ namespace MustafidApp
             });
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MustafidApp v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1.4/swagger.json", "MustafidApp v1.4"));
 
             app.UseHttpsRedirection();
 

@@ -73,25 +73,25 @@ namespace MustafidApp.Controllers.v1
         /// </summary>
         /// <param name="Personal_data">PersonalDatat Obj</param>
         /// <remarks>
-        /// {
-        /// PD_APP_ID : Applicant Type ID
-        /// PD_TitleNames_ID : نوع مقدم الطلب
-        /// PD_F_Name
-        /// PD_M_Name
-        /// PD_L_Name
-        /// PD_National_ID : الجنسية
-        /// PD_ID_Doc_ID : نوع الهوية
-        /// PD_ID_Number : رقم الهوية
-        /// PD_C_ID : مكان الاقامة
-        /// PD_Address_C_ID :  ID الدولة
-        /// PD_Address_City_ID : ID المنطقة
-        /// PD_Adress_R_ID : ID المدينة
-        /// PD_Address_City : string : المنطقة
-        /// PD_Adress_Region : string : المدينة
-        /// PD_Postal : الرمز البريدي
-        /// PD_mail : 
-        /// 
-        /// }
+        ///     {
+        ///      PD_APP_ID : Applicant Type ID,
+        ///      PD_TitleNames_ID : نوع مقدم الطلب,
+        ///      PD_F_Name:"",
+        ///      PD_M_Name:"",
+        ///      PD_L_Name:"",
+        ///      PD_National_ID : الجنسية,
+        ///      PD_ID_Doc_ID : نوع الهوية,
+        ///      PD_ID_Number : رقم الهوية,
+        ///      PD_C_ID : مكان الاقامة,
+        ///      PD_Address_C_ID :  ID الدولة,
+        ///      PD_Address_City_ID : ID المنطقة,
+        ///      PD_Adress_R_ID : ID المدينة,
+        ///      PD_Address_City : string : المنطقة,
+        ///      PD_Adress_Region : string : المدينة,
+        ///      PD_Postal : الرمز البريدي,
+        ///      PD_mail :"" ,
+        ///     }
+        /// dd
         /// </remarks>
         /// <returns>
         /// <br/>

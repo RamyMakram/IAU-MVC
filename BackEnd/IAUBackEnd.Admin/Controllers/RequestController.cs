@@ -438,8 +438,8 @@ namespace IAUBackEnd.Admin.Controllers
                 request_Data.Request_State_ID = 1;
                 db.Request_Data.Add(request_Data);
                 await db.SaveChangesAsync();
-                var ISInquiry = db.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID)?.Request_Type_Name_EN.ToLower().Contains("inq");
-                if (ISInquiry.Value)
+                var ISInquiry = db.Request_Type.Any(q => q.Request_Type_ID == request_Data.Request_Type_ID && q.IsRequestType);
+                if (ISInquiry)
                 {
                     var Eforms = db.E_Forms.Include(q => q.Question).Include(q => q.Question.Select(s => s.Separator)).Include(q => q.Question.Select(s => s.Paragraph)).Include(q => q.UnitToApprove).Where(q => q.IS_Action && q.SubServiceID == request_Data.Sub_Services_ID && !q.Deleted).Select(q => new { q.Code, q.Name, q.Name_EN, Question = q.Question, Eform_Approval = q.Units });
                     foreach (var eform in Eforms)
@@ -525,9 +525,9 @@ namespace IAUBackEnd.Admin.Controllers
                         var RequiredFiles = db.Required_Documents.Where(q => q.SubServiceID == request_Data.Sub_Services_ID && !q.Deleted).ToList();
                         foreach (var i in RequiredFiles)
                         {
-                            var file = provider.Contents[count];
+                            var file = provider.Contents.FirstOrDefault(q => q.Headers.ContentDisposition.FileName.StartsWith("" + i.ID));
                             var ReqFile = file.Headers.ContentDisposition.FileName.Split('|');
-                            if (ReqFile.Length != 2)
+                            if (file == null)
                             {
                                 transaction.Rollback();
                                 return Ok(new
@@ -536,22 +536,21 @@ namespace IAUBackEnd.Admin.Controllers
                                     success = false
                                 });
                             }
+
                             var ReqFileID = int.Parse(ReqFile[0]);
-                            if (i.ID == ReqFileID)
+
+                            var filename = ReqFile[1].Trim('\"');
+                            var Strambuffer = await file.ReadAsByteArrayAsync();
+                            var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
+                            File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
+                            request_Data.Request_File.Add(new Request_File()
                             {
-                                var filename = ReqFile[1].Trim('\"');
-                                var Strambuffer = await file.ReadAsByteArrayAsync();
-                                var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
-                                File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
-                                request_Data.Request_File.Add(new Request_File()
-                                {
-                                    Request_ID = request_Data.Request_Data_ID.Value,
-                                    RequiredDoc_ID = i.ID.Value,
-                                    File_Name = filename,
-                                    CreatedDate = DateTime.Now,
-                                    File_Path = filepath.Replace("\\", "/")
-                                });
-                            }
+                                Request_ID = request_Data.Request_Data_ID.Value,
+                                RequiredDoc_ID = i.ID.Value,
+                                File_Name = filename,
+                                CreatedDate = DateTime.Now,
+                                File_Path = filepath.Replace("\\", "/")
+                            });
                             count++;
                         }
                     }
