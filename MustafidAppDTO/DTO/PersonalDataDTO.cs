@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace MustafidAppDTO.DTO
 {
     public class PersonalDataDTO
     {
-        public int PD_ID { get; set; }
+        public int? PD_ID { get; set; }
         public string PD_IAUNumber { get; set; }
         [Required]
         public int? PD_APP_ID { get; set; }
@@ -46,7 +47,9 @@ namespace MustafidAppDTO.DTO
         //[MinLength(12)]
         //[MaxLength(12)]
         public string PD_Phone { get; set; }
-		public virtual ICollection<EformAnsDTO> PD_EFormAnswer { get; set; }
+        [NotMapped]
+        public virtual IList<EformAnsDTO> PD_EFormAnswer { get; set; }
+        public virtual string PD_JSON_EFormAnswer { get; set; }
 
     }
 }

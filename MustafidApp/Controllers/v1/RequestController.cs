@@ -19,6 +19,7 @@ using System.Net.Http;
 using System.IO;
 using Microsoft.Extensions.Hosting;
 using MustafidApp.Helpers.SaveRequest;
+using System.Threading;
 
 namespace MustafidApp.Controllers.v1
 {
@@ -164,7 +165,7 @@ namespace MustafidApp.Controllers.v1
         ///          "PD_Address_City": string : المنطقة,
         ///          "PD_Adress_Region": string : المدينة,
         ///          "PD_Postal": ,
-        ///          "PD_EFormAnswer": [
+        ///          "PD_JSON_EFormAnswer": عايز ده كله JSON Stringfy [
         ///              {
         ///                  "EFAns_Q_ID": رقم السؤال,
         ///                  "EFAns_EF_ID": رقم النموذج,
@@ -200,7 +201,7 @@ namespace MustafidApp.Controllers.v1
         /// <returns></returns>
         [HttpPost]
         [RequestSizeLimit(100_000_000_000)]
-        public async Task<IActionResult> SaveRequest([FromForm] int code, [FromForm] string C_Code, [FromForm] RequestDTO request)
+        public async Task<IActionResult> SaveRequest([FromForm] int code, [FromForm] string C_Code, [FromForm] RequestDTO request, CancellationToken cancellationToken)
         {
             var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
 
@@ -209,6 +210,11 @@ namespace MustafidApp.Controllers.v1
                 var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
 
                 request.Req_ApplicantData.PD_Phone = Mobile_Phone;
+
+                if (request.Req_ApplicantData.PD_JSON_EFormAnswer != null && request.Req_ApplicantData.PD_JSON_EFormAnswer.Length != 0)
+                    request.Req_ApplicantData.PD_EFormAnswer = JsonConvert.DeserializeObject<List<EformAnsDTO>>(request.Req_ApplicantData.PD_JSON_EFormAnswer);
+
+
 
                 var request_Data = _mapper.Map<SaveReq_RequestDTO>(request);
                 HttpClientHandler handler = new HttpClientHandler();
@@ -252,7 +258,7 @@ namespace MustafidApp.Controllers.v1
 
                         //Order Columns Answares
 
-                        foreach (var i in request.Req_ApplicantData.PD_EFormAnswer)
+                        foreach (var i in request.Req_ApplicantData.PD_EFormAnswer.Where(q => q.EFAns_TableCol != null))
                         {
                             i.EFAns_TableCol = i.EFAns_TableCol.OrderBy(q => q.TC_ID).ToList();
                         }

@@ -252,7 +252,7 @@ namespace MustafidApp.Mapper
                    .ForMember(dest => dest.EFAns_Value, src => src.MapFrom(src => src.Value))
                    .ForMember(dest => dest.EFAns_Value_EN, src => src.MapFrom(src => src.Value_En))
                    .ForMember(dest => dest.EFAns_Q_ID, src => src.MapFrom(src => src.Question_ID))
-                   .ForMember(dest => dest.EFAns_EF_ID, src => src.MapFrom(src => src.EFromID))
+                   .ForMember(dest => dest.EFAns_EF_ID, src => src.MapFrom(src => src.EForm_ID))
                    .ForMember(dest => dest.EFAns_TableCol, src => src.MapFrom(src => src.Preview_TableCols))
                    .ReverseMap();
 

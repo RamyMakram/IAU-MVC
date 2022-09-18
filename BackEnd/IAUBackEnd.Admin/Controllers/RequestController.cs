@@ -520,13 +520,12 @@ namespace IAUBackEnd.Admin.Controllers
                 if (provider.Contents.Count > 2)
                 {
                     var count = 0;
-                    if (db.Request_Type.FirstOrDefault(q => q.Request_Type_ID == request_Data.Request_Type_ID).Request_Type_Name_EN.ToLower().Contains("inquiry"))
+                    if (db.Request_Type.Any(q => q.Request_Type_ID == request_Data.Request_Type_ID && q.IsRequestType))
                     {
                         var RequiredFiles = db.Required_Documents.Where(q => q.SubServiceID == request_Data.Sub_Services_ID && !q.Deleted).ToList();
                         foreach (var i in RequiredFiles)
                         {
-                            var file = provider.Contents.FirstOrDefault(q => q.Headers.ContentDisposition.FileName.StartsWith("" + i.ID));
-                            var ReqFile = file.Headers.ContentDisposition.FileName.Split('|');
+                            var file = provider.Contents.FirstOrDefault(q => q.Headers.ContentDisposition.FileName != null && q.Headers.ContentDisposition.FileName.StartsWith("" + i.ID));
                             if (file == null)
                             {
                                 transaction.Rollback();
@@ -536,6 +535,7 @@ namespace IAUBackEnd.Admin.Controllers
                                     success = false
                                 });
                             }
+                            var ReqFile = file.Headers.ContentDisposition.FileName.Split('|');
 
                             var ReqFileID = int.Parse(ReqFile[0]);
 

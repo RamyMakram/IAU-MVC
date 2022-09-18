@@ -17,7 +17,7 @@ namespace MustafidApp.Helpers.SaveRequest
         public int? ID { get; set; }
         public int? Person_ID { get; set; }
         public int? Question_ID { get; set; }
-        public int? EFromID { get; set; }
+        public int? EForm_ID { get; set; }
         public string Value_En { get; set; }
         public string T { get; set; }
         public string Value { get; set; }

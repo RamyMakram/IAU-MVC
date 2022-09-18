@@ -20,7 +20,7 @@ namespace IAUBackEnd.Admin.Models
             this.Preview_TableCols = new HashSet<Preview_TableCols>();
         }
     
-        public int ID { get; set; }
+        public int? ID { get; set; }
         public Nullable<int> Question_ID { get; set; }
         public Nullable<int> EForm_ID { get; set; }
         public string Value { get; set; }
