@@ -18,6 +18,7 @@ using MustafidAppModels.Models;
 using System.Net.Http;
 using System.IO;
 using Microsoft.Extensions.Hosting;
+using MustafidApp.Helpers.SaveRequest;
 
 namespace MustafidApp.Controllers.v1
 {
@@ -209,7 +210,7 @@ namespace MustafidApp.Controllers.v1
 
                 request.Req_ApplicantData.PD_Phone = Mobile_Phone;
 
-                var request_Data = _mapper.Map<RequestDatum>(request);
+                var request_Data = _mapper.Map<SaveReq_RequestDTO>(request);
                 HttpClientHandler handler = new HttpClientHandler();
                 using (var client = new HttpClient(handler, false))
                 {
@@ -256,7 +257,7 @@ namespace MustafidApp.Controllers.v1
                             i.EFAns_TableCol = i.EFAns_TableCol.OrderBy(q => q.TC_ID).ToList();
                         }
 
-                        var EFAns = _mapper.Map<List<EFormsAnswer>>(request.Req_ApplicantData.PD_EFormAnswer);
+                        var EFAns = _mapper.Map<List<SaveReq_E_Forms_Answer>>(request.Req_ApplicantData.PD_EFormAnswer);
 
                         var stringContent = new StringContent(JsonConvert.SerializeObject(EFAns));
                         stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");

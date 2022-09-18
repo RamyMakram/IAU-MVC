@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MustafidAppDTO.DTO;
 using MustafidAppModels.Models;
+using MustafidApp.Helpers.SaveRequest;
 
 namespace MustafidApp.Mapper
 {
@@ -221,10 +222,65 @@ namespace MustafidApp.Mapper
             CreateMap<TablesAnsware, Tables_AnswareDTO>()
                 .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Row))
                 .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Value))
-                .ReverseMap(); 
+                .ReverseMap();
             #endregion
 
+            #region SaveReq
+            CreateMap<SaveReq_PersonalDataDTO, PersonalDataDTO>()
+                .ForMember(dest => dest.PD_ID, src => src.MapFrom(src => src.Personel_Data_ID))
+                .ForMember(dest => dest.PD_IAUNumber, src => src.MapFrom(src => src.IAU_ID_Number))
+                .ForMember(dest => dest.PD_TitleNames_ID, src => src.MapFrom(src => src.Title_Middle_Names_ID))
+                .ForMember(dest => dest.PD_F_Name, src => src.MapFrom(src => src.First_Name))
+                .ForMember(dest => dest.PD_M_Name, src => src.MapFrom(src => src.Middle_Name))
+                .ForMember(dest => dest.PD_L_Name, src => src.MapFrom(src => src.Last_Name))
+                .ForMember(dest => dest.PD_National_ID, src => src.MapFrom(src => src.Nationality_ID))
+                .ForMember(dest => dest.PD_ID_Doc_ID, src => src.MapFrom(src => src.ID_Document))
+                .ForMember(dest => dest.PD_ID_Number, src => src.MapFrom(src => src.ID_Number))
+                .ForMember(dest => dest.PD_C_ID, src => src.MapFrom(src => src.Country_ID))
+                .ForMember(dest => dest.PD_Address_C_ID, src => src.MapFrom(src => src.Address_CountryID))
+                .ForMember(dest => dest.PD_Address_City_ID, src => src.MapFrom(src => src.Address_CityID))
+                .ForMember(dest => dest.PD_Adress_R_ID, src => src.MapFrom(src => src.Adress_RegionID))
+                .ForMember(dest => dest.PD_Address_City, src => src.MapFrom(src => src.Address_City))
+                .ForMember(dest => dest.PD_Adress_Region, src => src.MapFrom(src => src.Adress_Region))
+                .ForMember(dest => dest.PD_Postal, src => src.MapFrom(src => src.Postal_Code))
+                .ForMember(dest => dest.PD_mail, src => src.MapFrom(src => src.Email))
+                .ForMember(dest => dest.PD_Phone, src => src.MapFrom(src => src.Mobile))
+                //.ForMember(dest => dest.PD_EFormAnswer, src => src.MapFrom(src => src.))
+                .ReverseMap();
 
+            CreateMap<SaveReq_E_Forms_Answer, EformAnsDTO>()
+                   .ForMember(dest => dest.EFAns_Value, src => src.MapFrom(src => src.Value))
+                   .ForMember(dest => dest.EFAns_Value_EN, src => src.MapFrom(src => src.Value_En))
+                   .ForMember(dest => dest.EFAns_Q_ID, src => src.MapFrom(src => src.Question_ID))
+                   .ForMember(dest => dest.EFAns_EF_ID, src => src.MapFrom(src => src.EFromID))
+                   .ForMember(dest => dest.EFAns_TableCol, src => src.MapFrom(src => src.Preview_TableCols))
+                   .ReverseMap();
+
+            CreateMap<SaveReq_Preview_TableCols, Preview_TableColsDTO>()
+                //.ForMember(dest => dest.TC_ID, src => src.MapFrom(src => src.Id))
+                .ForMember(dest => dest.TC_Answare, src => src.MapFrom(src => src.Tables_Answare))
+                .ReverseMap();
+
+
+            CreateMap<SaveReq_Tables_Answare, Tables_AnswareDTO>()
+                .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Row))
+                .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Value))
+                .ReverseMap();
+
+
+            CreateMap<SaveReq_RequestDTO, RequestDTO>()
+                .ForMember(dest => dest.Req_ID, src => src.MapFrom(src => src.Request_Data_ID))
+                .ForMember(dest => dest.Req_U_ID, src => src.MapFrom(src => src.Unit_ID))
+                .ForMember(dest => dest.Req_SS_ID, src => src.MapFrom(src => src.Sub_Services_ID))
+                .ForMember(dest => dest.Req_Notes, src => src.MapFrom(src => src.Required_Fields_Notes))
+                .ForMember(dest => dest.Req_S_ID, src => src.MapFrom(src => src.Service_Type_ID))
+                .ForMember(dest => dest.Req_R_ID, src => src.MapFrom(src => src.Request_Type_ID))
+                .ForMember(dest => dest.Req_Is_Mos, src => src.MapFrom(src => src.IsTwasul_OC))
+                .ForMember(dest => dest.Req_Status, src => src.MapFrom(src => src.Request_State_ID))
+                .ForMember(dest => dest.Req_ApplicantData, src => src.MapFrom(src => src.Personel_Data))
+                //.ForMember(dest => dest.Req_Trans, src => src.MapFrom(src => src.RequestTransactions))
+                .ReverseMap();
+            #endregion
         }
     }
 }
