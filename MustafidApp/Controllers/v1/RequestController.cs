@@ -44,14 +44,35 @@ namespace MustafidApp.Controllers.v1
         /// <summary>
         /// Return All User Reuqets's code
         /// </summary>
+        /// <param name="P_Index">Page Index</param>
+        /// <param name="P_Size">Page Size</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllRequests()
+        public async Task<IActionResult> GetAllRequests(int P_Size, int P_Index)
         {
             var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
-            var data = await _appContext.RequestData.Where(q => q.PersonelData.Mobile == Mobile_Phone && q.CodeGenerate != null).Select(q => q.CodeGenerate).ToListAsync();
+            var data = await _appContext.RequestData
+                .Include(q => q.PersonelData)
+                .Include(q => q.RequestState)
+                .Include(q => q.RequestTransactions).ThenInclude(q => q.ToUnit).Where(q => q.PersonelData.Mobile == Mobile_Phone).Skip(P_Index * P_Size).Take(P_Size).ToListAsync();
 
-            return Ok(new ResponseClass() { Success = true, data = data });
+            //if (data == null)
+            //    return Ok(new ResponseClass() { Success = false, data = "NullData" });
+            //if (data.PersonelData.Mobile != Mobile_Phone)
+            //    return Ok(new ResponseClass() { Success = false, data = "NotAllowed" });
+
+            var data_DTO = _mapper.Map<List<RequestDTO>>(data);
+            int count = 0;
+            foreach (var i in data_DTO)
+            {
+                var LastTrans = data[count].RequestTransactions.LastOrDefault();
+
+                i.Req_Current_DateEnd = LastTrans?.ExpireDays;
+                i.Req_Current_Unit = _mapper.Map<UnitsDTO>(LastTrans?.ToUnit);
+                count++;
+            }
+
+            return Ok(new ResponseClass() { Success = true, data = data_DTO });
         }
         /// <summary>
         /// Return Object OF Request 

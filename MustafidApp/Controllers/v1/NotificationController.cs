@@ -29,12 +29,14 @@ namespace MustafidApp.Controllers.v1
         /// <summary>
         /// Returns All Notification OF User
         /// </summary>
+        /// <param name="P_Index">Page Index</param>
+        /// <param name="P_Size">Page Size</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetNotifcations()
+        public async Task<IActionResult> GetNotifcations(int P_Index, int P_Size)
         {
             var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
-            var data = await _appContext.PhoneNumberNotifications.Where(q => q.PhoneNumber == Mobile_Phone).ToListAsync();
+            var data = await _appContext.PhoneNumberNotifications.Where(q => q.PhoneNumber == Mobile_Phone).Skip(P_Size * P_Index).Take(P_Size).ToListAsync();
 
             var data_DTO = _mapper.Map<List<NotificationsDTO>>(data);
 
