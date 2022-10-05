@@ -68,6 +68,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\About.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -82,6 +85,12 @@
     </Compile>
     <Compile Include="Models\DelayedTransaction.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Domain.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DomainInfo.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
@@ -179,6 +188,9 @@
     <Compile Include="Models\Service_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SubDomains.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Sub_Services.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -193,6 +205,24 @@
     </Compile>
     <Compile Include="Models\Table_Columns.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelHomeSetting.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Title_Middle_Names.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
@@ -246,6 +276,13 @@
     <Content Include="Models\MostafidModel.edmx.diagram">
       <DependentUpon>MostafidModel.edmx</DependentUpon>
     </Content>
+    <EntityDeploy Include="Models\TasahelModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TasahelModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TasahelModel.edmx.diagram">
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Models\MostafidModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -256,6 +293,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MostafidModel.edmx</DependentUpon>
       <LastGenOutput>MostafidModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\TasahelModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+      <LastGenOutput>TasahelModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\TasahelModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+      <LastGenOutput>TasahelModel.cs</LastGenOutput>
     </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

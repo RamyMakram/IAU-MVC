@@ -21,11 +21,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IAUAdmin.DTO", "BackEnd\IAU
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIS", "APIS", "{AF50F82D-E9F3-4366-9D12-FB2BDDE2604B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustafidApp", "MustafidApp\MustafidApp.csproj", "{4880A3DB-1944-46C7-8CFC-E07F6F9EEBA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustafidApp", "MustafidApp\MustafidApp.csproj", "{4880A3DB-1944-46C7-8CFC-E07F6F9EEBA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustafidAppModels", "MustafidAppModels\MustafidAppModels.csproj", "{4FC1321B-A8CC-474E-9B1C-A363848EC2BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustafidAppModels", "MustafidAppModels\MustafidAppModels.csproj", "{4FC1321B-A8CC-474E-9B1C-A363848EC2BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MustafidAppDTO", "MustafidAppDTO\MustafidAppDTO.csproj", "{098D08A3-0D84-4AEC-BFB2-B11C1F250700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MustafidAppDTO", "MustafidAppDTO\MustafidAppDTO.csproj", "{098D08A3-0D84-4AEC-BFB2-B11C1F250700}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TasahelAdmin", "TasahelAdmin", "{44BD6E5D-6E81-415F-A92E-348E5670B92B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasahelAdmin", "TasahelAdmin\TasahelAdmin\TasahelAdmin.csproj", "{103F13B0-DB6B-4F55-8167-F188BF8953B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,10 @@ Global
 		{098D08A3-0D84-4AEC-BFB2-B11C1F250700}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{098D08A3-0D84-4AEC-BFB2-B11C1F250700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{098D08A3-0D84-4AEC-BFB2-B11C1F250700}.Release|Any CPU.Build.0 = Release|Any CPU
+		{103F13B0-DB6B-4F55-8167-F188BF8953B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{103F13B0-DB6B-4F55-8167-F188BF8953B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{103F13B0-DB6B-4F55-8167-F188BF8953B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{103F13B0-DB6B-4F55-8167-F188BF8953B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +91,7 @@ Global
 		{4880A3DB-1944-46C7-8CFC-E07F6F9EEBA9} = {AF50F82D-E9F3-4366-9D12-FB2BDDE2604B}
 		{4FC1321B-A8CC-474E-9B1C-A363848EC2BF} = {AF50F82D-E9F3-4366-9D12-FB2BDDE2604B}
 		{098D08A3-0D84-4AEC-BFB2-B11C1F250700} = {AF50F82D-E9F3-4366-9D12-FB2BDDE2604B}
+		{103F13B0-DB6B-4F55-8167-F188BF8953B0} = {44BD6E5D-6E81-415F-A92E-348E5670B92B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93045C3F-C72F-4547-8C13-A9B539A9AEDB}

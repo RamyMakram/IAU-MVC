@@ -11,21 +11,56 @@ namespace IAU_BackEnd.Models
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Core.EntityClient;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Linq;
+    using System.Web;
+
     public partial class MostafidDatabaseEntities : DbContext
     {
         public MostafidDatabaseEntities()
-            : base("name=MostafidDatabaseEntities")
+                    : base(GetConnection(HttpContext.Current.Request)/*"name=MostafidDBEntities"*/)
         {
             this.Configuration.LazyLoadingEnabled = false;
         }
-    
+        public MostafidDatabaseEntities(string connection) : base(BuildConnection(connection))
+        {
+
+        }
+
+        private static string BuildConnection(string connection)
+        {
+            string providerName = "System.Data.SqlClient";
+
+            EntityConnectionStringBuilder entityBuilder =
+                new EntityConnectionStringBuilder();
+
+            //Set the provider name.
+            entityBuilder.Provider = providerName;
+
+            // Set the provider-specific connection string.
+            entityBuilder.ProviderConnectionString = connection;
+
+            // Set the Metadata location.
+            entityBuilder.Metadata = @"res://*/Models.MostafidModel.csdl|
+                            res://*/Models.MostafidModel.ssdl|
+                            res://*/Models.MostafidModel.msl";
+            return entityBuilder.ToString();
+        }
+
+        private static string GetConnection(HttpRequest request)
+        {
+            TasahelEntities db = new TasahelEntities();
+            var domain = request.Url.Host;
+            var connection = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+            return BuildConnection(connection);
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
         public virtual DbSet<CheckBox_Type> CheckBox_Type { get; set; }
         public virtual DbSet<City> City { get; set; }
