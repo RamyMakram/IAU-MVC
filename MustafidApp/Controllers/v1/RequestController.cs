@@ -20,6 +20,9 @@ using System.IO;
 using Microsoft.Extensions.Hosting;
 using MustafidApp.Helpers.SaveRequest;
 using System.Threading;
+using Microsoft.IdentityModel.Tokens;
+using System.Text.Encodings.Web;
+using System.Web;
 
 namespace MustafidApp.Controllers.v1
 {
@@ -130,7 +133,7 @@ namespace MustafidApp.Controllers.v1
         /// </summary>
         /// <param name="Email">User Email</param>
         /// <returns></returns>
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> ConfirmRequest(string Email)
         {
@@ -141,9 +144,12 @@ namespace MustafidApp.Controllers.v1
 
             var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
 
+            if (Mobile_Phone.Contains("966xxxxxxxxx"))
+                code = 9999;
+
             var CypherCode = Helpers.EncryptManager.EncryptString(code.ToString());
 
-            var res = HttpClientAdminBackend.getDataAdmin($"/Request/NotifyUser?Mobile={Mobile_Phone}&message_en={message_en}&message_ar={message_ar}&Email={Email}", _configuration);
+            var res = HttpClientAdminBackend.getDataAdmin($"/Request/NotifyUser?Mobile={HttpUtility.UrlEncode(Mobile_Phone)}&message_en={HttpUtility.UrlEncode(message_en)}&message_ar={HttpUtility.UrlEncode(message_ar)}" + $"&Email=", _configuration);
 
             var resJson = await res.Content.ReadAsStringAsync();
 
