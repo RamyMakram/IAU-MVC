@@ -368,6 +368,7 @@
     <Content Include="Views\ContactUs\Index.cshtml" />
     <Content Include="Views\Home\_Eform.cshtml" />
     <Content Include="Views\Home\_EformReadOnly.cshtml" />
+    <Content Include="Views\Shared\_MultiTenantDesignPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAU.DTO\IAU.DTO.csproj">

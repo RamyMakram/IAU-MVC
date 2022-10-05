@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
 using Web.App_Start;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -21,6 +22,13 @@ namespace Web.Controllers
     {
         public ActionResult Index(string u)
         {
+            var db = new TasahelEntities();
+            var domain = Request.Url.Authority;
+
+            var StyleData = db.SubDomains.Where(q => q.Domain == domain && q.Domain1.Enabled).Select(q => q.Domain1.TasahelHomeSetting).FirstOrDefault();
+
+            TempData["HomeData"] = StyleData;
+
             var lang = Request.Cookies["lang"].Value;
             if (u == null || u == "")
                 Response.Cookies.Add(new HttpCookie("us", null));

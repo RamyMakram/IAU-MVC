@@ -3,19 +3,24 @@
 @{
     Layout = null;
 }
+@{
+    var design = TempData.Peek("StyleData") as Web.Models.DomainStyle;
+    var home = TempData.Peek("HomeData") as Web.Models.TasahelHomeSetting;
+}
+
 @using System.Configuration;
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>IAU - BSC</title>
+    <title>@design.Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
     <link rel="stylesheet" href="~/Design/CSS/style.css" />
-    <meta name="description" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
-    <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
-
+    <link rel="icon" href="@design.Icon" />
+    <meta name="description" content="@design.MetaDesc">
+    <meta name="keywords" content="@design.MetaKeyword">
     <style>
         @@media(max-width:750px) {
             .header-of-pdf {
@@ -135,8 +140,6 @@
         .loading {
             display: none;
         }
-
-           
     </style>
     <script src="~/Design/JS/AraTranslate.js"></script>
 </head>
@@ -149,11 +152,11 @@
             <a class="navbar-brand" href="#">
                 @if (ViewBag.CookieLang == "ar")
                 {
-                    <img src="~/Design/img/logo-ar.png" />
+                    <img src="@design.Icon" />
                 }
                 else
                 {
-                    <img src="~/Design/img/logo-en.png" />
+                    <img src="@design.Icon" />
                 }
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -216,7 +219,7 @@
                         </button>
                         @Html.Partial("~/Views/Shared/_Language.cshtml")
                     </div>
-                    <img src="~/Design/img/VisionLogo2.png">
+                    @*<img src="~/Design/img/VisionLogo2.png">*@
                 </div>
             </div>
         </div>
@@ -294,7 +297,7 @@
                 <div class=" col-sm-12 col-lg-2"></div>
                 <div class="col-sm-12  col-md-6 col-lg-4">
                     <div class="stick submit" id="NewRequest">
-                        <img src="~/Design/img/newrequest.png">
+                        <img src="@home.NewReqICo">
                         @if (ViewBag.CookieLang == "ar")
                         {
                             <p class="first">طلب جديد</p>
@@ -308,7 +311,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6  col-lg-4">
                     <div class="stick follow">
-                        <img src="~/Design/img/follow.png">
+                        <img src="@home.FollowIco">
                         @if (ViewBag.CookieLang == "ar")
                         {
                             <p class="first1">متابعة الطلب</p>
@@ -387,38 +390,44 @@
                     {
                         <div class="row">
                             <div class="col-md-12 col-lg-4">معلومات عامة</div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row  required-field">
-                                    <div class="col-md-5">
-                                        <label>منسوبي الجامعة</label>
+                            @if (home.EnableAcadamic)
+                            {
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="row  required-field">
+                                        <div class="col-md-5">
+                                            <label>منسوبي المؤسسة</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            @using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
+                                            {
+                                                <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     data-bs-custom-class="beautifier"
+                                                     title='إذا كنت طالبًا أو موظفًا مسجلًا في الجامعة (أعضاء هيئة التدريس والموظفين) ، سواء كنت سعوديًا أو متعاقدًا ، فاضغط على نعم. إذا لم تكن في أي من الحالات السابقة ، فاضغط على "لا"' />
+                                                <select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
+                                                    <option value="1">نعم</option>
+                                                    <option value="0" selected>لا</option>
+                                                </select>
+                                                <button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
+                                            }
+                                        </div>
                                     </div>
-                                    <div class="col-md-7">
-                                        @using (Html.BeginForm("RedirectTo", "Home", FormMethod.Get))
-                                        {
+                                </div>
+                            }
+                            <div class="col-md-6 col-lg-4">
+                                @if (home.EnableAcadamic)
+                                {
+                                    <div class="row required-field">
+                                        <div class="col-md-5">
+                                            <label>الرقم الأكاديمي</label>
+                                        </div>
+                                        <div class="col-md-7">
                                             <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
                                                  data-bs-custom-class="beautifier"
-                                                 title='إذا كنت طالبًا أو موظفًا مسجلًا في الجامعة (أعضاء هيئة التدريس والموظفين) ، سواء كنت سعوديًا أو متعاقدًا ، فاضغط على نعم. إذا لم تكن في أي من الحالات السابقة ، فاضغط على "لا"' />
-                                            <select id="Affiliated" name="Affiliated" onchange="AffiliatedState()">
-                                                <option value="1">نعم</option>
-                                                <option value="0" selected>لا</option>
-                                            </select>
-                                            <button class="btn" type="submit" id="RedirectBTN" style="display:none">Redirect</button>
-                                        }
+                                                 title="يرجى كتابة رقم هوية الجامعة الخاص بك ، سواء كان رقم هوية الطالب أو الرقم الوظيفي  الخاص بك ، متبوعًا بكلمة المرور." />
+                                            <input type="text" id="IAUID" name="IAUID" maxlength="10">
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="row required-field">
-                                    <div class="col-md-5">
-                                        <label>الرقم الأكاديمي</label>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <img src="~/Design/img/Help ICON.png" data-bs-trigger="hover" data-bs-toggle="tooltip" data-bs-placement="right"
-                                             data-bs-custom-class="beautifier"
-                                             title="يرجى كتابة رقم هوية الجامعة الخاص بك ، سواء كان رقم هوية الطالب أو الرقم الوظيفي  الخاص بك ، متبوعًا بكلمة المرور." />
-                                        <input type="text" id="IAUID" name="IAUID" maxlength="10">
-                                    </div>
-                                </div>
+                                }
                                 <div class="row  required-field">
                                     <div class="col-md-5">
                                         <label>نوع مقدم الطلب</label>

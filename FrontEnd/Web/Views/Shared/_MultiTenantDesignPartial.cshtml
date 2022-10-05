@@ -1,0 +1,245 @@
+﻿@{
+    var design = TempData.Peek("StyleData") as Web.Models.DomainStyle;
+}
+<style>
+    /*--------------------Main---------------------*/
+    html,
+    body {
+        height: 100%;
+        background-color: @design.Maincolor;
+        @*background-color: @design.Secondcolor*@
+        /*background-color: #642D90;*/
+        font-family: 'Frutiger LT Arabic 55 Roman';
+    }
+    /*--------------Second-------------------*/
+    .main-page a.active {
+        background-color: @design.Secondcolor !important;
+    }
+    nav ul li a:hover,
+    nav ul li,
+    nav ul li .active {
+        color: @design.Secondcolor;
+        font-weight: bold;
+    }
+    nav button,
+    .serial-input button,
+    .langBTN {
+        border: none;
+        background: @design.Secondcolor;
+        color: #fff !important;
+        border-radius: 5px;
+        text-transform: capitalize;
+        margin-bottom: 3px;
+        padding: 7px;
+    }
+    .nav-fill .nav-item {
+        background-color: @design.Secondcolor;
+        margin: 0px 5px;
+        border-radius: 3px;
+    }
+    .nav-fill .nav-item .active {
+        background-color: @design.Secondcolor;
+        color: #14242d;
+    }
+    #start-request .stick img {
+        width: 110px;
+        margin-bottom: 35px;
+        background-color: @design.Secondcolor;
+        padding: 24px 13px;
+        border-radius: 9px;
+    }
+    #Confirmation li span {
+        color: @design.Secondcolor;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    #Confirmation summary {
+        color: #fff;
+        border: 2px solid @design.Secondcolor;
+        border-radius: 9px;
+        width: 231px;
+        background-color: @design.Secondcolor;
+        text-align: center;
+        margin: auto;
+        padding: 9px 0px;
+    }
+
+     #Confirmation summary:focus {
+         border: none;
+         outline: none;
+     }
+
+    #Confirmation button {
+        width: 185px;
+        margin: auto;
+        color: @design.Secondcolor;
+        text-transform: uppercase;
+        font-weight: bold;
+        border: none;
+        box-shadow: 3px 5px 3px #000;
+        height: 45px;
+    }
+
+    #Confirmation button span {
+        font-size: 24px;
+    }
+
+    .success {
+        background-color: @design.Secondcolor;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px 5px;
+        font-size: 18px;
+        margin: 20px 0px;
+        box-shadow: 3px 5px 3px #000;
+        display: block;
+        text-align: center
+    }
+    .containt2 .row .col-md-12:first-of-type img {
+        width: 46px;
+        border: 2px solid @design.Secondcolor;
+        border-radius: 5px;
+        line-height: -7px;
+        margin-top: 7px;
+    }
+    .progress-sucess-state div,
+    .progress-sucess-state span {
+        color: @design.Secondcolor !important;
+        border-color: @design.Secondcolor !important;
+    }
+
+    .progress-sucess-state.col-md-1 span {
+        background-color: @design.Secondcolor !important;
+    }
+    #ReviewMaster2 button {
+        background-color: @design.Secondcolor;
+        border: none;
+        width: 100px;
+        height: 40px;
+    }
+
+    .tooltip-inner {
+        max-width: 400px !important;
+        background-color: @design.Secondcolor;
+        border: 1px solid #fff;
+        opacity: 1;
+        z-index: 1000;
+    }
+    .master-login .action input, #loginbtn {
+        border: none;
+        display: block;
+        margin: auto;
+        margin-top: 15px;
+        background-color: @design.Secondcolor;
+        color: #fff;
+        width: 120px;
+        height: 39px;
+        text-transform: uppercase;
+        box-shadow: 2px 2px 2px #767676;
+        border-radius: 6px;
+    }
+    #paint-app .toolbar a {
+        margin: 0px 10px;
+        background-color: @design.Secondcolor;
+        border: none;
+    }
+    #Okaybutton {
+        text-align: center;
+        width: 185px;
+        margin: 10px 25px 20px;
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+        border: none;
+        box-shadow: 3px 5px 3px #000;
+        height: 45px;
+        background-color: @design.Secondcolor;
+        border: none;
+        width: 100px;
+        height: 40px;
+    }
+    .main-page .New-Idea h3,
+    .main-page .operation-System h3 {
+        color: @design.Secondcolor;
+        font-size: 30px;
+        font-weight: bold;
+        padding: 10px 5px 10px 0px;
+    }
+    .main-page .collapse-container > a {
+        display: block;
+        padding: 15px 10px;
+        background-color: @design.Secondcolor;
+        border: none;
+        border-radius: 0;
+        letter-spacing: 2px;
+    }
+    .main-page .New-Idea .vision > ul > li > b,
+    .main-page .operation-System .Scope-of-Services ol li b {
+        font-size: 23px;
+        color: @design.Secondcolor
+    }
+    /*-----------------------ThirdColor------------------------*/
+    .containt #Service_Type_Id .stick,
+    .containt #Request_Type_Id .stick,
+    .containt #start-request .stick {
+        text-align: center;
+        background-color: @design.Thirdcolor;
+        border-radius: 15px;
+        color: #fff;
+        width: 88%;
+        padding: 25px 8px;
+        height: 207px;
+        margin: 10px;
+        padding-top: 15px;
+    }
+    #personel-data,
+    #Documents,
+    #Confirmation {
+        background-color: @design.Thirdcolor;
+    }
+    .containt2 .col-md-12:first-of-type,
+    .containt2 .col-md-12:nth-of-type(2) {
+        background-color: @design.Thirdcolor;
+    }
+    .loading.active, .loading.callApi {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        z-index: 9999999;
+        position: fixed;
+        background: @design.Thirdcolor;
+    }
+    .containt2 .row .col-md-12:nth-of-type(3) .col-md-12 .border-state img {
+        width: 80px;
+        height: 80px;
+        background-color: @design.Thirdcolor;
+        border-radius: 10px;
+        padding: 8px;
+        border: 3px solid #fff;
+    }
+    .master-login {
+        width: 30%;
+        margin: 30px auto;
+        background-color: @design.Thirdcolor;
+        padding: 15px 20px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px #eee;
+    }
+    .main-page .New-Idea p,
+    .main-page .New-Idea ul,
+    .main-page .New-Idea ol,
+    .main-page .operation-System p,
+    .main-page .operation-System ul,
+    .main-page .operation-System ol {
+        color: @design.Thirdcolor;
+        font-size: 16px;
+        text-align: justify;
+    }
+    .main-page .New-Idea .Objective .Objective-question ol *,
+    .main-page .New-Idea .Objective .Objective-question ul * {
+        color: @design.Thirdcolor;
+    }
+</style>

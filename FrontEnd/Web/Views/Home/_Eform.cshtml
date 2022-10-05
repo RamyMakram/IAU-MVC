@@ -1,4 +1,7 @@
 ﻿@model IAU.DTO.Entity.E_FormsDTO
+@{
+    var design = TempData.Peek("StyleData") as Web.Models.DomainStyle;
+}
 <style>
     :root {
         --main-btn-color: #0a1332 !important;
@@ -274,7 +277,7 @@
                     Kingdom of Saudi Arabia
                 </label>
                 <div class="pt-1 mb-md-2 col-md col-12 justify-content-center align-items-center d-flex">
-                    <img src="~/Design/img/VisionLogo.png" style="width: 158px !important; " />
+                    <img src="@design.Icon" style="width: 158px !important; " />
                 </div>
                 <div id="MIMIS" class="pt-1 mb-md-2 text-md-center text-start col-md col-12 px-0 d-flex justify-content-end">
                     <label class="">
