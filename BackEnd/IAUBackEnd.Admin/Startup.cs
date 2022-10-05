@@ -13,7 +13,7 @@ namespace IAUBackEnd.Admin
     {
         public void Configuration(IAppBuilder app)
         {
-            var context = new MostafidDBEntities();
+            var context = new TasahelEntities();
 
             GlobalConfiguration.Configuration
                 .UseSqlServerStorage(context.Database.Connection.ConnectionString);

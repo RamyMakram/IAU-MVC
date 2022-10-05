@@ -12,20 +12,57 @@ namespace IAUBackEnd.Admin.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Linq.Dynamic;
+    using System.Web;
+    using System.Linq;
+    using System.Data.Entity.Core.EntityClient;
+    using System.Data.SqlClient;
+
     public partial class MostafidDBEntities : DbContext
     {
         public MostafidDBEntities()
-            : base("name=MostafidDBEntities")
+            : base(GetConnection(HttpContext.Current.Request)/*"name=MostafidDBEntities"*/)
         {
             this.Configuration.LazyLoadingEnabled = false;
         }
-    
+        public MostafidDBEntities(string connection) : base(BuildConnection(connection))
+        {
+
+        }
+
+        private static string BuildConnection(string connection)
+        {
+            string providerName = "System.Data.SqlClient";
+
+            EntityConnectionStringBuilder entityBuilder =
+                new EntityConnectionStringBuilder();
+
+            //Set the provider name.
+            entityBuilder.Provider = providerName;
+
+            // Set the provider-specific connection string.
+            entityBuilder.ProviderConnectionString = connection;
+
+            // Set the Metadata location.
+            entityBuilder.Metadata = @"res://*/Models.MostafidDBModel.csdl|
+                            res://*/Models.MostafidDBModel.ssdl|
+                            res://*/Models.MostafidDBModel.msl";
+            return entityBuilder.ToString();
+        }
+
+        private static string GetConnection(HttpRequest request)
+        {
+            TasahelEntities db = new TasahelEntities();
+            var domain = request.Url.Host;
+            var connection = db.Domain.Where(q => q.Domain1 == domain).Select(q => q.ConnectionString).FirstOrDefault();
+            return BuildConnection(connection);
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<Applicant_Type> Applicant_Type { get; set; }
         public virtual DbSet<CheckBox_Type> CheckBox_Type { get; set; }
         public virtual DbSet<City> City { get; set; }

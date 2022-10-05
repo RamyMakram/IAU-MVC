@@ -305,6 +305,9 @@
     <Compile Include="Models\DelayedTransaction.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Domain.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -416,6 +419,21 @@
     <Compile Include="Models\Table_Columns.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TasahelModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Title_Middle_Names.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -491,6 +509,16 @@
       <DependentUpon>MostafidDBModel.edmx</DependentUpon>
       <LastGenOutput>MostafidDBModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\TasahelModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+      <LastGenOutput>TasahelModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\TasahelModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+      <LastGenOutput>TasahelModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -513,6 +541,13 @@
       <DependentUpon>MostafidDBModel.edmx</DependentUpon>
     </Content>
     <Content Include="log4net.config" />
+    <EntityDeploy Include="Models\TasahelModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TasahelModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TasahelModel.edmx.diagram">
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

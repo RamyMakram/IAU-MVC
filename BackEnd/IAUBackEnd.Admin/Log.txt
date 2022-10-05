@@ -391,3 +391,5 @@
 27-06 14:07:01 SleepTo,09:52:58.8849997
 27-06 14:11:42 SleepTo,09:48:17.6835663
 27-06 14:27:49 SleepTo,09:32:10.1781655
+
+05-10 14:19:22 Exception, Sleep To 5 minutes->{"ClassName":"System.NullReferenceException","Message":"Object reference not set to an instance of an object.","Data":null,"InnerException":null,"HelpURL":null,"StackTraceString":"   at IAUBackEnd.Admin.Models.MostafidDBEntities..ctor() in C:\\Users\\Ramy Makram\\Desktop\\IAU-MVC\\BackEnd\\IAUBackEnd.Admin\\Models\\MostafidDBModel.Context.cs:line 24\r\n   at IAUBackEnd.Admin.Helper.DelayedRequest() in C:\\Users\\Ramy Makram\\Desktop\\IAU-MVC\\BackEnd\\IAUBackEnd.Admin\\App_Start\\Helper.cs:line 45","RemoteStackTraceString":null,"RemoteStackIndex":0,"ExceptionMethod":"1\n.ctor\nIAUBackEnd.Admin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\nIAUBackEnd.Admin.Models.MostafidDBEntities\nVoid .ctor()","HResult":-2147467261,"Source":"IAUBackEnd.Admin","WatsonBuckets":null}

@@ -52,7 +52,10 @@ namespace IAUBackEnd.Admin
                 return;
             }
             else if ((cridantl == null || cridantl == "" || cridantl != "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks"))
+            {
                 HttpContext.Current.Response.StatusCode = 401;
+                return;
+            }
 
 
             if (new string[] { "/api/User/VerfiyUser", "/api/User/Login", "/api/User/VerfiyToken", "/api/Request/NotifyUser", "/api/Request/saveApplicantData" }.Contains(HttpContext.Current.Request.Path))
