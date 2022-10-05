@@ -5,9 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c71ebe986bf84272bc1b686926d208e0" Name="Diagram1">
-        <EntityTypeShape EntityType="TasahelModel.Domain" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="TasahelModel.SubDomains" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
-        <AssociationConnector Association="TasahelModel.FK_SubDomains_Domain" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TasahelModel.Domain" Width="1.5" PointX="0.75" PointY="2" />
+        <AssociationConnector Association="TasahelModel.FK_SubDomains_Domain" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

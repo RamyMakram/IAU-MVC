@@ -17,30 +17,22 @@ namespace IAUBackEnd.Admin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Domain()
         {
-            this.SubDomains = new HashSet<SubDomains>();
             this.DomainEmail = new HashSet<DomainEmail>();
+            this.SubDomains = new HashSet<SubDomains>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
         public string Domain1 { get; set; }
         public string ConnectionString { get; set; }
-        public string Favicon { get; set; }
-        public string Icon { get; set; }
-        public string Title { get; set; }
-        public string MetaDesc { get; set; }
-        public string MetaKeyword { get; set; }
-        public string Maincolor { get; set; }
-        public string Secondcolor { get; set; }
-        public string Thirdcolor { get; set; }
         public string DomainKey { get; set; }
         public string DomainMachineID { get; set; }
         public bool Enabled { get; set; }
         public System.DateTime EndDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SubDomains> SubDomains { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DomainEmail> DomainEmail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubDomains> SubDomains { get; set; }
     }
 }

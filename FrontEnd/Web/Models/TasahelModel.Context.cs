@@ -27,9 +27,10 @@ namespace Web.Models
     
         public virtual DbSet<About> About { get; set; }
         public virtual DbSet<Domain> Domain { get; set; }
+        public virtual DbSet<DomainEmail> DomainEmail { get; set; }
         public virtual DbSet<DomainInfo> DomainInfo { get; set; }
+        public virtual DbSet<DomainStyle> DomainStyle { get; set; }
         public virtual DbSet<SubDomains> SubDomains { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TasahelHomeSetting> TasahelHomeSetting { get; set; }
     }
 }

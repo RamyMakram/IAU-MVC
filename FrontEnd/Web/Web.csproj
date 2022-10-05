@@ -205,13 +205,16 @@
     <Compile Include="Models\Domain.cs">
       <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DomainEmail.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DomainInfo.cs">
       <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SubDomains.cs">
+    <Compile Include="Models\DomainStyle.cs">
       <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
+    <Compile Include="Models\SubDomains.cs">
       <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TasahelHomeSetting.cs">

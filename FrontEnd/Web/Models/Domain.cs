@@ -17,36 +17,24 @@ namespace Web.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Domain()
         {
-            this.About = new HashSet<About>();
-            this.DomainInfo = new HashSet<DomainInfo>();
             this.SubDomains = new HashSet<SubDomains>();
-            this.TasahelHomeSetting = new HashSet<TasahelHomeSetting>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
         public string Domain1 { get; set; }
         public string ConnectionString { get; set; }
-        public string Favicon { get; set; }
-        public string Icon { get; set; }
-        public string Title { get; set; }
-        public string MetaDesc { get; set; }
-        public string MetaKeyword { get; set; }
-        public string Maincolor { get; set; }
-        public string Secondcolor { get; set; }
-        public string Thirdcolor { get; set; }
         public string DomainKey { get; set; }
         public string DomainMachineID { get; set; }
         public bool Enabled { get; set; }
         public System.DateTime EndDate { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<About> About { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DomainInfo> DomainInfo { get; set; }
+        public virtual About About { get; set; }
+        public virtual DomainEmail DomainEmail { get; set; }
+        public virtual DomainInfo DomainInfo { get; set; }
+        public virtual DomainStyle DomainStyle { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubDomains> SubDomains { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TasahelHomeSetting> TasahelHomeSetting { get; set; }
+        public virtual TasahelHomeSetting TasahelHomeSetting { get; set; }
     }
 }

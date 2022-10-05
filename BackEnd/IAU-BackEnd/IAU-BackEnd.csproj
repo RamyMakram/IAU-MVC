@@ -68,9 +68,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\About.cs">
-      <DependentUpon>TasahelModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -87,9 +84,6 @@
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Domain.cs">
-      <DependentUpon>TasahelModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DomainInfo.cs">
       <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
@@ -205,9 +199,6 @@
     </Compile>
     <Compile Include="Models\Table_Columns.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TasahelHomeSetting.cs">
-      <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TasahelModel.Context.cs">
       <AutoGen>True</AutoGen>

@@ -18,6 +18,7 @@ namespace IAU_BackEnd.Models
         public int DomainID { get; set; }
         public string Key { get; set; }
         public string Domain { get; set; }
+        public bool UseHttps { get; set; }
     
         public virtual Domain Domain1 { get; set; }
     }

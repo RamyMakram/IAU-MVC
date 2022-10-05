@@ -5,15 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2e83d4fe41df4e5cbb269186f47fb735" Name="Diagram1">
-        <EntityTypeShape EntityType="TasahelModel.About" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TasahelModel.Domain" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TasahelModel.DomainInfo" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TasahelModel.SubDomains" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TasahelModel.TasahelHomeSetting" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <AssociationConnector Association="TasahelModel.FK_About_Domain" ManuallyRouted="false" />
-        <AssociationConnector Association="TasahelModel.FK_DomainInfo_Domain" ManuallyRouted="false" />
-        <AssociationConnector Association="TasahelModel.FK_SubDomains_Domain" ManuallyRouted="false" />
-        <AssociationConnector Association="TasahelModel.FK_TasahelHomeSetting_Domain" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TasahelModel.Domain" Width="1.5" PointX="0.75" PointY="8.375" />
+        <AssociationConnector Association="TasahelModel.FK_SubDomains_Domain" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

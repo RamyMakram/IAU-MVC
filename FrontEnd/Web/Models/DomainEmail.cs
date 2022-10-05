@@ -7,18 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IAU_BackEnd.Models
+namespace Web.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class DomainInfo
+    public partial class DomainEmail
     {
         public int ID { get; set; }
         public int DomainID { get; set; }
-        public string Phone { get; set; }
-        public string Mail { get; set; }
-        public string Address { get; set; }
+        public string Name { get; set; }
+        public string SMTP { get; set; }
+        public int Port { get; set; }
+        public string Email { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string MessageAppSid { get; set; }
+        public string Sender { get; set; }
+        public bool UseMessages { get; set; }
     
         public virtual Domain Domain { get; set; }
     }

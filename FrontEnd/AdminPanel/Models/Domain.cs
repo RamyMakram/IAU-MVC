@@ -24,14 +24,6 @@ namespace AdminPanel.Models
         public string Name { get; set; }
         public string Domain1 { get; set; }
         public string ConnectionString { get; set; }
-        public string Favicon { get; set; }
-        public string Icon { get; set; }
-        public string Title { get; set; }
-        public string MetaDesc { get; set; }
-        public string MetaKeyword { get; set; }
-        public string Maincolor { get; set; }
-        public string Secondcolor { get; set; }
-        public string Thirdcolor { get; set; }
         public string DomainKey { get; set; }
         public string DomainMachineID { get; set; }
         public bool Enabled { get; set; }

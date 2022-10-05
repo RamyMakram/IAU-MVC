@@ -25,10 +25,7 @@ namespace IAU_BackEnd.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<About> About { get; set; }
-        public virtual DbSet<Domain> Domain { get; set; }
-        public virtual DbSet<DomainInfo> DomainInfo { get; set; }
         public virtual DbSet<SubDomains> SubDomains { get; set; }
-        public virtual DbSet<TasahelHomeSetting> TasahelHomeSetting { get; set; }
+        public virtual DbSet<Domain> Domain { get; set; }
     }
 }

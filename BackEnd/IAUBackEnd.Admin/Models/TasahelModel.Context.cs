@@ -25,8 +25,8 @@ namespace IAUBackEnd.Admin.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Domain> Domain { get; set; }
         public virtual DbSet<SubDomains> SubDomains { get; set; }
         public virtual DbSet<DomainEmail> DomainEmail { get; set; }
+        public virtual DbSet<Domain> Domain { get; set; }
     }
 }
