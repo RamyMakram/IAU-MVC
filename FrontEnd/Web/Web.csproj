@@ -48,6 +48,12 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
     </Reference>
@@ -99,6 +105,7 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -192,6 +199,39 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\About.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Domain.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DomainInfo.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubDomains.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelHomeSetting.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +296,16 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Design\img\loading.gif" />
+    <Content Include="Models\TasahelModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TasahelModel.Context.cs</LastGenOutput>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\TasahelModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+      <LastGenOutput>TasahelModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -299,6 +349,13 @@
     <Content Include="Design\webfonts\FrutigerLTArabic65Bold.woff" />
     <Content Include="Design\webfonts\frutigerltarabic75black.woff" />
     <Content Include="Design\webfonts\Myriad Pro Regular.ttf" />
+    <EntityDeploy Include="Models\TasahelModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TasahelModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TasahelModel.edmx.diagram">
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\Coordinator\Index.cshtml" />
     <Content Include="Views\Shared\_Language.cshtml" />
@@ -314,6 +371,9 @@
       <Project>{24029010-8c65-467d-858f-64f862f2c4ff}</Project>
       <Name>IAU.DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

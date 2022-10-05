@@ -135,7 +135,7 @@ namespace Web.Controllers
                             stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
                             content.Add(stringContent, "json");
 
-                            var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData";
+                            var requestUri = APIHandeling.AdminURL() + "/api/Request/saveApplicantData";
                             var result = client.PostAsync(requestUri, content).Result;
                             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                             {

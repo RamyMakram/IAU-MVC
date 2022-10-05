@@ -80,6 +80,8 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
@@ -201,8 +203,29 @@
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Helper\Helper.cs" />
+    <Compile Include="Models\Domain.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PagesPriviliges.cs" />
     <Compile Include="Models\Privilges.cs" />
+    <Compile Include="Models\SubDomains.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TasahelModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2862,6 +2885,16 @@
     <Content Include="dashboard\layout\subheader\toolbar.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Models\TasahelModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+      <LastGenOutput>TasahelModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\TasahelModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+      <LastGenOutput>TasahelModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -3118,6 +3151,13 @@
     <Content Include="assets\DataTableTrans\en.json" />
     <Content Include="libman.json" />
     <Content Include="assets\libs\jquery-validate\jquery-validation-sri.json" />
+    <EntityDeploy Include="Models\TasahelModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TasahelModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\TasahelModel.edmx.diagram">
+      <DependentUpon>TasahelModel.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Email\Home.cshtml" />
@@ -3236,6 +3276,9 @@
       <Project>{18BDA207-8375-4374-AF7F-055E1A2CC59A}</Project>
       <Name>IAUBackEnd.Admin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

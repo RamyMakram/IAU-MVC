@@ -51,7 +51,7 @@ namespace IAU_BackEnd.Models
         private static string GetConnection(HttpRequest request)
         {
             TasahelEntities db = new TasahelEntities();
-            var domain = request.Url.Host;
+            var domain = request.Url.Authority;
             var connection = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
             return BuildConnection(connection);
         }

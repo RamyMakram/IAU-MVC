@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7b437da617b5475d9d5724ff10fa9bb1" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="TasahelModel.About" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TasahelModel.Domain" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TasahelModel.DomainInfo" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TasahelModel.SubDomains" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TasahelModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TasahelModel.TasahelHomeSetting" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
+        <AssociationConnector Association="TasahelModel.FK_About_Domain" ManuallyRouted="false" />
+        <AssociationConnector Association="TasahelModel.FK_DomainInfo_Domain" ManuallyRouted="false" />
+        <AssociationConnector Association="TasahelModel.FK_SubDomains_Domain" ManuallyRouted="false" />
+        <AssociationConnector Association="TasahelModel.FK_TasahelHomeSetting_Domain" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -5,13 +5,13 @@ using System.Text;
 using System.Linq;
 using System.Configuration;
 using System.Web;
+using AdminPanel.Models;
 
 namespace AdminPanel
 
 {
     public static class APIHandeling
     {
-        static string domainName = ConfigurationManager.AppSettings["DomainName"].ToString();
         /// <summary>
         /// Get Data From API
         /// </summary>
@@ -20,6 +20,12 @@ namespace AdminPanel
         public static HttpResponseMessage getData(string apiName)
         {
             HttpClient h = new HttpClient();
+
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
 
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -36,6 +42,11 @@ namespace AdminPanel
         public static HttpResponseMessage getDataRequestFile(string apiName)
         {
             HttpClient h = new HttpClient();
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
 
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -54,7 +65,11 @@ namespace AdminPanel
         public static HttpResponseMessage getDataByParamter<dt>(string apiName, Dictionary<string, dt> dic_data)
         {
             HttpClient h = new HttpClient();
+            var db = new TasahelEntities();
 
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("user", HttpContext.Current.Request.Cookies["u"].Value); h.DefaultRequestHeaders.Add("token", HttpContext.Current.Request.Cookies["token"].Value);
@@ -98,6 +113,11 @@ namespace AdminPanel
         public static HttpResponseMessage getDataByParam<dt>(string apiName, Dictionary<string, dt> dic_data)
         {
             HttpClient h = new HttpClient();
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
 
             h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("user", HttpContext.Current.Request.Cookies["u"].Value); h.DefaultRequestHeaders.Add("token", HttpContext.Current.Request.Cookies["token"].Value);
@@ -148,6 +168,12 @@ namespace AdminPanel
         /// <returns></returns>
         public static HttpResponseMessage Post<dt>(string apiName, dt obj)
         {
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+
             //Insert
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -168,6 +194,12 @@ namespace AdminPanel
         /// <returns></returns>
         public static HttpResponseMessage Put<dt>(string apiName, dt obj)
         {
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+
             //UPDATE
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -189,6 +221,12 @@ namespace AdminPanel
         /// <returns></returns>
         public static HttpResponseMessage Delete<dt>(string apiName, dt obj)
         {
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+
             //DELETE
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -209,6 +247,12 @@ namespace AdminPanel
         /// <returns></returns>
         public static HttpResponseMessage CheckExist<dt>(string apiName, dt obj)
         {
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+
             //DELETE
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -222,6 +266,12 @@ namespace AdminPanel
         }
         public static HttpResponseMessage Insert_Error(string pageName, string errorMessage, string functionName)
         {
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+
             //Insert
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -261,6 +311,12 @@ namespace AdminPanel
         /// <returns></returns>
         public static HttpResponseMessage getData(string apiName, string action)
         {
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("user", HttpContext.Current.Request.Cookies["u"].Value); h.DefaultRequestHeaders.Add("token", HttpContext.Current.Request.Cookies["token"].Value);
@@ -275,6 +331,12 @@ namespace AdminPanel
 
         public static HttpResponseMessage getData(string apiName, string action, params object[] obj)
         {
+            var db = new TasahelEntities();
+
+            var domain = HttpContext.Current.Request.Url.Authority;
+
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.ConnectionString).FirstOrDefault();
+
             HttpClient h = new HttpClient();
             h.DefaultRequestHeaders.Add("user", HttpContext.Current.Request.Cookies["u"].Value); h.DefaultRequestHeaders.Add("token", HttpContext.Current.Request.Cookies["token"].Value);
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
@@ -284,8 +346,5 @@ namespace AdminPanel
             var res = h.GetAsync("/Rpc/" + apiName + "/" + action + obj).Result;
             return res;
         }
-
-
     }
-
 }
