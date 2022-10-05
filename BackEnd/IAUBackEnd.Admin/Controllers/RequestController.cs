@@ -649,11 +649,15 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                if (WebApiApplication.Setting_UseMessage)
+                var db = new TasahelEntities();
+                var data = db.SubDomains.Where(q => q.Domain == Request.RequestUri.Authority).Select(q => q.Domain1.DomainEmail.FirstOrDefault()).FirstOrDefault();
+
+
+                if (data.UseMessages)
                 {
                     HttpClient h = new HttpClient();
 
-                    string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid=su7G9tOZc6U0kPVnoeiJGHUDMKe8tp&msg={message_ar}&to={Mobile}&sender=IAU-BSC&baseEncode=False&encoding=UCS2";
+                    string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid={data.MessageAppSid}&msg={message_ar}&to={Mobile}&sender={data.Sender}&baseEncode=False&encoding=UCS2";
                     h.BaseAddress = new Uri(url);
 
                     var res = h.GetAsync("").Result.Content.ReadAsStringAsync().Result;
@@ -664,18 +668,18 @@ namespace IAUBackEnd.Admin.Controllers
 					<p dir='ltr'>{message_en}</p>
 					<p dir='rtl'>{message_ar}</p>
 					";
-                    SmtpClient smtpClient = new SmtpClient("10.30.1.101", 25);
+                    SmtpClient smtpClient = new SmtpClient(data.SMTP, data.Port);
 
-                    smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
+                    smtpClient.Credentials = new System.Net.NetworkCredential(data.UserName, data.Password);
                     // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                     //smtpClient.EnableSsl = true;
                     MailMessage mail = new MailMessage();
 
                     //Setting From , To and CC
-                    mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
+                    mail.From = new MailAddress(data.Email, data.Name);
                     mail.To.Add(new MailAddress(Email));
-                    mail.Subject = "IAU Notify";
+                    mail.Subject = "Notify";
                     mail.Body = message;
                     mail.IsBodyHtml = true;
                     smtpClient.Send(mail);

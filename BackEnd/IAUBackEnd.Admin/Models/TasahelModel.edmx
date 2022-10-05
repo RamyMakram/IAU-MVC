@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TasahelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TasahelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Domain">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Domain" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="ConnectionString" Type="nvarchar(max)" Nullable="false" />
@@ -26,11 +26,70 @@
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="DomainEmail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DomainID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="SMTP" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Port" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="MessageAppSid" Type="nvarchar" MaxLength="300" />
+          <Property Name="Sender" Type="nvarchar" MaxLength="250" />
+          <Property Name="UseMessages" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubDomains">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DomainID" Type="int" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UseHttps" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DomainEmail_Domain">
+          <End Role="Domain" Type="Self.Domain" Multiplicity="1" />
+          <End Role="DomainEmail" Type="Self.DomainEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DomainEmail">
+              <PropertyRef Name="DomainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubDomains_Domain">
+          <End Role="Domain" Type="Self.Domain" Multiplicity="1" />
+          <End Role="SubDomains" Type="Self.SubDomains" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubDomains">
+              <PropertyRef Name="DomainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TasahelModelStoreContainer">
           <EntitySet Name="Domain" EntityType="Self.Domain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DomainEmail" EntityType="Self.DomainEmail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubDomains" EntityType="Self.SubDomains" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DomainEmail_Domain" Association="Self.FK_DomainEmail_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="DomainEmail" EntitySet="DomainEmail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubDomains_Domain" Association="Self.FK_SubDomains_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="SubDomains" EntitySet="SubDomains" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TasahelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -54,10 +113,74 @@
           <Property Name="DomainMachineID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="SubDomains" Relationship="TasahelModel.FK_SubDomains_Domain" FromRole="Domain" ToRole="SubDomains" />
+          <NavigationProperty Name="DomainEmail" Relationship="TasahelModel.FK_DomainEmail_Domain" FromRole="Domain" ToRole="DomainEmail" />
         </EntityType>
         <EntityContainer Name="TasahelEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Domain" EntityType="Self.Domain" />
+          <EntitySet Name="SubDomains" EntityType="TasahelModel.SubDomains" />
+          <AssociationSet Name="FK_SubDomains_Domain" Association="TasahelModel.FK_SubDomains_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="SubDomains" EntitySet="SubDomains" />
+          </AssociationSet>
+          <EntitySet Name="DomainEmail" EntityType="TasahelModel.DomainEmail" />
+          <AssociationSet Name="FK_DomainEmail_Domain" Association="TasahelModel.FK_DomainEmail_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="DomainEmail" EntitySet="DomainEmail" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="SubDomains">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DomainID" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Domain" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UseHttps" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Domain1" Relationship="TasahelModel.FK_SubDomains_Domain" FromRole="SubDomains" ToRole="Domain" />
+        </EntityType>
+        <Association Name="FK_SubDomains_Domain">
+          <End Type="TasahelModel.Domain" Role="Domain" Multiplicity="1" />
+          <End Type="TasahelModel.SubDomains" Role="SubDomains" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubDomains">
+              <PropertyRef Name="DomainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DomainEmail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DomainID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SMTP" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Port" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MessageAppSid" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="UseMessages" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Domain" Relationship="TasahelModel.FK_DomainEmail_Domain" FromRole="DomainEmail" ToRole="Domain" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Sender" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_DomainEmail_Domain">
+          <End Type="TasahelModel.Domain" Role="Domain" Multiplicity="1" />
+          <End Type="TasahelModel.DomainEmail" Role="DomainEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DomainEmail">
+              <PropertyRef Name="DomainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -83,6 +206,34 @@
                 <ScalarProperty Name="DomainMachineID" ColumnName="DomainMachineID" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubDomains">
+            <EntityTypeMapping TypeName="TasahelModel.SubDomains">
+              <MappingFragment StoreEntitySet="SubDomains">
+                <ScalarProperty Name="UseHttps" ColumnName="UseHttps" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="DomainID" ColumnName="DomainID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DomainEmail">
+            <EntityTypeMapping TypeName="TasahelModel.DomainEmail">
+              <MappingFragment StoreEntitySet="DomainEmail">
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UseMessages" ColumnName="UseMessages" />
+                <ScalarProperty Name="MessageAppSid" ColumnName="MessageAppSid" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Port" ColumnName="Port" />
+                <ScalarProperty Name="SMTP" ColumnName="SMTP" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DomainID" ColumnName="DomainID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

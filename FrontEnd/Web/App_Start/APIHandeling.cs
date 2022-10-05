@@ -25,9 +25,9 @@ namespace Web.App_Start
 
             var domain = HttpContext.Current.Request.Url.Authority;
 
-            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Mos").Domain).FirstOrDefault();
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Mos")).FirstOrDefault();
 
-            h.BaseAddress = new Uri(domainName);
+            h.BaseAddress = new Uri(domainName.UseHttps ? "https://" + domainName.Domain : "http://" + domainName.Domain);
 
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
             h.DefaultRequestHeaders.Add("crd", "dkvkk45523g25dedks44w7ee7@k309m$.f,dkks");
@@ -41,11 +41,11 @@ namespace Web.App_Start
 
             var domain = HttpContext.Current.Request.Url.Authority;
 
-            var AdminURL = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.Domain1).FirstOrDefault();
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Admin")).FirstOrDefault();
 
             HttpClient h = new HttpClient();
 
-            h.BaseAddress = new Uri(AdminURL);
+            h.BaseAddress = new Uri(domainName.UseHttps ? "https://" + domainName.Domain : "http://" + domainName.Domain);
 
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
             h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
@@ -67,9 +67,10 @@ namespace Web.App_Start
 
             var domain = HttpContext.Current.Request.Url.Authority;
 
-            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Mos").Domain).FirstOrDefault();
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Mos")).FirstOrDefault();
 
-            h.BaseAddress = new Uri(domainName);
+            h.BaseAddress = new Uri(domainName.UseHttps ? "https://" + domainName.Domain : "http://" + domainName.Domain);
+
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("crd", "dkvkk45523g25dedks44w7ee7@k309m$.f,dkks");
             dynamic res = new HttpResponseMessage();
@@ -121,13 +122,14 @@ namespace Web.App_Start
 
             var domain = HttpContext.Current.Request.Url.Authority;
 
-            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Mos").Domain).FirstOrDefault();
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Mos")).FirstOrDefault();
 
             //Insert
             HttpClient h = new HttpClient();
+            h.BaseAddress = new Uri(domainName.UseHttps ? "https://" + domainName.Domain : "http://" + domainName.Domain);
+
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
-            h.BaseAddress = new Uri(domainName);
             h.DefaultRequestHeaders.Add("crd", "dkvkk45523g25dedks44w7ee7@k309m$.f,dkks");
             var res = h.PostAsJsonAsync("/api/" + apiName, obj).Result;
             return res;
@@ -138,13 +140,14 @@ namespace Web.App_Start
 
             var domain = HttpContext.Current.Request.Url.Authority;
 
-            var AdminURL = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.Domain1).FirstOrDefault();
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Admin")).FirstOrDefault();
 
             //Insert
             HttpClient h = new HttpClient();
+            h.BaseAddress = new Uri(domainName.UseHttps ? "https://" + domainName.Domain : "http://" + domainName.Domain);
+
             h.DefaultRequestHeaders.Add("lang", User_Session.GetInstance.Language_IsAr.ToString());
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
-            h.BaseAddress = new Uri(AdminURL);
             h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             var res = h.PostAsJsonAsync("/api/" + apiName, obj).Result;
             return res;
@@ -157,11 +160,11 @@ namespace Web.App_Start
 
             var domain = HttpContext.Current.Request.Url.Authority;
 
-            var AdminURL = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.Domain1).FirstOrDefault();
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Admin")).FirstOrDefault();
 
             //Insert
             HttpClient h = new HttpClient();
-            h.BaseAddress = new Uri(AdminURL);
+            h.BaseAddress = new Uri(domainName.UseHttps ? "https://" + domainName.Domain : "http://" + domainName.Domain);
             h.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
             h.DefaultRequestHeaders.Add("IsTwasul_OC", "true");
             System.Net.ServicePointManager.SecurityProtocol |=
@@ -188,8 +191,8 @@ namespace Web.App_Start
 
             var domain = HttpContext.Current.Request.Url.Authority;
 
-            var AdminURL = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.Domain1).FirstOrDefault();
-            return AdminURL;
+            var domainName = db.SubDomains.Where(q => q.Domain == domain).Select(q => q.Domain1.SubDomains.FirstOrDefault(s => s.Key == "BE_Admin")).FirstOrDefault();
+            return domainName.UseHttps ? "https://" + domainName.Domain : "http://" + domainName.Domain;
         }
     }
 

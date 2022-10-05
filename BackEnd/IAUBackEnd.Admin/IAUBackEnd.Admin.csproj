@@ -308,6 +308,9 @@
     <Compile Include="Models\Domain.cs">
       <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DomainEmail.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -406,6 +409,9 @@
     </Compile>
     <Compile Include="Models\Service_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubDomains.cs">
+      <DependentUpon>TasahelModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sub_Services.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>

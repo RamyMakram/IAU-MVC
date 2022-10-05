@@ -6,6 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="9b6b565f87704d7c96d80a8e8b25fd1d" Name="Diagram1">
         <EntityTypeShape EntityType="TasahelModel.Domain" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TasahelModel.SubDomains" Width="1.5" PointX="3" PointY="1.75" />
+        <AssociationConnector Association="TasahelModel.FK_SubDomains_Domain" />
+        <EntityTypeShape EntityType="TasahelModel.DomainEmail" Width="1.5" PointX="3" PointY="5.5" />
+        <AssociationConnector Association="TasahelModel.FK_DomainEmail_Domain" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

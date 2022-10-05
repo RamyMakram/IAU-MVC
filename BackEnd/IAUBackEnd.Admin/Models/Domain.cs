@@ -14,6 +14,13 @@ namespace IAUBackEnd.Admin.Models
     
     public partial class Domain
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Domain()
+        {
+            this.SubDomains = new HashSet<SubDomains>();
+            this.DomainEmail = new HashSet<DomainEmail>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string Domain1 { get; set; }
@@ -30,5 +37,10 @@ namespace IAUBackEnd.Admin.Models
         public string DomainMachineID { get; set; }
         public bool Enabled { get; set; }
         public System.DateTime EndDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubDomains> SubDomains { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DomainEmail> DomainEmail { get; set; }
     }
 }

@@ -7,19 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Web.Models
+namespace IAUBackEnd.Admin.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class SubDomains
+    public partial class DomainEmail
     {
         public int ID { get; set; }
         public int DomainID { get; set; }
-        public string Key { get; set; }
-        public string Domain { get; set; }
-        public bool UseHttps { get; set; }
+        public string Name { get; set; }
+        public string SMTP { get; set; }
+        public int Port { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string MessageAppSid { get; set; }
+        public bool UseMessages { get; set; }
+        public string Email { get; set; }
+        public string Sender { get; set; }
     
-        public virtual Domain Domain1 { get; set; }
+        public virtual Domain Domain { get; set; }
     }
 }

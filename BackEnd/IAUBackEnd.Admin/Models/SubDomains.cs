@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Web.Models
+namespace IAUBackEnd.Admin.Models
 {
     using System;
     using System.Collections.Generic;

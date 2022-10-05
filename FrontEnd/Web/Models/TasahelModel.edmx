@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TasahelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TasahelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="About">
           <Key>
             <PropertyRef Name="ID" />
@@ -57,6 +57,7 @@
           <Property Name="DomainID" Type="int" Nullable="false" />
           <Property Name="Key" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Domain" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="UseHttps" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -151,8 +152,7 @@
             <End Role="TasahelHomeSetting" EntitySet="TasahelHomeSetting" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TasahelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -215,6 +215,7 @@
           <Property Name="Key" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Domain" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Domain1" Relationship="Self.FK_SubDomains_Domain" FromRole="SubDomains" ToRole="Domain" />
+          <Property Name="UseHttps" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -364,6 +365,7 @@
           <EntitySetMapping Name="SubDomains">
             <EntityTypeMapping TypeName="TasahelModel.SubDomains">
               <MappingFragment StoreEntitySet="SubDomains">
+                <ScalarProperty Name="UseHttps" ColumnName="UseHttps" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DomainID" ColumnName="DomainID" />
                 <ScalarProperty Name="Key" ColumnName="Key" />
