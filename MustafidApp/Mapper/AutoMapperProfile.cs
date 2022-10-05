@@ -200,6 +200,8 @@ namespace MustafidApp.Mapper
                 .ForMember(dest => dest.Req_Is_Mos, src => src.MapFrom(src => src.IsTwasulOc))
                 .ForMember(dest => dest.Req_Status, src => src.MapFrom(src => src.RequestStateId))
                 .ForMember(dest => dest.Req_ApplicantData, src => src.MapFrom(src => src.PersonelData))
+                .ForMember(dest => dest.Req_Code, src => src.MapFrom(src => src.CodeGenerate))
+
                 //.ForMember(dest => dest.Req_Trans, src => src.MapFrom(src => src.RequestTransactions))
                 .ReverseMap();
 
@@ -276,8 +278,9 @@ namespace MustafidApp.Mapper
                 .ForMember(dest => dest.Req_S_ID, src => src.MapFrom(src => src.Service_Type_ID))
                 .ForMember(dest => dest.Req_R_ID, src => src.MapFrom(src => src.Request_Type_ID))
                 .ForMember(dest => dest.Req_Is_Mos, src => src.MapFrom(src => src.IsTwasul_OC))
-                .ForMember(dest => dest.Req_Status, src => src.MapFrom(src => src.Request_State_ID))
+                //.ForMember(dest => dest.Req_Status, src => src.MapFrom(src => src.Request_State_ID))
                 .ForMember(dest => dest.Req_ApplicantData, src => src.MapFrom(src => src.Personel_Data))
+                .ForMember(dest => dest.Req_Code, src => src.MapFrom(src => src.Code_Generate))
                 //.ForMember(dest => dest.Req_Trans, src => src.MapFrom(src => src.RequestTransactions))
                 .ReverseMap();
             #endregion

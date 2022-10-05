@@ -17,7 +17,9 @@ namespace MustafidAppDTO.DTO
         public int? Req_R_ID { get; set; }//RequestType
         public bool? Req_Is_Mos { get; set; }//Is Tawasel
         public int? Req_Status { get; set; }
+        public string Req_Code { get; set; }
         public DateTime? Req_Current_DateEnd { get; set; }
+        public DateTime? Req_Current_DateStart { get; set; }
         public UnitsDTO Req_Current_Unit { get; set; }
 
         public PersonalDataDTO Req_ApplicantData { get; set; }

@@ -400,7 +400,17 @@ namespace IAUBackEnd.Admin.Controllers
                 request_Data.CreatedDate = Helper.GetDate();
 
                 #region CheckDeleted
-                if (db.Request_Type.Find(request_Data.Request_Type_ID).Deleted)
+                var r_type = db.Request_Type.Find(request_Data.Request_Type_ID);
+                if (r_type == null)
+                {
+                    transaction.Rollback();
+                    return Ok(new
+                    {
+                        result = "No RT",
+                        success = false
+                    });
+                }
+                if (r_type.Deleted)
                 {
                     transaction.Rollback();
                     return Ok(new
@@ -410,22 +420,46 @@ namespace IAUBackEnd.Admin.Controllers
                     });
                 }
 
-                if (request_Data.Sub_Services_ID != null && db.Sub_Services.Find(request_Data.Sub_Services_ID).Deleted)
+                if (request_Data.Sub_Services_ID != null)
+                {
+                    var ss_id = db.Sub_Services.Find(request_Data.Sub_Services_ID);
+                    if (ss_id == null)
+                    {
+                        transaction.Rollback();
+                        return Ok(new
+                        {
+                            result = "No SS",
+                            success = false
+                        });
+                    }
+                    if (ss_id.Deleted)
+                    {
+                        transaction.Rollback();
+                        return Ok(new
+                        {
+                            result = "Del SS",
+                            success = false
+                        });
+                    }
+                }
+
+                if (request_Data.Service_Type_ID == null)
                 {
                     transaction.Rollback();
                     return Ok(new
                     {
-                        result = "Del SS",
+                        result = "No ST",
                         success = false
                     });
                 }
 
-                if (db.Service_Type.Find(request_Data.Service_Type_ID).Deleted)
+                var st = db.Service_Type.Find(request_Data.Service_Type_ID);
+                if (st == null || st.Deleted)
                 {
                     transaction.Rollback();
                     return Ok(new
                     {
-                        result = "Del ST",
+                        result = "DelOrNo ST",
                         success = false
                     });
                 }

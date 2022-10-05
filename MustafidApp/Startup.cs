@@ -94,7 +94,7 @@ namespace MustafidApp
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.4", new OpenApiInfo { Title = "MustafidApp", Version = "v1.4" });
+                c.SwaggerDoc("v1.5", new OpenApiInfo { Title = "MustafidApp", Version = "v1.5" });
                 // using System.Reflection;
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -155,7 +155,7 @@ namespace MustafidApp
             });
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1.4/swagger.json", "MustafidApp v1.4"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1.5/swagger.json", "MustafidApp v1.5"));
 
             app.UseHttpsRedirection();
 

@@ -36,7 +36,7 @@ namespace MustafidApp.Controllers.v1
         public async Task<IActionResult> GetNotifcations(int P_Index, int P_Size)
         {
             var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
-            var data = await _appContext.PhoneNumberNotifications.Where(q => q.PhoneNumber == Mobile_Phone).Skip(P_Size * P_Index).Take(P_Size).ToListAsync();
+            var data = await _appContext.PhoneNumberNotifications.Where(q => q.PhoneNumber == Mobile_Phone).Skip(P_Size * P_Index).Take(P_Size).OrderByDescending(q => q.NotiDate).ToListAsync();
 
             var data_DTO = _mapper.Map<List<NotificationsDTO>>(data);
 

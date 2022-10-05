@@ -34,11 +34,11 @@ namespace MustafidApp.Controllers.v1
         /// </summary>
         /// <param name="R_ID">Request Type ID</param>
         /// <param name="S_ID">Service Type ID</param>
-        /// <returns>
+        /// <remarks>
         /// True: If Valid
         /// <br/>
         /// False: If Not
-        /// </returns>
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> ValidateRequestType(int R_ID, int S_ID)
         {
@@ -92,8 +92,6 @@ namespace MustafidApp.Controllers.v1
         ///      PD_mail :"" ,
         ///     }
         /// dd
-        /// </remarks>
-        /// <returns>
         /// <br/>
         /// NotValidCountry
         /// <br/>
@@ -113,7 +111,7 @@ namespace MustafidApp.Controllers.v1
         /// NotValidResidenceCountry
         /// <br/>
         /// NotValidApplicantID
-        /// </returns>
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> ValidatePersonal(PersonalDataDTO Personal_data)
         {
@@ -173,7 +171,7 @@ namespace MustafidApp.Controllers.v1
         /// <param name="U_ID">Unit ID</param>
         /// <param name="M_ID">Main Service</param>
         /// <param name="SS_ID">Sub Service</param>
-        /// <returns>
+        /// <remarks>
         /// NotValidMainServiceOrSubService
         /// <br/>
         /// NotValidUnit
@@ -181,7 +179,7 @@ namespace MustafidApp.Controllers.v1
         /// NotValidMainService
         /// <br/>
         /// NotValidSubService
-        /// </returns>
+        /// </remarks>
 
         [HttpPost]
         public async Task<IActionResult> ValidateRequestData(int R_ID, int S_ID, int APP_ID, int U_ID, int? M_ID, int? SS_ID)
