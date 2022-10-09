@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using TasahelAdmin.Models.VM;
 
 #nullable disable
 
@@ -30,6 +29,7 @@ namespace TasahelAdmin.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-CN4OLI1Q\\SQL19;Database=Tasahel;Trusted_Connection=True;");
             }
         }
@@ -77,11 +77,7 @@ namespace TasahelAdmin.Models
                     .HasMaxLength(250)
                     .HasColumnName("Domain");
 
-                entity.Property(e => e.DomainKey).IsRequired();
-
-                entity.Property(e => e.DomainMachineId)
-                    .IsRequired()
-                    .HasColumnName("DomainMachineID");
+                entity.Property(e => e.DomainMachineId).HasColumnName("DomainMachineID");
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
@@ -259,7 +255,5 @@ namespace TasahelAdmin.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<TasahelAdmin.Models.VM.DomainCreateVM> DomainCreateVM { get; set; }
     }
 }
