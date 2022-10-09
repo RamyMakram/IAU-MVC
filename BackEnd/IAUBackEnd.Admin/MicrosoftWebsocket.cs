@@ -14,8 +14,11 @@ namespace IAUBackEnd.Admin
         {
             try
             {
+                var domain = HttpContext.Current.Request.Url.Authority;
+
                 string name = this.WebSocketContext.QueryString["Name"];
-                Mapped[name] = new WebSocketCollection() { this };
+                Mapped[domain + "-" + name] = new WebSocketCollection() { this };
+
                 clients.Add(this);
             }
             catch (Exception eee)
@@ -24,22 +27,27 @@ namespace IAUBackEnd.Admin
         }
         public static void SendTo(string Name, string Message)
         {
-            Mapped[Name].Broadcast(Message);
+            var domain = HttpContext.Current.Request.Url.Authority;
+            Mapped[domain + "-" + Name].Broadcast(Message);
         }
         public static void SendLogout(string Name)
         {
+            var domain = HttpContext.Current.Request.Url.Authority;
+
             if (Mapped.ContainsKey(Name))
             {
                 Mapped[Name].Broadcast("Out");
-                var ws_User = Mapped[Name];
-                Mapped.Remove(Name);
+                var ws_User = Mapped[domain + "-" + Name];
+                Mapped.Remove(domain + "-" + Name);
             }
         }
         public static void SendToMulti(int[] Names, string Message)
         {
+            var domain = HttpContext.Current.Request.Url.Authority;
+
             foreach (var i in Names)
                 if (Mapped.ContainsKey(i.ToString()))
-                    Mapped[i.ToString()].Broadcast(Message);
+                    Mapped[domain + "-" + i.ToString()].Broadcast(Message);
         }
 
         public override void OnMessage(byte[] message)
@@ -48,10 +56,12 @@ namespace IAUBackEnd.Admin
         }
         public override void OnClose()
         {
+            var domain = HttpContext.Current.Request.Url.Authority;
+
             clients.Remove(this);
             var WillBeRemoved = Mapped.Where(q => q.Value.Contains(this)).Select(q => q.Key);
             foreach (var i in WillBeRemoved)
-                Mapped[i].Remove(this);
+                Mapped[domain + "-" + i].Remove(this);
         }
     }
 }

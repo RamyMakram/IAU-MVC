@@ -548,8 +548,11 @@ namespace IAUBackEnd.Admin.Controllers
                     }
                 }
                 await db.SaveChangesAsync();
+                
+                var domain = Request.RequestUri.Authority;
+
                 var path = HttpContext.Current.Server.MapPath("~");
-                var requestpath = Path.Combine("RequestFiles", request_Data.Request_Data_ID.ToString());
+                var requestpath = Path.Combine("RequestFiles", domain + "-" + request_Data.Request_Data_ID.ToString());
                 Directory.CreateDirectory(Path.Combine(path, requestpath));
                 if (provider.Contents.Count > 2)
                 {
