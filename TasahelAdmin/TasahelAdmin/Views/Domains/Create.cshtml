@@ -1,0 +1,266 @@
+﻿@using TasahelAdmin.Models.Enum
+@model TasahelAdmin.Models.VM.DomainCreateVM
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    legend{
+        color:purple;
+        font-weight:bolder;
+        padding: 30px 0
+    }
+</style>
+<h1>Create</h1>
+
+<h4>New Domain</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <fieldset>
+                <legend>Main Info</legend>
+                <div class="container">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Domain1" class="control-label">Domain</label>
+                        <input asp-for="Domain1" class="form-control" />
+                        <span asp-validation-for="Domain1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConnectionString" class="control-label"></label>
+                        <input asp-for="ConnectionString" class="form-control" />
+                        <span asp-validation-for="ConnectionString" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Enabled" /> @Html.DisplayNameFor(model => model.Enabled)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EndDate" class="control-label"></label>
+                        <input asp-for="EndDate" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Home Page Setting</legend>
+                <div class="container">
+                    <div class="form-group">
+                        <label asp-for="NewReqICo" class="control-label"></label>
+                        <input asp-for="NewReqICo" class="form-control" />
+                        <span asp-validation-for="NewReqICo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FollowIco" class="control-label"></label>
+                        <input asp-for="FollowIco" class="form-control" />
+                        <span asp-validation-for="FollowIco" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="EnableAcadmic" /> @Html.DisplayNameFor(model => model.EnableAcadmic)
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>About Data</legend>
+                <div class="container">
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mail" class="control-label"></label>
+                        <input asp-for="Mail" class="form-control" />
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <fieldset>
+                <legend>Main Style Info</legend>
+                <div class="container">
+                    <div class="form-group">
+                        <label asp-for="Favicon" class="control-label"></label>
+                        <input asp-for="Favicon" class="form-control" />
+                        <span asp-validation-for="Favicon" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Icon" class="control-label"></label>
+                        <input asp-for="Icon" class="form-control" />
+                        <span asp-validation-for="Icon" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MetaDesc" class="control-label"></label>
+                        <input asp-for="MetaDesc" class="form-control" />
+                        <span asp-validation-for="MetaDesc" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MetaKeyword" class="control-label"></label>
+                        <input asp-for="MetaKeyword" class="form-control" />
+                        <span asp-validation-for="MetaKeyword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Maincolor" class="control-label"></label>
+                        <input asp-for="Maincolor" class="form-control" />
+                        <span asp-validation-for="Maincolor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Secondcolor" class="control-label"></label>
+                        <input asp-for="Secondcolor" class="form-control" />
+                        <span asp-validation-for="Secondcolor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Thirdcolor" class="control-label"></label>
+                        <input asp-for="Thirdcolor" class="form-control" />
+                        <span asp-validation-for="Thirdcolor" class="text-danger"></span>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Email And SMS</legend>
+
+               <div class="container">
+                    <div class="form-group">
+                        <label asp-for="SMTPName" class="control-label"></label>
+                        <input asp-for="SMTPName" class="form-control" />
+                        <span asp-validation-for="SMTPName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Smtp" class="control-label"></label>
+                        <input asp-for="Smtp" class="form-control" />
+                        <span asp-validation-for="Smtp" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Port" class="control-label"></label>
+                        <input asp-for="Port" class="form-control" />
+                        <span asp-validation-for="Port" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserName" class="control-label"></label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MessageAppSid" class="control-label"></label>
+                        <input asp-for="MessageAppSid" class="form-control" />
+                        <span asp-validation-for="MessageAppSid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Sender" class="control-label"></label>
+                        <input asp-for="Sender" class="form-control" />
+                        <span asp-validation-for="Sender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="UseMessages" /> @Html.DisplayNameFor(model => model.UseMessages)
+                        </label>
+                    </div>
+               </div>
+            </fieldset>
+            @*            <fieldset>
+            <legend>Main Page</legend>
+            <div class="Repeater">
+            <input data-repeater-create type="button" value="Add New Object" class="btn btn-primary" />
+            <div data-repeater-list="About">
+            <div data-repeater-item>
+            <div class="form-group">
+            <label class="control-label">Title Ar</label>
+            <input name="TitleAr" class="form-control" />
+            </div>
+            <div class="form-group">
+            <label class="control-label">Title En</label>
+            <input name="TitleEn" class="form-control" />
+            </div>
+
+
+
+            <input data-repeater-delete type="button" class="btn btn-danger" value="Delete" />
+            </div>
+            </div>
+
+            </div>
+            </fieldset>*@
+            <fieldset>
+                <legend>Sub Domains</legend>
+                <div class="container">
+                    @{
+                        var count = 0;
+                    }
+                    @foreach (var i in ListOFSubDomains.SubDomainsEnum)
+                    {
+                        <div class="row w-100">
+                            <input name="SubDomains[@count].Key" hidden value="@i.Value" />
+                            <div class="form-group">
+                                <label class="control-label">@i.Name</label>
+                                <input name="SubDomains[@count].Domain" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" name="SubDomains[@count].UseHttps" /> Https?
+                                </label>
+                            </div>
+                        </div>
+                        count++;
+                    }
+                </div>
+            </fieldset>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/wwwroot/lib/ckeditor5/ckeditor.js"></script>
+    <script src="~/wwwroot/lib/jquery.repeater/jquery.repeater.js"></script>
+    <script>
+
+    </script>
+
+
+    }

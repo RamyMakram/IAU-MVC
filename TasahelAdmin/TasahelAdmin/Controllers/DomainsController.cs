@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TasahelAdmin.Models;
+using TasahelAdmin.Models.VM;
 
 namespace TasahelAdmin.Controllers
 {
@@ -25,9 +26,12 @@ namespace TasahelAdmin.Controllers
             return View();
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Create(Domain dd)
+        public async Task<IActionResult> Create(DomainCreateVM dd)
         {
+            var Domain = new Domain();
+
             return View();
         }
     }

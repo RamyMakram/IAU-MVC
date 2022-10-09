@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "datatables@1.10.21",
+      "destination": "wwwroot/lib/datatables/"
+    },
+    {
+      "library": "jquery.repeater@1.2.1",
+      "destination": "wwwroot/lib/jquery.repeater/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "ckeditor5@35.2.0",
+      "destination": "wwwroot/lib/ckeditor5/",
+      "files": [
+        "ckeditor.min.js",
+        "translations/ar.js",
+        "translations/ar.min.js",
+        "translations/en-au.js",
+        "translations/en-au.min.js",
+        "ckeditor.js"
+      ]
+    }
+  ]
+}

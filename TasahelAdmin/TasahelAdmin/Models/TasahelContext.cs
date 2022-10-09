@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TasahelAdmin.Models.VM;
 
 #nullable disable
 
@@ -19,7 +20,10 @@ namespace TasahelAdmin.Models
 
         public virtual DbSet<About> Abouts { get; set; }
         public virtual DbSet<Domain> Domains { get; set; }
+        public virtual DbSet<DomainEmail> DomainEmails { get; set; }
         public virtual DbSet<DomainInfo> DomainInfos { get; set; }
+        public virtual DbSet<DomainStyle> DomainStyles { get; set; }
+        public virtual DbSet<SubDomain> SubDomains { get; set; }
         public virtual DbSet<TasahelHomeSetting> TasahelHomeSettings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,19 +40,15 @@ namespace TasahelAdmin.Models
 
             modelBuilder.Entity<About>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.DomainId });
-
                 entity.ToTable("About");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ID");
-
-                entity.Property(e => e.DomainId).HasColumnName("DomainID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.DescAr).IsRequired();
 
                 entity.Property(e => e.DescEn).IsRequired();
+
+                entity.Property(e => e.DomainId).HasColumnName("DomainID");
 
                 entity.Property(e => e.TitleAr).IsRequired();
 
@@ -68,9 +68,7 @@ namespace TasahelAdmin.Models
                 entity.HasIndex(e => e.Domain1, "IX_Domain")
                     .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.ConnectionString).IsRequired();
 
@@ -87,9 +85,95 @@ namespace TasahelAdmin.Models
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Name).IsRequired();
+            });
+
+            modelBuilder.Entity<DomainEmail>(entity =>
+            {
+                entity.HasKey(e => e.DomainId);
+
+                entity.ToTable("DomainEmail");
+
+                entity.Property(e => e.DomainId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("DomainID");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.MessageAppSid).HasMaxLength(300);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Sender).HasMaxLength(250);
+
+                entity.Property(e => e.Smtp)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .HasColumnName("SMTP");
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.HasOne(d => d.Domain)
+                    .WithOne(p => p.DomainEmail)
+                    .HasForeignKey<DomainEmail>(d => d.DomainId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DomainEmail_Domain");
+            });
+
+            modelBuilder.Entity<DomainInfo>(entity =>
+            {
+                entity.HasKey(e => e.DomainId)
+                    .HasName("PK_DomainInfo_1");
+
+                entity.ToTable("DomainInfo");
+
+                entity.Property(e => e.DomainId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("DomainID");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID");
+
+                entity.HasOne(d => d.Domain)
+                    .WithOne(p => p.DomainInfo)
+                    .HasForeignKey<DomainInfo>(d => d.DomainId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DomainInfo_Domain");
+            });
+
+            modelBuilder.Entity<DomainStyle>(entity =>
+            {
+                entity.HasKey(e => e.DomainId)
+                    .HasName("PK_DomainStyle_1");
+
+                entity.ToTable("DomainStyle");
+
+                entity.Property(e => e.DomainId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("DomainID");
+
                 entity.Property(e => e.Favicon).IsRequired();
 
                 entity.Property(e => e.Icon).IsRequired();
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID");
 
                 entity.Property(e => e.Maincolor)
                     .IsRequired()
@@ -98,8 +182,6 @@ namespace TasahelAdmin.Models
                 entity.Property(e => e.MetaDesc).IsRequired();
 
                 entity.Property(e => e.MetaKeyword).IsRequired();
-
-                entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.Secondcolor)
                     .IsRequired()
@@ -112,48 +194,63 @@ namespace TasahelAdmin.Models
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.Domain)
+                    .WithOne(p => p.DomainStyle)
+                    .HasForeignKey<DomainStyle>(d => d.DomainId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DomainStyle_Domain");
             });
 
-            modelBuilder.Entity<DomainInfo>(entity =>
+            modelBuilder.Entity<SubDomain>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.DomainId });
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.ToTable("DomainInfo");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Domain)
+                    .IsRequired()
+                    .HasMaxLength(150);
 
                 entity.Property(e => e.DomainId).HasColumnName("DomainID");
 
-                entity.HasOne(d => d.Domain)
-                    .WithMany(p => p.DomainInfos)
+                entity.Property(e => e.Key)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.UseHttps)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.HasOne(d => d.DomainNavigation)
+                    .WithMany(p => p.SubDomains)
                     .HasForeignKey(d => d.DomainId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DomainInfo_Domain");
+                    .HasConstraintName("FK_SubDomains_Domain");
             });
 
             modelBuilder.Entity<TasahelHomeSetting>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.DomainId });
+                entity.HasKey(e => e.DomainId)
+                    .HasName("PK_TasahelHomeSetting_1");
 
                 entity.ToTable("TasahelHomeSetting");
+
+                entity.Property(e => e.DomainId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("DomainID");
+
+                entity.Property(e => e.FollowIco).IsRequired();
 
                 entity.Property(e => e.Id)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("ID");
-
-                entity.Property(e => e.DomainId).HasColumnName("DomainID");
-
-                entity.Property(e => e.FollowIco).IsRequired();
 
                 entity.Property(e => e.NewReqIco)
                     .IsRequired()
                     .HasColumnName("NewReqICo");
 
                 entity.HasOne(d => d.Domain)
-                    .WithMany(p => p.TasahelHomeSettings)
-                    .HasForeignKey(d => d.DomainId)
+                    .WithOne(p => p.TasahelHomeSetting)
+                    .HasForeignKey<TasahelHomeSetting>(d => d.DomainId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TasahelHomeSetting_Domain");
             });
@@ -162,5 +259,7 @@ namespace TasahelAdmin.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<TasahelAdmin.Models.VM.DomainCreateVM> DomainCreateVM { get; set; }
     }
 }
