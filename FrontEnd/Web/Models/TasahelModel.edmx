@@ -7,7 +7,7 @@
     <Schema Namespace="TasahelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="About">
           <Key>
-            <PropertyRef Name="DomainID" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DomainID" Type="int" Nullable="false" />
@@ -92,7 +92,7 @@
         </EntityType>
         <Association Name="FK_About_Domain">
           <End Role="Domain" Type="Self.Domain" Multiplicity="1" />
-          <End Role="About" Type="Self.About" Multiplicity="0..1" />
+          <End Role="About" Type="Self.About" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Domain">
               <PropertyRef Name="ID" />
@@ -200,17 +200,12 @@
     <edmx:ConceptualModels>
       <Schema Namespace="TasahelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TasahelEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="About" EntityType="TasahelModel.About" />
           <EntitySet Name="Domain" EntityType="TasahelModel.Domain" />
           <EntitySet Name="DomainEmail" EntityType="TasahelModel.DomainEmail" />
           <EntitySet Name="DomainInfo" EntityType="TasahelModel.DomainInfo" />
           <EntitySet Name="DomainStyle" EntityType="TasahelModel.DomainStyle" />
           <EntitySet Name="SubDomains" EntityType="TasahelModel.SubDomains" />
           <EntitySet Name="TasahelHomeSetting" EntityType="TasahelModel.TasahelHomeSetting" />
-          <AssociationSet Name="FK_About_Domain" Association="TasahelModel.FK_About_Domain">
-            <End Role="Domain" EntitySet="Domain" />
-            <End Role="About" EntitySet="About" />
-          </AssociationSet>
           <AssociationSet Name="FK_DomainEmail_Domain" Association="TasahelModel.FK_DomainEmail_Domain">
             <End Role="Domain" EntitySet="Domain" />
             <End Role="DomainEmail" EntitySet="DomainEmail" />
@@ -231,19 +226,12 @@
             <End Role="Domain" EntitySet="Domain" />
             <End Role="TasahelHomeSetting" EntitySet="TasahelHomeSetting" />
           </AssociationSet>
+          <EntitySet Name="About" EntityType="TasahelModel.About" />
+          <AssociationSet Name="FK_About_Domain" Association="TasahelModel.FK_About_Domain">
+            <End Role="Domain" EntitySet="Domain" />
+            <End Role="About" EntitySet="About" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="About">
-          <Key>
-            <PropertyRef Name="DomainID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DomainID" Type="Int32" Nullable="false" />
-          <Property Name="TitleAr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TitleEn" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DescAr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DescEn" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Domain" Relationship="TasahelModel.FK_About_Domain" FromRole="About" ToRole="Domain" />
-        </EntityType>
         <EntityType Name="Domain">
           <Key>
             <PropertyRef Name="ID" />
@@ -256,12 +244,12 @@
           <Property Name="DomainMachineID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Enabled" Type="Boolean" Nullable="false" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="About" Relationship="TasahelModel.FK_About_Domain" FromRole="Domain" ToRole="About" />
           <NavigationProperty Name="DomainEmail" Relationship="TasahelModel.FK_DomainEmail_Domain" FromRole="Domain" ToRole="DomainEmail" />
           <NavigationProperty Name="DomainInfo" Relationship="TasahelModel.FK_DomainInfo_Domain" FromRole="Domain" ToRole="DomainInfo" />
           <NavigationProperty Name="DomainStyle" Relationship="TasahelModel.FK_DomainStyle_Domain" FromRole="Domain" ToRole="DomainStyle" />
           <NavigationProperty Name="SubDomains" Relationship="TasahelModel.FK_SubDomains_Domain" FromRole="Domain" ToRole="SubDomains" />
           <NavigationProperty Name="TasahelHomeSetting" Relationship="TasahelModel.FK_TasahelHomeSetting_Domain" FromRole="Domain" ToRole="TasahelHomeSetting" />
+          <NavigationProperty Name="About" Relationship="TasahelModel.FK_About_Domain" FromRole="Domain" ToRole="About" />
         </EntityType>
         <EntityType Name="DomainEmail">
           <Key>
@@ -329,18 +317,6 @@
           <Property Name="EnableAcadamic" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Domain" Relationship="TasahelModel.FK_TasahelHomeSetting_Domain" FromRole="TasahelHomeSetting" ToRole="Domain" />
         </EntityType>
-        <Association Name="FK_About_Domain">
-          <End Type="TasahelModel.Domain" Role="Domain" Multiplicity="1" />
-          <End Type="TasahelModel.About" Role="About" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Domain">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="About">
-              <PropertyRef Name="DomainID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_DomainEmail_Domain">
           <End Type="TasahelModel.Domain" Role="Domain" Multiplicity="1" />
           <End Type="TasahelModel.DomainEmail" Role="DomainEmail" Multiplicity="0..1" />
@@ -401,24 +377,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="About">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DomainID" Type="Int32" Nullable="false" />
+          <Property Name="TitleAr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TitleEn" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DescAr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DescEn" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Domain" Relationship="TasahelModel.FK_About_Domain" FromRole="About" ToRole="Domain" />
+        </EntityType>
+        <Association Name="FK_About_Domain">
+          <End Type="TasahelModel.Domain" Role="Domain" Multiplicity="1" />
+          <End Type="TasahelModel.About" Role="About" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Domain">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="About">
+              <PropertyRef Name="DomainID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TasahelModelStoreContainer" CdmEntityContainer="TasahelEntities">
-          <EntitySetMapping Name="About">
-            <EntityTypeMapping TypeName="TasahelModel.About">
-              <MappingFragment StoreEntitySet="About">
-                <ScalarProperty Name="DescEn" ColumnName="DescEn" />
-                <ScalarProperty Name="DescAr" ColumnName="DescAr" />
-                <ScalarProperty Name="TitleEn" ColumnName="TitleEn" />
-                <ScalarProperty Name="TitleAr" ColumnName="TitleAr" />
-                <ScalarProperty Name="DomainID" ColumnName="DomainID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Domain">
             <EntityTypeMapping TypeName="TasahelModel.Domain">
               <MappingFragment StoreEntitySet="Domain">
@@ -494,6 +482,18 @@
                 <ScalarProperty Name="EnableAcadamic" ColumnName="EnableAcadamic" />
                 <ScalarProperty Name="FollowIco" ColumnName="FollowIco" />
                 <ScalarProperty Name="NewReqICo" ColumnName="NewReqICo" />
+                <ScalarProperty Name="DomainID" ColumnName="DomainID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="About">
+            <EntityTypeMapping TypeName="TasahelModel.About">
+              <MappingFragment StoreEntitySet="About">
+                <ScalarProperty Name="DescEn" ColumnName="DescEn" />
+                <ScalarProperty Name="DescAr" ColumnName="DescAr" />
+                <ScalarProperty Name="TitleEn" ColumnName="TitleEn" />
+                <ScalarProperty Name="TitleAr" ColumnName="TitleAr" />
                 <ScalarProperty Name="DomainID" ColumnName="DomainID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

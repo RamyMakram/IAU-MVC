@@ -2,12 +2,13 @@
 @{
     ViewBag.Title = "IAU-BSC | Main";
     var isar = Request.Cookies["lang"].Value.ToString() == "ar";
+    var AboutData = ViewBag.AboutData as List<Web.Models.About>;
 }
 <style>
     .main-page .collapse-container {
         height: calc(100% / 7);
         margin: 0 !important;
-        text-align:start !important;
+        text-align: start !important;
     }
 
     .t-justify, p, li, blockquote {
@@ -178,101 +179,106 @@ else
         @if (isar)
         {
             <div class="col-md-4">
-                <div class="col-md-12 collapse-container">
-                    <div class="Main-Outer-Navigationlink">
-                        <a class="btn btn-success" location="loc1">
-                            <div class="row">
-                                <p class="col-md-10">
-                                    نبذة عن مركز رعاية المستفيدين :
-                                </p>
-                                <div class="col-md-2">
-                                    <i class="fas fa-chevron-right"></i>
+                @foreach (var i in AboutData)
+                {
+
+                    <div class="col-md-12 collapse-container">
+                        <div class="Main-Outer-Navigationlink">
+                            <a class="btn btn-success" location="loc@(i.ID)">
+                                <div class="row">
+                                    <p class="col-md-10">
+                                        @i.TitleAr
+                                    </p>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                }
 
 
-                <div class="col-md-12 collapse-container">
-                    <div class="Main-Outer-Navigationlink">
 
-                        <a class="btn btn-success" location="loc2">
-                            <div class="row">
-                                <p class="col-md-10">
-                                    إجابات وأفكار وفرص جديدة بالمركز :
-                                </p>
-                                <div class="col-md-2">
-                                    <i class="fas fa-chevron-right"></i>
+                @*<div class="col-md-12 collapse-container">
+                        <div class="Main-Outer-Navigationlink">
+
+                            <a class="btn btn-success" location="loc2">
+                                <div class="row">
+                                    <p class="col-md-10">
+                                        إجابات وأفكار وفرص جديدة بالمركز :
+                                    </p>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-12 collapse-container">
-                    <div class="Main-Outer-Navigationlink">
+                    <div class="col-md-12 collapse-container">
+                        <div class="Main-Outer-Navigationlink">
 
-                        <a class="btn btn-success" location="loc3">
-                            <div class="row">
-                                <p class="col-md-10">
-                                    الرؤية والرسالة والقيم :
-                                </p>
-                                <div class="col-md-2">
-                                    <i class="fas fa-chevron-right"></i>
+                            <a class="btn btn-success" location="loc3">
+                                <div class="row">
+                                    <p class="col-md-10">
+                                        الرؤية والرسالة والقيم :
+                                    </p>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
 
-                <div class="col-md-12 collapse-container">
-                    <div class="Main-Outer-Navigationlink">
+                    <div class="col-md-12 collapse-container">
+                        <div class="Main-Outer-Navigationlink">
 
-                        <a class="btn btn-success" location="loc4">
-                            <div class="row">
-                                <p class="col-md-10">
-                                    نطاق الخدمات ونظام التشغيل الخاص بالمركز :
-                                </p>
-                                <div class="col-md-2">
-                                    <i class="fas fa-chevron-right"></i>
+                            <a class="btn btn-success" location="loc4">
+                                <div class="row">
+                                    <p class="col-md-10">
+                                        نطاق الخدمات ونظام التشغيل الخاص بالمركز :
+                                    </p>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-12 collapse-container">
-                    <div class="Main-Outer-Navigationlink">
+                    <div class="col-md-12 collapse-container">
+                        <div class="Main-Outer-Navigationlink">
 
-                        <a class="btn btn-success" location="loc5">
-                            <div class="row">
-                                <p class="col-md-10">
-                                    مراحل تقديم الخدمات بالمركز :
-                                </p>
-                                <div class="col-md-2">
-                                    <i class="fas fa-chevron-right"></i>
+                            <a class="btn btn-success" location="loc5">
+                                <div class="row">
+                                    <p class="col-md-10">
+                                        مراحل تقديم الخدمات بالمركز :
+                                    </p>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12 collapse-container">
-                    <div class="Main-Outer-Navigationlink">
+                    <div class="col-md-12 collapse-container">
+                        <div class="Main-Outer-Navigationlink">
 
-                        <a class="btn btn-success" href="/Home">
-                            <div class="row">
-                                <p class="col-md-10">
-                                    تقديم/متابعة الطلبات المقدمة :
-                                </p>
-                                <div class="col-md-2">
-                                    <i class="fas fa-chevron-right"></i>
+                            <a class="btn btn-success" href="/Home">
+                                <div class="row">
+                                    <p class="col-md-10">
+                                        تقديم/متابعة الطلبات المقدمة :
+                                    </p>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                            </a>
+                        </div>
+                    </div>*@
 
                 <div class="col-md-12 collapse-container">
                     <div class="Main-Outer-Navigationlink">
@@ -291,20 +297,26 @@ else
                 </div>
             </div>
             <div class="col-md-8 content" style="background-color: #fff;">
-                <div class="col-md-12 display-1 loc1" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
+                @foreach (var i in AboutData)
+                {
+                    <div class="col-md-12 display-1 loc@(i.ID)" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
+                        @Html.Raw(i.DescAr)
+                    </div>
+                }
+                <!--<div class="col-md-12 display-1 loc1" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
                     <blockquote style="color: #0a1332; font-size: 16px; margin: 0px 0px 50px;">
                         تم إنشاء قطاع تقديم الخدمات للمستفيدين من جامعة الإمام عبدالرحمن بن فيصل تحت اسم مركز رعاية المستفيدين (IAU-BSC)، بهدف تحويل توصيل الخدمات المقدمة من قبل الجامعة إلى كيان إداري مركزي مستقل لديه مجموعة من السلطات والصلاحيات القانونية فضلًا عن تمتعه بحق التصرف الإداري والمالي. وعليه, فقد تم تصميم مركز رعاية المستفيدين وتشغيله لتوفير جميع الخدمات المتاحة لمستخدميه المحتملين، إضافة لتعاون الجهات الادارية المختصة من أجل تحسين أنواع الخدمات وجودتها وأنظمة تقديمها وذلك لتوجيه أصول جامعة الإمام عبد الرحمن بن فيصل وتوسيع استخدامها وبناء قدرات استثمارية عالية.                        <br />
                         <br />
                         ويسعى مركز رعاية المستفيدين إلى تقديم أعلى مستويات الخدمة لمنسوبي الجامعة، فضلًا عن توسيع نطاق استخدام هذه الخدمات للمواطنين والمقيمين والزائرين وفقًا لشروط وأحكام ميسرة. وستتم جميع الإجراءات عبر مركز رعاية المستفيدين أو من خلال تطبيق مركز رعاية المستفيدين "مستفيد" والذي يمكن الوصول إليه عبر الموقع الرسمي لجامعة الإمام عبد الرحمن بن فيصل باستخدام أجهزة الحواسيب أو الهواتف الذكية.
 
-                    </blockquote>
-                    @*<p style="color: #0a1332; font-size: 16px; font-weight:bold; text-align:right">
-                            Dr. Saleh bin Ali Al-Rashed
-                        </p>
-                        <p style="color: #0a1332; font-size: 16px;text-align:right;padding-right:30px;">
-                            IAU’s Vice-President
-                        </p>*@
-                </div>
+                    </blockquote>-->
+                @*<p style="color: #0a1332; font-size: 16px; font-weight:bold; text-align:right">
+                        Dr. Saleh bin Ali Al-Rashed
+                    </p>
+                    <p style="color: #0a1332; font-size: 16px;text-align:right;padding-right:30px;">
+                        IAU’s Vice-President
+                    </p>*@
+                <!--</div>
                 <div class="col-md-12 New-Idea display-2 loc2" style="display:none;">
                     <div class="AboutIAU p-0 m-0" style="padding-top: 20px; margin:0 !important">
                         <p class="p-0">
@@ -500,11 +512,11 @@ else
 
                 </div>
                 <div class="col-md-12 operation-System loc4" style="display:none;">
-                    <div class="Scope-of-Services m-0">
-                        @*<h3>
-                                IAU-BSC Scope of Services and operational system:
-                            </h3>*@
-                        <h3>نطاق الخدمات :</h3>
+                    <div class="Scope-of-Services m-0">-->
+                @*<h3>
+                        IAU-BSC Scope of Services and operational system:
+                    </h3>*@
+                <!--<h3>نطاق الخدمات :</h3>
                         <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
                             وفقًا لنظام الترميز الموحد في جامعة الإمام عبدالرحمن بن فيصل، يتم تعريف المباني في الحرم الجامعي من خلال خدماتهم وانشطتهم الرئيسية ويتم التعريف بمجموعة من الأحرف والألوان حسب نوع النشاط ورقم المبنى. وعليه فقد تم تصنيف الخدمات إلى سبع فئات على النحو الموضح بالشكل أدناه:
                         </p>
@@ -591,9 +603,9 @@ else
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 loc5" style="display:none;">
-                    @*<img src="~/Design/img/Picture10.png" style="width:100%;background-color:#fff;" />*@
-                    <h3>
+                <div class="col-md-12 loc5" style="display:none;">-->
+                @*<img src="~/Design/img/Picture10.png" style="width:100%;background-color:#fff;" />*@
+                <!--<h3>
                         مراحل تقديم الخدمات بالمركز:
                     </h3>
                     <div class="px-3">
@@ -752,14 +764,32 @@ else
 
                         </p>
                     </div>
-                </div>
+                </div>-->
             </div>
 
         }
         else
         {
             <div class="col-md-4">
-                <div class="col-md-12 collapse-container">
+                @foreach (var i in AboutData)
+                {
+
+                    <div class="col-md-12 collapse-container">
+                        <div class="Main-Outer-Navigationlink">
+                            <a class="btn btn-success" location="loc@(i.ID)">
+                                <div class="row">
+                                    <p class="col-md-10">
+                                        @i.TitleEn
+                                    </p>
+                                    <div class="col-md-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @*<div class="col-md-12 collapse-container">
                     <div class="Main-Outer-Navigationlink">
 
                         <a class="btn btn-success" location="loc1">
@@ -856,7 +886,7 @@ else
                             </div>
                         </a>
                     </div>
-                </div>
+                </div>*@
 
                 <div class="col-md-12 collapse-container">
                     <div class="Main-Outer-Navigationlink">
@@ -876,504 +906,514 @@ else
 
             </div>
             <div class="col-md-8 content" style="background-color: #fff;">
+
                 <div class="col-md-12 display-1 loc1" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
-                    <blockquote style="color: #0a1332; font-size: 16px; margin: 0px 0px 50px;">
-                        The Service Delivery Sector for the beneficiaries of the IAU University is established under the Beneficiaries Service Center (IAU-BSC) to transfer all deliveries of services provided by the IAU University to a central administrative entity with legal authorities managerial and financial disposition. The IAU-BSC is designed and operated to provide all available services to its potential users along with the collaboration of specific administrative sectors to improve the types and quality of the services and its delivery system as well as to locally and regionally guide and expand the use of the IAU assets and build high capabilities in investment.
-
-                        <br />
-                        <br />
-                        The IAU-BSC ensures the delivery of the highest levels of service to the IAU affiliated persons and extends these services to cover all residents and expatriates in the eastern region with eased terms and conditions. All procedures will be provided via the IAU-BSC center in the IAU campus or through the IAU-BSC application "Mustafid" that can be reached using its related homepage @@IAU-BSC in the IAU official website, either computer interface or smartphones.
-                    </blockquote>
-                    @*<p style="color: #0a1332; font-size: 16px; font-weight:bold; text-align:right">
-                            Dr. Saleh bin Ali Al-Rashed
-                        </p>
-                        <p style="color: #0a1332; font-size: 16px;text-align:right;padding-right:30px;">
-                            IAU’s Vice-President
-                        </p>*@
+                    @foreach (var i in AboutData)
+                    {
+                        <div class="col-md-12 display-1 loc@(i.ID)" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
+                            @Html.Raw(i.DescAr)
+                        </div>
+                    }
                 </div>
-                <div class="col-md-12 New-Idea display-2 loc2" style="display:none;">
-                    <div class="AboutIAU p-0 m-0" style="padding-top: 20px; margin:0 !important">
-                        <p class="p-0">
-                            The interior design of the IAU-BSC setting and operating system of the IAU-BSC are created by the Inclusive Design Unit- Green Design Section (IDU Unit). The IDU Unit adopted a creative problem solving (CPS) approach from pinpointing the vision, mission, and values of the IAU-BSC to the minor design and operational details. The purpose is to identify and expand the prospect of the IAU-BSC to fit the IAU strategic plan aligned with the KSA Vision 2030, reveal fresh perspectives, and discover innovative solutions that convey its message and reach its goals. Accordingly, the IAU-BSC goes beyond its role as a mere service delivery agent to adopt an inclusive approach to principles and appropriate operations to assist the university in achieving its strategic plan as follows:
 
+                <!--<div class="col-md-12 display-1 loc1" style="margin-top:25px;display:none;    background-color: rgb(255, 255, 255);padding: 20px 12px;">
+        <blockquote style="color: #0a1332; font-size: 16px; margin: 0px 0px 50px;">
+            The Service Delivery Sector for the beneficiaries of the IAU University is established under the Beneficiaries Service Center (IAU-BSC) to transfer all deliveries of services provided by the IAU University to a central administrative entity with legal authorities managerial and financial disposition. The IAU-BSC is designed and operated to provide all available services to its potential users along with the collaboration of specific administrative sectors to improve the types and quality of the services and its delivery system as well as to locally and regionally guide and expand the use of the IAU assets and build high capabilities in investment.
+
+            <br />
+            <br />
+            The IAU-BSC ensures the delivery of the highest levels of service to the IAU affiliated persons and extends these services to cover all residents and expatriates in the eastern region with eased terms and conditions. All procedures will be provided via the IAU-BSC center in the IAU campus or through the IAU-BSC application "Mustafid" that can be reached using its related homepage @@IAU-BSC in the IAU official website, either computer interface or smartphones.
+        </blockquote>-->
+                @*<p style="color: #0a1332; font-size: 16px; font-weight:bold; text-align:right">
+            Dr. Saleh bin Ali Al-Rashed
+        </p>
+        <p style="color: #0a1332; font-size: 16px;text-align:right;padding-right:30px;">
+            IAU’s Vice-President
+        </p>*@
+                <!--</div>
+    <div class="col-md-12 New-Idea display-2 loc2" style="display:none;">
+        <div class="AboutIAU p-0 m-0" style="padding-top: 20px; margin:0 !important">
+            <p class="p-0">
+                The interior design of the IAU-BSC setting and operating system of the IAU-BSC are created by the Inclusive Design Unit- Green Design Section (IDU Unit). The IDU Unit adopted a creative problem solving (CPS) approach from pinpointing the vision, mission, and values of the IAU-BSC to the minor design and operational details. The purpose is to identify and expand the prospect of the IAU-BSC to fit the IAU strategic plan aligned with the KSA Vision 2030, reveal fresh perspectives, and discover innovative solutions that convey its message and reach its goals. Accordingly, the IAU-BSC goes beyond its role as a mere service delivery agent to adopt an inclusive approach to principles and appropriate operations to assist the university in achieving its strategic plan as follows:
+
+            </p>
+            <ol class="orange-color" style="margin:0 8px">
+                <li>To <span class="href">Sustain</span> IAU campus environment</li>
+                <li>
+                    To Build a modern institutional <span class="href">administrative system</span>.
+                </li>
+                <li>To Promote <span class="href">social responsibility</span> and community partnership.</li>
+            </ol>
+            <p>
+                Determining and answering the main focusing questions are the first phase of this
+                process :
+            </p>
+            <div class="col-md-12 Objective-count-img">
+                <img src="~/Design/img/Picture4.jpg" style="width:100%;" />
+            </div>
+            <div class="Objective-question">
+                <div class="row">
+                    <div class="col-md-4" style="font-weight:bold">
+                        <p style="margin: 0; white-space: nowrap;">
+                            Question 1 :
                         </p>
-                        <ol class="orange-color" style="margin:0 8px">
-                            <li>To <span class="href">Sustain</span> IAU campus environment</li>
-                            <li>
-                                To Build a modern institutional <span class="href">administrative system</span>.
-                            </li>
-                            <li>To Promote <span class="href">social responsibility</span> and community partnership.</li>
-                        </ol>
-                        <p>
-                            Determining and answering the main focusing questions are the first phase of this
-                            process :
+                        <p style="text-align: initial !important;">
+                            who are the stakeholders?
                         </p>
-                        <div class="col-md-12 Objective-count-img">
-                            <img src="~/Design/img/Picture4.jpg" style="width:100%;" />
-                        </div>
-                        <div class="Objective-question">
-                            <div class="row">
-                                <div class="col-md-4" style="font-weight:bold">
-                                    <p style="margin: 0; white-space: nowrap;">
-                                        Question 1 :
-                                    </p>
-                                    <p style="text-align: initial !important;">
-                                        who are the stakeholders?
-                                    </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <ol>
-                                        <li>
-                                            University affiliated persons
-                                            <br />
-                                            <span style="margin-left:10px">(Faculty members- Students- Staff- their families)</span>
-                                        </li>
-                                        <li>
-                                            The Eastern Region communities
-                                            <br />
-                                            <span style="margin-left:10px">(The Saudi and the GCC Communities- The Expatriates)</span>
-                                        </li>
-                                        <li>
-                                            The Administrative and 3rd level Communication
-                                            <br />
-                                            <span style="margin-left:10px">(The IAU Unified Database)</span>
-                                        </li>
-                                    </ol>
-                                </div>
-                                <div class="col-md-4" style="font-weight:bold">
-                                    <p style="margin: 0; white-space: nowrap;">
-                                        Question 2 :
-                                    </p>
-                                    <p style="text-align: initial !important;">
-                                        What’s in it for each party?
-                                    </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <ol>
-                                        <li>
-                                            University affiliated persons
-                                            <ul>
-                                                <li>Insuring the delivery of current services</li>
-                                                <li>
-                                                    Updating and improving current ones
-                                                </li>
-                                                <li>Investing on creating new services</li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            The Eastern Region communities
-                                            <ul>
-                                                <li>
-                                                    Extending the use of the services to cover the off-campus communities
-                                                </li>
-                                                <li>
-                                                    Privatization of IAU services and amenities
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            The Administrative and 3<sup>rd</sup> level Communication
-                                            <ul>
-                                                <li>
-                                                    Transparency and inclusivity in IAU managerial functional and communicative state
-                                                </li>
-                                                <li>
-                                                    Enrollment of qualified administrative cadres vis-à-vis the IAU strategic plan and 2030 vision
-                                                </li>
-                                                <li>
-                                                    Factual assessment of managerial functional and communicative performance
-                                                </li>
-                                                <li>
-                                                    Minimizing scarcities (misunderstanding, wrong designation, duplication, overruling, etc.)
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ol>
-                                </div>
-                                <div class="col-md-4" style="font-weight:bold">
-                                    <p style="margin:0; white-space: nowrap;">
-                                        Question 3 :
-                                    </p>
-                                    <p style="text-align: initial !important;">
-                                        How can the center reach these goals?
-                                    </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <ul style="list-style:none">
-                                        <li>
-                                            Phase 1
-                                            <ul>
-                                                <li>
-                                                    Expanding the use of the IAU Inclusive Database to cover all aspects of managerial communications
-                                                </li>
-                                                <li>
-                                                    Building an operational system for the Center as part of the IAU inclusive Database
-                                                </li>
-                                                <li>
-                                                    More use of technology, less reliance on conventional service- delivery methods
-                                                </li>
-                                                <li>
-                                                    Prepare qualified cadres and decision-makers
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-
-
                     </div>
-
-
-                </div>
-                <div class="col-md-12 New-Idea loc3" style="display:none;">
-                    <div class="vision" style="padding-top: 20px;">
-                        <p>
-                            The vision and mission of the IAU-BSC are defined in line with the vision of the Kingdom of Saudi Arabia 2030 and the strategic plan of the IAU University, which aims to provide distinguished services to its beneficiaries, to develop prominent competences in service patterns, managerial communication and investment and to sustain governance
-                        </p>
-                        <ul>
+                    <div class="col-md-8">
+                        <ol>
                             <li>
-                                <b>Vision</b> High-value services and cutting edge service-delivery system for all.
-                            </li>
-                            <li>
-                                <b>Mission</b> The IAU-BSC Center is a leading directorial and organizational center of the
-                                Imam AbdulRahman Bin Faisal University. Its main mission is to guarantee the delivery
-                                the available services on its seven campuses. The scope of this mission goes beyond this
-                                task to create the administrative and organizational system and to train the professional
-                                cadre with the intention to improve and to sustain these services, to create innovative
-                                ones and to expand the numbers and sectors of the beneficiaries. The IAU-BCS is thus
-                                committed to :
-                                <ul>
-                                    <li>Providing top-quality sustainable service-delivery services</li>
-                                    <li>Training the next generation of professionals to accomplish the center goals</li>
-                                    <li>Discovering and implementing operational to expand the service outcomes</li>
-                                    <li>Empowering local and regional communities for enhanced quality of life with variation of services in tune with the 2030 vision via awareness, service, research, technology and innovation</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <b>Core Values</b> The IAU-BSC has five basic values that underline the commitments in-built
-                                in the center’s mission : Integrity, Commitment, Advocacy, Respect, and Excellence. The
-                                basic values express the attitude and the performance of the center’s staff and policy.
-                                They are tailored for the center staff, collaborators and the IAU community as the
-                                foundation for performance assessment, enrolment and our staff training.
+                                University affiliated persons
                                 <br />
+                                <span style="margin-left:10px">(Faculty members- Students- Staff- their families)</span>
+                            </li>
+                            <li>
+                                The Eastern Region communities
+                                <br />
+                                <span style="margin-left:10px">(The Saudi and the GCC Communities- The Expatriates)</span>
+                            </li>
+                            <li>
+                                The Administrative and 3rd level Communication
+                                <br />
+                                <span style="margin-left:10px">(The IAU Unified Database)</span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-md-4" style="font-weight:bold">
+                        <p style="margin: 0; white-space: nowrap;">
+                            Question 2 :
+                        </p>
+                        <p style="text-align: initial !important;">
+                            What’s in it for each party?
+                        </p>
+                    </div>
+                    <div class="col-md-8">
+                        <ol>
+                            <li>
+                                University affiliated persons
+                                <ul>
+                                    <li>Insuring the delivery of current services</li>
+                                    <li>
+                                        Updating and improving current ones
+                                    </li>
+                                    <li>Investing on creating new services</li>
+                                </ul>
+                            </li>
+                            <li>
+                                The Eastern Region communities
                                 <ul>
                                     <li>
-                                        <b>Reliability :</b> Act with great ethical standards. Abide by the uppermost-specialized procedures. Preserve the expectation and support of all with whom the center engage.
+                                        Extending the use of the services to cover the off-campus communities
                                     </li>
                                     <li>
-                                        <b>Accountability :</b> Work thoroughly to serve the IAU affiliated persons, their families, and other beneficiaries. Be thrusted by the IAU vision and mission and accomplish the organizational responsibilities.
-                                    </li>
-                                    <li>
-                                        <b>Efficiency :</b> Operate in a constructive and competent fashion to accomplish predictable and measurable outcomes. Promote a resilient culture of learning and innovation to successfully meet the evolving needs of the IAU beneficiary and off-campus community.
-                                    </li>
-                                    <li>
-                                        <b>Creativity :</b> Look for the utmost operative answers, adopting innovative tactics and adjusting to existing and future administrative conditions to meet the dynamic and changing needs of the beneficiaries.
-                                    </li>
-                                    <li>
-                                        <b>Advocacy :</b> Be User-centered by distinguishing, entirely allowing for, and properly advancing the interests of potential users and their needs.
-                                    </li>
-                                    <li>
-                                        <b>Recognition :</b> Treat all beneficiaries with dignity and respect.
-                                    </li>
-                                    <li>
-                                        <b>Distinction :</b> Work toward the utmost quality and persistent progress. Be considerate and influential in governance, held responsible for the center’s conducts, willing to assert inaccuracies, and be ardent to adjust them.
-                                    </li>
-                                    <li>
-                                        <b>Build Bridges :</b> Work collaboratively within our organization and with our external partners to ensure the provision of the best possible standards of services and service-delivery.
-
+                                        Privatization of IAU services and amenities
                                     </li>
                                 </ul>
-
+                            </li>
+                            <li>
+                                The Administrative and 3<sup>rd</sup> level Communication
+                                <ul>
+                                    <li>
+                                        Transparency and inclusivity in IAU managerial functional and communicative state
+                                    </li>
+                                    <li>
+                                        Enrollment of qualified administrative cadres vis-à-vis the IAU strategic plan and 2030 vision
+                                    </li>
+                                    <li>
+                                        Factual assessment of managerial functional and communicative performance
+                                    </li>
+                                    <li>
+                                        Minimizing scarcities (misunderstanding, wrong designation, duplication, overruling, etc.)
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-md-4" style="font-weight:bold">
+                        <p style="margin:0; white-space: nowrap;">
+                            Question 3 :
+                        </p>
+                        <p style="text-align: initial !important;">
+                            How can the center reach these goals?
+                        </p>
+                    </div>
+                    <div class="col-md-8">
+                        <ul style="list-style:none">
+                            <li>
+                                Phase 1
+                                <ul>
+                                    <li>
+                                        Expanding the use of the IAU Inclusive Database to cover all aspects of managerial communications
+                                    </li>
+                                    <li>
+                                        Building an operational system for the Center as part of the IAU inclusive Database
+                                    </li>
+                                    <li>
+                                        More use of technology, less reliance on conventional service- delivery methods
+                                    </li>
+                                    <li>
+                                        Prepare qualified cadres and decision-makers
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
-
                 </div>
-                <div class="col-md-12 operation-System loc4" style="display:none;">
-                    <div class="Scope-of-Services m-0">
-                        @*<h3>
-                                IAU-BSC Scope of Services and operational system:
-                            </h3>*@
-                        <h3>Scope of Services:</h3>
-                        <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
-                            According to the IAU Unified Coding System (IAU-UCS), the buildings in IAU campuses are
-                            defined by their main activities and labeled by the letter and color defining the activity type
-                            and the number of the building. The Campus label serves to locate the buildings and is
-                            associated to the official building code to determine its location. Accordingly, the building
-                            are classified into seven categories as shown in the figure below:
-                        </p>
-                        <div class="m-0 p-0">
-                            <img src="~/Design/img/picture6.png" style="width:100%;background-color:#fff;margin-bottom:50px" />
-                        </div>
-                        <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
-                            Accordingly, the services provided via the IAU-BSC will be classified under three main sectors that define its goals and work plans: 1- The Academic Sector, 2-The Administrative Sector, and 3- The Specialized Services
-                        </p>
-                        <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
-                            <ol style="padding: 19px;">
-                                <li>
-                                    <b>Academic sector</b> provides the required support for curricular and extracurricular academic activities in all colleges and academic departments. These services include academic support services, information and communication technology, workshop equipment, specialized activities, to name a few.
-                                </li>
-                                <li>
-                                    <b> Administrative sector</b> enables all sorts of communication with all administrative sectors for all IAU on-campus and off-campus beneficiaries. The services include operating human resources, facilities, operational and maintenance services, to name a few.
-                                </li>
-                                <li>
-                                    <b>Specialized Services</b> provides IAU affiliated and non-affiliated beneficiaries with all kinds of specialized services that are not included in the academic and administrative sector, including health, sports, housing, training, entertainment. The services are designed to be inclusive and accessible to everyone regardless of their gender, age, abilities and needs.
-                                </li>
-                            </ol>
-                        </p>
+            </div>
 
-                        <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
-                            As Shown in the figure, the three sectors and their Sub-categories follow the same coding system used in the IAU-UCS, with the exception of the label of the specialized services (S) and the sports sub categories (Sp).
-                        </p>
-                        <div class="m-0 p-0">
-                            <img src="~/Design/img/picture8.png" style="width:100%;background-color:#fff;" />
-                        </div>
-                    </div>
-                    <div class="Reference-Points m-0">
-                        <h3>IAU-BSC Reference Points :</h3>
-                        <p>
-                            The IAU-BSC receives requests and inquiries from off-campus and on-campus beneficiaries either from the Ministry of Education's "Tawasul" website or the IAU University's "Mustafid" application:
-                        </p>
-                        <ol>
-                            <li>
-                                Tawasul is the official site of the Ministry of Education's beneficiary service sector and was established as an easy mechanism to communicate with His Excellency, the Minister of Education, the ministry officials, and all other sectors. Tawasul is a secure and reliable communication system for those unaware of the IAU-BSC "Mustafid" application.
-                            </li>
-                            <li>Mustafid application is designed exclusively for the IAU University to provide its direct and timesaving communication system. Thus, beneficiaries can seek the IAU-BSC directly by filling official online requests on Mustafid or by visiting the center and filling out an in-person application. </li>
-                        </ol>
-                        <div class="m-0 p-0">
-                            <img src="~/Design/img/IAU-BSC ReferencePoints1.png" style="width:100%;background-color:#fff;" />
-                        </div>
-                        <p>
-                            The Mustafid application allows the delivery of requests and inquiries to the university sectors in charge after classifying all sorts of applications according to their types of services and requests. These later are based upon the same six categories found in the Tawasul Site:
-                        </p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ol style="color: #c85d32;">
-                                    <li>Consultation</li>
-                                    <li>Meeting</li>
-                                    <li>Complaint</li>
-                                </ol>
-                            </div>
-                            <div class="col-md-6">
-                                <ol start="4" style="color: #c85d32;">
-                                    <li>Notification</li>
-                                    <li>Suggestion</li>
-                                    <li>Inquiry</li>
-                                </ol>
-                            </div>
-                        </div>
 
-                    </div>
-                    <div style="display: flex; justify-content: center;margin:0!important" class="m-0 p-0">
-                        <img src="~/Design/img/picture9.png" style=" max-width: 100%; height: 233px; background-color: #fff;" />
-                    </div>
-                    <div class="Service-Delivery m-0">
-                        <h3>
-                            IAU-BSC Operational Service :
-                        </h3>
-                        <p>
-                            The Beneficiary Service Center, its operational system "@@IAU-BSC" and its web and mobile applications "Mustafid" are part of the IAU university's series of projects and initiatives to create inclusive administrative and operational systems that promote the sustainable lifetime of buildings and products as well as the wellbeing and the functional performance of the university community, from their design, simulation, and testing to their ongoing operation and management. The overall project is derived from the IAU Inclusive Database and Unified Coding System and acknowledges the university's interrelated and sequential managerial systems, including their goals, tasks, and expected outcomes that need an organized and unified communication system.
-                            <br />
-                            <br />
 
-                            Subsequently, a fit-for-purpose semi-lattice information system is developed and tested to assist systemic communication adaptable to connect spatial information cues to other selective types of procedural communication (e.g., managerial communication, Projects and documents filing system, Operating system, Maintenance, and Projects & Public Services, Security & Safety Management). The resulting "Mustafid" system for the IAU-BSC is thus an inclusive approach to information exchange, service delivery, and service level assessment that can be identified, intertwined, be combined, and crossed to different levels of communication complexity depending on the functional purpose of the conversation and activity.
 
-                        </p>
-                        <div class="m-0 p-0">
-                            <img src="~/Design/img/Picture2.png" style="width:100%;background-color:#fff;" />
-                        </div>
-                    </div>
+
+
+        </div>
+
+
+    </div>
+    <div class="col-md-12 New-Idea loc3" style="display:none;">
+        <div class="vision" style="padding-top: 20px;">
+            <p>
+                The vision and mission of the IAU-BSC are defined in line with the vision of the Kingdom of Saudi Arabia 2030 and the strategic plan of the IAU University, which aims to provide distinguished services to its beneficiaries, to develop prominent competences in service patterns, managerial communication and investment and to sustain governance
+            </p>
+            <ul>
+                <li>
+                    <b>Vision</b> High-value services and cutting edge service-delivery system for all.
+                </li>
+                <li>
+                    <b>Mission</b> The IAU-BSC Center is a leading directorial and organizational center of the
+                    Imam AbdulRahman Bin Faisal University. Its main mission is to guarantee the delivery
+                    the available services on its seven campuses. The scope of this mission goes beyond this
+                    task to create the administrative and organizational system and to train the professional
+                    cadre with the intention to improve and to sustain these services, to create innovative
+                    ones and to expand the numbers and sectors of the beneficiaries. The IAU-BCS is thus
+                    committed to :
+                    <ul>
+                        <li>Providing top-quality sustainable service-delivery services</li>
+                        <li>Training the next generation of professionals to accomplish the center goals</li>
+                        <li>Discovering and implementing operational to expand the service outcomes</li>
+                        <li>Empowering local and regional communities for enhanced quality of life with variation of services in tune with the 2030 vision via awareness, service, research, technology and innovation</li>
+                    </ul>
+                </li>
+                <li>
+                    <b>Core Values</b> The IAU-BSC has five basic values that underline the commitments in-built
+                    in the center’s mission : Integrity, Commitment, Advocacy, Respect, and Excellence. The
+                    basic values express the attitude and the performance of the center’s staff and policy.
+                    They are tailored for the center staff, collaborators and the IAU community as the
+                    foundation for performance assessment, enrolment and our staff training.
+                    <br />
+                    <ul>
+                        <li>
+                            <b>Reliability :</b> Act with great ethical standards. Abide by the uppermost-specialized procedures. Preserve the expectation and support of all with whom the center engage.
+                        </li>
+                        <li>
+                            <b>Accountability :</b> Work thoroughly to serve the IAU affiliated persons, their families, and other beneficiaries. Be thrusted by the IAU vision and mission and accomplish the organizational responsibilities.
+                        </li>
+                        <li>
+                            <b>Efficiency :</b> Operate in a constructive and competent fashion to accomplish predictable and measurable outcomes. Promote a resilient culture of learning and innovation to successfully meet the evolving needs of the IAU beneficiary and off-campus community.
+                        </li>
+                        <li>
+                            <b>Creativity :</b> Look for the utmost operative answers, adopting innovative tactics and adjusting to existing and future administrative conditions to meet the dynamic and changing needs of the beneficiaries.
+                        </li>
+                        <li>
+                            <b>Advocacy :</b> Be User-centered by distinguishing, entirely allowing for, and properly advancing the interests of potential users and their needs.
+                        </li>
+                        <li>
+                            <b>Recognition :</b> Treat all beneficiaries with dignity and respect.
+                        </li>
+                        <li>
+                            <b>Distinction :</b> Work toward the utmost quality and persistent progress. Be considerate and influential in governance, held responsible for the center’s conducts, willing to assert inaccuracies, and be ardent to adjust them.
+                        </li>
+                        <li>
+                            <b>Build Bridges :</b> Work collaboratively within our organization and with our external partners to ensure the provision of the best possible standards of services and service-delivery.
+
+                        </li>
+                    </ul>
+
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-md-12 operation-System loc4" style="display:none;">
+        <div class="Scope-of-Services m-0">-->
+                @*<h3>
+            IAU-BSC Scope of Services and operational system:
+        </h3>*@
+                <!--<h3>Scope of Services:</h3>
+            <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
+                According to the IAU Unified Coding System (IAU-UCS), the buildings in IAU campuses are
+                defined by their main activities and labeled by the letter and color defining the activity type
+                and the number of the building. The Campus label serves to locate the buildings and is
+                associated to the official building code to determine its location. Accordingly, the building
+                are classified into seven categories as shown in the figure below:
+            </p>
+            <div class="m-0 p-0">
+                <img src="~/Design/img/picture6.png" style="width:100%;background-color:#fff;margin-bottom:50px" />
+            </div>
+            <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
+                Accordingly, the services provided via the IAU-BSC will be classified under three main sectors that define its goals and work plans: 1- The Academic Sector, 2-The Administrative Sector, and 3- The Specialized Services
+            </p>
+            <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
+                <ol style="padding: 19px;">
+                    <li>
+                        <b>Academic sector</b> provides the required support for curricular and extracurricular academic activities in all colleges and academic departments. These services include academic support services, information and communication technology, workshop equipment, specialized activities, to name a few.
+                    </li>
+                    <li>
+                        <b> Administrative sector</b> enables all sorts of communication with all administrative sectors for all IAU on-campus and off-campus beneficiaries. The services include operating human resources, facilities, operational and maintenance services, to name a few.
+                    </li>
+                    <li>
+                        <b>Specialized Services</b> provides IAU affiliated and non-affiliated beneficiaries with all kinds of specialized services that are not included in the academic and administrative sector, including health, sports, housing, training, entertainment. The services are designed to be inclusive and accessible to everyone regardless of their gender, age, abilities and needs.
+                    </li>
+                </ol>
+            </p>
+
+            <p style="color: #0a1332; font-size: 16px; text-align: justify; letter-spacing: 0.3px;">
+                As Shown in the figure, the three sectors and their Sub-categories follow the same coding system used in the IAU-UCS, with the exception of the label of the specialized services (S) and the sports sub categories (Sp).
+            </p>
+            <div class="m-0 p-0">
+                <img src="~/Design/img/picture8.png" style="width:100%;background-color:#fff;" />
+            </div>
+        </div>
+        <div class="Reference-Points m-0">
+            <h3>IAU-BSC Reference Points :</h3>
+            <p>
+                The IAU-BSC receives requests and inquiries from off-campus and on-campus beneficiaries either from the Ministry of Education's "Tawasul" website or the IAU University's "Mustafid" application:
+            </p>
+            <ol>
+                <li>
+                    Tawasul is the official site of the Ministry of Education's beneficiary service sector and was established as an easy mechanism to communicate with His Excellency, the Minister of Education, the ministry officials, and all other sectors. Tawasul is a secure and reliable communication system for those unaware of the IAU-BSC "Mustafid" application.
+                </li>
+                <li>Mustafid application is designed exclusively for the IAU University to provide its direct and timesaving communication system. Thus, beneficiaries can seek the IAU-BSC directly by filling official online requests on Mustafid or by visiting the center and filling out an in-person application. </li>
+            </ol>
+            <div class="m-0 p-0">
+                <img src="~/Design/img/IAU-BSC ReferencePoints1.png" style="width:100%;background-color:#fff;" />
+            </div>
+            <p>
+                The Mustafid application allows the delivery of requests and inquiries to the university sectors in charge after classifying all sorts of applications according to their types of services and requests. These later are based upon the same six categories found in the Tawasul Site:
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <ol style="color: #c85d32;">
+                        <li>Consultation</li>
+                        <li>Meeting</li>
+                        <li>Complaint</li>
+                    </ol>
                 </div>
-                <div class="col-md-12 loc5" style="display:none;">
-                    @*<img src="~/Design/img/Picture10.png" style="width:100%;background-color:#fff;" />*@
-                    <h3>
-                        IAU-BSC Scope of Services and operational system:
-                    </h3>
-                    <div class="px-3">
-                        <p>
-                            Each operation is a process of five 5 consecutive stages:
-                            <ol style="color: #c85d32;padding:0 50px">
-                                <li>Request registration/confirmation</li>
+                <div class="col-md-6">
+                    <ol start="4" style="color: #c85d32;">
+                        <li>Notification</li>
+                        <li>Suggestion</li>
+                        <li>Inquiry</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+        <div style="display: flex; justify-content: center;margin:0!important" class="m-0 p-0">
+            <img src="~/Design/img/picture9.png" style=" max-width: 100%; height: 233px; background-color: #fff;" />
+        </div>
+        <div class="Service-Delivery m-0">
+            <h3>
+                IAU-BSC Operational Service :
+            </h3>
+            <p>
+                The Beneficiary Service Center, its operational system "@@IAU-BSC" and its web and mobile applications "Mustafid" are part of the IAU university's series of projects and initiatives to create inclusive administrative and operational systems that promote the sustainable lifetime of buildings and products as well as the wellbeing and the functional performance of the university community, from their design, simulation, and testing to their ongoing operation and management. The overall project is derived from the IAU Inclusive Database and Unified Coding System and acknowledges the university's interrelated and sequential managerial systems, including their goals, tasks, and expected outcomes that need an organized and unified communication system.
+                <br />
+                <br />
+
+                Subsequently, a fit-for-purpose semi-lattice information system is developed and tested to assist systemic communication adaptable to connect spatial information cues to other selective types of procedural communication (e.g., managerial communication, Projects and documents filing system, Operating system, Maintenance, and Projects & Public Services, Security & Safety Management). The resulting "Mustafid" system for the IAU-BSC is thus an inclusive approach to information exchange, service delivery, and service level assessment that can be identified, intertwined, be combined, and crossed to different levels of communication complexity depending on the functional purpose of the conversation and activity.
+
+            </p>
+            <div class="m-0 p-0">
+                <img src="~/Design/img/Picture2.png" style="width:100%;background-color:#fff;" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 loc5" style="display:none;">-->
+                @*<img src="~/Design/img/Picture10.png" style="width:100%;background-color:#fff;" />*@
+                <!--<h3>
+            IAU-BSC Scope of Services and operational system:
+        </h3>
+        <div class="px-3">
+            <p>
+                Each operation is a process of five 5 consecutive stages:
+                <ol style="color: #c85d32;padding:0 50px">
+                    <li>Request registration/confirmation</li>
+                    <li>
+                        Sorting/Coding and dispatching to IAU
+                        service provider
+                    </li>
+                    <li>Processing the request at the service provider</li>
+                    <li>Dispatching of processed Request</li>
+                    <li>Delivery of Processed Request</li>
+                </ol>
+            </p>
+            <p>
+                The following diagram illustrates the procedure applicants must pursue to submit their
+                application, get a tracking number for their orders and follow the operation process
+                until the delivery of the processed request.
+            </p>
+            <div>
+                <img src="~/Design/img/PROCESS.png" style="width:100%;background-color:#fff;" />
+            </div>
+            <h3 style="color: #c85d32;">Stage ONE : Registering/ Confirming Request :</h3>
+            <p class="mx-3">
+                All requests can be submitted online directly via the IAU's Mustafid Website and Application or indirectly via Tawasul Website and Application. Requests can also be submitted in person in the Beneficiary Service Center. The center is located in Gate2- C1 West Campus in Rakkah, where visitors can submit new requests and follow up existing ones via the self-service kiosk and then complete the process with the help of the IAU-BSC teams.
+
+                <br />
+                <br />
+                Each IAU-BSC front desk staff is in charge of a service sector. Another backup office is in charge of the express and easy-to-deal-with applications process. A copy-center with the necessary equipment is also provided. Thus, upon applying, the beneficiary receives a confirmation via the mobile messages or the email address registered in the request.
+
+                <br />
+                <br />
+                Upon submitting the request, the applicant receives a confirmation of receipt of the request through a text message via the mobile phone number or email address. The center's staff sorts and encodes the application, then generates a tracking number and sends it to the applicant to track the process through the "Mustafid" application.
+            </p>
+            <h3 style="color: #c85d32;"> Stage TWO : Dispatching to service provider :</h3>
+            <div class="mx-3">
+                <p>
+                    After sending the tracking number to the applicant, the IAU-BSC team adopts the administrative procedures required to ensure that the application reaches the correct authority and that the delivery outcomes respond to the applicant's expectations as per the subordination and hierarchy of the administrative levels and the spatial data of the respective administrative level as follows:
+                    <ul class="orange-color">
+                        <li>
+                            Linking the functional levels with the unified coding of its spatial and geographical data;
+                        </li>
+                        <li>
+                            Generating a bar code for each functional level.
+                        </li>
+                    </ul>
+                    <br />
+                    Thus, the systematic communication of the university and the activation of its
+                    adaptive ability to connect the data vocabulary and spatial inferences with other
+                    selective types of information system that serve all other procedural communications
+                    are joined. The system of classification and coding of names and functional
+                    indications at the university depends on two approaches :
+                    <br />
+                    <ol>
+                        <li>
+                            Hierarchical classification of the administrative functions into three consecutive
+                            levels of importance :
+                        </li>
+                        <li>
+                            A unified coding designed according to the following :
+                            <ul>
                                 <li>
-                                    Sorting/Coding and dispatching to IAU
-                                    service provider
-                                </li>
-                                <li>Processing the request at the service provider</li>
-                                <li>Dispatching of processed Request</li>
-                                <li>Delivery of Processed Request</li>
-                            </ol>
-                        </p>
-                        <p>
-                            The following diagram illustrates the procedure applicants must pursue to submit their
-                            application, get a tracking number for their orders and follow the operation process
-                            until the delivery of the processed request.
-                        </p>
-                        <div>
-                            <img src="~/Design/img/PROCESS.png" style="width:100%;background-color:#fff;" />
-                        </div>
-                        <h3 style="color: #c85d32;">Stage ONE : Registering/ Confirming Request :</h3>
-                        <p class="mx-3">
-                            All requests can be submitted online directly via the IAU's Mustafid Website and Application or indirectly via Tawasul Website and Application. Requests can also be submitted in person in the Beneficiary Service Center. The center is located in Gate2- C1 West Campus in Rakkah, where visitors can submit new requests and follow up existing ones via the self-service kiosk and then complete the process with the help of the IAU-BSC teams.
-
-                            <br />
-                            <br />
-                            Each IAU-BSC front desk staff is in charge of a service sector. Another backup office is in charge of the express and easy-to-deal-with applications process. A copy-center with the necessary equipment is also provided. Thus, upon applying, the beneficiary receives a confirmation via the mobile messages or the email address registered in the request.
-
-                            <br />
-                            <br />
-                            Upon submitting the request, the applicant receives a confirmation of receipt of the request through a text message via the mobile phone number or email address. The center's staff sorts and encodes the application, then generates a tracking number and sends it to the applicant to track the process through the "Mustafid" application.
-                        </p>
-                        <h3 style="color: #c85d32;"> Stage TWO : Dispatching to service provider :</h3>
-                        <div class="mx-3">
-                            <p>
-                                After sending the tracking number to the applicant, the IAU-BSC team adopts the administrative procedures required to ensure that the application reaches the correct authority and that the delivery outcomes respond to the applicant's expectations as per the subordination and hierarchy of the administrative levels and the spatial data of the respective administrative level as follows:
-                                <ul class="orange-color">
-                                    <li>
-                                        Linking the functional levels with the unified coding of its spatial and geographical data;
-                                    </li>
-                                    <li>
-                                        Generating a bar code for each functional level.
-                                    </li>
-                                </ul>
-                                <br />
-                                Thus, the systematic communication of the university and the activation of its
-                                adaptive ability to connect the data vocabulary and spatial inferences with other
-                                selective types of information system that serve all other procedural communications
-                                are joined. The system of classification and coding of names and functional
-                                indications at the university depends on two approaches :
-                                <br />
-                                <ol>
-                                    <li>
-                                        Hierarchical classification of the administrative functions into three consecutive
-                                        levels of importance :
-                                    </li>
-                                    <li>
-                                        A unified coding designed according to the following :
-                                        <ul>
-                                            <li>
-                                                Linking the functional levels with the unified coding of the spatial and
-                                                geographical data used for the wayfinding and navigation system
-                                            </li>
-                                            <li>
-                                                Completing the design of the system in the form of bar code for each
-                                                functional level.
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ol>
-                            </p>
-                            <p>
-                                The existing hierarchy of the university's administrative system has four administrative levels, each of which has its related types. The first version of the IAU inclusive coding system classified and encoded the two primary levels. The first level includes the following administrative categories:
-                                <br />
-                                <ol color="#c85d32;">
-                                    <li>University Council</li>
-                                    <li>University Rector</li>
-                                    <li>
-                                        Office of Vice
-                                        Precedencies
-                                    </li>
-                                    <li>University Hospitals.</li>
-                                </ol>
-
-                                The second level is related directly to the first functional level and has four main
-                                categories :
-                                <br />
-                                <ol color="#c85d32;">
-                                    <li>Deanship</li>
-                                    <li>Colleges</li>
-                                    <li> Units and Centers</li>
-                                    <li>Administrations and Departments</li>
-                                </ol>
-                                <br />
-                                The existing hierarchy of the university's administrative system has four administrative levels, each of which has its related types. The first version of the IAU inclusive coding system classified and encoded the two primary levels. The first level includes the following administrative categories:
-
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p>LEVEL 3</p>
-                                        <table>
-                                            <tr style="color:#c85d32;">
-                                                <th style="min-width:30px">1</th>
-                                                <td>Vice Deanship </td>
-                                            </tr>
-                                            <tr style="color:#c85d32;">
-                                                <th>2</th>
-                                                <td> Academic Sections</td>
-                                            </tr>
-                                            <tr style="color:#c85d32;">
-                                                <th>3</th>
-                                                <td> Unit/Center</td>
-                                            </tr>
-                                            <tr style="color:#c85d32;">
-                                                <th style="min-width:30px">4</th>
-                                                <td> Administrative Dept. /Sections</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>LEVEL 4</p>
-                                        <table>
-                                            <tr style="color:#c85d32;">
-                                                <th style="min-width:30px">1</th>
-                                                <td> Sub-Vice Deanship</td>
-                                            </tr>
-                                            <tr style="color:#c85d32;">
-                                                <th style="min-width:30px">2</th>
-                                                <td>Vice-Academic Sections</td>
-                                            </tr>
-                                            <tr style="color:#c85d32;">
-                                                <th style="min-width:30px">3</th>
-                                                <td> Vice- Unit/Center</td>
-                                            </tr>
-                                            <tr style="color:#c85d32;">
-                                                <th style="min-width:30px">4</th>
-                                                <td> Sub- Administrative Dept. /Sections</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </p>
-                            <div class="m-0 p-0">
-                                <img src="~/Design/img/stage 2 administrative level.png" style="width:100%;background-color:#fff;" />
-                            </div>
-                        </div>
-                        <h3 style="color: #c85d32;">Stage THREE : Processing Request :</h3>
-                        <p class="mx-3">
-                            The tracking number established by the "Mustafid" application ensures the request to be sent to the service provider and effectively tracks the quality and speed of service provision by the center's staff. It also includes the duration of the proposed request and the location of the service.
-                        </p>
-                        <h3 style="color: #c85d32;">Stage FOUR : Dispatching Processed Request :</h3>
-                        <p class="mx-3">
-
-                            Upon completing the order, the applicant shall receive a notification confirming the dispatching process and the means of delivery either electronically or manually at the center.
-
-                        </p>
-                        <h3 style="color: #c85d32;">Stage FIVE : Delivering Processed Request</h3>
-                        <p class="mx-3">
-                            Once the service is delivered, the beneficiary is entitled to write a performance evaluation and return it online. A series of internal performance evaluations for the IAU-BSC and the IAU service providers is also completed periodically and per each transaction to ensure the quality of the service and the service delivery process as follows:
-                            <br />
-                            to ensure the accuracy of identifying the service provider, i.e., the accuracy of the address, the concerned service provider, and the precise administrative level;
-                            <br />
-                            <ul class="orange-color">
-                                <li>
-                                    to resend the application to the accurate agency in case of error transmission to avoid this flaw in the future;
+                                    Linking the functional levels with the unified coding of the spatial and
+                                    geographical data used for the wayfinding and navigation system
                                 </li>
                                 <li>
-                                    to review the proposed period's adequacy to provide the service with the actual processing time.
-                                </li>
-                                <li>
-                                    to review with the related authority the reasons for the delay and the means to avoid it in the future.
+                                    Completing the design of the system in the form of bar code for each
+                                    functional level.
                                 </li>
                             </ul>
+                        </li>
+                    </ol>
+                </p>
+                <p>
+                    The existing hierarchy of the university's administrative system has four administrative levels, each of which has its related types. The first version of the IAU inclusive coding system classified and encoded the two primary levels. The first level includes the following administrative categories:
+                    <br />
+                    <ol color="#c85d32;">
+                        <li>University Council</li>
+                        <li>University Rector</li>
+                        <li>
+                            Office of Vice
+                            Precedencies
+                        </li>
+                        <li>University Hospitals.</li>
+                    </ol>
 
-                        </p>
+                    The second level is related directly to the first functional level and has four main
+                    categories :
+                    <br />
+                    <ol color="#c85d32;">
+                        <li>Deanship</li>
+                        <li>Colleges</li>
+                        <li> Units and Centers</li>
+                        <li>Administrations and Departments</li>
+                    </ol>
+                    <br />
+                    The existing hierarchy of the university's administrative system has four administrative levels, each of which has its related types. The first version of the IAU inclusive coding system classified and encoded the two primary levels. The first level includes the following administrative categories:
+
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>LEVEL 3</p>
+                            <table>
+                                <tr style="color:#c85d32;">
+                                    <th style="min-width:30px">1</th>
+                                    <td>Vice Deanship </td>
+                                </tr>
+                                <tr style="color:#c85d32;">
+                                    <th>2</th>
+                                    <td> Academic Sections</td>
+                                </tr>
+                                <tr style="color:#c85d32;">
+                                    <th>3</th>
+                                    <td> Unit/Center</td>
+                                </tr>
+                                <tr style="color:#c85d32;">
+                                    <th style="min-width:30px">4</th>
+                                    <td> Administrative Dept. /Sections</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <p>LEVEL 4</p>
+                            <table>
+                                <tr style="color:#c85d32;">
+                                    <th style="min-width:30px">1</th>
+                                    <td> Sub-Vice Deanship</td>
+                                </tr>
+                                <tr style="color:#c85d32;">
+                                    <th style="min-width:30px">2</th>
+                                    <td>Vice-Academic Sections</td>
+                                </tr>
+                                <tr style="color:#c85d32;">
+                                    <th style="min-width:30px">3</th>
+                                    <td> Vice- Unit/Center</td>
+                                </tr>
+                                <tr style="color:#c85d32;">
+                                    <th style="min-width:30px">4</th>
+                                    <td> Sub- Administrative Dept. /Sections</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
+                </p>
+                <div class="m-0 p-0">
+                    <img src="~/Design/img/stage 2 administrative level.png" style="width:100%;background-color:#fff;" />
                 </div>
+            </div>
+            <h3 style="color: #c85d32;">Stage THREE : Processing Request :</h3>
+            <p class="mx-3">
+                The tracking number established by the "Mustafid" application ensures the request to be sent to the service provider and effectively tracks the quality and speed of service provision by the center's staff. It also includes the duration of the proposed request and the location of the service.
+            </p>
+            <h3 style="color: #c85d32;">Stage FOUR : Dispatching Processed Request :</h3>
+            <p class="mx-3">
+
+                Upon completing the order, the applicant shall receive a notification confirming the dispatching process and the means of delivery either electronically or manually at the center.
+
+            </p>
+            <h3 style="color: #c85d32;">Stage FIVE : Delivering Processed Request</h3>
+            <p class="mx-3">
+                Once the service is delivered, the beneficiary is entitled to write a performance evaluation and return it online. A series of internal performance evaluations for the IAU-BSC and the IAU service providers is also completed periodically and per each transaction to ensure the quality of the service and the service delivery process as follows:
+                <br />
+                to ensure the accuracy of identifying the service provider, i.e., the accuracy of the address, the concerned service provider, and the precise administrative level;
+                <br />
+                <ul class="orange-color">
+                    <li>
+                        to resend the application to the accurate agency in case of error transmission to avoid this flaw in the future;
+                    </li>
+                    <li>
+                        to review the proposed period's adequacy to provide the service with the actual processing time.
+                    </li>
+                    <li>
+                        to review with the related authority the reasons for the delay and the means to avoid it in the future.
+                    </li>
+                </ul>
+
+            </p>
+        </div>
+    </div>-->
             </div>
         }
     </div>

@@ -18,6 +18,7 @@ namespace Web.Models
         public Domain()
         {
             this.SubDomains = new HashSet<SubDomains>();
+            this.About = new HashSet<About>();
         }
     
         public int ID { get; set; }
@@ -29,12 +30,13 @@ namespace Web.Models
         public bool Enabled { get; set; }
         public System.DateTime EndDate { get; set; }
     
-        public virtual About About { get; set; }
         public virtual DomainEmail DomainEmail { get; set; }
         public virtual DomainInfo DomainInfo { get; set; }
         public virtual DomainStyle DomainStyle { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubDomains> SubDomains { get; set; }
         public virtual TasahelHomeSetting TasahelHomeSetting { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<About> About { get; set; }
     }
 }
