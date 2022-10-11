@@ -70,39 +70,39 @@ namespace TasahelAdmin.Controllers
                 string globalpath = Path.Combine("Images", Domain.Domain1);
                 Directory.CreateDirectory(Path.Combine(environment.WebRootPath, globalpath));
 
-                var Icopath = Path.Combine(environment.WebRootPath, globalpath, "Ico", Domain.Domain1);
+                var Icopath = Path.Combine(environment.WebRootPath, globalpath, "Ico");
                 Directory.CreateDirectory(Icopath);
-                var Favicopath = Path.Combine(environment.WebRootPath, globalpath, "Favico", Domain.Domain1);
+                var Favicopath = Path.Combine(environment.WebRootPath, globalpath, "Favico");
                 Directory.CreateDirectory(Favicopath);
-                var FollowReqpath = Path.Combine(environment.WebRootPath, globalpath, "FollowReq", Domain.Domain1);
+                var FollowReqpath = Path.Combine(environment.WebRootPath, globalpath, "FollowReq");
                 Directory.CreateDirectory(FollowReqpath);
-                var NewReqpath = Path.Combine(environment.WebRootPath, globalpath, "NewReq", Domain.Domain1);
+                var NewReqpath = Path.Combine(environment.WebRootPath, globalpath, "NewReq");
                 Directory.CreateDirectory(NewReqpath);
 
 
                 string fileName = "";
 
-                if (dd.DomainStyle._Icon != null && dd.DomainStyle._Icon.ValidateImage())
+                if (dd.DomainStyle._Icon == null || !dd.DomainStyle._Icon.ValidateImage())
                 {
-                    ModelState.AddModelError("DomainStyle._Icon", "There is Domain With This Url");
+                    ModelState.AddModelError("DomainStyle._Icon", "Not Valid File");
                     trans.Rollback();
                     return View(dd);
                 }
-                if (dd.DomainStyle._FavIcon != null && dd.DomainStyle._FavIcon.ValidateImage())
+                if (dd.DomainStyle._FavIcon == null || !dd.DomainStyle._FavIcon.ValidateImage())
                 {
-                    ModelState.AddModelError("DomainStyle._FavIcon", "There is Domain With This Url");
+                    ModelState.AddModelError("DomainStyle._FavIcon", "Not Valid File");
                     trans.Rollback();
                     return View(dd);
                 }
-                if (dd.HomeSettings._NewReqICo != null && dd.HomeSettings._NewReqICo.ValidateImage())
+                if (dd.HomeSettings._NewReqICo == null || !dd.HomeSettings._NewReqICo.ValidateImage())
                 {
-                    ModelState.AddModelError("DomainStyle._NewReqICo ", "There is Domain With This Url");
+                    ModelState.AddModelError("DomainStyle._NewReqICo ", "Not Valid File");
                     trans.Rollback();
                     return View(dd);
                 }
-                if (dd.HomeSettings._FollowIco != null && dd.HomeSettings._FollowIco.ValidateImage())
+                if (dd.HomeSettings._FollowIco == null || !dd.HomeSettings._FollowIco.ValidateImage())
                 {
-                    ModelState.AddModelError("HomeSettings._FollowIco", "There is Domain With This Url");
+                    ModelState.AddModelError("HomeSettings._FollowIco", "Not Valid File");
                     trans.Rollback();
                     return View(dd);
                 }
@@ -140,7 +140,7 @@ namespace TasahelAdmin.Controllers
                 }
                 await db.SaveChangesAsync();
                 trans.Commit();
-                return RedirectToAction("Index", "About", new { id = Domain.Id, domainname = Domain.Name });
+                return RedirectToAction("Index", "About", new { domainid = Domain.Id, domainname = Domain.Name });
             }
             catch (System.Exception ee)
             {

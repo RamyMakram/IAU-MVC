@@ -25,9 +25,10 @@ namespace Web.Controllers
             var db = new TasahelEntities();
             var domain = Request.Url.Authority;
 
-            var StyleData = db.SubDomains.Where(q => q.Domain == domain && q.Domain1.Enabled).Select(q => q.Domain1.TasahelHomeSetting).FirstOrDefault();
+            var StyleData = db.SubDomains.Where(q => q.Domain == domain && q.Domain1.Enabled).Select(q => new { q.Domain1.TasahelHomeSetting, Domain = q.Domain1.SubDomains.FirstOrDefault(qs => qs.Key == "BE_Mos") }).FirstOrDefault();
 
-            TempData["HomeData"] = StyleData;
+            TempData["HomeData"] = StyleData.TasahelHomeSetting;
+            ViewBag.serverPath = StyleData.Domain.UseHttps ? "https://" + StyleData.Domain.Domain : "http://" + StyleData.Domain.Domain;
 
             var lang = Request.Cookies["lang"].Value;
             if (u == null || u == "")

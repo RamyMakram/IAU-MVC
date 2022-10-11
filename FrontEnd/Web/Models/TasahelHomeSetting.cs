@@ -11,13 +11,31 @@ namespace Web.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Configuration;
+
     public partial class TasahelHomeSetting
     {
         public int ID { get; set; }
         public int DomainID { get; set; }
         public string NewReqICo { get; set; }
+        [NotMapped]
+        public string Get_NewReqICo
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["su"].ToString() + NewReqICo;
+            }
+        }
         public string FollowIco { get; set; }
+        [NotMapped]
+        public string Get_FollowIco
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["su"].ToString() + FollowIco;
+            }
+        }
         public bool EnableAcadamic { get; set; }
     
         public virtual Domain Domain { get; set; }

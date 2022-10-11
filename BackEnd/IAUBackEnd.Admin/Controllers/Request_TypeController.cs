@@ -99,7 +99,8 @@ namespace IAUBackEnd.Admin.Controllers
             try
             {
                 var path = HttpContext.Current.Server.MapPath("~");
-                var FilePath = Path.Combine("Images", "Request_Type", DateTime.Now.Ticks.ToString() + ".png");
+                var domain = Request.RequestUri.Authority;
+                var FilePath = Path.Combine("Images", "Request_Type", domain + "-" + DateTime.Now.Ticks.ToString() + ".png");
 
                 var data = new Request_Type() { IS_Action = true, Deleted = false, Request_Type_Name_AR = request_Type.Request_Type_Name_AR, Request_Type_Name_EN = request_Type.Request_Type_Name_EN, Image_Path = FilePath.Replace('\\', '/'), Desc_AR = request_Type.Desc_AR, Desc_EN = request_Type.Desc_EN };
 

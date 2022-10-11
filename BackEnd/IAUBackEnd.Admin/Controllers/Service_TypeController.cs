@@ -102,7 +102,9 @@ namespace IAUBackEnd.Admin.Controllers
                 return Ok(new ResponseClass() { success = false, result = ModelState });
             var trans = db.Database.BeginTransaction();
 
-            var FilePath = Path.Combine("Images", "Service_Types", DateTime.Now.Ticks.ToString() + ".png");
+            var domain = Request.RequestUri.Authority;
+
+            var FilePath = Path.Combine("Images", "Service_Types", domain + "-" + DateTime.Now.Ticks.ToString() + ".png");
             var path = HttpContext.Current.Server.MapPath("~");
 
             try

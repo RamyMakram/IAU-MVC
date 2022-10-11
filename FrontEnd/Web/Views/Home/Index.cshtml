@@ -154,11 +154,11 @@
             <a class="navbar-brand" href="#">
                 @if (ViewBag.CookieLang == "ar")
                 {
-                    <img src="@design.Icon" />
+                    <img src="@design.Get_Icon" />
                 }
                 else
                 {
-                    <img src="@design.Icon" />
+                    <img src="@design.Get_Icon" />
                 }
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -299,7 +299,7 @@
                 <div class=" col-sm-12 col-lg-2"></div>
                 <div class="col-sm-12  col-md-6 col-lg-4">
                     <div class="stick submit" id="NewRequest">
-                        <img src="@home.NewReqICo">
+                        <img src="@home.Get_NewReqICo">
                         @if (ViewBag.CookieLang == "ar")
                         {
                             <p class="first">طلب جديد</p>
@@ -313,7 +313,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6  col-lg-4">
                     <div class="stick follow">
-                        <img src="@home.FollowIco">
+                        <img src="@home.Get_FollowIco">
                         @if (ViewBag.CookieLang == "ar")
                         {
                             <p class="first1">متابعة الطلب</p>
@@ -327,7 +327,7 @@
                 </div>
             </div>
             @{
-                var serverpath = ConfigurationManager.AppSettings["AdminUrl"].ToString();
+                var serverpath = ViewBag.serverPath;
                 var counter = 0;
                 var isar = ViewBag.CookieLang == "ar";
             }

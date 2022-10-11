@@ -46,11 +46,11 @@
             <a class="navbar-brand" href="#">
                 @if (ViewBag.CookieLang == "ar")
                 {
-                    <img src="~/Design/img/logo-ar.png" />
+                    <img src="@design.Get_Icon" />
                 }
                 else
                 {
-                    <img src="~/Design/img/logo-en.png" />
+                    <img src="@design.Get_Icon" />
                 }
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"

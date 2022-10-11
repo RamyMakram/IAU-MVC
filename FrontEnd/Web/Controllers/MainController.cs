@@ -17,9 +17,11 @@ namespace Web.Controllers
 
             var domain = Request.Url.Authority;
 
-            var AboutData = db.SubDomains.Where(q => q.Domain == domain && q.Domain1.Enabled).Select(q => q.Domain1.About).FirstOrDefault();
+            var AboutData = db.SubDomains.Where(q => q.Domain == domain && q.Domain1.Enabled).Select(q => q.Domain1.About.ToList()).FirstOrDefault();
             ViewBag.AboutData = AboutData;
 
+            var StyleData = db.SubDomains.Where(q => q.Domain == domain && q.Domain1.Enabled).Select(q => q.Domain1.DomainStyle).FirstOrDefault();
+            TempData["StyleData"] = StyleData;
 
             return View();
         }

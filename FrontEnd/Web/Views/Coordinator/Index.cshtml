@@ -3,18 +3,20 @@
     Layout = null;
     ViewBag.Title = "IAU-BSC | Coordinate";
 }
+@{
+    var design = TempData.Peek("StyleData") as Web.Models.DomainStyle;
+}
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>IAU-BSC | Coordinate</title>
+    <title>@design.Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
     <link rel="stylesheet" href="~/Design/CSS/style.css" />
-    <meta name="description" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
-    <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
-
+    <link rel="icon" href="@design.Icon" />
+    <meta name="description" content="@design.MetaDesc">
+    <meta name="keywords" content="@design.MetaKeyword">
     <style>
     </style>
     @if (ViewBag.CookieLang == "ar")
@@ -27,6 +29,8 @@
         </style>
         <link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
     }
+    @Html.Partial("_MultiTenantDesignPartial")
+
 </head>
 <body class="@ViewBag.CookieLang">
     <nav class="navbar navbar-expand-lg">
@@ -34,11 +38,11 @@
             <a class="navbar-brand" href="#">
                 @if (ViewBag.CookieLang == "ar")
                 {
-                    <img src="~/Design/img/logo-ar.png" />
+                    <img src="@design.Get_Icon" height="40" />
                 }
                 else
                 {
-                    <img src="~/Design/img/logo-en.png" />
+                    <img src="@design.Get_Icon" height="40" />
                 }
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -134,11 +138,11 @@
                     <div class="logo">
                         @if (ViewBag.CookieLang == "ar")
                         {
-                            <img src="~/Design/img/logo-ar.png" />
+                            <img src="@design.Get_Icon" />
                         }
                         else
                         {
-                            <img src="~/Design/img/logo-en.png" />
+                            <img src="@design.Get_Icon" />
                         }
                         @if (ViewBag.CookieLang == "ar")
                         {

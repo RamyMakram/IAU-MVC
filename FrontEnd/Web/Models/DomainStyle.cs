@@ -11,20 +11,38 @@ namespace Web.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Configuration;
+
     public partial class DomainStyle
     {
         public int ID { get; set; }
         public int DomainID { get; set; }
         public string Favicon { get; set; }
+        [NotMapped]
+        public string Get_Favicon
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["su"].ToString() + Favicon;
+            }
+        }
         public string Icon { get; set; }
+        [NotMapped]
+        public string Get_Icon
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["su"].ToString() + Icon;
+            }
+        }
         public string Title { get; set; }
         public string MetaDesc { get; set; }
         public string MetaKeyword { get; set; }
         public string Maincolor { get; set; }
         public string Secondcolor { get; set; }
         public string Thirdcolor { get; set; }
-    
+
         public virtual Domain Domain { get; set; }
     }
 }

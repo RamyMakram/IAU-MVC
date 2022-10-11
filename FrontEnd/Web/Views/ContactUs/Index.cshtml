@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "IAU-BSC | Contact Us";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var data = ViewBag.AboutData as Web.Models.DomainInfo;
 }
 <link href="~/Design/CSS/contactus.css" rel="stylesheet" />
 <style>
@@ -9,8 +10,9 @@
         color: white;
         text-align: center;
     }
-    a{
-        color:white;
+
+    a {
+        color: white;
     }
 </style>
 @{
@@ -29,8 +31,8 @@
             <td>
                 @(
                 isar?
-                "المملكة العربية السعودية - الراكة" :
-                "Saudi Arabia - Rakah"
+                data.Address :
+                data.Address
                 )
             </td>
         </tr>
@@ -43,7 +45,7 @@
                 )
             </th>
             <td>
-                <a href="tel:0133333322">0133333322</a>
+                <a href="tel:@data.Phone">@data.Phone</a>
             </td>
         </tr>
         <tr>
@@ -55,7 +57,7 @@
                 )
             </th>
             <td>
-                <a href="mailto:iau-bsc@iau.edu.sa">iau-bsc@iau.edu.sa</a>
+                <a href="mailto:@data.Mail">@data.Mail</a>
             </td>
         </tr>
     </table>

@@ -23,6 +23,7 @@ namespace TasahelAdmin
             ".SVG",
             ".AI",
             ".EPS",
+            ".ICO",
         };
 
         public static bool ValidateImage(this IFormFile file)

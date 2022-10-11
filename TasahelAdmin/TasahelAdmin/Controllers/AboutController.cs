@@ -35,7 +35,7 @@ namespace TasahelAdmin.Controllers
         public async Task<IActionResult> CreateAbout(AboutVM data)
         {
             var about_data = mapper.Map<About>(data);
-
+            about_data.DomainId= data.domainid;
             data.Enabled = true;
 
             await db.Abouts.AddAsync(about_data);
