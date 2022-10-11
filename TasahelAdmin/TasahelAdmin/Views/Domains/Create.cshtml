@@ -6,9 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    legend{
-        color:purple;
-        font-weight:bolder;
+    legend {
+        color: purple;
+        font-weight: bolder;
         padding: 30px 0
     }
 </style>
@@ -26,27 +26,27 @@
                 <div class="container">
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
+                        <input asp-for="Name" class="form-control" required />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Domain1" class="control-label">Domain</label>
-                        <input asp-for="Domain1" class="form-control" />
+                        <input asp-for="Domain1" class="form-control" required />
                         <span asp-validation-for="Domain1" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ConnectionString" class="control-label"></label>
-                        <input asp-for="ConnectionString" class="form-control" />
+                        <input asp-for="ConnectionString" class="form-control" required />
                         <span asp-validation-for="ConnectionString" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" asp-for="Enabled" /> @Html.DisplayNameFor(model => model.Enabled)
+                            <input class="form-check-input" asp-for="Enabled" required /> @Html.DisplayNameFor(model => model.Enabled)
                         </label>
                     </div>
                     <div class="form-group">
                         <label asp-for="EndDate" class="control-label"></label>
-                        <input asp-for="EndDate" class="form-control" />
+                        <input asp-for="EndDate" class="form-control" required />
                         <span asp-validation-for="EndDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -56,13 +56,13 @@
                 <legend>Home Page Setting</legend>
                 <div class="container">
                     <div class="form-group">
-                        <label asp-for="HomeSettings._NewReqICo" class="control-label"></label>
-                        <input asp-for="HomeSettings._NewReqICo" class="form-control" />
+                        <label asp-for="HomeSettings._NewReqICo" class="control-label">New Request Icon</label>
+                        <input asp-for="HomeSettings._NewReqICo" class="form-control" required />
                         <span asp-validation-for="HomeSettings._NewReqICo" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="HomeSettings._FollowIco" class="control-label"></label>
-                        <input asp-for="HomeSettings._FollowIco" class="form-control" />
+                        <label asp-for="HomeSettings._FollowIco" class="control-label">FollowUp Request Icon</label>
+                        <input asp-for="HomeSettings._FollowIco" class="form-control" required />
                         <span asp-validation-for="HomeSettings._FollowIco" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">
@@ -78,17 +78,17 @@
                 <div class="container">
                     <div class="form-group">
                         <label asp-for="DomainInfo.Phone" class="control-label"></label>
-                        <input asp-for="DomainInfo.Phone" class="form-control" />
+                        <input asp-for="DomainInfo.Phone" class="form-control" required />
                         <span asp-validation-for="DomainInfo.Phone" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainInfo.Mail" class="control-label"></label>
-                        <input asp-for="DomainInfo.Mail" class="form-control" />
+                        <input asp-for="DomainInfo.Mail" class="form-control" required />
                         <span asp-validation-for="DomainInfo.Mail" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainInfo.Address" class="control-label"></label>
-                        <input asp-for="DomainInfo.Address" class="form-control" />
+                        <input asp-for="DomainInfo.Address" class="form-control" required />
                         <span asp-validation-for="DomainInfo.Address" class="text-danger"></span>
                     </div>
                 </div>
@@ -99,43 +99,43 @@
                 <legend>Main Style Info</legend>
                 <div class="container">
                     <div class="form-group">
-                        <label asp-for="DomainStyle._FavIcon" class="control-label"></label>
-                        <input asp-for="DomainStyle._FavIcon" class="form-control" />
+                        <label asp-for="DomainStyle._FavIcon" class="control-label">Fav Icon</label>
+                        <input asp-for="DomainStyle._FavIcon" class="form-control" required />
                         <span asp-validation-for="DomainStyle._FavIcon" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="DomainStyle._Icon" class="control-label"></label>
-                        <input asp-for="DomainStyle._Icon" class="form-control" />
+                        <label asp-for="DomainStyle._Icon" class="control-label">Icon</label>
+                        <input asp-for="DomainStyle._Icon" class="form-control" required />
                         <span asp-validation-for="DomainStyle._Icon" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainStyle.Title" class="control-label"></label>
-                        <input asp-for="DomainStyle.Title" class="form-control" />
+                        <input asp-for="DomainStyle.Title" class="form-control" required />
                         <span asp-validation-for="DomainStyle.Title" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainStyle.MetaDesc" class="control-label"></label>
-                        <input asp-for="DomainStyle.MetaDesc" class="form-control" />
+                        <input asp-for="DomainStyle.MetaDesc" class="form-control" required />
                         <span asp-validation-for="DomainStyle.MetaDesc" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainStyle.MetaKeyword" class="control-label"></label>
-                        <input asp-for="DomainStyle.MetaKeyword" class="form-control" />
+                        <input asp-for="DomainStyle.MetaKeyword" class="form-control" required />
                         <span asp-validation-for="DomainStyle.MetaKeyword" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainStyle.Maincolor" class="control-label"></label>
-                        <input asp-for="DomainStyle.Maincolor" class="form-control" />
+                        <input asp-for="DomainStyle.Maincolor" class="form-control" required />
                         <span asp-validation-for="DomainStyle.Maincolor" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainStyle.Secondcolor" class="control-label"></label>
-                        <input asp-for="DomainStyle.Secondcolor" class="form-control" />
+                        <input asp-for="DomainStyle.Secondcolor" class="form-control" required />
                         <span asp-validation-for="DomainStyle.Secondcolor" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainStyle.Thirdcolor" class="control-label"></label>
-                        <input asp-for="DomainStyle.Thirdcolor" class="form-control" />
+                        <input asp-for="DomainStyle.Thirdcolor" class="form-control" required />
                         <span asp-validation-for="DomainStyle.Thirdcolor" class="text-danger"></span>
                     </div>
                 </div>
@@ -143,53 +143,53 @@
             <fieldset>
                 <legend>Email And SMS</legend>
 
-               <div class="container">
+                <div class="container">
                     <div class="form-group">
                         <label asp-for="DomainEmail.Name" class="control-label"></label>
-                        <input asp-for="DomainEmail.Name" class="form-control" />
+                        <input asp-for="DomainEmail.Name" class="form-control" required />
                         <span asp-validation-for="DomainEmail.Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainEmail.Smtp" class="control-label"></label>
-                        <input asp-for="DomainEmail.Smtp" class="form-control" />
+                        <input asp-for="DomainEmail.Smtp" class="form-control" required />
                         <span asp-validation-for="DomainEmail.Smtp" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainEmail.Port" class="control-label"></label>
-                        <input asp-for="DomainEmail.Port" class="form-control" />
+                        <input asp-for="DomainEmail.Port" class="form-control" required />
                         <span asp-validation-for="DomainEmail.Port" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainEmail.Email" class="control-label"></label>
-                        <input asp-for="DomainEmail.Email" class="form-control" />
+                        <input asp-for="DomainEmail.Email" class="form-control" required />
                         <span asp-validation-for="DomainEmail.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainEmail.UserName" class="control-label"></label>
-                        <input asp-for="DomainEmail.UserName" class="form-control" />
+                        <input asp-for="DomainEmail.UserName" class="form-control" required />
                         <span asp-validation-for="DomainEmail.UserName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainEmail.Password" class="control-label"></label>
-                        <input asp-for="DomainEmail.Password" class="form-control" />
+                        <input asp-for="DomainEmail.Password" class="form-control" required />
                         <span asp-validation-for="DomainEmail.Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainEmail.MessageAppSid" class="control-label"></label>
-                        <input asp-for="DomainEmail.MessageAppSid" class="form-control" />
+                        <input asp-for="DomainEmail.MessageAppSid" class="form-control" required />
                         <span asp-validation-for="DomainEmail.MessageAppSid" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainEmail.Sender" class="control-label"></label>
-                        <input asp-for="DomainEmail.Sender" class="form-control" />
+                        <input asp-for="DomainEmail.Sender" class="form-control" required />
                         <span asp-validation-for="DomainEmail.Sender" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" asp-for="DomainEmail.UseMessages" /> @Html.DisplayNameFor(model => model.DomainEmail.UseMessages)
+                            <input class="form-check-input" asp-for="DomainEmail.UseMessages" required /> @Html.DisplayNameFor(model => model.DomainEmail.UseMessages)
                         </label>
                     </div>
-               </div>
+                </div>
             </fieldset>
             @*            <fieldset>
             <legend>Main Page</legend>
@@ -226,13 +226,13 @@
                             <input name="SubDomains[@count].Key" hidden value="@i.Value" />
                             <div class="form-group">
                                 <label class="control-label">@i.Name</label>
-                                <input name="SubDomains[@count].Domain" class="form-control" />
+                                <input name="SubDomains[@count].Domain" class="form-control" required />
                             </div>
                             <div class="form-group">
                                 <label class="control-label"></label>
                                 <label class="form-check-label">
                                     Https?
-                                    <input class="form-check-input form-control" type="checkbox" name="SubDomains[@count].UseHttps" /> 
+                                    <input class="form-check-input form-control" type="checkbox" name="SubDomains[@count].UseHttps" asp-for="Enabled" required />
                                 </label>
                             </div>
                         </div>

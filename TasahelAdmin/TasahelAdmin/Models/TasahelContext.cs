@@ -29,7 +29,6 @@ namespace TasahelAdmin.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=LAPTOP-CN4OLI1Q\\SQL19;Database=Tasahel;Trusted_Connection=True;");
             }
         }
@@ -49,6 +48,10 @@ namespace TasahelAdmin.Models
                 entity.Property(e => e.DescEn).IsRequired();
 
                 entity.Property(e => e.DomainId).HasColumnName("DomainID");
+
+                entity.Property(e => e.Enabled)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.TitleAr).IsRequired();
 

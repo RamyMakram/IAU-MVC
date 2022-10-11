@@ -13,6 +13,7 @@ namespace TasahelAdmin.Models
         public string TitleEn { get; set; }
         public string DescAr { get; set; }
         public string DescEn { get; set; }
+        public bool? Enabled { get; set; }
 
         public virtual Domain Domain { get; set; }
     }

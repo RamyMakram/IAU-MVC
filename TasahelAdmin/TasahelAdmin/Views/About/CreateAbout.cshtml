@@ -1,0 +1,89 @@
+﻿@model TasahelAdmin.Models.VM.AboutVM
+
+@{
+    ViewData["Title"] = "Create About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create About</h1>
+<h1>
+    Domain : @Model.domainname
+</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateAbout" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="DomainId" hidden />
+            <input asp-for="domainname" hidden />
+            <input asp-for="domainid" hidden />
+
+            <div class="form-group">
+                <label asp-for="TitleAr" class="control-label"></label>
+                <input asp-for="TitleAr" class="form-control" />
+                <span asp-validation-for="TitleAr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TitleEn" class="control-label"></label>
+                <input asp-for="TitleEn" class="form-control" />
+                <span asp-validation-for="TitleEn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescAr" class="control-label"></label>
+                <div style="height:50vh !important;width:70vw !important;overflow:auto">
+                    <textarea id="DescAr" asp-for="DescAr" style="width:100%">
+                    </textarea>
+                </div>
+                <span asp-validation-for="DescAr" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="height:50vh !important;width:70vw !important;">
+                <label asp-for="DescEn" class="control-label"></label>
+                <div style="height:50vh !important;width:70vw !important;overflow:auto">
+                    <textarea id="DescEn" asp-for="DescEn">
+                    </textarea>
+                </div>
+                <span asp-validation-for="DescEn" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-5">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        //await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <link href="~/lib/summernote/summernote.css" rel="stylesheet" />
+    <script src="~/lib/summernote/summernote.js"></script>
+    <script>
+        $(document).ready(() => {
+
+            //ClassicEditor
+            //    .create(document.querySelector('#DescEn'),
+            //        {
+            //            simpleUpload: {
+            //                uploadUrl: {
+            //                    url: 'https://your-organization-id.cke-cs.com/easyimage/upload/'
+            //                }
+            //            }
+            //        })
+            //    .catch(error => {
+            //        console.error(error);
+            //    });
+            //ClassicEditor
+            //    .create(document.querySelector('#DescAr'))
+            //    .catch(error => {
+            //        console.error(error);
+            //    });
+            $('#DescEn').summernote();
+            $('#DescAr').summernote();
+
+        });
+    </script>
+    }

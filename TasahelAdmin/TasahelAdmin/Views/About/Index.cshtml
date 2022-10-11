@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Http
+@model List<About>
+
+@{
+
+}
+<link href="~/lib/datatables/css/jquery.datatables.css" rel="stylesheet" />
+<link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+<div style="padding:20px">
+    <a class="btn-link" asp-action="CreateAbout" asp-route-domainid="@(Context.Request.Query["domainid"].ToString())" asp-route-domainname="@(Context.Request.Query["domainname"].ToString())">
+        Create New
+    </a>
+</div>
+
+<h1>
+    Domain : @(Context.Request.Query["domainname"].ToString())
+</h1>
+<hr />
+
+<div class="container">
+    <table class="table w-100">
+        <thead>
+            <tr>
+                <th>Title Ar</th>
+                <th>Title En</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.TitleAr</td>
+                    <td>@i.TitleEn</td>
+                    <td>
+                        @if (i.Enabled.Value)
+                        {
+                            <button class="btn btn-success" onclick="HandelUnActive(@i.Id)">Enabled</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger" onclick="HandelActive(@i.Id)">Disabled</button>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="EditAbout" asp-route-id="@i.Id" asp-route-domainid="@(Context.Request.Query["domainid"].ToString())" asp-route-domainname="@(Context.Request.Query["domainname"].ToString())">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/datatables/js/jquery.datatables.js"></script>
+<script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+<script src="~/lib/sweetalert/sweetalert.min.js"></script>
+<script>
+    $('table').DataTable();
+
+    function HandelActive(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Active!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "@(Url.Action("ActiveAbout"))?id=" + id + "domainid=@(Context.Request.Query["domainid"].ToString())&domainname=@(Context.Request.Query["domainname"].ToString())"
+            }
+        })
+    }
+
+    function HandelUnActive(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Deactive!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "@(Url.Action("DeactiveAbout"))?id=" + id + "domainid=@(Context.Request.Query["domainid"].ToString())&domainname=@(Context.Request.Query["domainname"].ToString())"
+            }
+        })
+    }
+</script>

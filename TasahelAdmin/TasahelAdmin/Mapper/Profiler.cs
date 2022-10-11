@@ -10,7 +10,7 @@ namespace TasahelAdmin.Mapper
         {
             CreateMap<DomainStyleVM, DomainStyle>().ReverseMap();
             CreateMap<HomeVM, TasahelHomeSetting>().ReverseMap();
-
+            CreateMap<AboutVM, About>().ReverseMap();
 
             CreateMap<DomainCreateVM, Domain>()
                 .ForMember(dest => dest.Name, src => src.MapFrom(src => src.Name))
