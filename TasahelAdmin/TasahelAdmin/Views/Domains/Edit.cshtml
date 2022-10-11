@@ -2,7 +2,7 @@
 @model TasahelAdmin.Models.VM.DomainCreateVM
 
 @{
-    ViewData["Title"] = "Edit Domain";
+    ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -18,8 +18,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" hidden />
 
             <fieldset>
                 <legend>Main Info</legend>
@@ -55,15 +56,18 @@
             <fieldset>
                 <legend>Home Page Setting</legend>
                 <div class="container">
+                    <input asp-for="HomeSettings.Id" hidden />
                     <div class="form-group">
                         <label asp-for="HomeSettings._NewReqICo" class="control-label">New Request Icon</label>
-                        <input asp-for="HomeSettings._NewReqICo" class="form-control" required accept="image/*" />
+                        <img src="/@Model.HomeSettings.NewReqIco" height="70" class="px-2 my-5" />
+                        <input asp-for="HomeSettings._NewReqICo" class="form-control" />
                         <span asp-validation-for="HomeSettings._NewReqICo" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="HomeSettings._FollowIco" class="control-label">FollowUp Request Icon</label>
-                        <input asp-for="HomeSettings._FollowIco" class="form-control" required accept="image/*" />
+                        <img src="/@Model.HomeSettings.FollowIco" height="70" class="px-2 my-5" />
 
+                        <input asp-for="HomeSettings._FollowIco" class="form-control" />
                         <span asp-validation-for="HomeSettings._FollowIco" class="text-danger"></span>
                     </div>
                     <div class="form-group form-check">
@@ -77,6 +81,8 @@
             <fieldset>
                 <legend>About Data</legend>
                 <div class="container">
+                    <input asp-for="DomainInfo.Id" hidden />
+
                     <div class="form-group">
                         <label asp-for="DomainInfo.Phone" class="control-label"></label>
                         <input asp-for="DomainInfo.Phone" class="form-control" required />
@@ -99,14 +105,20 @@
             <fieldset>
                 <legend>Main Style Info</legend>
                 <div class="container">
+                    <input asp-for="DomainStyle.Id" hidden />
+
                     <div class="form-group">
                         <label asp-for="DomainStyle._FavIcon" class="control-label">Fav Icon</label>
-                        <input asp-for="DomainStyle._FavIcon" class="form-control" required accept="image/*" />
+                        <img src="/@Model.DomainStyle.Favicon" height="70" class="px-2 my-5" />
+
+                        <input asp-for="DomainStyle._FavIcon" class="form-control" />
                         <span asp-validation-for="DomainStyle._FavIcon" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DomainStyle._Icon" class="control-label">Icon</label>
-                        <input asp-for="DomainStyle._Icon" class="form-control" required accept="image/*" />
+                        <img src="/@Model.DomainStyle.Icon" height="70" class="px-2 my-5" />
+
+                        <input asp-for="DomainStyle._Icon" class="form-control" />
                         <span asp-validation-for="DomainStyle._Icon" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -145,6 +157,8 @@
                 <legend>Email And SMS</legend>
 
                 <div class="container">
+                    <input asp-for="DomainEmail.Id" hidden />
+
                     <div class="form-group">
                         <label asp-for="DomainEmail.Name" class="control-label"></label>
                         <input asp-for="DomainEmail.Name" class="form-control" required />
@@ -223,17 +237,22 @@
                     }
                     @foreach (var i in ListOFSubDomains.SubDomainsEnum)
                     {
+                        var data = Model.SubDomains.FirstOrDefault(q => q.Key == i.Value);
+                        var usehttps = data?.UseHttps ?? true;
+                        var value = data?.Domain ?? "";
                         <div class="row w-100">
+                            <input name="SubDomains[@count].Id" hidden />
+
                             <input name="SubDomains[@count].Key" hidden value="@i.Value" />
                             <div class="form-group">
                                 <label class="control-label">@i.Name</label>
-                                <input name="SubDomains[@count].Domain" class="form-control" required />
+                                <input name="SubDomains[@count].Domain" class="form-control" value="@(value)" required />
                             </div>
                             <div class="form-group">
                                 <label class="control-label"></label>
                                 <label class="form-check-label">
                                     Https?
-                                    <input class="form-check-input form-control" type="checkbox" name="SubDomains[@count].UseHttps" asp-for="Enabled" required />
+                                    <input class="form-check-input form-control" value="@(usehttps)" type="checkbox" name="SubDomains[@count].UseHttps" asp-for="Enabled" required />
                                 </label>
                             </div>
                         </div>
@@ -243,7 +262,7 @@
             </fieldset>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
