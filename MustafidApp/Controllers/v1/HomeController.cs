@@ -329,9 +329,9 @@ namespace MustafidApp.Controllers.v1
         /// <param name="EF_ID">EF_ID is Eforms ID that User Will Fill It</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetEformDetails(int SS_ID,int EF_ID)
+        public async Task<IActionResult> GetEformDetails(int SS_ID, int EF_ID)
         {
-            var data = await _appContext.EForms.Where(q=>q.Id==EF_ID)
+            var data = await _appContext.EForms.Where(q => q.Id == EF_ID)
                 .Include(q => q.UnitToApproveNavigation)
                 .Include(q => q.Questions)
                 .ThenInclude(q => q.Paragraph)
@@ -347,10 +347,13 @@ namespace MustafidApp.Controllers.v1
                     !q.Deleted &&
                     q.IsAction.Value &&
                     q.SubServiceId == SS_ID
-            ).ToListAsync();
+            ).FirstOrDefaultAsync();
+            
+            if (data == null)
+                return Ok(new ResponseClass { Success = false, data = "NotData" });
 
-            var data_DTO = _mapper.Map<List<EFormDTO>>(data);
-
+            var data_DTO = _mapper.Map<EFormDTO>(data);
+            data_DTO.EF_Q_List = data_DTO.EF_Q_List.OrderBy(q => q.Q_Order).ToList();
             return Ok(new ResponseClass() { Success = true, data = data_DTO });
         }
     }
