@@ -175,6 +175,11 @@ namespace MustafidApp.Controllers.v1
         ///         "Req_S_ID": Service Type ID,
         ///         "Req_R_ID": Request Type ID,
         ///         "Req_Is_Mos": always is 'true',
+        ///         "EformID": [
+        ///              1,
+        ///              2,
+        ///              3
+        ///          ],
         ///         "Req_ApplicantData": {
         ///          "PD_Address_C_ID": الدولة,
         ///          "PD_APP_ID": Applicant Type ID,
@@ -193,35 +198,7 @@ namespace MustafidApp.Controllers.v1
         ///          "PD_Address_City": string : المنطقة,
         ///          "PD_Adress_Region": string : المدينة,
         ///          "PD_Postal": ,
-        ///          "PD_JSON_EFormAnswer": عايز ده كله JSON Stringfy [
-        ///              {
-        ///                  "EFAns_Q_ID": رقم السؤال,
-        ///                  "EFAns_EF_ID": رقم النموذج,
-        ///                  "EFAns_Value": لو radio or check بيبق JSON,
-        ///                  "EFAns_Value_EN": لو radio or check بيبق JSON,
-        ///                  "EFAns_TableCol": لو جدول [
-        ///                      {
-        ///                          "TC_ID":  رقم ال column,
-        ///                          "TC_Answare": [
-        ///                              {
-        ///                                  "TAns_Row":رقم ال row,
-        ///                                  "TAns_Val": ""
-        ///                              },
-        ///                              {
-        ///                                  "TAns_Row": رقم ال row,
-        ///                                  "TAns_Val": ""
-        ///                              }
-        ///                          ]
-        ///                      }
-        ///                  ]
-        ///              },
-        ///              {
-        ///                  "EFAns_Q_ID": رقم السؤال,
-        ///                  "EFAns_EF_ID": رقم النموذج,
-        ///                  "EFAns_Value": لو radio or check بيبق JSON,
-        ///                  "EFAns_Value_EN": لو radio or check بيبق JSON,
-        ///              }
-        ///          ]
+        ///          
         ///      }
         ///     }
         ///dd
@@ -239,14 +216,117 @@ namespace MustafidApp.Controllers.v1
                 {
                     var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
 
+                    var trans = _appContext.Database.BeginTransaction();
+
                     request.Req_ApplicantData.PD_Phone = Mobile_Phone;
 
                     if (request.Req_ApplicantData.PD_JSON_EFormAnswer != null && request.Req_ApplicantData.PD_JSON_EFormAnswer.Length != 0)
                         request.Req_ApplicantData.PD_EFormAnswer = JsonConvert.DeserializeObject<List<EformAnsDTO>>(request.Req_ApplicantData.PD_JSON_EFormAnswer);
 
 
+                    var request_Data = _mapper.Map<RequestDatum>(request);
+                    var model = request_Data.PersonelData;
+                    var personel_Data = _appContext.PersonelData.FirstOrDefault(q => (q.IdDocument == model.IdDocument && q.IdNumber == model.IdNumber) || q.Mobile == model.Mobile);
+                    if (personel_Data == null)
+                    {
+                        _appContext.PersonelData.Add(model);
+                        await _appContext.SaveChangesAsync();
+                        request_Data.PersonelDataId = model.PersonelDataId;
+                    }
+                    else
+                        request_Data.PersonelDataId = personel_Data.PersonelDataId;
 
-                    var request_Data = _mapper.Map<SaveReq_RequestDTO>(request);
+
+
+
+                    request_Data.CreatedDate = DateTime.Now;
+
+                    #region CheckDeleted
+                    var r_type = _appContext.RequestTypes.Find(request_Data.RequestTypeId);
+                    if (r_type == null)
+                    {
+                        trans.Rollback();
+                        return Ok(new
+                        {
+                            result = "No RT",
+                            success = false
+                        });
+                    }
+                    if (r_type.Deleted)
+                    {
+                        trans.Rollback();
+                        return Ok(new
+                        {
+                            result = "Del RT",
+                            success = false
+                        });
+                    }
+
+                    if (request_Data.SubServicesId != null)
+                    {
+                        var ss_id = _appContext.SubServices.Find(request_Data.SubServicesId);
+                        if (ss_id == null)
+                        {
+                            trans.Rollback();
+                            return Ok(new
+                            {
+                                result = "No SS",
+                                success = false
+                            });
+                        }
+                        if (ss_id.Deleted)
+                        {
+                            trans.Rollback();
+                            return Ok(new
+                            {
+                                result = "Del SS",
+                                success = false
+                            });
+                        }
+                    }
+
+                    if (request_Data.ServiceTypeId == null)
+                    {
+                        trans.Rollback();
+                        return Ok(new
+                        {
+                            result = "No ST",
+                            success = false
+                        });
+                    }
+
+                    var st = _appContext.ServiceTypes.Find(request_Data.ServiceTypeId);
+                    if (st == null || st.Deleted)
+                    {
+                        trans.Rollback();
+                        return Ok(new
+                        {
+                            result = "DelOrNo ST",
+                            success = false
+                        });
+                    }
+                    #endregion
+
+                    //request_Data.Request_State_ID = 1;
+                    request_Data.IsTwasulOc = false;
+                    request_Data.Readed = false;
+                    request_Data.IsArchived = false;
+                    request_Data.RequestStateId = 1;
+                    _appContext.RequestData.Add(request_Data);
+                    await _appContext.SaveChangesAsync();
+
+                    foreach (var EFORM in request.EformID)
+                    {
+                        var ef = await _appContext.PersonEforms.FindAsync(EFORM);
+                        ef.PersonId = model.PersonelDataId;
+                        ef.RequestId = request_Data.RequestDataId;
+                    }
+
+                    await _appContext.SaveChangesAsync();
+
+
+
+
                     HttpClientHandler handler = new HttpClientHandler();
                     using (var client = new HttpClient(handler, false))
                     {
@@ -289,23 +369,13 @@ namespace MustafidApp.Controllers.v1
 
                             //Order Columns Answares
 
-                            foreach (var i in request.Req_ApplicantData.PD_EFormAnswer.Where(q => q.EFAns_TableCol != null))
-                            {
-                                i.EFAns_TableCol = i.EFAns_TableCol.OrderBy(q => q.TC_ID).ToList();
-                            }
-
-                            var EFAns = _mapper.Map<List<SaveReq_E_Forms_Answer>>(request.Req_ApplicantData.PD_EFormAnswer);
-
-                            var stringContent = new StringContent(JsonConvert.SerializeObject(EFAns));
-                            stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
-                            content.Add(stringContent, "json");
+                            //foreach (var i in request.Req_ApplicantData.PD_EFormAnswer.Where(q => q.EFAns_TableCol != null))
+                            //{
+                            //    i.EFAns_TableCol = i.EFAns_TableCol.OrderBy(q => q.TC_ID).ToList();
+                            //}
 
 
-                            stringContent = new StringContent(JsonConvert.SerializeObject(request_Data));
-                            stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
-                            content.Add(stringContent, "json");
-
-                            var requestUri = _configuration["AdminPanel_BE_URL"] + "api/Request/saveApplicantData";
+                            var requestUri = _configuration["AdminPanel_BE_URL"] + $"api/Request/SaveApplicantDataMobilePhones?ReqID={request_Data.RequestDataId}&SubService={request_Data.SubServicesId}";
                             var result = await client.PostAsync(requestUri, content);
                             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                             {
@@ -314,20 +384,38 @@ namespace MustafidApp.Controllers.v1
                                 if (lst.success)
                                 {
                                     //Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
+                                    var data = (List<RequestFile>)lst.result;
+
+                                    _appContext.RequestFiles.AddRange(data);
+                                    await _appContext.SaveChangesAsync();
+
+                                    trans.Commit();
+
+                                    requestUri = _configuration["AdminPanel_BE_URL"] + "api/Request/NotifyRequest?ReqID=" + request_Data.RequestDataId;
+                                    result = await client.PostAsync(requestUri, content);
+
                                     return Ok(new ResponseClass() { Success = true, data = "" });
                                 }
                                 else
+                                {
+                                    trans.Rollback();
                                     return Ok(new ResponseClass() { Success = false, data = JsonConvert.SerializeObject(lst.result, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
+                                }
                             }
                             else
+                            {
+                                trans.Rollback();
                                 return Ok(new ResponseClass() { Success = false, data = "Backend+" + JsonConvert.SerializeObject(result, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
+                            }
                         }
-                    }
 
-                    //return Ok(new ResponseClass() { Success = true, data = "Ok" });
+                        //return Ok(new ResponseClass() { Success = true, data = "Ok" });
+                    }
                 }
                 else
+                {
                     return Ok(new ResponseClass() { Success = false, data = "CodeError" });
+                }
             }
             catch (Exception ee)
             {

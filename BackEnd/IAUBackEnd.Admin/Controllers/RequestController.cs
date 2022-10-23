@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Linq.Dynamic;
 using System.Net.Mail;
 using System.Threading;
+using System.Reflection;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -372,7 +373,116 @@ namespace IAUBackEnd.Admin.Controllers
             return Ok(new ResponseClass() { success = true, result = RequestTransaction });
         }
 
+        [HttpPost]
+        public async Task<IHttpActionResult> NotifyRequest(int ReqID)
+        {
+            #region WebSocket
 
+            var sendeddata = db.Request_Data.Where(q => q.Request_Data_ID == ReqID).Select(q => new { q.Service_Type, q.Request_Type, q.Personel_Data, q.CreatedDate, q.Request_Data_ID, q.Required_Fields_Notes }).First();
+            var ISComplaint = (sendeddata?.Request_Type?.Request_Type_Name_EN ?? "").ToLower().StartsWith("comp");//Modear of mostfaid unit
+            var Users = db.Users.Where(q => q.Units.IS_Mostafid && !q.Deleted && (ISComplaint ? q.Job.IsModear : true)).Select(q => q.User_ID).ToArray();
+
+            string message = JsonConvert.SerializeObject(sendeddata, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+            WebSocketManager.SendToMulti(Users, message);
+
+            #endregion
+
+            var model = sendeddata.Personel_Data;
+
+            new Thread(() =>
+            {
+                _ = NotifyUser(model.Mobile, model.Email, @"عزيزي المستفيد ، تم استلام طلبكم بنجاح ، وسيتم افادتكم بالكود الخاص بالطلب خلال 3 ساعات", @"Dear Mostafid, your order has been successfully received, and you will be notified of the order code within 3 hours");
+            }).Start();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> SaveApplicantDataMobilePhones(int ReqID, int SubService)
+        {
+            var Req_Files = new List<object>();
+            try
+            {
+                var provider = new MultipartMemoryStreamProvider();
+                await Request.Content.ReadAsMultipartAsync(provider);
+                var buffer = await provider.Contents.Last().ReadAsStringAsync();
+
+                var domain = Request.RequestUri.Authority;
+
+                var path = HttpContext.Current.Server.MapPath("~");
+                var requestpath = Path.Combine("RequestFiles", domain + "-" + ReqID.ToString());
+                Directory.CreateDirectory(Path.Combine(path, requestpath));
+                if (true)
+                {
+
+                    var count = 0;
+                    if (db.Request_Type.Any(q => q.Request_Type_ID == ReqID && q.IsRequestType))
+                    {
+                        var RequiredFiles = db.Required_Documents.Where(q => q.SubServiceID == SubService && !q.Deleted).ToList();
+                        foreach (var i in RequiredFiles)
+                        {
+                            var file = provider.Contents.FirstOrDefault(q => q.Headers.ContentDisposition.FileName != null && q.Headers.ContentDisposition.FileName.StartsWith("" + i.ID));
+                            if (file == null)
+                            {
+                                return Ok(new
+                                {
+                                    result = "Error In Suppoerted Files",
+                                    success = false
+                                });
+                            }
+                            var ReqFile = file.Headers.ContentDisposition.FileName.Split('|');
+
+                            var ReqFileID = int.Parse(ReqFile[0]);
+
+                            var filename = ReqFile[1].Trim('\"');
+                            var Strambuffer = await file.ReadAsByteArrayAsync();
+                            var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
+                            File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
+                            Req_Files.Add(new 
+                            {
+                                RequestId = ReqID,
+                                RequiredDocId = i.ID.Value,
+                                FileName = filename,
+                                CreatedDate = DateTime.Now,
+                                FilePath = filepath.Replace("\\", "/")
+                            });
+                            count++;
+                        }
+                    }
+                    int length = provider.Contents.Count;
+                    for (; count < length; count++)
+                    {
+                        var file = provider.Contents[count];
+                        var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+                        var Strambuffer = await file.ReadAsByteArrayAsync();
+                        var filepath = Path.Combine(requestpath, filename);
+                        File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
+                        Req_Files.Add(new 
+                        {
+                            RequestId = ReqID,
+                            CreatedDate = DateTime.Now,
+                            FileName = filename,
+                            FilePath = filepath.Replace("\\", "/")
+                        });
+                    }
+
+                }
+                return Ok(new
+                {
+                    success = true,
+                    result = Req_Files
+                });
+            }
+            catch (Exception e)
+            {
+                return Ok(new
+                {
+                    result = e,
+                    success = false
+                });
+            }
+        }
         [HttpPost]
         public async Task<IHttpActionResult> SaveApplicantData()
         {
@@ -548,7 +658,7 @@ namespace IAUBackEnd.Admin.Controllers
                     }
                 }
                 await db.SaveChangesAsync();
-                
+
                 var domain = Request.RequestUri.Authority;
 
                 var path = HttpContext.Current.Server.MapPath("~");

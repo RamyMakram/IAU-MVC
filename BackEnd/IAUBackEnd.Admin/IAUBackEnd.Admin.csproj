@@ -289,6 +289,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\RequestDataApplicationDTO.cs" />
     <Compile Include="MicrosoftWebsocket.cs" />
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>

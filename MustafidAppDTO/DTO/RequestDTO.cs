@@ -25,5 +25,6 @@ namespace MustafidAppDTO.DTO
         public PersonalDataDTO Req_ApplicantData { get; set; }
         public IList<IFormFile> Req_RequiredDocs { get; set; }
         public IList<IFormFile> Req_Files { get; set; }
+        public IList<int> EformID { get; set; }
     }
 }

@@ -27,20 +27,58 @@ namespace MustafidApp.Controllers.v1
             _appContext = appContext;
             _mapper = mapper;
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetSServices(IList<EformAnsDTO> ef_data, int EF_ID, bool IsUpdate, int? OldEFID)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ef_data">Data Of Eform</param>
+        /// <param name="EF_ID">Eform ID</param>
+        /// <remarks>
+        ///      [
+        ///              {
+        ///                  "EFAns_Q_ID": رقم السؤال,
+        ///                  "EFAns_EF_ID": رقم النموذج,
+        ///                  "EFAns_Value": لو radio or check بيبق JSON,
+        ///                  "EFAns_Value_EN": لو radio or check بيبق JSON,
+        ///                  "EFAns_TableCol": لو جدول [
+        ///                      {
+        ///                          "TC_ID":  رقم ال column,
+        ///                          "TC_Answare": [
+        ///                              {
+        ///                                  "TAns_Row":رقم ال row,
+        ///                                  "TAns_Val": ""
+        ///                              },
+        ///                              {
+        ///                                  "TAns_Row": رقم ال row,
+        ///                                  "TAns_Val": ""
+        ///                              }
+        ///                          ]
+        ///                      }
+        ///                  ]
+        ///              },
+        ///              {
+        ///                  "EFAns_Q_ID": رقم السؤال,
+        ///                  "EFAns_EF_ID": رقم النموذج,
+        ///                  "EFAns_Value": لو radio or check بيبق JSON,
+        ///                  "EFAns_Value_EN": لو radio or check بيبق JSON,
+        ///              }
+        ///          ]
+        ///dd
+        /// </remarks>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> SaveEfomr(IList<EformAnsDTO> ef_data, int EF_ID/*, bool IsUpdate, int? OldEFID*/)
         {
             var eform = await _appContext.EForms.FirstOrDefaultAsync(q => q.Id == EF_ID && !q.Deleted && q.IsAction.Value);
             if (eform == null)
                 return Ok(new ResponseClass() { Success = false, data = "" });
-            if (IsUpdate && OldEFID.HasValue)
-            {
-                _appContext.PersonEforms.Remove(_appContext.PersonEforms.FirstOrDefault(q => q.Id == OldEFID));
-                await _appContext.SaveChangesAsync();
-            }
 
-            var EF_Model = _mapper.Map<IList<EFormsAnswer>>(eform);
+            //if (IsUpdate && OldEFID.HasValue)
+            //{
+            //    _appContext.PersonEforms.Remove(_appContext.PersonEforms.FirstOrDefault(q => q.Id == OldEFID));
+            //    await _appContext.SaveChangesAsync();
+            //}
+
+            var EF_Model = _mapper.Map<IList<EFormsAnswer>>(ef_data);
 
             var Eform_Person = new PersonEform { Code = eform.Code, Name = eform.Name, NameEn = eform.NameEn, FillDate = DateTime.Now };
 
