@@ -68,7 +68,17 @@ namespace MustafidApp.Controllers.v1
         [HttpPost]
         public async Task<IActionResult> SaveEfomr(IList<EformAnsDTO> ef_data, int EF_ID/*, bool IsUpdate, int? OldEFID*/)
         {
-            var eform = await _appContext.EForms.FirstOrDefaultAsync(q => q.Id == EF_ID && !q.Deleted && q.IsAction.Value);
+            var eform = await _appContext.EForms
+                .Include(q => q.Questions)
+                    .ThenInclude(q => q.Separator)
+                .Include(q => q.Questions)
+                    .ThenInclude(q => q.Paragraph)
+                .Include(q => q.Questions)
+                    .ThenInclude(q => q.Paragraph)
+                .Include(q => q.Questions)
+                    .ThenInclude(q => q.TableColumns)
+                .Include(q => q.UnitToApproveNavigation)
+                .FirstOrDefaultAsync(q => q.Id == EF_ID && !q.Deleted && q.IsAction.Value);
             if (eform == null)
                 return Ok(new ResponseClass() { Success = false, data = "" });
 
@@ -131,6 +141,21 @@ namespace MustafidApp.Controllers.v1
                     Inser_Qty.ValueEn = "";
                     Inser_Qty.Type = i.Type;
                     Inser_Qty.IndexOrder = i.IndexOrder;
+
+                    var EF_DataDTO = ef_data.FirstOrDefault(q => q.EFAns_Q_ID == i.Id);
+                    var Index = 0;
+                    foreach (var Col in EF_DataDTO.EFAns_TableCol)
+                    {
+                        var RearCol = i.TableColumns.FirstOrDefault(q => q.Id == Col.TC_ID);
+                        
+                        var SavedCols = Inser_Qty.PreviewTableCols.ElementAt(Index);
+                        
+                        SavedCols.Name = RearCol.Name;
+                        SavedCols.NameEn = RearCol.NameEn;
+                        
+                        Index++;
+                    }
+
                     Eform_Person.EFormsAnswers.Add(Inser_Qty);
                 }
                 else if (Inser_Qty != null || (Inser_Qty == null && !(i.Requird.HasValue && i.Requird.Value)))

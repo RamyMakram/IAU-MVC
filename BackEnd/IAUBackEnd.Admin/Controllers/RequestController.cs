@@ -411,7 +411,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var domain = Request.RequestUri.Authority;
 
                 var path = HttpContext.Current.Server.MapPath("~");
-                var requestpath = Path.Combine("RequestFiles", domain + "-" + ReqID.ToString());
+                var requestpath = Path.Combine("RequestFiles", domain.Replace(":", "") + "-" + ReqID.ToString());
                 Directory.CreateDirectory(Path.Combine(path, requestpath));
                 if (true)
                 {
@@ -439,7 +439,7 @@ namespace IAUBackEnd.Admin.Controllers
                             var Strambuffer = await file.ReadAsByteArrayAsync();
                             var filepath = Path.Combine(requestpath, i.Name_EN + "_" + filename);
                             File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
-                            Req_Files.Add(new 
+                            Req_Files.Add(new
                             {
                                 RequestId = ReqID,
                                 RequiredDocId = i.ID.Value,
@@ -458,7 +458,7 @@ namespace IAUBackEnd.Admin.Controllers
                         var Strambuffer = await file.ReadAsByteArrayAsync();
                         var filepath = Path.Combine(requestpath, filename);
                         File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
-                        Req_Files.Add(new 
+                        Req_Files.Add(new
                         {
                             RequestId = ReqID,
                             CreatedDate = DateTime.Now,

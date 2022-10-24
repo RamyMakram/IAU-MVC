@@ -384,7 +384,7 @@ namespace MustafidApp.Controllers.v1
                                 if (lst.success)
                                 {
                                     //Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
-                                    var data = (List<RequestFile>)lst.result;
+                                    var data = JsonConvert.DeserializeObject<List<RequestFile>>(JsonConvert.SerializeObject(lst.result));
 
                                     _appContext.RequestFiles.AddRange(data);
                                     await _appContext.SaveChangesAsync();

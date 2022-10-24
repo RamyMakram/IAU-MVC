@@ -58,7 +58,7 @@ namespace IAUBackEnd.Admin
             }
 
 
-            if (new string[] { "/api/User/VerfiyUser", "/api/User/Login", "/api/User/VerfiyToken", "/api/Request/NotifyUser", "/api/Request/saveApplicantData" }.Contains(HttpContext.Current.Request.Path))
+            if (new string[] { "/api/User/VerfiyUser", "/api/User/Login", "/api/User/VerfiyToken", "/api/Request/NotifyUser", "/api/Request/saveApplicantData", "/api/Request/SaveApplicantDataMobilePhones", "/api/Request/NotifyRequest" }.Contains(HttpContext.Current.Request.Path))
                 return;
             int UserID = int.Parse(HttpContext.Current.Request.Headers["user"]?.ToString() ?? "-1");
             var db = new MostafidDBEntities();
