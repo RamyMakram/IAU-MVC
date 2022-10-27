@@ -94,7 +94,7 @@ namespace MustafidApp
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.5", new OpenApiInfo { Title = "MustafidApp", Version = "v1.5" });
+                c.SwaggerDoc("v1.5", new OpenApiInfo { Title = "MustafidApp", Version = "v1.5", Description = "966xxxxxxxxx|9999|thJlxqVh6QR273i+PSzqdoMGr6VaLlEMWRAI+Nw+b4qVIGh+X9OAXi2mfPXFiqFgP5YOAnsNUwf9f5i2c90XLw==" });
                 // using System.Reflection;
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

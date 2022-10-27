@@ -222,7 +222,7 @@ namespace MustafidApp.Mapper
 
             CreateMap<TablesAnsware, Tables_AnswareDTO>()
                 .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Row))
-                .ForMember(dest => dest.TAns_Row, src => src.MapFrom(src => src.Value))
+                .ForMember(dest => dest.TAns_Val, src => src.MapFrom(src => src.Value))
                 .ReverseMap();
             #endregion
 
@@ -296,6 +296,27 @@ namespace MustafidApp.Mapper
                 .ForMember(dest => dest.Req_Code, src => src.MapFrom(src => src.CodeGenerate))
                 .ReverseMap();
 
+            #endregion
+
+
+            #region Get Saved Eform 
+            CreateMap<EFormsAnswer, GetEformAnsDTO>()
+                  .ForMember(dest => dest.EFAns_Value, src => src.MapFrom(src => src.Value))
+                  .ForMember(dest => dest.EFAns_Name, src => src.MapFrom(src => src.Name))
+                  .ForMember(dest => dest.EFAns_Value_EN, src => src.MapFrom(src => src.ValueEn))
+                  .ForMember(dest => dest.EFAns_Name_EN, src => src.MapFrom(src => src.NameEn))
+                  .ForMember(dest => dest.EFAns_Q_ID, src => src.MapFrom(src => src.QuestionId))
+                  .ForMember(dest => dest.EFAns_EF_ID, src => src.MapFrom(src => src.EformId))
+                  .ForMember(dest => dest.EFAns_TableCol, src => src.MapFrom(src => src.PreviewTableCols))
+                  .ForMember(dest => dest.EFAns_T, src => src.MapFrom(src => src.Type))
+                  .ForMember(dest => dest.Order, src => src.MapFrom(src => src.IndexOrder))
+                  .ReverseMap();
+
+            CreateMap<PreviewTableCol, Preview_SavedTableColsDTO>()
+                .ForMember(dest => dest.TC_Name, src => src.MapFrom(src => src.Name))
+                .ForMember(dest => dest.TC_Name_En, src => src.MapFrom(src => src.NameEn))
+                .ForMember(dest => dest.TC_Answare, src => src.MapFrom(src => src.TablesAnswares))
+                .ReverseMap();
             #endregion
         }
     }

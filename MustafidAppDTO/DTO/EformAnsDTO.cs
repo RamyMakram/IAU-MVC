@@ -12,7 +12,7 @@ namespace MustafidAppDTO.DTO
         public int EFAns_EF_ID { get; set; }
         public string EFAns_Value { get; set; }
         public string EFAns_Value_EN { get; set; }
-        public ICollection<Preview_TableColsDTO> EFAns_TableCol { get; set; }
+        public ICollection<Preview_SavedTableColsDTO> EFAns_TableCol { get; set; }
 
     }
 }

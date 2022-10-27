@@ -147,12 +147,12 @@ namespace MustafidApp.Controllers.v1
                     foreach (var Col in EF_DataDTO.EFAns_TableCol)
                     {
                         var RearCol = i.TableColumns.FirstOrDefault(q => q.Id == Col.TC_ID);
-                        
+
                         var SavedCols = Inser_Qty.PreviewTableCols.ElementAt(Index);
-                        
+
                         SavedCols.Name = RearCol.Name;
                         SavedCols.NameEn = RearCol.NameEn;
-                        
+
                         Index++;
                     }
 
@@ -176,6 +176,25 @@ namespace MustafidApp.Controllers.v1
             await _appContext.SaveChangesAsync();
 
             return Ok(new ResponseClass() { Success = true, data = Eform_Person.Id });
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetSavedEform(int EF_ID/*, bool IsUpdate, int? OldEFID*/)
+        {
+            var data = await _appContext.PersonEforms
+                .Include(q => q.PreviewEformApprovals)
+                .Include(q => q.EFormsAnswers)
+                    .ThenInclude(q => q.PreviewTableCols)
+                    .ThenInclude(q => q.TablesAnswares)
+                //.Include(q => q.EFormsAnswers)
+                //    .ThenInclude(q => q.Eform)
+                .FirstOrDefaultAsync(q => q.Id == EF_ID);
+
+            if (data == null)
+                return Ok(new ResponseClass() { Success = false, data = "NO Data" });
+
+            var mapper_data = _mapper.Map<List<GetEformAnsDTO>>(data.EFormsAnswers.OrderBy(q => q.IndexOrder));
+
+            return Ok(new ResponseClass() { Success = true, data = mapper_data });
         }
     }
 }
