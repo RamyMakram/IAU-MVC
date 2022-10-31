@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Intrinsics.Arm;
 using System.Threading.Tasks;
 using TasahelAdmin.Models;
@@ -239,6 +241,44 @@ namespace TasahelAdmin.Controllers
                 trans.Rollback();
                 return View(dd);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CheckMesaage(string MessageAppSid, string Sender, string Mobile)
+        {
+            HttpClient h = new HttpClient();
+
+            string url = $"http://basic.unifonic.com/wrapper/sendSMS.php?appsid={MessageAppSid}&msg={"Test Message"}&to={Mobile}&sender={Sender}&baseEncode=False&encoding=UCS2";
+            h.BaseAddress = new Uri(url);
+
+            var res = await h.GetAsync("").Result.Content.ReadAsStringAsync();
+            return Ok(res);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EndDate(int id)
+        {
+            var dtat = await db.Domains.FindAsync(id);
+            if (dtat == null)
+                return Ok(new { success = false });
+
+            return Ok(new { success = true, data = dtat.EndDate });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveEndDate(int id, DateTime date)
+        {
+            var dtat = await db.Domains.FindAsync(id);
+            if (dtat == null)
+            {
+                TempData["Error"] = "Error While Saveing";
+                return RedirectToAction(nameof(Index));
+            }
+
+            dtat.EndDate = date;
+            await db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

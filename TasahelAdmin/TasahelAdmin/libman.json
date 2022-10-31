@@ -17,6 +17,10 @@
     {
       "library": "sweetalert@2.1.2",
       "destination": "wwwroot/lib/sweetalert/"
+    },
+    {
+      "library": "jquery@3.6.1",
+      "destination": "wwwroot/lib/jquery/"
     }
   ]
 }

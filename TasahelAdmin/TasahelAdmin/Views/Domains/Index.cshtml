@@ -5,12 +5,18 @@
 }
 <link href="~/lib/datatables/css/jquery.datatables.css" rel="stylesheet" />
 <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 <div style="padding:20px">
     <a class="btn-link" asp-action="Create">
         Create New
     </a>
 </div>
-
+@if (TempData["Error"] != null)
+{
+    <div class="alert-danger alert" id="ErrorView">
+        @TempData["Error"]
+    </div>
+}
 <div class="container">
     <table class="table w-100">
         <thead>
@@ -18,6 +24,7 @@
                 <th>Domain Name</th>
                 <th>Domain Url</th>
                 <th>Enabled</th>
+                <th>EndDate</th>
                 <th></th>
             </tr>
         </thead>
@@ -38,23 +45,65 @@
                         }
                     </td>
                     <td>
+                        @i.EndDate.ToString("d")
+                    </td>
+                    <td>
                         <button class="btn btn-danger" onclick="Delete(@i.Id)">Delete</button>
                         <a class="btn btn-primary" asp-action="Index" asp-controller="About" asp-route-domainid="@i.Id" asp-route-domainname="@i.Name">Manage About Contant</a>
+                        <button class="btn btn-danger" onclick="ChangeEndDate(@i.Id,'@(i.Name)')">Change Licence Date</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<div class="modal fade" id="ChangeEndDate" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Change Licence Date For <span id="SaveEndDate_Name"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <form asp-action="SaveEndDate" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="SaveDateDoman_ID" />
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <input type="date" class="form-control" name="date" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section scripts{
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/datatables/js/jquery.datatables.js"></script>
     <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.all.min.js"></script>
+    @if (TempData["Error"] != null)
+    {
+        <script>
+            setTimeout(() => {
+                $("#ErrorView").slideUp()
+            }, 400)
+        </script>
+    }
     <script>
         $('table').DataTable()
     </script>
     <script>
+        function ChangeEndDate(id, name) {
+            $("#SaveEndDate_Name").text(name)
+            $("#SaveDateDoman_ID").val(id)
+            $("#ChangeEndDate").modal('show')
+        }
         function Delete(id) {
             Swal.fire({
                 title: 'Are you sure?',

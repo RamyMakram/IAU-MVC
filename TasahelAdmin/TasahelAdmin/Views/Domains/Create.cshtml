@@ -2,7 +2,7 @@
 @model TasahelAdmin.Models.VM.DomainCreateVM
 
 @{
-    ViewData["Title"] = "Edit Domain";
+    ViewData["Title"] = "Add Domain";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -185,6 +185,7 @@
                         <input asp-for="DomainEmail.Sender" class="form-control" required />
                         <span asp-validation-for="DomainEmail.Sender" class="text-danger"></span>
                     </div>
+                    <button class="btn btn-outline-dark" type="button" onclick="OpenModal()">Test Phone?</button>
                     <div class="form-group form-check">
                         <label class="form-check-label">
                             <input class="form-check-input" asp-for="DomainEmail.UseMessages" required /> @Html.DisplayNameFor(model => model.DomainEmail.UseMessages)
@@ -192,29 +193,6 @@
                     </div>
                 </div>
             </fieldset>
-            @*            <fieldset>
-            <legend>Main Page</legend>
-            <div class="Repeater">
-            <input data-repeater-create type="button" value="Add New Object" class="btn btn-primary" />
-            <div data-repeater-list="About">
-            <div data-repeater-item>
-            <div class="form-group">
-            <label class="control-label">Title Ar</label>
-            <input name="TitleAr" class="form-control" />
-            </div>
-            <div class="form-group">
-            <label class="control-label">Title En</label>
-            <input name="TitleEn" class="form-control" />
-            </div>
-
-
-
-            <input data-repeater-delete type="button" class="btn btn-danger" value="Delete" />
-            </div>
-            </div>
-
-            </div>
-            </fieldset>*@
             <fieldset>
                 <legend>Sub Domains</legend>
                 <div class="container">
@@ -253,15 +231,61 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-
+<div class="modal fade" id="TestPhone" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Test SMS Configration</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Mobile Phone</label>
+                    <input type="text" class="form-control" id="TestPhone_Mobile" />
+                </div>
+            </div>
+            <div class="modal-footer d-flex flex-column">
+                <div class="alert alert-info" id="MessageFeedback" style="display:none">
+                </div>
+                <button class="btn btn-primary" type="submit" onclick="SaveData()" data-bs-target="#exampleModalToggle2">Test</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script src="~/wwwroot/lib/ckeditor5/ckeditor.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.datatables.js"></script>
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/wwwroot/lib/jquery.repeater/jquery.repeater.js"></script>
     <script>
+        function OpenModal() {
+            $("#TestPhone").modal('show')
+        }
+        function SaveData() {
+            $('[onclick="SaveData()"]').text("...")
+            $.ajax({
+                url: "/Domains/CheckMesaage",
+                method: "POST",
+                data: {
+                    MessageAppSid: $('[name="DomainEmail.MessageAppSid"]').val(),
+                    Sender: $('[name="DomainEmail.MessageAppSid"]').val(),
+                    Mobile: $('#TestPhone_Mobile').val(),
+                },
+                success: function (data) {
+                    console.log(data)
+                    $('#MessageFeedback').text(data)
+                    $('#MessageFeedback').slideDown()
+                    $('[onclick="SaveData()"]').text("Test")
+
+                }
+            })
+        }
 
     </script>
 
