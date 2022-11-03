@@ -208,38 +208,39 @@ namespace MustafidApp.Controllers.v1
 
             if (Unit == null)
                 return Ok(new ResponseClass { Success = false, data = "NotValidUnit" });
+            if (req)
+            {
+                var mainServices = await _appContext.UnitMainServices.Where(q =>
+                    q.Unit.IsAction.Value &&
+                    !q.MainService.Deleted &&
+                    q.MainService.IsAction.Value &&
+                    q.MainService.ServiceTypeId == S_ID &&
+                    q.UnitId == U_ID &&
+                    !q.Unit.Deleted &&
+                    q.MainService.ValidTos.Any(w =>
+                        w.ApplicantTypeId == APP_ID &&
+                        !w.Deleted
+                    ) &&
+                    q.MainService.SubServices.Count(r =>
+                        r.IsAction.Value &&
+                        !r.Deleted
+                    ) != 0
+                ).Select(q => q.MainService).FirstOrDefaultAsync(q => q.MainServicesId == M_ID);
 
-            var mainServices = await _appContext.UnitMainServices.Where(q =>
-                q.Unit.IsAction.Value &&
-                !q.MainService.Deleted &&
-                q.MainService.IsAction.Value &&
-                q.MainService.ServiceTypeId == S_ID &&
-                q.UnitId == U_ID &&
-                !q.Unit.Deleted &&
-                q.MainService.ValidTos.Any(w =>
-                    w.ApplicantTypeId == APP_ID &&
-                    !w.Deleted
-                ) &&
-                q.MainService.SubServices.Count(r =>
-                    r.IsAction.Value &&
-                    !r.Deleted
-                ) != 0
-            ).Select(q => q.MainService).FirstOrDefaultAsync(q => q.MainServicesId == M_ID);
+                if (mainServices == null)
+                    return Ok(new ResponseClass { Success = false, data = "NotValidMainService" });
 
-            if (Unit == null)
-                return Ok(new ResponseClass { Success = false, data = "NotValidMainService" });
+                var subServices = await _appContext.SubServices.FirstOrDefaultAsync(q =>
+                    q.SubServicesId == SS_ID &&
+                    !q.Deleted &&
+                    q.IsAction.Value &&
+                    q.MainServicesId == M_ID &&
+                    !q.MainServices.Deleted
+                );
 
-            var subServices = await _appContext.SubServices.FirstOrDefaultAsync(q =>
-                q.SubServicesId == SS_ID &&
-                !q.Deleted &&
-                q.IsAction.Value &&
-                q.MainServicesId == M_ID &&
-                !q.MainServices.Deleted
-            );
-
-            if (subServices == null)
-                return Ok(new ResponseClass { Success = false, data = "NotValidSubService" });
-
+                if (subServices == null)
+                    return Ok(new ResponseClass { Success = false, data = "NotValidSubService" });
+            }
 
             return Ok(new ResponseClass { Success = true });
         }

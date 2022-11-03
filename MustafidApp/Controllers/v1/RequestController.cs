@@ -261,7 +261,7 @@ namespace MustafidApp.Controllers.v1
                             success = false
                         });
                     }
-
+                    request_Data.SubServicesId = request_Data.SubServicesId == 0 ? null : request_Data.SubServicesId;
                     if (request_Data.SubServicesId != null)
                     {
                         var ss_id = _appContext.SubServices.Find(request_Data.SubServicesId);
