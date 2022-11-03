@@ -43,8 +43,11 @@ namespace Web.Controllers
                 ViewBag.CookieLang = lang;
                 return View(JsonConvert.DeserializeObject<_HomeDTO>(response.result.ToString()));
             }
-
-            return RedirectToAction("Error");
+            else
+            {
+            }
+            return Json(resJson, JsonRequestBehavior.AllowGet);
+            //return RedirectToAction("Error");
         }
         public ActionResult Test()
         {
