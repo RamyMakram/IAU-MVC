@@ -35,12 +35,14 @@ namespace MustafidApp.Controllers.v1
         private MustafidAppContext _appContext;
         private IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IHostingEnvironment environment;
 
-        public RequestController(MustafidAppContext appContext, IMapper mapper, IConfiguration configuration)
+        public RequestController(MustafidAppContext appContext, IMapper mapper, IConfiguration configuration, IHostingEnvironment _environment)
         {
             _appContext = appContext;
             _mapper = mapper;
             _configuration = configuration;
+            environment = _environment;
         }
 
 
@@ -179,8 +181,7 @@ namespace MustafidApp.Controllers.v1
         ///              1,
         ///              2,
         ///              3
-        ///          ],
-        ///         "Req_ApplicantData": {
+        ///          ] as Json string,
         ///          "PD_Address_C_ID": الدولة,
         ///          "PD_APP_ID": Applicant Type ID,
         ///          "PD_C_ID": مكان الاقامة,
@@ -198,12 +199,15 @@ namespace MustafidApp.Controllers.v1
         ///          "PD_Address_City": string : المنطقة,
         ///          "PD_Adress_Region": string : المدينة,
         ///          "PD_Postal": ,
+        ///         "Req_ApplicantData": {
+        ///          
         ///          
         ///      }
         ///     }
         ///dd
         /// </remarks>
         /// <returns></returns>
+        //[AllowAnonymous]
         [HttpPost]
         [RequestSizeLimit(100_000_000_000)]
         public async Task<IActionResult> SaveRequest([FromForm] int code, [FromForm] string C_Code, [FromForm] RequestDTO request, CancellationToken cancellationToken)
@@ -215,16 +219,29 @@ namespace MustafidApp.Controllers.v1
                 if (CypherCode == C_Code)
                 {
                     var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
+                    var logreq = new ReqLogObject { Date = DateTime.Now };
 
                     var trans = _appContext.Database.BeginTransaction();
 
-                    request.Req_ApplicantData.PD_Phone = Mobile_Phone;
+                    request.PD_Phone = Mobile_Phone;
 
-                    if (request.Req_ApplicantData.PD_JSON_EFormAnswer != null && request.Req_ApplicantData.PD_JSON_EFormAnswer.Length != 0)
-                        request.Req_ApplicantData.PD_EFormAnswer = JsonConvert.DeserializeObject<List<EformAnsDTO>>(request.Req_ApplicantData.PD_JSON_EFormAnswer);
+                    logreq.Dto = request;
+                    //if (request.Req_ApplicantData.PD_JSON_EFormAnswer != null && request.Req_ApplicantData.PD_JSON_EFormAnswer.Length != 0)
+                    //    request.Req_ApplicantData.PD_EFormAnswer = JsonConvert.DeserializeObject<List<EformAnsDTO>>(request.Req_ApplicantData.PD_JSON_EFormAnswer);
 
 
                     var request_Data = _mapper.Map<RequestDatum>(request);
+                    logreq.Real = request_Data;
+                    var path = Path.Combine(environment.ContentRootPath, "Log", "Log.json");
+
+                    if (!System.IO.File.Exists(path))
+                        System.IO.File.Create(path);
+
+                    System.IO.File.AppendAllText(path, JsonConvert.SerializeObject(logreq, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+
+                    request_Data.PersonelData.ApplicantTypeId = request.PD_APP_ID;
+
+
                     var model = request_Data.PersonelData;
                     var personel_Data = _appContext.PersonelData.FirstOrDefault(q => (q.IdDocument == model.IdDocument && q.IdNumber == model.IdNumber) || q.Mobile == model.Mobile);
                     if (personel_Data == null)
@@ -315,13 +332,16 @@ namespace MustafidApp.Controllers.v1
                     _appContext.RequestData.Add(request_Data);
                     await _appContext.SaveChangesAsync();
 
-                    foreach (var EFORM in request.EformID)
+                    if (string.IsNullOrEmpty(request.EformID.Trim()))
                     {
-                        var ef = await _appContext.PersonEforms.FindAsync(EFORM);
-                        ef.PersonId = model.PersonelDataId;
-                        ef.RequestId = request_Data.RequestDataId;
+                        var EformnsID = JsonConvert.DeserializeObject<List<int>>(request.EformID);
+                        foreach (var EFORM in EformnsID)
+                        {
+                            var ef = await _appContext.PersonEforms.FindAsync(EFORM);
+                            ef.PersonId = model.PersonelDataId;
+                            ef.RequestId = request_Data.RequestDataId;
+                        }
                     }
-
                     await _appContext.SaveChangesAsync();
 
 

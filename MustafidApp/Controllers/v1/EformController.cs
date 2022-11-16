@@ -196,7 +196,7 @@ namespace MustafidApp.Controllers.v1
                 .FirstOrDefaultAsync(q => q.Id == EF_ID);
 
             if (data == null)
-                return Ok(new ResponseClass() { Success = false, data = "NO Data" });
+                return Ok(new ResponseClass() { Success = false, data = new List<string>() });
 
             var mapper_data = _mapper.Map<List<GetEformAnsDTO>>(data.EFormsAnswers.OrderBy(q => q.IndexOrder));
 
