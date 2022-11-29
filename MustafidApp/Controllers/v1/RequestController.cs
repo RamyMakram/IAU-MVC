@@ -47,19 +47,57 @@ namespace MustafidApp.Controllers.v1
 
 
         /// <summary>
-        /// Return All User Reuqets's code
+        /// Return All User Ended Reuqets
         /// </summary>
         /// <param name="P_Index">Page Index</param>
         /// <param name="P_Size">Page Size</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllRequests(int P_Size, int P_Index)
+        public async Task<IActionResult> GetEndedRequests(int P_Size, int P_Index)
         {
             var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
             var data = await _appContext.RequestData
                 .Include(q => q.PersonelData)
                 .Include(q => q.RequestState)
-                .Include(q => q.RequestTransactions).ThenInclude(q => q.ToUnit).Where(q => q.PersonelData.Mobile == Mobile_Phone).OrderByDescending(q => q.CreatedDate).Skip(P_Index * P_Size).Take(P_Size).ToListAsync();
+                .Include(q => q.Unit)
+                .Include(q => q.RequestTransactions).ThenInclude(q => q.ToUnit)
+                .Where(q => q.PersonelData.Mobile == Mobile_Phone && q.IsArchived).OrderByDescending(q => q.CreatedDate).Skip(P_Index * P_Size).Take(P_Size).ToListAsync();
+
+            //if (data == null)
+            //    return Ok(new ResponseClass() { Success = false, data = "NullData" });
+            //if (data.PersonelData.Mobile != Mobile_Phone)
+            //    return Ok(new ResponseClass() { Success = false, data = "NotAllowed" });
+
+            var data_DTO = _mapper.Map<List<RequestDTO>>(data);
+            int count = 0;
+            foreach (var i in data_DTO)
+            {
+                var LastTrans = data[count].RequestTransactions.LastOrDefault();
+
+                i.Req_Current_DateEnd = LastTrans?.ExpireDays;
+                i.Req_Current_DateStart = LastTrans?.ForwardDate;
+                i.Req_Current_Unit = _mapper.Map<UnitsDTO>(LastTrans?.ToUnit);
+                count++;
+            }
+
+            return Ok(new ResponseClass() { Success = true, data = data_DTO });
+        }
+        /// <summary>
+        /// Return All User Active Requets
+        /// </summary>
+        /// <param name="P_Index">Page Index</param>
+        /// <param name="P_Size">Page Size</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetActiveRequests(int P_Size, int P_Index)
+        {
+            var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
+            var data = await _appContext.RequestData
+                .Include(q => q.PersonelData)
+                .Include(q => q.RequestState)
+                .Include(q => q.Unit)
+                .Include(q => q.RequestTransactions).ThenInclude(q => q.ToUnit)
+                .Where(q => q.PersonelData.Mobile == Mobile_Phone && !q.IsArchived).OrderByDescending(q => q.CreatedDate).Skip(P_Index * P_Size).Take(P_Size).ToListAsync();
 
             //if (data == null)
             //    return Ok(new ResponseClass() { Success = false, data = "NullData" });
@@ -167,6 +205,7 @@ namespace MustafidApp.Controllers.v1
         /// <param name="code">Code That User Enter IT</param>
         /// <param name="C_Code">Return Of Api</param>
         /// <param name="request">Req Object As FormData</param>
+        /// <param name="cancellationToken"></param>
         /// 
         /// 
         /// <remarks>
@@ -210,7 +249,7 @@ namespace MustafidApp.Controllers.v1
         //[AllowAnonymous]
         [HttpPost]
         [RequestSizeLimit(100_000_000_000)]
-        public async Task<IActionResult> SaveRequest([FromForm] int code, [FromForm] string C_Code, [FromForm] RequestDTO request, CancellationToken cancellationToken)
+        public async Task<IActionResult> SaveRequest([FromForm] int code, [FromForm] string C_Code, [FromForm] RequestDTO request, [FromForm(Name = "Req_Files[]")] IFormFileCollection Req_Files, [FromForm(Name = "Req_RequiredDocs[]")] IFormFileCollection Req_RequiredDocs, CancellationToken cancellationToken)
         {
             try
             {
@@ -237,7 +276,14 @@ namespace MustafidApp.Controllers.v1
                     if (!System.IO.File.Exists(path))
                         System.IO.File.Create(path);
 
-                    System.IO.File.AppendAllText(path, JsonConvert.SerializeObject(logreq, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                    using (StreamWriter ws = new StreamWriter(new FileStream(path, FileMode.Append, FileAccess.Write)))
+                    {
+                        await ws.WriteLineAsync(JsonConvert.SerializeObject(logreq, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                        ws.Close();
+                    }
+                    //using(StreamWriter ws=new StreamWriter(new FileStream(path,FileAccess.Write)))
+
+                    //System.IO.File.AppendAllText(path, JsonConvert.SerializeObject(logreq, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 
                     request_Data.PersonelData.ApplicantTypeId = request.PD_APP_ID;
 
@@ -332,7 +378,7 @@ namespace MustafidApp.Controllers.v1
                     _appContext.RequestData.Add(request_Data);
                     await _appContext.SaveChangesAsync();
 
-                    if (string.IsNullOrEmpty(request.EformID.Trim()))
+                    if (request.EformID != null && string.IsNullOrEmpty(request.EformID.Trim()))
                     {
                         var EformnsID = JsonConvert.DeserializeObject<List<int>>(request.EformID);
                         foreach (var EFORM in EformnsID)
@@ -348,19 +394,35 @@ namespace MustafidApp.Controllers.v1
 
 
                     HttpClientHandler handler = new HttpClientHandler();
-                    using (var client = new HttpClient(handler, false))
-                    {
-                        client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
-
-                        using (var content = new MultipartFormDataContent())
+                    if ((Req_RequiredDocs != null && Req_RequiredDocs.Count != 0) || (Req_Files != null && Req_Files.Count != 0))
+                        using (var client = new HttpClient(handler, false))
                         {
-                            //int length = Request.Form.Files.Count;
-                            if (request.Req_RequiredDocs != null)
-                                foreach (var i in request.Req_RequiredDocs)
-                                {
-                                    var file = i;
-                                    if (i.FileName.Contains("-"))
+                            client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
+
+                            using (var content = new MultipartFormDataContent())
+                            {
+                                //int length = Request.Form.Files.Count;
+                                if (Req_RequiredDocs != null && Req_RequiredDocs.Count != 0)
+                                    foreach (var i in Req_RequiredDocs)
                                     {
+                                        var file = i;
+                                        if (i.FileName.Contains("|"))
+                                        {
+                                            byte[] Bytes;
+                                            using (var ms = new MemoryStream())
+                                            {
+                                                file.CopyTo(ms);
+                                                Bytes = ms.ToArray();
+                                            }
+                                            var fileContent = new ByteArrayContent(Bytes);
+                                            fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName.Replace("-", "|") };
+                                            content.Add(fileContent);
+                                        }
+                                    }
+                                if (Req_Files != null && Req_Files.Count != 0)
+                                    foreach (var i in Req_Files)
+                                    {
+                                        var file = i;
                                         byte[] Bytes;
                                         using (var ms = new MemoryStream())
                                         {
@@ -368,68 +430,61 @@ namespace MustafidApp.Controllers.v1
                                             Bytes = ms.ToArray();
                                         }
                                         var fileContent = new ByteArrayContent(Bytes);
-                                        fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName.Replace("-", "|") };
+                                        fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
                                         content.Add(fileContent);
                                     }
-                                }
-                            if (request.Req_Files != null)
-                                foreach (var i in request.Req_Files)
+
+                                //Order Columns Answares
+
+                                //foreach (var i in request.Req_ApplicantData.PD_EFormAnswer.Where(q => q.EFAns_TableCol != null))
+                                //{
+                                //    i.EFAns_TableCol = i.EFAns_TableCol.OrderBy(q => q.TC_ID).ToList();
+                                //}
+
+
+                                var requestUri = _configuration["AdminPanel_BE_URL"] + $"api/Request/SaveApplicantDataMobilePhones?ReqID={request_Data.RequestDataId}&SubService={request_Data.SubServicesId}";
+                                var result = await client.PostAsync(requestUri, content);
+                                if (result.StatusCode == System.Net.HttpStatusCode.OK)
                                 {
-                                    var file = i;
-                                    byte[] Bytes;
-                                    using (var ms = new MemoryStream())
+                                    var d = await result.Content.ReadAsStringAsync();
+                                    var lst = JsonConvert.DeserializeObject<ResponseClassServer>(d);
+                                    if (lst.success)
                                     {
-                                        file.CopyTo(ms);
-                                        Bytes = ms.ToArray();
+                                        //Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
+                                        var data = JsonConvert.DeserializeObject<List<RequestFile>>(JsonConvert.SerializeObject(lst.result));
+
+                                        _appContext.RequestFiles.AddRange(data);
+                                        await _appContext.SaveChangesAsync();
+
+                                        trans.Commit();
+
+                                        NotifyUsers(request_Data.RequestDataId);
+
+                                        return Ok(new ResponseClass() { Success = true, data = "" });
                                     }
-                                    var fileContent = new ByteArrayContent(Bytes);
-                                    fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment") { FileName = file.FileName };
-                                    content.Add(fileContent);
-                                }
-
-                            //Order Columns Answares
-
-                            //foreach (var i in request.Req_ApplicantData.PD_EFormAnswer.Where(q => q.EFAns_TableCol != null))
-                            //{
-                            //    i.EFAns_TableCol = i.EFAns_TableCol.OrderBy(q => q.TC_ID).ToList();
-                            //}
-
-
-                            var requestUri = _configuration["AdminPanel_BE_URL"] + $"api/Request/SaveApplicantDataMobilePhones?ReqID={request_Data.RequestDataId}&SubService={request_Data.SubServicesId}";
-                            var result = await client.PostAsync(requestUri, content);
-                            if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                            {
-                                var d = result.Content.ReadAsStringAsync();
-                                var lst = JsonConvert.DeserializeObject<ResponseClassServer>(d.Result);
-                                if (lst.success)
-                                {
-                                    //Response.Cookies.Set(new HttpCookie("u") { Expires = DateTime.Now.AddYears(-30), Value = "" });
-                                    var data = JsonConvert.DeserializeObject<List<RequestFile>>(JsonConvert.SerializeObject(lst.result));
-
-                                    _appContext.RequestFiles.AddRange(data);
-                                    await _appContext.SaveChangesAsync();
-
-                                    trans.Commit();
-
-                                    requestUri = _configuration["AdminPanel_BE_URL"] + "api/Request/NotifyRequest?ReqID=" + request_Data.RequestDataId;
-                                    result = await client.PostAsync(requestUri, content);
-
-                                    return Ok(new ResponseClass() { Success = true, data = "" });
+                                    else
+                                    {
+                                        trans.Rollback();
+                                        return Ok(new ResponseClass() { Success = false, data = JsonConvert.SerializeObject(lst.result, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
+                                    }
                                 }
                                 else
                                 {
                                     trans.Rollback();
-                                    return Ok(new ResponseClass() { Success = false, data = JsonConvert.SerializeObject(lst.result, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
+                                    return Ok(new ResponseClass() { Success = false, data = "Backend+" + JsonConvert.SerializeObject(result, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
                                 }
                             }
-                            else
-                            {
-                                trans.Rollback();
-                                return Ok(new ResponseClass() { Success = false, data = "Backend+" + JsonConvert.SerializeObject(result, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
-                            }
-                        }
 
-                        //return Ok(new ResponseClass() { Success = true, data = "Ok" });
+                            //return Ok(new ResponseClass() { Success = true, data = "Ok" });
+                        }
+                    else
+                    {
+                        await _appContext.SaveChangesAsync();
+
+                        trans.Commit();
+                        NotifyUsers(request_Data.RequestDataId);
+
+                        return Ok(new ResponseClass() { Success = true, data = "" });
                     }
                 }
                 else
@@ -442,6 +497,20 @@ namespace MustafidApp.Controllers.v1
                 return Ok(new ResponseClass() { Success = false, data = JsonConvert.SerializeObject(ee, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }) });
             }
 
+        }
+
+        [NonAction]
+        private async void NotifyUsers(int ReqID)
+        {
+            var requestUri = _configuration["AdminPanel_BE_URL"] + "api/Request/NotifyRequest?ReqID=" + ReqID;
+            HttpClientHandler handler = new HttpClientHandler();
+
+            using (var client = new HttpClient(handler, false))
+            {
+                client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");
+
+                await client.PostAsync(requestUri, null);
+            }
         }
 
     }

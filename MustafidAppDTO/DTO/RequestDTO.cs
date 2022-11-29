@@ -21,7 +21,9 @@ namespace MustafidAppDTO.DTO
         public string Req_Code { get; set; }
         public DateTime? Req_Current_DateEnd { get; set; }
         public DateTime? Req_Current_DateStart { get; set; }
+        public DateTime? Req_Added_Date { get; set; }
         public UnitsDTO Req_Current_Unit { get; set; }
+        public UnitsDTO Req_Subject { get; set; }
 
         #region ApplicantData
         public string PD_IAUNumber { get; set; }
@@ -62,8 +64,8 @@ namespace MustafidAppDTO.DTO
         public string PD_Phone { get; set; }
         #endregion
         public PersonalDataDTO Req_ApplicantData { get; set; }
-        public IList<IFormFile> Req_RequiredDocs { get; set; }
-        public IList<IFormFile> Req_Files { get; set; }
+        //public IList<IFormFile> Req_RequiredDocs { get; set; }
+        //public IList<IFormFile> Req_Files { get; set; }
         public string EformID { get; set; }
     }
 }

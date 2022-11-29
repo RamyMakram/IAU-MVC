@@ -11,5 +11,6 @@ namespace MustafidAppDTO.DTO
         public string Noti_TXT { get; set; }
         public string Noti_TXT_EN { get; set; }
         public DateTime Noti_Date { get; set; }
+        public bool Noti_Readed { get; set; }
     }
 }

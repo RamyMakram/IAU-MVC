@@ -399,7 +399,7 @@ namespace IAUBackEnd.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> SaveApplicantDataMobilePhones(int ReqID, int SubService)
+        public async Task<IHttpActionResult> SaveApplicantDataMobilePhones(int ReqID, int? SubService)
         {
             var Req_Files = new List<object>();
             try
@@ -415,14 +415,14 @@ namespace IAUBackEnd.Admin.Controllers
                 Directory.CreateDirectory(Path.Combine(path, requestpath));
                 if (true)
                 {
-
+                    List<string> namesofFiles = new List<string>();
                     var count = 0;
                     if (db.Request_Type.Any(q => q.Request_Type_ID == ReqID && q.IsRequestType))
                     {
                         var RequiredFiles = db.Required_Documents.Where(q => q.SubServiceID == SubService && !q.Deleted).ToList();
                         foreach (var i in RequiredFiles)
                         {
-                            var file = provider.Contents.FirstOrDefault(q => q.Headers.ContentDisposition.FileName != null && q.Headers.ContentDisposition.FileName.StartsWith("" + i.ID));
+                            var file = provider.Contents.FirstOrDefault(q => q.Headers.ContentDisposition.FileName != null && q.Headers.ContentDisposition.FileName.StartsWith("" + i.ID + "|"));
                             if (file == null)
                             {
                                 return Ok(new
@@ -432,6 +432,8 @@ namespace IAUBackEnd.Admin.Controllers
                                 });
                             }
                             var ReqFile = file.Headers.ContentDisposition.FileName.Split('|');
+                            
+                            namesofFiles.Add(file.Headers.ContentDisposition.FileName);
 
                             var ReqFileID = int.Parse(ReqFile[0]);
 
@@ -454,6 +456,9 @@ namespace IAUBackEnd.Admin.Controllers
                     for (; count < length; count++)
                     {
                         var file = provider.Contents[count];
+                        if (namesofFiles.Contains(file.Headers.ContentDisposition.FileName))
+                            continue;
+
                         var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
                         var Strambuffer = await file.ReadAsByteArrayAsync();
                         var filepath = Path.Combine(requestpath, filename);

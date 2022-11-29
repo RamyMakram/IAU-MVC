@@ -42,5 +42,32 @@ namespace MustafidApp.Controllers.v1
 
             return Ok(new ResponseClass() { Success = true, data = data });
         }
+        /// <summary>
+        /// Mark All As Readed
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> ReadAll()
+        {
+            var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
+            _appContext.Database.ExecuteSqlRaw(@$"Update PhoneNumberNotification set Readed=1 where PhoneNumber='{Mobile_Phone}'");
+            //var data = await _appContext.PhoneNumberNotifications.Where(q => q.PhoneNumber == Mobile_Phone && !q.Readed).ToListAsync();
+
+            //var data_DTO = _mapper.Map<List<NotificationsDTO>>(data);
+
+            return Ok(new ResponseClass() { Success = true/*, data = data */});
+        }
+        /// <summary>
+        /// Returns Count Notification OF User
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetNotifcationsCount()
+        {
+            var Mobile_Phone = User.FindFirst(q => q.Type == ClaimTypes.MobilePhone).Value;
+            var data = await _appContext.PhoneNumberNotifications.CountAsync(q => q.PhoneNumber == Mobile_Phone && !q.Readed);
+
+            return Ok(new ResponseClass() { Success = true, data = data });
+        }
     }
 }
