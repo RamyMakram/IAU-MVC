@@ -140,5 +140,18 @@ namespace MustafidApp.Controllers.v1
             }
             return Ok(new ResponseClass() { Success = true });
         }
+        /// <summary>
+        /// Get Current User Data
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> GetMyProfile()
+        {
+            var Phone = User.Claims.First(x => x.Type == ClaimTypes.MobilePhone).Value;
+            var personel_Data = _appContext.PersonelData.FirstOrDefault(q => q.Mobile == Phone);
+            return Ok(new ResponseClass() { Success = true, data = personel_Data });
+        }
+
     }
 }

@@ -19,6 +19,13 @@ namespace MustafidAppDTO.DTO
         public bool? Req_Is_Mos { get; set; }//Is Tawasel
         public int? Req_Status { get; set; }
         public string Req_Code { get; set; }
+        public string Req_Code_Nammed
+        {
+            get
+            {
+                return Req_Code ?? "لم يتم التخصيص";
+            }
+        }
         public DateTime? Req_Current_DateEnd { get; set; }
         public DateTime? Req_Current_DateStart { get; set; }
         public DateTime? Req_Added_Date { get; set; }
