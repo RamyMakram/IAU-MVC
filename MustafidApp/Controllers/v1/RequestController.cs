@@ -289,7 +289,7 @@ namespace MustafidApp.Controllers.v1
 
 
                     var model = request_Data.PersonelData;
-                    var personel_Data = _appContext.PersonelData.FirstOrDefault(q => (q.IdDocument == model.IdDocument && q.IdNumber == model.IdNumber) || q.Mobile == model.Mobile);
+                    var personel_Data = _appContext.PersonelData.FirstOrDefault(q => q.Mobile == model.Mobile);
                     if (personel_Data == null)
                     {
                         _appContext.PersonelData.Add(model);
@@ -297,7 +297,32 @@ namespace MustafidApp.Controllers.v1
                         request_Data.PersonelDataId = model.PersonelDataId;
                     }
                     else
+                    {
                         request_Data.PersonelDataId = personel_Data.PersonelDataId;
+
+                        personel_Data.AddressCity = model.AddressCity;
+                        personel_Data.AddressCityId = model.AddressCityId;
+                        personel_Data.AdressRegion = model.AdressRegion;
+                        personel_Data.AdressRegionId = model.AdressRegionId;
+
+                        personel_Data.AddressCountryId = model.AddressCountryId;
+                        
+                        personel_Data.CountryId = model.CountryId;
+
+                        personel_Data.IdNumber = model.IdNumber;
+                        personel_Data.ApplicantTypeId = model.ApplicantTypeId;
+                        personel_Data.Email = model.Email;
+
+                        personel_Data.FirstName = model.FirstName;
+                        personel_Data.MiddleName = model.MiddleName;
+                        personel_Data.LastName = model.LastName;
+
+                        personel_Data.NationalityId = model.NationalityId;
+
+                        personel_Data.PostalCode = model.PostalCode;
+
+                        personel_Data.TitleMiddleNamesId = model.TitleMiddleNamesId;
+                    }
 
 
 
@@ -394,7 +419,7 @@ namespace MustafidApp.Controllers.v1
 
 
                     HttpClientHandler handler = new HttpClientHandler();
-                    if ((Req_RequiredDocs != null && Req_RequiredDocs.Count != 0) || (Req_Files != null && Req_Files.Count != 0))
+                    if (/*(Req_RequiredDocs != null && Req_RequiredDocs.Count != 0) || (Req_Files != null && Req_Files.Count != 0)*/ false)
                         using (var client = new HttpClient(handler, false))
                         {
                             client.DefaultRequestHeaders.Add("crd", "dkvkk45523g2ejieiisncbgey@jn#Wuhuhe6&&*bhjbde4w7ee7@k309m$.f,dkks");

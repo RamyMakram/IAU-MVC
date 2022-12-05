@@ -12,7 +12,6 @@ namespace MustafidAppModels.Context
         public MustafidAppContext()
         {
         }
-
         public MustafidAppContext(DbContextOptions<MustafidAppContext> options)
             : base(options)
         {
@@ -66,6 +65,7 @@ namespace MustafidAppModels.Context
         public virtual DbSet<UnitsType> UnitsTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserFcmtoken> UserFcmtokens { get; set; }
+        public virtual DbSet<UserToken> UserTokens { get; set; }
         public virtual DbSet<ValidTo> ValidTos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -1603,6 +1603,25 @@ namespace MustafidAppModels.Context
                     .IsRequired()
                     .HasMaxLength(1)
                     .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<UserToken>(entity =>
+            {
+                entity.ToTable("UserToken");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.AddedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.RefToken)
+                    .IsRequired()
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.Token).IsRequired();
             });
 
             modelBuilder.Entity<ValidTo>(entity =>

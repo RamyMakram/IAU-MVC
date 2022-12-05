@@ -27,6 +27,9 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using AutoMapper;
 using MustafidApp.Mapper;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MustafidApp.Controllers.v1;
 
 namespace MustafidApp
 {
@@ -134,11 +137,68 @@ namespace MustafidApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env, MustafidAppContext db)
         {
             if (env.IsDevelopment())
             {
             }
+
+            #region Validate Logout Tokens
+            app.Use(async (context, next) =>
+                {
+                    var token = context.Request.Headers["Authorization"].ToString();
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        var tokenHandler = new JwtSecurityTokenHandler();
+                        var SecretKey = Configuration.GetValue<string>("JWT:Key");
+                        var key = Encoding.ASCII.GetBytes(SecretKey);
+
+
+                        tokenHandler.ValidateToken(token.Split("Bearer ")[1], new TokenValidationParameters
+                        {
+                            ValidateIssuer = false,
+                            ValidateAudience = false,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = Configuration["JWT:Issuer"],
+                            ValidAudience = Configuration["JWT:Audience"],
+                            IssuerSigningKey = new SymmetricSecurityKey(key)
+                        }, out SecurityToken validatedToken);
+
+                        var jwtToken = (JwtSecurityToken)validatedToken;
+
+                        var refToken = jwtToken.Claims.First(x => x.Type == "RefToken").Value;
+
+                        if (refToken != null)
+                        {
+                            try
+                            {
+                                var options = new DbContextOptionsBuilder<MustafidAppContext>().UseSqlServer(Configuration.GetConnectionString("default")).Options;
+                                // With the options generated above, we can then just construct a new DbContext class
+
+                                using (var _appContext = new MustafidAppContext(options))
+                                {
+                                    // Your code here
+                                    var ifExpired = /*await new AuthController().IfExpired(refToken)*/await _appContext.UserTokens.AnyAsync(q => q.RefToken == refToken && q.Expired);
+                                    if (ifExpired)
+                                    {
+                                        await context.Response.WriteAsJsonAsync(new ResponseClass { Success = false, data = "NoAuthExp" });
+                                        return;
+                                    }
+                                }
+                            }
+                            catch (Exception ee)
+                            {
+
+                                throw;
+                            }
+                        }
+                    }
+
+                    await next.Invoke();
+                });
+            #endregion
+
             app.UseStatusCodePages(async statusCodeContext =>
             {
                 switch (statusCodeContext.HttpContext.Response.StatusCode)

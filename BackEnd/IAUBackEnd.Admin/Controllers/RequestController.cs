@@ -21,6 +21,7 @@ using System.Linq.Dynamic;
 using System.Net.Mail;
 using System.Threading;
 using System.Reflection;
+using static Microsoft.AspNetCore.WebSockets.Internal.Constants;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -406,7 +407,7 @@ namespace IAUBackEnd.Admin.Controllers
             {
                 var provider = new MultipartMemoryStreamProvider();
                 await Request.Content.ReadAsMultipartAsync(provider);
-                var buffer = await provider.Contents.Last().ReadAsStringAsync();
+                //var buffer = await provider.Contents.Last().ReadAsStringAsync();
 
                 var domain = Request.RequestUri.Authority;
 
@@ -432,7 +433,7 @@ namespace IAUBackEnd.Admin.Controllers
                                 });
                             }
                             var ReqFile = file.Headers.ContentDisposition.FileName.Split('|');
-                            
+
                             namesofFiles.Add(file.Headers.ContentDisposition.FileName);
 
                             var ReqFileID = int.Parse(ReqFile[0]);
@@ -456,20 +457,21 @@ namespace IAUBackEnd.Admin.Controllers
                     for (; count < length; count++)
                     {
                         var file = provider.Contents[count];
-                        if (namesofFiles.Contains(file.Headers.ContentDisposition.FileName))
-                            continue;
-
-                        var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
-                        var Strambuffer = await file.ReadAsByteArrayAsync();
-                        var filepath = Path.Combine(requestpath, filename);
-                        File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
-                        Req_Files.Add(new
+                        if (file.Headers.ContentDisposition.FileName != null && !namesofFiles.Contains(file.Headers.ContentDisposition.FileName))
                         {
-                            RequestId = ReqID,
-                            CreatedDate = DateTime.Now,
-                            FileName = filename,
-                            FilePath = filepath.Replace("\\", "/")
-                        });
+
+                            var filename = file.Headers.ContentDisposition.FileName.Trim('\"');
+                            var Strambuffer = await file.ReadAsByteArrayAsync();
+                            var filepath = Path.Combine(requestpath, filename);
+                            File.WriteAllBytes(Path.Combine(path, filepath), Strambuffer);
+                            Req_Files.Add(new
+                            {
+                                RequestId = ReqID,
+                                CreatedDate = DateTime.Now,
+                                FileName = filename,
+                                FilePath = filepath.Replace("\\", "/")
+                            });
+                        }
                     }
 
                 }
@@ -481,9 +483,17 @@ namespace IAUBackEnd.Admin.Controllers
             }
             catch (Exception e)
             {
+                int count = 0;
+                var provider = new MultipartMemoryStreamProvider();
+                await Request.Content.ReadAsMultipartAsync(provider);
+                int length = provider.Contents.Count;
+                List<string> namefiles = new List<string>();
+                for (; count < length; count++)
+                    namefiles.Add(provider.Contents[count].Headers.ContentDisposition.FileName);
+
                 return Ok(new
                 {
-                    result = e,
+                    result = new { Exception = e, filenames = namefiles },
                     success = false
                 });
             }

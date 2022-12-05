@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MustafidApp.Helpers;
@@ -11,13 +12,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MustafidApp.Controllers.v1
 {
-    [AllowAnonymous]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     [ApiController]
@@ -34,11 +35,19 @@ namespace MustafidApp.Controllers.v1
             _configuration = configuration;
             _jWTManager = jWTManager;
         }
+
+        [NonAction]
+        public async Task<bool> IfExpired(string refToken)
+        {
+            return await _appContext.UserTokens.AnyAsync(q => q.RefToken == refToken && q.Expired);
+        }
+
         /// <summary>
         /// Sign In By Code
         /// </summary>
         /// <param name="Phone">Reprenset Entered Phone</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SignIn(string Phone)
         {
@@ -89,6 +98,7 @@ namespace MustafidApp.Controllers.v1
         /// <param name="code">Code That User Entered it</param>
         /// <param name="C_Code">repose of SigIn API</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Complete_SignIn(string Phone, int code, string C_Code)
         {
@@ -102,12 +112,33 @@ namespace MustafidApp.Controllers.v1
 
             if (CypherCode == C_Code)
             {
-                var token = _jWTManager.Authenticate(Phone);
+
+                var token = _jWTManager.Authenticate(Phone, out string RefToken);
+
+                _appContext.UserTokens.Add(new MustafidAppModels.Models.UserToken { AddedDate = DateTime.Now, Token = token, RefToken = RefToken, Expired = false, Phone = Phone });
+                await _appContext.SaveChangesAsync();
 
                 return Ok(new ResponseClass() { Success = true, data = token });
             }
             else
                 return Ok(new ResponseClass() { Success = false, data = "InvalidCode" });
+        }
+        /// <summary>
+        /// Logout Current User
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            var refToken = User.Claims.First(x => x.Type == "RefToken").Value;
+            if (refToken != null)
+            {
+                var ifExpired = await _appContext.UserTokens.FirstOrDefaultAsync(q => q.RefToken == refToken);
+                ifExpired.Expired = true;
+                await _appContext.SaveChangesAsync();
+            }
+            return Ok(new ResponseClass() { Success = true });
         }
     }
 }
