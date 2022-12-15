@@ -1,0 +1,227 @@
+﻿
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var isar = Request.Cookies["lang"]?.Value == "ar";
+}
+<style>
+    .content div {
+        font-size: 21px;
+    }
+
+    .main-page .collapse-container {
+        height: calc(100% / 7);
+        margin: 0 !important;
+        text-align: start !important;
+    }
+
+    .t-justify, p, li, blockquote {
+        text-align: justify !important;
+    }
+
+    .content.smallview {
+        padding: 0 !important
+    }
+
+    li {
+        text-align: start;
+    }
+
+    .main-page .collapse-container > a {
+        height: 100%;
+        margin-bottom: 5px !important;
+    }
+
+    .main-page .collapse-container:first-child {
+        margin-top: 0 !important;
+    }
+
+    .Main-Outer-Navigationlink {
+        width: 100%;
+        height: 100%;
+        padding-bottom: 5px;
+    }
+
+    .collapse-container:last-child .Main-Outer-Navigationlink {
+        padding-bottom: 0px;
+    }
+
+    .Main-Outer-Navigationlink a {
+        width: 100%;
+        height: 100%;
+        background: #462d90;
+        border: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+    }
+
+        .Main-Outer-Navigationlink a .row {
+            width: 100%
+        }
+
+            .Main-Outer-Navigationlink a .row p {
+                margin: 0;
+                text-align: start !important;
+            }
+
+        .Main-Outer-Navigationlink a.active:hover {
+            background-color: #a5cc7d !important;
+        }
+
+        .Main-Outer-Navigationlink a:hover {
+            background-color: #462d90 !important;
+        }
+
+
+    .content > div {
+        margin-top: 25px !important;
+        padding: 20px 12px;
+    }
+    @@media(max-width:750px) {
+        .content {
+            overflow: auto;
+            padding: 0 15px !important;
+        }
+    }
+</style>
+@if (isar)
+{
+    <style>
+        .fas.fa-chevron-right {
+            transform: rotateY(180deg);
+        }
+
+        .main-page .collapse-container > a p {
+            text-align: right;
+            direction: rtl
+        }
+
+        .main-page .collapse-container > a {
+            display: block;
+            direction: ltr;
+            padding: 15px 28px !important;
+            background-color: #462d90;
+            border: none;
+            border-radius: 0;
+            letter-spacing: 2px;
+        }
+
+        h3 {
+            color: #0a1332 !important;
+        }
+
+        .orange-color {
+            color: #c85d32 !important;
+        }
+
+        .href {
+            text-decoration: underline !important;
+            color: inherit;
+        }
+
+        .main-page > .row {
+            display: flex; /* equal height of the children */
+            height: calc(100vh - 215px - 77px) !important;
+        }
+
+        .row .col-md-4, content div {
+            flex: 1;
+        }
+
+        .content {
+            overflow: auto;
+            padding: 0 87px;
+        }
+        
+        .content, .main-page .row .col-md-4 {
+            height: inherit;
+        }
+    </style>
+}
+else
+{
+    <style>
+        .main-page .collapse-container > a {
+            display: block;
+            padding: 15px 28px !important;
+            background-color: #462d90;
+            border: none;
+            border-radius: 0;
+            letter-spacing: 2px;
+        }
+
+        h3 {
+            color: #0a1332 !important;
+        }
+
+        .orange-color {
+            color: #c85d32 !important;
+        }
+
+        .href {
+            text-decoration: underline !important;
+            color: inherit;
+        }
+
+        .main-page > .row {
+            display: flex; /* equal height of the children */
+            height: calc(100vh - 215px - 77px) !important;
+        }
+
+        .row .col-md-4, content div {
+            flex: 1;
+        }
+
+        .content {
+            overflow: auto;
+            padding: 0 87px;
+        }
+
+        .content, .main-page .row .col-md-4 {
+            height: inherit;
+        }
+    </style>
+}
+
+<div class="d-flex justify-content-center align-items-center main-page">
+    <div class="col-md-8 content" style="background-color: #fff;" dir="@(isar?"rtl":"ltr")">
+
+        <div class="col-md-12 display-1" style="margin-top:25px;background-color: rgb(255, 255, 255);padding: 20px 12px;">
+            @if (isar)
+            {
+                <span dir="rtl">
+
+                    يلتزم تساهيل بحماية خصوصية عملائنا. وتطبيق سياسة حماية الخصوصية على كل المعلومات الشخصية التي يتم جمعها من قبلنا أو تقديمها لنا، وأن الحماية في الحالتين دون الاتصال بالإنترنت (offline) أو بالاتصال بالإنترنت (online)، بما في ذلك المعلومات الشخصية التي يتم جمعها أو تقديمها من خلال مواقعنا الإلكترونية وعلى أي مواقع على الهواتف الجوالة والتطبيقات الصغيرة وغيرها من المميزات التفاعلية الخاصة بنا، بما في ذلك صفحاتنا الرسمية على وسائل التواصل الاجتماعي التي نتحكم بها، ومن خلال رسائل HTML التي نرسلها إليكم والمشار إليها مجتمعةً، بما في ذلك الصفحات على وسائل التواصل الاجتماعي والتطبيقات والمواقع الإلكترونية، بـالمواقع. ومن خلال تقديمكم المعلومات الشخصية لنا، توافقون على أحكام وشروط هذه السياسة.
+
+                </span>
+            }
+            else
+            {
+                <span dir="ltr">
+                    Tsaheel is committed to protecting the privacy of our customers. The application of the privacy protection policy to all personal information that is collected by us or provided to us, and that the protection is in both cases offline or online, including personal information that is collected or submitted through our websites and on any Mobile sites, applets and other interactive features of ours, including our official pages on social media that we control, and through HTML messages we send to you collectively, including our social media pages, apps and websites. By submitting personal information to us, you agree to the terms and conditions of this policy.
+                </span>
+            }
+        </div>
+
+        @*<div class="">
+                @if (isar)
+                {
+                    <span>
+                        يلتزم تساهيل بحماية خصوصية عملائنا. وتطبيق سياسة حماية الخصوصية على كل المعلومات الشخصية التي يتم جمعها من قبلنا أو تقديمها لنا، وأن الحماية في الحالتين دون الاتصال بالإنترنت (offline) أو بالاتصال بالإنترنت (online)، بما في ذلك المعلومات الشخصية التي يتم جمعها أو تقديمها من خلال مواقعنا الإلكترونية وعلى أي مواقع على الهواتف الجوالة والتطبيقات الصغيرة وغيرها من المميزات التفاعلية الخاصة بنا، بما في ذلك صفحاتنا الرسمية على وسائل التواصل الاجتماعي التي نتحكم بها، ومن خلال رسائل HTML التي نرسلها إليكم والمشار إليها مجتمعةً، بما في ذلك الصفحات على وسائل التواصل الاجتماعي والتطبيقات والمواقع الإلكترونية، بـالمواقع. ومن خلال تقديمكم المعلومات الشخصية لنا، توافقون على أحكام وشروط هذه السياسة.
+
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        Tsaheel is committed to protecting the privacy of our customers. The application of the privacy protection policy to all personal information that is collected by us or provided to us, and that the protection is in both cases offline or online, including personal information that is collected or submitted through our websites and on any Mobile sites, applets and other interactive features of ours, including our official pages on social media that we control, and through HTML messages we send to you collectively, including our social media pages, apps and websites. By submitting personal information to us, you agree to the terms and conditions of this policy.
+                    </span>
+                }
+            </div>*@
+
+    </div>
+</div>

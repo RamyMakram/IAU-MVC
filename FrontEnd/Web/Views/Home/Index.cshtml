@@ -184,6 +184,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Contactus">المساعدة والدعم الفني</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("terms_conditions")?"active":"")" href="/Terms_Conditions">السياسات والخصوصية</a>
+                        </li>
+
                     }
                     else
                     {
@@ -198,6 +202,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/Contactus">help and support</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("terms_conditions")?"active":"")" href="/Terms_Conditions">Terms And Conditions</a>
                         </li>
 
                     }

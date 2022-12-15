@@ -75,6 +75,9 @@
                         <li class="nav-item">
                             <a class="nav-link @(Request.Url.ToString().ToLower().Contains("contactus")?"active":"")" href="/Contactus">المساعدة والدعم الفني</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("terms_conditions")?"active":"")" href="/Terms_Conditions">السياسات والخصوصية</a>
+                        </li>
                     }
                     else
                     {
@@ -90,6 +93,10 @@
                         <li class="nav-item">
                             <a class="nav-link @(Request.Url.ToString().ToLower().Contains("contactus")?"active":"")" href="/Contactus">help and support</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Request.Url.ToString().ToLower().Contains("terms_conditions")?"active":"")" href="/Terms_Conditions">Terms And Conditions</a>
+                        </li>
+
 
                     }
                     <li id="nav-contact" style="display:none;">

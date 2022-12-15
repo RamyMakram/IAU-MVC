@@ -197,6 +197,7 @@
     <Compile Include="Controllers\FollowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\Terms_ConditionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -370,6 +371,7 @@
     <Content Include="Views\Home\_Eform.cshtml" />
     <Content Include="Views\Home\_EformReadOnly.cshtml" />
     <Content Include="Views\Shared\_MultiTenantDesignPartial.cshtml" />
+    <Content Include="Views\Terms_Conditions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BackEnd\IAU.DTO\IAU.DTO.csproj">
