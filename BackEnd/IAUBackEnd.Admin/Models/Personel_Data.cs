@@ -47,12 +47,12 @@ namespace IAUBackEnd.Admin.Models
         public virtual Country Country { get; set; }
         public virtual Country Country1 { get; set; }
         public virtual Country Country2 { get; set; }
-        public virtual ID_Document ID_Document1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Person_Eform> Person_Eform { get; set; }
         public virtual Region Region { get; set; }
         public virtual Title_Middle_Names Title_Middle_Names { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }
+        public virtual ID_Document ID_Document1 { get; set; }
     }
 }

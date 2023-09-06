@@ -30,6 +30,7 @@ namespace IAUBackEnd.Admin.Models
         public string Image_Path { get; set; }
         public bool Deleted { get; set; }
         public Nullable<System.DateTime> DeletedAt { get; set; }
+        public bool IsRequestType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Request_Data> Request_Data { get; set; }

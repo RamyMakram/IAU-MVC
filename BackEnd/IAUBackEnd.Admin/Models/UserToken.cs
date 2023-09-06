@@ -12,18 +12,13 @@ namespace IAUBackEnd.Admin.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PhoneNumberNotification
+    public partial class UserToken
     {
         public int ID { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Message { get; set; }
-        public string Message_EN { get; set; }
-        public Nullable<int> RequestID { get; set; }
-        public System.DateTime NotiDate { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public bool Readed { get; set; }
-    
-        public virtual Request_Data Request_Data { get; set; }
-        public virtual Users Users { get; set; }
+        public string Token { get; set; }
+        public string RefToken { get; set; }
+        public bool Expired { get; set; }
+        public string Phone { get; set; }
+        public System.DateTime AddedDate { get; set; }
     }
 }

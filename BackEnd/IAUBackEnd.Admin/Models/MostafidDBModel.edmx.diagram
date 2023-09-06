@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="MostafidDBModel.E_Forms" Width="1.5" PointX="10.5" PointY="38" />
         <EntityTypeShape EntityType="MostafidDBModel.E_Forms_Answer" Width="1.5" PointX="18" PointY="38" />
         <EntityTypeShape EntityType="MostafidDBModel.Employee" Width="1.5" PointX="10.5" PointY="50.875" />
-        <EntityTypeShape EntityType="MostafidDBModel.ID_Document" Width="1.5" PointX="5.25" PointY="58.875" />
         <EntityTypeShape EntityType="MostafidDBModel.Input_Type" Width="1.5" PointX="15" PointY="41.625" />
         <EntityTypeShape EntityType="MostafidDBModel.Job" Width="1.5" PointX="6" PointY="26.25" />
         <EntityTypeShape EntityType="MostafidDBModel.Job_Permissions" Width="1.5" PointX="8.25" PointY="13.75" />
@@ -71,7 +70,6 @@
         <AssociationConnector Association="MostafidDBModel.FK_E_Forms_Answer_Question" />
         <AssociationConnector Association="MostafidDBModel.FK_Preview_TableCols_E_Forms_Answer" />
         <AssociationConnector Association="MostafidDBModel.FK_Request_Log_Employee" />
-        <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_ID_Document" />
         <AssociationConnector Association="MostafidDBModel.FK_Input_Type_Question" />
         <AssociationConnector Association="MostafidDBModel.FK_User_Permissions_Job" />
         <AssociationConnector Association="MostafidDBModel.FK_Users_User_Permissions_Type" />
@@ -126,6 +124,23 @@
         <EntityTypeShape EntityType="MostafidDBModel.UserFCMToken" Width="1.5" PointX="2.75" PointY="5.75" />
         <AssociationConnector Association="MostafidDBModel.FK_PhoneNumberNotification_Request_Data" />
         <AssociationConnector Association="MostafidDBModel.FK_PhoneNumberNotification_Users" />
+        <EntityTypeShape EntityType="MostafidDBModel.ID_Document" Width="1.5" PointX="5.75" PointY="6.875" />
+        <EntityTypeShape EntityType="MostafidDBModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.UserToken" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.AggregatedCounter" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.Hash" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.Job1" Width="1.5" PointX="5.75" PointY="2.125" />
+        <EntityTypeShape EntityType="MostafidDBModel.JobParameter" Width="1.5" PointX="8" PointY="4.125" />
+        <EntityTypeShape EntityType="MostafidDBModel.JobQueue" Width="1.5" PointX="7.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.List" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.Schema" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.Server" Width="1.5" PointX="10.75" PointY="2.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.Set" Width="1.5" PointX="4.75" PointY="10.75" />
+        <EntityTypeShape EntityType="MostafidDBModel.State" Width="1.5" PointX="8" PointY="1.125" />
+        <EntityTypeShape EntityType="MostafidDBModel.Counter" Width="1.5" PointX="0.75" PointY="11.75" />
+        <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_ID_Document" />
+        <AssociationConnector Association="MostafidDBModel.FK_HangFire_JobParameter_Job" />
+        <AssociationConnector Association="MostafidDBModel.FK_HangFire_State_Job" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
