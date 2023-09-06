@@ -25,7 +25,12 @@ namespace Web.Controllers
             if (u == null || u == "")
                 Response.Cookies.Add(new HttpCookie("us", null));
             else
+            {
                 Response.Cookies.Add(new HttpCookie("us", u));
+
+                TempData["UserData"] = LoadDataFromMostafid(u, lang);
+                TempData["Authorized"] = true;
+            }
             var res = APIHandeling.getData("/_Home/LoadMain");
             var resJson = res.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
@@ -36,6 +41,14 @@ namespace Web.Controllers
             }
 
             return RedirectToAction("Error");
+        }
+
+        public ActionResult Login()
+        {
+            var lang = Request.Cookies["lang"].Value;
+            ViewBag.CookieLang = lang;
+
+            return View();
         }
         public ActionResult Test()
         {
@@ -300,18 +313,28 @@ namespace Web.Controllers
             return PartialView("~/Views/Home/_EformReadOnly.cshtml", JsonConvert.DeserializeObject<E_FormsDTO>(Jobject["Eform"].ToString()));
         }
 
+
+        private string LoadDataFromMostafid(string UserName, string language)
+        {
+
+            HttpClient h = new HttpClient();
+
+
+            var res = h.GetAsync($"https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName={UserName}&lang={language}");
+            var resJson = res.Result.Content.ReadAsStringAsync();
+
+            return resJson.Result;
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public JsonResult GetRedirectedData(string token, string language)
         {
             if (!HttpContext.Request.IsAjaxRequest())
                 return Json("401", JsonRequestBehavior.AllowGet);
-            HttpClient h = new HttpClient();
 
-
-            var res = h.GetAsync($"https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName={token}&lang={language}");
-            var resJson = res.Result.Content.ReadAsStringAsync();
-            return Json(resJson.Result, JsonRequestBehavior.AllowGet);
+            return Json(LoadDataFromMostafid(token, language), JsonRequestBehavior.AllowGet);
         }
     }
 }

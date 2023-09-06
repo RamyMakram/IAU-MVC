@@ -1,0 +1,340 @@
+﻿@model IAU.DTO.Entity._HomeDTO
+@using System.Collections.Generic
+@{
+    Layout = null;
+}
+@using System.Configuration;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>IAU - BSC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Design/CSS/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Design/CSS/all.min.css" />
+    <link rel="stylesheet" href="~/Design/CSS/style.css" />
+    <meta name="description" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
+    <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
+
+    <style>
+        @@media(max-width:750px) {
+            .header-of-pdf {
+                -webkit-justify-content: center;
+                justify-content: center;
+            }
+        }
+
+        .insideTextArea {
+            text-align: center;
+            width: 100%;
+            right: 0 !important;
+        }
+
+        #Confirmation p {
+            font-size: unset !important;
+            direction: unset !important;
+            margin: 3px 0px !important;
+            align-items: center;
+            display: flex;
+        }
+
+            #Confirmation p i.fa.fa-paperclip {
+                margin: 0 9px;
+            }
+
+        .main-page ul {
+            line-height: 1.8em;
+        }
+
+        #padf {
+            background: #dee4f1e0 !important;
+            overflow: hidden;
+            height: auto !important;
+        }
+
+        table#PDFTable tbody tr th:not(.boldtitle), table#PDFTable tbody tr td {
+            border: 1px solid #eeeeee47 !important;
+        }
+
+        div#City {
+            /*align-items: center;
+            justify-content: center;
+            display: flex;*/
+            margin: 0;
+            padding: 0;
+        }
+
+        table#PDFTable {
+            font-family: 'Frutiger LT Arabic 55 Roman';
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 29px;
+        }
+
+        #padf div img {
+            width: 156px !important;
+        }
+
+        .boldtitle {
+            font-weight: 900;
+            padding: 5px 0;
+            font-size: 21px;
+            width: 100% !important;
+        }
+
+
+        table#PDFTable tbody tr th, table#PDFTable tbody tr td {
+            text-align: start !important;
+            /*font-family: 'DroidArabicKufiRegular' !important;*/
+            font-size: 14px;
+            padding: 6px 19px;
+            overflow-wrap: break-word;
+        }
+
+        table#PDFTable tbody tr.row {
+            width: 100%;
+            margin: 0;
+        }
+
+        table#PDFTable tbody tr th:not(.boldtitle) {
+            border: 1px solid #eee;
+        }
+
+            table#PDFTable tbody tr th:not(.boldtitle):nth-of-type(2n) {
+                font-weight: normal
+            }
+
+        table#PDFTable tbody tr th.boldtitle {
+            font-size: 19px;
+            color: #283858;
+        }
+
+        @@media(max-width:767px) {
+        }
+    </style>
+    @if (ViewBag.CookieLang == "ar")
+    {
+        <style>
+            .containt #Service_Type_Id .stick p:nth-of-type(1), .containt #Service_Type_Id .stick p:nth-of-type(2), .containt #Request_Type_Id .stick p:nth-of-type(1) {
+                letter-spacing: normal !important;
+            }
+
+            a.nav-link {
+                font-weight: bold;
+                font-size: 19px;
+            }
+
+            .mainservice p, .requesttype p {
+                font-size: 18px !important;
+                font-weight: bold !important;
+            }
+        </style>
+        <link href="~/Design/CSS/arStyle.css" rel="stylesheet" />
+    }
+    <style>
+        .loading {
+            display: none;
+        }
+
+            .loading.active, .loading.callApi {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100vw;
+                height: 100vh;
+                z-index: 9999999;
+                position: fixed;
+                background: #0a1332;
+            }
+    </style>
+    <script src="~/Design/JS/AraTranslate.js"></script>
+</head>
+<body class="@ViewBag.CookieLang">
+    <div class="loading">
+        <img src="~/Design/img/loading2.gif" />
+    </div>
+    <nav class="navbar navbar-expand-xl">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon">
+                    @Html.AntiForgeryToken()
+                    <i class="fas fa-bars" style="color: #b6a1a1;font-size: 30px;"></i>
+                </span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Main">الرئيسية</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="~/Home">تقديم/متابعة طلب</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Coordinator">المنسقين</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Contactus">المساعدة والدعم الفني</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Main">Main</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="~/Home">Submit/Follow-up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Coordinator">Coordinator</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Contactus">help and support</a>
+                        </li>
+
+                    }
+                    <li id="nav-contact" style="display:none;">
+                        <a style="text-decoration:none;color:white" href="/Contactus">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                    </li>
+                    <li id="nav-lang" style="display:none;">
+                        <a class="nav-link"
+                           href=@(Request.Cookies["lang"].Value == "ar" ? Url.Action("ChangeLang","Home",new { lang="en",redirect=Request.Url.ToString()})
+													: Url.Action("ChangeLang","Home",new { lang="ar",redirect=Request.Url.ToString()}))>
+                            @(Request.Cookies["lang"].Value == "ar" ? "EN" : "AR")
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="vision">
+                    <div>
+
+                        <button>
+                            <a style="text-decoration:none;color:white" href="/Contactus">@(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Contact")</a>
+                        </button>
+                        @Html.Partial("~/Views/Shared/_Language.cshtml")
+                    </div>
+                    <img src="~/Design/img/VisionLogo2.png">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <ul class="nav nav-pills nav-fill" style="display: none;">
+        @if (ViewBag.CookieLang == "ar")
+        {
+            <li class="nav-item">
+                <a class="nav-link active" data-slide-to="Service_Type_Id" data-counter="1">نوع الخدمة</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="Request_Type_Id" data-counter="2">نوع الطلب</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="personel-data-m" data-counter="3">البيانات الشخصية</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="" data-counter="4">بيانات الطلب</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="Confirmation-m" data-counter="5">التأكيد</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link active" data-slide-to="Service_Type_Id" data-counter="1">Service Type</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="Request_Type_Id" data-counter="2">Request Type</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="personel-data-m" data-counter="3">Personel Data</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="" data-counter="4">Request Data</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-slide-to="Confirmation-m" data-counter="5">Confirmation</a>
+            </li>
+        }
+    </ul>
+    <div class="row MContaint">
+
+        @if (ViewBag.CookieLang == "ar")
+        {
+            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+                <i class="fas fa-chevron-right"></i>
+                <p>السابق</p>
+            </div>
+
+        }
+        else
+        {
+            <div class="col-md-2" id="left-arrow" style="visibility: hidden;padding:0px">
+                <i class="fas fa-chevron-left"></i>
+                <p>PREVIOUS</p>
+            </div>
+        }
+
+        <div class="col-md-8 containt" id="MainBody">
+            <div class="row" id="start-request" data-PageIndex="0">
+                <div class="col-md-12 main-title">
+                    <p>iau - bsc</p>
+                    @if (ViewBag.CookieLang == "ar")
+                    {
+                        <p>قم بتقديم أو متابعة الطلبات المقدمة</p>
+                    }
+                    else
+                    {
+                        <p>submit or follow submitted requests</p>
+                    }
+                </div>
+                <div class=" col-sm-12 col-lg-2"></div>
+                <div class="col-sm-12  col-md-6 col-lg-4">
+                        @{ 
+                            //var Nafath_url="@NParser.GetAppSettings(\"NafathLink\")/@currentCulture?returnurl=https://@HttpContext.Current.Request.Url.Authority@NParser.GetAppSettings(\"SubApp\")@NParser.GetAppSettings(\"NafathReturnUrl\")"
+                            var Nafath_url =$"https://nafath.iau.edu.sa/{ViewBag.CookieLang}?returnurl=https://{HttpContext.Current.Request.Url.Authority}";
+                        }
+                    <div class="stick submit" id="NewRequest"onclick="location.href='@Nafath_url'">
+                        <img src="~/Design/img/newrequest.png">
+                        @if (ViewBag.CookieLang == "ar")
+                        {
+                            <p class="first">Nafazze</p>
+                        }
+                        else
+                        {
+                            <p class="first">Submit</p>
+                            <p class="second">new request</p>
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6  col-lg-4">
+                    <div class="stick follow"onclick="location.href='https://iau-bsc.iau.edu.sa/'">
+                        <img src="~/Design/img/follow.png">
+                        @if (ViewBag.CookieLang == "ar")
+                        {
+                            <p class="first1">Mostafied</p>
+                        }
+                        else
+                        {
+                            <p class="first1">follow-up</p>
+                            <p class="second1">request</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/Design/JS/popper.js"></script>
+    <script src="~/Design/JS/bootstrap.min.js"></script>
+    <script src="~/Design/JS/jquery.js"></script>
+    @*<script src="~/Design/JS/scripts.js?ver=1.0" charset="utf-8" type="text/javascript"></script>*@
+</body>
+
+</html>

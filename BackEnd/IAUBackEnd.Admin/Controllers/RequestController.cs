@@ -388,7 +388,7 @@ namespace IAUBackEnd.Admin.Controllers
                 var model = request_Data.Personel_Data;
                 buffer = await provider.Contents[provider.Contents.Count - 2].ReadAsStringAsync();
                 var E_Forms_Answer = JsonConvert.DeserializeObject<List<Models.E_Forms_Answer>>(buffer);
-                Personel_Data personel_Data = db.Personel_Data.FirstOrDefault(q => (q.ID_Document == model.ID_Document && q.ID_Number == model.ID_Number) || q.Mobile == model.Mobile);
+                Personel_Data personel_Data = db.Personel_Data.FirstOrDefault(q => (q.ID_Document == model.ID_Document && q.ID_Document1.Is_NationalID && q.ID_Number == model.ID_Number));
                 if (personel_Data == null)
                 {
                     db.Personel_Data.Add(model);
