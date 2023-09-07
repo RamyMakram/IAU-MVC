@@ -88,5 +88,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<Set> Set { get; set; }
         public virtual DbSet<State> State { get; set; }
         public virtual DbSet<Counter> Counter { get; set; }
+        public virtual DbSet<AppSetting> AppSetting { get; set; }
     }
 }

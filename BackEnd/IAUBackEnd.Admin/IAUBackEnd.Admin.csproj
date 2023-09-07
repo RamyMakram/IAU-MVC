@@ -296,6 +296,9 @@
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppSetting.cs">
+      <DependentUpon>MostafidDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CheckBox_Type.cs">
       <DependentUpon>MostafidDBModel.tt</DependentUpon>
     </Compile>
@@ -562,6 +565,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IAU.Shared\IAU.Shared.csproj">
+      <Project>{67904513-33b1-4413-9878-026f340ed423}</Project>
+      <Name>IAU.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IAUAdmin.DTO\IAUAdmin.DTO.csproj">
       <Project>{8C5F4F2C-B95A-4F88-8F39-B288AC42EFA5}</Project>
       <Name>IAUAdmin.DTO</Name>

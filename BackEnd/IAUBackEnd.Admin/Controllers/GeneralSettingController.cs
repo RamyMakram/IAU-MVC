@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Http;
+using IAU.Shared;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
 
@@ -61,12 +63,22 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+                var appsetting_value =await db.AppSetting.FirstOrDefaultAsync(q => q.Key == AppSettingEnum.UseMessages.ToString());
 
-                var OldVals = webConfigApp.AppSettings.Settings["Use_Message"].Value;
+                string OldVals = "";
 
-                webConfigApp.AppSettings.Settings["Use_Message"].Value = value.ToString();
-                webConfigApp.Save();
+                if (appsetting_value == null)
+                    db.AppSetting.Add(new AppSetting { Key = AppSettingEnum.UseMessages.ToString(), Value = value.ToString() });
+                else
+                {
+                    OldVals = appsetting_value.Value.ToString();
+
+                    appsetting_value.Value = value.ToString();
+                }
+                
+                await db.SaveChangesAsync();
+
+
                 WebApiApplication.Setting_UseMessage = value;
                 var logstate = Logger.AddLog(db: db, logClass: LogClassType.General_Setting, Method: "Update", Oldval: OldVals, Newval: value.ToString(), es: out _, syslog: out _, ID: null, notes: "Update SMS Enable or disable");
                 if (logstate)

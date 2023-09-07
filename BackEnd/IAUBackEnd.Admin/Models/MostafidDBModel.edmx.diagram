@@ -141,6 +141,7 @@
         <AssociationConnector Association="MostafidDBModel.FK_Personel_Data_ID_Document" />
         <AssociationConnector Association="MostafidDBModel.FK_HangFire_JobParameter_Job" />
         <AssociationConnector Association="MostafidDBModel.FK_HangFire_State_Job" />
+        <EntityTypeShape EntityType="MostafidDBModel.AppSetting" Width="1.5" PointX="12.375" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

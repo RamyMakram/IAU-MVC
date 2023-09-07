@@ -1,4 +1,5 @@
-﻿using IAUBackEnd.Admin.Models;
+﻿using IAU.Shared;
+using IAUBackEnd.Admin.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +18,31 @@ namespace IAUBackEnd.Admin
         protected void Application_Start()
         {
             log4net.Config.XmlConfigurator.Configure();
-            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-            if (config.AppSettings.Settings["Use_Message"] != null)
-                Setting_UseMessage = bool.Parse(config.AppSettings.Settings["Use_Message"].Value);
-            else
+
+            #region UseMessages
+
+            //var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+            //if (config.AppSettings.Settings["Use_Message"] != null)
+            //    Setting_UseMessage = bool.Parse(config.AppSettings.Settings["Use_Message"].Value);
+            //else
+            //{
+            //    config.AppSettings.Settings.Add("Use_Message", "false");
+            //    Setting_UseMessage = false;
+            //}
+            //config.Save();
+
+            using (MostafidDBEntities db = new MostafidDBEntities())
             {
-                config.AppSettings.Settings.Add("Use_Message", "false");
-                Setting_UseMessage = false;
+                var appsetting_value = db.AppSetting.FirstOrDefault(q => q.Key == AppSettingEnum.UseMessages.ToString());
+
+                if (appsetting_value != null)
+                    Setting_UseMessage = bool.Parse(appsetting_value.Value);
+                else
+                    Setting_UseMessage = false;
             }
-            config.Save();
+
+            #endregion
+
 
             HttpConfiguration config2 = GlobalConfiguration.Configuration;
             config2.Formatters.JsonFormatter
