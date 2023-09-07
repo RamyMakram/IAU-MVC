@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 using IAU.Shared;
 using IAUAdmin.DTO.Helper;
 using IAUBackEnd.Admin.Models;
@@ -21,7 +22,8 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Init()
         {
             var data = db.Request_State.Select(s => new { s.State_ID, s.StateName_AR, s.StateName_EN, s.AllowedDelay });
-            return Ok(new ResponseClass() { success = true, result = new { Request_State = data, Use_SMS = WebApiApplication.Setting_UseMessage } });
+            var NewAndFlollowRequestLogin = await db.AppSetting.FirstOrDefaultAsync(q => q.Key == AppSettingEnum.NewAndFlollowRequestLogin.ToString());
+            return Ok(new ResponseClass() { success = true, result = new { Request_State = data, Use_SMS = WebApiApplication.Setting_UseMessage, NewAndFlollowRequestLogin = Enum.GetNames(typeof(NewAndFlollowRequestLoginEnum)), NewAndFlollowRequestLogin_Current = NewAndFlollowRequestLogin?.Value } });
         }
 
         [HttpPost]
@@ -63,7 +65,7 @@ namespace IAUBackEnd.Admin.Controllers
         {
             try
             {
-                var appsetting_value =await db.AppSetting.FirstOrDefaultAsync(q => q.Key == AppSettingEnum.UseMessages.ToString());
+                var appsetting_value = await db.AppSetting.FirstOrDefaultAsync(q => q.Key == AppSettingEnum.UseMessages.ToString());
 
                 string OldVals = "";
 
@@ -75,12 +77,57 @@ namespace IAUBackEnd.Admin.Controllers
 
                     appsetting_value.Value = value.ToString();
                 }
-                
+
                 await db.SaveChangesAsync();
 
 
                 WebApiApplication.Setting_UseMessage = value;
                 var logstate = Logger.AddLog(db: db, logClass: LogClassType.General_Setting, Method: "Update", Oldval: OldVals, Newval: value.ToString(), es: out _, syslog: out _, ID: null, notes: "Update SMS Enable or disable");
+                if (logstate)
+                {
+                    await db.SaveChangesAsync();
+                    return Ok(new ResponseClass() { success = true });
+                }
+                else
+                {
+                    return Ok(new ResponseClass() { success = false });
+                }
+            }
+            catch (Exception)
+            {
+                return Ok(new ResponseClass { success = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> UpdateNewAndFlollowRequestLogin(string value)
+        {
+            try
+            {
+
+                var Enum_Values = Enum.GetNames(typeof(NewAndFlollowRequestLoginEnum));
+
+                if (!Enum_Values.Contains(value))
+                    return Ok(new ResponseClass() { success = false, result = "InvalidValue" });
+
+
+                var appsetting_value = await db.AppSetting.FirstOrDefaultAsync(q => q.Key == AppSettingEnum.NewAndFlollowRequestLogin.ToString());
+
+                string OldVals = "";
+
+                if (appsetting_value == null)
+                    db.AppSetting.Add(new AppSetting { Key = AppSettingEnum.NewAndFlollowRequestLogin.ToString(), Value = value.ToString() });
+                else
+                {
+                    OldVals = appsetting_value.Value.ToString();
+
+                    appsetting_value.Value = value.ToString();
+                }
+
+                await db.SaveChangesAsync();
+
+
+                var logstate = Logger.AddLog(db: db, logClass: LogClassType.General_Setting, Method: "Update", Oldval: OldVals, Newval: value.ToString(), es: out _, syslog: out _, ID: null, notes: "Update NewAndFlollowRequestLogin");
                 if (logstate)
                 {
                     await db.SaveChangesAsync();

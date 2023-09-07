@@ -1,12 +1,12 @@
 ﻿@model ICollection<IAUAdmin.DTO.Entity.RequestStatusDTO>
 @{
-	ViewBag.Title = "Define Request Time";
-	ViewBag.pTitle = "Define Request Time";
-	ViewBag.pageTitle = "Global Settings";
-	ViewBag.arTitle = "تحديد الوقت المستغرق للطلب";
-	ViewBag.arpTitle = "تحديد الوقت المستغرق للطلب";
-	ViewBag.arpageTitle = "الإعدادات العامة";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Define Request Time";
+    ViewBag.pTitle = "Define Request Time";
+    ViewBag.pageTitle = "Global Settings";
+    ViewBag.arTitle = "تحديد الوقت المستغرق للطلب";
+    ViewBag.arpTitle = "تحديد الوقت المستغرق للطلب";
+    ViewBag.arpageTitle = "الإعدادات العامة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -17,100 +17,136 @@
 <!-- dropzone css -->
 <link href="~/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 <style>
-	label.control-label::after {
-		content: ":";
-	}
+    label.control-label::after {
+        content: ":";
+    }
 
-	label.control-label {
-		font-weight: bold;
-	}
+    label.control-label {
+        font-weight: bold;
+    }
 
-	.view-time {
-		margin: auto;
-		width: 30vw;
-		border: 1px dotted black;
-		border-radius: 10px;
-	}
+    .view-time {
+        margin: auto;
+        width: 30vw;
+        border: 1px dotted black;
+        border-radius: 10px;
+    }
 
-	.card-body .view-genral-order {
-		position: relative;
-	}
+    .card-body .view-genral-order {
+        position: relative;
+    }
 
-		.card-body .view-genral-order:before {
-			content: '';
-			position: absolute;
-			right: 40vw;
-			width: 0px;
-			top: 0;
-			bottom: 0;
-			border: 1px dashed black;
-		}
+        .card-body .view-genral-order:before {
+            content: '';
+            position: absolute;
+            right: 40vw;
+            width: 0px;
+            top: 0;
+            bottom: 0;
+            border: 1px dashed black;
+        }
 
-	.mainview-time {
-		background: white;
-	}
+    .mainview-time {
+        background: white;
+    }
 </style>
 @{
-	var isAr = Request.Cookies["lang"].Value == "ar";
+    var isAr = Request.Cookies["lang"].Value == "ar";
+    var NewAndFlollowRequestLogin = ViewBag.NewAndFlollowRequestLogin as string[];
+    var NewAndFlollowRequestLogin_Current = ViewBag.NewAndFlollowRequestLogin_Current as string;
 }
 <div class="row view-genral-order">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
 
-				<p class="card-title-desc">@(isAr ? "مراحل الطلب" : "Request Status")</p>
+                <p class="card-title-desc">@(isAr ? "مراحل الطلب" : "Request Status")</p>
 
-				<div class="row view-genral-order">
-					@{
-						var cou = 0;
-						foreach (var i in Model)
-						{
-							cou += i.AllowedDelay ?? 0;
-							<div class="col-12 text-center mainview-time" style="margin-top: 25px">
-								<div class="view-time">
-									<p class="card-title-desc" style="text-align:start;padding:0 25px;margin-top:-10px"><span style="background:white;padding:0 15px">@(i.State_ID + " - " + (isAr ? i.StateName_AR : i.StateName_EN))</span></p>
-									<div class="form-group d-inline-flex align-items-center justify-content-center">
-										@Html.TextBox("State-" + i.State_ID, i.AllowedDelay, new { @class = "form-control en-font State-val", @onchange = "Recalc()", @type = "number", @style = "width:150px;text-align:center!important" })
-										<span key="t-day" style="padding:0 15px">@(isAr ? "يوم" : "Day")</span>
-									</div>
-								</div>
-							</div>
-						}
-					}
-				</div>
-				<div class="col-12 text-center" style="margin-top: 25px">
-					<p class="text-center">@(isAr ? "الوقت الاجمالي المستغرق" : "Total Days") <span id="DaysCount">@cou</span> @(isAr ? "يوم" : "Day")</p>
-				</div>
-				<button type="submit" key="t-save" id="SaveDataOFDelayed" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-				@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
+                <div class="row view-genral-order">
+                    @{
+                        var cou = 0;
+                        foreach (var i in Model)
+                        {
+                            cou += i.AllowedDelay ?? 0;
+                            <div class="col-12 text-center mainview-time" style="margin-top: 25px">
+                                <div class="view-time">
+                                    <p class="card-title-desc" style="text-align:start;padding:0 25px;margin-top:-10px"><span style="background:white;padding:0 15px">@(i.State_ID + " - " + (isAr ? i.StateName_AR : i.StateName_EN))</span></p>
+                                    <div class="form-group d-inline-flex align-items-center justify-content-center">
+                                        @Html.TextBox("State-" + i.State_ID, i.AllowedDelay, new { @class = "form-control en-font State-val", @onchange = "Recalc()", @type = "number", @style = "width:150px;text-align:center!important" })
+                                        <span key="t-day" style="padding:0 15px">@(isAr ? "يوم" : "Day")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="col-12 text-center" style="margin-top: 25px">
+                    <p class="text-center">@(isAr ? "الوقت الاجمالي المستغرق" : "Total Days") <span id="DaysCount">@cou</span> @(isAr ? "يوم" : "Day")</p>
+                </div>
+                <button type="submit" key="t-save" id="SaveDataOFDelayed" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                @Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 <div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
 
-				<p class="card-title-desc">@(isAr ? "الرسائل النصية" : "Sms")</p>
-				@using (Html.BeginForm("Home", "GlobalSettings", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-				{
-					<div class="row">
-						<div class="form-group" style=" display: flex; align-items: center;">
-							<input type="checkbox" @(ViewBag.SMS_Status ? "checked" : "") onchange="$('#val-items').val(this.checked);" />
-							<label class="form-check-label mx-1" for="value">@(isAr ? "استخدم الرسائل النصية" : "Use SMS")</label>
-						</div>
-						<input style="display:none" name="value" value="@(ViewBag.SMS_Status?"true":"false")" id="val-items"/>
-					</div>
-					<button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
-					@Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
-				}
-			</div>
-		</div>
+                <p class="card-title-desc">@(isAr ? "الرسائل النصية" : "Sms")</p>
+                @using (Html.BeginForm("Home", "GlobalSettings", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    <div class="row">
+                        <div class="form-group" style=" display: flex; align-items: center;">
+                            <input type="checkbox" @(ViewBag.SMS_Status ? "checked" : "") onchange="$('#val-items').val(this.checked);" />
+                            <label class="form-check-label mx-1" for="value">@(isAr ? "استخدم الرسائل النصية" : "Use SMS")</label>
+                        </div>
+                        <input style="display:none" name="value" value="@(ViewBag.SMS_Status?"true":"false")" id="val-items" />
+                    </div>
+                    <button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    @Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
+                }
+            </div>
+        </div>
 
-	</div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <p class="card-title-desc">@(isAr ? "طريقة الدخول عند تقديم او متابعة طلب" : "Login way when submitting or following-up")</p>
+                @using (Html.BeginForm("UpdateLoginWay", "GlobalSettings", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    @*<div class="row">*@
+                        <div class="form-group">
+                            <div class="radio-inline">
+                                @*<div class="radio-list">*@
+
+                                @foreach (var i in NewAndFlollowRequestLogin)
+                                {
+                                    <label class="radio radio-lg">
+                                        <input type="radio" class="MustafeedLoginWay" @(i == NewAndFlollowRequestLogin_Current ? "checked" : "") name="MustafeedLoginWay" value="@i" />
+                                        <span></span>
+                                        @i
+                                    </label>
+                                }
+                            </div>
+                            @*<span class="form-text text-muted">Some help text goes here</span>*@
+                        </div>
+                    @*</div>*@
+                    <button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
+                    @Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
+                }
+            </div>
+        </div>
+
+    </div>
 </div>
 <!-- end row -->
 <!-- JAVASCRIPT -->
@@ -132,28 +168,35 @@
 
 <!-- App js -->
 <script src="~/assets/js/app.js"></script>
+
+@if (NewAndFlollowRequestLogin_Current == null)
+{
+    <script>
+        $($('.MustafeedLoginWay')[0]).attr('checked', 'checked')
+    </script>
+}
 <script>
-	function Recalc() {
-		let count = 0;
-		([...$('input.State-val')]).forEach(i => {
-			let val = $(i).val()
-			count += parseInt(val == "" ? 0 : val)
-		})
-		$('#DaysCount').html(count)
-	}
-	$('#SaveDataOFDelayed').click(function () {
-		let data = [];
-		([...$('input.State-val')]).forEach(i => {
-			let ref = $(i);
-			data.push({ State_ID: ref.attr('name').split('-')[1], AllowedDelay: ref.val() })
-		})
-		let form = new FormData();
-		form.append("data", JSON.stringify(data));
-		$.ajax({
-			url: "/GlobalSettings/SaveData", processData: false,
-			contentType: false, enctype: 'multipart/form-data', data: form, type: "POST", success: function () {
-				window.location.href = window.location.href
-			}
-		})
-	})
+    function Recalc() {
+        let count = 0;
+        ([...$('input.State-val')]).forEach(i => {
+            let val = $(i).val()
+            count += parseInt(val == "" ? 0 : val)
+        })
+        $('#DaysCount').html(count)
+    }
+    $('#SaveDataOFDelayed').click(function () {
+        let data = [];
+        ([...$('input.State-val')]).forEach(i => {
+            let ref = $(i);
+            data.push({ State_ID: ref.attr('name').split('-')[1], AllowedDelay: ref.val() })
+        })
+        let form = new FormData();
+        form.append("data", JSON.stringify(data));
+        $.ajax({
+            url: "/GlobalSettings/SaveData", processData: false,
+            contentType: false, enctype: 'multipart/form-data', data: form, type: "POST", success: function () {
+                window.location.href = window.location.href
+            }
+        })
+    })
 </script>
