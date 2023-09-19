@@ -47,8 +47,16 @@ namespace Web.Controllers
         {
             var lang = Request.Cookies["lang"].Value;
             ViewBag.CookieLang = lang;
-
-            return View();
+            var res = APIHandeling.getData("/_Home/LoadNewAndFlollowRequestLogin");
+            var resJson = res.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            if (response.success)
+            {
+                ViewBag.CookieLang = lang;
+                ViewBag.LoginType = response.result;
+                return View();
+            }
+            return RedirectToAction("Error");
         }
         public ActionResult Test()
         {

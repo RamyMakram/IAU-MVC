@@ -17,6 +17,20 @@
     <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
 
     <style>
+        #start-request .stick img {
+            justify-content: center;
+            align-items: center;
+            width: 110px;
+            height: 140px;
+            display: flex;
+            margin: auto;
+            margin-bottom: 35px;
+            background-color: rgb(79, 105, 58);
+            padding: 24px 13px;
+            border-radius: 9px;
+            /* margin: auto; */
+        }
+
         @@media(max-width:750px) {
             .header-of-pdf {
                 -webkit-justify-content: center;
@@ -283,49 +297,42 @@
         <div class="col-md-8 containt" id="MainBody">
             <div class="row" id="start-request" data-PageIndex="0">
                 <div class="col-md-12 main-title">
-                    <p>iau - bsc</p>
+                    @*<p>iau - bsc</p>*@
+                    <br />
                     @if (ViewBag.CookieLang == "ar")
                     {
-                        <p>قم بتقديم أو متابعة الطلبات المقدمة</p>
+                        <p style=" letter-spacing: 0.06em;margin-top:5vh">لكي تتمكن من تقديم طلب / متابعته برجاء تسجيل الدخول عن طريق</p>
                     }
                     else
                     {
-                        <p>submit or follow submitted requests</p>
+                        <p>In order to submit/follow up a request, please log in via</p>
                     }
                 </div>
-                <div class=" col-sm-12 col-lg-2"></div>
-                <div class="col-sm-12  col-md-6 col-lg-4">
-                        @{ 
+            </div>
+            <div class="row" style="justify-content:center;align-items:center" id="start-request" >
+                @*<div class=" col-sm-12 col-lg-2"></div>*@
+                @if (ViewBag.LoginType == "All" || ViewBag.LoginType == "Nafath")
+                {
+                    <div class="col-sm-12  col-md-6 col-lg-4">
+                        @{
                             //var Nafath_url="@NParser.GetAppSettings(\"NafathLink\")/@currentCulture?returnurl=https://@HttpContext.Current.Request.Url.Authority@NParser.GetAppSettings(\"SubApp\")@NParser.GetAppSettings(\"NafathReturnUrl\")"
-                            var Nafath_url =$"https://nafath.iau.edu.sa/{ViewBag.CookieLang}?returnurl=https://{HttpContext.Current.Request.Url.Authority}";
+                            var Nafath_url = $"https://nafath.iau.edu.sa/{ViewBag.CookieLang}?returnurl=https://{HttpContext.Current.Request.Url.Authority}";
                         }
-                    <div class="stick submit" id="NewRequest"onclick="location.href='@Nafath_url'">
-                        <img src="~/Design/img/newrequest.png">
-                        @if (ViewBag.CookieLang == "ar")
-                        {
-                            <p class="first">Nafazze</p>
-                        }
-                        else
-                        {
-                            <p class="first">Submit</p>
-                            <p class="second">new request</p>
-                        }
+                        <div class="stick submit" id="NewRequest" onclick="location.href='@Nafath_url'">
+                            <img src="~/Design/img/7787575_security_protection_secure_shield_lock_icon.svg">
+                            <p class="first">@(ViewBag.CookieLang == "ar" ? "نفاذ" : "Nafath") </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-12 col-md-6  col-lg-4">
-                    <div class="stick follow"onclick="location.href='https://iau-bsc.iau.edu.sa/'">
-                        <img src="~/Design/img/follow.png">
-                        @if (ViewBag.CookieLang == "ar")
-                        {
-                            <p class="first1">Mostafied</p>
-                        }
-                        else
-                        {
-                            <p class="first1">follow-up</p>
-                            <p class="second1">request</p>
-                        }
+                }
+                @if (ViewBag.LoginType == "All" || ViewBag.LoginType == "Mustafeed")
+                {
+                    <div class="col-sm-12 col-md-6  col-lg-4">
+                        <div class="stick follow" onclick="location.href='https://iau-bsc.iau.edu.sa/'">
+                            <img src="~/Design/img/6324237_knowledge_learning_education_hat_student_icon.svg">
+                            <p class="first1">@(ViewBag.CookieLang == "ar" ? "مستفيد" : "Mustafeed")</p>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>

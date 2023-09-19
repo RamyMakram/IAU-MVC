@@ -12,20 +12,18 @@ namespace IAU_BackEnd.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DelayedTransaction
+    public partial class PhoneNumberNotification
     {
         public int ID { get; set; }
-        public int RequestID { get; set; }
-        public Nullable<int> DelayedOnUnitID { get; set; }
-        public string RequestCode { get; set; }
-        public byte RequestStatus { get; set; }
-        public System.DateTime TransactionDate { get; set; }
-        public int Delayed { get; set; }
-        public System.DateTime AddedDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Message { get; set; }
+        public string Message_EN { get; set; }
+        public Nullable<int> RequestID { get; set; }
+        public System.DateTime NotiDate { get; set; }
+        public Nullable<int> UserID { get; set; }
         public bool Readed { get; set; }
     
         public virtual Request_Data Request_Data { get; set; }
-        public virtual Request_State Request_State { get; set; }
-        public virtual Units Units { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

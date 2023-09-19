@@ -23,6 +23,7 @@ namespace IAU_BackEnd.Models
         public int ID_Document1 { get; set; }
         public string Document_Name_EN { get; set; }
         public string Document_Name_AR { get; set; }
+        public bool Is_NationalID { get; set; }
         public Nullable<bool> IS_Action { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

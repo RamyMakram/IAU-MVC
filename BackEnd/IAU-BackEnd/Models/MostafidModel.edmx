@@ -16,6 +16,14 @@
           <Property Name="Affliated" Type="bit" Nullable="false" />
           <Property Name="Index" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="AppSetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Key" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
             <PropertyRef Name="ID" />
@@ -51,6 +59,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RequestID" Type="int" Nullable="false" />
+          <Property Name="DelayedOnUnitID" Type="int" />
           <Property Name="RequestCode" Type="char" MaxLength="13" />
           <Property Name="RequestStatus" Type="tinyint" Nullable="false" />
           <Property Name="TransactionDate" Type="date" Nullable="false" />
@@ -104,6 +113,7 @@
           <Property Name="ID_Document" Type="int" Nullable="false" />
           <Property Name="Document_Name_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="Document_Name_AR" Type="nvarchar" MaxLength="250" />
+          <Property Name="Is_NationalID" Type="bit" Nullable="false" />
           <Property Name="IS_Action" Type="bit" />
         </EntityType>
         <EntityType Name="Input_Type">
@@ -204,6 +214,19 @@
           <Property Name="Email" Type="nvarchar" MaxLength="200" />
           <Property Name="Mobile" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="IS_Action" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="PhoneNumberNotification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Message_EN" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RequestID" Type="int" />
+          <Property Name="NotiDate" Type="datetime" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Readed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Preview_EformApproval">
           <Key>
@@ -335,6 +358,7 @@
           <Property Name="Desc_EN" Type="nvarchar(max)" />
           <Property Name="Desc_AR" Type="nvarchar(max)" />
           <Property Name="Image_Path" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsRequestType" Type="bit" Nullable="false" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
@@ -402,16 +426,6 @@
           <Property Name="IS_Action" Type="bit" />
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="SystemLog">
           <Key>
@@ -548,12 +562,21 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <EntityType Name="UserFCMToken">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FCMToken" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="150" />
           <Property Name="User_Mobile" Type="nvarchar" MaxLength="20" />
           <Property Name="User_Email" Type="nvarchar" MaxLength="100" />
           <Property Name="User_Password" Type="nvarchar" MaxLength="20" />
@@ -565,6 +588,17 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <EntityType Name="UserToken">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RefToken" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Expired" Type="bit" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AddedDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="ValidTo">
           <Key>
             <PropertyRef Name="ID" />
@@ -575,6 +609,8 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="DeletedAt" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view '[FromServer]Mustafid05062022.HangFire.Counter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_CheckBox_Type_Question">
           <End Role="Question" Type="Self.Question" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -622,6 +658,18 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="0..1" />
+          <End Role="DelayedTransaction" Type="Self.DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -830,6 +878,30 @@
             </Principal>
             <Dependent Role="Personel_Data">
               <PropertyRef Name="Title_Middle_Names_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumberNotification_Request_Data">
+          <End Role="Request_Data" Type="Self.Request_Data" Multiplicity="0..1" />
+          <End Role="PhoneNumberNotification" Type="Self.PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumberNotification_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="PhoneNumberNotification" Type="Self.PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1419,6 +1491,7 @@
         </Association>
         <EntityContainer Name="MostafidDatabaseModelStoreContainer">
           <EntitySet Name="Applicant_Type" EntityType="Self.Applicant_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppSetting" EntityType="Self.AppSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CheckBox_Type" EntityType="Self.CheckBox_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
@@ -1435,6 +1508,7 @@
           <EntitySet Name="Paragraph" EntityType="Self.Paragraph" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person_Eform" EntityType="Self.Person_Eform" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Personel_Data" EntityType="Self.Personel_Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneNumberNotification" EntityType="Self.PhoneNumberNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preview_EformApproval" EntityType="Self.Preview_EformApproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preview_TableCols" EntityType="Self.Preview_TableCols" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Privilage" EntityType="Self.Privilage" Schema="dbo" store:Type="Tables" />
@@ -1451,7 +1525,6 @@
           <EntitySet Name="Separator" EntityType="Self.Separator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service_Type" EntityType="Self.Service_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sub_Services" EntityType="Self.Sub_Services" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Columns" EntityType="Self.Table_Columns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tables_Answare" EntityType="Self.Tables_Answare" Schema="dbo" store:Type="Tables" />
@@ -1464,7 +1537,9 @@
           <EntitySet Name="Units_Request_Type" EntityType="Self.Units_Request_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units_Type" EntityType="Self.Units_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitServiceTypes" EntityType="Self.UnitServiceTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFCMToken" EntityType="Self.UserFCMToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserToken" EntityType="Self.UserToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ValidTo" EntityType="Self.ValidTo" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CheckBox_Type_Question" Association="Self.FK_CheckBox_Type_Question">
             <End Role="Question" EntitySet="Question" />
@@ -1480,6 +1555,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="Self.FK_DelayedTransaction_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="Self.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
           <AssociationSet Name="FK_E-Forms_Answer_Person_Eform" Association="Self.FK_E-Forms_Answer_Person_Eform">
@@ -1549,6 +1628,14 @@
           <AssociationSet Name="FK_Personel_Data_Title_Middle_Names" Association="Self.FK_Personel_Data_Title_Middle_Names">
             <End Role="Title_Middle_Names" EntitySet="Title_Middle_Names" />
             <End Role="Personel_Data" EntitySet="Personel_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumberNotification_Request_Data" Association="Self.FK_PhoneNumberNotification_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumberNotification_Users" Association="Self.FK_PhoneNumberNotification_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
           </AssociationSet>
           <AssociationSet Name="FK_Preview_EformApproval_Person_Eform" Association="Self.FK_Preview_EformApproval_Person_Eform">
             <End Role="Person_Eform" EntitySet="Person_Eform" />
@@ -1749,6 +1836,7 @@
       <Schema Namespace="MostafidDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MostafidDatabaseEntities" annotation:LazyLoadingEnabled="false">
           <EntitySet Name="Applicant_Type" EntityType="MostafidDatabaseModel.Applicant_Type" />
+          <EntitySet Name="AppSetting" EntityType="MostafidDatabaseModel.AppSetting" />
           <EntitySet Name="CheckBox_Type" EntityType="MostafidDatabaseModel.CheckBox_Type" />
           <EntitySet Name="City" EntityType="MostafidDatabaseModel.City" />
           <EntitySet Name="Country" EntityType="MostafidDatabaseModel.Country" />
@@ -1765,6 +1853,7 @@
           <EntitySet Name="Paragraph" EntityType="MostafidDatabaseModel.Paragraph" />
           <EntitySet Name="Person_Eform" EntityType="MostafidDatabaseModel.Person_Eform" />
           <EntitySet Name="Personel_Data" EntityType="MostafidDatabaseModel.Personel_Data" />
+          <EntitySet Name="PhoneNumberNotification" EntityType="MostafidDatabaseModel.PhoneNumberNotification" />
           <EntitySet Name="Preview_EformApproval" EntityType="MostafidDatabaseModel.Preview_EformApproval" />
           <EntitySet Name="Preview_TableCols" EntityType="MostafidDatabaseModel.Preview_TableCols" />
           <EntitySet Name="Privilage" EntityType="MostafidDatabaseModel.Privilage" />
@@ -1781,7 +1870,6 @@
           <EntitySet Name="Separator" EntityType="MostafidDatabaseModel.Separator" />
           <EntitySet Name="Service_Type" EntityType="MostafidDatabaseModel.Service_Type" />
           <EntitySet Name="Sub_Services" EntityType="MostafidDatabaseModel.Sub_Services" />
-          <EntitySet Name="sysdiagrams" EntityType="MostafidDatabaseModel.sysdiagrams" />
           <EntitySet Name="SystemLog" EntityType="MostafidDatabaseModel.SystemLog" />
           <EntitySet Name="Table_Columns" EntityType="MostafidDatabaseModel.Table_Columns" />
           <EntitySet Name="Tables_Answare" EntityType="MostafidDatabaseModel.Tables_Answare" />
@@ -1794,7 +1882,9 @@
           <EntitySet Name="Units_Request_Type" EntityType="MostafidDatabaseModel.Units_Request_Type" />
           <EntitySet Name="Units_Type" EntityType="MostafidDatabaseModel.Units_Type" />
           <EntitySet Name="UnitServiceTypes" EntityType="MostafidDatabaseModel.UnitServiceTypes" />
+          <EntitySet Name="UserFCMToken" EntityType="MostafidDatabaseModel.UserFCMToken" />
           <EntitySet Name="Users" EntityType="MostafidDatabaseModel.Users" />
+          <EntitySet Name="UserToken" EntityType="MostafidDatabaseModel.UserToken" />
           <EntitySet Name="ValidTo" EntityType="MostafidDatabaseModel.ValidTo" />
           <AssociationSet Name="FK_Personel_Data_Applicant_Type" Association="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type">
             <End Role="Applicant_Type" EntitySet="Applicant_Type" />
@@ -1838,6 +1928,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DelayedTransaction_Request_State" Association="MostafidDatabaseModel.FK_DelayedTransaction_Request_State">
             <End Role="Request_State" EntitySet="Request_State" />
+            <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DelayedTransaction_Units" Association="MostafidDatabaseModel.FK_DelayedTransaction_Units">
+            <End Role="Units" EntitySet="Units" />
             <End Role="DelayedTransaction" EntitySet="DelayedTransaction" />
           </AssociationSet>
           <AssociationSet Name="FK_E_Forms_Sub_Services" Association="MostafidDatabaseModel.FK_E_Forms_Sub_Services">
@@ -1935,6 +2029,14 @@
           <AssociationSet Name="FK_Request_Data_Personel_Data" Association="MostafidDatabaseModel.FK_Request_Data_Personel_Data">
             <End Role="Personel_Data" EntitySet="Personel_Data" />
             <End Role="Request_Data" EntitySet="Request_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumberNotification_Request_Data" Association="MostafidDatabaseModel.FK_PhoneNumberNotification_Request_Data">
+            <End Role="Request_Data" EntitySet="Request_Data" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumberNotification_Users" Association="MostafidDatabaseModel.FK_PhoneNumberNotification_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PhoneNumberNotification" EntitySet="PhoneNumberNotification" />
           </AssociationSet>
           <AssociationSet Name="FK_Preview_EformApproval_Units" Association="MostafidDatabaseModel.FK_Preview_EformApproval_Units">
             <End Role="Units" EntitySet="Units" />
@@ -2072,7 +2174,7 @@
             <End Role="Units" EntitySet="Units" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Applicant_Type">
           <Key>
             <PropertyRef Name="Applicant_Type_ID" />
@@ -2085,6 +2187,14 @@
           <Property Name="Index" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_Applicant_Type" FromRole="Applicant_Type" ToRole="Personel_Data" />
           <NavigationProperty Name="ValidTo" Relationship="MostafidDatabaseModel.FK_ValidTo_Applicant_Type" FromRole="Applicant_Type" ToRole="ValidTo" />
+        </EntityType>
+        <EntityType Name="AppSetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CheckBox_Type">
           <Key>
@@ -2128,6 +2238,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RequestID" Type="Int32" Nullable="false" />
+          <Property Name="DelayedOnUnitID" Type="Int32" />
           <Property Name="RequestCode" Type="String" MaxLength="13" FixedLength="true" Unicode="false" />
           <Property Name="RequestStatus" Type="Byte" Nullable="false" />
           <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -2136,6 +2247,7 @@
           <Property Name="Readed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Request_Data" FromRole="DelayedTransaction" ToRole="Request_Data" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Request_State" FromRole="DelayedTransaction" ToRole="Request_State" />
+          <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Units" FromRole="DelayedTransaction" ToRole="Units" />
         </EntityType>
         <EntityType Name="E_Forms">
           <Key>
@@ -2190,6 +2302,7 @@
           <Property Name="ID_Document1" Type="Int32" Nullable="false" />
           <Property Name="Document_Name_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Document_Name_AR" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Is_NationalID" Type="Boolean" Nullable="false" />
           <Property Name="IS_Action" Type="Boolean" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Personel_Data_ID_Document" FromRole="ID_Document" ToRole="Personel_Data" />
         </EntityType>
@@ -2317,6 +2430,21 @@
           <NavigationProperty Name="Title_Middle_Names" Relationship="MostafidDatabaseModel.FK_Personel_Data_Title_Middle_Names" FromRole="Personel_Data" ToRole="Title_Middle_Names" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Personel_Data" FromRole="Personel_Data" ToRole="Request_Data" />
         </EntityType>
+        <EntityType Name="PhoneNumberNotification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message_EN" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RequestID" Type="Int32" />
+          <Property Name="NotiDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Readed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_PhoneNumberNotification_Request_Data" FromRole="PhoneNumberNotification" ToRole="Request_Data" />
+          <NavigationProperty Name="Users" Relationship="MostafidDatabaseModel.FK_PhoneNumberNotification_Users" FromRole="PhoneNumberNotification" ToRole="Users" />
+        </EntityType>
         <EntityType Name="Preview_EformApproval">
           <Key>
             <PropertyRef Name="UnitID" />
@@ -2429,6 +2557,7 @@
           <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Request_Data" FromRole="Request_Data" ToRole="DelayedTransaction" />
           <NavigationProperty Name="Person_Eform" Relationship="MostafidDatabaseModel.FK_Person_Eform_Request_Data" FromRole="Request_Data" ToRole="Person_Eform" />
           <NavigationProperty Name="Personel_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Personel_Data" FromRole="Request_Data" ToRole="Personel_Data" />
+          <NavigationProperty Name="PhoneNumberNotification" Relationship="MostafidDatabaseModel.FK_PhoneNumberNotification_Request_Data" FromRole="Request_Data" ToRole="PhoneNumberNotification" />
           <NavigationProperty Name="Request_State" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_State" FromRole="Request_Data" ToRole="Request_State" />
           <NavigationProperty Name="Request_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Data" ToRole="Request_Type" />
           <NavigationProperty Name="Service_Type" Relationship="MostafidDatabaseModel.FK_Request_Data_Service_Type" FromRole="Request_Data" ToRole="Service_Type" />
@@ -2487,6 +2616,7 @@
           <Property Name="Desc_EN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Desc_AR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image_Path" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsRequestType" Type="Boolean" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Request_Type" FromRole="Request_Type" ToRole="Request_Data" />
@@ -2570,16 +2700,6 @@
           <NavigationProperty Name="Main_Services" Relationship="MostafidDatabaseModel.FK_Sub_Services_Main_Services" FromRole="Sub_Services" ToRole="Main_Services" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Sub_Services" FromRole="Sub_Services" ToRole="Request_Data" />
           <NavigationProperty Name="Required_Documents" Relationship="MostafidDatabaseModel.FK_Required_Documents_Sub_Services" FromRole="Sub_Services" ToRole="Required_Documents" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="SystemLog">
           <Key>
@@ -2680,6 +2800,7 @@
           <Property Name="IS_Mostafid" Type="Boolean" Nullable="false" />
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DelayedTransaction" Relationship="MostafidDatabaseModel.FK_DelayedTransaction_Units" FromRole="Units" ToRole="DelayedTransaction" />
           <NavigationProperty Name="E_Forms" Relationship="MostafidDatabaseModel.FK_E_Forms_Units" FromRole="Units" ToRole="E_Forms" />
           <NavigationProperty Name="Preview_EformApproval" Relationship="MostafidDatabaseModel.FK_Preview_EformApproval_Units" FromRole="Units" ToRole="Preview_EformApproval" />
           <NavigationProperty Name="Request_Data" Relationship="MostafidDatabaseModel.FK_Request_Data_Units" FromRole="Units" ToRole="Request_Data" />
@@ -2749,12 +2870,21 @@
           <NavigationProperty Name="Service_Type" Relationship="MostafidDatabaseModel.FK_UnitServiceTypes_Service_Type" FromRole="UnitServiceTypes" ToRole="Service_Type" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_UnitServiceTypes_Units" FromRole="UnitServiceTypes" ToRole="Units" />
         </EntityType>
+        <EntityType Name="UserFCMToken">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FCMToken" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="User_ID" />
           </Key>
           <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="User_Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="User_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="User_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -2766,8 +2896,20 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="DeletedAt" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Job" Relationship="MostafidDatabaseModel.FK_Users_User_Permissions_Type" FromRole="Users" ToRole="Job" />
+          <NavigationProperty Name="PhoneNumberNotification" Relationship="MostafidDatabaseModel.FK_PhoneNumberNotification_Users" FromRole="Users" ToRole="PhoneNumberNotification" />
           <NavigationProperty Name="SystemLog" Relationship="MostafidDatabaseModel.FK_SystemLog_Users" FromRole="Users" ToRole="SystemLog" />
           <NavigationProperty Name="Units" Relationship="MostafidDatabaseModel.FK_Users_Units" FromRole="Users" ToRole="Units" />
+        </EntityType>
+        <EntityType Name="UserToken">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RefToken" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Expired" Type="Boolean" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="ValidTo">
           <Key>
@@ -2912,6 +3054,18 @@
             </Principal>
             <Dependent Role="DelayedTransaction">
               <PropertyRef Name="RequestStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DelayedTransaction_Units">
+          <End Type="MostafidDatabaseModel.Units" Role="Units" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.DelayedTransaction" Role="DelayedTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="Units_ID" />
+            </Principal>
+            <Dependent Role="DelayedTransaction">
+              <PropertyRef Name="DelayedOnUnitID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3206,6 +3360,30 @@
             </Principal>
             <Dependent Role="Request_Data">
               <PropertyRef Name="Personel_Data_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumberNotification_Request_Data">
+          <End Type="MostafidDatabaseModel.Request_Data" Role="Request_Data" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.PhoneNumberNotification" Role="PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request_Data">
+              <PropertyRef Name="Request_Data_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumberNotification_Users">
+          <End Type="MostafidDatabaseModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="MostafidDatabaseModel.PhoneNumberNotification" Role="PhoneNumberNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="User_ID" />
+            </Principal>
+            <Dependent Role="PhoneNumberNotification">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3641,6 +3819,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AppSetting">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.AppSetting">
+              <MappingFragment StoreEntitySet="AppSetting">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CheckBox_Type">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.CheckBox_Type">
               <MappingFragment StoreEntitySet="CheckBox_Type">
@@ -3682,6 +3869,7 @@
                 <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
                 <ScalarProperty Name="RequestStatus" ColumnName="RequestStatus" />
                 <ScalarProperty Name="RequestCode" ColumnName="RequestCode" />
+                <ScalarProperty Name="DelayedOnUnitID" ColumnName="DelayedOnUnitID" />
                 <ScalarProperty Name="RequestID" ColumnName="RequestID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -3733,6 +3921,7 @@
             <EntityTypeMapping TypeName="MostafidDatabaseModel.ID_Document">
               <MappingFragment StoreEntitySet="ID_Document">
                 <ScalarProperty Name="IS_Action" ColumnName="IS_Action" />
+                <ScalarProperty Name="Is_NationalID" ColumnName="Is_NationalID" />
                 <ScalarProperty Name="Document_Name_AR" ColumnName="Document_Name_AR" />
                 <ScalarProperty Name="Document_Name_EN" ColumnName="Document_Name_EN" />
                 <ScalarProperty Name="ID_Document1" ColumnName="ID_Document" />
@@ -3843,6 +4032,20 @@
                 <ScalarProperty Name="Applicant_Type_ID" ColumnName="Applicant_Type_ID" />
                 <ScalarProperty Name="IAU_ID_Number" ColumnName="IAU_ID_Number" />
                 <ScalarProperty Name="Personel_Data_ID" ColumnName="Personel_Data_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneNumberNotification">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.PhoneNumberNotification">
+              <MappingFragment StoreEntitySet="PhoneNumberNotification">
+                <ScalarProperty Name="Readed" ColumnName="Readed" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="NotiDate" ColumnName="NotiDate" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="Message_EN" ColumnName="Message_EN" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3979,6 +4182,7 @@
               <MappingFragment StoreEntitySet="Request_Type">
                 <ScalarProperty Name="DeletedAt" ColumnName="DeletedAt" />
                 <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="IsRequestType" ColumnName="IsRequestType" />
                 <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
                 <ScalarProperty Name="Desc_AR" ColumnName="Desc_AR" />
                 <ScalarProperty Name="Desc_EN" ColumnName="Desc_EN" />
@@ -4056,17 +4260,6 @@
                 <ScalarProperty Name="Sub_Services_Name_AR" ColumnName="Sub_Services_Name_AR" />
                 <ScalarProperty Name="Sub_Services_Name_EN" ColumnName="Sub_Services_Name_EN" />
                 <ScalarProperty Name="Sub_Services_ID" ColumnName="Sub_Services_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="MostafidDatabaseModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4216,6 +4409,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserFCMToken">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.UserFCMToken">
+              <MappingFragment StoreEntitySet="UserFCMToken">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="FCMToken" ColumnName="FCMToken" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.Users">
               <MappingFragment StoreEntitySet="Users">
@@ -4234,6 +4437,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserToken">
+            <EntityTypeMapping TypeName="MostafidDatabaseModel.UserToken">
+              <MappingFragment StoreEntitySet="UserToken">
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Expired" ColumnName="Expired" />
+                <ScalarProperty Name="RefToken" ColumnName="RefToken" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ValidTo">
             <EntityTypeMapping TypeName="MostafidDatabaseModel.ValidTo">
               <MappingFragment StoreEntitySet="ValidTo">
@@ -4245,7 +4460,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

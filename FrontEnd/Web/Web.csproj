@@ -85,6 +85,9 @@
     <Reference Include="Microsoft.Owin.Security.WsFederation, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Owin.Security.WsFederation.4.1.1\lib\net45\Microsoft.Owin.Security.WsFederation.dll</HintPath>
     </Reference>
+    <Reference Include="Nafath.Core">
+      <HintPath>..\..\..\..\Downloads\Nafath.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -202,6 +205,8 @@
     <Content Include="Design\CSS\contactus.css" />
     <Content Include="Design\CSS\style.css" />
     <Content Include="Design\img\19 h.png" />
+    <Content Include="Design\img\6324237_knowledge_learning_education_hat_student_icon.svg" />
+    <Content Include="Design\img\7787575_security_protection_secure_shield_lock_icon.svg" />
     <Content Include="Design\img\ArRequestType.PNG" />
     <Content Include="Design\img\ArServiceType.PNG" />
     <Content Include="Design\img\EnRequestType.PNG" />

@@ -28,6 +28,7 @@ namespace IAU_BackEnd.Models
         public string Desc_EN { get; set; }
         public string Desc_AR { get; set; }
         public string Image_Path { get; set; }
+        public bool IsRequestType { get; set; }
         public bool Deleted { get; set; }
         public Nullable<System.DateTime> DeletedAt { get; set; }
     

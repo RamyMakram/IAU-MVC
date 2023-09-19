@@ -17,6 +17,7 @@ namespace IAU_BackEnd.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Users()
         {
+            this.PhoneNumberNotification = new HashSet<PhoneNumberNotification>();
             this.SystemLog = new HashSet<SystemLog>();
         }
     
@@ -34,6 +35,8 @@ namespace IAU_BackEnd.Models
         public Nullable<System.DateTime> DeletedAt { get; set; }
     
         public virtual Job Job { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhoneNumberNotification> PhoneNumberNotification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SystemLog> SystemLog { get; set; }
         public virtual Units Units { get; set; }

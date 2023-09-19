@@ -71,6 +71,9 @@
     <Compile Include="Models\Applicant_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppSetting.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CheckBox_Type.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -134,6 +137,9 @@
     <Compile Include="Models\Person_Eform.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PhoneNumberNotification.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Preview_EformApproval.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -182,9 +188,6 @@
     <Compile Include="Models\Sub_Services.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>MostafidModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SystemLog.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
@@ -221,7 +224,13 @@
     <Compile Include="Models\Unit_Signature.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserFCMToken.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Users.cs">
+      <DependentUpon>MostafidModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserToken.cs">
       <DependentUpon>MostafidModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ValidTo.cs">

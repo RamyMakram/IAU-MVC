@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="168.872" height="111.302" viewBox="0 0 168.872 111.302">
+  <defs>
+    <filter id="Path_6" x="38.163" y="31.326" width="111.401" height="79.977" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="7.5" result="blur"/>
+      <feFlood flood-opacity="0.502"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="_6324237_knowledge_learning_education_hat_student_icon" data-name="6324237_knowledge_learning_education_hat_student_icon" transform="translate(124)">
+    <path id="Path_2" data-name="Path 2" d="M454,240.512,514.116,211,575.6,240.238,514.39,273.576Z" transform="translate(-544.116 -211)" fill="#fff"/>
+    <path id="Path_3" data-name="Path 3" d="M330,267" transform="translate(-454 -251.698)" fill="#fff"/>
+    <rect id="Rectangle_5" data-name="Rectangle 5" width="2.912" height="26.205" rx="1.456" transform="translate(25.949 28.488)" fill="#fff"/>
+    <circle id="Ellipse_1" data-name="Ellipse 1" cx="5.397" cy="5.397" r="5.397" transform="translate(22.739 52.738)" fill="#fff"/>
+    <path id="Path_4" data-name="Path 4" d="M872.093,460a5.465,5.465,0,0,0,6.558,0q.273,12.982.547,25.959H871Q871.546,472.98,872.093,460Z" transform="translate(-847.169 -391.959)" fill="#fff"/>
+    <path id="Path_5" data-name="Path 5" d="M948,532" transform="translate(-903.128 -444.285)" fill="#fff"/>
+    <g transform="matrix(1, 0, 0, 1, -124, 0)" filter="url(#Path_6)">
+      <path id="Path_6-2" data-name="Path 6" d="M552,397l32.957,18.048L618.4,397v19.128c-1.5,1.85-13.185,15.786-33.064,15.849-20.043.063-31.862-14.026-33.337-15.849Z" transform="translate(-491.34 -346.17)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
