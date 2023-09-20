@@ -1,10 +1,12 @@
 ﻿using IAU.DTO.Entity;
 using IAU.DTO.Helper;
+using Nafath.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -14,33 +16,88 @@ using System.Web;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
 using Web.App_Start;
+using Web.Helper;
 
 namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
-        public ActionResult Index(string u)
+        public ActionResult Index(string u, string authorized, string person)
         {
             var lang = Request.Cookies["lang"].Value;
-            if (u == null || u == "")
-                Response.Cookies.Add(new HttpCookie("us", null));
-            else
-            {
-                Response.Cookies.Add(new HttpCookie("us", u));
+            var isar = lang.Contains("ar");
 
-                TempData["UserData"] = LoadDataFromMostafid(u, lang);
-                TempData["Authorized"] = true;
-            }
             var res = APIHandeling.getData("/_Home/LoadMain");
             var resJson = res.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
+            var _HomeDTO = new _HomeDTO();
             if (response.success)
             {
                 ViewBag.CookieLang = lang;
-                return View(JsonConvert.DeserializeObject<_HomeDTO>(response.result.ToString()));
+                _HomeDTO = JsonConvert.DeserializeObject<_HomeDTO>(response.result.ToString());
+                var Authorized = (TempData.Peek("Authorized") as bool?);
+                if (Authorized.HasValue && Authorized.Value)
+                    return View(_HomeDTO);
             }
+            else
+                return RedirectToAction("Error");
 
-            return RedirectToAction("Error");
+            if (!string.IsNullOrEmpty(authorized))
+            {
+                System.IO.File.WriteAllText($"Nafath_{DateTime.Now.Ticks}.txt", person);
+
+                var person1 = new Nafath.Core.Person().GetAuthorizedPerson(person);
+                var id = person1 != null && person1.id.ToString().Length == 10 ? person1.id.ToString() : "";
+                if (string.IsNullOrEmpty(id)) //Nafath Not authorized 
+                    return RedirectToAction("Login"); // redirect to login 
+                else
+                {
+                    //Response.Cookies.Add(new HttpCookie("us", u));
+
+                    TempData["UserData"] = new Helper.IntegrationCallbackDTO
+                    {
+                        IntegrationType = Helper.IntegrationTypeEnum.Nafath,
+                        Person = new PersonalDataDTO
+                        {
+                            First_Name = isar ? person1.arFirst : person1.enFirst,
+                            Middle_Name = isar ? person1.arFather : person1.enFather,
+                            Last_Name = isar ? person1.arGrand : person1.enGrand,
+                            ID_Number = person1.id.ToString(),
+                            ID_Document = _HomeDTO.IDS.FirstOrDefault(q => q.Is_NationalID).ID_Document1,
+                            Nationality_ID = _HomeDTO.Country.FirstOrDefault(q => q.Country_Name_EN.Contains(person1.enNationality))?.Country_ID
+                        }
+
+                    };
+                    TempData["Authorized"] = true;
+                }
+            }
+            else if (!string.IsNullOrEmpty(u))
+            {
+                Response.Cookies.Add(new HttpCookie("us", u));
+                var MustafeedData = JsonConvert.DeserializeObject<MustafeedCallback>(LoadDataFromMostafid(u, lang));
+
+                TempData["UserData"] = new Helper.IntegrationCallbackDTO
+                {
+                    IntegrationType = Helper.IntegrationTypeEnum.Mustafeed,
+                    Person = new PersonalDataDTO
+                    {
+                        First_Name = MustafeedData.firstName,
+                        Middle_Name = MustafeedData.middleName,
+                        IAU_ID_Number = MustafeedData.iauIdNumber,
+                        ID_Number = MustafeedData.idNumber,
+                        ID_Document = _HomeDTO.IDS.FirstOrDefault(q => q.Is_NationalID).ID_Document1,
+                        Nationality_ID = _HomeDTO.Country.FirstOrDefault(q => q.Country_Name_EN.Contains(MustafeedData.nationality) || q.Country_Name_AR.Contains(MustafeedData.nationality))?.Country_ID,
+                        Email = MustafeedData.email,
+                        Mobile = MustafeedData.mobile,
+                    }
+
+                };
+                TempData["Authorized"] = true;
+            }
+            else
+                return RedirectToAction("Login");
+
+            return View(_HomeDTO);
         }
 
         public ActionResult Login()
@@ -127,6 +184,40 @@ namespace Web.Controllers
             {
                 if (request_Data == null || code == "")
                     return null;
+
+                var Person_Callback = (TempData.Peek("UserData") as Web.Helper.IntegrationCallbackDTO);
+                var Person = Person_Callback.Person;
+
+
+                var RequestData = JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data);
+                var Personal = RequestData.Personel_Data;
+                switch (Person_Callback.IntegrationType)
+                {
+                    case IntegrationTypeEnum.Nafath:
+                        Personal.First_Name = Person.First_Name;
+                        Personal.Middle_Name = Person.Middle_Name;
+                        Personal.IAU_ID_Number = Person.IAU_ID_Number;
+                        Personal.ID_Number = Person.ID_Number;
+                        Personal.ID_Document = Person.ID_Document;
+                        Personal.Nationality_ID = Person.Nationality_ID;
+                        Personal.Email = Person.Email;
+                        Personal.Mobile = Person.Mobile;
+                        break;
+                    case IntegrationTypeEnum.Mustafeed:
+                        Personal.First_Name = Person.First_Name;
+                        Personal.Middle_Name = Person.Middle_Name;
+                        Personal.ID_Number = Person.ID_Number;
+                        Personal.ID_Document = Person.ID_Document;
+                        Personal.Nationality_ID = Person.Nationality_ID;
+                        break;
+                    default:
+                        break;
+                }
+
+                RequestData.Personel_Data = Personal;
+
+
+
                 var shaCode = Convert.ToBase64String(new SHA512Managed().ComputeHash(Encoding.UTF8.GetBytes(code)));
                 if (Request.Cookies["n"] != null && shaCode == Request.Cookies["n"].Value)
                 {
@@ -152,11 +243,11 @@ namespace Web.Controllers
                             var stringContent = new StringContent(JsonConvert.SerializeObject(JsonConvert.DeserializeObject<ApplicantRequest_Data_DTO>(request_Data).Personel_Data.E_Forms_Answer));
                             stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
                             content.Add(stringContent, "json");
-                            stringContent = new StringContent(request_Data);
+                            stringContent = new StringContent(JsonConvert.SerializeObject(RequestData));
                             stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
                             content.Add(stringContent, "json");
 
-                            var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData";
+                            var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData?UpdateFrom="+ Person_Callback.IntegrationType.ToString();
                             var result = client.PostAsync(requestUri, content).Result;
                             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                             {
@@ -327,8 +418,9 @@ namespace Web.Controllers
 
             HttpClient h = new HttpClient();
 
+            string path = $"https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName={Uri.EscapeDataString(UserName)}&lang={language}";
 
-            var res = h.GetAsync($"https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName={UserName}&lang={language}");
+            var res = h.GetAsync(path);
             var resJson = res.Result.Content.ReadAsStringAsync();
 
             return resJson.Result;

@@ -374,7 +374,7 @@ namespace IAUBackEnd.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IHttpActionResult> SaveApplicantData()
+        public async Task<IHttpActionResult> SaveApplicantData(string UpdateFrom)
         {
             DbContextTransaction transaction = db.Database.BeginTransaction();
             try
@@ -396,7 +396,28 @@ namespace IAUBackEnd.Admin.Controllers
                     request_Data.Personel_Data_ID = model.Personel_Data_ID;
                 }
                 else
+                {
+                    if (UpdateFrom == "Mustafeed")
+                    {
+                        personel_Data.First_Name = request_Data.Personel_Data.First_Name;
+                        personel_Data.Middle_Name = request_Data.Personel_Data.Middle_Name;
+                        personel_Data.ID_Number = request_Data.Personel_Data.ID_Number;
+                        personel_Data.ID_Document = request_Data.Personel_Data.ID_Document;
+                        personel_Data.Nationality_ID = request_Data.Personel_Data.Nationality_ID;
+                    }
+                    else
+                    {
+                        personel_Data.First_Name = request_Data.Personel_Data.First_Name;
+                        personel_Data.Middle_Name = request_Data.Personel_Data.Middle_Name;
+                        personel_Data.IAU_ID_Number = request_Data.Personel_Data.IAU_ID_Number;
+                        personel_Data.ID_Number = request_Data.Personel_Data.ID_Number;
+                        personel_Data.ID_Document = request_Data.Personel_Data.ID_Document;
+                        personel_Data.Nationality_ID = request_Data.Personel_Data.Nationality_ID;
+                        personel_Data.Email = request_Data.Personel_Data.Email;
+                        personel_Data.Mobile = request_Data.Personel_Data.Mobile;
+                    }
                     request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
+                }
                 request_Data.CreatedDate = Helper.GetDate();
 
                 #region CheckDeleted
@@ -1066,11 +1087,11 @@ namespace IAUBackEnd.Admin.Controllers
             return Code;
         }
         [HttpPost]
-        public async Task<IHttpActionResult> FollowRequest([FromBody] string Code)
+        public async Task<IHttpActionResult> FollowRequest([FromUri] string IDNum, [FromBody] string Code)
         {
             try
             {
-                var data = db.Request_Data.Include(q => q.Units).Include(q => q.Request_State).Where(q => q.Code_Generate == Code)
+                var data = db.Request_Data.Include(q => q.Units).Include(q => q.Request_State).Where(q => q.Code_Generate == Code && q.Personel_Data.ID_Number == IDNum && q.Personel_Data.ID_Document1.Is_NationalID)
                     .Select(q => new { q.IsTwasul_OC, q.Request_State, q.Request_Data_ID, q.Request_State_ID }).FirstOrDefault();
                 return Ok(new ResponseClass() { success = true, result = new { Request = data, State = db.RequestTransaction.Where(q => q.Request_ID == data.Request_Data_ID).Include(q => q.Units).OrderByDescending(w => w.ID).FirstOrDefault() } });
             }

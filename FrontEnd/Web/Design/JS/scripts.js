@@ -44,102 +44,7 @@ let titles = []
 let doctype = []
 var Answer = [];
 let $AppType = []
-$(document).ready(function () {
-    CountryState()
-    let data = null;
-    let cook = document.cookie.split(';');
-    cook.forEach(i => {
-        let keyandval = i.split('=');
-        if (keyandval[0].trim().replace(' ', '') == "us") {
-            data = i.replace(' ', '').split("us=")[1]
-        }
-    })
-    if (data == '')
-        data = null;
-    let mst = localStorage.getItem("mst");
-    let ret = localStorage.getItem("ret");
-    if (data != null && data != "" && mst != null && mst != "" && ret != null && ret != "") {
-        $(".loading").addClass("callApi");
-        $.ajax({
-            url: `https://outres.iau.edu.sa/commondata/api/v1/userinfo`,
-            data: {
-                userName: data,
-                lang: language
-            },
-            type: "GET",
-            success: function (da) {
-                var res = da
-                Redirect = true;
-                document.cookie = "";
-                window.history.pushState({}, document.title, "/");
-                $('#NewRequest').click();
-                $(`[data-mainserviceid='${mst}']`).addClass("active").click()
-                RedirectReqType = ret;
-                localStorage.removeItem('mst')
-                localStorage.removeItem('ret')
-                $("#FirstName").val(res["firstName"]).attr("disabled", "")
-                $("#MiddelName").val(res["middleName"]).attr("disabled", "")
-                $("#FamilyName").val(res["familyName"]).attr("disabled", "")
-                $('#IAUID').val(res["iauIdNumber"]).attr("disabled", "")
-                isAffilate = 1;
-                $("#Affiliated option:selected").text("yes")
-                $("#Affiliated").attr("disabled", "")
-                $('#Email').val(res["email"]).attr("disabled", "")
-                $('#Mobile').val(res["mobile"]).attr("disabled", "")
-                if ($(`#Nationality_ID option`).length == 1) {
-                    let timeout = setInterval(function () {
-                        if ($(`#Nationality_ID option`).length != 1) {
-                            $(`#Nationality_ID option:contains("${res["nationality"]}")`).attr('selected', true);
-                            $("#Nationality_ID").attr("disabled", "")
-                            clearInterval(timeout)
-                        }
-                    }, 500)
-                } else {
-                    $(`#Nationality_ID option:contains("${res["nationality"]}")`).attr('selected', true);
-                    $("#Nationality_ID").attr("disabled", "")
-                }
-                if ($AppType.length == 0) {
-                    let timeout = setInterval(function () {
-                        if ($AppType.length != 0) {
-                            $('#Affiliated').val("1");
-                            FilterAppType(true);
-                            clearInterval(timeout)
-                        }
-                    }, 500)
-                }
-                else {
-                    $('#Affiliated').val("1");
-                    FilterAppType(true);
-                }
 
-                localStorage.removeItem('mst')
-                localStorage.removeItem('ret')
-
-                setTimeout(e => { $(".loading").removeClass("callApi"); }, 500)
-            },
-            error: function () {
-                localStorage.removeItem('mst')
-                localStorage.removeItem('ret')
-                document.cookie = "";
-                location.href = location.href.split("?")[0]
-            },
-        })
-    } else {
-        localStorage.removeItem('mst')
-        localStorage.removeItem('ret')
-        document.cookie = "";
-        if (data != null && data != "")
-            location.href = location.href.split("?")[0]
-        setTimeout(e => { $(".loading").removeClass("callApi"); }, 500)
-
-    }
-    if (document.body.offsetWidth < 767) {
-        $("#Service_Type_Id img").removeAttr("data-bs-toggle");
-        $("#Service_Type_Id img").removeAttr("data-bs-trigger");
-        $("#Service_Type_Id img").removeAttr("data-bs-original-title");
-        $("#Service_Type_Id img").removeAttr("aria-label");
-    }
-});
 function reIntializeReType() {
     $('.requesttype').click(function () {
         let ID = $('.mainservice.active').attr('data-mainserviceid');
@@ -1253,28 +1158,18 @@ function confirm() {
 }
 
 function FilterAppType(aff) {
-    let $data = $AppType.filter(q => aff ? q.Affliated : !q.Affliated)
-    $("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
-    $data.filter(q => !q.Affiliated).forEach(i => {
-        $("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
-    })
-}
-function AffiliatedState() {
-    isAffilate = parseInt($("#Affiliated option:selected").val());
-    if (isAffilate == 1) {
-        //$(".loading").addClass("active");
-        $("#IAUID").removeAttr("disabled");
-        if (!Redirect) {
-            localStorage.setItem("ret", document.getElementsByClassName('stick active requesttype')[0].getAttribute('data-requesttypeid'))
-            localStorage.setItem("mst", document.getElementsByClassName('stick active mainservice')[0].getAttribute('data-mainserviceid'))
-            $("#RedirectBTN").click();
-        }
+    let Interval = setInterval(() => {
+        let $data = $AppType.filter(q => aff ? q.Affliated : !q.Affliated)
+        $("#Applicant_Type_ID").html(language == "ar" ? '<option disabled selected value="null">اختر-----------------</option>' : '<option disabled selected value="null">Select-----------------</option>');
+        $data.filter(q => !q.Affiliated).forEach(i => {
+            $("#Applicant_Type_ID").append("<option value=" + i.Applicant_Type_ID + ">" + (language == "ar" ? i.Applicant_Type_Name_AR : i.Applicant_Type_Name_EN) + "</option>")
+        })
+        if ($AppType.length != 0)
+            clearInterval(Interval)
+    }, 50)
 
-    } else if (($("#Affiliated option:selected").text()).toLowerCase()) {
-        $("#IAUID").attr("disabled", "disabled");
-    }
-    FilterAppType(isAffilate == 1)
 }
+
 $('#Nationality_ID').change(i => {
     $("#__IDNUMBind").text(language == "ar" ? "رقم الهوية الوطنية" : "National ID Number")
 })

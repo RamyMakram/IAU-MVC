@@ -15,13 +15,13 @@ namespace Web.Controllers
                 Response.Cookies.Set(new HttpCookie("lang", "ar"));
             if (Request.Path == "/" || Request.Path.ToLower() == "/home")
             {
-                if (string.IsNullOrEmpty(Request.QueryString["u"]) && string.IsNullOrEmpty(Request.QueryString["naf"]))
+                if (string.IsNullOrEmpty(Request.QueryString["u"]) && string.IsNullOrEmpty(Request.QueryString["person"]))
                 {
                     HandelRedirect();
                 }
-                else if (Request.Path.ToLower().Contains("followup"))
-                    HandelRedirect();
             }
+            else if (Request.Path.ToLower().Contains("follow"))
+                HandelRedirect();
 
             void HandelRedirect()
             {
