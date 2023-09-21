@@ -42,9 +42,9 @@ namespace Web.Controllers
             else
                 return RedirectToAction("Error");
 
-            if (!string.IsNullOrEmpty(authorized))
+            if (!string.IsNullOrEmpty(authorized) && authorized == "true")
             {
-                System.IO.File.WriteAllText($"Nafath_{DateTime.Now.Ticks}.txt", person);
+                //System.IO.File.WriteAllText($"Nafath_{DateTime.Now.Ticks}.txt", person);
 
                 var person1 = new Nafath.Core.Person().GetAuthorizedPerson(person);
                 var id = person1 != null && person1.id.ToString().Length == 10 ? person1.id.ToString() : "";
@@ -196,19 +196,19 @@ namespace Web.Controllers
                     case IntegrationTypeEnum.Nafath:
                         Personal.First_Name = Person.First_Name;
                         Personal.Middle_Name = Person.Middle_Name;
+                        Personal.ID_Number = Person.ID_Number;
+                        Personal.ID_Document = Person.ID_Document;
+                        Personal.Nationality_ID = Person.Nationality_ID;
+                        break;
+                    case IntegrationTypeEnum.Mustafeed:
+                        Personal.First_Name = Person.First_Name;
+                        Personal.Middle_Name = Person.Middle_Name;
                         Personal.IAU_ID_Number = Person.IAU_ID_Number;
                         Personal.ID_Number = Person.ID_Number;
                         Personal.ID_Document = Person.ID_Document;
                         Personal.Nationality_ID = Person.Nationality_ID;
                         Personal.Email = Person.Email;
                         Personal.Mobile = Person.Mobile;
-                        break;
-                    case IntegrationTypeEnum.Mustafeed:
-                        Personal.First_Name = Person.First_Name;
-                        Personal.Middle_Name = Person.Middle_Name;
-                        Personal.ID_Number = Person.ID_Number;
-                        Personal.ID_Document = Person.ID_Document;
-                        Personal.Nationality_ID = Person.Nationality_ID;
                         break;
                     default:
                         break;
@@ -247,7 +247,7 @@ namespace Web.Controllers
                             stringContent.Headers.Add("Content-Disposition", "form-data; name=\"json\"");
                             content.Add(stringContent, "json");
 
-                            var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData?UpdateFrom="+ Person_Callback.IntegrationType.ToString();
+                            var requestUri = APIHandeling.AdminURL + "/api/Request/saveApplicantData?UpdateFrom=" + Person_Callback.IntegrationType.ToString();
                             var result = client.PostAsync(requestUri, content).Result;
                             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                             {

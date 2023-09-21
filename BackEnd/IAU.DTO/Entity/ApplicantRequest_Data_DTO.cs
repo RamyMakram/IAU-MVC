@@ -20,7 +20,13 @@ namespace IAU.DTO.Entity
 		public byte Request_State_ID { get; set; }
 		public Nullable<bool> IsTwasul_OC { get; set; }
 
-		public virtual PersonalDataDTO Personel_Data { get; set; }
+
+
+
+        public Nullable<int> Unit_ID { get; set; }
+
+
+        public virtual PersonalDataDTO Personel_Data { get; set; }
 
 	}
 }

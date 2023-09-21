@@ -309,14 +309,14 @@
                     }
                 </div>
             </div>
-            <div class="row" style="justify-content:center;align-items:center" id="start-request" >
+            <div class="row" style="justify-content:center;align-items:center" id="start-request">
                 @*<div class=" col-sm-12 col-lg-2"></div>*@
                 @if (ViewBag.LoginType == "All" || ViewBag.LoginType == "Nafath")
                 {
                     <div class="col-sm-12  col-md-6 col-lg-4">
                         @{
                             //var Nafath_url="@NParser.GetAppSettings(\"NafathLink\")/@currentCulture?returnurl=https://@HttpContext.Current.Request.Url.Authority@NParser.GetAppSettings(\"SubApp\")@NParser.GetAppSettings(\"NafathReturnUrl\")"
-                            var Nafath_url = $"https://nafath.iau.edu.sa/{ViewBag.CookieLang}?returnurl=https://{HttpContext.Current.Request.Url.Authority}";
+                            var Nafath_url = $"https://nafath.iau.edu.sa/{ViewBag.CookieLang}?returnurl=http{(HttpContext.Current.Request.IsSecureConnection ? "s" : "")}://{HttpContext.Current.Request.Url.Authority}";
                         }
                         <div class="stick submit" id="NewRequest" onclick="location.href='@Nafath_url'">
                             <img src="~/Design/img/7787575_security_protection_secure_shield_lock_icon.svg">

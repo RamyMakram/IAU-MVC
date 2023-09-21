@@ -411,7 +411,7 @@
                                             }
                                         </div>
                                     </div>*@
-                                <div class="row required-field">
+                                <div class="row">
                                     <div class="col-md-5">
                                         <label>الرقم الأكاديمي</label>
                                     </div>
@@ -507,10 +507,10 @@
                                     </div>
                                     <div class="col-md-7">
                                         <img />
-                                        <select id="Nationality_ID" name="Nationality_ID">
+                                        <select @(Person.Nationality_ID != null ? "disabled" : "") id="Nationality_ID" name="Nationality_ID">
                                             @foreach (var i in Country)
                                             {
-                                                <option value="@i.Country_ID">@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
+                                                <option value="@i.Country_ID" @(i.Country_ID == Person.Nationality_ID ? "selected" : "")>@(isar ? i.Country_Name_AR : i.Country_Name_EN)</option>
                                             }
 
                                         </select>
