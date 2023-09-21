@@ -309,7 +309,7 @@ namespace IAUBackEnd.Admin.Controllers
                     return Ok(new ResponseClass()
                     {
                         success = true,
-                        result = new { request_Data, request_Data.Units.Units_Location_ID, request_Data.Units.Building_Number }
+                        result = new { request_Data, request_Data.Units?.Units_Location_ID, request_Data.Units?.Building_Number }
                     });
                 }
                 else
@@ -399,14 +399,7 @@ namespace IAUBackEnd.Admin.Controllers
                 {
                     if (UpdateFrom == "Mustafeed")
                     {
-                        personel_Data.First_Name = request_Data.Personel_Data.First_Name;
-                        personel_Data.Middle_Name = request_Data.Personel_Data.Middle_Name;
-                        personel_Data.ID_Number = request_Data.Personel_Data.ID_Number;
-                        personel_Data.ID_Document = request_Data.Personel_Data.ID_Document;
-                        personel_Data.Nationality_ID = request_Data.Personel_Data.Nationality_ID;
-                    }
-                    else
-                    {
+                       
                         personel_Data.First_Name = request_Data.Personel_Data.First_Name;
                         personel_Data.Middle_Name = request_Data.Personel_Data.Middle_Name;
                         personel_Data.IAU_ID_Number = request_Data.Personel_Data.IAU_ID_Number;
@@ -415,6 +408,14 @@ namespace IAUBackEnd.Admin.Controllers
                         personel_Data.Nationality_ID = request_Data.Personel_Data.Nationality_ID;
                         personel_Data.Email = request_Data.Personel_Data.Email;
                         personel_Data.Mobile = request_Data.Personel_Data.Mobile;
+                    }
+                    else
+                    {
+                        personel_Data.First_Name = request_Data.Personel_Data.First_Name;
+                        personel_Data.Middle_Name = request_Data.Personel_Data.Middle_Name;
+                        personel_Data.ID_Number = request_Data.Personel_Data.ID_Number;
+                        personel_Data.ID_Document = request_Data.Personel_Data.ID_Document;
+                        personel_Data.Nationality_ID = request_Data.Personel_Data.Nationality_ID;
                     }
                     request_Data.Personel_Data_ID = personel_Data.Personel_Data_ID;
                 }
@@ -702,71 +703,78 @@ namespace IAUBackEnd.Admin.Controllers
         public async Task<IHttpActionResult> Coding(int RequestIID, bool IsTwasul_OC, int Service_Type_ID, int Request_Type_ID, int? locations, string BuildingSelect, int Unit_ID, string type)
         {
 
-            var req = db.Request_Data.Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestIID);
-            if (req.TempCode == "" || req.TempCode == null)
+            try
             {
-                var trans = db.Database.BeginTransaction();
-
-                var OldVals = JsonConvert.SerializeObject(req, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-
-
-                req.IsTwasul_OC = IsTwasul_OC;
-                if (db.Service_Type.Find(Service_Type_ID).Deleted)
-                    return Ok(new ResponseClass() { success = false, result = "Del ST" });
-
-                req.Service_Type_ID = Service_Type_ID;
-
-                if (db.Request_Type.Find(Request_Type_ID).Deleted)
-                    return Ok(new ResponseClass() { success = false, result = "Del RT" });
-                req.Request_Type_ID = Request_Type_ID;
-
-                if (db.Units.Find(Unit_ID).Deleted)
-                    return Ok(new ResponseClass() { success = false, result = "Del U" });
-
-                req.Unit_ID = Unit_ID;
-
-                string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
-                if (req.Code_Generate == "" || req.Code_Generate == null)//Check If Code not Genrated
+                var req = db.Request_Data.Include(q => q.Personel_Data).FirstOrDefault(q => q.Request_Data_ID == RequestIID);
+                if (req.TempCode == "" || req.TempCode == null)
                 {
-                    req.Code_Generate = Code;
-                    req.TempCode = Code;
-                    req.GenratedDate = Helper.GetDate();
-                    db.SaveChanges();
-                    var ssss = $@"عزيزي المستفيد، نفيدكم علما بأن كود الطلب الخاص بكم هو: '{Code}' برجاء اسخدامه في حالة الإستعلام";
-                    var ssss_EN = $@"Dear Mostafid, we inform you that your request code is: '{Code}' Please use it in case of query";
-                    db.PhoneNumberNotification.Add(new PhoneNumberNotification { Message = ssss, Message_EN = ssss_EN, NotiDate = DateTime.Now, PhoneNumber = req.Personel_Data.Mobile, RequestID = RequestIID, UserID = req.Personel_Data_ID });
-                    new Thread(() =>
+                    var trans = db.Database.BeginTransaction();
+
+                    var OldVals = JsonConvert.SerializeObject(req, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+
+
+                    req.IsTwasul_OC = IsTwasul_OC;
+                    if (db.Service_Type.Find(Service_Type_ID).Deleted)
+                        return Ok(new ResponseClass() { success = false, result = "Del ST" });
+
+                    req.Service_Type_ID = Service_Type_ID;
+
+                    if (db.Request_Type.Find(Request_Type_ID).Deleted)
+                        return Ok(new ResponseClass() { success = false, result = "Del RT" });
+                    req.Request_Type_ID = Request_Type_ID;
+
+                    if (db.Units.Find(Unit_ID).Deleted)
+                        return Ok(new ResponseClass() { success = false, result = "Del U" });
+
+                    req.Unit_ID = Unit_ID;
+
+                    string Code = GetCode(RequestIID, IsTwasul_OC, Service_Type_ID, Request_Type_ID, locations, BuildingSelect, Unit_ID, type);
+                    if (req.Code_Generate == "" || req.Code_Generate == null)//Check If Code not Genrated
                     {
-                        _ = NotifyUser(req.Personel_Data.Mobile, req.Personel_Data.Email, ssss, ssss_EN);
-                    }).Start();
+                        req.Code_Generate = Code;
+                        req.TempCode = Code;
+                        req.GenratedDate = Helper.GetDate();
+                        db.SaveChanges();
+                        var ssss = $@"عزيزي المستفيد، نفيدكم علما بأن كود الطلب الخاص بكم هو: '{Code}' برجاء اسخدامه في حالة الإستعلام";
+                        var ssss_EN = $@"Dear Mostafid, we inform you that your request code is: '{Code}' Please use it in case of query";
+                        db.PhoneNumberNotification.Add(new PhoneNumberNotification { Message = ssss, Message_EN = ssss_EN, NotiDate = DateTime.Now, PhoneNumber = req.Personel_Data.Mobile, RequestID = RequestIID, UserID = int.Parse(HttpContext.Current.Request.Headers["user"]?.ToString() ?? "-1") });
+                        new Thread(() =>
+                        {
+                            _ = NotifyUser(req.Personel_Data.Mobile, req.Personel_Data.Email, ssss, ssss_EN);
+                        }).Start();
 
-                }
-                else//Check If Code Genrated
-                {
-                    req.TempCode = Code;
-                    req.GenratedDate = Helper.GetDate();
-                }
+                    }
+                    else//Check If Code Genrated
+                    {
+                        req.TempCode = Code;
+                        req.GenratedDate = Helper.GetDate();
+                    }
 
-                await db.SaveChangesAsync();
-
-                var logstate = Logger.AddLog(db: db, logClass: LogClassType.Request, Method: "Update", Oldval: OldVals, Newval: req, es: out _, syslog: out _, ID: req.Request_Data_ID, notes: "Coding Request");
-                if (logstate)
-                {
                     await db.SaveChangesAsync();
-                    trans.Commit();
-                    return Ok(new ResponseClass()
+
+                    var logstate = Logger.AddLog(db: db, logClass: LogClassType.Request, Method: "Update", Oldval: OldVals, Newval: req, es: out _, syslog: out _, ID: req.Request_Data_ID, notes: "Coding Request");
+                    if (logstate)
                     {
-                        success = true
-                    });
+                        await db.SaveChangesAsync();
+                        trans.Commit();
+                        return Ok(new ResponseClass()
+                        {
+                            success = true
+                        });
+                    }
+                    else
+                    {
+                        trans.Rollback();
+                        return Ok(new ResponseClass() { success = false });
+                    }
                 }
                 else
-                {
-                    trans.Rollback();
                     return Ok(new ResponseClass() { success = false });
-                }
             }
-            else
+            catch (Exception ee)
+            {
                 return Ok(new ResponseClass() { success = false });
+            }
 
         }
 
@@ -1015,7 +1023,7 @@ namespace IAUBackEnd.Admin.Controllers
                 sendeddata.Is_Archived = true;
                 string ssss = $@"عزيزي المستفيد، تم الانتهاء من الطلب رقم '{sendeddata.Code_Generate}'.", ssss_EN = $"Dear Mostafid, Request number '{sendeddata.Code_Generate}' has been completed";
 
-                db.PhoneNumberNotification.Add(new PhoneNumberNotification { Message = ssss, Message_EN = ssss_EN, NotiDate = DateTime.Now, PhoneNumber = sendeddata.Personel_Data.Mobile, RequestID = sendeddata.Request_Data_ID, UserID = sendeddata.Personel_Data_ID });
+                db.PhoneNumberNotification.Add(new PhoneNumberNotification { Message = ssss, Message_EN = ssss_EN, NotiDate = DateTime.Now, PhoneNumber = sendeddata.Personel_Data.Mobile, RequestID = sendeddata.Request_Data_ID, UserID = int.Parse(HttpContext.Current.Request.Headers["user"]?.ToString() ?? "-1") });
 
                 db.SaveChanges();
                 var logstate = Logger.AddLog(db: db, logClass: LogClassType.Request, Method: "Update", Oldval: OldVals, Newval: sendeddata, es: out _, syslog: out _, ID: sendeddata.Request_Data_ID, notes: "Close Request");
