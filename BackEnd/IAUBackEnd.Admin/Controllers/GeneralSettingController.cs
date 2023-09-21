@@ -19,11 +19,18 @@ namespace IAUBackEnd.Admin.Controllers
     {
         private MostafidDBEntities db = new MostafidDBEntities();
         [HttpGet]
-        public async Task<IHttpActionResult> Init()
+        public async Task<IHttpActionResult> Init(bool isar)
         {
             var data = db.Request_State.Select(s => new { s.State_ID, s.StateName_AR, s.StateName_EN, s.AllowedDelay });
-            var NewAndFlollowRequestLogin = await db.AppSetting.FirstOrDefaultAsync(q => q.Key == AppSettingEnum.NewAndFlollowRequestLogin.ToString());
-            return Ok(new ResponseClass() { success = true, result = new { Request_State = data, Use_SMS = WebApiApplication.Setting_UseMessage, NewAndFlollowRequestLogin = Enum.GetNames(typeof(NewAndFlollowRequestLoginEnum)), NewAndFlollowRequestLogin_Current = NewAndFlollowRequestLogin?.Value } });
+            var NewAndFlollowRequestLogin_Current = await db.AppSetting.FirstOrDefaultAsync(q => q.Key == AppSettingEnum.NewAndFlollowRequestLogin.ToString());
+
+            var _NewAndFlollowRequestLogin = Enum.GetNames(typeof(NewAndFlollowRequestLoginEnum));
+            Dictionary<string, string> NewAndFlollowRequestLogin = new Dictionary<string, string>();
+
+            foreach (var i in _NewAndFlollowRequestLogin)
+                NewAndFlollowRequestLogin.Add(i, ((NewAndFlollowRequestLoginEnum)Enum.Parse(typeof(NewAndFlollowRequestLoginEnum), i)).Translate(isar));
+
+            return Ok(new ResponseClass() { success = true, result = new { Request_State = data, Use_SMS = WebApiApplication.Setting_UseMessage, NewAndFlollowRequestLogin, NewAndFlollowRequestLogin_Current = NewAndFlollowRequestLogin_Current?.Value } });
         }
 
         [HttpPost]

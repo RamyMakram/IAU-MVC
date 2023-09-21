@@ -15,7 +15,9 @@ namespace AdminPanel.Controllers
         // GET: GlobalSettings
         public ActionResult Home()
         {
-            var Data = APIHandeling.getData("GeneralSetting/Init");
+            var isAr = Request.Cookies["lang"].Value == "ar";
+
+            var Data = APIHandeling.getData("GeneralSetting/Init?isar="+isAr);
             var resJson = Data.Content.ReadAsStringAsync();
             var res = JsonConvert.DeserializeObject<ResponseClass>(resJson.Result);
             var ob_data = JObject.Parse(res.result.ToString());
@@ -23,7 +25,7 @@ namespace AdminPanel.Controllers
            
             ViewBag.SMS_Status = ob_data["Use_SMS"].Value<bool>();
 
-            ViewBag.NewAndFlollowRequestLogin = ob_data["NewAndFlollowRequestLogin"].ToObject<string[]>();
+            ViewBag.NewAndFlollowRequestLogin = ob_data["NewAndFlollowRequestLogin"].ToObject<Dictionary<string,string>>();
 
             ViewBag.NewAndFlollowRequestLogin_Current = ob_data["NewAndFlollowRequestLogin_Current"].Value<string>();
             

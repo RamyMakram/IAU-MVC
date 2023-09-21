@@ -52,7 +52,7 @@
 </style>
 @{
     var isAr = Request.Cookies["lang"].Value == "ar";
-    var NewAndFlollowRequestLogin = ViewBag.NewAndFlollowRequestLogin as string[];
+    var NewAndFlollowRequestLogin = ViewBag.NewAndFlollowRequestLogin as Dictionary<string, string>;
     var NewAndFlollowRequestLogin_Current = ViewBag.NewAndFlollowRequestLogin_Current as string;
 }
 <div class="row view-genral-order">
@@ -124,21 +124,21 @@
                 @using (Html.BeginForm("UpdateLoginWay", "GlobalSettings", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
                     @*<div class="row">*@
-                        <div class="form-group">
-                            <div class="radio-inline">
-                                @*<div class="radio-list">*@
+                    <div class="form-group">
+                        <div class="radio-inline">
+                            @*<div class="radio-list">*@
 
-                                @foreach (var i in NewAndFlollowRequestLogin)
-                                {
-                                    <label class="radio radio-lg">
-                                        <input type="radio" class="MustafeedLoginWay" @(i == NewAndFlollowRequestLogin_Current ? "checked" : "") name="MustafeedLoginWay" value="@i" />
-                                        <span></span>
-                                        @i
-                                    </label>
-                                }
-                            </div>
-                            @*<span class="form-text text-muted">Some help text goes here</span>*@
+                            @foreach (var i in NewAndFlollowRequestLogin)
+                            {
+                                <label class="radio radio-lg">
+                                    <input type="radio" class="MustafeedLoginWay" @(i.Key == NewAndFlollowRequestLogin_Current ? "checked" : "") name="MustafeedLoginWay" value="@i.Key" />
+                                    <span></span>
+                                    @i.Value
+                                </label>
+                            }
                         </div>
+                        @*<span class="form-text text-muted">Some help text goes here</span>*@
+                    </div>
                     @*</div>*@
                     <button type="submit" key="t-save" class="btn btn-primary mr-1 waves-effect waves-light">Save Changes</button>
                     @Html.ActionLink("Cancel", "Home", "Home", null, new { @type = "reset", @key = "t-cancel", @class = "btn btn-secondary waves-effect" })
