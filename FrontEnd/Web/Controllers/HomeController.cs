@@ -35,9 +35,12 @@ namespace Web.Controllers
             {
                 ViewBag.CookieLang = lang;
                 _HomeDTO = JsonConvert.DeserializeObject<_HomeDTO>(response.result.ToString());
-                var Authorized = (TempData.Peek("Authorized") as bool?);
-                if (Authorized.HasValue && Authorized.Value)
-                    return View(_HomeDTO);
+                if (string.IsNullOrEmpty(authorized) && string.IsNullOrEmpty(u))
+                {
+                    var Authorized = (TempData.Peek("Authorized") as bool?);
+                    if (Authorized.HasValue && Authorized.Value)
+                        return View(_HomeDTO);
+                }
             }
             else
                 return RedirectToAction("Error");
@@ -97,7 +100,7 @@ namespace Web.Controllers
             else
                 return RedirectToAction("Login");
 
-            return View(_HomeDTO);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Login()
