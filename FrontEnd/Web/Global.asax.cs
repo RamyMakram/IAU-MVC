@@ -20,8 +20,8 @@ namespace Web
 		}
 		protected void Application_EndRequest()
 		{   //here breakpoint
-			//if (HttpContext.Current.Response.StatusCode >= 400 && HttpContext.Current.Response.StatusCode <= 599)
-			//	HttpContext.Current.Response.Redirect(Request.Url.ToString().Replace(Request.Url.PathAndQuery, "") + "/" + "Error");
+			if (HttpContext.Current.Response.StatusCode >= 400 && HttpContext.Current.Response.StatusCode <= 599)
+				HttpContext.Current.Response.Redirect(Request.Url.ToString().Replace(Request.Url.PathAndQuery, "") + "/" + "Error");
 		}
 	}
 }

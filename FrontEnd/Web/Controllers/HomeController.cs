@@ -43,7 +43,7 @@ namespace Web.Controllers
                 }
             }
             else
-                return RedirectToAction("Error");
+                return RedirectToAction("Index","Error");
 
             if (!string.IsNullOrEmpty(authorized) && authorized == "true")
             {
