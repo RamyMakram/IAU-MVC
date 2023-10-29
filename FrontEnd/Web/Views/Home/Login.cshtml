@@ -17,11 +17,90 @@
     <meta name="keywords" content=" مستفيد,تقديم طلب ،استفسار عن طلب ,جامعة الامام ,الامام بن عبد الرحمن,iau,mostafid,mustafid,new request,inquery,contact-us,IAU">
 
     <style>
+        @@media(max-width:800px) {
+            .footer > .row > .col-12 {
+                justify-content: space-between !important;
+            }
+        }
+
+        .footer > .row > .col-12 {
+            justify-content: space-around;
+        }
+
+        .footer {
+            background: #EFEFF6;
+            margin-top: 20vh;
+            padding: 30px;
+            font-weight: bold
+        }
+
+        .footer_attr {
+            display: flex;
+            flex-direction: column
+        }
+
+            .footer_attr p {
+                margin: 4px 0px
+            }
+
+            .footer_attr img {
+                height: 40px !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                /*background: #55713F !important;*/
+                border-radius: 100px;
+                /*padding: 6px;*/
+                margin: 0 6px;
+            }
+
+            .footer_attr .img img {
+                height: 80%
+            }
+
+        .footer h3 {
+            margin-bottom: 20px;
+        }
+
+        .footer p, .footer h3 {
+            text-align: center;
+        }
+
+        .footer .row {
+            width: 100%
+        }
+
+        .toptitle_header {
+            color: #FFFFFF;
+            text-align: center;
+            border-radius: 15px;
+            border: 1px solid #FFFFFF;
+            letter-spacing: 0.06em;
+        }
+
+        .toptitle_header_parent {
+            margin: 0 !important;
+        }
+
+        .newclassWhite {
+            height: 213px !important;
+        }
+
+            .newclassWhite, .newclassWhite img {
+                background: #EFEFF6 !important;
+                margin: 0 auto !important
+            }
+
+                .newclassWhite p {
+                    color: #55713F !important
+                }
+
         #start-request .stick img {
             justify-content: center;
             align-items: center;
             width: 110px;
-            height: 140px;
+            /*height: 140px;*/
             display: flex;
             margin: auto;
             margin-bottom: 35px;
@@ -295,13 +374,29 @@
         }
 
         <div class="col-md-8 containt" id="MainBody">
+            <div class="row justify-content-center toptitle_header_parent">
+                <div class="col-md-10 toptitle_header">
+                    @*<p>iau - bsc</p>*@
+                    @*<br />*@
+                    <h1>
+                        @(ViewBag.CookieLang == "ar" ? "رعاية المستفيدين" : "Beneficiary care") 
+                    </h1>
+                    <p>
+                        @(ViewBag.CookieLang == "ar" ? "نعمل بإستمرار لتوفير المعلومات اللازمة وجعل تجربتك مع خدمتنا أسهل" : "We are constantly working to provide the necessary information and make your experience with our service easier")
+                        <br />
+                        @(ViewBag.CookieLang == "ar" ? "سوف نتجاوب معك خلال 24 ساعة" : "We will respond to you within 24 hours")
+                        
+                    </p>
+
+                </div>
+            </div>
             <div class="row" id="start-request" data-PageIndex="0">
                 <div class="col-md-12 main-title">
                     @*<p>iau - bsc</p>*@
                     <br />
                     @if (ViewBag.CookieLang == "ar")
                     {
-                        <p style=" letter-spacing: 0.06em;margin-top:5vh">لكي تتمكن من تقديم طلب / متابعته برجاء تسجيل الدخول عن طريق</p>
+                        <p style=" letter-spacing: 0.06em;margin-top:5vh">لكي تتمكن من تقديم طلب / متابعته برجاء تسجيل الدخول <br />عن طريق</p>
                     }
                     else
                     {
@@ -311,6 +406,16 @@
             </div>
             <div class="row" style="justify-content:center;align-items:center" id="start-request">
                 @*<div class=" col-sm-12 col-lg-2"></div>*@
+                @if (ViewBag.LoginType == "All" || ViewBag.LoginType == "Mustafeed")
+                {
+                    <div class="col-sm-12 col-md-6  col-lg-4">
+                        <div class="stick follow newclassWhite" onclick="location.href='https://iau-bsc.iau.edu.sa/'">
+
+                            <img src="~/Design/img/footer/1.png" />
+                            <p class="first1">@(ViewBag.CookieLang == "ar" ? "منسوبي الجامعة" : "IAU Affiliated")</p>
+                        </div>
+                    </div>
+                }
                 @if (ViewBag.LoginType == "All" || ViewBag.LoginType == "Nafath")
                 {
                     <div class="col-sm-12  col-md-6 col-lg-4">
@@ -318,25 +423,75 @@
                             //var Nafath_url="@NParser.GetAppSettings(\"NafathLink\")/@currentCulture?returnurl=https://@HttpContext.Current.Request.Url.Authority@NParser.GetAppSettings(\"SubApp\")@NParser.GetAppSettings(\"NafathReturnUrl\")"
                             var Nafath_url = $"https://nafath.iau.edu.sa/{ViewBag.CookieLang}?returnurl=http{(HttpContext.Current.Request.IsSecureConnection ? "s" : "")}://{HttpContext.Current.Request.Url.Authority}";
                         }
-                        <div class="stick submit" id="NewRequest" onclick="location.href='@Nafath_url'">
-                            <img src="~/Design/img/7787575_security_protection_secure_shield_lock_icon.svg">
+                        <div class="stick submit newclassWhite" id="NewRequest" onclick="location.href='@Nafath_url'">
+                            <img src="~/Design/img/footer/2.png" />
                             <p class="first">@(ViewBag.CookieLang == "ar" ? "نفاذ" : "Nafath") </p>
-                        </div>
-                    </div>
-                }
-                @if (ViewBag.LoginType == "All" || ViewBag.LoginType == "Mustafeed")
-                {
-                    <div class="col-sm-12 col-md-6  col-lg-4">
-                        <div class="stick follow" onclick="location.href='https://iau-bsc.iau.edu.sa/'">
-                            <img src="~/Design/img/6324237_knowledge_learning_education_hat_student_icon.svg">
-                            <p class="first1">@(ViewBag.CookieLang == "ar" ? "منسوبي الجامعة" : "IAU Affiliated")</p>
                         </div>
                     </div>
                 }
             </div>
         </div>
-    </div>
+        <div class="footer">
+            <h3>
+                @(ViewBag.CookieLang == "ar" ? "نحن دائما جاهزون لمساعدتك" : "We are always ready to help you")
 
+            </h3>
+            <p>
+                @(ViewBag.CookieLang == "ar" ? " نرحب بتواصلكم معنا على معلومات التواصل" : "We welcome you to contact us on the contact information")
+
+            </p>
+            <div class="row">
+                <div class="col-12" style="display:flex;flex-direction:row;align-items:center;justify-content:space-around;flex-wrap:wrap">
+                    <div class="footer_attr">
+                        <div class="img" style="display:inline-flex">
+                            <img src="~/Design/img/footer/Group 18.png" />
+                            <span>
+
+                                @(ViewBag.CookieLang == "ar" ? "العنوان" : "The address")
+                                <p>
+                                    @(ViewBag.CookieLang == "ar" ? "طريق الملك فيصل-المدينة الجامعية البوابة رقم(1)" : "King Faisal Road - University City Gate No. (1)")
+
+                                </p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="footer_attr">
+                        <div class="img" style="display:inline-flex">
+                            <img src="~/Design/img/footer/Group 19.png" />
+                            <span>
+                                @(ViewBag.CookieLang == "ar" ? "البريد الإلكتروني" : "E-mail")
+                                <p>iau-bsc@iau.edu.sa</p>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="footer_attr">
+                        <div class="img" style="display: inline-flex;">
+                            <img src="~/Design/img/footer/Group 27.png" />
+                            <span>
+                                @(ViewBag.CookieLang == "ar" ? "الهاتف" : "Phone")
+                                <p>0133333322</p>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12" style="display:flex;flex-direction:column;align-items:center">
+                    <div class="footer_attr">
+                        <div class="img" style="display: inline-flex; align-items: center;">
+                            <img src="~/Design/img/footer/Group 26 (2).png" />
+                            <span style="height:fit-content">
+                                @(ViewBag.CookieLang == "ar" ? "اتصل بنا" : "Call us")
+                            </span>
+                        </div>
+                    </div>
+                    <p>
+                        @(ViewBag.CookieLang == "ar" ? "من الأحد إلى الخميس من الساعة 8 صباحا وحتى الساعة 2 مساء" : "From Sunday to Thursday from 8 am to 2 pm")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="~/Design/JS/popper.js"></script>
     <script src="~/Design/JS/bootstrap.min.js"></script>

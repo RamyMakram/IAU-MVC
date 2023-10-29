@@ -77,17 +77,6 @@ namespace IAUBackEnd.Admin.Models
         public virtual DbSet<ID_Document> ID_Document { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
-        public virtual DbSet<AggregatedCounter> AggregatedCounter { get; set; }
-        public virtual DbSet<Hash> Hash { get; set; }
-        public virtual DbSet<Job1> Job1 { get; set; }
-        public virtual DbSet<JobParameter> JobParameter { get; set; }
-        public virtual DbSet<JobQueue> JobQueue { get; set; }
-        public virtual DbSet<List> List { get; set; }
-        public virtual DbSet<Schema> Schema { get; set; }
-        public virtual DbSet<Server> Server { get; set; }
-        public virtual DbSet<Set> Set { get; set; }
-        public virtual DbSet<State> State { get; set; }
-        public virtual DbSet<Counter> Counter { get; set; }
         public virtual DbSet<AppSetting> AppSetting { get; set; }
     }
 }
