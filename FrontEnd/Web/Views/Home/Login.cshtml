@@ -22,7 +22,10 @@
                 justify-content: space-between !important;
             }
         }
-
+        .vision{
+            margin:0 !important;
+            text-align:center!important
+        }
         .footer > .row > .col-12 {
             justify-content: space-around;
         }
@@ -87,14 +90,20 @@
             height: 213px !important;
         }
 
-            .newclassWhite, .newclassWhite img {
-                background: #EFEFF6 !important;
-                margin: 0 auto !important
-            }
+        .langBTN, .vision a,button {
+            background: #EFEFF6 !important;
+            color: #55713F !important;
+        }
 
-                .newclassWhite p {
-                    color: #55713F !important
-                }
+        .newclassWhite, .newclassWhite img {
+            background: #EFEFF6 !important;
+            margin: 0 auto !important;
+            color: #55713F !important;
+        }
+
+            .newclassWhite p {
+                color: #55713F !important
+            }
 
         #start-request .stick img {
             justify-content: center;
@@ -249,7 +258,7 @@
     <nav class="navbar navbar-expand-xl">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="~/Design/img/IAULOGO.png" /> <img src="~/Design/img/MousLogo2.png" />
+                <img src="~/Design/img/IAULOGO.png" /> @*<img src="~/Design/img/MousLogo2.png" />*@
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -379,13 +388,13 @@
                     @*<p>iau - bsc</p>*@
                     @*<br />*@
                     <h1>
-                        @(ViewBag.CookieLang == "ar" ? "رعاية المستفيدين" : "Beneficiary care") 
+                        @(ViewBag.CookieLang == "ar" ? "رعاية المستفيدين" : "Beneficiary care")
                     </h1>
                     <p>
                         @(ViewBag.CookieLang == "ar" ? "نعمل بإستمرار لتوفير المعلومات اللازمة وجعل تجربتك مع خدمتنا أسهل" : "We are constantly working to provide the necessary information and make your experience with our service easier")
                         <br />
                         @(ViewBag.CookieLang == "ar" ? "سوف نتجاوب معك خلال 24 ساعة" : "We will respond to you within 24 hours")
-                        
+
                     </p>
 
                 </div>
@@ -396,7 +405,7 @@
                     <br />
                     @if (ViewBag.CookieLang == "ar")
                     {
-                        <p style=" letter-spacing: 0.06em;margin-top:5vh">لكي تتمكن من تقديم طلب / متابعته برجاء تسجيل الدخول <br />عن طريق</p>
+                        <p style=" letter-spacing: 0.06em;margin-top:5vh">لكي تتمكن من تقديم طلب / متابعته نأمل تسجيل الدخول <br />عن طريق</p>
                     }
                     else
                     {
