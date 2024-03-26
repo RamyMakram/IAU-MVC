@@ -1,5 +1,7 @@
 ﻿using IAU.DTO.Entity;
 using IAU.DTO.Helper;
+using Microsoft.Owin.Security.WsFederation;
+using Microsoft.Owin.Security;
 using Nafath.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,8 +24,11 @@ namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
+        [Authorize]
         public ActionResult Index(string u, string authorized, string person)
         {
+            System.Web.HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" },WsFederationAuthenticationDefaults.AuthenticationType);
+
             var lang = Request.Cookies["lang"].Value;
             var isar = lang.Contains("ar");
 
@@ -77,7 +82,7 @@ namespace Web.Controllers
             else if (!string.IsNullOrEmpty(u))
             {
                 Response.Cookies.Add(new HttpCookie("us", u));
-                var MustafeedData = JsonConvert.DeserializeObject<MustafeedCallback>(LoadDataFromMostafid(u, lang));
+                var MustafeedData = JsonConvert.DeserializeObject<MustafeedCallback>(MustafeedFunctions.LoadData(u, lang));
 
                 TempData["UserData"] = new Helper.IntegrationCallbackDTO
                 {
@@ -416,20 +421,6 @@ namespace Web.Controllers
         }
 
 
-        private string LoadDataFromMostafid(string UserName, string language)
-        {
-
-            HttpClient h = new HttpClient();
-
-            string path = $"https://outres.iau.edu.sa/commondata/api/v1/userinfo?userName={Uri.EscapeDataString(UserName)}&lang={language}";
-
-            var res = h.GetAsync(path);
-            var resJson = res.Result.Content.ReadAsStringAsync();
-
-            return resJson.Result;
-        }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public JsonResult GetRedirectedData(string token, string language)
@@ -437,7 +428,22 @@ namespace Web.Controllers
             if (!HttpContext.Request.IsAjaxRequest())
                 return Json("401", JsonRequestBehavior.AllowGet);
 
-            return Json(LoadDataFromMostafid(token, language), JsonRequestBehavior.AllowGet);
+            return Json(MustafeedFunctions.LoadData(token, language), JsonRequestBehavior.AllowGet);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken()]
+        //public JsonResult LoginViaMustafeed()
+        //{
+        //    if (!System.Web.HttpContext.Current.Request.IsAuthenticated)
+        //    {
+        //        System.Web.HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" },
+        //            WsFederationAuthenticationDefaults.AuthenticationType);
+        //    }
+        //    if (!HttpContext.Request.IsAjaxRequest())
+        //        return Json("401", JsonRequestBehavior.AllowGet);
+
+        //    return Json(MustafeedFunctions.LoadData(token, language), JsonRequestBehavior.AllowGet);
+        //}
     }
 }
