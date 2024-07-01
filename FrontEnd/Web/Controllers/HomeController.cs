@@ -24,10 +24,9 @@ namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
-        [Authorize]
         public ActionResult Index(string u, string authorized, string person)
         {
-            System.Web.HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" },WsFederationAuthenticationDefaults.AuthenticationType);
+            //System.Web.HttpContext.Current.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = "/" },WsFederationAuthenticationDefaults.AuthenticationType);
 
             var lang = Request.Cookies["lang"].Value;
             var isar = lang.Contains("ar");
@@ -48,7 +47,7 @@ namespace Web.Controllers
                 }
             }
             else
-                return RedirectToAction("Index","Error");
+                return RedirectToAction("Index", "Error");
 
             if (!string.IsNullOrEmpty(authorized) && authorized == "true")
             {
@@ -108,6 +107,12 @@ namespace Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
+        [HttpGet]
+        public ActionResult SignInMustafeed()
+        {
+            return RedirectToAction("Index", new { u = User.Identity.Name });
+        }
         public ActionResult Login()
         {
             var lang = Request.Cookies["lang"].Value;
