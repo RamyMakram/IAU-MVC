@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Linq.Dynamic;
 using System.Net.Mail;
 using System.Threading;
+using System.Configuration;
 
 namespace IAUBackEnd.Admin.Controllers
 {
@@ -399,7 +400,7 @@ namespace IAUBackEnd.Admin.Controllers
                 {
                     if (UpdateFrom == "Mustafeed")
                     {
-                       
+
                         personel_Data.First_Name = request_Data.Personel_Data.First_Name;
                         personel_Data.Middle_Name = request_Data.Personel_Data.Middle_Name;
                         personel_Data.IAU_ID_Number = request_Data.Personel_Data.IAU_ID_Number;
@@ -653,16 +654,21 @@ namespace IAUBackEnd.Admin.Controllers
 					<p dir='ltr'>{message_en}</p>
 					<p dir='rtl'>{message_ar}</p>
 					";
-                    SmtpClient smtpClient = new SmtpClient("10.30.1.101", 25);
 
-                    smtpClient.Credentials = new System.Net.NetworkCredential("noreply.bsc@iau.edu.sa", "Bsc@33322");
+                    SmtpClient smtpClient = new SmtpClient(ConfigurationManager.AppSettings["Mail:Host"].ToString(), int.Parse(ConfigurationManager.AppSettings["Mail:Port"].ToString()));
+
+                    smtpClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["Mail:User"].ToString(), ConfigurationManager.AppSettings["Mail:Pass"].ToString());
                     // smtpClient.UseDefaultCredentials = true; // uncomment if you don't want to use the network credentials
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    //smtpClient.EnableSsl = true;
-                    MailMessage mail = new MailMessage();
+                    if (bool.Parse(ConfigurationManager.AppSettings["Mail:SSL"].ToString()))
+                    {
+                        smtpClient.EnableSsl = true;
+                        System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                    }
 
+                    MailMessage mail = new MailMessage();
                     //Setting From , To and CC
-                    mail.From = new MailAddress("noreply.bsc@iau.edu.sa", "Mustafid");
+                    mail.From = new MailAddress(ConfigurationManager.AppSettings["Mail:User"].ToString(), "Mustafid");
                     mail.To.Add(new MailAddress(Email));
                     mail.Subject = "IAU Notify";
                     mail.Body = message;
